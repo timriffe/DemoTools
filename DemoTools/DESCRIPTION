@@ -5,7 +5,7 @@ Version: 0.1
 Date: 17, July, 2017
 Author: Tim Riffe
 Maintainer: Tim Riffe <tim.riffe@gmail.com>
-Description: This package contains a growing set of classic demgraphic methods used to evaluate, adjust, and standardize demographic data.
+Description: This package contains a set of classic demographic methods used to evaluate, adjust, and standardize demographic data.
 License: GPL-2
 LazyLoad: yes
 RoxygenNote: 6.0.1

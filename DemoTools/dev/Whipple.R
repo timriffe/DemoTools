@@ -4,17 +4,19 @@
 
 #' calculate Whipple's index of age heaping
 
-#' @description Implementation following the PASEX spreadsheet SINGAGE
+#' @description Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking.
 
 #' @param Value a vector of demographic counts by single age
 #' @param Age a vector of ages corresponding to the lower integer bound of the counts
 #' @param ageMin the lowest age included in calcs. Default 25
 #' @param ageMax the upper age bound used for calcs. Default 65
-#' @param pasex logical default \code{TRUE}. Do we count terminal digit 0's and 5' (\code{TRUE}) or just terminal digit 0's (\code{FALSE})?
-#' 
+#' @param digit any digit 0-9. Default \code{c(0,5)}. Otherwise it needs to be a single digit.
+#'  
 #' 
 #' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
-#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89.
+#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. You can get 
+#' arbitrary W(i) indicies by specifying other digits. Note you can only do pairs of digits
+#' if it's 0,5. Otherwise just one digit at a time. 
 
 #' @export 
 
@@ -23,8 +25,9 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 	stopifnot(length(Value) == length(Age))
 	
 	numeratorind   <- Age >= ageMin & Age <= ageMax & Age %% 10 %in% digit
-	# this is fragile	
-	denominatorind <- Age >= (ageMin - ifelse(length(digit)==2,2,7)) & Age <= (ageMax + 2)
+	# if we are checking just one digit, go down 7 up two, so that the right nr
+	# of counts in denom. This per the French formulas.
+	denominatorind <- Age >= (ageMin - ifelse(all(digit %in% c(0,5)),2,7)) & Age <= (ageMax + 2)
     
 	whip           <- ifelse(length(digit) == 2,5,10) * sum(Value[numeratorind]) / sum(Value[denominatorind])
 	
@@ -52,3 +55,5 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 #Whipple(Value, Age, 25, 60, digit = 0)
 #Whipple(Value, Age, 25, 60, digit = 5) 
 
+# Whipple types
+#Whipple(Value, Age, 25, 60, digit = 3) 
