@@ -8,5 +8,5 @@ You can load the ```DemoTools``` package in R like so:
 # install.packages("devtools")
 
 library(devtools)
-install_github("timriffe/DemoTools")
+install_github("timriffe/DemoTools/DemoTools")
 ```
