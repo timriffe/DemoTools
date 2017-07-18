@@ -17,7 +17,7 @@
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. You can get 
 #' arbitrary W(i) indicies by specifying other digits. Note you can only do pairs of digits
 #' if it's 0,5. Otherwise just one digit at a time. 
-
+#' @return the index value 
 #' @export 
 
 Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){

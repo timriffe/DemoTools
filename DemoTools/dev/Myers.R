@@ -14,7 +14,7 @@
 
 #' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89.
-
+#' @return the index value 
 #' @export 
 
 Myers <- function(Value, Age, ageMin = 10, ageMax = 90){
