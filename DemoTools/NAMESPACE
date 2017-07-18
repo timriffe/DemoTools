@@ -3,5 +3,6 @@
 export(Bachi)
 export(Myers)
 export(Noumbissi)
+export(Spoorenberg)
 export(Whipple)
 export(shift.vector)

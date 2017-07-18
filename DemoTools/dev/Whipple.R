@@ -16,7 +16,9 @@
 #' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. You can get 
 #' arbitrary W(i) indicies by specifying other digits. Note you can only do pairs of digits
-#' if it's 0,5. Otherwise just one digit at a time. 
+#' if it's 0,5. Otherwise just one digit at a time. \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
+#'  Denominators are always 5-year age groups centered on the digit in question,
+#' and these therefore stretch into ages a bit higher or lower than the numerator ages.
 #' @return the index value 
 #' @export 
 

@@ -12,7 +12,9 @@
 #' @param ageMin the lowest age included in calcs. Default 20
 #' @param ageMax the upper age bound used for calcs. Default 65
 #' @param digit which terminal digit do we calculate for?
-#' 
+#' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
+#'  Denominators are always 5-year age groups centered on the digit in question,
+#' and these therefore stretch into ages a bit higher or lower than the numerator ages.
 #' @return the index value 
 
 #' @export
