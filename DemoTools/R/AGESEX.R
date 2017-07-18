@@ -115,7 +115,7 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 #' @return the value of the index
 #' @export
 
-#' @examples
+#' @examples 
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
 #' 		1786000,1505000,1390000,984000,745000,537000,346000,335000)
 #' Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
