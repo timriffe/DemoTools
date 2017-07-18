@@ -10,20 +10,23 @@
 #' @param Age a vector of ages corresponding to the lower integer bound of the counts
 #' @param ageMin the lowest age included in calcs. Default 25
 #' @param ageMax the upper age bound used for calcs. Default 65
-#' @param fives logical default \code{TRUE}. Do we count terminal digit 0's and 5' (\code{TRUE}) or just terminal digit 0's (\code{FALSE})?
+#' @param pasex logical default \code{TRUE}. Do we count terminal digit 0's and 5' (\code{TRUE}) or just terminal digit 0's (\code{FALSE})?
+#' 
 #' 
 #' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89.
 
 #' @export 
 
-Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, fives = TRUE){
+Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
+	stopifnot(length(digit) <= 2)
 	stopifnot(length(Value) == length(Age))
 	
-	numeratorind   <- Age >= ageMin & Age < ageMax & Age %% ifelse(fives, 5, 10) == 0
-	denominatorind <- Age >= (ageMin - ifelse(fives,2,7)) & Age <= (ageMax + 2)
+	numeratorind   <- Age >= ageMin & Age <= ageMax & Age %% 10 %in% digit
+	# this is fragile	
+	denominatorind <- Age >= (ageMin - ifelse(length(digit)==2,2,7)) & Age <= (ageMax + 2)
     
-	whip           <- ifelse(fives,5,10) * sum(Value[numeratorind]) / sum(Value[denominatorind])
+	whip           <- ifelse(length(digit) == 2,5,10) * sum(Value[numeratorind]) / sum(Value[denominatorind])
 	
 	return(whip)
 }
@@ -42,6 +45,10 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, fives = TRUE){
 #9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 #Age <- 0:99
 
-#Whipple(Value, Age, 25, 65, fives = TRUE) # 2.34,replicates SINGAGE males
+#Whipple(Value, Age, 25, 60, digit = c(0,5)) # 2.34,replicates SINGAGE males
 
+# implements formula from GDA_1981_Structures-par-age-et-sexe-en-Afrique_[IREDA]
+# p 148
+#Whipple(Value, Age, 25, 60, digit = 0)
+#Whipple(Value, Age, 25, 60, digit = 5) 
 
