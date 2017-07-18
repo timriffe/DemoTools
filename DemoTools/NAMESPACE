@@ -2,4 +2,6 @@
 
 export(Bachi)
 export(Myers)
+export(Noumbissi)
 export(Whipple)
+export(shift.vector)
