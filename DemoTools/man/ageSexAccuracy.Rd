@@ -4,7 +4,8 @@
 \alias{ageSexAccuracy}
 \title{calculate the PASEX age-sex accuracy index}
 \usage{
-ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age))
+ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
+  adjust = TRUE)
 }
 \arguments{
 \item{Males}{numeric. A vector of population counts for males by age}
