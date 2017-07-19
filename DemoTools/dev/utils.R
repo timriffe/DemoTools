@@ -28,3 +28,28 @@ shift.vector <- function(x,shift = 0, fill = FALSE){
 }
 
 
+
+#' a simple centered moving average function
+
+#' @description This function is defined based on a code chunk found here \url{https://stackoverflow.com/questions/743812/calculating-moving-average}. This is a centered moving average of arbitrary width. 
+#' 
+#' @param x numeric vector to produce a moving average of
+#' @param n integer the width of the moving avarage. Default 5 time steps (years)
+#' 
+#' @return numeric vector of same length as \code{x}.
+#' 
+#' @details \code{NA} values
+#' are used as padding on the left and right to make the returned vector of equal length.
+#' 
+#' @export
+#' @examples 
+#' x  <- runif(100)
+#' xx <- cumsum(x)
+#' plot(x)
+#' lines(ma(x))
+#' lines(ma(x),9)
+
+
+ma <- function(x,n=5){
+	stats::filter(x, rep(1 / n, n), sides = 2)
+}
