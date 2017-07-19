@@ -204,3 +204,54 @@ AHI <- function(Value, Age, Agei = 90){
 	denom  <- exp(sum(log(Value[denomi])) / 5)
 	Value[Age == Agei] / denom
 }
+
+
+#' calculate Jdanov's old-age heaping index
+#' 
+#' @description This is a slightly more flexible implementation of Jdanov's fomula,
+#' with defaults set to match his parameters. The numerator is the sum of 
+#' (death counts) in ages 95, 100, and 105. Really the numerator could be an cound and any set of ages.
+#' The denominator consists in the sum of the 5-year age groups centered around each of the numerator ages.
+#' It probably only makes sense to use this with the default values, however. Used with a single age
+#' in the numerator, it's almost the same as \code{Noumbissi()}, except here we pick out particular ages,
+#' whereas Noumbissi picks out terminal digits.
+#' 
+#' @param Value a vector of demographic counts (probably deaths) by single age
+#' @param Age a vector of ages corresponding to the lower integer bound of the counts
+#' @param Ages a vector of ages to put in the numerator, default \code{c(95,100,105)}.
+#' 
+#' @return the index value
+#' @export
+#' 
+#' @references 
+#' Jdanov (2008) Beyond the Kannisto-Thatcher database on old age mortality - 
+#' An assessment of data quality at advanced ages. MPIDR Working Paper WP-2008-013.
+#' @examples
+#'Value <-c(8904, 592, 354, 299, 292, 249, 222, 216, 181, 169, 151, 167, 
+#'		170, 196, 249, 290, 425, 574, 671, 724, 675, 754, 738, 695, 597, 
+#'		498, 522, 479, 482, 478, 558, 582, 620, 606, 676, 768, 862, 952, 
+#'		1078, 1215, 1215, 1357, 1470, 1605, 1723, 1782, 1922, 2066, 2364, 
+#'		2561, 2476, 1674, 1664, 1616, 1808, 3080, 3871, 4166, 4374, 4707, 
+#'		5324, 5678, 6256, 6382, 6823, 7061, 7344, 8149, 8439, 8308, 8482, 
+#'		8413, 8157, 7945, 7503, 7164, 7289, 7016, 6753, 6906, 6797, 6624, 
+#'		6416, 5811, 5359, 4824, 4277, 3728, 3136, 2524, 2109, 1657, 1235, 
+#'		924, 667, 465, 287, 189, 125, 99, 80, 24, 10, 7, 3, 1, 0, 1, 
+#'		1, 0, 0)
+#'Age <- 0:110
+#'WI(Value, Age, c(95,100,105))
+
+WI <- function(Value, Age, Ages = seq(95,105,by=5)){
+	numi   <- Ages %in% Age
+
+	# this way of doing the denom makes it possible to 
+	# have duplicate values in the denom, for the case that
+	# the numerator ages are closer together than 5. Innocuous otherwise
+	denom <- sum(Value[shift.vector(numi, -2)]) +
+			 sum(Value[shift.vector(numi, -1)]) +
+			 sum(Value[numi]) +
+			 sum(Value[shift.vector(numi, 1)]) +
+			 sum(Value[shift.vector(numi, 2)]) 
+	
+	500 * sum(Value[numi]) / denom
+	
+}
