@@ -4,7 +4,7 @@
 \alias{ageRatioScore}
 \title{calculate the PASEX age ratio score}
 \usage{
-ageRatioScore(Value, Age, ageMin = 0, ageMax = max(Age))
+ageRatioScore(Value, Age, ageMin = 0, ageMax = max(Age), method = "UN")
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}
@@ -14,6 +14,8 @@ ageRatioScore(Value, Age, ageMin = 0, ageMax = max(Age))
 \item{ageMin}{integer. The lowest age included in calcs. Default 0.}
 
 \item{ageMax}{integer. The upper age bound used for calcs. Default \code{max(Age)}.}
+
+\item{method}{character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"}}
 }
 \value{
 the value of the index
@@ -35,4 +37,6 @@ Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 Age     <- seq(0, 75, by = 5)
 ageRatioScore(Males, Age)    # 3.9, matches pasex
 ageRatioScore(Females, Age)  # 3.65 matches pasex
+ageRatioScore(Females, Age, method = "Ramachandran") # 1.8
+ageRatioScore(Females, Age, method = "Zelnick")      # 2.4
 }

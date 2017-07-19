@@ -18,6 +18,7 @@
 #' @param Age an integer vector of ages corresponding to the lower integer bound of the counts.
 #' @param ageMin integer. The lowest age included in calcs. Default 0.
 #' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}.
+#' @param method character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"}
 
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
 #'  We also assume that the final age group is open, unless \code{ageMax < max(Age)}
@@ -33,7 +34,9 @@
 #' Age     <- seq(0, 75, by = 5)
 #' ageRatioScore(Males, Age)    # 3.9, matches pasex
 #' ageRatioScore(Females, Age)  # 3.65 matches pasex
-ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age)){
+#' ageRatioScore(Females, Age, method = "Ramachandran") # 1.8
+#' ageRatioScore(Females, Age, method = "Zelnick")      # 2.4
+ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "UN"){
 	stopifnot(length(Value) == length(Age))
 	
 	N           <- length(Value)
@@ -46,16 +49,25 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age)){
 		ageMax      <- max(Age)
 	}
 	
-	numi        <- Age > ageMin & Age < ageMax
-	denomi1     <- shift.vector(numi, -1) 
-	denomi2     <- shift.vector(numi, 1)
+	numi            <- Age > ageMin & Age < ageMax
 	
-	numerator   <- 200 * Value[numi]
-	denominator <- Value[denomi1] + Value[denomi2] 
+	
+	denomleft       <- shift.vector(numi, -1) 
+	denommiddle     <- numi
+	denomright      <- shift.vector(numi, 1)
+	
+	# one difference between UN, Zelnick and Ramachandran methods is whether and how
+	# much to add the numerator into the denominator, and also how much weight to give
+	# to the numerator (2, 3, or 4 times)
+	middlemult      <- ifelse(method == "UN", 0, ifelse(method == "Zelnick", 1, 2))
+	nummult         <- ifelse(method == "UN", 200, ifelse(method == "Zelnick", 300, 400))
+	
+	numerator       <- nummult * Value[numi]
+	denominator     <- Value[denomleft] + Value[denomright] + Value[denommiddle] * middlemult
 	# ratio of each age to the age above and below it
-	ageratio    <- numerator / denominator
+	ageratio        <- numerator / denominator
 	# absolute deviatios from uniformity
-	absres      <- abs(ageratio - 100)
+	absres          <- abs(ageratio - 100)
 	# average absolute deviation
 	sum(absres) / length(absres)
 }
@@ -73,7 +85,12 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age)){
 #' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
 
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
-#'  We also assume that the final age group is open, unless \code{ageMax < max(Age)}
+#'  We also assume that the final age group is open, unless \code{ageMax < max(Age)}. The method
+#' argument determines the weighting of numerators and denominators, where the UN method puts
+#' twice the numerator over the sum of the adjacent ages classes, Zelnich does thrice the 
+#' numerator over the sum of the whole range from the next lowest to the next highest age, and 
+#' Ramachandran does four times the numerator over the same sum, but with the central age 
+#' double-counted in the numerator. Ramachandran is therefore less judgemental, so to speak.
 
 #' @return the value of the index
 #' @export
@@ -108,9 +125,11 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 #' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts
 #' @param ageMin integer. The lowest age included in calcs. Default 0
 #' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
+#' @param method character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"}
 
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
-#'  We also assume that the final age group is open, unless \code{ageMax < max(Age)}
+#'  We also assume that the final age group is open, unless \code{ageMax < max(Age)}. The method argument 
+#' is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators.
 
 #' @return the value of the index
 #' @export
@@ -123,7 +142,7 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 #' Age     <- seq(0, 75, by = 5)
 #' ageSexAccuracy(Males, Females, Age)    # 14.3, matches pasex
 
-ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
+ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), method = "UN"){
 	SR <- sexRatioScore(
 			Males = Males, 
 			Females = Females, 
@@ -134,12 +153,14 @@ ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 			Value = Males,
 			Age = Age,
 			ageMin = ageMin, 
-			ageMax = ageMax)
+			ageMax = ageMax,
+			method = method)
 	FA <- ageRatioScore(
 			Value = Females,
 			Age = Age,
 			ageMin = ageMin, 
-			ageMax = ageMax)
+			ageMax = ageMax,
+			method = method)
 	# calculate index:
 	3 * SR + MA + FA
 }

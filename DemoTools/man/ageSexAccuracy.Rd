@@ -5,7 +5,7 @@
 \title{calculate the PASEX age-sex accuracy index}
 \usage{
 ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
-  adjust = TRUE)
+  method = "UN")
 }
 \arguments{
 \item{Males}{numeric. A vector of population counts for males by age}
@@ -17,6 +17,8 @@ ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
 \item{ageMin}{integer. The lowest age included in calcs. Default 0}
 
 \item{ageMax}{integer. The upper age bound used for calcs. Default \code{max(Age)}}
+
+\item{method}{character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"}}
 }
 \value{
 the value of the index
@@ -28,7 +30,8 @@ a wrapper to \code{ageRatioScore()} and \code{sexRatioScore()}.
 }
 \details{
 Age groups must be of equal intervals. Five year age groups are assumed.
- We also assume that the final age group is open, unless \code{ageMax < max(Age)}
+ We also assume that the final age group is open, unless \code{ageMax < max(Age)}. The method argument 
+is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators.
 }
 \examples{
 Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
