@@ -123,7 +123,7 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 #' Age     <- seq(0, 75, by = 5)
 #' ageSexAccuracy(Males, Females, Age)    # 14.3, matches pasex
 
-ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
+ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), adjust = TRUE){
 	SR <- sexRatioScore(
 			Males = Males, 
 			Females = Females, 
@@ -141,6 +141,16 @@ ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 			ageMin = ageMin, 
 			ageMax = ageMax)
 	# calculate index:
-	3 * SR + MA + FA
+	index <- 3 * SR + MA + FA
+	
+	# deflate if population small (formula in PAS)
+	if (adjust){
+		TOT   <- sum(Males) + sum(Females)
+		if (TOT < 1000000){
+		   index <- index - 3500 / sqrt(TOT) + 3.5
+	    }
+	}
+	
+	return(index)
 }
 
