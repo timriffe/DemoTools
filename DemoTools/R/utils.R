@@ -53,3 +53,25 @@ shift.vector <- function(x,shift = 0, fill = FALSE){
 ma <- function(x,n=5){
 	stats::filter(x, rep(1 / n, n), sides = 2)
 }
+
+
+#' rescale a vector proportionally to a new sum
+
+#' @description THis is a frequently needed operation, so it's being added as a general utility.
+#' 
+#' @param x numeric vector
+#' @param scale what you want the vector to sum to. Default 1.
+#' 
+#' @details For a distribution, use \code{scale = 1}. For percentages, use \code{scale = 100}, etc.
+#' 
+#' @return the vector, rescaled
+#' @examples 
+#' x <- runif(10)
+#' sum(x)
+#' xx <- rescale.vector(x,100)
+#' sum(xx)
+#' @export
+
+rescale.vector <- function(x, scale = 1){
+	scale * x / sum(x, na.rm = TRUE)
+}
