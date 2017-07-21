@@ -46,11 +46,17 @@
 #' Noumbissi(Value, Age, 65, 95, 0)  # 3.6
 #' Noumbissi(Value, Age, 65, 95, 5)  # 3.0
 
-CoaleLi <- function(Value, Age, minAge = 65, maxAge = 100, terms = 5, digit = 0){
+CoaleLi <- function(Value, Age, minAge = 60, maxAge = max(Age), terms = 5, digit = 0){
 	
 	reference <- ma(ma(Value, n = terms), n = terms)
 	
 	ratio     <- Value / reference
+	
+# deprecated: make sure tested age range is divisible by 10.. 
+#	agerange  <- maxAge - minAge
+#	agerange  <- 10 * floor(agerange / 10)
+#	# adjust maxage if necessary
+#	maxAge    <- minAge + agerange
 	
 	ind       <- Age >= minAge & Age <= maxAge
 	

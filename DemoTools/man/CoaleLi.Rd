@@ -4,7 +4,8 @@
 \alias{CoaleLi}
 \title{Coale-Li age heaping index}
 \usage{
-CoaleLi(Value, Age, minAge = 65, maxAge = 100, terms = 5, digit = 0)
+CoaleLi(Value, Age, minAge = 60, maxAge = max(Age), terms = 5,
+  digit = 0)
 }
 \arguments{
 \item{Value}{a vector of demographic rates or counts by single age}

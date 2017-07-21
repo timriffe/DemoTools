@@ -2,10 +2,10 @@
 % Please edit documentation in R/AGESEX.R
 \name{ageSexAccuracy}
 \alias{ageSexAccuracy}
-\title{calculate the PASEX age-sex accuracy index}
+\title{calculate the PAS age-sex accuracy index}
 \usage{
 ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
-  method = "UN")
+  method = "UN", adjust = TRUE)
 }
 \arguments{
 \item{Males}{numeric. A vector of population counts for males by age}
@@ -19,6 +19,8 @@ ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
 \item{ageMax}{integer. The upper age bound used for calcs. Default \code{max(Age)}}
 
 \item{method}{character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"}}
+
+\item{adjust}{logical do we adjust the measure when population size is under one million?}
 }
 \value{
 the value of the index
@@ -39,5 +41,5 @@ Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
 Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 Age     <- seq(0, 75, by = 5)
-ageSexAccuracy(Males, Females, Age)    # 14.3, matches pasex
+ageSexAccuracy(Males, Females, Age)    # 14.3, matches PAS
 }

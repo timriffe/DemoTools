@@ -2,7 +2,7 @@
 % Please edit documentation in R/AGESEX.R
 \name{sexRatioScore}
 \alias{sexRatioScore}
-\title{calculate the PASEX sex ratio score}
+\title{calculate the PAS sex ratio score}
 \usage{
 sexRatioScore(Males, Females, Age, ageMin = 0, ageMax = max(Age))
 }
@@ -24,7 +24,7 @@ the value of the index
 A single ratio is defined as males per 100 females.
 Taking the first difference of the ratios over age would give 0s
 if the ratio were constant. The average absolute difference over
-age defines the index. This comes from the PASEX spreadsheet called AGESEX.
+age defines the index. This comes from the PAS spreadsheet called AGESEX.
 }
 \details{
 Age groups must be of equal intervals. Five year age groups are assumed.
@@ -41,5 +41,5 @@ Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
 Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 Age     <- seq(0, 75, by = 5)
-sexRatioScore(Males, Females, Age)  # 2.2, matches pasex
+sexRatioScore(Males, Females, Age)  # 2.2, matches PAS
 }

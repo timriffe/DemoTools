@@ -9,10 +9,10 @@
 #Age     <- seq(0, 75, by = 5)
 
 
-#' calculate the PASEX age ratio score
+#' calculate the PAS age ratio score
 #' @description A single ratio is defined as the 100 times twice the size of an age group 
 #' to it's neighboring two age groups. Under uniformity these would all be 100. The average 
-#' absolute deviation from 100 defines the index. This comes from the PASEX spreadsheet called AGESEX
+#' absolute deviation from 100 defines the index. This comes from the PAS spreadsheet called AGESEX
 
 #' @param Value numeric. A vector of demographic counts by single age.
 #' @param Age an integer vector of ages corresponding to the lower integer bound of the counts.
@@ -32,12 +32,14 @@
 #' Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 #' 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 #' Age     <- seq(0, 75, by = 5)
-#' ageRatioScore(Males, Age)    # 3.9, matches pasex
-#' ageRatioScore(Females, Age)  # 3.65 matches pasex
+#' ageRatioScore(Males, Age)    # 3.9, matches PAS
+#' ageRatioScore(Females, Age)  # 3.65 matches PAS
 #' ageRatioScore(Females, Age, method = "Ramachandran") # 1.8
 #' ageRatioScore(Females, Age, method = "Zelnick")      # 2.4
 ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "UN"){
 	stopifnot(length(Value) == length(Age))
+	method      <- tolower(method)
+	stopifnot(method %in% c("un","zelnick","ramachandran"))
 	
 	N           <- length(Value)
 	
@@ -59,8 +61,8 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 	# one difference between UN, Zelnick and Ramachandran methods is whether and how
 	# much to add the numerator into the denominator, and also how much weight to give
 	# to the numerator (2, 3, or 4 times)
-	middlemult      <- ifelse(method == "UN", 0, ifelse(method == "Zelnick", 1, 2))
-	nummult         <- ifelse(method == "UN", 200, ifelse(method == "Zelnick", 300, 400))
+	middlemult      <- ifelse(method == "un", 0, ifelse(method == "zelnick", 1, 2))
+	nummult         <- ifelse(method == "un", 200, ifelse(method == "zelnick", 300, 400))
 	
 	numerator       <- nummult * Value[numi]
 	denominator     <- Value[denomleft] + Value[denomright] + Value[denommiddle] * middlemult
@@ -72,11 +74,11 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 	sum(absres) / length(absres)
 }
 
-#' calculate the PASEX sex ratio score
+#' calculate the PAS sex ratio score
 #' @description A single ratio is defined as males per 100 females.
 #' Taking the first difference of the ratios over age would give 0s
 #' if the ratio were constant. The average absolute difference over
-#' age defines the index. This comes from the PASEX spreadsheet called AGESEX.
+#' age defines the index. This comes from the PAS spreadsheet called AGESEX.
 
 #' @param Males numeric. A vector of population counts for males by age
 #' @param Females numeric. A vector of population counts for females by age
@@ -100,7 +102,7 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 #' Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 #' 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 #' Age     <- seq(0, 75, by = 5)
-#' sexRatioScore(Males, Females, Age)  # 2.2, matches pasex
+#' sexRatioScore(Males, Females, Age)  # 2.2, matches PAS
 
 sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 	stopifnot(length(Males) == length(Age) & length(Males) == length(Females))
@@ -115,7 +117,7 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 }
 
 
-#' calculate the PASEX age-sex accuracy index
+#' calculate the PAS age-sex accuracy index
 #' @description This index is a composite consisting in the sum of thrice the sex 
 #' ratio index plus the age ratio index for males and females. This function is therefore
 #' a wrapper to \code{ageRatioScore()} and \code{sexRatioScore()}.
@@ -126,6 +128,7 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 #' @param ageMin integer. The lowest age included in calcs. Default 0
 #' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
 #' @param method character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"}
+#' @param adjust logical do we adjust the measure when population size is under one million?
 
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
 #'  We also assume that the final age group is open, unless \code{ageMax < max(Age)}. The method argument 
@@ -140,9 +143,12 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 #' Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 #' 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 #' Age     <- seq(0, 75, by = 5)
-#' ageSexAccuracy(Males, Females, Age)    # 14.3, matches pasex
+#' ageSexAccuracy(Males, Females, Age)    # 14.3, matches PAS
 
-ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), method = "UN"){
+ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), method = "UN", adjust =  TRUE){
+	method <- tolower(method)
+	stopifnot(method %in% c("un","zelnick","ramachandran"))
+	
 	SR <- sexRatioScore(
 			Males = Males, 
 			Females = Females, 
@@ -162,9 +168,13 @@ ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), m
 			ageMax = ageMax,
 			method = method)
 	# calculate index:
-	3 * SR + MA + FA
+	ind <- 3 * SR + MA + FA
+	tot <- sum(Males) + sum(females)
+	if (adjust & tot < 1e6){
+		ind <- ind - 3500 / sqrt(tot) + 3.5
+	}
+	return(ind)
 }
-
 
 
 
