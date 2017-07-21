@@ -159,9 +159,9 @@ dec.date <- function(date){
 	if (class(date) == "character"){
 		date <- as.Date(date)
 	}
-	day 	<- as.numeric(format(date1,'%d'))
-	month 	<- as.numeric(format(date1,'%m'))
-	year 	<- as.numeric(format(date1,'%Y'))
+	day 	<- as.numeric(format(date,'%d'))
+	month 	<- as.numeric(format(date,'%m'))
+	year 	<- as.numeric(format(date,'%Y'))
 	frac    <- ypart(Year = year, 
 		                  Month = month, 
 		                  Day = day,
