@@ -13,7 +13,7 @@ Age  <- seq(0,85,by=5)
 date1960 <- "1960-10-01"
 date1965 <- "1965-10-01"
 date1970 <- "1970-10-01"
-date1960fake <- "1960-08-01"
+date1960fake <- "1960-10-05"
 ex1  <- c(NA,69.45,64.62,59.72,54.87,50.11,45.37,40.65,35.99,
 31.40,26.94,22.64,18.52,14.67,11.20,8.25,5.95,6.00,NA)
 ex2  <- c(NA,70.19,65.33,60.41,55.54,50.74,45.96,41.21,
@@ -22,16 +22,24 @@ ex2  <- c(NA,70.19,65.33,60.41,55.54,50.74,45.96,41.21,
 # reproduces CENSUR~1.XLS
 survRatioError(pop1960,pop1970,Age,date1960,date1970,ex1)
 
-# start by debugging this
+# reproduces CENSUR~3.XLS
 survRatioError(
-		pop1 = pop1960,
-		pop2 = pop1965,
+		pop1 = pop1965,
+		pop2 = pop1970,
 		Age = Age,
-		date1 = date1960,
-		date2 = date1965,
+		date1 = date1965,
+		date2 = date1970,
 		exprior = ex2)
 
-
+# this is close to CENSUR~2.XLS.
+# Fixed cell error in that worksheet (5Lx was referenced to wrong ex)
+survRatioError(
+		pop1 = pop1960,
+		pop2 = pop1970,
+		Age = Age,
+		date1 = date1960fake,
+		date2 = date1970,
+		exprior = ex1)
 
 survRatioError <- function(pop1, pop2, Age, date1, date2, exprior){
 	stopifnot(all.equal(length(pop1),length(pop2),length(Age)))
@@ -111,9 +119,9 @@ surv10 <- function(pop1, pop2){
 	stagger <- 2
 	ratio   <- pop2[-c(1:stagger)] / pop1[1:(N - stagger)]
 	
-	N       <- length(ratio)
-	sx1     <- 1:N %% 2 == 1
-	sx2     <- 1:N %% 2 == 0
+	NN       <- length(ratio)
+	sx1     <- 1:NN %% 2 == 1
+	sx2     <- 1:NN %% 2 == 0
 	lx1     <- c(1, cumprod(ratio[sx1]))
 	lx2     <- mean(lx1[1:2]) * c(1, cumprod(ratio[sx2]))
 	
@@ -126,7 +134,7 @@ surv10 <- function(pop1, pop2){
 	}
 	# use object trick to interleave
 	lx      <- c(rbind(lx1, lx2))
-	lx
+	lx[1:N]
 }
 
 #' estimate survival curve from censuses spaced 5 years apart
