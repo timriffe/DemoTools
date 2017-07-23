@@ -6,6 +6,12 @@
 \usage{
 dec.date(date)
 }
+\arguments{
+\item{date}{either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.}
+}
+\value{
+numeric expression of the date, year plus the fraction of the year passed as of the date.
+}
 \description{
 Convert a character or date class to decimal, taking into account leap years.
 }
