@@ -1,3 +1,9 @@
+# TODO: Add comment
+# 
+# Author: tim
+###############################################################################
+
+
 
 # Author: tim
 ###############################################################################
@@ -78,16 +84,16 @@ survRatioError <- function(pop1, pop2, Age, date1, date2, exprior){
 		# are we super close to 5 years apart?
 		lx <- surv5(pop1, pop2)
 	} else {
-	  if (abs(int - 10) < .01){
-		# are we super close to 10 years apart?
-		lx <- surv10(pop1, pop2)
-	  } else {
-		# otherwise use the synthetic method
-		lx <- survN(pop1, pop2, int)
-	  }
-    }
+		if (abs(int - 10) < .01){
+			# are we super close to 10 years apart?
+			lx <- surv10(pop1, pop2)
+		} else {
+			# otherwise use the synthetic method
+			lx <- survN(pop1, pop2, int)
+		}
+	}
 	# all remaining columns should be identical.
-    
+	
 	# Lx approximated as avg of lx
 	Lx         <- c(NA, as.vector(ma(lx, 2)))
 	# 2.5 times the pairwise sums of that to get the 5-year Lx approximation
@@ -219,3 +225,4 @@ survN <- function(pop1, pop2, interval){
 	lx  <- cumprod(c(1, Sx))
 	lx
 }
+
