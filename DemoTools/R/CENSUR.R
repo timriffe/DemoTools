@@ -100,7 +100,7 @@ survRatioError <- function(pop1, pop2, Age, date1, date2, exprior){
 	# all remaining columns should be identical.
 	
 	# Lx approximated as avg of lx
-	Lx         <- c(NA, as.vector(ma(lx, 2)))
+	Lx         <- c(NA, ma(lx, 2))
 	# 2.5 times the pairwise sums of that to get the 5-year Lx approximation
 	Lx5        <- c(2.5 * (Lx[-length(Lx)] + Lx[-1]))
 	Lx5[N]     <- Lx[N] * exprior[N]
