@@ -28,6 +28,7 @@
 
 # TR: birth cohort dates are midpoints or lower bounds?
 #' @return a data frame with a decimal date corresponding to the birth cohort and resulting population counts.
+
 #' @export
 #' 
 #' @examples 
