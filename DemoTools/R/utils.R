@@ -173,3 +173,70 @@ dec.date <- function(date){
 						  detect.start.end = TRUE)
 	year + frac
 }
+
+
+#' trim two age vectors to matching N-year age groups
+#' 
+#' @description determining which N-year (e.g. 5-year) age groups two vectors have in common
+#' is helpful for matching vector lengths, and questions of alignment. Used as a utility throughout.
+
+#' @param Age1 integer vector of first age groups (lower bounds)
+#' @param Age2 integer vector of second age groups (lower bounds)
+#' @param N integer target age group interval (just one number)
+#' @param consecutive logical default \code{TRUE}. Throw error if resulting age groups not consecutive?
+#' @param ageMin integer optional lower age bound for output
+#' @param ageMax integer optional upper age bound for output
+#' 
+#' @return an integer vector of the N-year age groups present in both \code{Age1} and \code{Age2}
+#' 
+#' @export 
+#' 
+#' @examples 
+#' Age1 <- seq(0, 100, by = 5)
+#' Age2 <- 0:80
+#' AGEN(Age1, Age2, N = 5)
+#' AGEN(Age1, Age2, N = 5, ageMax = 70)
+AGEN <- function(Age1, Age2, N = 5, consecutive  = TRUE, ageMin = 0, ageMax = max(c(Age1,Age2))){
+	age1_5 <- Age1[Age1 %% 5 == 0]
+	age2_5 <- Age2[Age2 %% 5 == 0]
+	
+	# ages in common only
+	ageN <- sort(intersect(age1_5, age2_5))
+	ageN <- ageN[ageN >= ageMin & ageN <= ageMax]
+	
+	# make sure it's consecutive series
+	if (consecutive){
+		stopifnot(all(diff(ageN) == N))
+	}
+	
+	ageN
+}
+
+
+#' take consecutive ratios of a vector
+#' 
+#' @description This can be used, for example to take survival ratios. 
+#' @details behavior similar to \code{diff()}, in that returned vector is \code{k} elements
+#' shorter than the given vector \code{fx}.
+#' 
+#' @param fx numeric vector of \code{length > k}
+#' @param k integer the size of the lag in elements of \code{fx}.
+#' 
+#' @export 
+#' @examples 
+#' fx <- 1:10
+#' ratx(fx)
+#' ratx(fx,-1)
+#' ratx(fx,0)
+ratx <- function(fx, k = 1){
+	k    <- as.integer(k)
+	N    <- length(fx)
+	m    <- N - abs(k)
+	if (k > 0){
+		fx <- fx[-c(1:k)] / fx[1:m]
+	}
+	if (k < 0){
+		fx <- fx[1:m] / fx[-c(1:abs(k))] 
+	}
+	fx
+}
