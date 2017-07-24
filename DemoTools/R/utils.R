@@ -51,7 +51,7 @@ shift.vector <- function(x,shift = 0, fill = FALSE){
 
 
 ma <- function(x,n=5){
-	stats::filter(x, rep(1 / n, n), sides = 2)
+	as.vector(stats::filter(x, rep(1 / n, n), sides = 2))
 }
 
 
