@@ -13,16 +13,18 @@
 #' of time. The date assigned to the time interval is the midpoint of the interval.
 #' This is generalized from the PAS spreadsheet called GRPOP-YB.
 
-#' @param Value   numeric. A vector of demographic population counts.
-#' @param Age   vector. An integer vector of ages corresponding to the lower integer bound of the age range.
-#' @param CensusDate  decimal. The exact date of the census.
-#' @param cohortSize  integer. The length of time (years) surrounding each output birth cohort. Default 5.
+#' @param Value numeric vector of demographic population counts.
+#' @param Age integer vector of ages corresponding to the lower integer bound of the age range.
+#' @param CensusDate the date of the first census. See details for ways to express it.
+#' @param cohortSize integer. The length of time (years) surrounding each output birth cohort. Default 5.
 
 #' @details Age groups must be of equal intervals. No specific age structure is assumed for the census. Births
 #' are assumed to happen uniformly over the cohorts' intervals. The final age group is assumed to be the same
 #' size as all the other age groups. If the cohortSize does not divide evenly into the largest age in the data,
 #' any additional (higher) ages needed are set as zero. For example, if cohortSize is 7 and the largest age is 90,
-#' then age 91 (necessary for the matrix sum) is set as zero.
+#' then age 91 (necessary for the matrix sum) is set as zero. Dates can be given in three ways 1) a 
+#' \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 
+#' 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. 
 
 #' @return a data frame with a decimal date corresponding to the birth cohort and male and female populations
 #' @export
@@ -38,9 +40,11 @@
 #' birthCohorts(Females, Age, CensusDate)
 #' birthCohorts(Females, Age, CensusDate, cohortSize = 10)
 
-
 birthCohorts <- function(Value, Age, CensusDate, cohortSize = 5){
       
+	  # TR: added date handling. dec.date() is in utils.R
+	  CensusDate   <- dec.date(CensusDate)
+	
       ageMax <- max(Age)            # the lower bound of the largest age group
       N   <- length(Value)          # number of age groups from the census.
       M   <- ageMax/(N-1)           # length of each age group from the census.
