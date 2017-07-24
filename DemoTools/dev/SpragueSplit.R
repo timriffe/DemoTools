@@ -319,13 +319,4 @@ write.csv(pop1x1.adjusted, ofnc)
 write.csv(output.wide, ofnc)
 
 
-colSums(tp) - 
-colSums(pop)
 
-
-
-tpmini      <- tp[, 1:6]
-tpmini[6, ] <- colSums(tpmini[6:nrow(tp), ])
-tpmini      <- tpmini[1:6, ]
-
-spragueSimple(tpmini)

@@ -32,7 +32,7 @@
 #' head(p5) # this is the entire matrix
 #' p1 <- spragueSimple(p5)
 #' head(p1); tail(p1)
-#' colSums(p1) - colSums(p5) # TODO fix bug. colSums(scm) not all 1.
+#' colSums(p1) - colSums(p5) 
 spragueSimple <- function(popmat){
 	popmat <- as.matrix(popmat)
 	
@@ -80,13 +80,13 @@ spragueSimple <- function(popmat){
 	sm             <- matrix(bc, 25, 5, byrow = TRUE)
 	
 	## create a Sprague coefficient matrix for 5-year age groups
-	scm            <- array(0, dim = c(m1 + 1, m))
+	scm            <- matrix(0, nrow = m1 + 1, ncol =  m)
 	
 	## insert upper left block
 	scm[1:10, 1:5] <- sm[1:10, ]
 	
 	# determine positions of middle blocks
-	rowpos         <- matrix(10:((MP*5) + 9), ncol = 5, byrow = TRUE)
+	rowpos         <- matrix(11:((MP*5) + 10), ncol = 5, byrow = TRUE)
 	colpos         <- row(rowpos) + col(rowpos) - 1
 	for (i in (1:MP)) {
 		# calculate the slices and add middle panels accordingly
