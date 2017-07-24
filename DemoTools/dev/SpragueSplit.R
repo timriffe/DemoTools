@@ -7,7 +7,8 @@
 ## - added monotonic decline for age 90+ (and to avoid negative values at upper ages)
 ## - added cohort interpolation between pivotal years ending in 0 and 5
 ## - implemented exponential growth rate cohort interpolation instead of linear growth (WPP default)
-## - enforced consistency between annually interpolated total using Beers and interpolated pop1x1 for intermediate years between pivotal years (use only age distribution)
+## - enforced consistency between annually interpolated total using Beers 
+## and interpolated pop1x1 for intermediate years between pivotal years (use only age distribution)
 ########################################################################
 
 ## used for pchip interpolation
@@ -21,7 +22,7 @@ wd <- getwd()
 
 # set working directory:
 setwd("C:/Users/Patrick/Dropbox/R/interpolation/wpp/")
-
+ifn <- "/home/tim/git/DemoTools/DemoTools/dev/Data/IND_Pop2015B1_1.7.csv"
 # read data to be interpolated
 # input data are expected to have age as rows, and countries as columns. 
 # The first column has the row labels (=age), the first row holds column labels (countrIDs, year...) 
@@ -35,16 +36,16 @@ setwd("C:/Users/Patrick/Dropbox/R/interpolation/wpp/")
 
 # input
 
-fn <- "IND_Pop2015B" # annually interpolated using Beers in column
-ifn <- paste(fn, "1_1.7.csv", sep = "")
+fn    <- "IND_Pop2015B" # annually interpolated using Beers in column
+ifn   <- paste(fn, "1_1.7.csv", sep = "")
 
 # output
-ofn <- paste(fn, "1x1_1.7.csv", sep = "")
+ofn   <- paste(fn, "1x1_1.7.csv", sep = "")
 ofncl <- paste(fn, "1x1-cohort-linear-interpol.csv", sep = "")  ## cohort interpolated
-ofnc <- paste(fn, "1x1-cohort-exponential-interpol.csv", sep = "")  ## cohort interpolated
+ofnc  <- paste(fn, "1x1-cohort-exponential-interpol.csv", sep = "")  ## cohort interpolated
 
 ## read annually interpolated data (transposed by age in rows and time in column)
-tp <- t(read.csv(ifn, header = TRUE, row.names = 1, check.names = FALSE))
+tp    <- t(read.csv(ifn, header = TRUE, row.names = 1, check.names = FALSE))
 
 Age5 <- as.numeric(row.names(tp))
 FAGE <- Age5[1]
@@ -54,17 +55,17 @@ Age1 <- seq(FAGE, LAGE, by = 1)
 
 ## interpolation period
 
-YEAR <- as.numeric(substr(colnames(tp),1,5))
-FYEAR <- min(YEAR) #1950
-LYEAR <- max(YEAR) #2100
+YEAR   <- as.numeric(substr(colnames(tp),1,5))
+FYEAR  <- min(YEAR) #1950
+LYEAR  <- max(YEAR) #2100
 LYEAR1 <- LYEAR
 
 ## dimensions
-NCOL <- dim(tp)[2]
-NAG5 <- dim(tp)[1] 
+NCOL   <- dim(tp)[2]
+NAG5   <- dim(tp)[1] 
 
 # number of single year age groups (closed age groups only)
-NAG1 <- NAG5 * 5 - 5 
+NAG1   <- NAG5 * 5 - 5 
 
 ## Sprague's Split
 bc <- c(
@@ -95,13 +96,13 @@ bc <- c(
   0.0000, -0.0336,  0.1488, -0.2768,  0.3616
 )
 ## standard format for Sprague coefficients
-sm <- matrix(bc,25,5,byrow = TRUE)
+sm  <- matrix(bc, 25, 5, byrow = TRUE)
 
 # number of middle panels
-MP <- NAG5 - 5 
+MP  <- NAG5 - 5 
 
 ## creating a Spragues coefficient matrix for 5-year age groups
-scm <- array(0, dim = c(NAG1 + 1,NAG5))
+scm <- array(0, dim = c(NAG1 + 1, NAG5))
 
 ## insert first two panels
 scm[1:10,1:5] <- sm[1:10,]
@@ -111,9 +112,11 @@ for (i in (1:MP)) {
   scm[((i + 1)*5 + 1):((i + 2)*5), i:(i + 4)] <- sm[11:15,]
 }
 
+
+
 ## insert last two panels
 fr <- (NAG5 - 3) * 5 + 1
-lr <- (NAG5 - 1)*5
+lr <- (NAG5 - 1) * 5
 
 fc <- MP 
 lc <- MP + 4 
@@ -123,10 +126,12 @@ scm[fr:lr,fc:lc] <- sm[16:25,]
 # last open ended age group
 scm[NAG1 + 1,NAG5] <- 1
 
+
 options(max.print = 10000000) 
 
-pop <- scm %*% as.matrix(tp)
+pop           <- scm %*% as.matrix(tp)
 rownames(pop) <- Age1
+
 
 ## write intermediate results for checking
 write.csv(pop, paste(fn, "1x1-step1-sprague.csv", sep = ""))
@@ -135,7 +140,8 @@ write.csv(pop, paste(fn, "1x1-step1-sprague.csv", sep = ""))
 ##############################################################################
 # add check and treatment for negative values (usually at highest ages) here
 # P. Gerland (18 Feb 2016) -- Note: don't know what/how WPP .VB code is doing for this step 
-# but conceptually this approach is robust and effective in imposing a monotonically declining population at upper ages and preventing negative values.
+# but conceptually this approach is robust and effective in imposing a monotonically 
+# declining population at upper ages and preventing negative values.
 ##############################################################################
 
 pop.pchip <- NULL
@@ -160,22 +166,22 @@ colnames(pop.pchip) <- colnames(pop)
 
 ## Pivotal age 90
 ## impute pchip interpolation as default
-pop.combined <- pop.pchip[91,]
+pop.combined     <- pop.pchip[91,]
 ## substitute Sprague interpolation if > pchip for better belnding of the two series
 pop.combined[pop[91,] > pop.pchip[91,]] <- pop[91,pop[91,] > pop.pchip[91,]]
 ## combine age 91-94 from pchip
-pop.combined <- rbind(pop.combined, pop.pchip[(92:95),])
+pop.combined     <- rbind(pop.combined, pop.pchip[(92:95),])
 ## sum of rows
-pop.combined.sum <- apply(pop.combined, 2, sum, na.rm=TRUE)
+pop.combined.sum <- colSums(pop.combined, na.rm = TRUE)
 ## adjust back on initial pop 5x5 for age 90-94
 ## proportional distribution
 pop.combined[is.na(pop.combined)==TRUE] <- 0
-prop <- prop.table(as.matrix(pop.combined), margin=2)
-rownames(prop) <- c(91:95)
-df <- as.data.frame(prop)
+prop             <- prop.table(as.matrix(pop.combined), margin=2)
+rownames(prop)   <- c(91:95)
+df               <- as.data.frame(prop)
 ## vector of initial pop 5x5 for age 90-94
-v <- as.vector(tp[19,])
-pop.combined <- data.frame(mapply(`*`,df,v))
+v                <- as.vector(tp[19,])
+pop.combined     <- data.frame(mapply(`*`,df,v))
 
 ## append the remaining of the age groups (except last open age)
 ## 95-99 onward
@@ -204,9 +210,9 @@ write.csv(pop.combined, paste(fn, "1x1-step2-pchipGE90.csv", sep = ""))
 ## keep pop1x1 interpolation for intermediate years for cohorts age 95+ in year t not available in year t+5
 
 ## get pivotal years
-index <- seq(from = 1, to = NCOL, by = 5)
-n.index <- length(index)
-data <- pop.combined[,index]
+index    <- seq(from = 1, to = NCOL, by = 5)
+n.index  <- length(index)
+data     <- pop.combined[,index]
 
 ## get Sprague interpolated pop1x1 for intermediate years (used to impute pop for cohorts that cannot be interpolated)
 sprague1 <- pop.combined[,(index+1)[1:(n.index-1)]]
@@ -215,18 +221,18 @@ sprague3 <- pop.combined[,(index+3)[1:(n.index-1)]]
 sprague4 <- pop.combined[,(index+4)[1:(n.index-1)]]
 
 ## pop1 in year t
-data1 <- data[1:(NAG1-5),]
+data1    <- data[1:(NAG1-5),]
 ## head(data1, 10)
 ## tail(data1, 10)
 
 ## pop2 in year t+5
-data2 <- data[6:NAG1,]
+data2    <- data[6:NAG1,]
 ## head(data2, 10)
 ## tail(data2, 10)
 
 ## growth rate between yeart (t, t+5)
 r.linear <- (data2[,2:length(index)] / data1[,1:(length(index)-1)]) / 5
-r <- log(data2[,2:length(index)] / data1[,1:(length(index)-1)]) / 5
+r        <- log(data2[,2:length(index)] / data1[,1:(length(index)-1)]) / 5
 ## head(r)
 
 ## cohort interpolated pop in year t+1 to t+4
@@ -235,15 +241,15 @@ popt2.linear <- data1[,1:(n.index-1)] + 2 * (data2[,2:length(index)] - data1[,1:
 popt3.linear <- data1[,1:(n.index-1)] + 3 * (data2[,2:length(index)] - data1[,1:(length(index)-1)]) / 5
 popt4.linear <- data1[,1:(n.index-1)] + 4 * (data2[,2:length(index)] - data1[,1:(length(index)-1)]) / 5
 
-popt1 <- data1[,1:(n.index-1)] * exp(r*1)
-popt2 <- data1[,1:(n.index-1)] * exp(r*2)
-popt3 <- data1[,1:(n.index-1)] * exp(r*3)
-popt4 <- data1[,1:(n.index-1)] * exp(r*4)
+popt1        <- data1[,1:(n.index-1)] * exp(r*1)
+popt2        <- data1[,1:(n.index-1)] * exp(r*2)
+popt3        <- data1[,1:(n.index-1)] * exp(r*3)
+popt4        <- data1[,1:(n.index-1)] * exp(r*4)
 ## head(popt1)
 
 ## combined dataset
 ## linear
-pop1x1.linear <- pop.combined  ## initial pop1x1 from Sprague
+pop1x1.linear                                       <- pop.combined  ## initial pop1x1 from Sprague
 ## t+1 substitute with popt1
 pop1x1.linear[2:(NAG1-4), (index+1)[1:(n.index-1)]] <- popt1.linear
 ## t+2 substitute with popt2
@@ -273,18 +279,18 @@ pop1x1[5:(NAG1-1), (index+4)[1:(n.index-1)]] <- popt4
 
 ## linear cohort interpolation
 ## proportional distribution
-prop <- prop.table(as.matrix(pop1x1.linear), margin=2)
-rownames(prop) <- rownames(pop1x1.linear)
-df <- as.data.frame(prop)
+prop                      <- prop.table(as.matrix(pop1x1.linear), margin=2)
+rownames(prop)            <- rownames(pop1x1.linear)
+df                        <- as.data.frame(prop)
 ## vector of total pop by sex to use to enforce overall consistency by year (annually interpolated Beers total by sex)
-total <- apply(tp, 2, sum, na.rm=TRUE)
+total                     <- apply(tp, 2, sum, na.rm=TRUE)
 
-pop1x1.adjusted <- data.frame(mapply(`*`,df,total))
+pop1x1.adjusted           <- data.frame(mapply(`*`,df,total))
 ## combine back with IDs
 rownames(pop1x1.adjusted) <- rownames(pop1x1)
 colnames(pop1x1.adjusted) <- colnames(pop1x1)
 ## Round to significant digit
-output.wide <- round(pop1x1.adjusted, 3)
+output.wide               <- round(pop1x1.adjusted, 3)
 
 ## write results
 write.csv(pop1x1.adjusted, ofncl)
@@ -294,13 +300,13 @@ write.csv(output.wide, ofncl)
 
 ## exponential cohort interpolation
 ## proportional distribution
-prop <- prop.table(as.matrix(pop1x1), margin=2)
-rownames(prop) <- rownames(pop1x1)
-df <- as.data.frame(prop)
+prop                      <- prop.table(as.matrix(pop1x1), margin=2)
+rownames(prop)            <- rownames(pop1x1)
+df                        <- as.data.frame(prop)
 ## vector of total pop by sex to use to enforce overall consistency by year (annually interpolated Beers total by sex)
-total <- apply(tp, 2, sum, na.rm=TRUE)
+total                     <- apply(tp, 2, sum, na.rm=TRUE)
 
-pop1x1.adjusted <- data.frame(mapply(`*`,df,total))
+pop1x1.adjusted           <- data.frame(mapply(`*`,df,total))
 ## combine back with IDs
 rownames(pop1x1.adjusted) <- rownames(pop1x1)
 colnames(pop1x1.adjusted) <- colnames(pop1x1)
@@ -311,3 +317,15 @@ output.wide <- round(pop1x1.adjusted, 3)
 write.csv(pop1x1.adjusted, ofnc)
 ## write results (Rounded to significant digit)
 write.csv(output.wide, ofnc)
+
+
+colSums(tp) - 
+colSums(pop)
+
+
+
+tpmini      <- tp[, 1:6]
+tpmini[6, ] <- colSums(tpmini[6:nrow(tp), ])
+tpmini      <- tpmini[1:6, ]
+
+spragueSimple(tpmini)
