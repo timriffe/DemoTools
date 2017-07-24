@@ -26,7 +26,8 @@
 #' \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 
 #' 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. 
 
-#' @return a data frame with a decimal date corresponding to the birth cohort and male and female populations
+# TR: birth cohort dates are midpoints or lower bounds?
+#' @return a data frame with a decimal date corresponding to the birth cohort and resulting population counts.
 #' @export
 #' 
 #' @examples 
@@ -45,27 +46,32 @@ birthCohorts <- function(Value, Age, CensusDate, cohortSize = 5){
 	  # TR: added date handling. dec.date() is in utils.R
 	  CensusDate   <- dec.date(CensusDate)
 	
-      ageMax <- max(Age)            # the lower bound of the largest age group
-      N   <- length(Value)          # number of age groups from the census.
-      M   <- ageMax/(N-1)           # length of each age group from the census.
+      ageMax <- max(Age)             # the lower bound of the largest age group
+      N      <- length(Value)        # number of age groups from the census.
+      M      <- ageMax / (N - 1)     # length of each age group from the census.
       
-      ageGroupBirths   <- Value/M    # vector of the number of births in a single year for each age group assuming uniformity.
+      ageGroupBirths   <- Value / M  # vector of the number of births in a single year 
+	                                 # for each age group assuming uniformity.
       
-      singleAgeGroupBirths  <- rep(ageGroupBirths, each = M)  # vector of the single year births for all ages
+      singleAgeGroupBirths  <- rep(ageGroupBirths, each = M)  # vector of the single year 
+	                                                          # births for all ages
       
-      # Check that the cohort divides into the max age. If not, add some zeros to prevent errors when summing across the vector.
+      # Check that the cohort divides into the max age. If not, 
+	  # add some zeros to prevent errors when summing across the vector.
       if (length(singleAgeGroupBirths) %% cohortSize != 0){
                   singleAgeGroupBirths <- c(singleAgeGroupBirths, rep(0, each = cohortSize - length(singleAgeGroupBirths)%%cohortSize))
       }
       
-      outputCohorts <- as.data.frame(colSums(matrix(singleAgeGroupBirths, nrow = cohortSize)))
-      colnames(outputCohorts) <- c("Births")
-      
-      years <- as.data.frame(rev(seq(CensusDate-length(singleAgeGroupBirths)+cohortSize/2, CensusDate, by = cohortSize)))
-      colnames(years) <- c("Year")
-      
-      outputDataFrame <- as.data.frame(cbind(years$Year, outputCohorts$Births))
-      colnames(outputDataFrame) <- c("Year", "Births")
+      # TR: replaced data.frame code with two vectors
+	  CohBirths       <- colSums(matrix(singleAgeGroupBirths, nrow = cohortSize))   
+	  yrs             <- rev(seq( 
+			                 CensusDate - length(singleAgeGroupBirths) + cohortSize / 2, 
+							 CensusDate,
+							 by = cohortSize))
+      # TR: now create a data.frame from scratch without coerce
+	  # is this just reclassifying pops in the census by birth year?
+	  # then why call it Births?
+	  outputDataFrame <- data.frame(Year = yrs, Births = CohBirths)
       
       return(outputDataFrame)
 }
