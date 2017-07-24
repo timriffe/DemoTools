@@ -319,4 +319,24 @@ write.csv(pop1x1.adjusted, ofnc)
 write.csv(output.wide, ofnc)
 
 
+colSums(tp) - 
+colSums(pop)
 
+
+
+tpmini      <- tp[, 1, drop = FALSE]
+tpmini[6, ] <- colSums(tpmini[6:nrow(tp), , drop = FALSE])
+tpmini      <- tpmini[1:6, , drop = FALSE]
+colSums(spragueSimple(tpmini)) - colSums(tpmini)
+
+
+colSums(spragueSimple(tpmini)) - colSums(tpmini)
+colSums(spragueSimple(tp)) - colSums(tp)
+popmat <- tp
+
+image(scm[,1:5]- scm2[,1:5])
+
+#head(scm,10) - 
+#head(scm2,10)
+#scm[11, ]
+#scm2[10, ]

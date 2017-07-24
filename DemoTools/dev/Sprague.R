@@ -12,7 +12,8 @@
 #' 
 #' @details Ages should refer to lower age bounds, ending in the open age group (not a closed terminal age). 
 #' It is important that \code{popmat} is a \code{matrix} and not a \code{data.frame}, and the dimension labelling
-#' is also necessary.
+#' is also necessary. There must be at least six age groups (including the open group). One year of data will 
+#' work as well, as long as it's given as a single-column matrix.
 #' 
 #' @return an age-period matrix od split population counts with the same number of 
 #' columns as \code{popmat}, and single ages in rows.
@@ -104,7 +105,7 @@ spragueSimple <- function(popmat){
 	scm[m1 + 1, m]    <- 1
 	
 	pop1              <- scm %*% popmat
-	dimnames(pop1) <- list(Age1, yrs)
+	dimnames(pop1)    <- list(Age1, yrs)
 	pop1
 }
 
