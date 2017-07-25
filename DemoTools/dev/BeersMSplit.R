@@ -11,17 +11,17 @@
 wd <- getwd()
 
 #set working directory:
-setwd("v:/R/Functions/interpolation/BeersModifiedSplit")
+#setwd("v:/R/Functions/interpolation/BeersModifiedSplit")
                                                       
 # input
-fn <- "Births"
-ifn <- paste(fn, "5.csv", sep = "")     # file name input
-
-# output
-ofn <- paste(fn, "1.csv", sep = "")     # file name output
-
-tp <- read.csv(ifn, header = TRUE, row.names = 1)
-
+#fn <- "Births"
+#ifn <- paste(fn, "5.csv", sep = "")     # file name input
+#
+## output
+#ofn <- paste(fn, "1.csv", sep = "")     # file name output
+#
+#tp <- read.csv(ifn, header = TRUE, row.names = 1)
+tp <- read.csv("/home/tim/Dropbox/TimRiffe (1)/R/Births5.csv", header = TRUE, row.names = 1)
 ## interpolation period
 YEAR1 <- as.numeric(substr(rownames(tp),1,4))
 YEAR2 <- as.numeric(substr(rownames(tp),6,10))
@@ -97,10 +97,14 @@ bcm[((NAG5 - 2)*5 + 1):(NAG5*5),MP:(MP + 4)] <- bm[16:25,]
 options(max.print = 10000000) 
 
 pop <- bcm %*% as.matrix(tp)
-
+#dim(pop)
+#dim(tp)
+#plot(rowSums(pop))
+#plot(rowSums(tp))
 ## write un-shifted results
 ## write.csv(pops, ofn)
 
+# TR: not sure what's going on here? Were the above data July1-July1 data?
 ## shifting the interpolant by half a year forward
 ## In general, each interval is halved and the the halves are recombined to form a calendar year.
 ## The first missing half year is assumed to be equal the half of the first interval.
@@ -115,5 +119,6 @@ pop2 <- array(0, dim = c(NAG1,NCOL))
 pop2[1,] <- pop[1,]
 pop2[2:NAG1,] <- pop[1:(NAG1 - 1),]
 pops <- (pop + pop2)*0.5
+
 ## write shifted results
 write.csv(pops, ofn)

@@ -9,7 +9,7 @@
 #' in Siegel and Swanson, 2004, p. 727. This is based on a set of prior fixed coefficients, not a spline.
 #' 
 #' @param popmat a numeric matrix of population counts in 5-year age groups, with integer-labeled margins (age in rows and year in columns).
-#' 
+#' @param garbill logical default \code{FALSE} Do we want to replace the coefficients for middle ages with the more aggressive Grabill coefficients?
 #' @details Ages should refer to lower age bounds, ending in the open age group (not a closed terminal age). 
 #' It is important that \code{popmat} is a \code{matrix} and not a \code{data.frame}, and the dimension labelling
 #' is also necessary. There must be at least six age groups (including the open group). One year of data will 
@@ -18,6 +18,12 @@
 #' @return an age-period matrix od split population counts with the same number of 
 #' columns as \code{popmat}, and single ages in rows.
 #' 
+#' @references 
+#' Shryock, H. S., Siegel, J. S., & Larmon, E. A. (1973). 
+#' The methods and materials of demography. US Bureau of the Census.
+#' 
+#' Seigel, J. S., & Swanson, D. A. (2004). T
+#' he methods and materials of demography. Elsevier Academic Press, London.
 #' @export
 #' 
 #' @examples 
@@ -31,10 +37,11 @@
 #' 42953.604, 40534.586, 36596.844, 173545.633), .Dim = c(6L, 6L
 #' ), .Dimnames = list(seq(0,25,5), 1950:1955))
 #' head(p5) # this is the entire matrix
-#' p1 <- spragueSimple(p5)
+#' p1 <- spragueSimple(p5,TRUE)
 #' head(p1); tail(p1)
 #' colSums(p1) - colSums(p5) 
-spragueSimple <- function(popmat){
+# TODO: grabill does not appear to preserve sums in years.
+spragueSimple <- function(popmat, grabill = FALSE){
 	popmat <- as.matrix(popmat)
 	
 	# figure out ages and years
@@ -49,49 +56,63 @@ spragueSimple <- function(popmat){
 	# number of middle blocks
 	MP     <- m - 5 
 	
-	## Sprague's Split
-	bc <- c(
-			0.3616, -0.2768,  0.1488, -0.0336,  0.0000, 
-			0.2640, -0.0960,  0.0400, -0.0080,  0.0000, 
-			0.1840,  0.0400, -0.0320,  0.0080,  0.0000, 
-			0.1200,  0.1360, -0.0720,  0.0160,  0.0000, 
-			0.0704,  0.1968, -0.0848,  0.0176,  0.0000, 
-			0.0336,  0.2272, -0.0752,  0.0144,  0.0000, 
-			0.0080,  0.2320, -0.0480,  0.0080,  0.0000, 
-			-0.0080,  0.2160, -0.0080,  0.0000,  0.0000, 
-			-0.0160,  0.1840,  0.0400, -0.0080,  0.0000, 
-			-0.0176,  0.1408,  0.0912, -0.0144,  0.0000, 
-			-0.0128,  0.0848,  0.1504, -0.0240,  0.0016, 
-			-0.0016,  0.0144,  0.2224, -0.0416,  0.0064, 
-			0.0064, -0.0336,  0.2544, -0.0336,  0.0064, 
-			0.0064, -0.0416,  0.2224,  0.0144, -0.0016, 
-			0.0016, -0.0240,  0.1504,  0.0848, -0.0128, 
-			0.0000, -0.0144,  0.0912,  0.1408, -0.0176, 
-			0.0000, -0.0080,  0.0400,  0.1840, -0.0160, 
-			0.0000,  0.0000, -0.0080,  0.2160, -0.0080, 
-			0.0000,  0.0080, -0.0480,  0.2320,  0.0080, 
-			0.0000,  0.0144, -0.0752,  0.2272,  0.0336, 
-			0.0000,  0.0176, -0.0848,  0.1968,  0.0704, 
-			0.0000,  0.0160, -0.0720,  0.1360,  0.1200, 
-			0.0000,  0.0080, -0.0320,  0.0400,  0.1840, 
-			0.0000, -0.0080,  0.0400, -0.0960,  0.2640, 
-			0.0000, -0.0336,  0.1488, -0.2768,  0.3616
-	)
-	## standard format for Sprague coefficients
-	sm             <- matrix(bc, 25, 5, byrow = TRUE)
+	# get the split coefficients
+	# block for ages 0-9
+	g1g2 <- matrix(c(
+					0.3616, -0.2768,  0.1488, -0.0336,  0.0000, 
+					0.2640, -0.0960,  0.0400, -0.0080,  0.0000, 
+					0.1840,  0.0400, -0.0320,  0.0080,  0.0000, 
+					0.1200,  0.1360, -0.0720,  0.0160,  0.0000, 
+					0.0704,  0.1968, -0.0848,  0.0176,  0.0000, 
+					0.0336,  0.2272, -0.0752,  0.0144,  0.0000, 
+					0.0080,  0.2320, -0.0480,  0.0080,  0.0000, 
+					-0.0080,  0.2160, -0.0080,  0.0000,  0.0000, 
+					-0.0160,  0.1840,  0.0400, -0.0080,  0.0000, 
+					-0.0176,  0.1408,  0.0912, -0.0144,  0.0000), 
+			nrow = 10, ncol = 5, byrow = TRUE)
+	# block for middle ages
+	if (grabill){
+	  g3 <- matrix(c(0.0111,	0.0816,	 0.0826,	0.0256,	-0.0009,
+	                  0.0049,	0.0673,	 0.0903,	0.0377,	-0.0002,
+	                  0.0015,	0.0519,	 0.0932,	0.0519,	 0.0015,
+	                 -0.0002,	0.0377,	 0.0903,	0.0673,	 0.0049,
+	                 -0.0009,	0.0256,	 0.0826,	0.0816,	 0.0111),
+                   5, 5, byrow = TRUE)
+    } else {
+	  g3 <- matrix(c(-0.0128,   0.0848,  0.1504,   -0.0240,  0.0016, 
+					 -0.0016,   0.0144,  0.2224,   -0.0416,  0.0064, 
+					  0.0064,  -0.0336,  0.2544,   -0.0336,  0.0064, 
+					  0.0064,  -0.0416,  0.2224,    0.0144, -0.0016, 
+					  0.0016,  -0.0240,  0.1504,    0.0848, -0.0128),
+			       5, 5, byrow = TRUE) 
+    }
+    # block prior to closeout
+	g4g5 <- matrix(c(0.0000, -0.0144,  0.0912,  0.1408, -0.0176, 
+			         0.0000, -0.0080,  0.0400,  0.1840, -0.0160, 
+			         0.0000,  0.0000, -0.0080,  0.2160, -0.0080, 
+			         0.0000,  0.0080, -0.0480,  0.2320,  0.0080, 
+			         0.0000,  0.0144, -0.0752,  0.2272,  0.0336, 
+			         0.0000,  0.0176, -0.0848,  0.1968,  0.0704, 
+			         0.0000,  0.0160, -0.0720,  0.1360,  0.1200, 
+			         0.0000,  0.0080, -0.0320,  0.0400,  0.1840, 
+			         0.0000, -0.0080,  0.0400, -0.0960,  0.2640, 
+			         0.0000, -0.0336,  0.1488, -0.2768,  0.3616), 
+			       nrow = 10,ncol = 5, byrow = TRUE)
+
+	
 	
 	## create a Sprague coefficient matrix for 5-year age groups
 	scm            <- matrix(0, nrow = m1 + 1, ncol =  m)
 	
 	## insert upper left block
-	scm[1:10, 1:5] <- sm[1:10, ]
+	scm[1:10, 1:5] <- g1g2
 	
 	# determine positions of middle blocks
 	rowpos         <- matrix(11:((MP*5) + 10), ncol = 5, byrow = TRUE)
 	colpos         <- row(rowpos) + col(rowpos) - 1
 	for (i in (1:MP)) {
 		# calculate the slices and add middle panels accordingly
-		scm[rowpos[i,], colpos[i, ]] <- sm[11:15,]
+		scm[rowpos[i,], colpos[i, ]] <- g3
 	}
 	
 	## insert last two panels
@@ -99,7 +120,7 @@ spragueSimple <- function(popmat){
 	lr                <- (m - 1) * 5
 	fc                <- MP 
 	lc                <- MP + 4 
-	scm[fr:lr,fc:lc]  <- sm[16:25,]
+	scm[fr:lr,fc:lc]  <- g4g5
 	
 	# last open ended age group
 	scm[m1 + 1, m]    <- 1
@@ -110,3 +131,4 @@ spragueSimple <- function(popmat){
 }
 
 
+#gO.Grabill = 0.4390 *g0 + 0.2641 (g-n+ gn) + 0.0164(g-2n + g2n)
