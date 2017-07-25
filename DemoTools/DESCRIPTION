@@ -3,7 +3,7 @@ Type: Package
 Title: standardize, evaluate, and adjust demographic data
 Version: 0.22
 Date: 24, July, 2017
-Author: Tim Riffe, Sean Fennel
+Author: Tim Riffe, Sean Fennell
 Maintainer: Tim Riffe <tim.riffe@gmail.com>
 Description: This package contains a set of classic demographic methods used to evaluate, adjust, and standardize demographic data.
 License: GPL-2
