@@ -18,8 +18,8 @@
 #' @param CensusDate  decimal. The exact date of the census.
 #' @param cohortSize  integer. The length of time (years) surrounding each output birth cohort. Default 5.
 
-#' @details Age groups must be of equal intervals. No specific age structure is assumed for the census. Births
-#' are assumed to happen uniformly over the cohorts' intervals. The final age group is assumed to be the same
+#' @details Age groups must be of equal intervals. No specific age structure is assumed for the census. Births cohorts
+#' are assumed to be uniformly distributed over the cohorts' intervals. The final age group is assumed to be the same
 #' size as all the other age groups. If the cohortSize does not divide evenly into the largest age in the data,
 #' any additional (higher) ages needed are set as zero. For example, if cohortSize is 7 and the largest age is 90,
 #' then age 91 (necessary for the matrix sum) is set as zero.
@@ -45,23 +45,23 @@ birthCohorts <- function(Value, Age, CensusDate, cohortSize = 5){
       N   <- length(Value)          # number of age groups from the census.
       M   <- ageMax/(N-1)           # length of each age group from the census.
       
-      ageGroupBirths   <- Value/M    # vector of the number of births in a single year for each age group assuming uniformity.
+      ageGroupCohorts   <- Value/M    # vector of the size of the cohort in a single year for each age group, assuming uniformity.
       
-      singleAgeGroupBirths  <- rep(ageGroupBirths, each = M)  # vector of the single year births for all ages
+      singleAgeGroupCohorts  <- rep(ageGroupCohorts, each = M)  # vector of the size of the cohort for single year ages groups
       
       # Check that the cohort divides into the max age. If not, add some zeros to prevent errors when summing across the vector.
-      if (length(singleAgeGroupBirths) %% cohortSize != 0){
-                  singleAgeGroupBirths <- c(singleAgeGroupBirths, rep(0, each = cohortSize - length(singleAgeGroupBirths)%%cohortSize))
+      if (length(singleAgeGroupCohorts) %% cohortSize != 0){
+                  singleAgeGroupCohorts <- c(singleAgeGroupCohorts, rep(0, each = cohortSize - length(singleAgeGroupCohorts)%%cohortSize))
       }
       
-      outputCohorts <- as.data.frame(colSums(matrix(singleAgeGroupBirths, nrow = cohortSize)))
-      colnames(outputCohorts) <- c("Births")
+      outputCohorts <- as.data.frame(colSums(matrix(singleAgeGroupCohorts, nrow = cohortSize)))
+      colnames(outputCohorts) <- c("Population")
       
-      years <- as.data.frame(rev(seq(CensusDate-length(singleAgeGroupBirths)+cohortSize/2, CensusDate, by = cohortSize)))
+      years <- as.data.frame(rev(seq(CensusDate-length(singleAgeGroupCohorts)+cohortSize/2, CensusDate, by = cohortSize)))
       colnames(years) <- c("Year")
       
-      outputDataFrame <- as.data.frame(cbind(years$Year, outputCohorts$Births))
-      colnames(outputDataFrame) <- c("Year", "Births")
+      outputDataFrame <- as.data.frame(cbind(years$Year, outputCohorts$Population))
+      colnames(outputDataFrame) <- c("Year", "Population")
       
       return(outputDataFrame)
 }
