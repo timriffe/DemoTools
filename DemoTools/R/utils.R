@@ -241,6 +241,30 @@ ratx <- function(fx, k = 1){
 	fx
 }
 
+#' aggregates split 0 & 1-4 age groups into a single 5 year age group
+#' 
+#' @description Creates a five year age group from split 0 & 1-4 year age groups. 
+#' @details Sums 0 & 1-4 age groups and outputs new 5 year age group vector.
+#' 
+#' @param Value numeric vector of population age groups that includes 0, 1-4, and 5 year ages.
+#' 
+#' @export 
+#' @examples 
+#' MalePop <- seq(1,100)
+#' convertSplitTo5Year(MalePop)
+
+convertSplitTo5Year <- function(Value){
+  output <- rep(0, length(Value)-1)
+  
+  intermediate1 <- Value[-1]
+  intermediate2 <- Value[-2]
+  
+  intermediate1[seq(2, length(intermediate1))] <- 0
+  
+  output <- intermediate1 + intermediate2
+  
+  return(output)
+
 #' group single ages into equal age groups of arbitrary width
 #' 
 #' @description This can be useful to check constrained sums, or as an intermediate step for smoothing.
