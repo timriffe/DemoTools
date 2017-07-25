@@ -241,6 +241,40 @@ ratx <- function(fx, k = 1){
 	fx
 }
 
+#' calculate which large age group single ages belong to
+#' 
+#' @description Assign single ages to age groups of equal and arbitrary width, and also optionalyl shifted.
+#' 
+#' @param Age integer vector of single ages (lower bound)
+#' @param N integer. Desired width of resulting age groups
+#' @param shiftdown. integer (optional), move the grouping down by one or more single ages?
+#' 
+#' @details If you shift the groupings, then the first age groups may have a negative lower bound 
+#' (for example of -5). These counts would be discarded for the osculatory version of Sprague smoothing,
+#' for example, but they are preserved in this function. The important thing to know is that if you shift 
+#'  the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1, 
+#' the first age group is 4-ages wide. 
+#'  
+#' @return a integer vector of \code{length(Age)} indicating the age group that each single age belongs to.
+#' 
+#' @export
+#' @examples
+#' Age <- 0:100
+#' calcAgeN(Age)
+#' calcAgeN(Age, N = 4)
+#' calcAgeN(Age, N = 3)
+#' calcAgeN(Age, shiftdown = 1)
+#' calcAgeN(Age, shiftdown = 2)
+#' # can be used to group abridged into equal 5-year intervals
+#' AgeAbr <- c(0,1,5,10,15,20)
+#' calcAgeN(AgeAbr)
+calcAgeN <- function(Age, N = 5,	shiftdown = 0){
+	shift <- abs(shiftdown)
+	stopifnot(shift < N)
+	(Age + shift) - (Age + shift) %% N 
+}
+
+
 #' group single ages into equal age groups of arbitrary width
 #' 
 #' @description This can be useful to check constrained sums, or as an intermediate step for smoothing.
@@ -249,14 +283,15 @@ ratx <- function(fx, k = 1){
 #' @param Age integer vector of lower bounds of single age groups
 #' @param N integer. Default 5. The desired width of resulting age groups
 #' @param shiftdown integer. Default 0. Optionally shift age groupings down by single ages 
-#' 
+#' @param AgeN optional integer vector, otherwise calculated using \code{calcAgeN()}
 #' @return vector of counts in N-year age groups
 #' 
 #' @details If you shift the groupings, then the first age groups may have a negative lower bound 
 #' (for example of -5). These counts would be discarded for the osculatory version of Sprague smoothing,
 #' for example, but they are preserved in this function. The important thing to know is that if you shift 
 #'  the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1, the first age group is 4-ages wide. The ages themselves are not returned, 
-#' but they are the name attribute of the output count vector.
+#' but they are the name attribute of the output count vector. Note this will also correctly group abridged ages
+#' into equal 5-year age groups if the \code{Age} argument is explicitly given.
 
 #' @examples
 #' India1991males <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918
@@ -272,10 +307,38 @@ ratx <- function(fx, k = 1){
 #' groupAges(India1991males, N = 5, shift = 2)
 #' groupAges(India1991males, N = 5, shift = 3)
 #' groupAges(India1991males, N = 5, shift = 4)
-groupAges <- function(Value, Age = 1:length(Value) - 1, N = 5, shiftdown = 0){
-	shift <- abs(shift)
-	stopifnot(shift < N)
-	
-	ageN  <- (Age + shift) - (Age + shift) %% N 
+groupAges <- function(Value, 
+		              Age = 1:length(Value) - 1, 
+					  N = 5, 
+					  shiftdown = 0, 
+					  AgeN){
+	if (missing(AgeN)){
+		AgeN <- calcAgeN(Age = Age, N = N, shiftdown = shiftdown)
+	}
 	tapply(Value, ageN, sum)
+}
+
+#' logical checking of whether age classes appear single
+#' 
+#' @description check whether a vector of ages consists in single ages. This
+#' makes sense sometimes when age intervals are not explicitly given.
+#' 
+#' @param Age integer vector of age classes
+#' 
+#' @return logical \code{TRUE} if detected as single ages, \code{FALSE} otherwise
+#' 
+#' @details In cases where ages are indeed single, but repeated, this will still return \code{FALSE}. 
+#' Therefore make sure that the age vector given refers to a single year of a single population, etc.
+#' 
+#' @examples
+#' Age <- 0:99
+#' Age2 <- c(0:10,0:10)
+#' Age3 <- seq(0,80,by=5)
+#' Age4 <- seq(0,10,by=.5)
+#' is.single(Age)  # TRUE
+#' is.single(Age2) # FALSE repeated, can't tell.
+#' is.single(Age3) # FALSE not single ages
+#' is.single(Age4) # FALSE not single ages
+is.single <- function(Age){
+	all(diff(sort(Age)) == 1)
 }

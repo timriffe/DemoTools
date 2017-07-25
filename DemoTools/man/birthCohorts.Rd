@@ -16,7 +16,7 @@ birthCohorts(Value, Age, CensusDate, cohortSize = 5)
 \item{cohortSize}{integer. The length of time (years) surrounding each output birth cohort. Default 5.}
 }
 \value{
-a data frame with a decimal date corresponding to the birth cohort and resulting population counts.
+a data frame with a decimal date corresponding to the midpoint of the birth cohort and resulting population counts.
 }
 \description{
 The birth cohorts for a census represent the population born during a set interval

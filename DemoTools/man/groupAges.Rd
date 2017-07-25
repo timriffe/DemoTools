@@ -4,7 +4,7 @@
 \alias{groupAges}
 \title{group single ages into equal age groups of arbitrary width}
 \usage{
-groupAges(Value, Age = 1:length(Value) - 1, N = 5, shiftdown = 0)
+groupAges(Value, Age = 1:length(Value) - 1, N = 5, shiftdown = 0, AgeN)
 }
 \arguments{
 \item{Value}{numeric vector of single age counts}
@@ -14,6 +14,8 @@ groupAges(Value, Age = 1:length(Value) - 1, N = 5, shiftdown = 0)
 \item{N}{integer. Default 5. The desired width of resulting age groups}
 
 \item{shiftdown}{integer. Default 0. Optionally shift age groupings down by single ages}
+
+\item{AgeN}{optional integer vector, otherwise calculated using \code{calcAgeN()}}
 }
 \value{
 vector of counts in N-year age groups
