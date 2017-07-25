@@ -26,8 +26,7 @@
 #' \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 
 #' 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. 
 
-# TR: birth cohort dates are midpoints or lower bounds?
-#' @return a data frame with a decimal date corresponding to the birth cohort and resulting population counts.
+#' @return a data frame with a decimal date corresponding to the midpoint of the birth cohort and resulting population counts.
 
 #' @export
 #' 
