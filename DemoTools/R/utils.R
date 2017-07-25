@@ -241,37 +241,6 @@ ratx <- function(fx, k = 1){
 	fx
 }
 
-#' aggregates single year age groups into 5 year age groups
-#' 
-#' @description Creates five year age groups from single year ages. 
-#' @details Sums five year age intervals
-#' 
-#' @param Value numeric vector of single year age groups.
-#' 
-#' @export 
-#' @examples 
-#' MalePop <- seq(1,100)
-#' convertSingleTo5Year(MalePop)
-
-convertSingleTo5Year <- function(Value){
-  shiftZero <- Value
-  shiftOne <- Value[-1]
-  shiftTwo <- shiftOne[-1]
-  shiftThree <- shiftTwo[-1]
-  shiftFour <- shiftThree[-1]
-  
-  shiftZero <- shiftZero[0:(length(shiftZero)-4)]
-  shiftOne <- shiftOne[0:(length(shiftOne)-3)]
-  shiftTwo <- shiftTwo[0:(length(shiftTwo)-2)]
-  shiftThree <- shiftThree[0:(length(shiftThree)-1)]
-  
-  initialSum <- shiftZero + shiftOne + shiftTwo + shiftThree + shiftFour
-  
-  aggFinal <- initialSum[c(TRUE, FALSE, FALSE, FALSE, FALSE)]
-  
-  return(aggFinal)
-}
-
 #' aggregates split 0 & 1-4 age groups into a single 5 year age group
 #' 
 #' @description Creates a five year age group from split 0 & 1-4 year age groups. 

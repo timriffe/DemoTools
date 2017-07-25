@@ -27,6 +27,7 @@
 #' 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. 
 
 #' @return a data frame with a decimal date corresponding to the midpoint of the birth cohort and resulting population counts.
+
 #' @export
 #' 
 #' @examples 
