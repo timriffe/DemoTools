@@ -46,8 +46,8 @@ India1991males <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151
 		,44015,19172,329149,48004,28574,9200,7003,75195,13140,5889,18915,21221,72373)
 Age <- 0:100
 groupAges(India1991males, N = 5)
-groupAges(India1991males, N = 5, shift = 1)
-groupAges(India1991males, N = 5, shift = 2)
-groupAges(India1991males, N = 5, shift = 3)
-groupAges(India1991males, N = 5, shift = 4)
+groupAges(India1991males, N = 5, shiftdown = 1)
+groupAges(India1991males, N = 5, shiftdown = 2)
+groupAges(India1991males, N = 5, shiftdown = 3)
+groupAges(India1991males, N = 5, shiftdown = 4)
 }

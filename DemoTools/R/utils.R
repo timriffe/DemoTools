@@ -350,7 +350,7 @@ convertSplitTo5Year <- function(Value){
 #'  the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1, the first age group is 4-ages wide. The ages themselves are not returned, 
 #' but they are the name attribute of the output count vector. Note this will also correctly group abridged ages
 #' into equal 5-year age groups if the \code{Age} argument is explicitly given.
-
+#' @export
 #' @examples
 #' India1991males <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918
 #' 		,14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
