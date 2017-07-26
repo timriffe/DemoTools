@@ -36,13 +36,13 @@ ifn <- "/home/tim/git/DemoTools/DemoTools/dev/Data/IND_Pop2015B1_1.7.csv"
 
 # input
 
-fn    <- "IND_Pop2015B" # annually interpolated using Beers in column
-ifn   <- paste(fn, "1_1.7.csv", sep = "")
-
-# output
-ofn   <- paste(fn, "1x1_1.7.csv", sep = "")
-ofncl <- paste(fn, "1x1-cohort-linear-interpol.csv", sep = "")  ## cohort interpolated
-ofnc  <- paste(fn, "1x1-cohort-exponential-interpol.csv", sep = "")  ## cohort interpolated
+#fn    <- "IND_Pop2015B" # annually interpolated using Beers in column
+#ifn   <- paste(fn, "1_1.7.csv", sep = "")
+#
+## output
+#ofn   <- paste(fn, "1x1_1.7.csv", sep = "")
+#ofncl <- paste(fn, "1x1-cohort-linear-interpol.csv", sep = "")  ## cohort interpolated
+#ofnc  <- paste(fn, "1x1-cohort-exponential-interpol.csv", sep = "")  ## cohort interpolated
 
 ## read annually interpolated data (transposed by age in rows and time in column)
 tp    <- t(read.csv(ifn, header = TRUE, row.names = 1, check.names = FALSE))
