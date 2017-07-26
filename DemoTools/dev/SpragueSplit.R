@@ -144,6 +144,34 @@ write.csv(pop, paste(fn, "1x1-step1-sprague.csv", sep = ""))
 # declining population at upper ages and preventing negative values.
 ##############################################################################
 
+y <- c(0,cumsum(tp[,1]))
+x <- seq(0,105,by=5)
+
+single <- diff(splinefun(y ~ x, method = "monoH.FC")(0:100))
+Value <- tp[,1]
+splitMono <- function(Value, Age5 = seq(0, length(Value)*5-5, 5), keep.OAG = FALSE){
+	AgePred <- min(Age5):(max(Age5) + 1)
+	
+	y          <- c(0, cumsum(Value))
+	x          <- c(0, Age5 + 5)
+	y1         <- splinefun(y ~ x, method = "monoH.FC")(AgePred)
+	single.out <- diff(y1)
+	if (keep.OAG){
+		single.out[length(single.out)] <- Value[length(Value)]
+	}
+	single.out
+}
+
+colSums(apply(tp,2,splitMono, keep.OAG = TRUE)) - colSums(tp)
+
+singlepchip <- diff(interp1(c(0, Age5+5), c(0, cumsum(tp[,1])), c(0, Age1+1), 'pchip', extrap = TRUE))
+
+plot(single[1:101] - singlepchip)
+plot(single[45:55])
+lines(singlepchip[45:55])
+mean(abs(diff(single[1:101])))
+mean(abs(diff(singlepchip[1:101])))
+
 pop.pchip <- NULL
 for (j in 1:NCOL){
 	## interpolate on cumulated distribution
@@ -175,7 +203,7 @@ pop.combined     <- rbind(pop.combined, pop.pchip[(92:95),])
 pop.combined.sum <- colSums(pop.combined, na.rm = TRUE)
 ## adjust back on initial pop 5x5 for age 90-94
 ## proportional distribution
-pop.combined[is.na(pop.combined)==TRUE] <- 0
+pop.combined[is.na(pop.combined)] <- 0
 prop             <- prop.table(as.matrix(pop.combined), margin=2)
 rownames(prop)   <- c(91:95)
 df               <- as.data.frame(prop)
@@ -202,7 +230,8 @@ rownames(pop.combined) <- Age1
 ## write intermediate results for checking
 write.csv(pop.combined, paste(fn, "1x1-step2-pchipGE90.csv", sep = ""))
 
-
+# TR: 26-7-2017 
+# have not yet implemented from here down. Will take some examination of what's going on here.
 
 ## extra step: P. Gerland - cohort interpolation on WPP pivotal years ending in 0 and 5 for age 0-94 in year t to age 5-99 in year t+5
 ## use exponential growth rate (r=ln(pt2/pt1)/5 with ptn = pt1*(exp(r*n)) ) instead of linear interpolation (WPP default which causes convex hump by age over time at age 80+)
@@ -324,17 +353,6 @@ colSums(pop)
 
 
 
-tpmini      <- tp[, 1, drop = FALSE]
-tpmini[6, ] <- colSums(tpmini[6:nrow(tp), , drop = FALSE])
-tpmini      <- tpmini[1:6, , drop = FALSE]
-colSums(spragueSimple(tpmini)) - colSums(tpmini)
-
-
-colSums(spragueSimple(tpmini)) - colSums(tpmini)
-colSums(spragueSimple(tp)) - colSums(tp)
-popmat <- tp
-
-image(scm[,1:5]- scm2[,1:5])
 
 #head(scm,10) - 
 #head(scm2,10)
