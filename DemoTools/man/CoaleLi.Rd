@@ -16,6 +16,8 @@ CoaleLi(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5,
 
 \item{ageMax}{the upper age bound used for calcs. Default 65}
 
+\item{terms}{integer (default 5). How wide shall the (centered) moving average be?}
+
 \item{digit}{any digit 0-9. Default \code{0}.}
 }
 \value{

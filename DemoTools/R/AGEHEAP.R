@@ -225,6 +225,7 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 80, pasex = FALSE){
 #' @param Age a vector of ages corresponding to the lower integer bound of the counts
 #' @param ageMin the lowest age included in calcs. Default 20
 #' @param ageMax the upper age bound used for calcs. Default 65
+#' @param terms integer (default 5). How wide shall the (centered) moving average be?
 #' @param digit any digit 0-9. Default \code{0}.
 
 #' @details \code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. It is therefore recommended for single digits, or else \code{c(0,5)}
