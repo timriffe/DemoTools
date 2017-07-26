@@ -15,8 +15,6 @@ cache:
 
 # Adapt as necessary starting from here
 # scripts to run before build
-before_build:
-  - cmd : cd DemoTools
 
 test_script:
   - travis-tool.sh run_tests
