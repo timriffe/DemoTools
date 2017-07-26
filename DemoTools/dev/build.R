@@ -6,3 +6,4 @@ library(devtools)
 document("/home/tim/git/DemoTools/DemoTools")
 
 load_all("/home/tim/git/DemoTools/DemoTools")
+devtools::use_appveyor("/home/tim/git/DemoTools/DemoTools")
