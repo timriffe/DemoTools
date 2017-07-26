@@ -317,7 +317,12 @@ grabill <- function(popmat){
 
 #' split age groups using a monotonic spline
 #' @description Take the cumulative sum of \code{Value} and then run a monotonic spline through it. The first 
-#' differences split back single-age estimates of \code{Value}. Optionally keep the open age group untouched.
+#' differences split back single-age estimates of \code{Value}. Optionally keep the open age group untouched. 
+#' 
+#' @details We use the \code{"monoH.FC"} method of \code{stats::splinefun()} to fit the spline because 1)
+#' it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) 
+#' it seems to be a bit less wiggly (lower average first differences of split counts) than a pchip tends to do, 
+#' at least in the tested data.
 #' 
 #' @param Value numeric vector of counts in age groups
 #' @param Age5 integer vector of lower bound of age groups
