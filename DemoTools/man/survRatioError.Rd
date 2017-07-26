@@ -83,7 +83,6 @@ survRatioError(
 # result matches CENSUR~2 exactly if you change the 
 # decimal dates used in the spreadsheet to the following
 print(dec.date(date1960fake),digits=15)
-print(dec.date(date1970fake),digits=15)
 # can't call up the synthetic method on the original dates
 # because it gets automatically directed to the cleaner 10-year
 # staggered method, which is preferred.
