@@ -398,10 +398,10 @@ groupAges <- function(Value,
 #' Age2 <- c(0:10,0:10)
 #' Age3 <- seq(0,80,by=5)
 #' Age4 <- seq(0,10,by=.5)
-#' is.single(Age)  # TRUE
-#' is.single(Age2) # FALSE repeated, can't tell.
-#' is.single(Age3) # FALSE not single ages
-#' is.single(Age4) # FALSE not single ages
-is.single <- function(Age){
+#' test.single(Age)  # TRUE
+#' test.single(Age2) # FALSE repeated, can't tell.
+#' test.single(Age3) # FALSE not single ages
+#' test.single(Age4) # FALSE not single ages
+test.single <- function(Age){
 	all(diff(sort(Age)) == 1)
 }
