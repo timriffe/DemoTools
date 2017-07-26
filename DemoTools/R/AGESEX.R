@@ -169,7 +169,7 @@ ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), m
 			method = method)
 	# calculate index:
 	ind <- 3 * SR + MA + FA
-	tot <- sum(Males) + sum(females)
+	tot <- sum(Males) + sum(Females)
 	if (adjust & tot < 1e6){
 		ind <- ind - 3500 / sqrt(tot) + 3.5
 	}
