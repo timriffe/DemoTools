@@ -366,10 +366,10 @@ convertSplitTo5Year <- function(Value){
 #' 		,44015,19172,329149,48004,28574,9200,7003,75195,13140,5889,18915,21221,72373)
 #' Age <- 0:100
 #' groupAges(India1991males, N = 5)
-#' groupAges(India1991males, N = 5, shift = 1)
-#' groupAges(India1991males, N = 5, shift = 2)
-#' groupAges(India1991males, N = 5, shift = 3)
-#' groupAges(India1991males, N = 5, shift = 4)
+#' groupAges(India1991males, N = 5, shiftdown = 1)
+#' groupAges(India1991males, N = 5, shiftdown = 2)
+#' groupAges(India1991males, N = 5, shiftdown = 3)
+#' groupAges(India1991males, N = 5, shiftdown = 4)
 groupAges <- function(Value, 
 		              Age = 1:length(Value) - 1, 
 					  N = 5, 
@@ -378,7 +378,7 @@ groupAges <- function(Value,
 	if (missing(AgeN)){
 		AgeN <- calcAgeN(Age = Age, N = N, shiftdown = shiftdown)
 	}
-	tapply(Value, ageN, sum)
+	tapply(Value, AgeN, sum)
 }
 
 #' logical checking of whether age classes appear single
