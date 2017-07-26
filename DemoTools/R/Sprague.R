@@ -329,6 +329,7 @@ grabill <- function(popmat){
 #' @param keep.OAG logical (default \code{FALSE}). Would we like to re-impute the last 
 #' element of \code{Value} as the open age group?
 #' @return numeric vector of single age counts 
+#' @importFrom stats splinefun
 #' @export
 #' @examples
 #' Value <- structure(c(88623.0176512, 90841.8228447, 93438.8052066, 96324.9863902, 

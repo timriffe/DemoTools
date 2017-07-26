@@ -15,7 +15,7 @@
 #' @details Ages must be in five-year age groups, not abridged. The lengths of \code{pop1} and \code{pop2} should also match. We assume that the last age group is open, and throw it out. If your last age group is not open and you want to keep it, append an element, such as \code{NA} to the end of your vectors. Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. 
 #' @return the median absolute percent error of the census survival remaining life expectancy vector compared with the external remaining life expectancy estimate (\code{exprior}).
 #' @export
-#' 
+#' @importFrom stats median
 #' @examples
 #'# based on Feeney's spreadsheets CENSUR~1.XLS, CENSUR~2.XLS, and CENSUR~3.XLS
 #'# this is census data from Japan
