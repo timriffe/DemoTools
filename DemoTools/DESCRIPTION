@@ -9,4 +9,4 @@ Description: This package contains a set of classic demographic methods used to 
 License: GPL-2
 LazyLoad: yes
 RoxygenNote: 6.0.1
-
+Suggests: covr
