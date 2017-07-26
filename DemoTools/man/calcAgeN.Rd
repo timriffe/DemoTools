@@ -33,4 +33,7 @@ calcAgeN(Age, N = 4)
 calcAgeN(Age, N = 3)
 calcAgeN(Age, shiftdown = 1)
 calcAgeN(Age, shiftdown = 2)
+# can be used to group abridged into equal 5-year intervals
+AgeAbr <- c(0,1,5,10,15,20)
+calcAgeN(AgeAbr)
 }

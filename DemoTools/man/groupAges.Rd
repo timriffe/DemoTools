@@ -28,7 +28,8 @@ If you shift the groupings, then the first age groups may have a negative lower 
 (for example of -5). These counts would be discarded for the osculatory version of Sprague smoothing,
 for example, but they are preserved in this function. The important thing to know is that if you shift 
  the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1, the first age group is 4-ages wide. The ages themselves are not returned, 
-but they are the name attribute of the output count vector.
+but they are the name attribute of the output count vector. Note this will also correctly group abridged ages
+into equal 5-year age groups if the \code{Age} argument is explicitly given.
 }
 \examples{
 India1991males <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918
