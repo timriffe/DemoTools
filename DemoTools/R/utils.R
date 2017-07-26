@@ -45,9 +45,11 @@ shift.vector <- function(x,shift = 0, fill = FALSE){
 #' @examples 
 #' x  <- runif(100)
 #' xx <- cumsum(x)
+#' \dontrun{
 #' plot(x)
 #' lines(ma(x))
 #' lines(ma(x),9)
+#' }
 
 
 ma <- function(x,n=5){

@@ -24,7 +24,9 @@ are used as padding on the left and right to make the returned vector of equal l
 \examples{
 x  <- runif(100)
 xx <- cumsum(x)
+\dontrun{
 plot(x)
 lines(ma(x))
 lines(ma(x),9)
+}
 }
