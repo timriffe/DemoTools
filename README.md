@@ -2,8 +2,7 @@
 
 [![Build Status](https://travis-ci.org/timriffe/DemoTools.svg?branch=master)](https://travis-ci.org/timriffe/DemoTools)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/timriffe/DemoTools?branch=master&svg=true)](https://ci.appveyor.com/project/timriffe/DemoTools)
-[![Coverage Status](https://codecov.io/github/timriffe/DemoTools/coverage.svg?branch=master)](https://codecov.io/github/timriffe/DemoTools?branch=master)
-
+[![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools)
 
 Tools for the evaluation, adjustment, and standardization of demographic data
 
