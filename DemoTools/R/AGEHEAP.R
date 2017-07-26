@@ -254,7 +254,7 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 80, pasex = FALSE){
 #' Noumbissi(Value, Age, 65, 95, 0)  # 3.6
 #' Noumbissi(Value, Age, 65, 95, 5)  # 3.0
 
-CoaleLi <- function(Value, Age, minAge = 60, maxAge = max(Age), terms = 5, digit = 0){
+CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0){
 	
 	reference <- ma(ma(Value, n = terms), n = terms)
 	
@@ -266,9 +266,9 @@ CoaleLi <- function(Value, Age, minAge = 60, maxAge = max(Age), terms = 5, digit
 #	# adjust maxage if necessary
 #	maxAge    <- minAge + agerange
 	
-	ind       <- Age >= minAge & Age <= maxAge
+	ind       <- Age >= ageMin & Age <= ageMax
 	
-	ages      <- max(c(min(Age),minAge)):min(c(maxAge, max(Age)))
+	ages      <- max(c(min(Age),ageMin)):min(c(ageMax, max(Age)))
 	avgRatios <- tapply(ratio[ind], ages %% 10, mean, na.rm = TRUE)
 	
 	# return avg deviation for specified digit(s)
