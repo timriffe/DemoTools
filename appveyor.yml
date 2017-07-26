@@ -15,7 +15,9 @@ cache:
 
 # Adapt as necessary starting from here
 # scripts to run before build
-
+build_script:
+    - cd %APPVEYOR_BUILD_FOLDER%/DemoTools
+    
 test_script:
   - travis-tool.sh run_tests
 
