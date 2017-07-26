@@ -394,7 +394,7 @@ groupAges <- function(Value,
 #' 
 #' @details In cases where ages are indeed single, but repeated, this will still return \code{FALSE}. 
 #' Therefore make sure that the age vector given refers to a single year of a single population, etc.
-#' 
+#' @export
 #' @examples
 #' Age <- 0:99
 #' Age2 <- c(0:10,0:10)
