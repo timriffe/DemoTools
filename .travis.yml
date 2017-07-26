@@ -1,4 +1,8 @@
 language: r
+
+before_install:
+  - cd DemoTools
+
 r:
   - oldrel
   - release
