@@ -1,0 +1,17 @@
+language: r
+
+before_install:
+  - cd DemoTools
+
+r:
+  - oldrel
+  - release
+  - devel
+  
+r_packages:
+  - covr
+  
+# Only report coverage for the release version
+after_success:
+  - test $TRAVIS_R_VERSION_STRING = 'release' && Rscript -e 'covr::codecov()'
+  
