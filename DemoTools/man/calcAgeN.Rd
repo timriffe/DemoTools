@@ -11,7 +11,7 @@ calcAgeN(Age, N = 5, shiftdown = 0)
 
 \item{N}{integer. Desired width of resulting age groups}
 
-\item{shiftdown.}{integer (optional), move the grouping down by one or more single ages?}
+\item{shiftdown}{integer (optional), move the grouping down by one or more single ages?}
 }
 \value{
 a integer vector of \code{length(Age)} indicating the age group that each single age belongs to.

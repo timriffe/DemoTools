@@ -4,7 +4,7 @@
 \alias{CoaleLi}
 \title{Coale-Li age heaping index}
 \usage{
-CoaleLi(Value, Age, minAge = 60, maxAge = max(Age), terms = 5,
+CoaleLi(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5,
   digit = 0)
 }
 \arguments{
@@ -12,11 +12,11 @@ CoaleLi(Value, Age, minAge = 60, maxAge = max(Age), terms = 5,
 
 \item{Age}{a vector of ages corresponding to the lower integer bound of the counts}
 
-\item{digit}{any digit 0-9. Default \code{0}.}
-
 \item{ageMin}{the lowest age included in calcs. Default 20}
 
 \item{ageMax}{the upper age bound used for calcs. Default 65}
+
+\item{digit}{any digit 0-9. Default \code{0}.}
 }
 \value{
 the index value

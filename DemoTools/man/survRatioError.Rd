@@ -52,7 +52,13 @@ ex2  <- c(NA,70.19,65.33,60.41,55.54,50.74,45.96,41.21,
 
 # reproduces CENSUR~1.XLS
 # this method called under the hood when censuses are a clean 10 years apart
-survRatioError(pop1960,pop1970,Age,date1960,date1970,ex1) #.44
+survRatioError(
+pop1 = pop1960, 
+pop2 = pop1970, 
+Age = Age, 
+date1 = date1960, 
+date2 = date1970, 
+exprior = ex1) #.44
 
 # reproduces CENSUR~3.XLS
 # this method called under the hood when censuses are a clean 5 years apart
