@@ -1,8 +1,8 @@
 # DemoTools
 
-<!--[![Build Status](https://travis-ci.org/timriffe/DemoTools.svg?branch=master)](https://travis-ci.org/timriffe/DemoTools)
+[![Build Status](https://travis-ci.org/timriffe/DemoTools.svg?branch=master)](https://travis-ci.org/timriffe/DemoTools)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/timriffe/DemoTools?branch=master&svg=true)]%(https://ci.appveyor.com/project/timriffe/DemoTools)
-[![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) -->
+[![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) 
 
 Tools for the evaluation, adjustment, and standardization of demographic data
 
@@ -13,5 +13,5 @@ You can load the ```DemoTools``` package in R like so:
 # install.packages("devtools")
 
 library(devtools)
-install_github("timriffe/DemoTools/DemoTools")
+install_github("timriffe/DemoTools")
 ```
