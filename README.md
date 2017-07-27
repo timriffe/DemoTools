@@ -16,5 +16,36 @@ library(devtools)
 install_github("timriffe/DemoTools")
 ```
 
+You can then get started like so:
+```
+library(DemoTools)
+# interesting top-level functions include:
+?Whipple
+?Myers
+?Bachi
+?CoaleLi
+?Noumbissi
+?Spoorenberg
+?ageRatioScore
+?sexRatioScore
+?ageSexAccuracy
+?AHI
+?WI
+?IRD
+?ID
+?survRatioError
+?spragueSimple
+?grabill
+?splitMono
+?spragueCloseout
+?birthCohorts
+?adjustAge
+?ADM
+?RDM
+# last updated 27-July-2017
+```
+
+Presently all functions are in first drafts, but the aim is to end up with a set of robust generic functions around which wrappers can be easily built for various institutional data production needs. As-is, these functions may also be useful for DIY demographers. This set of methods is a cherry-pick from legacy methods collections, including PAS, DAPPS, MPCDA, MortPack, IREDA, UN Manual X, G. Feeney Spreadsheets, formulas found in Siegel and Swanson or Shyrock and Siegel, and various (apparent) first-implementations from formulas in papers, or ad hoc DIY approximations from old pros. 
+
 # about those icons 
 Every time this repository is updated the entire code base is rebuilt on a server somewhere, and undergoes a series of checks. This happens on a linux machine and on a windows machine. Any warnings or errors in these builds will yield a red fail tag, and successes are green passes. Code coverage indicates what percentage of lines of code undergo testing of some kind. We've not yet set up units tests, but when we start to do so, the aim will be to push this percentage as high as possible.
