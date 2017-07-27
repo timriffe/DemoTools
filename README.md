@@ -15,3 +15,6 @@ You can load the ```DemoTools``` package in R like so:
 library(devtools)
 install_github("timriffe/DemoTools")
 ```
+
+# about those icons 
+Every time this repository is updated the entire code base is rebuilt on a server somewhere, and undergoes a series of checks. This happens on a linux machine and on a windows machine. Any warnings or errors in these builds will yield a red fail tag, and successes are green passes. Code coverage indicates what percentage of lines of code undergo testing of some kind. We've not yet set up units tests, but when we start to do so, the aim will be to push this percentage as high as possible.
