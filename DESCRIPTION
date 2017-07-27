@@ -1,0 +1,12 @@
+Package: DemoTools
+Type: Package
+Title: standardize, evaluate, and adjust demographic data
+Version: 0.3
+Date: 26, July, 2017
+Author: Tim Riffe, Sean Fennell
+Maintainer: Tim Riffe <tim.riffe@gmail.com>
+Description: This package contains a set of classic demographic methods used to evaluate, adjust, and standardize demographic data.
+License: GPL-2
+LazyLoad: yes
+RoxygenNote: 6.0.1
+Suggests: covr
