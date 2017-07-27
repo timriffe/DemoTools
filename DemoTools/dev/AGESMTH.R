@@ -68,3 +68,4 @@ carrierFarragSmth <- function(Value, ageStruct = "five year"){
   
   return(SmthPop)
 }
+
