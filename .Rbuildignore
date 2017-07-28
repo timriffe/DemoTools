@@ -1,8 +1,7 @@
 ^.project*
 ^.gitignore*
-^dev*
-^devdata*
-^README\.md$
+dev
+devdata
 ^appveyor\.yml$
 ^\.travis\.yml$
 ^codecov\.yml$
