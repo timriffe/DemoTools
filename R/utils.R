@@ -418,7 +418,7 @@ test.single <- function(Age){
 #' 
 #' @return numeric vector of counts for single year age groups.
 #' 
-#' @details Assumes that all age groups are equal width. (Default is 5-year age groups.) If there is a split under 5 age group (0 and 1-4 age groups), use function convertSplitTo5Year to consolidate before using this function. The default setting is to assume that the final age group is the same width as the other age groups.
+#' @details Assumes that all age groups are equal width. (Default is 5-year age groups.) Also, assumes that the population is uniformly distributed across each age interval. If there is a split under 5 age group (0 and 1-4 age groups), use function convertSplitTo5Year to consolidate before using this function. The default setting is to assume that the final age group is the same width as the other age groups.
 #' 
 #' @export
 #' @examples 
