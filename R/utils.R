@@ -407,3 +407,40 @@ groupAges <- function(Value,
 test.single <- function(Age){
 	all(diff(sort(Age)) == 1)
 }
+
+#' Convert arbitrary age groupings into single years of age
+#' 
+#' @description Splits aggregate counts for a vector of age groups of a common width into single year age groups.
+#' 
+#' @param Value numeric vector of age group counts
+#' @param Age numeric vector of ages corresponding to the lower integer bound of the age range.
+#' @param OAG boolean argument that determines whether the final age group (assumed open ended) is kept as it is or has the same length as the rest of the age groups. Default is FALSE, i.e. use the same length for the final age group.
+#' 
+#' @return numeric vector of counts for single year age groups.
+#' 
+#' @details Assumes that all age groups are equal width. (Default is 5-year age groups.) If there is a split under 5 age group (0 and 1-4 age groups), use function convertSplitTo5Year to consolidate before using this function. The default setting is to assume that the final age group is the same width as the other age groups.
+#' 
+#' @export
+#' @examples 
+#' MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,9055588,5519173)
+#' Ages <- seq(0,85, by=5)
+#' splitToSingleAges(MalePop, Ages)
+#' splitToSingleAges(MalePop, Ages, OAG = TRUE)
+splitToSingleAges <- function(Value, Age, OAG = FALSE){
+  ageMax <- max(Age)             # the lower bound of the largest age group
+  N      <- length(Value)        # number of age groups from the census.
+  M      <- ageMax / (N - 1)     # length of each age group from the census.
+  
+  ageGroupBirths   <- Value / M  # vector of the number of births in a single year for each age group assuming uniformity.
+  
+  if (OAG){
+      ageGroupBirths <- ageGroupBirths[0:(length(ageGroupBirths)-1)] # remove final age group
+      singleAgeGroupBirths <- rep(ageGroupBirths, each = M) # vector of the single year births for all ages except final age group
+      singleAgeGroupBirths[length(singleAgeGroupBirths)+1] <- Value[length(Value)]
+  }
+  else{
+      singleAgeGroupBirths  <- rep(ageGroupBirths, each = M)  # vector of the single year births for all ages
+  }
+  
+  return(singleAgeGroupBirths)
+}

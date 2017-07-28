@@ -30,7 +30,7 @@ carrierFarragSmth <- function(Value, ageStruct = "five year"){
   
   #Aggregate age groups for "single year" and "split under five"
   if (ageStruct == "single year"){
-    aggValue <- convertSingleTo5Year(Value)
+    aggValue <- groupAges(Value)
   }
   
   if (ageStruct == "split under five"){
@@ -68,3 +68,4 @@ carrierFarragSmth <- function(Value, ageStruct = "five year"){
   
   return(SmthPop)
 }
+
