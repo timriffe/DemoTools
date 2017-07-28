@@ -22,7 +22,7 @@ wd <- getwd()
 
 # set working directory:
 setwd("C:/Users/Patrick/Dropbox/R/interpolation/wpp/")
-ifn <- "/home/tim/git/DemoTools/DemoTools/dev/Data/IND_Pop2015B1_1.7.csv"
+ifn <- "/home/tim/git/DemoTools/dev/Data/IND_Pop2015B1_1.7.csv"
 # read data to be interpolated
 # input data are expected to have age as rows, and countries as columns. 
 # The first column has the row labels (=age), the first row holds column labels (countrIDs, year...) 
