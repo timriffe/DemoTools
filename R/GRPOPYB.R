@@ -45,16 +45,8 @@ birthCohorts <- function(Value, Age, CensusDate, cohortSize = 5){
       
 	  # TR: added date handling. dec.date() is in utils.R
 	  CensusDate   <- dec.date(CensusDate)
-	
-      ageMax <- max(Age)             # the lower bound of the largest age group
-      N      <- length(Value)        # number of age groups from the census.
-      M      <- ageMax / (N - 1)     # length of each age group from the census.
       
-      ageGroupBirths   <- Value / M  # vector of the number of births in a single year 
-	                                 # for each age group assuming uniformity.
-      
-      singleAgeGroupBirths  <- rep(ageGroupBirths, each = M)  # vector of the single year 
-	                                                          # births for all ages
+      singleAgeGroupBirths  <- splitToSingleAges(Value, Age)
       
       # Check that the cohort divides into the max age. If not, 
 	  # add some zeros to prevent errors when summing across the vector.
