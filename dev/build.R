@@ -3,15 +3,17 @@
 ###############################################################################
 
 library(devtools)
+#install_github("hadley/devtools")
 # do this whenever new functions are added to /R, or whenever roxygen is updated
 document("/home/tim/git/DemoTools")
 
 # run this to get access to already-written functions
 load_all("/home/tim/git/DemoTools")
-?spragueSimple
+
 # do this whenever major changes happen
 check("/home/tim/git/DemoTools")
-
+#build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
+#?devtools::build
 
 #build("/home/tim/git/DemoTools")
 
