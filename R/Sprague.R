@@ -46,7 +46,7 @@ spragueSimple <- function(popmat){
 	
 	pop1              <- scm %*% popmat
 	
-	rg <- range(as.integer(rownames(popmat)))
+	rg                <- range(as.integer(rownames(popmat)))
 	dimnames(pop1)    <- list(rg[1]:rg[2], colnames(popmat))
 	pop1
 }
@@ -282,7 +282,7 @@ grabill <- function(popmat){
 	fr                <- lr - 9
 	
 	# these weights do much better than linear weights.
-	w10               <- exp(row(pops[1:10, ]) ) / exp(10.1)
+	w10               <- exp(row(pops[1:10, , drop = FALSE]) ) / exp(10.1)
 	
 	# blend together young ages
 	popg[1:10, ]      <- w10 * popg[1:10, ] + (1 - w10) * pops[1:10, ]
@@ -302,9 +302,9 @@ grabill <- function(popmat){
 	redist            <- colSums(pops) - colSums(popg)
 	
 	middle.part       <- popg * wr
-	middle.sums       <- colSums(middle.part)
+
 	# the difference to redistribute
-	add.in            <- (middle.part %*% diag(1 / middle.sums)) %*% diag(redist)
+	add.in            <- prop.table(middle.part,2) %*% diag(as.matrix(redist))
 	popg              <- popg + add.in
 	# ---------------------------------------------
 	# label dims and return
