@@ -6,7 +6,7 @@ Date: 28, July, 2017
 Author: Tim Riffe and Sean Fennell
 Maintainer: Tim Riffe <tim.riffe@gmail.com>
 Description: A collection of classic demographic methods used to evaluate, adjust, and standardize demographic data.
-License: GPL-2
+License: CC BY-NC 4.0
 LazyLoad: yes
 RoxygenNote: 6.0.1
 Suggests: covr
