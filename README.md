@@ -6,7 +6,7 @@
 
 Tools for the evaluation, adjustment, and standardization of demographic data
 
-This repository contains simple functions in a package format. At present there is limited functionality, but stay tuned. Sponsorship of this project thanks to the UN Population Division and Patrick Gerland. Work is also done in collaboration with Sean Fennell of the US Census Bureau. All are free to use this material with attribution. If you detect a bug or have a suggestion please notify me using the Issues tab on github. Even better if you fix it and make a pull request!
+This repository contains simple functions in a package format, and is in active development. This project is commissioned by the [UN Population Division](http://www.un.org/en/development/desa/population/) and financed by the [Bill and Melinda Gates Foundation](https://www.gatesfoundation.org/) as part of the [Making Family Planning Count](http://www.un.org/en/development/desa/population/projects/making-family-planning-count/index.shtml) project. Work is also done in collaboration with Sean Fennell of the US Census Bureau. This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License ([CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)). If you detect a bug or have a suggestion please notify us using the Issues tab on github. Even better if you fix it and make a pull request!
 
 You can load the ```DemoTools``` package in R like so:
 ```r
@@ -15,6 +15,7 @@ You can load the ```DemoTools``` package in R like so:
 library(devtools)
 install_github("timriffe/DemoTools")
 ```
+(if either of the first two icons at the top of this README are red, then this might not be working at the moment. You can assume we're fixing it. If they're green, then it'll probably work.)
 
 You can then get started like so:
 ```

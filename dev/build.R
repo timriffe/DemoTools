@@ -3,6 +3,7 @@
 ###############################################################################
 
 library(devtools)
+#install_github("hadley/devtools")
 # do this whenever new functions are added to /R, or whenever roxygen is updated
 document("/home/tim/git/DemoTools")
 
@@ -11,7 +12,10 @@ load_all("/home/tim/git/DemoTools")
 
 # do this whenever major changes happen
 check("/home/tim/git/DemoTools")
+#build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
+#?devtools::build
 
+#build("/home/tim/git/DemoTools")
 
 # these created the necessary files to run automatic remote code testing
 #use_appveyor("/home/tim/git/DemoTools")
