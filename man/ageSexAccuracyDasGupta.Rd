@@ -37,6 +37,3 @@ ageSexAccuracyDasGupta(Males, Females, Age)
 # this method is not on the same scale as the others, so don't directly compare.
 ageSexAccuracy(Males, Females, Age, method = "das gupta")
 }
-\references{
-\insertRef{dasgupta1955}{DemoTools}
-}

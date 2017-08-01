@@ -51,7 +51,3 @@ ageSexAccuracy(Males, Females, Age, method = "Zelnick")
 ageSexAccuracy(Males, Females, Age, method = "Ramachandran")
 ageSexAccuracy(Males, Females, Age, method = "Das Gupta")
 }
-\references{
-\insertref{accuracyun1952}{DemoTools}
-\insertRef{dasgupta1955}{DemoTools}
-}

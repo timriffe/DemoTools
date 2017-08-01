@@ -43,6 +43,3 @@ Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 Age     <- seq(0, 75, by = 5)
 sexRatioScore(Males, Females, Age)  # 2.2, matches PAS
 }
-\references{
-\insertref{accuracyun1952}{DemoTools}
-}

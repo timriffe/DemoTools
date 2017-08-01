@@ -45,7 +45,3 @@ ageRatioScore(Females, Age, ageMax = 70)  # 3.65 matches PAS
 ageRatioScore(Females, Age, ageMax = 70, method = "Ramachandran") # 1.8
 ageRatioScore(Females, Age, ageMax = 70, method = "Zelnick")      # 2.4
 }
-\references{
-\insertref{accuracyun1952}{DemoTools}
-\insertRef{ramachandran1967}{DemoTools}
-}

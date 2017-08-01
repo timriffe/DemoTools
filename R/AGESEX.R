@@ -19,9 +19,9 @@
 #' @return the value of the index
 #' @export
 #' 
-#' @references 
-#' \insertref{accuracyun1952}{DemoTools}
-#' \insertRef{ramachandran1967}{DemoTools}
+## @references 
+## \insertref{accuracyun1952}{DemoTools}
+## \insertRef{ramachandran1967}{DemoTools}
 #' @examples 
 #' # data from PAS spreadsheet AGESEX.xlsx
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
@@ -90,8 +90,8 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 #' double-counted in the numerator. Ramachandran is therefore less judgemental, so to speak.
 
 #' @return the value of the index
-#' @references 
-#' \insertref{accuracyun1952}{DemoTools}
+## @references 
+##\insertref{accuracyun1952}{DemoTools}
 #' @export
 #' @examples 
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
@@ -137,10 +137,9 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 
 #' @return the value of the index
 #' @export
-#' 
-#' @references 
-#' \insertref{accuracyun1952}{DemoTools}
-#' \insertRef{dasgupta1955}{DemoTools}
+##@references 
+##\insert_ref(accuracyun1952,DemoTools)
+##\insert_ref(dasgupta1955,DemoTools)
 #' 
 #' @examples
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
@@ -208,8 +207,8 @@ ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), m
 #' @param ageMin integer. The lowest age included in calcs. Default 0
 #' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
 #' 
-#' @references 
-#' \insertRef{dasgupta1955}{DemoTools}
+##references 
+##\insert_ref(dasgupta1955,DemoTools)
 #' 
 #' @details It is assumed that the terminal age group is closed and not open. 
 #' If the final element of \code{Males} and \code{Females} is the open age group,
