@@ -20,7 +20,7 @@ numeric vector of Sprague-smoothed counts
 }
 \description{
 Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits.
-This method is a bit smoother than the standard \code{spragueSimple()} method, but not as smooth as \cide{grabill()}.
+This method is a bit smoother than the standard \code{spragueSimple()} method, but not as smooth as \code{grabill()}.
 }
 \details{
 This function works on a single vector of single-age counts, not on a matrix. Results are not

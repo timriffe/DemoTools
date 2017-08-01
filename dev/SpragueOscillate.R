@@ -88,7 +88,7 @@ spragueOscillate <- function(Value, Age, OAG = TRUE, closeout = TRUE){
 		# cut counts down to those cases
 		Val.i               <- Value[keep.i]
 		# group ages into said 5-year age groups
-		Val.i.5             <- groupAges(Val.i, Age.i, AgeN = Age.i.5)
+		Val.i.5             <- groupAges(Val.i, AgeN = Age.i.5)
 		# make fake open age
 		Val.i.5             <- c(Val.i.5, pi)
 		names(Val.i.5)      <- c(unique(Age.i.5), max(Age.i.5) + 5)

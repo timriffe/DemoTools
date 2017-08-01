@@ -61,4 +61,18 @@ grabill.closed.out <- spragueCloseout(popmat, popg)
 # one may wish to instead rescale results colSums() of 
 # popg at age pivotAge and higher.
 colSums(grabill.closed.out) - colSums(popmat)
+# also works on an age-labelled vector of data
+popvec <- popmat[,1]
+closed.vec <- spragueCloseout(popvec)
+# let's compare this one with spragueSimple()
+simple.vec <- spragueSimple(popvec)
+# and with a simple monotonic spline
+mono.vec <- splitMono(popvec)
+\dontrun{
+plot(85:100,simple.vec[86:101], type = 'l', main = "In this case spragueSimple() is the smoothest")
+lines(85:100,closed.vec[86:101], col = "red", lwd = 2)
+lines(85:100,mono.vec[86:101], col = "blue", lty = 2)
+legend("topright",lty=c(1,2,2), col = c("black","red","blue"),lwd = c(1,2,1),
+		legend = c("spragueSimple()","spragueCloseout()", "splitMono()"))
+}
 }

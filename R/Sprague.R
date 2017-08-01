@@ -437,7 +437,20 @@ splitMono <- function(Value, Age5 = seq(0, length(Value)*5-5, 5), keep.OAG = FAL
 #' # one may wish to instead rescale results colSums() of 
 #' # popg at age pivotAge and higher.
 #' colSums(grabill.closed.out) - colSums(popmat)
-
+#' # also works on an age-labelled vector of data
+#' popvec <- popmat[,1]
+#' closed.vec <- spragueCloseout(popvec)
+#' # let's compare this one with spragueSimple()
+#' simple.vec <- spragueSimple(popvec)
+#' # and with a simple monotonic spline
+#' mono.vec <- splitMono(popvec)
+#' \dontrun{
+#' plot(85:100,simple.vec[86:101], type = 'l', main = "In this case spragueSimple() is the smoothest")
+#' lines(85:100,closed.vec[86:101], col = "red", lwd = 2)
+#' lines(85:100,mono.vec[86:101], col = "blue", lty = 2)
+#' legend("topright",lty=c(1,2,2), col = c("black","red","blue"),lwd = c(1,2,1),
+#' 		legend = c("spragueSimple()","spragueCloseout()", "splitMono()"))
+#' }
 spragueCloseout <- function(popmat, pops, pivotAge = 90){
 	popmat <- as.matrix(popmat)
 	if (missing(pops)){
@@ -473,8 +486,8 @@ so returning spragueSimple() output as-is, no extra closeout performed.")
 	## proportional distribution
 	pop.c[is.na(pop.c )] <- 0
 	prop             <- prop.table(pop.c, margin = 2)
-	pivot5           <- popmat[as.character(pivotAge), , drop = FALSE]
-    pop.c            <- prop %*% diag(pivot5)
+	pivot5           <- popmat[as.character(pivotAge), ]
+    pop.c            <- t(t(prop) * pivot5)
 	## append the remaining of the age groups (except last open age)
 	## 95-99 onward
 	m                <- nrow(pops)
@@ -495,7 +508,7 @@ so returning spragueSimple() output as-is, no extra closeout performed.")
 
 #' an oscillatory average of Sprague age splits
 #' @description Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits.
-#' This method is a bit smoother than the standard \code{spragueSimple()} method, but not as smooth as \cide{grabill()}.
+#' This method is a bit smoother than the standard \code{spragueSimple()} method, but not as smooth as \code{grabill()}.
 #' 
 #' @details This function works on a single vector of single-age counts, not on a matrix. Results are not
 #' constrained to any particular age group, but are constrained to the total count.
@@ -579,7 +592,7 @@ spragueOscillate <- function(Value, Age, OAG = TRUE, closeout = TRUE){
 		# cut counts down to those cases
 		Val.i               <- Value[keep.i]
 		# group ages into said 5-year age groups
-		Val.i.5             <- groupAges(Val.i, Age.i, AgeN = Age.i.5)
+		Val.i.5             <- groupAges(Val.i, AgeN = Age.i.5)
 		# make fake open age
 		Val.i.5             <- c(Val.i.5, pi)
 		names(Val.i.5)      <- c(unique(Age.i.5), max(Age.i.5) + 5)
