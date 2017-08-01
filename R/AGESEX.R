@@ -1,20 +1,13 @@
 
 # Author: tim
 ###############################################################################
-#
-#Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
-#1786000,1505000,1390000,984000,745000,537000,346000,335000)
-#Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
-#1691000,1409000,1241000,887000,697000,525000,348000,366000)
-#Age     <- seq(0, 75, by = 5)
-
 
 #' calculate the PAS age ratio score
 #' @description A single ratio is defined as the 100 times twice the size of an age group 
 #' to it's neighboring two age groups. Under uniformity these would all be 100. The average 
 #' absolute deviation from 100 defines the index. This comes from the PAS spreadsheet called AGESEX
 
-#' @param Value numeric. A vector of demographic counts by single age.
+#' @param Value numeric. A vector of demographic counts in 5-year age groups.
 #' @param Age an integer vector of ages corresponding to the lower integer bound of the counts.
 #' @param ageMin integer. The lowest age included in calcs. Default 0.
 #' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}.
@@ -26,34 +19,36 @@
 #' @return the value of the index
 #' @export
 #' 
+#' @references 
+#' \insertref{accuracyun1952}{DemoTools}
+#' \insertRef{ramachandran1967}{DemoTools}
 #' @examples 
+#' # data from PAS spreadsheet AGESEX.xlsx
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
 #' 		1786000,1505000,1390000,984000,745000,537000,346000,335000)
 #' Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 #' 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 #' Age     <- seq(0, 75, by = 5)
-#' ageRatioScore(Males, Age)    # 3.9, matches PAS
-#' ageRatioScore(Females, Age)  # 3.65 matches PAS
-#' ageRatioScore(Females, Age, method = "Ramachandran") # 1.8
-#' ageRatioScore(Females, Age, method = "Zelnick")      # 2.4
+#' 
+#' # final age group assumed closed
+#' ageRatioScore(Males, Age, ageMax = 75) 
+#' # if it's open, remove it by dropping ageMax
+#' ageRatioScore(Males, Age, ageMax = 70)    # 3.9, matches PAS
+#' ageRatioScore(Females, Age, ageMax = 70)  # 3.65 matches PAS
+#' ageRatioScore(Females, Age, ageMax = 70, method = "Ramachandran") # 1.8
+#' ageRatioScore(Females, Age, ageMax = 70, method = "Zelnick")      # 2.4
 ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "UN"){
 	stopifnot(length(Value) == length(Age))
-	method      <- tolower(method)
+	method          <- tolower(method)
 	stopifnot(method %in% c("un","zelnick","ramachandran"))
+
+	# cut down data if necessary
+	keep            <- Age >= ageMin & Age <= ageMax
+	Value           <- Value[keep]
+	Age             <- Age[keep]
 	
-	N           <- length(Value)
-	
-	# remove open age group (assume final age open)
-	if (ageMax == max(Age)){
-		Value       <- Value[-N]
-		Age         <- Age[-N]
-		N           <- N - 1
-		ageMax      <- max(Age)
-	}
-	
+	# selectors for numerators and denominators
 	numi            <- Age > ageMin & Age < ageMax
-	
-	
 	denomleft       <- shift.vector(numi, -1) 
 	denommiddle     <- numi
 	denomright      <- shift.vector(numi, 1)
@@ -80,8 +75,8 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 #' if the ratio were constant. The average absolute difference over
 #' age defines the index. This comes from the PAS spreadsheet called AGESEX.
 
-#' @param Males numeric. A vector of population counts for males by age
-#' @param Females numeric. A vector of population counts for females by age
+#' @param Males numeric. A vector of population counts for males in 5-year age groups
+#' @param Females numeric. A vector of population counts for females in 5-year age groups
 #' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts
 #' @param ageMin integer. The lowest age included in calcs. Default 0
 #' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
@@ -95,6 +90,8 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 #' double-counted in the numerator. Ramachandran is therefore less judgemental, so to speak.
 
 #' @return the value of the index
+#' @references 
+#' \insertref{accuracyun1952}{DemoTools}
 #' @export
 #' @examples 
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
@@ -106,37 +103,45 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 
 sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 	stopifnot(length(Males) == length(Age) & length(Males) == length(Females))
-	N         <- length(Males)
 	
+	keep      <- Age >= ageMin & Age <= ageMax
+	Males     <- Males[keep]
+	Females   <- Females[keep]
 	
 	ratio     <- Males / Females
 	ratiodiff <- 100 * diff(ratio)
 	absdiff   <- abs(ratiodiff)
-	absdiff   <- absdiff[-length(absdiff)]
 	sum(absdiff) / length(absdiff)
 }
 
 
-#' calculate the PAS age-sex accuracy index
+#' calculate an age-sex accuracy index
 #' @description This index is a composite consisting in the sum of thrice the sex 
 #' ratio index plus the age ratio index for males and females. This function is therefore
 #' a wrapper to \code{ageRatioScore()} and \code{sexRatioScore()}.
 
-#' @param Males numeric. A vector of population counts for males by age
-#' @param Females numeric. A vector of population counts for females by age
+#' @param Males numeric. A vector of population counts for males in 5-year age groups
+#' @param Females numeric. A vector of population counts for females in 5-year age groups
 #' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts
 #' @param ageMin integer. The lowest age included in calcs. Default 0
 #' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
-#' @param method character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"}
+#' @param method character. Either \code{"UN"} (default), \code{"Zelnick"}, \code{"Ramachandran"}, or \code{"das gupta"}
 #' @param adjust logical do we adjust the measure when population size is under one million?
 
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
-#'  We also assume that the final age group is open, unless \code{ageMax < max(Age)}. The method argument 
-#' is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators.
+#' It is assumed that the terminal age group is closed and not open. 
+#' If the final element of \code{Males} and \code{Females} is the open age group,
+#' then lower \code{ageMax} to remove it in calculations. The method argument 
+#' is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators, 
+#' except in the case of Das Gupta, where it's a different method entirely (see \code{ageSexAccuracyDasGupta()}.
 
 #' @return the value of the index
 #' @export
-
+#' 
+#' @references 
+#' \insertref{accuracyun1952}{DemoTools}
+#' \insertRef{dasgupta1955}{DemoTools}
+#' 
 #' @examples
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
 #' 		1786000,1505000,1390000,984000,745000,537000,346000,335000)
@@ -144,10 +149,27 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 #' 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 #' Age     <- seq(0, 75, by = 5)
 #' ageSexAccuracy(Males, Females, Age)    # 14.3, matches PAS
+#' ageSexAccuracy(Males, Females, Age, ageMax = 65)
+#' ageSexAccuracy(Males, Females, Age, ageMax = 65, adjust = FALSE)
+#' ageSexAccuracy(Males, Females, Age, method = "Zelnick")
+#' ageSexAccuracy(Males, Females, Age, method = "Ramachandran")
+#' ageSexAccuracy(Males, Females, Age, method = "Das Gupta")
 
 ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), method = "UN", adjust =  TRUE){
 	method <- tolower(method)
-	stopifnot(method %in% c("un","zelnick","ramachandran"))
+	stopifnot(method %in% c("un","zelnick","ramachandran", "das gupta", "dasgupta"))
+	
+	# Das Gupta method treated differently,
+	# since it prescribes all the details.
+	if (method %in% c("das gupta", "dasgupta")){
+		ind <- ageSexAccuracyDasGupta(Males = Males,
+				Females = Females,
+				Age = Age,
+				ageMin = ageMin,
+				ageMax = ageMax)
+		# early return in this case
+		return(ind)
+	}
 	
 	SR <- sexRatioScore(
 			Males = Males, 
@@ -176,7 +198,89 @@ ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), m
 	return(ind)
 }
 
+#' Calculate Ajit Das Gupta's (1995) age sex accuracy index
+#' @description Given population counts in 5-year age groups for males and females, follow Ajit Das Gupta's steps
+#'  to calculate a composite index of the quality of the age and sex structure for a given population.
+#' 
+#' @param Males numeric. A vector of population counts for males by age
+#' @param Females numeric. A vector of population counts for females by age
+#' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts
+#' @param ageMin integer. The lowest age included in calcs. Default 0
+#' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
+#' 
+#' @references 
+#' \insertRef{dasgupta1955}{DemoTools}
+#' 
+#' @details It is assumed that the terminal age group is closed and not open. 
+#' If the final element of \code{Males} and \code{Females} is the open age group,
+#' then lower \code{ageMax} to remove it in calculations.
+#' 
+#' @export
+#' @examples
+#' # data from table for South West Africa (1946) given in reference
+#' Males   <- c(2365, 2320, 1859, 1554, 1758, 1534, 1404, 1324,
+#'               1118, 872, 795, 745, 743, 574)
+#' Females <- c(2244, 2248, 1773, 1594, 1616, 1510, 1478, 1320,
+#'               1085, 858, 768, 726, 533, 282)
+#' Age     <- seq(0, 65, by = 5)
+#' ageSexAccuracyDasGupta(Males, Females, Age)
+#' # this method is not on the same scale as the others, so don't directly compare.
+#' ageSexAccuracy(Males, Females, Age, method = "das gupta")
 
+ageSexAccuracyDasGupta <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
+	
+	# cut down data:
+	keep      <- Age >= ageMin & Age <= ageMax
+	Males     <- Males[keep]
+	Females   <- Females[keep]
+	# sex ratio pars
+	Ri        <- Males / Females
+	ratiodiff <- 100 * diff(Ri)
+	absdiff   <- abs(ratiodiff)
+	
+	N         <- length(Males)
+	n         <- length(ratiodiff)
+	
+	d         <- sum(absdiff)
+	
+	#i         <- mean(d - absdiff)
+	
+	# rolling sums
+	mm        <- Males[-1] + Males[-N]
+	mf        <- Females[-1] + Females[-N]
+	
+	# ratios of first and terminal rolling sums
+	ri        <- 100 * mm[1] / mf[1]
+	rt        <- 100 * mm[n] / mf[n]
+	
+	# Das Gupta's sex ratio index
+	i         <- (d - abs(ri - rt)) / n
+	
+	# --------------------------
+	# Das Gupta's age ratio index
+	
+	Rmi        <- 200 * Males[-1] / mm
+	Rfi        <- 200 * Females[-1] / mf
+	
+	# sum of absolute deviations from unity ratio
+	Dm         <- sum(abs(Rmi - 100))
+	Df         <- sum(abs(Rfi - 100))
+	
+	# ratio of highest to first rolling sum
+	Rhm        <- 200 * max(Males) / mm[1]
+	Rhf        <- 200 * max(Females) / mf[1]
+	
+	# ratio of last to first rolling sum
+	Rtm        <- 200 * Males[N] / mm[1]
+	Rtf        <- 200 * Females[N] / mf[1]
+	
+	# age ratio indices
+	Im         <- Dm / (Rhm - 100 + Rhm - Rtm)
+	If         <- Df / (Rhf - 100 + Rhf - Rtf)
+	
+	# calculate the composite index
+	i * Im * If
+}
 
 #' Kannisto's age heaping index
 #' 
@@ -252,15 +356,15 @@ AHI <- function(Value, Age, Agei = 90){
 
 WI <- function(Value, Age, Ages = seq(95,105,by=5)){
 	numi   <- Ages %in% Age
-
+	
 	# this way of doing the denom makes it possible to 
 	# have duplicate values in the denom, for the case that
 	# the numerator ages are closer together than 5. Innocuous otherwise
 	denom <- sum(Value[shift.vector(numi, -2)]) +
-			 sum(Value[shift.vector(numi, -1)]) +
-			 sum(Value[numi]) +
-			 sum(Value[shift.vector(numi, 1)]) +
-			 sum(Value[shift.vector(numi, 2)]) 
+			sum(Value[shift.vector(numi, -1)]) +
+			sum(Value[numi]) +
+			sum(Value[shift.vector(numi, 1)]) +
+			sum(Value[shift.vector(numi, 2)]) 
 	
 	500 * sum(Value[numi]) / denom
 	

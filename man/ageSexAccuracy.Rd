@@ -2,15 +2,15 @@
 % Please edit documentation in R/AGESEX.R
 \name{ageSexAccuracy}
 \alias{ageSexAccuracy}
-\title{calculate the PAS age-sex accuracy index}
+\title{calculate an age-sex accuracy index}
 \usage{
 ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
   method = "UN", adjust = TRUE)
 }
 \arguments{
-\item{Males}{numeric. A vector of population counts for males by age}
+\item{Males}{numeric. A vector of population counts for males in 5-year age groups}
 
-\item{Females}{numeric. A vector of population counts for females by age}
+\item{Females}{numeric. A vector of population counts for females in 5-year age groups}
 
 \item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts}
 
@@ -18,7 +18,7 @@ ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
 
 \item{ageMax}{integer. The upper age bound used for calcs. Default \code{max(Age)}}
 
-\item{method}{character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"}}
+\item{method}{character. Either \code{"UN"} (default), \code{"Zelnick"}, \code{"Ramachandran"}, or \code{"das gupta"}}
 
 \item{adjust}{logical do we adjust the measure when population size is under one million?}
 }
@@ -32,8 +32,11 @@ a wrapper to \code{ageRatioScore()} and \code{sexRatioScore()}.
 }
 \details{
 Age groups must be of equal intervals. Five year age groups are assumed.
- We also assume that the final age group is open, unless \code{ageMax < max(Age)}. The method argument 
-is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators.
+It is assumed that the terminal age group is closed and not open. 
+If the final element of \code{Males} and \code{Females} is the open age group,
+then lower \code{ageMax} to remove it in calculations. The method argument 
+is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators, 
+except in the case of Das Gupta, where it's a different method entirely (see \code{ageSexAccuracyDasGupta()}.
 }
 \examples{
 Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
@@ -42,4 +45,13 @@ Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 Age     <- seq(0, 75, by = 5)
 ageSexAccuracy(Males, Females, Age)    # 14.3, matches PAS
+ageSexAccuracy(Males, Females, Age, ageMax = 65)
+ageSexAccuracy(Males, Females, Age, ageMax = 65, adjust = FALSE)
+ageSexAccuracy(Males, Females, Age, method = "Zelnick")
+ageSexAccuracy(Males, Females, Age, method = "Ramachandran")
+ageSexAccuracy(Males, Females, Age, method = "Das Gupta")
+}
+\references{
+\insertref{accuracyun1952}{DemoTools}
+\insertRef{dasgupta1955}{DemoTools}
 }

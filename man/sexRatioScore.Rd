@@ -7,9 +7,9 @@
 sexRatioScore(Males, Females, Age, ageMin = 0, ageMax = max(Age))
 }
 \arguments{
-\item{Males}{numeric. A vector of population counts for males by age}
+\item{Males}{numeric. A vector of population counts for males in 5-year age groups}
 
-\item{Females}{numeric. A vector of population counts for females by age}
+\item{Females}{numeric. A vector of population counts for females in 5-year age groups}
 
 \item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts}
 
@@ -42,4 +42,7 @@ Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 Age     <- seq(0, 75, by = 5)
 sexRatioScore(Males, Females, Age)  # 2.2, matches PAS
+}
+\references{
+\insertref{accuracyun1952}{DemoTools}
 }
