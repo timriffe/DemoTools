@@ -39,6 +39,7 @@ library(DemoTools)
 ?grabill
 ?splitMono
 ?spragueCloseout
+?spragueOscillate
 ?birthCohorts
 ?adjustAge
 ?ADM
