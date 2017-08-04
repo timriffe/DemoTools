@@ -19,9 +19,9 @@
 #' @return the value of the index
 #' @export
 #' 
-## @references 
-## \insertref{accuracyun1952}{DemoTools}
-## \insertRef{ramachandran1967}{DemoTools}
+#' @references 
+#' \insertRef{accuracyun1952}{DemoTools}
+##  \insertRef{ramachandran1967}{DemoTools}
 #' @examples 
 #' # data from PAS spreadsheet AGESEX.xlsx
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
