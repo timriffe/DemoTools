@@ -10,6 +10,7 @@
 #' 
 #' @param popmat a numeric matrix of population counts in 5-year age groups, with integer-labeled 
 #' margins (age in rows and year in columns).
+#' @param OAG logical (default \code{TRUE}. Is the final age group open?
 #' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
 #' Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
 #' work as well, as long as it's given as a single-column matrix.
@@ -18,23 +19,25 @@
 #' columns as \code{popmat}, and single ages in rows.
 #' 
 #' @references 
-#' Shryock, H. S., Siegel, J. S., & Larmon, E. A. (1973). 
-#' The methods and materials of demography. US Bureau of the Census.
-#' 
-#' Seigel, J. S., & Swanson, D. A. (2004). T
-#' he methods and materials of demography. Elsevier Academic Press, London.
+#' \insertRef{sprague1880explanation}{DemoTools}
+#' \insertRef{shryock1973methods}{DemoTools}
+#' \insertRef{siegel2004methods}{DemoTools}
 #' @export
 #' 
 #' @examples 
-#' p5 <- structure(c(54170.08, 44774.6, 42141.587, 38463.515, 34405.607, 
-#' 162369.816, 57424.3568738, 44475.4981681, 41751.7574114, 39628.4338929, 
-#' 34756.9473002, 164194.0485702, 60272.2061248, 44780.1982856, 
-#' 41803.6541424, 40229.0292664, 35154.7682192, 166275.9022992, 
-#' 62726.896388, 45681.1355532, 42100.72506, 40473.8600572, 35598.545404, 
-#' 168556.5331816, 64815.5458002, 47136.5341033, 42508.3026466, 
-#' 40532.3096745, 36082.7490698, 170990.473735, 66579.122, 49070.407, 
-#' 42953.604, 40534.586, 36596.844, 173545.633), .Dim = c(6L, 6L
-#' ), .Dimnames = list(seq(0,25,5), 1950:1955))
+#' p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
+#' 				23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941, 
+#' 				326, 80, 17, 0, 57424, 44475, 41752, 39628, 34757, 30605, 27183, 
+#' 				23792, 20724, 17056, 14059, 10585, 8103, 5306, 3367, 2040, 963, 
+#' 				315, 80, 16, 1, 60272, 44780, 41804, 40229, 35155, 30978, 27456, 
+#' 				24097, 20873, 17546, 13990, 11146, 7841, 5738, 3184, 2062, 961, 
+#' 				311, 80, 15, 1, 62727, 45681, 42101, 40474, 35599, 31439, 27758, 
+#' 				24396, 21055, 17958, 14046, 11589, 7731, 6060, 3086, 2083, 949, 
+#' 				312, 79, 14, 1, 64816, 47137, 42508, 40532, 36083, 31940, 28092, 
+#' 				24693, 21274, 18299, 14223, 11906, 7785, 6255, 3090, 2084, 938, 
+#' 				316, 80, 14, 2), 
+#' 		.Dim = c(21L, 5L), 
+#' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 #' head(p5) # this is the entire matrix
 #' p1 <- spragueSimple(p5)
 #' head(p1); tail(p1)
@@ -66,36 +69,60 @@
 #' # before OAG:
 #' (pops <- spragueSimple(Val5))
 #' # this replaces ages 90+, guaranteed no negatives.
-#' spragueCloseout(Val5, pops = pops)
+#' monoCloseout(Val5, pops = pops)
 #' # Note: there are no kludges built into spragueSimple() to handle such cases.
 #' # these ought to be handled by wrappers as appropriate.
 
-spragueSimple <- function(popmat){
+spragueSimple <- function(popmat, OAG = TRUE){
 	popmat            <- as.matrix(popmat)
-	scm               <- spragueExpand(popmat)
+	scm               <- spragueExpand(popmat, OAG = OAG)
 	
 	pop1              <- scm %*% popmat
 	
-	rg                <- range(as.integer(rownames(popmat)))
-	dimnames(pop1)    <- list(rg[1]:rg[2], colnames(popmat))
+	zero              <- min(as.integer(rownames(popmat)))
+	ages              <- zero:(nrow(scm)-1 + zero)
+	dimnames(pop1)    <- list(ages, colnames(popmat))
 	pop1
 }
 
 #' create the Sprague coefficient matrix 
 #' 
 #' @description The resulting coefficient matrix is based on the number of rows in \code{popmat}
-#' where we assume that each row of data is a 5-year age group and the final row is an open age group
-#' to be preserved as such.
+#' where we assume that each row of data is a 5-year age group. The final row may be an open 
+#' or closed age group, as indicated by the \code{OAG} argument.
 #' 
 #' @param popmat numeric matrix of age-period population counts in 5-year age groups
+#' @param OAG logical (default \code{TRUE}. Is the final age group open?
 #' 
 #' @details The \code{popmat} matrix is really just a placeholder in this case. This function is 
 #' a utility called by the Sprague family of functions, where it is most convenient to just pass
 #' in the same matrix being used in those calcs to determine the layout of the coefficient matrix.
 #' 
 #' @export
-
-spragueExpand <- function(popmat){
+#' 
+#' @references 
+#' \insertRef{sprague1880explanation}{DemoTools}
+#' \insertRef{shryock1973methods}{DemoTools}
+#' \insertRef{siegel2004methods}{DemoTools}
+#' @examples
+#' p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
+#' 				23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941, 
+#' 				326, 80, 17, 0, 57424, 44475, 41752, 39628, 34757, 30605, 27183, 
+#' 				23792, 20724, 17056, 14059, 10585, 8103, 5306, 3367, 2040, 963, 
+#' 				315, 80, 16, 1, 60272, 44780, 41804, 40229, 35155, 30978, 27456, 
+#' 				24097, 20873, 17546, 13990, 11146, 7841, 5738, 3184, 2062, 961, 
+#' 				311, 80, 15, 1, 62727, 45681, 42101, 40474, 35599, 31439, 27758, 
+#' 				24396, 21055, 17958, 14046, 11589, 7731, 6060, 3086, 2083, 949, 
+#' 				312, 79, 14, 1, 64816, 47137, 42508, 40532, 36083, 31940, 28092, 
+#' 				24693, 21274, 18299, 14223, 11906, 7785, 6255, 3090, 2084, 938, 
+#' 				316, 80, 14, 2), 
+#' 		.Dim = c(21L, 5L), 
+#' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
+#' coefsOA     <- spragueExpand(p5, TRUE)
+#' coefsclosed <- spragueExpand(p5, FALSE)
+#' dim(coefsOA)
+#' dim(coefsclosed)
+spragueExpand <- function(popmat, OAG = TRUE){
 	popmat <- as.matrix(popmat)
 	
 	# figure out ages and years
@@ -105,10 +132,10 @@ spragueExpand <- function(popmat){
 	
 	# nr 5-year age groups
 	m      <- nrow(popmat)
-	# nr closed single ages
-	m1     <- m * 5 - 5 
+	# nr rows in coef mat.
+	n      <- m * 5 - ifelse(OAG, 4, 0)
 	# number of middle blocks
-	MP     <- m - 5 
+	MP     <- m - ifelse(OAG, 5, 4) 
 	
 	# get the split coefficients
 	# block for ages 0-9
@@ -150,30 +177,32 @@ spragueExpand <- function(popmat){
 	
 	
 	## create a Sprague coefficient matrix for 5-year age groups
-	scm               <- matrix(0, nrow = m1 + 1, ncol =  m)
-	
+	bm               <- matrix(0, nrow = n, ncol =  m)
 	## insert upper left block
-	scm[1:10, 1:5]    <- g1g2
+	bm[1:10, 1:5]    <- g1g2
 	
 	# determine positions of middle blocks
-	rowpos           <- matrix(11:((MP*5) + 10), ncol = 5, byrow = TRUE)
+	rowpos           <- matrix(11:((MP * 5) + 10), ncol = 5, byrow = TRUE)
 	colpos           <- row(rowpos) + col(rowpos) - 1
 	for (i in (1:MP)) {
 		# calculate the slices and add middle panels accordingly
-		scm[rowpos[i,], colpos[i, ]] <- g3
+		bm[rowpos[i, ], colpos[i, ]] <- g3
 	}
 	
 	## insert last two panels
-	fr                <- (m - 3) * 5 + 1
-	lr                <- (m - 1) * 5
-	fc                <- MP 
-	lc                <- MP + 4 
-	scm[fr:lr,fc:lc]  <- g4g5
 	
-	# last open ended age group
-	scm[m1 + 1, m]    <- 1
+	fr                <- nrow(bm) - ifelse(OAG,10,9)
+	lr                <- fr + 9
+	fc                <- ncol(bm) - ifelse(OAG, 5, 4)
+	lc                <- fc + 4
+	bm[fr:lr,fc:lc]   <- g4g5
 	
-	scm
+	if (OAG){
+		# preserve open ended age group
+		bm[nrow(bm), ncol(bm)]    <- 1
+	}
+	
+	bm
 }
 
 
@@ -192,6 +221,9 @@ spragueExpand <- function(popmat){
 #' is called by \code{grabill()}, which ensures matching marginals by 1) blending boundary ages 
 #' into the Sprague estimated population, and 2) a second constraint on the middle age groups to enforce
 #' matching sums.
+#' 
+#' @references
+#' \insertRef{shryock1973methods}{DemoTools}
 #' 
 #' @export
 
@@ -271,9 +303,8 @@ grabillExpand <- function(popmat){
 #' columns as \code{popmat}, and single ages in rows.
 #' 
 #' @references 
-#' Shryock, H. S., Siegel, J. S., & Larmon, E. A. (1973). 
-#' The methods and materials of demography. US Bureau of the Census.
-
+#' \insertRef{shryock1973methods}{DemoTools}
+#' 
 #' @export
 #' 
 #' @examples 
@@ -361,6 +392,8 @@ grabill <- function(popmat){
 #' element of \code{Value} as the open age group?
 #' @return numeric vector of single age counts 
 #' @importFrom stats splinefun
+#' @references 
+#' \insertRef{fritsch1980monotone}{DemoTools}
 #' @export
 #' @examples
 #' Value <- structure(c(88623, 90842, 93439, 96325, 99281, 102051, 104351, 
@@ -387,14 +420,16 @@ splitMono <- function(Value, Age5 = seq(0, length(Value)*5-5, 5), keep.OAG = FAL
 #' blend the Sprague upper boundary age estimates into monotonic spline estimates
 #' 
 #' @description A simple monotonic spline on the cumulative sum of population counts
-#' may return more convincing single age count estimates than the Sprague splitting method.
-#' This function blends the Sprague estimates starting at \code{pivotAge}.
+#' may return more convincing single age count estimates than the Sprague or other splitting methods.
+#' This function blends the given single age population estimates starting at \code{pivotAge}.
 #' 
 #' @param popmat a numeric matrix of population counts in 5-year age groups, with integer-labeled 
 #' margins (age in rows and year in columns).
 #' @param pops optional numeric matrix of single age population counts derived from \code{popmat}.
 #' @param pivotAge integer (default 90). Age at which to switch to spline-based estimates.
-#' 
+#' @param splitfun optional. The function used to create pops. Default \code{spragueSimple}. 
+#' Could also be \code{grabill}, \code{beersModSimple}, or any other function that similarly transforms.
+#' @param ... arguments to be optionally passed to \code{splitfun()}.
 #' @return numeric matrix of age by year estimates of single-age counts.
 #' 
 #' @details The \code{pivotAge} must be at least 10 years below the maximum age detected from 
@@ -425,12 +460,12 @@ splitMono <- function(Value, Age5 = seq(0, length(Value)*5-5, 5), keep.OAG = FAL
 #' "65", "70", "75", "80", "85", "90", "95", "100"), c("1950", "1951", 
 #' "1952", "1953", "1954")))
 #' 
-#' closed.out <- spragueCloseout(popmat)
+#' closed.out <- monoCloseout(popmat)
 #' colSums(closed.out) - colSums(popmat)
-#' spragueCloseout(popmat, pivotAge = 85)
+#' monoCloseout(popmat, pivotAge = 85)
 #' # giving a different single-age split to close out this way:
 #' popg <- grabill(popmat)
-#' grabill.closed.out <- spragueCloseout(popmat, popg)
+#' grabill.closed.out <- monoCloseout(popmat, popg)
 #' # totals not necessarily preserved if mixed w Grabill
 #' # I wouldn't recommend a rescale of the total, since the 
 #' # only part we mess with here is the old age section. Ergo,
@@ -439,7 +474,7 @@ splitMono <- function(Value, Age5 = seq(0, length(Value)*5-5, 5), keep.OAG = FAL
 #' colSums(grabill.closed.out) - colSums(popmat)
 #' # also works on an age-labelled vector of data
 #' popvec <- popmat[,1]
-#' closed.vec <- spragueCloseout(popvec)
+#' closed.vec <- monoCloseout(popvec)
 #' # let's compare this one with spragueSimple()
 #' simple.vec <- spragueSimple(popvec)
 #' # and with a simple monotonic spline
@@ -449,12 +484,13 @@ splitMono <- function(Value, Age5 = seq(0, length(Value)*5-5, 5), keep.OAG = FAL
 #' lines(85:100,closed.vec[86:101], col = "red", lwd = 2)
 #' lines(85:100,mono.vec[86:101], col = "blue", lty = 2)
 #' legend("topright",lty=c(1,2,2), col = c("black","red","blue"),lwd = c(1,2,1),
-#' 		legend = c("spragueSimple()","spragueCloseout()", "splitMono()"))
+#' 		legend = c("spragueSimple()","monoCloseout()", "splitMono()"))
 #' }
-spragueCloseout <- function(popmat, pops, pivotAge = 90){
+# TODO: make this deal w OAG in a more consistent way
+monoCloseout <- function(popmat, pops, pivotAge = 90, splitfun = spragueSimple, ...){
 	popmat <- as.matrix(popmat)
 	if (missing(pops)){
-		pops    <- spragueSimple(popmat)
+		pops    <- splitfun(popmat, ...)
 	}
 	# get the spline population split
 	popmono <- apply(popmat, 2, splitMono, keep.OAG = TRUE)
@@ -512,7 +548,7 @@ so returning spragueSimple() output as-is, no extra closeout performed.")
 #' 
 #' @details This function works on a single vector of single-age counts, not on a matrix. Results are not
 #' constrained to any particular age group, but are constrained to the total count.
-#' The option to closeout using \code{spragueCloseout()} is recommended because it usually gives 
+#' The option to closeout using \code{monoCloseout()} is recommended because it usually gives 
 #' more plausible results and it avoids negative values. This is run separately on each Sprague split,
 #' rather than on the aggregate results. 
 #' 
@@ -546,13 +582,13 @@ so returning spragueSimple() output as-is, no extra closeout performed.")
 #' # ages are grouped into 5-year age groups in 5 different ways.
 #' (pop1   <- spragueOscillate(Value, Age, closeout = FALSE))
 #' # see the NaN value? That because there were some negatives produced by 
-#' # spragueSimple(). We can call spragueCloseout() inside spragueOscillate()
+#' # spragueSimple(). We can call monoCloseout() inside spragueOscillate()
 #' # to handle such cases:
 #' (pop2   <- spragueOscillate(Value, Age, closeout = TRUE))
 #' # what's smoother, spragueOscillate() or grabill()?
-#' # note, same closeout problem, can be handled by spragueCloseout()
+#' # note, same closeout problem, can be handled by monoCloseout()
 #' (pop3   <- grabill(groupAges(Value, Age)))
-#' #pop4   <- spragueCloseout(groupAges(Value, Age), pops = pop3)
+#' #pop4   <- monoCloseout(groupAges(Value, Age), pops = pop3)
 #' \dontrun{
 #' plot(Age, Value)
 #' lines(Age, pop0, col = "blue")
@@ -599,7 +635,7 @@ spragueOscillate <- function(Value, Age, OAG = TRUE, closeout = TRUE){
 		# get first run estimate
 		pop.est             <- spragueSimple(Val.i.5)
 		if (closeout){
-			pop.est <- spragueCloseout(Val.i.5, pop.est)
+			pop.est <- monoCloseout(Val.i.5, pop.est)
 		}
 		
 		pop.est[pop.est < 0] <- NA

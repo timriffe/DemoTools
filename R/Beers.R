@@ -10,9 +10,7 @@
 ## recommended for time series of events with some dynamic
 ## R implementation by Thomas Buettner (21 Oct. 2015)
 ########################################################################
-#ifn  <- "/home/tim/git/DemoTools/dev/Data/IND_Pop2015B1_1.7.csv"
-#tp   <- t(read.csv(ifn, header = TRUE, row.names = 1, check.names = FALSE))
-# popmat <- round(tp[,1:5])
+
 
 #' create the Beers modified coefficient matrix 
 #' 
@@ -31,6 +29,7 @@
 #' \insertRef{beers1945modified}{DemoTools}
 #' \insertRef{siegel2004methods}{DemoTools}
 #' @export
+#' @examples
 #' popmat <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
 #' 				23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941, 
 #' 				326, 80, 17, 0, 57424, 44475, 41752, 39628, 34757, 30605, 27183, 
@@ -137,7 +136,7 @@ beersModExpand <- function(popmat, OAG = FALSE){
 #' 
 #' @description This method is based on the BeersM R 
 #' script prepared by Thomas Buettner and Patrick Gerland, itself based on the description
-#' in Siegel and Swanson, 2004, p. 729.
+#' in Siegel and Swanson, 2004, p. 727.
 #' 
 #' @param popmat a numeric matrix of population counts in 5-year age groups, with integer-labeled 
 #' margins (age in rows and year in columns).
@@ -145,16 +144,13 @@ beersModExpand <- function(popmat, OAG = FALSE){
 #' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
 #' Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
 #' work as well, as long as it's given as a single-column matrix.
-#' 
 #' @return an age-period matrix od split population counts with the same number of 
 #' columns as \code{popmat}, and single ages in rows.
-#' 
 #' @references 
 #' \insertRef{beers1945modified}{DemoTools}
 #' \insertRef{shryock1973methods}{DemoTools}
 #' \insertRef{siegel2004methods}{DemoTools}
 #' @export
-#' 
 #' @examples 
 #' p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
 #' 				23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941, 
@@ -170,10 +166,11 @@ beersModExpand <- function(popmat, OAG = FALSE){
 #' 		.Dim = c(21L, 5L), 
 #' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 #' head(p5) # this is the entire matrix
-#' p1 <- beersModSimple(p5)
-#' head(p1); tail(p1)
+#' p1 <- beersModSimple(p5, OAG = FALSE)
+#' head(p1)
+#' # note some negatives in high ages
+#' tail(p1) 
 #' colSums(p1) - colSums(p5) 
-#' 
 #' 
 #' # another case, starting with single ages
 #' # note beersModSimple() does not group ages. You need to do it 
@@ -197,12 +194,11 @@ beersModExpand <- function(popmat, OAG = FALSE){
 #' # name the vector (or dims of matrix if you end up
 #' # producing a matrix)
 #' names(Val5) <- Age[Age %% 5 == 0]
-#' # notice how this particular case produces a negative value in the last age
-#' # before OAG:
-#' (pops <- beersModSimple(Val5))
+#' (pops <- beersModSimple(Val5, OAG = TRUE))
+#' # in the case
 #' # this replaces ages 90+, guaranteed no negatives.
-#' spragueCloseout(Val5, pops = pops)
-#' # Note: there are no kludges built into spragueSimple() to handle such cases.
+#' monoCloseout(Val5, pops = pops)
+#' # Note: there are no kludges built into beersModSimple() to handle such cases.
 #' # these ought to be handled by wrappers as appropriate.
 
 beersModSimple <- function(popmat, OAG = FALSE){

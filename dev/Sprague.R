@@ -41,6 +41,36 @@
 #' p1 <- spragueSimple(p5)
 #' head(p1); tail(p1)
 #' colSums(p1) - colSums(p5) 
+#' 
+#' # another case, starting with single ages
+#' # note \spragueSimple() does not group ages. You need to do it 
+#' # first.
+#' Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
+#' 		14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
+#' 		9055588,5519173,12546779,4784102,13365429,4630254,9595545,4727963,
+#' 		5195032,15061479,5467392,4011539,8033850,1972327,17396266,1647397,
+#' 		6539557,2233521,2101024,16768198,3211834,1923169,4472854,
+#' 		1182245,15874081,1017752,3673865,1247304,1029243,12619050,1499847,
+#' 		1250321,2862148,723195,12396632,733501,2186678,777379,810700,
+#' 		7298270,1116032,650402,1465209,411834,9478824,429296,1190060,
+#' 		446290,362767,4998209,388753,334629,593906,178133,
+#' 		4560342,179460,481230,159087,155831,1606147,166763,93569,182238,
+#' 		53567,1715697,127486,150782,52332,48664,456387,46978,34448,
+#' 		44015,19172,329149,48004,28574,9200,7003,75195,13140,5889,
+#' 		18915,21221,72373)
+#' Age         <- 0:100
+#' # group ages
+#' Val5        <- groupAges(Value, Age)
+#' # name the vector (or dims of matrix if you end up
+#' # producing a matrix)
+#' names(Val5) <- Age[Age %% 5 == 0]
+#' # notice how this particular case produces a negative value in the last age
+#' # before OAG:
+#' (pops <- spragueSimple(Val5))
+#' # this replaces ages 90+, guaranteed no negatives.
+#' spragueCloseout(Val5, pops = pops)
+#' # Note: there are no kludges built into spragueSimple() to handle such cases.
+#' # these ought to be handled by wrappers as appropriate.
 
 spragueSimple <- function(popmat){
 	popmat            <- as.matrix(popmat)
@@ -48,7 +78,7 @@ spragueSimple <- function(popmat){
 	
 	pop1              <- scm %*% popmat
 	
-	rg <- range(as.integer(rownames(popmat)))
+	rg                <- range(as.integer(rownames(popmat)))
 	dimnames(pop1)    <- list(rg[1]:rg[2], colnames(popmat))
 	pop1
 }
@@ -156,7 +186,6 @@ spragueExpand <- function(popmat, OAG = TRUE){
 		# calculate the slices and add middle panels accordingly
 		bm[rowpos[i, ], colpos[i, ]] <- g3
 	}
-	## standard format for Beers coefficients
 	
 	## insert last two panels
 	
@@ -293,6 +322,7 @@ grabillExpand <- function(popmat){
 #' p1 - spragueSimple(p5)
 
 grabill <- function(popmat){
+	popmat            <- as.matrix(popmat)
 	
 	# get coefficient matrices for Sprague and Grabill
 	scmg              <- grabillExpand(popmat)
@@ -312,7 +342,7 @@ grabill <- function(popmat){
 	fr                <- lr - 9
 	
 	# these weights do much better than linear weights.
-	w10               <- exp(row(pops[1:10, ]) ) / exp(10.1)
+	w10               <- exp(row(pops[1:10, , drop = FALSE]) ) / exp(10.1)
 	
 	# blend together young ages
 	popg[1:10, ]      <- w10 * popg[1:10, ] + (1 - w10) * pops[1:10, ]
@@ -332,9 +362,9 @@ grabill <- function(popmat){
 	redist            <- colSums(pops) - colSums(popg)
 	
 	middle.part       <- popg * wr
-	middle.sums       <- colSums(middle.part)
+
 	# the difference to redistribute
-	add.in            <- (middle.part %*% diag(1 / middle.sums)) %*% diag(redist)
+	add.in            <- t(t(prop.table(middle.part,2)) * redist)
 	popg              <- popg + add.in
 	# ---------------------------------------------
 	# label dims and return
@@ -347,27 +377,29 @@ grabill <- function(popmat){
 
 #' split age groups using a monotonic spline
 #' @description Take the cumulative sum of \code{Value} and then run a monotonic spline through it. The first 
-#' differences split back single-age estimates of \code{Value}. Optionally keep the open age group untouched.
+#' differences split back single-age estimates of \code{Value}. Optionally keep the open age group untouched. 
+#' 
+#' @details We use the \code{"monoH.FC"} method of \code{stats::splinefun()} to fit the spline because 1)
+#' it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) 
+#' it seems to be a bit less wiggly (lower average first differences of split counts) than a pchip tends to do, 
+#' at least in the tested data.
 #' 
 #' @param Value numeric vector of counts in age groups
 #' @param Age5 integer vector of lower bound of age groups
 #' @param keep.OAG logical (default \code{FALSE}). Would we like to re-impute the last 
 #' element of \code{Value} as the open age group?
 #' @return numeric vector of single age counts 
-#' 
+#' @importFrom stats splinefun
 #' @references 
-#' \insertRef{fritsch1980monotone}{DemoTools}
+#' \insertRef{fritsch1980monotone}{}
 #' @export
 #' @examples
-#' Value <- structure(c(88623.0176512, 90841.8228447, 93438.8052066, 96324.9863902, 
-#' 				99281.3083695, 102050.512557, 104351.4333985, 106554.7539415, 
-#' 				109169.72444, 112188.3656672, 113582.4293037, 112613.9259593, 
-#' 				108903.7255528, 102622.1778867, 95866.994701, 80874.3840953, 
-#' 				60195.7933955, 37523.1859903, 17927.2905862, 5642.0540798, 1110.2324251
-#' 		), .Names = c("0", "5", "10", "15", "20", "25", "30", "35", "40", 
-#' 				"45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", 
-#' 				"100"))
-#' 
+#' Value <- structure(c(88623, 90842, 93439, 96325, 99281, 102051, 104351, 
+#'				 106555, 109170, 112188, 113582, 112614, 108904, 102622, 95867, 
+#'				 80874, 60196, 37523, 17927, 5642, 1110), .Names = c("0", "5", 
+#'				 "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", 
+#'				 "65", "70", "75", "80", "85", "90", "95", "100"))
+#'
 #' splitMono(Value)
 #' splitMono(Value, keep.OAG = TRUE)
 
@@ -409,29 +441,21 @@ splitMono <- function(Value, Age5 = seq(0, length(Value)*5-5, 5), keep.OAG = FAL
 #' @export 
 #' 
 #' @examples
-#'  popmat <- structure(c(54170.08, 44774.6, 42141.587, 38463.515, 34405.607, 
-#' 30386.087, 26933.215, 23481.447, 20601.952, 16488.665, 14248.402, 
-#' 9928.03, 8489.895, 4800.567, 3598.98, 2048.337, 940.945, 326.4, 
-#' 80.117, 16.777, 0, 57424.3568738, 44475.4981681, 41751.7574114, 
-#' 39628.4338929, 34756.9473002, 30605.4764074, 27182.9274184, 23792.1416427, 
-#' 20723.6990619, 17056.1374644, 14058.6774471, 10585.1369045, 8102.9339783, 
-#' 5306.0245132, 3366.8557838, 2040.3836514, 963.1478214, 314.5586137, 
-#' 79.8410136, 15.502702, 0.6041464, 60272.2061248, 44780.1982856, 
-#' 41803.6541424, 40229.0292664, 35154.7682192, 30977.7459584, 27456.1890384, 
-#' 24096.7577352, 20872.8705064, 17545.6344304, 13989.6245496, 11145.817084, 
-#' 7840.7544168, 5737.6492352, 3184.2782128, 2061.6884304, 960.8241584, 
-#' 310.8441432, 79.5691376, 14.577848, 1.0774144, 62726.896388, 
-#' 45681.1355532, 42100.72506, 40473.8600572, 35598.545404, 31438.8560456, 
-#' 27758.1143968, 24396.368626, 21055.4431156, 17958.2723088, 14045.871538, 
-#' 11588.5228268, 7731.3586756, 6059.5514704, 3085.9480552, 2082.5787944, 
-#' 948.7749752, 312.0351852, 79.4346976, 13.97192, 1.4305504, 64815.5458002, 
-#' 47136.5341033, 42508.3026466, 40532.3096745, 36082.7490698, 31939.7069818, 
-#' 28091.9515352, 24693.2568243, 21274.4768803, 18299.2816212, 14223.4688239, 
-#' 11906.0609901, 7785.1704959, 6254.5961836, 3090.4472686, 2083.8345794, 
-#' 937.704655, 315.6524977, 79.5367336, 13.650846, 1.6768184), .Dim = c(21L, 
-#' 5L), .Dimnames = list(c("0", "5", "10", "15", "20", "25", "30", 
-#' "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", 
-#' "90", "95", "100"), c("1950", "1951", "1952", "1953", "1954")))
+#'  popmat <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
+#' 23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941, 
+#' 326, 80, 17, 0, 57424, 44475, 41752, 39628, 34757, 30605, 27183, 
+#' 23792, 20724, 17056, 14059, 10585, 8103, 5306, 3367, 2040, 963, 
+#' 315, 80, 16, 1, 60272, 44780, 41804, 40229, 35155, 30978, 27456, 
+#' 24097, 20873, 17546, 13990, 11146, 7841, 5738, 3184, 2062, 961, 
+#' 311, 80, 15, 1, 62727, 45681, 42101, 40474, 35599, 31439, 27758, 
+#' 24396, 21055, 17958, 14046, 11589, 7731, 6060, 3086, 2083, 949, 
+#' 312, 79, 14, 1, 64816, 47137, 42508, 40532, 36083, 31940, 28092, 
+#' 24693, 21274, 18299, 14223, 11906, 7785, 6255, 3090, 2084, 938, 
+#' 316, 80, 14, 2), .Dim = c(21L, 5L), .Dimnames = list(c("0", "5", 
+#' "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", 
+#' "65", "70", "75", "80", "85", "90", "95", "100"), c("1950", "1951", 
+#' "1952", "1953", "1954")))
+#' 
 #' closed.out <- spragueCloseout(popmat)
 #' colSums(closed.out) - colSums(popmat)
 #' spragueCloseout(popmat, pivotAge = 85)
@@ -444,8 +468,22 @@ splitMono <- function(Value, Age5 = seq(0, length(Value)*5-5, 5), keep.OAG = FAL
 #' # one may wish to instead rescale results colSums() of 
 #' # popg at age pivotAge and higher.
 #' colSums(grabill.closed.out) - colSums(popmat)
-
+#' # also works on an age-labelled vector of data
+#' popvec <- popmat[,1]
+#' closed.vec <- spragueCloseout(popvec)
+#' # let's compare this one with spragueSimple()
+#' simple.vec <- spragueSimple(popvec)
+#' # and with a simple monotonic spline
+#' mono.vec <- splitMono(popvec)
+#' \dontrun{
+#' plot(85:100,simple.vec[86:101], type = 'l', main = "In this case spragueSimple() is the smoothest")
+#' lines(85:100,closed.vec[86:101], col = "red", lwd = 2)
+#' lines(85:100,mono.vec[86:101], col = "blue", lty = 2)
+#' legend("topright",lty=c(1,2,2), col = c("black","red","blue"),lwd = c(1,2,1),
+#' 		legend = c("spragueSimple()","spragueCloseout()", "splitMono()"))
+#' }
 spragueCloseout <- function(popmat, pops, pivotAge = 90){
+	popmat <- as.matrix(popmat)
 	if (missing(pops)){
 		pops    <- spragueSimple(popmat)
 	}
@@ -471,7 +509,7 @@ so returning spragueSimple() output as-is, no extra closeout performed.")
 	# now begin the closeout blend.
 	p.i              <- which(Age1 == pivotAge)
 	## substitute Sprague interpolation if > pchip for better belnding of the two series
-	pop.c            <- popmono[p.i:(p.i + 4), ]
+	pop.c            <- popmono[p.i:(p.i + 4), , drop = FALSE]
 	ind              <- pops[p.i, ] > pop.c[1, ]
 	pop.c[1, ind]    <- pops[p.i, ind] 
 
@@ -480,19 +518,135 @@ so returning spragueSimple() output as-is, no extra closeout performed.")
 	pop.c[is.na(pop.c )] <- 0
 	prop             <- prop.table(pop.c, margin = 2)
 	pivot5           <- popmat[as.character(pivotAge), ]
-    pop.c            <- prop %*% diag(pivot5)
+    pop.c            <- t(t(prop) * pivot5)
 	## append the remaining of the age groups (except last open age)
 	## 95-99 onward
 	m                <- nrow(pops)
-	pop.c            <- rbind(pop.c, popmono[(p.i + 5):m, ])
+	pop.c            <- rbind(pop.c, popmono[(p.i + 5):m, , drop = FALSE])
 	## append Sprague interpolation before age 90
-	pop.c            <- rbind(pops[1:(p.i - 1), ], pop.c)
+	pop.c            <- rbind(pops[1:(p.i - 1), , drop = FALSE], pop.c)
 	
 	## deal with negative values if applicable (but in principle should not be happening)
 	pop.c[pop.c < 0] <- 0
 	
 	# label and return
-	dimnames(pop.c) <- list(Age1, colnames(popmat))
+	#dimnames(pop.c) <- list(Age1, colnames(popmat))
+	rownames(pop.c) <- Age1
+	colnames(pop.c) <- colnames(popmat)
+	pop.c
+}
+
+
+#' an oscillatory average of Sprague age splits
+#' @description Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits.
+#' This method is a bit smoother than the standard \code{spragueSimple()} method, but not as smooth as \code{grabill()}.
+#' 
+#' @details This function works on a single vector of single-age counts, not on a matrix. Results are not
+#' constrained to any particular age group, but are constrained to the total count.
+#' The option to closeout using \code{spragueCloseout()} is recommended because it usually gives 
+#' more plausible results and it avoids negative values. This is run separately on each Sprague split,
+#' rather than on the aggregate results. 
+#' 
+#' @param Value numeric vector of single age counts
+#' @param Age integer vector of single ages (lower bound)
+#' @param OAG logical (default \code{TRUE}). Is the last value the open age group?
+#' @param closeout logical (default \code{TRUE}). Shall we close out each sprague split with a monotonic spline fit?
+#' 
+#' @return numeric vector of Sprague-smoothed counts
+#' @export
+#' @examples
+#' Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
+#' 14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
+#' 9055588,5519173,12546779,4784102,13365429,4630254,9595545,4727963,
+#' 5195032,15061479,5467392,4011539,8033850,1972327,17396266,1647397,
+#' 6539557,2233521,2101024,16768198,3211834,1923169,4472854,
+#' 1182245,15874081,1017752,3673865,1247304,1029243,12619050,1499847,
+#' 1250321,2862148,723195,12396632,733501,2186678,777379,810700,
+#' 7298270,1116032,650402,1465209,411834,9478824,429296,1190060,
+#' 446290,362767,4998209,388753,334629,593906,178133,
+#' 4560342,179460,481230,159087,155831,1606147,166763,93569,182238,
+#' 53567,1715697,127486,150782,52332,48664,456387,46978,34448,
+#' 44015,19172,329149,48004,28574,9200,7003,75195,13140,5889,
+#' 18915,21221,72373)
+#' Age <- 0:100
+#' names(Value) <- Age
+#' #barplot(Value, main = "yup, these have heaping!")
+#' # this is the basic case we compare with:
+#' pop0    <- spragueSimple(groupAges(Value,Age))
+#' # note: this function needs single ages to work because
+#' # ages are grouped into 5-year age groups in 5 different ways.
+#' (pop1   <- spragueOscillate(Value, Age, closeout = FALSE))
+#' # see the NaN value? That because there were some negatives produced by 
+#' # spragueSimple(). We can call spragueCloseout() inside spragueOscillate()
+#' # to handle such cases:
+#' (pop2   <- spragueOscillate(Value, Age, closeout = TRUE))
+#' # what's smoother, spragueOscillate() or grabill()?
+#' # note, same closeout problem, can be handled by spragueCloseout()
+#' (pop3   <- grabill(groupAges(Value, Age)))
+#' #pop4   <- spragueCloseout(groupAges(Value, Age), pops = pop3)
+#' \dontrun{
+#' plot(Age, Value)
+#' lines(Age, pop0, col = "blue")
+#' # slightly smoother (also shifted though)
+#' lines(Age, pop1)
+#' # only different at very high ages, small nrs
+#' lines(Age, pop2, col = "red", lty = 2, lwd = 2) 
+#' lines(Age, pop3, col = "magenta")
+#' legend("topright", lty = c(1,1,2,1), lwd = c(1,1,2,1), col = c("blue","black","red","magenta"),
+#' 		legend = c("spragueSimple()",
+#'                 "spragueOscillate(closeout = FALSE)", 
+#' 				   "spragueOscillate(closeout = TRUE)",
+#' 				   "grabill()"))
+#' }
+
+spragueOscillate <- function(Value, Age, OAG = TRUE, closeout = TRUE){
+	
+	N     <- length(Value)
+	if (OAG){
+		open   <- Value[N]
+		OA     <- Age[N]
+		Value  <- Value[-N]
+		Age    <- Age[-N]
+		N      <- N - 1
+	} 
+	TOT <- sum(Value)
+# select which ages to keep:
+	p1x1   <- matrix(nrow = length(Value), ncol = 5)
+	rownames(p1x1) <- Age
+	for (i in 0:4){
+		# regroup ages
+		Age.i.5             <- calcAgeN(Age, shiftdown = i)
+		# only use age groups w 5 single ages represented
+		keep.i              <- rep(rle(Age.i.5)$leng, rle(Age.i.5)$leng) == 5
+		# cut vector down to those cases
+		Age.i.5             <- Age.i.5[keep.i]
+		# cut counts down to those cases
+		Val.i               <- Value[keep.i]
+		# group ages into said 5-year age groups
+		Val.i.5             <- groupAges(Val.i, AgeN = Age.i.5)
+		# make fake open age
+		Val.i.5             <- c(Val.i.5, pi)
+		names(Val.i.5)      <- c(unique(Age.i.5), max(Age.i.5) + 5)
+		# get first run estimate
+		pop.est             <- spragueSimple(Val.i.5)
+		if (closeout){
+			pop.est <- spragueCloseout(Val.i.5, pop.est)
+		}
+		
+		pop.est[pop.est < 0] <- NA
+		pop.est             <- pop.est[-length(pop.est)]
+		p1x1[keep.i, i + 1] <- pop.est
+	}
+	# take average per age
+	p.out <- rowMeans(p1x1, na.rm = TRUE)
+	# rescale to proper total
+	p.out <- p.out * TOT / sum(p.out, na.rm = TRUE)
+	# re-append the open age group if needed
+	if (OAG){
+		Age   <- c(Age, OA)
+		p.out <- c(p.out, open)
+		names(p.out) <- Age
+	}
 	
 	pop.c
 }

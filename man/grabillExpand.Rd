@@ -23,3 +23,6 @@ is called by \code{grabill()}, which ensures matching marginals by 1) blending b
 into the Sprague estimated population, and 2) a second constraint on the middle age groups to enforce
 matching sums.
 }
+\references{
+\insertRef{shryock1973methods}{DemoTools}
+}

@@ -41,6 +41,5 @@ colSums(p1) - colSums(p5)
 p1 - spragueSimple(p5)
 }
 \references{
-Shryock, H. S., Siegel, J. S., & Larmon, E. A. (1973). 
-The methods and materials of demography. US Bureau of the Census.
+\insertRef{shryock1973methods}{DemoTools}
 }

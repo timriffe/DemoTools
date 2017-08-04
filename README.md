@@ -38,13 +38,14 @@ library(DemoTools)
 ?spragueSimple
 ?grabill
 ?splitMono
-?spragueCloseout
+?monoCloseout
 ?spragueOscillate
+?beersModSimple
 ?birthCohorts
 ?adjustAge
 ?ADM
 ?RDM
-# last updated 27-July-2017
+# last updated 4-Aug-2017
 ```
 These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. We won't bother demonstrating those. 
 

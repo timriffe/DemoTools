@@ -37,3 +37,6 @@ Value <- structure(c(88623, 90842, 93439, 96325, 99281, 102051, 104351,
 splitMono(Value)
 splitMono(Value, keep.OAG = TRUE)
 }
+\references{
+\insertRef{fritsch1980monotone}{DemoTools}
+}

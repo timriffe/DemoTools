@@ -25,7 +25,7 @@ This method is a bit smoother than the standard \code{spragueSimple()} method, b
 \details{
 This function works on a single vector of single-age counts, not on a matrix. Results are not
 constrained to any particular age group, but are constrained to the total count.
-The option to closeout using \code{spragueCloseout()} is recommended because it usually gives 
+The option to closeout using \code{monoCloseout()} is recommended because it usually gives 
 more plausible results and it avoids negative values. This is run separately on each Sprague split,
 rather than on the aggregate results.
 }
@@ -52,13 +52,13 @@ pop0    <- spragueSimple(groupAges(Value,Age))
 # ages are grouped into 5-year age groups in 5 different ways.
 (pop1   <- spragueOscillate(Value, Age, closeout = FALSE))
 # see the NaN value? That because there were some negatives produced by 
-# spragueSimple(). We can call spragueCloseout() inside spragueOscillate()
+# spragueSimple(). We can call monoCloseout() inside spragueOscillate()
 # to handle such cases:
 (pop2   <- spragueOscillate(Value, Age, closeout = TRUE))
 # what's smoother, spragueOscillate() or grabill()?
-# note, same closeout problem, can be handled by spragueCloseout()
+# note, same closeout problem, can be handled by monoCloseout()
 (pop3   <- grabill(groupAges(Value, Age)))
-#pop4   <- spragueCloseout(groupAges(Value, Age), pops = pop3)
+#pop4   <- monoCloseout(groupAges(Value, Age), pops = pop3)
 \dontrun{
 plot(Age, Value)
 lines(Age, pop0, col = "blue")
