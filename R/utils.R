@@ -322,14 +322,16 @@ convertSingleTo5Year <- function(Value){
 #' convertSplitTo5Year(MalePop)
 
 convertSplitTo5Year <- function(Value){
-  output <- rep(0, length(Value)-1)
+  output <- rep(0, length(Value))
   
-  intermediate1 <- Value[-1]
-  intermediate2 <- Value[-2]
+  intermediate1 <- Value[1]
+  intermediate2 <- Value[2]
   
-  intermediate1[seq(2, length(intermediate1))] <- 0
+  intermediateValue <- Value[-1]
+  intermediateValue[1] <- intermediate1 + intermediate2
   
-  output <- intermediate1 + intermediate2
+  output <- data.frame(intermediateValue)
+  row.names(output) <- seq(0, 5*length(output[,1])-1, by = 5)
   
   return(output)
 }
@@ -445,4 +447,26 @@ splitToSingleAges <- function(Value, Age, OAG = FALSE){
   }
   
   return(singleAgeGroupBirths)
+}
+
+#' Wrapper to provide a single location to reference all model life tables.
+#' 
+#' @description 
+#' 
+#' @param ModelName string naming the life table to return. Can be "coale-demeny west".
+#' @param Sex string indicating which sex should be returned. Can be either "M" or "F".
+#' 
+#' @return list of life tables
+#' 
+#' @details 
+#' 
+#' @importFrom demogR cdmltw
+#' @export
+#' @examples
+getModelLifeTable <- function(ModelName, InputSex){
+  if(ModelName == "coale-demeny west"){
+    outputLT <- demogR::cdmltw(sex = InputSex)
+  }
+  
+  return(outputLT)
 }
