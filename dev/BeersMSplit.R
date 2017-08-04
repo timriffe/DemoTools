@@ -94,6 +94,10 @@ for (i in (1:MP))
 ## insert last two panels
 bcm[((NAG5 - 2)*5 + 1):(NAG5*5),MP:(MP + 4)] <- bm[16:25,]
 
+# TR: I notice the bottom right corner isn't 1, so it won't take
+# a conserved open age group. Looks like this behavior should be
+# consistent w Sprague / grabill / Beers.
+
 options(max.print = 10000000) 
 
 pop <- bcm %*% as.matrix(tp)
@@ -115,10 +119,10 @@ pop <- bcm %*% as.matrix(tp)
 ## Adding the two data structures and dividing the result by two 
 ## produces the shifted time reference.
 
-pop2 <- array(0, dim = c(NAG1,NCOL))
-pop2[1,] <- pop[1,]
-pop2[2:NAG1,] <- pop[1:(NAG1 - 1),]
-pops <- (pop + pop2)*0.5
+pop2          <- array(0, dim = c(NAG1, NCOL))
+pop2[1,]      <- pop[1, ]
+pop2[2:NAG1,] <- pop[1:(NAG1 - 1), ]
+pops          <- (pop + pop2) / 2
 
 ## write shifted results
 write.csv(pops, ofn)

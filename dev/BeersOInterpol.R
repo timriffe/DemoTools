@@ -4,7 +4,9 @@
 ## (Siegel and Swanson, 2004, p. 728)
 ## R implementation by Thomas Buettner (21 Oct. 2015)
 ########################################################################
-## PG: used in WPP to interpolate total pop by sex over time, and pop for each age group over time in crosssectional way (alternative to ln(p2/p1))/(t2-t1)) -- smoother trend -- preserves input value in pivotal year ending in 0 and 5
+## PG: used in WPP to interpolate total pop by sex over time, and pop for each 
+# age group over time in crosssectional way (alternative to ln(p2/p1))/(t2-t1)) -- smoother trend -- 
+# preserves input value in pivotal year ending in 0 and 5
 
 # save working directory
 wd <- getwd()
