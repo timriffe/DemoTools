@@ -27,9 +27,9 @@ library(DemoTools)
 ?CoaleLi
 ?Noumbissi
 ?Spoorenberg
-?ageRatioScore
+?ageRatioScore  # methods including "UN", "Zelnick", "Ramachandran"
 ?sexRatioScore
-?ageSexAccuracy
+?ageSexAccuracy # methods including "UN", "Zelnick", "Ramachandran", and "Das Gupta"
 ?AHI
 ?WI
 ?IRD

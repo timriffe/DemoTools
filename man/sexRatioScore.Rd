@@ -7,9 +7,9 @@
 sexRatioScore(Males, Females, Age, ageMin = 0, ageMax = max(Age))
 }
 \arguments{
-\item{Males}{numeric. A vector of population counts for males by age}
+\item{Males}{numeric. A vector of population counts for males in 5-year age groups}
 
-\item{Females}{numeric. A vector of population counts for females by age}
+\item{Females}{numeric. A vector of population counts for females in 5-year age groups}
 
 \item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts}
 
