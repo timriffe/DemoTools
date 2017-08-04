@@ -11,4 +11,4 @@ LazyLoad: yes
 RoxygenNote: 6.0.1
 Suggests: covr
 RdMacros: Rdpack
-Imports: Rdpack, demogR
+Imports: demogR
