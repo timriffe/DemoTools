@@ -11,7 +11,7 @@
 ## R implementation by Thomas Buettner (21 Oct. 2015)
 ########################################################################
 # Author: tim
-
+tp <- matrix(0, nrow = 15, ncol = 5)
 ## dimensions
 NCOL <- dim(tp)[2]   ## countries or trajectories
 NAG5 <- dim(tp)[1]   ## age or time
@@ -71,5 +71,5 @@ beersModExpand <- function(popmat, OAG = FALSE){
 	}
 	## standard format for Beers coefficients
 	
-	
+	bm[,]
 }
