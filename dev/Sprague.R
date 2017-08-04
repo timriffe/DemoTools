@@ -18,23 +18,25 @@
 #' columns as \code{popmat}, and single ages in rows.
 #' 
 #' @references 
-#' Shryock, H. S., Siegel, J. S., & Larmon, E. A. (1973). 
-#' The methods and materials of demography. US Bureau of the Census.
-#' 
-#' Seigel, J. S., & Swanson, D. A. (2004). T
-#' he methods and materials of demography. Elsevier Academic Press, London.
+#' \insertRef{sprague1880explanation}{DemoTools}
+#' \insertRef{shryock1973methods}{DemoTools}
+#' \insertRef{siegel2004methods}{DemoTools}
 #' @export
 #' 
 #' @examples 
-#' p5 <- structure(c(54170.08, 44774.6, 42141.587, 38463.515, 34405.607, 
-#' 162369.816, 57424.3568738, 44475.4981681, 41751.7574114, 39628.4338929, 
-#' 34756.9473002, 164194.0485702, 60272.2061248, 44780.1982856, 
-#' 41803.6541424, 40229.0292664, 35154.7682192, 166275.9022992, 
-#' 62726.896388, 45681.1355532, 42100.72506, 40473.8600572, 35598.545404, 
-#' 168556.5331816, 64815.5458002, 47136.5341033, 42508.3026466, 
-#' 40532.3096745, 36082.7490698, 170990.473735, 66579.122, 49070.407, 
-#' 42953.604, 40534.586, 36596.844, 173545.633), .Dim = c(6L, 6L
-#' ), .Dimnames = list(seq(0,25,5), 1950:1955))
+#' p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
+#' 				23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941, 
+#' 				326, 80, 17, 0, 57424, 44475, 41752, 39628, 34757, 30605, 27183, 
+#' 				23792, 20724, 17056, 14059, 10585, 8103, 5306, 3367, 2040, 963, 
+#' 				315, 80, 16, 1, 60272, 44780, 41804, 40229, 35155, 30978, 27456, 
+#' 				24097, 20873, 17546, 13990, 11146, 7841, 5738, 3184, 2062, 961, 
+#' 				311, 80, 15, 1, 62727, 45681, 42101, 40474, 35599, 31439, 27758, 
+#' 				24396, 21055, 17958, 14046, 11589, 7731, 6060, 3086, 2083, 949, 
+#' 				312, 79, 14, 1, 64816, 47137, 42508, 40532, 36083, 31940, 28092, 
+#' 				24693, 21274, 18299, 14223, 11906, 7785, 6255, 3090, 2084, 938, 
+#' 				316, 80, 14, 2), 
+#' 		.Dim = c(21L, 5L), 
+#' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 #' head(p5) # this is the entire matrix
 #' p1 <- spragueSimple(p5)
 #' head(p1); tail(p1)
@@ -54,18 +56,41 @@ spragueSimple <- function(popmat){
 #' create the Sprague coefficient matrix 
 #' 
 #' @description The resulting coefficient matrix is based on the number of rows in \code{popmat}
-#' where we assume that each row of data is a 5-year age group and the final row is an open age group
-#' to be preserved as such.
+#' where we assume that each row of data is a 5-year age group. The final row may be an open 
+#' or closed age group, as indicated by the \code{OAG} argument.
 #' 
 #' @param popmat numeric matrix of age-period population counts in 5-year age groups
+#' @param OAG logical (default \code{TRUE}. Is the final age group open?
 #' 
 #' @details The \code{popmat} matrix is really just a placeholder in this case. This function is 
 #' a utility called by the Sprague family of functions, where it is most convenient to just pass
 #' in the same matrix being used in those calcs to determine the layout of the coefficient matrix.
 #' 
 #' @export
-
-spragueExpand <- function(popmat){
+#' 
+#' @references 
+#' \insertRef{sprague1880explanation}{DemoTools}
+#' \insertRef{shryock1973methods}{DemoTools}
+#' \insertRef{siegel2004methods}{DemoTools}
+#' @examples
+#' p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
+#' 				23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941, 
+#' 				326, 80, 17, 0, 57424, 44475, 41752, 39628, 34757, 30605, 27183, 
+#' 				23792, 20724, 17056, 14059, 10585, 8103, 5306, 3367, 2040, 963, 
+#' 				315, 80, 16, 1, 60272, 44780, 41804, 40229, 35155, 30978, 27456, 
+#' 				24097, 20873, 17546, 13990, 11146, 7841, 5738, 3184, 2062, 961, 
+#' 				311, 80, 15, 1, 62727, 45681, 42101, 40474, 35599, 31439, 27758, 
+#' 				24396, 21055, 17958, 14046, 11589, 7731, 6060, 3086, 2083, 949, 
+#' 				312, 79, 14, 1, 64816, 47137, 42508, 40532, 36083, 31940, 28092, 
+#' 				24693, 21274, 18299, 14223, 11906, 7785, 6255, 3090, 2084, 938, 
+#' 				316, 80, 14, 2), 
+#' 		.Dim = c(21L, 5L), 
+#' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
+#' coefsOA     <- spragueExpand(p5, TRUE)
+#' coefsclosed <- spragueExpand(p5, FALSE)
+#' dim(coefsOA)
+#' dim(coefsclosed)
+spragueExpand <- function(popmat, OAG = TRUE){
 	popmat <- as.matrix(popmat)
 	
 	# figure out ages and years
@@ -75,10 +100,10 @@ spragueExpand <- function(popmat){
 	
 	# nr 5-year age groups
 	m      <- nrow(popmat)
-	# nr closed single ages
-	m1     <- m * 5 - 5 
+	# nr rows in coef mat.
+	n      <- m * 5 - ifelse(OAG, 4, 0)
 	# number of middle blocks
-	MP     <- m - 5 
+	MP     <- m - ifelse(OAG, 5, 4) 
 	
 	# get the split coefficients
 	# block for ages 0-9
@@ -120,30 +145,33 @@ spragueExpand <- function(popmat){
 	
 	
 	## create a Sprague coefficient matrix for 5-year age groups
-	scm               <- matrix(0, nrow = m1 + 1, ncol =  m)
-	
+	bm               <- matrix(0, nrow = n, ncol =  m)
 	## insert upper left block
-	scm[1:10, 1:5]    <- g1g2
+	bm[1:10, 1:5]    <- g1g2
 	
 	# determine positions of middle blocks
-	rowpos           <- matrix(11:((MP*5) + 10), ncol = 5, byrow = TRUE)
+	rowpos           <- matrix(11:((MP * 5) + 10), ncol = 5, byrow = TRUE)
 	colpos           <- row(rowpos) + col(rowpos) - 1
 	for (i in (1:MP)) {
 		# calculate the slices and add middle panels accordingly
-		scm[rowpos[i,], colpos[i, ]] <- g3
+		bm[rowpos[i, ], colpos[i, ]] <- g3
 	}
+	## standard format for Beers coefficients
 	
 	## insert last two panels
-	fr                <- (m - 3) * 5 + 1
-	lr                <- (m - 1) * 5
-	fc                <- MP 
-	lc                <- MP + 4 
-	scm[fr:lr,fc:lc]  <- g4g5
 	
-	# last open ended age group
-	scm[m1 + 1, m]    <- 1
+	fr                <- nrow(bm) - ifelse(OAG,10,9)
+	lr                <- fr + 9
+	fc                <- ncol(bm) - ifelse(OAG, 5, 4)
+	lc                <- fc + 4
+	bm[fr:lr,fc:lc]   <- g4g5
 	
-	scm
+	if (OAG){
+		# preserve open ended age group
+		bm[nrow(bm), ncol(bm)]    <- 1
+	}
+	
+	bm
 }
 
 
@@ -162,6 +190,9 @@ spragueExpand <- function(popmat){
 #' is called by \code{grabill()}, which ensures matching marginals by 1) blending boundary ages 
 #' into the Sprague estimated population, and 2) a second constraint on the middle age groups to enforce
 #' matching sums.
+#' 
+#' @references
+#' \insertRef{shryock1973methods}{DemoTools}
 #' 
 #' @export
 
@@ -241,9 +272,8 @@ grabillExpand <- function(popmat){
 #' columns as \code{popmat}, and single ages in rows.
 #' 
 #' @references 
-#' Shryock, H. S., Siegel, J. S., & Larmon, E. A. (1973). 
-#' The methods and materials of demography. US Bureau of the Census.
-
+#' \insertRef{shryock1973methods}{DemoTools}
+#' 
 #' @export
 #' 
 #' @examples 
@@ -324,6 +354,9 @@ grabill <- function(popmat){
 #' @param keep.OAG logical (default \code{FALSE}). Would we like to re-impute the last 
 #' element of \code{Value} as the open age group?
 #' @return numeric vector of single age counts 
+#' 
+#' @references 
+#' \insertRef{fritsch1980monotone}{DemoTools}
 #' @export
 #' @examples
 #' Value <- structure(c(88623.0176512, 90841.8228447, 93438.8052066, 96324.9863902, 
