@@ -15,8 +15,8 @@ getModelLifeTable(ModelName, InputSex)
 list of life tables
 }
 \description{
-
+Still in the works.
 }
 \details{
-
+More model families can easily be added.
 }
