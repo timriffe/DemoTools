@@ -9,6 +9,8 @@ grabill(popmat, Age)
 \arguments{
 \item{popmat}{a numeric matrix of population counts in 5-year age groups, with integer-labeled 
 margins (age in rows and year in columns).}
+
+\item{Age}{integer vector lower age bound of age groups}
 }
 \value{
 an age-period matrix od split population counts with the same number of 
@@ -22,7 +24,7 @@ are preserved, as are annual totals.
 \details{
 Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
 Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
-work as well, as long as it's given as a single-column matrix.
+work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages.
 }
 \examples{
 p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 

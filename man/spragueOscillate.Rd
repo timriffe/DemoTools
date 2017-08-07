@@ -74,3 +74,6 @@ legend("topright", lty = c(1,1,2,1), lwd = c(1,1,2,1), col = c("blue","black","r
 				   "grabill()"))
 }
 }
+\references{
+\insertRef{booth2015demographic}{DemoTools}
+}

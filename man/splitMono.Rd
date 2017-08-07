@@ -9,9 +9,9 @@ splitMono(Value, Age, OAG = FALSE)
 \arguments{
 \item{Value}{numeric vector of counts in age groups}
 
-\item{Age5}{integer vector of lower bound of age groups}
+\item{Age}{integer vector of lower bound of age groups}
 
-\item{keep.OAG}{logical (default \code{FALSE}). Would we like to re-impute the last 
+\item{OAG}{logical (default \code{FALSE}). Would we like to re-impute the last 
 element of \code{Value} as the open age group?}
 }
 \value{
@@ -25,7 +25,7 @@ differences split back single-age estimates of \code{Value}. Optionally keep the
 We use the \code{"monoH.FC"} method of \code{stats::splinefun()} to fit the spline because 1)
 it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) 
 it seems to be a bit less wiggly (lower average first differences of split counts) than a pchip tends to do, 
-at least in the tested data.
+at least in the tested data. Data may be given in single or grouped ages.
 }
 \examples{
 Value <- structure(c(88623, 90842, 93439, 96325, 99281, 102051, 104351, 

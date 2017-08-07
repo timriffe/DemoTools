@@ -41,12 +41,13 @@ p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933,
 		.Dim = c(21L, 5L), 
 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 head(p5) # this is the entire matrix
-p1 <- spragueSimple(p5)
+# the last value is an open age group, preserve as such:
+p1 <- spragueSimple(p5, OAG = TRUE)
 head(p1); tail(p1)
 colSums(p1) - colSums(p5) 
 
 # another case, starting with single ages
-# note \\spragueSimple() does not group ages. You need to do it 
+# note spragueSimple() does not group ages. You need to do it 
 # first.
 Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
 		14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,

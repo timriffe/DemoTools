@@ -242,9 +242,11 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' names(Value) <- Age
 #' (ord1 <-  beersSimple(Value, OAG = TRUE, method = "ord"))
 #' (mod1 <- beersSimple(Value, OAG = TRUE, method = "mod"))
+#' \dontrun{
 #' plot(Age,Value)
 #' lines(Age, ord1)
 #' lines(Age, mod1)
+#' }
 #' # in the case
 #' # this replaces ages 90+, guaranteed no negatives.
 #' monoCloseout(Val5, pops = pops)
