@@ -121,7 +121,7 @@ isLeapYear <- function (Year){      # CB: mostly good algorithm from wikipedia
 
 ypart <- function(Year, Month, Day, detect.mid.year = TRUE, detect.start.end = TRUE){
 	M <- c(0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334)
-
+	
 	if (detect.mid.year){
 		.d <- as.integer(Day)
 		.m <- as.integer(Month)
@@ -169,10 +169,10 @@ dec.date <- function(date){
 	month 	<- as.numeric(format(date,'%m'))
 	year 	<- as.numeric(format(date,'%Y'))
 	frac    <- ypart(Year = year, 
-		                  Month = month, 
-		                  Day = day,
-		                  detect.mid.year = TRUE,
-						  detect.start.end = TRUE)
+			Month = month, 
+			Day = day,
+			detect.mid.year = TRUE,
+			detect.start.end = TRUE)
 	year + frac
 }
 
@@ -246,7 +246,7 @@ ratx <- function(fx, k = 1){
 
 #' calculate which large age group single ages belong to
 #' 
-#' @description Assign single ages to age groups of equal and arbitrary width, and also optionalyl shifted.
+#' @description Assign single ages to age groups of equal and arbitrary width, and also optionally shifted.
 #' 
 #' @param Age integer vector of single ages (lower bound)
 #' @param N integer. Desired width of resulting age groups
@@ -258,7 +258,7 @@ ratx <- function(fx, k = 1){
 #'  the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1, 
 #' the first age group is 4-ages wide. 
 #'  
-#' @return a integer vector of \code{length(Age)} indicating the age group that each single age belongs to.
+#' @return an integer vector of \code{length(Age)} indicating the age group that each single age belongs to.
 #' 
 #' @export
 #' @examples
@@ -277,6 +277,28 @@ calcAgeN <- function(Age, N = 5, shiftdown = 0){
 	(Age + shift) - (Age + shift) %% N 
 }
 
+#' calculate which abridged age group single ages belong to
+#' 
+#' @description Assign single ages to 5-year abridged age groups. That means that age 0 is kept as a single age,
+#' ages 1-4 are grouped together as abridged age 1, and thereafter 5-year age groups are used.
+#' 
+#' @param Age integer vector of single ages (lower bound)
+#' 
+#' @details In the case that the single \code{Age} vector starts at some age higher than 4, 
+#' this is just the same as \code{calcAgeN(Age,5,0)}.
+#'  
+#' @return an integer vector of \code{length(Age)} indicating the abridged age group that each single age belongs to.
+#' 
+#' @export
+#' @examples
+#' Age <- 0:70
+#' calcAgeAbr(Age)
+#' calcAgeN(Age,5,0)
+calcAgeAbr <- function(Age){
+	Abr               <- Age - Age %% 5
+	Abr[Age %in% 1:4] <- 1
+	Abr
+}
 
 #' aggregates single year age groups into 5 year age groups
 #' 
@@ -291,22 +313,23 @@ calcAgeN <- function(Age, N = 5, shiftdown = 0){
 #' convertSingleTo5Year(MalePop)
 
 convertSingleTo5Year <- function(Value){
-  shiftZero <- Value
-  shiftOne <- Value[-1]
-  shiftTwo <- shiftOne[-1]
-  shiftThree <- shiftTwo[-1]
-  shiftFour <- shiftThree[-1]
-  
-  shiftZero <- shiftZero[0:(length(shiftZero)-4)]
-  shiftOne <- shiftOne[0:(length(shiftOne)-3)]
-  shiftTwo <- shiftTwo[0:(length(shiftTwo)-2)]
-  shiftThree <- shiftThree[0:(length(shiftThree)-1)]
-  
-  initialSum <- shiftZero + shiftOne + shiftTwo + shiftThree + shiftFour
-  
-  aggFinal <- initialSum[c(TRUE, FALSE, FALSE, FALSE, FALSE)]
-  
-  return(aggFinal)
+	shiftZero  <- Value
+	shiftOne   <- Value[-1]
+	shiftTwo   <- shiftOne[-1]
+	shiftThree <- shiftTwo[-1]
+	shiftFour  <- shiftThree[-1]
+	
+	# TR: not sure what to make of zero-indexing
+	shiftZero  <- shiftZero[0:(length(shiftZero)-4)]
+	shiftOne   <- shiftOne[0:(length(shiftOne)-3)]
+	shiftTwo   <- shiftTwo[0:(length(shiftTwo)-2)]
+	shiftThree <- shiftThree[0:(length(shiftThree)-1)]
+	
+	initialSum <- shiftZero + shiftOne + shiftTwo + shiftThree + shiftFour
+	
+	aggFinal   <- initialSum[c(TRUE, FALSE, FALSE, FALSE, FALSE)]
+	
+	return(aggFinal)
 }
 
 #' aggregates split 0 & 1-4 age groups into a single 5 year age group
@@ -322,18 +345,18 @@ convertSingleTo5Year <- function(Value){
 #' convertSplitTo5Year(MalePop)
 
 convertSplitTo5Year <- function(Value){
-  output <- rep(0, length(Value))
-  
-  intermediate1 <- Value[1]
-  intermediate2 <- Value[2]
-  
-  intermediateValue <- Value[-1]
-  intermediateValue[1] <- intermediate1 + intermediate2
-  
-  output <- data.frame(intermediateValue)
-  row.names(output) <- seq(0, 5*length(output[,1])-1, by = 5)
-  
-  return(output)
+	output <- rep(0, length(Value))
+	
+	intermediate1 <- Value[1]
+	intermediate2 <- Value[2]
+	
+	intermediateValue <- Value[-1]
+	intermediateValue[1] <- intermediate1 + intermediate2
+	
+	output <- data.frame(intermediateValue)
+	row.names(output) <- seq(0, 5*length(output[,1])-1, by = 5)
+	
+	return(output)
 }
 
 
@@ -375,10 +398,10 @@ convertSplitTo5Year <- function(Value){
 #' groupAges(India1991males, N = 5, shiftdown = 3)
 #' groupAges(India1991males, N = 5, shiftdown = 4)
 groupAges <- function(Value, 
-		              Age = 1:length(Value) - 1, 
-					  N = 5, 
-					  shiftdown = 0, 
-					  AgeN){
+		Age = 1:length(Value) - 1, 
+		N = 5, 
+		shiftdown = 0, 
+		AgeN){
 	if (missing(AgeN)){
 		AgeN <- calcAgeN(Age = Age, N = N, shiftdown = shiftdown)
 	}
@@ -431,22 +454,22 @@ test.single <- function(Age){
 #' splitToSingleAges(MalePop, Ages)
 #' splitToSingleAges(MalePop, Ages, OAG = TRUE)
 splitToSingleAges <- function(Value, Age, OAG = FALSE){
-  ageMax <- max(Age)             # the lower bound of the largest age group
-  N      <- length(Value)        # number of age groups from the census.
-  M      <- ageMax / (N - 1)     # length of each age group from the census.
-  
-  ageGroupBirths   <- Value / M  # vector of the number of births in a single year for each age group assuming uniformity.
-  
-  if (OAG){
-      ageGroupBirths <- ageGroupBirths[0:(length(ageGroupBirths)-1)] # remove final age group
-      singleAgeGroupBirths <- rep(ageGroupBirths, each = M) # vector of the single year births for all ages except final age group
-      singleAgeGroupBirths[length(singleAgeGroupBirths)+1] <- Value[length(Value)]
-  }
-  else{
-      singleAgeGroupBirths  <- rep(ageGroupBirths, each = M)  # vector of the single year births for all ages
-  }
-  
-  return(singleAgeGroupBirths)
+	ageMax <- max(Age)             # the lower bound of the largest age group
+	N      <- length(Value)        # number of age groups from the census.
+	M      <- ageMax / (N - 1)     # length of each age group from the census.
+	
+	ageGroupBirths   <- Value / M  # vector of the number of births in a single year for each age group assuming uniformity.
+	
+	if (OAG){
+		ageGroupBirths <- ageGroupBirths[0:(length(ageGroupBirths)-1)] # remove final age group
+		singleAgeGroupBirths <- rep(ageGroupBirths, each = M) # vector of the single year births for all ages except final age group
+		singleAgeGroupBirths[length(singleAgeGroupBirths)+1] <- Value[length(Value)]
+	}
+	else{
+		singleAgeGroupBirths  <- rep(ageGroupBirths, each = M)  # vector of the single year births for all ages
+	}
+	
+	return(singleAgeGroupBirths)
 }
 
 #' Wrapper to provide a single location to reference all model life tables.
@@ -464,9 +487,18 @@ splitToSingleAges <- function(Value, Age, OAG = FALSE){
 #' @export
 
 getModelLifeTable <- function(ModelName, Sex){
-  if(ModelName == "coale-demeny west"){
-    outputLT <- demogR::cdmltw(sex = Sex)
-  }
-  
-  return(outputLT)
+	if(ModelName == "coale-demeny west"){
+		outputLT <- demogR::cdmltw(sex = Sex)
+	}
+	
+	return(outputLT)
 }
+
+
+
+
+
+
+
+
+
