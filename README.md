@@ -36,6 +36,7 @@ library(DemoTools)
 ?ID
 ?survRatioError
 ?spragueSimple
+?beersSimple # methods including "ord" and "mod", as well as johnson option for young ages
 ?grabill
 ?splitMono
 ?monoCloseout
@@ -45,7 +46,7 @@ library(DemoTools)
 ?adjustAge
 ?ADM
 ?RDM
-# last updated 4-Aug-2017
+# last updated 7-Aug-2017
 ```
 These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. We won't bother demonstrating those. 
 
