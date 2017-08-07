@@ -12,17 +12,18 @@
 ########################################################################
 
 
-#' create the Beers modified coefficient matrix 
+#' create the Beers ordinary or modified coefficient matrix 
 #' 
 #' @description The resulting coefficient matrix is based on the number of rows in \code{popmat}
-#' where we assume that each row of data is a 5-year age group. The final row may be an open 
+#' which must be in 5-year age groups (not abridged). The final row may be an open 
 #' or closed age group, as indicated by the \code{OAG} argument.
 #' 
 #' @param popmat numeric matrix of age-period population counts in 5-year age groups
 #' @param OAG logical (default \code{TRUE}. Is the final age group open?
+#' @param method character (default \code{"mod"}. Valid values are \code{"mod"} or \code{"ord"}.
 #' 
 #' @details The \code{popmat} matrix is really just a placeholder in this case. This function is 
-#' a utility called by the Sprague family of functions, where it is most convenient to just pass
+#' a utility called by the Beers family of functions, where it is most convenient to just pass
 #' in the same matrix being used in those calcs to determine the layout of the coefficient matrix.
 #' 
 #' @references 
@@ -176,25 +177,30 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 	bm
 }
 
-#' the modified Beers splitting method
+#' the ordinary modified Beers splitting methods
 #' 
-#' @description This method is based on the BeersM R 
-#' script prepared by Thomas Buettner and Patrick Gerland, itself based on the description
-#' in Siegel and Swanson, 2004, p. 727.
+#' @description This method offers both ordinary and modified Beers splitting, 
+#' with an optional DAPPS adjustment \code{johnson} for ages under 10.
 #' 
 #' @param popmat a numeric matrix of population counts in 5-year age groups, with integer-labeled 
 #' margins (age in rows and year in columns). 
 #' @param OAG logical (default \code{TRUE}. Is the final age group open?
 #' @param method character (default \code{"mod"}). Options are presently \code{"mod"} and \code{"ord"}.
-#' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
-#' Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
-#' work as well, as long as it's given as a single-column matrix.
+#' @param johnson logical (deault \code{FALSE}). Do we want to adjust young ages according to the DAPPS method?
+#' @param Age0 numeric. If doing the \code{johnson} adjustment, we need a separate estimate of age 0. Taken from \code{popmat} if missing. 
+#' @details Ages should refer to lower age bounds. 
+#' The rows of \code{popmat} must be labelled with ages unless \code{Age} is given separately.
+#'  There must be at least six 5-year age groups (including the open group, 5 otherwise). One year of data will 
+#' work as well, as long as it's given as a single-column matrix. If you want the \code{johnson} adjustment of young 
+#' ages, a separate estimate of \code{Age0} can either be specified directly, or else it is taken from age 0 if \code{popmat} 
+#' is specified in single or standard abridged ages.  
 #' @return an age-period matrix od split population counts with the same number of 
 #' columns as \code{popmat}, and single ages in rows.
 #' @references 
 #' \insertRef{beers1945modified}{DemoTools}
 #' \insertRef{shryock1973methods}{DemoTools}
 #' \insertRef{siegel2004methods}{DemoTools}
+#' \insertRef{stover2008spectrum}{DemoTools}
 #' @export
 #' @examples 
 #' p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
@@ -218,8 +224,7 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' colSums(p1) - colSums(p5) 
 #' 
 #' # another case, starting with single ages
-#' # note beersModSimple() does not group ages. You need to do it 
-#' # first.
+#' # note beersSimple() groups ages. 
 #' Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
 #' 		14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
 #' 		9055588,5519173,12546779,4784102,13365429,4630254,9595545,4727963,
@@ -233,60 +238,104 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' 		53567,1715697,127486,150782,52332,48664,456387,46978,34448,
 #' 		44015,19172,329149,48004,28574,9200,7003,75195,13140,5889,
 #' 		18915,21221,72373)
-#' Age         <- 0:100
-#' # group ages
-#' Val5        <- groupAges(Value, Age)
-#' # name the vector (or dims of matrix if you end up
-#' # producing a matrix)
-#' names(Val5) <- Age[Age %% 5 == 0]
-#' (pops <- beersModSimple(Val5, OAG = TRUE))
+#' Age          <- 0:100
+#' names(Value) <- Age
+#' (ord1 <-  beersSimple(Value, OAG = TRUE, method = "ord"))
+#' (mod1 <- beersSimple(Value, OAG = TRUE, method = "mod"))
+#' plot(Age,Value)
+#' lines(Age, ord1)
+#' lines(Age, mod1)
 #' # in the case
 #' # this replaces ages 90+, guaranteed no negatives.
 #' monoCloseout(Val5, pops = pops)
 #' # Note: there are no kludges built into beersModSimple() to handle such cases.
 #' # these ought to be handled by wrappers as appropriate.
-
-beersSimple <- function(popmat, OAG = FALSE, method = "mod"){
-	popmat            <- as.matrix(popmat)
-	bm                <- beersExpand(popmat, OAG = OAG, method = method)
+#' 
+#' This replicates Johnson_2016_BEERSP.XLS, males
+#' M <- c(752124,582662,463534,369976,286946,235867,
+#' 		199561,172133,151194,131502,113439,95614,
+#' 		78777,60157,40960,21318,25451)
+#' dim(M)      <- c(length(M),1)
+#' rownames(M) <- seq(0,80,by=5)
+#' Age0        <- 184499
+#' johnson     <- beersSimple(
+#' 		         popmat = M, 
+#' 		         OAG = TRUE,
+#' 			     method = "ord", 
+#' 			     johnson = TRUE, 
+#' 			     Age0 = Age0)
+#' # copied from spreadsheet output, a de facto unit test, 
+#' output <- c(184499,158163,143895,135416,130151,
+#'             126153,122028,117182,111566,105733,
+#' 			101088,96719,92551)
+#' # allow for rounding differences, so maximum absolute 
+#' # difference of 1
+#' stopifnot(max(abs(round(johnson)[1:length(output)] - output)) == 1)
 	
-	pop1              <- bm %*% popmat
+beersSimple <- function(popmat, Age, OAG = FALSE, method = "mod", johnson = FALSE, Age0){
+	popmat            <- as.matrix(popmat)
+	
+	if (missing(Age)){
+		Age               <- as.integer(rownames(popmat))
+	}
+	# this is innocuous if ages are already grouped
+	pop5              <- apply(popmat, 2, groupAges, Age = Age, N = 5, shiftdown = 0)
+	
+	# generate coefficient matrix
+	bm                <- beersExpand(pop5, OAG = OAG, method = method)
+	
+	# redistribute
+	pop1              <- bm %*% pop5
+	
+	# can only do the Johnson adjust if ages are single or abridged. 
+	# cuz we need a separate age 0
+	if (johnson & ((min(Age) == 0 & 1 %in% Age) | !missing(Age0))){
+		if (missing(Age0)){
+			Age0 = popmat[1, , drop = FALSE]
+		}
+		pop1 <- johnsonAdjust(Age0 = Age0, pop5 = pop5, pop1 = pop1)
+	}
 	
 	zero              <- min(as.integer(rownames(popmat)))
-	ages              <- zero:(nrow(bm)-1 + zero)
+	ages              <- zero:(nrow(bm) - 1 + zero)
 	dimnames(pop1)    <- list(ages, colnames(popmat))
 	pop1
 }
+#' adjust ages under 10 using a modification of Beers
+#' @description Assuming we have an external estimate of age 0, this method
+#' refits to the ordinary Beers single age results, remaining constrained to the
+#' original 5-year age groups and smoothly blending into ages greater than 10.
+#' @param Age0 numeric an estimate of age 0
+#' @param pop5 numeric matrix population in 5-year age groups
+#' @param pop1 numeric matrix population split using Beers ordinary (or some other) method
+#' 
+#' @return numeric matrix of single age population estimates
+#' @details This has not been tested using \code{pop1} as generated from other methods, such as 
+#' the Beers modified, Sprague, or Grabill methods. Called internally by \code{BeersSimple()}.
+#' @export
+#' @references
+#' \insertRef{stover2008spectrum}{DemoTools}
+johnsonAdjust <- function(Age0, pop5, pop1){
+	
+	# coefficient matrix
+	DAPPSmod <- matrix(c(0.2333,  0.3445, -0.1222,  0.3778, -0.1556,
+					    -0.0875,  0.3847, -0.0236,  0.0389, -0.0111,
+					    -0.1458,  0.2708,  0.1458, -0.4167,  0.1667,
+					    -0.0833,  0.1151,  0.2817, -0.6111,  0.2222,
+					     0.0000, -0.0080,  0.3254, -0.3889,  0.1111,
+					     0.0458, -0.0613,  0.2637,  0.1833, -0.1000,
+					     0.0375, -0.0458,  0.1292,  0.8167, -0.2333), ncol = 5, byrow = TRUE)
+	# the composite pop thing
+	py          <- rbind(pop1[2, ], 
+			             pop5[1, ] - (Age0 + pop1[2, ]),
+				         colSums(pop1[6:9, , drop = FALSE]),
+					     pop1[10:11, , drop = FALSE])
+	# gives new ages 2-8
+	pynew       <- DAPPSmod %*% py
+	
+	# recompose output (still constrained)
+	pop1[1, ]   <- Age0   # keep Age0 est
+	pop1[3:9, ] <- pynew
+	pop1
+}
 
-
-
-
-DAPPSmod <- matrix(c(0.2333, 0.3445, -0.1222, 0.3778, -0.1556,
--0.0875, 0.3847, -0.0236, 0.0389, -0.0111,
--0.1458, 0.2708, 0.1458, -0.4167, 0.1667,
--0.0833, 0.1151, 0.2817, -0.6111, 0.2222,
-0.0000,	-0.0080, 0.3254, -0.3889, 0.1111,
-0.0458,	-0.0613, 0.2637, 0.1833, -0.1000,
-0.0375,	-0.0458, 0.1292, 0.8167, -0.2333),ncol=5,byrow=TRUE)
-
-
-
-M <- c(752124,582662,463534,369976,286946,235867,
-199561,172133,151194,131502,113439,95614,
-78777,60157,40960,21318,25451)
-dim(M) <- c(length(M),1)
-rownames(M) <- seq(0,80,by=5)
-
-# matches johnson calc
-p1 <- beersSimple(M, OAG = TRUE, method = "ord")
-
-# and second try for new young multipliers
-age0 <- 184499
-py <- c(p1[2], M[1]-c(age0+p1[2]),
-		sum(p1[6:9]),p1[10:11])
-
-# matches!
-DAPPSmod %*% py
-
-# TODO: to make this an option, it's time to introduce automatic age grouping from single ages,
-# because the only way to use this modification is to have an extra estimate of age 0...
