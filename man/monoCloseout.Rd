@@ -4,7 +4,8 @@
 \alias{monoCloseout}
 \title{blend the Sprague upper boundary age estimates into monotonic spline estimates}
 \usage{
-monoCloseout(popmat, pops, pivotAge = 90, splitfun = spragueSimple, ...)
+monoCloseout(popmat, pops, pivotAge = 90, splitfun = spragueSimple,
+  OAG = FALSE, ...)
 }
 \arguments{
 \item{popmat}{a numeric matrix of population counts in 5-year age groups, with integer-labeled 
@@ -16,6 +17,9 @@ margins (age in rows and year in columns).}
 
 \item{splitfun}{optional. The function used to create pops. Default \code{spragueSimple}. 
 Could also be \code{grabill}, \code{beersModSimple}, or any other function that similarly transforms.}
+
+\item{OAG}{logical (default \code{FALSE}). Would we like to re-impute the last 
+element of \code{Value} as the open age group?}
 
 \item{...}{arguments to be optionally passed to \code{splitfun()}.}
 }
