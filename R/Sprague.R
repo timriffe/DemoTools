@@ -39,12 +39,13 @@
 #' 		.Dim = c(21L, 5L), 
 #' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 #' head(p5) # this is the entire matrix
-#' p1 <- spragueSimple(p5)
+#' # the last value is an open age group, preserve as such:
+#' p1 <- spragueSimple(p5, OAG = TRUE)
 #' head(p1); tail(p1)
 #' colSums(p1) - colSums(p5) 
 #' 
 #' # another case, starting with single ages
-#' # note \spragueSimple() does not group ages. You need to do it 
+#' # note spragueSimple() does not group ages. You need to do it 
 #' # first.
 #' Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
 #' 		14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
@@ -305,9 +306,10 @@ grabillExpand <- function(popmat){
 #' 
 #' @param popmat a numeric matrix of population counts in 5-year age groups, with integer-labeled 
 #' margins (age in rows and year in columns).
+#' @param Age integer vector lower age bound of age groups
 #' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
 #' Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
-#' work as well, as long as it's given as a single-column matrix.
+#' work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages.
 #' 
 #' @return an age-period matrix od split population counts with the same number of 
 #' columns as \code{popmat}, and single ages in rows.
@@ -436,11 +438,11 @@ grabill <- function(popmat, Age){
 #' @details We use the \code{"monoH.FC"} method of \code{stats::splinefun()} to fit the spline because 1)
 #' it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) 
 #' it seems to be a bit less wiggly (lower average first differences of split counts) than a pchip tends to do, 
-#' at least in the tested data.
+#' at least in the tested data. Data may be given in single or grouped ages.
 #' 
 #' @param Value numeric vector of counts in age groups
-#' @param Age5 integer vector of lower bound of age groups
-#' @param keep.OAG logical (default \code{FALSE}). Would we like to re-impute the last 
+#' @param Age integer vector of lower bound of age groups
+#' @param OAG logical (default \code{FALSE}). Would we like to re-impute the last 
 #' element of \code{Value} as the open age group?
 #' @return numeric vector of single age counts 
 #' @importFrom stats splinefun
@@ -645,6 +647,8 @@ so returning spragueSimple() output as-is, no extra closeout performed.")
 #' @param closeout logical (default \code{TRUE}). Shall we close out each sprague split with a monotonic spline fit?
 #' 
 #' @return numeric vector of Sprague-smoothed counts
+#' @references 
+#' \insertRef{booth2015demographic}{DemoTools}
 #' @export
 #' @examples
 #' Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
@@ -701,7 +705,7 @@ spragueOscillate <- function(Value, Age, OAG = TRUE, closeout = TRUE){
 		Age    <- Age[-N]
 		N      <- N - 1
 	} 
-	TOT <- sum(Value)
+	TOT    <- sum(Value)
 # select which ages to keep:
 	p1x1   <- matrix(nrow = length(Value), ncol = 5)
 	rownames(p1x1) <- Age
@@ -716,11 +720,10 @@ spragueOscillate <- function(Value, Age, OAG = TRUE, closeout = TRUE){
 		Val.i               <- Value[keep.i]
 		# group ages into said 5-year age groups
 		Val.i.5             <- groupAges(Val.i, AgeN = Age.i.5)
-		# make fake open age
-		Val.i.5             <- c(Val.i.5, pi)
-		names(Val.i.5)      <- c(unique(Age.i.5), max(Age.i.5) + 5)
+	
+		names(Val.i.5)      <- sort(unique(Age.i.5))
 		# get first run estimate
-		pop.est             <- spragueSimple(Val.i.5)
+		pop.est             <- spragueSimple(Val.i.5, OAG = FALSE)
 		if (closeout){
 			pop.est <- monoCloseout(Val.i.5, pop.est)
 		}
@@ -732,11 +735,11 @@ spragueOscillate <- function(Value, Age, OAG = TRUE, closeout = TRUE){
 	# take average per age
 	p.out <- rowMeans(p1x1, na.rm = TRUE)
 	# rescale to proper total
-	p.out <- p.out * TOT / sum(p.out, na.rm = TRUE)
+	p.out <- rescale.vector(p.out, TOT)
 	# re-append the open age group if needed
 	if (OAG){
-		Age   <- c(Age, OA)
-		p.out <- c(p.out, open)
+		Age          <- c(Age, OA)
+		p.out        <- c(p.out, open)
 		names(p.out) <- Age
 	}
 	
