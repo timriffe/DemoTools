@@ -10,9 +10,7 @@
 ## recommended for time series of events with some dynamic
 ## R implementation by Thomas Buettner (21 Oct. 2015)
 ########################################################################
-#ifn  <- "/home/tim/git/DemoTools/dev/Data/IND_Pop2015B1_1.7.csv"
-#tp   <- t(read.csv(ifn, header = TRUE, row.names = 1, check.names = FALSE))
-# popmat <- round(tp[,1:5])
+
 
 #' create the Beers modified coefficient matrix 
 #' 
@@ -31,6 +29,7 @@
 #' \insertRef{beers1945modified}{DemoTools}
 #' \insertRef{siegel2004methods}{DemoTools}
 #' @export
+#' @examples
 #' popmat <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
 #' 				23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941, 
 #' 				326, 80, 17, 0, 57424, 44475, 41752, 39628, 34757, 30605, 27183, 
@@ -45,12 +44,18 @@
 #' 		.Dim = c(21L, 5L), 
 #' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 #' 
-#' coefsOA     <- beersModExpand(popmat, OAG = TRUE)
-#' coefsclosed <- beersModExpand(popmat, OAG = FALSE)
+#' coefsOA     <- beersExpand(popmat, OAG = TRUE, method = "mod")
+#' coefsclosed <- beersExpand(popmat, OAG = FALSE, method = "mod")
+#' dim(beersExpand(popmat, TRUE))
+#' dim(beersExpand(popmat, FALSE))
+#' coefso      <- beersExpand(popmat, OAG = TRUE, method = "ord")
 #' 
-#' dim(beersModExpand(popmat, TRUE))
-#' dim(beersModExpand(popmat, FALSE))
-beersModExpand <- function(popmat, OAG = FALSE){
+#' # how to use (under the hood in beersSimple()
+#' 
+beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
+	method <- tolower(method)
+	stopifnot(method %in% c("mod","ord"))
+	
 	popmat <- as.matrix(popmat)
 	
 	# figure out ages and years
@@ -65,17 +70,18 @@ beersModExpand <- function(popmat, OAG = FALSE){
 	# number of middle blocks
 	MP     <- m - ifelse(OAG, 5, 4) 
 	
+	if (method == "mod"){
 	## Beers Modified Split
 	g1g2 <- matrix(c(
-					 0.3332, -0.1938,  0.0702, -0.0118,  0.0022 ,
-					 0.2569, -0.0753,  0.0205, -0.0027,  0.0006 ,
-					 0.1903,  0.0216, -0.0146,  0.0032, -0.0005 ,
-					 0.1334,  0.0969, -0.0351,  0.0059, -0.0011 ,
-					 0.0862,  0.1506, -0.0410,  0.0054, -0.0012 ,
+					0.3332, -0.1938,  0.0702, -0.0118,  0.0022 ,
+					0.2569, -0.0753,  0.0205, -0.0027,  0.0006 ,
+					0.1903,  0.0216, -0.0146,  0.0032, -0.0005 ,
+					0.1334,  0.0969, -0.0351,  0.0059, -0.0011 ,
+					0.0862,  0.1506, -0.0410,  0.0054, -0.0012 ,
 					
-					 0.0486,  0.1831, -0.0329,  0.0021, -0.0009 ,
-					 0.0203,  0.1955, -0.0123, -0.0031, -0.0004 ,
-					 0.0008,  0.1893,  0.0193, -0.0097,  0.0003 ,
+					0.0486,  0.1831, -0.0329,  0.0021, -0.0009 ,
+					0.0203,  0.1955, -0.0123, -0.0031, -0.0004 ,
+					0.0008,  0.1893,  0.0193, -0.0097,  0.0003 ,
 					-0.0108,  0.1677,  0.0577, -0.0153,  0.0007 ,
 					-0.0159,  0.1354,  0.0972, -0.0170,  0.0003
 			), nrow = 10, ncol = 5, byrow = TRUE)
@@ -89,18 +95,55 @@ beersModExpand <- function(popmat, OAG = FALSE){
 			), 5, 5, byrow = TRUE) 
 	
 	g4g5 <- matrix(c(0.0003, -0.0170,  0.0972,  0.1354, -0.0159 ,
-					 0.0007, -0.0153,  0.0577,  0.1677, -0.0108 ,
-					 0.0003, -0.0097,  0.0193,  0.1893,  0.0008 ,
+					0.0007, -0.0153,  0.0577,  0.1677, -0.0108 ,
+					0.0003, -0.0097,  0.0193,  0.1893,  0.0008 ,
 					-0.0004, -0.0031, -0.0123,  0.1955,  0.0203 ,
 					-0.0009,  0.0021, -0.0329,  0.1831,  0.0486 ,
 					
 					-0.0012,  0.0054, -0.0410,  0.1506,  0.0862 ,
 					-0.0011,  0.0059, -0.0351,  0.0969,  0.1334 ,
 					-0.0005,  0.0032, -0.0146,  0.0216,  0.1903 ,
-					 0.0006, -0.0027,  0.0205, -0.0753,  0.2569 ,
-					 0.0022, -0.0118,  0.0702, -0.1938,  0.3332 
+					0.0006, -0.0027,  0.0205, -0.0753,  0.2569 ,
+					0.0022, -0.0118,  0.0702, -0.1938,  0.3332 
 			), nrow = 10, ncol = 5, byrow = TRUE)
-	
+    }
+	if (method == "ord"){
+		## Beers Oscillatory (Johnson spreadsheet)
+		g1g2 <- matrix(c(
+						0.3333,	-0.1636,	-0.021,	     0.0796,	-0.0283,
+						0.2595,	-0.078,	     0.013,	     0.01,	    -0.0045,
+						0.1924,	 0.0064,	 0.0184,	-0.0256, 	 0.0084,
+						0.1329,	 0.0844,	 0.0054,	-0.0356,	 0.0129,
+						0.0819,	 0.1508,	-0.0158,	-0.0284,	 0.0115,
+						0.0404,	 0.2,	    -0.0344,	-0.0128,	 0.0068,
+						0.0093,	 0.2268,	-0.0402,	 0.0028,	 0.0013,
+					   -0.0108,	 0.2272,	-0.0248,	 0.0112,	-0.0028,
+					   -0.0198,	 0.1992,	 0.0172,	 0.0072,	-0.0038,
+					   -0.0191,	 0.1468,	 0.0822,	-0.0084,	-0.0015
+						
+				), nrow = 10, ncol = 5, byrow = TRUE)
+		
+		g3 <- matrix(c(
+						-0.0117,	0.0804,	0.157,	-0.0284,	 0.0027,
+						-0.002,  	0.016,	0.22,	-0.04,	     0.006,
+						 0.005,	   -0.028,	0.246,	-0.028,	     0.005,
+						 0.006,	   -0.04,	0.22,	 0.016,  	-0.002,
+						 0.0027,   -0.0284,	0.157,	 0.0804,	-0.0117
+						
+				), 5, 5, byrow = TRUE) 
+		
+		g4g5 <- matrix(c(-0.0015,	-0.0084,	 0.0822,	0.1468,	-0.0191,
+						-0.0038,	 0.0072,	 0.0172,	0.1992,	-0.0198,
+						-0.0028,	 0.0112,	-0.0248,	0.2272,	-0.0108,
+						 0.0013,	 0.0028,	-0.0402,	0.2268,	 0.0093,
+						 0.0068,	-0.0128,	-0.0344,	0.2,	 0.0404,
+						 0.0115,	-0.0284,	-0.0158,	0.1508,	 0.0819,
+						 0.0129,	-0.0356,	 0.0054,	0.0844,	 0.1329,
+						 0.0084,	-0.0256,	 0.0184,	0.0064,	 0.1924,
+						-0.0045,	 0.01,	     0.013,	   -0.078,	 0.2595,
+						-0.0283,	 0.0796,	-0.021,	   -0.1636,	 0.3333
+				), nrow = 10, ncol = 5, byrow = TRUE)
+	}
 	
 	## create a Beers coefficient matrix for 5-year age groups
 	bm               <- matrix(0, nrow = n, ncol =  m)
@@ -112,7 +155,7 @@ beersModExpand <- function(popmat, OAG = FALSE){
 	colpos           <- row(rowpos) + col(rowpos) - 1
 	for (i in (1:MP)) {
 		# calculate the slices and add middle panels accordingly
-	    bm[rowpos[i, ], colpos[i, ]] <- g3
+		bm[rowpos[i, ], colpos[i, ]] <- g3
 	}
 	## standard format for Beers coefficients
 	
@@ -137,24 +180,22 @@ beersModExpand <- function(popmat, OAG = FALSE){
 #' 
 #' @description This method is based on the BeersM R 
 #' script prepared by Thomas Buettner and Patrick Gerland, itself based on the description
-#' in Siegel and Swanson, 2004, p. 729.
+#' in Siegel and Swanson, 2004, p. 727.
 #' 
 #' @param popmat a numeric matrix of population counts in 5-year age groups, with integer-labeled 
-#' margins (age in rows and year in columns).
+#' margins (age in rows and year in columns). 
 #' @param OAG logical (default \code{TRUE}. Is the final age group open?
+#' @param method character (default \code{"mod"}). Options are presently \code{"mod"} and \code{"ord"}.
 #' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
 #' Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
 #' work as well, as long as it's given as a single-column matrix.
-#' 
 #' @return an age-period matrix od split population counts with the same number of 
 #' columns as \code{popmat}, and single ages in rows.
-#' 
 #' @references 
 #' \insertRef{beers1945modified}{DemoTools}
 #' \insertRef{shryock1973methods}{DemoTools}
 #' \insertRef{siegel2004methods}{DemoTools}
 #' @export
-#' 
 #' @examples 
 #' p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
 #' 				23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941, 
@@ -170,10 +211,11 @@ beersModExpand <- function(popmat, OAG = FALSE){
 #' 		.Dim = c(21L, 5L), 
 #' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 #' head(p5) # this is the entire matrix
-#' p1 <- beersModSimple(p5)
-#' head(p1); tail(p1)
+#' p1 <- beersModSimple(p5, OAG = FALSE)
+#' head(p1)
+#' # note some negatives in high ages
+#' tail(p1) 
 #' colSums(p1) - colSums(p5) 
-#' 
 #' 
 #' # another case, starting with single ages
 #' # note beersModSimple() does not group ages. You need to do it 
@@ -197,23 +239,54 @@ beersModExpand <- function(popmat, OAG = FALSE){
 #' # name the vector (or dims of matrix if you end up
 #' # producing a matrix)
 #' names(Val5) <- Age[Age %% 5 == 0]
-#' # notice how this particular case produces a negative value in the last age
-#' # before OAG:
-#' (pops <- beersModSimple(Val5))
+#' (pops <- beersModSimple(Val5, OAG = TRUE))
+#' # in the case
 #' # this replaces ages 90+, guaranteed no negatives.
-#' spragueCloseout(Val5, pops = pops)
-#' # Note: there are no kludges built into spragueSimple() to handle such cases.
+#' monoCloseout(Val5, pops = pops)
+#' # Note: there are no kludges built into beersModSimple() to handle such cases.
 #' # these ought to be handled by wrappers as appropriate.
 
-beersModSimple <- function(popmat, OAG = FALSE){
-		popmat            <- as.matrix(popmat)
-		bm                <- beersModExpand(popmat, OAG = OAG)
-		
-		pop1              <- bm %*% popmat
-		
-		zero              <- min(as.integer(rownames(popmat)))
-		ages              <- zero:(nrow(bm)-1 + zero)
-		dimnames(pop1)    <- list(ages, colnames(popmat))
-		pop1
+beersSimple <- function(popmat, OAG = FALSE, method = "mod"){
+	popmat            <- as.matrix(popmat)
+	bm                <- beersExpand(popmat, OAG = OAG, method = method)
 	
+	pop1              <- bm %*% popmat
+	
+	zero              <- min(as.integer(rownames(popmat)))
+	ages              <- zero:(nrow(bm)-1 + zero)
+	dimnames(pop1)    <- list(ages, colnames(popmat))
+	pop1
 }
+
+
+
+
+DAPPSmod <- matrix(c(0.2333, 0.3445, -0.1222, 0.3778, -0.1556,
+-0.0875, 0.3847, -0.0236, 0.0389, -0.0111,
+-0.1458, 0.2708, 0.1458, -0.4167, 0.1667,
+-0.0833, 0.1151, 0.2817, -0.6111, 0.2222,
+0.0000,	-0.0080, 0.3254, -0.3889, 0.1111,
+0.0458,	-0.0613, 0.2637, 0.1833, -0.1000,
+0.0375,	-0.0458, 0.1292, 0.8167, -0.2333),ncol=5,byrow=TRUE)
+
+
+
+M <- c(752124,582662,463534,369976,286946,235867,
+199561,172133,151194,131502,113439,95614,
+78777,60157,40960,21318,25451)
+dim(M) <- c(length(M),1)
+rownames(M) <- seq(0,80,by=5)
+
+# matches johnson calc
+p1 <- beersSimple(M, OAG = TRUE, method = "ord")
+
+# and second try for new young multipliers
+age0 <- 184499
+py <- c(p1[2], M[1]-c(age0+p1[2]),
+		sum(p1[6:9]),p1[10:11])
+
+# matches!
+DAPPSmod %*% py
+
+# TODO: to make this an option, it's time to introduce automatic age grouping from single ages,
+# because the only way to use this modification is to have an extra estimate of age 0...
