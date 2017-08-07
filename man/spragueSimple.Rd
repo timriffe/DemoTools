@@ -10,6 +10,8 @@ spragueSimple(popmat, Age, OAG = TRUE)
 \item{popmat}{a numeric matrix of population counts in 5-year age groups, with integer-labeled 
 margins (age in rows and year in columns).}
 
+\item{Age}{integer vector. Lower age bound of age groups. Detected from row names of \code{popmat} if missing.}
+
 \item{OAG}{logical (default \code{TRUE}. Is the final age group open?}
 }
 \value{
@@ -65,14 +67,11 @@ Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918
 Age         <- 0:100
 # group ages
 Val5        <- groupAges(Value, Age)
-# name the vector (or dims of matrix if you end up
-# producing a matrix)
-names(Val5) <- Age[Age \%\% 5 == 0]
 # notice how this particular case produces a negative value in the last age
 # before OAG:
-(pops <- spragueSimple(Val5))
+pops <- spragueSimple(popmat = Val5, OAG = TRUE)
 # this replaces ages 90+, guaranteed no negatives.
-monoCloseout(Val5, pops = pops)
+monoCloseout(popmat = Val5, pops = pops, OAG = TRUE)
 # Note: there are no kludges built into spragueSimple() to handle such cases.
 # these ought to be handled by wrappers as appropriate.
 }

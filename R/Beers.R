@@ -184,6 +184,7 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' 
 #' @param popmat a numeric matrix of population counts in 5-year age groups, with integer-labeled 
 #' margins (age in rows and year in columns). 
+#' @param Age integer vector. Lower age bound of age groups. Detected from row names of \code{popmat} if missing.
 #' @param OAG logical (default \code{TRUE}. Is the final age group open?
 #' @param method character (default \code{"mod"}). Options are presently \code{"mod"} and \code{"ord"}.
 #' @param johnson logical (deault \code{FALSE}). Do we want to adjust young ages according to the DAPPS method?
@@ -217,7 +218,7 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' 		.Dim = c(21L, 5L), 
 #' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 #' head(p5) # this is the entire matrix
-#' p1 <- beersModSimple(p5, OAG = FALSE)
+#' p1 <- beersSimple(p5, OAG = FALSE)
 #' head(p1)
 #' # note some negatives in high ages
 #' tail(p1) 
@@ -240,20 +241,22 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' 		18915,21221,72373)
 #' Age          <- 0:100
 #' names(Value) <- Age
-#' (ord1 <-  beersSimple(Value, OAG = TRUE, method = "ord"))
-#' (mod1 <- beersSimple(Value, OAG = TRUE, method = "mod"))
+#' ord1 <-  beersSimple(Value, OAG = TRUE, method = "ord")
+#' mod1 <- beersSimple(Value, OAG = TRUE, method = "mod")
 #' \dontrun{
 #' plot(Age,Value)
 #' lines(Age, ord1)
 #' lines(Age, mod1)
 #' }
-#' # in the case
+#' 
+#' # notice this negative value. Yuck! 
+#' tail(mod1)
 #' # this replaces ages 90+, guaranteed no negatives.
-#' monoCloseout(Val5, pops = pops)
-#' # Note: there are no kludges built into beersModSimple() to handle such cases.
+#' monoCloseout(Value, pops = mod1, OAG = TRUE)
+#' # Note: there are no kludges built into beersSimple() to handle such cases.
 #' # these ought to be handled by wrappers as appropriate.
 #' 
-#' This replicates Johnson_2016_BEERSP.XLS, males
+#' # This replicates Johnson_2016_BEERSP.XLS, males
 #' M <- c(752124,582662,463534,369976,286946,235867,
 #' 		199561,172133,151194,131502,113439,95614,
 #' 		78777,60157,40960,21318,25451)
