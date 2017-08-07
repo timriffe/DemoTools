@@ -45,13 +45,295 @@ shift.vector <- function(x,shift = 0, fill = FALSE){
 #' @examples 
 #' x  <- runif(100)
 #' xx <- cumsum(x)
+#' \dontrun{
 #' plot(x)
 #' lines(ma(x))
 #' lines(ma(x),9)
+#' }
 
 
 ma <- function(x,n=5){
-	stats::filter(x, rep(1 / n, n), sides = 2)
+	as.vector(stats::filter(x, rep(1 / n, n), sides = 2))
+}
+
+
+#' rescale a vector proportionally to a new sum
+
+#' @description THis is a frequently needed operation, so it's being added as a general utility.
+#' 
+#' @param x numeric vector
+#' @param scale what you want the vector to sum to. Default 1.
+#' 
+#' @details For a distribution, use \code{scale = 1}. For percentages, use \code{scale = 100}, etc.
+#' 
+#' @return the vector, rescaled
+#' @examples 
+#' x <- runif(10)
+#' sum(x)
+#' xx <- rescale.vector(x,100)
+#' sum(xx)
+#' @export
+
+rescale.vector <- function(x, scale = 1){
+	scale * x / sum(x, na.rm = TRUE)
+}
+
+#' @title determine whether a year is a leap year. 
+#' 
+#' @description In order to remove \code{lubridate} dependency, we self-detect leap years and adjust February accordingly. Code inherited from HMD.
+#' 
+#' @param Year integer of year to query
+#' 
+#' @return logical is the Year a leap year or not
+#' 
+#' @export
+#' @author Carl Boe
+
+isLeapYear <- function (Year){      # CB: mostly good algorithm from wikipedia
+	ifelse(
+			( (Year %% 4) == 0  &  (Year %% 100) != 0   ) | ( (Year %% 400) == 0 ),
+			TRUE, FALSE )
+}
+
+#' @title determine the proportion of a year passed as of a particular date
+#' 
+#' @description The fraction returned by this is used e.g. for intercensal estimates.
+#' 
+#' @param Year 4-digit year (string or integer)
+#' @param Month month digits (string or integer, 1 or 2 characters)
+#' @param Day Day of month digits (string or integer, 1 or 2 characters)
+#' @param detect.mid.year logical. if \code{TRUE}, June 30 or July 1 will always return .5.
+#' @param detect.start.end logical. default \code{TRUE}. Should Jan 1 always be 0 and Dec 31 always be 1?
+#' @details Code inherited from HMD, slightly modified to remove matlab legacy bit.
+#' @export
+#' @examples
+#' ypart(2001,2,14) # general use
+#' ypart(2001,6,30) # mid year options, default detection
+#' ypart(2001,7,1)  # also
+#' ypart(2000,6,30) # no change for leap year, still detected as mid year
+#' ypart(2000,6,30, FALSE) # exact measure
+#' ypart(2000,7,1, FALSE)  # July 1 leap year
+#' ypart(2001,7,1, FALSE)  # July 1 not leap year
+#' ypart(2002,12,31, detect.start.end = FALSE) # assumes end of day by default.
+#' ypart(2002,1,1, detect.start.end = FALSE) # end of day year fraction
+#' ypart(2002,1,1, detect.start.end = TRUE)  # assume very begining of year
+
+
+ypart <- function(Year, Month, Day, detect.mid.year = TRUE, detect.start.end = TRUE){
+	M <- c(0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334)
+
+	if (detect.mid.year){
+		.d <- as.integer(Day)
+		.m <- as.integer(Month)
+		if ((.d == 30 & .m == 6) | (.d == 1 & .m == 7)){
+			return(.5)
+		}
+	}
+	
+	if (detect.start.end){
+		.d <- as.integer(Day)
+		.m <- as.integer(Month)
+		if (.d == 1 & .m == 1){
+			return(0)
+		}
+		if(.d == 31 & .m == 12){
+			return(1)
+		}
+	}
+	
+	monthdur    <- diff(c(M,365))
+	monthdur[2] <- monthdur[2] + isLeapYear(Year)
+	M           <- cumsum(monthdur) - 31
+	return((M[Month] + Day) / sum(monthdur))
+	
+}
+
+
+#' a convert date to decimal year fraction
+#'  
+#' @description Convert a character or date class to decimal, taking into account leap years. 
+
+#' @details This makes use of two HMD functions, \code{ypart()}, and \code{isLeapYear()} to compute. If the date is numeric, it is returned as such. If it is \code{"character"}, we try to coerce to \code{"Date"} class, ergo, it is best to specify a character string in an unambiguous \code{"YYYY-MM-DD"} format. If \code{date} is given in a \code{"Date"} class it is dealt with accordingly.
+#' @param date either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.
+#' 
+#' @return numeric expression of the date, year plus the fraction of the year passed as of the date.
+#' @export
+dec.date <- function(date){
+	if (class(date) == "numeric"){
+		return(date)
+	}
+	if (class(date) == "character"){
+		date <- as.Date(date)
+	}
+	day 	<- as.numeric(format(date,'%d'))
+	month 	<- as.numeric(format(date,'%m'))
+	year 	<- as.numeric(format(date,'%Y'))
+	frac    <- ypart(Year = year, 
+		                  Month = month, 
+		                  Day = day,
+		                  detect.mid.year = TRUE,
+						  detect.start.end = TRUE)
+	year + frac
+}
+
+
+#' trim two age vectors to matching N-year age groups
+#' 
+#' @description determining which N-year (e.g. 5-year) age groups two vectors have in common
+#' is helpful for matching vector lengths, and questions of alignment. Used as a utility throughout.
+
+#' @param Age1 integer vector of first age groups (lower bounds)
+#' @param Age2 integer vector of second age groups (lower bounds)
+#' @param N integer target age group interval (just one number)
+#' @param consecutive logical default \code{TRUE}. Throw error if resulting age groups not consecutive?
+#' @param ageMin integer optional lower age bound for output
+#' @param ageMax integer optional upper age bound for output
+#' 
+#' @return an integer vector of the N-year age groups present in both \code{Age1} and \code{Age2}
+#' 
+#' @export 
+#' 
+#' @examples 
+#' Age1 <- seq(0, 100, by = 5)
+#' Age2 <- 0:80
+#' AGEN(Age1, Age2, N = 5)
+#' AGEN(Age1, Age2, N = 5, ageMax = 70)
+AGEN <- function(Age1, Age2, N = 5, consecutive  = TRUE, ageMin = 0, ageMax = max(c(Age1,Age2))){
+	age1_5 <- Age1[Age1 %% 5 == 0]
+	age2_5 <- Age2[Age2 %% 5 == 0]
+	
+	# ages in common only
+	ageN <- sort(intersect(age1_5, age2_5))
+	ageN <- ageN[ageN >= ageMin & ageN <= ageMax]
+	
+	# make sure it's consecutive series
+	if (consecutive){
+		stopifnot(all(diff(ageN) == N))
+	}
+	
+	ageN
+}
+
+
+#' take consecutive ratios of a vector
+#' 
+#' @description This can be used, for example to take survival ratios. 
+#' @details behavior similar to \code{diff()}, in that returned vector is \code{k} elements
+#' shorter than the given vector \code{fx}.
+#' 
+#' @param fx numeric vector of \code{length > k}
+#' @param k integer the size of the lag in elements of \code{fx}.
+#' 
+#' @export 
+#' @examples 
+#' fx <- 1:10
+#' ratx(fx)
+#' ratx(fx,-1)
+#' ratx(fx,0)
+ratx <- function(fx, k = 1){
+	k    <- as.integer(k)
+	N    <- length(fx)
+	m    <- N - abs(k)
+	if (k > 0){
+		fx <- fx[-c(1:k)] / fx[1:m]
+	}
+	if (k < 0){
+		fx <- fx[1:m] / fx[-c(1:abs(k))] 
+	}
+	fx
+}
+
+
+#' calculate which large age group single ages belong to
+#' 
+#' @description Assign single ages to age groups of equal and arbitrary width, and also optionalyl shifted.
+#' 
+#' @param Age integer vector of single ages (lower bound)
+#' @param N integer. Desired width of resulting age groups
+#' @param shiftdown integer (optional), move the grouping down by one or more single ages?
+#' 
+#' @details If you shift the groupings, then the first age groups may have a negative lower bound 
+#' (for example of -5). These counts would be discarded for the osculatory version of Sprague smoothing,
+#' for example, but they are preserved in this function. The important thing to know is that if you shift 
+#'  the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1, 
+#' the first age group is 4-ages wide. 
+#'  
+#' @return a integer vector of \code{length(Age)} indicating the age group that each single age belongs to.
+#' 
+#' @export
+#' @examples
+#' Age <- 0:100
+#' calcAgeN(Age)
+#' calcAgeN(Age, N = 4)
+#' calcAgeN(Age, N = 3)
+#' calcAgeN(Age, shiftdown = 1)
+#' calcAgeN(Age, shiftdown = 2)
+#' # can be used to group abridged into equal 5-year intervals
+#' AgeAbr <- c(0,1,5,10,15,20)
+#' calcAgeN(AgeAbr)
+calcAgeN <- function(Age, N = 5, shiftdown = 0){
+	shift <- abs(shiftdown)
+	stopifnot(shift < N)
+	(Age + shift) - (Age + shift) %% N 
+}
+
+
+#' aggregates single year age groups into 5 year age groups
+#' 
+#' @description Creates five year age groups from single year ages. 
+#' @details Sums five year age intervals
+#' 
+#' @param Value numeric vector of single year age groups.
+#' 
+#' @export 
+#' @examples 
+#' MalePop <- seq(1,100)
+#' convertSingleTo5Year(MalePop)
+
+convertSingleTo5Year <- function(Value){
+  shiftZero <- Value
+  shiftOne <- Value[-1]
+  shiftTwo <- shiftOne[-1]
+  shiftThree <- shiftTwo[-1]
+  shiftFour <- shiftThree[-1]
+  
+  shiftZero <- shiftZero[0:(length(shiftZero)-4)]
+  shiftOne <- shiftOne[0:(length(shiftOne)-3)]
+  shiftTwo <- shiftTwo[0:(length(shiftTwo)-2)]
+  shiftThree <- shiftThree[0:(length(shiftThree)-1)]
+  
+  initialSum <- shiftZero + shiftOne + shiftTwo + shiftThree + shiftFour
+  
+  aggFinal <- initialSum[c(TRUE, FALSE, FALSE, FALSE, FALSE)]
+  
+  return(aggFinal)
+}
+
+#' aggregates split 0 & 1-4 age groups into a single 5 year age group
+#' 
+#' @description Creates a five year age group from split 0 & 1-4 year age groups. 
+#' @details Sums 0 & 1-4 age groups and outputs new 5 year age group vector.
+#' 
+#' @param Value numeric vector of population age groups that includes 0, 1-4, and 5 year ages.
+#' 
+#' @export 
+#' @examples 
+#' MalePop <- seq(1,100)
+#' convertSplitTo5Year(MalePop)
+
+convertSplitTo5Year <- function(Value){
+  output <- rep(0, length(Value))
+  
+  intermediate1 <- Value[1]
+  intermediate2 <- Value[2]
+  
+  intermediateValue <- Value[-1]
+  intermediateValue[1] <- intermediate1 + intermediate2
+  
+  output <- data.frame(intermediateValue)
+  row.names(output) <- seq(0, 5*length(output[,1])-1, by = 5)
+  
+  return(output)
 }
 
 
@@ -63,33 +345,128 @@ ma <- function(x,n=5){
 #' @param Age integer vector of lower bounds of single age groups
 #' @param N integer. Default 5. The desired width of resulting age groups
 #' @param shiftdown integer. Default 0. Optionally shift age groupings down by single ages 
-#' 
+#' @param AgeN optional integer vector, otherwise calculated using \code{calcAgeN()}
 #' @return vector of counts in N-year age groups
 #' 
 #' @details If you shift the groupings, then the first age groups may have a negative lower bound 
 #' (for example of -5). These counts would be discarded for the osculatory version of Sprague smoothing,
 #' for example, but they are preserved in this function. The important thing to know is that if you shift 
 #'  the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1, the first age group is 4-ages wide. The ages themselves are not returned, 
-#' but they are the name attribute of the output count vector.
-
+#' but they are the name attribute of the output count vector. Note this will also correctly group abridged ages
+#' into equal 5-year age groups if the \code{Age} argument is explicitly given.
+#' @export
 #' @examples
 #' India1991males <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918
-#' 		,14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,9055588,5519173,12546779,4784102,13365429,4630254,9595545,4727963
-#' 		,5195032,15061479,5467392,4011539,8033850,1972327,17396266,1647397,6539557,2233521,2101024,16768198,3211834,1923169,4472854,1182245
-#' 		,15874081,1017752,3673865,1247304,1029243,12619050,1499847,1250321,2862148,723195,12396632,733501,2186678,777379,810700,7298270
-#' 		,1116032,650402,1465209,411834,9478824,429296,1190060,446290,362767,4998209,388753,334629,593906,178133,4560342,179460
-#' 		,481230,159087,155831,1606147,166763,93569,182238,53567,1715697,127486,150782,52332,48664,456387,46978,34448
+#' 		,14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
+#' 9055588,5519173,12546779,4784102,13365429,4630254,9595545,4727963
+#' 		,5195032,15061479,5467392,4011539,8033850,1972327,17396266,1647397,
+#' 6539557,2233521,2101024,16768198,3211834,1923169,4472854,1182245
+#' 		,15874081,1017752,3673865,1247304,1029243,12619050,1499847,1250321,
+#' 2862148,723195,12396632,733501,2186678,777379,810700,7298270
+#' 		,1116032,650402,1465209,411834,9478824,429296,1190060,446290,362767,
+#' 4998209,388753,334629,593906,178133,4560342,179460
+#' 		,481230,159087,155831,1606147,166763,93569,182238,53567,1715697,
+#' 127486,150782,52332,48664,456387,46978,34448
 #' 		,44015,19172,329149,48004,28574,9200,7003,75195,13140,5889,18915,21221,72373)
 #' Age <- 0:100
 #' groupAges(India1991males, N = 5)
-#' groupAges(India1991males, N = 5, shift = 1)
-#' groupAges(India1991males, N = 5, shift = 2)
-#' groupAges(India1991males, N = 5, shift = 3)
-#' groupAges(India1991males, N = 5, shift = 4)
-groupAges <- function(Value, Age = 1:length(Value) - 1, N = 5, shiftdown = 0){
-	shift <- abs(shift)
-	stopifnot(shift < N)
-	
-	ageN  <- (Age + shift) - (Age + shift) %% N 
-	tapply(Value, ageN, sum)
+#' groupAges(India1991males, N = 5, shiftdown = 1)
+#' groupAges(India1991males, N = 5, shiftdown = 2)
+#' groupAges(India1991males, N = 5, shiftdown = 3)
+#' groupAges(India1991males, N = 5, shiftdown = 4)
+groupAges <- function(Value, 
+		              Age = 1:length(Value) - 1, 
+					  N = 5, 
+					  shiftdown = 0, 
+					  AgeN){
+	if (missing(AgeN)){
+		AgeN <- calcAgeN(Age = Age, N = N, shiftdown = shiftdown)
+	}
+	tapply(Value, AgeN, sum)
+}
+
+#' logical checking of whether age classes appear single
+#' 
+#' @description check whether a vector of ages consists in single ages. This
+#' makes sense sometimes when age intervals are not explicitly given.
+#' 
+#' @param Age integer vector of age classes
+#' 
+#' @return logical \code{TRUE} if detected as single ages, \code{FALSE} otherwise
+#' 
+#' @details In cases where ages are indeed single, but repeated, this will still return \code{FALSE}. 
+#' Therefore make sure that the age vector given refers to a single year of a single population, etc.
+#' @export
+#' @examples
+#' Age <- 0:99
+#' Age2 <- c(0:10,0:10)
+#' Age3 <- seq(0,80,by=5)
+#' Age4 <- seq(0,10,by=.5)
+#' test.single(Age)  # TRUE
+#' test.single(Age2) # FALSE repeated, can't tell.
+#' test.single(Age3) # FALSE not single ages
+#' test.single(Age4) # FALSE not single ages
+test.single <- function(Age){
+	all(diff(sort(Age)) == 1)
+}
+
+#' Convert arbitrary age groupings into single years of age
+#' 
+#' @description Splits aggregate counts for a vector of age groups of a common width into single year age groups.
+#' 
+#' @param Value numeric vector of age group counts
+#' @param Age numeric vector of ages corresponding to the lower integer bound of the age range.
+#' @param OAG boolean argument that determines whether the final age group (assumed open ended) is kept as it is or has the same length as the rest of the age groups. Default is FALSE, i.e. use the same length for the final age group.
+#' 
+#' @return numeric vector of counts for single year age groups.
+#' 
+#' @details Assumes that all age groups are equal width. (Default is 5-year age groups.) Also, assumes that the population is uniformly distributed across each age interval. If there is a split under 5 age group (0 and 1-4 age groups), use function convertSplitTo5Year to consolidate before using this function. The default setting is to assume that the final age group is the same width as the other age groups.
+#' 
+#' @export
+#' @examples 
+#' MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,
+#'              11993151,10033918,14312222,8111523,15311047,6861510,13305117,7454575,
+#'              9015381,10325432,9055588,5519173)
+#' Ages <- seq(0,85, by=5)
+#' splitToSingleAges(MalePop, Ages)
+#' splitToSingleAges(MalePop, Ages, OAG = TRUE)
+splitToSingleAges <- function(Value, Age, OAG = FALSE){
+  ageMax <- max(Age)             # the lower bound of the largest age group
+  N      <- length(Value)        # number of age groups from the census.
+  M      <- ageMax / (N - 1)     # length of each age group from the census.
+  
+  ageGroupBirths   <- Value / M  # vector of the number of births in a single year for each age group assuming uniformity.
+  
+  if (OAG){
+      ageGroupBirths <- ageGroupBirths[0:(length(ageGroupBirths)-1)] # remove final age group
+      singleAgeGroupBirths <- rep(ageGroupBirths, each = M) # vector of the single year births for all ages except final age group
+      singleAgeGroupBirths[length(singleAgeGroupBirths)+1] <- Value[length(Value)]
+  }
+  else{
+      singleAgeGroupBirths  <- rep(ageGroupBirths, each = M)  # vector of the single year births for all ages
+  }
+  
+  return(singleAgeGroupBirths)
+}
+
+#' Wrapper to provide a single location to reference all model life tables.
+#' 
+#' @description Still in the works.
+#' 
+#' @param ModelName string naming the life table to return. Can be "coale-demeny west".
+#' @param Sex string indicating which sex should be returned. Can be either "M" or "F".
+#' 
+#' @return list of life tables
+#' 
+#' @details More model families can easily be added.
+#' 
+#' @importFrom demogR cdmltw
+#' @export
+
+getModelLifeTable <- function(ModelName, Sex){
+  if(ModelName == "coale-demeny west"){
+    outputLT <- demogR::cdmltw(sex = Sex)
+  }
+  
+  return(outputLT)
 }
