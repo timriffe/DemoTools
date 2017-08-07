@@ -73,12 +73,22 @@
 #' # Note: there are no kludges built into spragueSimple() to handle such cases.
 #' # these ought to be handled by wrappers as appropriate.
 
-spragueSimple <- function(popmat, OAG = TRUE){
+spragueSimple <- function(popmat, Age, OAG = TRUE){
 	popmat            <- as.matrix(popmat)
-	scm               <- spragueExpand(popmat, OAG = OAG)
 	
-	pop1              <- scm %*% popmat
+	if (missing(Age)){
+		Age               <- as.integer(rownames(popmat))
+	}
+	# this is innocuous if ages are already grouped
+	pop5              <- apply(popmat, 2, groupAges, Age = Age, N = 5, shiftdown = 0)
 	
+	# generate coefficient matrix
+	scm               <- spragueExpand(pop5, OAG = OAG)
+	
+	# redistribute
+	pop1              <- scm %*% pop5
+	
+	# label and return
 	zero              <- min(as.integer(rownames(popmat)))
 	ages              <- zero:(nrow(scm)-1 + zero)
 	dimnames(pop1)    <- list(ages, colnames(popmat))
@@ -308,31 +318,73 @@ grabillExpand <- function(popmat){
 #' @export
 #' 
 #' @examples 
-#' p5 <- structure(c(54170.08, 44774.6, 42141.587, 38463.515, 34405.607, 
-#' 162369.816, 57424.3568738, 44475.4981681, 41751.7574114, 39628.4338929, 
-#' 34756.9473002, 164194.0485702, 60272.2061248, 44780.1982856, 
-#' 41803.6541424, 40229.0292664, 35154.7682192, 166275.9022992, 
-#' 62726.896388, 45681.1355532, 42100.72506, 40473.8600572, 35598.545404, 
-#' 168556.5331816, 64815.5458002, 47136.5341033, 42508.3026466, 
-#' 40532.3096745, 36082.7490698, 170990.473735, 66579.122, 49070.407, 
-#' 42953.604, 40534.586, 36596.844, 173545.633), .Dim = c(6L, 6L
-#' ), .Dimnames = list(seq(0,25,5), 1950:1955))
+#' p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
+#' 				23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941, 
+#' 				326, 80, 17, 0, 57424, 44475, 41752, 39628, 34757, 30605, 27183, 
+#' 				23792, 20724, 17056, 14059, 10585, 8103, 5306, 3367, 2040, 963, 
+#' 				315, 80, 16, 1, 60272, 44780, 41804, 40229, 35155, 30978, 27456, 
+#' 				24097, 20873, 17546, 13990, 11146, 7841, 5738, 3184, 2062, 961, 
+#' 				311, 80, 15, 1, 62727, 45681, 42101, 40474, 35599, 31439, 27758, 
+#' 				24396, 21055, 17958, 14046, 11589, 7731, 6060, 3086, 2083, 949, 
+#' 				312, 79, 14, 1, 64816, 47137, 42508, 40532, 36083, 31940, 28092, 
+#' 				24693, 21274, 18299, 14223, 11906, 7785, 6255, 3090, 2084, 938, 
+#' 				316, 80, 14, 2), 
+#' 		.Dim = c(21L, 5L), 
+#' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 #' head(p5) # this is the entire matrix
-#' p1 <- grabill(p5)
-#' head(p1); tail(p1)
-#' colSums(p1) - colSums(p5) 
-#' p1 - spragueSimple(p5)
-
-grabill <- function(popmat){
+#' p1g <- grabill(p5)
+#' head(p1g); tail(p1g)
+#' colSums(p1g) - colSums(p5) 
+#' p1s <- spragueSimple(p5)
+#' \dontrun{
+#' plot(seq(0,100,by=5),p5[,1]/5,type = "s", col = "gray", xlab = "Age", ylab = "Count")
+#' lines(0:100, p1g[,1], col = "red", lwd = 2)
+#' lines(0:100, p1s[,1], col = "blue", lty = 2)
+#' legend("topright", 
+#'		lty = c(1,1,2), 
+#'		col = c("gray","red","blue"), 
+#'		lwd = c(1,2,1), 
+#'		legend = c("grouped","Grabill", "Sprague"))
+#' }
+#' 
+#' # also works for single ages:
+#'  popmat <- structure(c(9544406, 7471790, 11590109, 11881844, 11872503, 12968350, 
+#' 				 11993151, 10033918, 14312222, 8111523, 15311047, 6861510, 13305117, 
+#' 				 7454575, 9015381, 10325432, 9055588, 5519173, 12546779, 4784102, 
+#' 				 13365429, 4630254, 9595545, 4727963, 5195032, 15061479, 5467392, 
+#' 				 4011539, 8033850, 1972327, 17396266, 1647397, 6539557, 2233521, 
+#' 				 2101024, 16768198, 3211834, 1923169, 4472854, 1182245, 15874081, 
+#' 				 1017752, 3673865, 1247304, 1029243, 12619050, 1499847, 1250321, 
+#' 				 2862148, 723195, 12396632, 733501, 2186678, 777379, 810700, 7298270, 
+#' 				 1116032, 650402, 1465209, 411834, 9478824, 429296, 1190060, 446290, 
+#' 				 362767, 4998209, 388753, 334629, 593906, 178133, 4560342, 179460, 
+#' 				 481230, 159087, 155831, 1606147, 166763, 93569, 182238, 53567, 
+#' 				 1715697, 127486, 150782, 52332, 48664, 456387, 46978, 34448, 
+#' 				 44015, 19172, 329149, 48004, 28574, 9200, 7003, 75195, 13140, 
+#' 				 5889, 18915, 21221, 72373), .Dim = c(101L, 1L), .Dimnames = list(
+#' 				 0:100, NULL))
+#' grab1 <- grabill(popmat)
+#' \dontrun{
+#' plot(0:100, c(popmat))
+#' lines(0:100, c(grab1))
+#' }
+grabill <- function(popmat, Age){
 	popmat            <- as.matrix(popmat)
 	
+	if (missing(Age)){
+		Age               <- as.integer(rownames(popmat))
+	}
+	# this is innocuous if ages are already grouped
+	pop5              <- apply(popmat, 2, groupAges, Age = Age, N = 5, shiftdown = 0)
+	
+	
 	# get coefficient matrices for Sprague and Grabill
-	scmg              <- grabillExpand(popmat)
-	scm               <- spragueExpand(popmat)
+	scmg              <- grabillExpand(pop5)
+	scm               <- spragueExpand(pop5)
 	
 	# split pop counts
-	pops              <- scm %*% popmat
-	popg              <- scmg %*% popmat
+	pops              <- scm %*% pop5
+	popg              <- scmg %*% pop5
 	
 	# ---------------------------------------------
 	# now we graft the two estimates in together,
@@ -402,17 +454,52 @@ grabill <- function(popmat){
 #'				 "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", 
 #'				 "65", "70", "75", "80", "85", "90", "95", "100"))
 #'
+#' # overwrite open age group with a single age estimate for that age
+#' # (doesn't extrapolate)
 #' splitMono(Value)
-#' splitMono(Value, keep.OAG = TRUE)
+#' # or respect open age group
+#' splitMono(Value, OAG = TRUE)
+#' 
+#' # Also accepts single ages:
+#' Value <- structure(c(9544406, 7471790, 11590109, 11881844, 11872503, 12968350, 
+#'				 11993151, 10033918, 14312222, 8111523, 15311047, 6861510, 13305117, 
+#'				 7454575, 9015381, 10325432, 9055588, 5519173, 12546779, 4784102, 
+#'				 13365429, 4630254, 9595545, 4727963, 5195032, 15061479, 5467392, 
+#'				 4011539, 8033850, 1972327, 17396266, 1647397, 6539557, 2233521, 
+#'				 2101024, 16768198, 3211834, 1923169, 4472854, 1182245, 15874081, 
+#'				 1017752, 3673865, 1247304, 1029243, 12619050, 1499847, 1250321, 
+#'				 2862148, 723195, 12396632, 733501, 2186678, 777379, 810700, 7298270, 
+#'				 1116032, 650402, 1465209, 411834, 9478824, 429296, 1190060, 446290, 
+#'				 362767, 4998209, 388753, 334629, 593906, 178133, 4560342, 179460, 
+#'				 481230, 159087, 155831, 1606147, 166763, 93569, 182238, 53567, 
+#'				 1715697, 127486, 150782, 52332, 48664, 456387, 46978, 34448, 
+#'				 44015, 19172, 329149, 48004, 28574, 9200, 7003, 75195, 13140, 
+#'				 5889, 18915, 21221, 72373), .Dim = c(101L, 1L), .Dimnames = list(
+#'				 0:100, NULL))
+#' splitMono(Value, OAG = TRUE)
+#' 
+#' from_single  <- splitMono(Value, OAG = TRUE) 
+#' # compare, had we pre-grouped ages:
+#' Val5         <- groupAges(Value, N=5, shiftdown = 0)
+#' from_grouped <- splitMono(Val5, OAG = TRUE)
+#' # de facto unit test:
+#' stopifnot(all(from_single == from_grouped))
 
-splitMono <- function(Value, Age5 = seq(0, length(Value)*5-5, 5), keep.OAG = FALSE){
-	AgePred    <- min(Age5):(max(Age5) + 1)
-	y          <- c(0, cumsum(Value))
-	x          <- c(0, Age5 + 5)
+splitMono <- function(Value, Age, OAG = FALSE){
+	if (missing(Age)){
+		Age               <- as.integer(names(Value))
+	}
+	# this is innocuous if ages are already grouped
+	Age5       <- calcAgeN(Age, N = 5)
+	pop5       <- groupAges(Value, AgeN = Age5, shiftdown = 0)
+	
+	AgePred    <- min(Age):(max(Age) + 1)
+	y          <- c(0, cumsum(pop5))
+	x          <- c(0, sort(unique(Age5)) + 5)
 	y1         <- splinefun(y ~ x, method = "monoH.FC")(AgePred)
 	single.out <- diff(y1)
-	if (keep.OAG){
-		single.out[length(single.out)] <- Value[length(Value)]
+	if (OAG){
+		single.out[length(single.out)] <- pop5[length(pop5)]
 	}
 	single.out
 }

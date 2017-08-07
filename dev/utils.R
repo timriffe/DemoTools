@@ -246,7 +246,7 @@ ratx <- function(fx, k = 1){
 
 #' calculate which large age group single ages belong to
 #' 
-#' @description Assign single ages to age groups of equal and arbitrary width, and also optionalyl shifted.
+#' @description Assign single ages to age groups of equal and arbitrary width, and also optionally shifted.
 #' 
 #' @param Age integer vector of single ages (lower bound)
 #' @param N integer. Desired width of resulting age groups
@@ -258,7 +258,7 @@ ratx <- function(fx, k = 1){
 #'  the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1, 
 #' the first age group is 4-ages wide. 
 #'  
-#' @return a integer vector of \code{length(Age)} indicating the age group that each single age belongs to.
+#' @return an integer vector of \code{length(Age)} indicating the age group that each single age belongs to.
 #' 
 #' @export
 #' @examples
@@ -277,6 +277,28 @@ calcAgeN <- function(Age, N = 5, shiftdown = 0){
 	(Age + shift) - (Age + shift) %% N 
 }
 
+#' calculate which abridged age group single ages belong to
+#' 
+#' @description Assign single ages to 5-year abridged age groups. That means that age 0 is kept as a single age,
+#' ages 1-4 are grouped together as abridged age 1, and thereafter 5-year age groups are used.
+#' 
+#' @param Age integer vector of single ages (lower bound)
+#' 
+#' @details In the case that the single \code{Age} vector starts at some age higher than 4, 
+#' this is just the same as \code{calcAgeN(Age,5,0)}.
+#'  
+#' @return an integer vector of \code{length(Age)} indicating the abridged age group that each single age belongs to.
+#' 
+#' @export
+#' @examples
+#' Age <- 0:70
+#' calcAgeAbr(Age)
+#' calcAgeN(Age,5,0)
+calcAgeAbr <- function(Age){
+	Abr               <- Age - Age %% 5
+	Abr[Age %in% 1:4] <- 1
+	Abr
+}
 
 #' aggregates single year age groups into 5 year age groups
 #' 
@@ -291,20 +313,21 @@ calcAgeN <- function(Age, N = 5, shiftdown = 0){
 #' convertSingleTo5Year(MalePop)
 
 convertSingleTo5Year <- function(Value){
-  shiftZero <- Value
-  shiftOne <- Value[-1]
-  shiftTwo <- shiftOne[-1]
+  shiftZero  <- Value
+  shiftOne   <- Value[-1]
+  shiftTwo   <- shiftOne[-1]
   shiftThree <- shiftTwo[-1]
-  shiftFour <- shiftThree[-1]
+  shiftFour  <- shiftThree[-1]
   
-  shiftZero <- shiftZero[0:(length(shiftZero)-4)]
-  shiftOne <- shiftOne[0:(length(shiftOne)-3)]
-  shiftTwo <- shiftTwo[0:(length(shiftTwo)-2)]
+  # TR: not sure what to make of zero-indexing
+  shiftZero  <- shiftZero[0:(length(shiftZero)-4)]
+  shiftOne   <- shiftOne[0:(length(shiftOne)-3)]
+  shiftTwo   <- shiftTwo[0:(length(shiftTwo)-2)]
   shiftThree <- shiftThree[0:(length(shiftThree)-1)]
   
   initialSum <- shiftZero + shiftOne + shiftTwo + shiftThree + shiftFour
   
-  aggFinal <- initialSum[c(TRUE, FALSE, FALSE, FALSE, FALSE)]
+  aggFinal   <- initialSum[c(TRUE, FALSE, FALSE, FALSE, FALSE)]
   
   return(aggFinal)
 }
@@ -470,3 +493,12 @@ getModelLifeTable <- function(ModelName, Sex){
   
   return(outputLT)
 }
+
+
+
+
+
+
+
+
+

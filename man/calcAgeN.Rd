@@ -14,10 +14,10 @@ calcAgeN(Age, N = 5, shiftdown = 0)
 \item{shiftdown}{integer (optional), move the grouping down by one or more single ages?}
 }
 \value{
-a integer vector of \code{length(Age)} indicating the age group that each single age belongs to.
+an integer vector of \code{length(Age)} indicating the age group that each single age belongs to.
 }
 \description{
-Assign single ages to age groups of equal and arbitrary width, and also optionalyl shifted.
+Assign single ages to age groups of equal and arbitrary width, and also optionally shifted.
 }
 \details{
 If you shift the groupings, then the first age groups may have a negative lower bound 

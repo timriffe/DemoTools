@@ -4,7 +4,7 @@
 \alias{spragueSimple}
 \title{the basic Sprague age-splitting method}
 \usage{
-spragueSimple(popmat, OAG = TRUE)
+spragueSimple(popmat, Age, OAG = TRUE)
 }
 \arguments{
 \item{popmat}{a numeric matrix of population counts in 5-year age groups, with integer-labeled 
