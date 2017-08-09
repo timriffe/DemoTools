@@ -68,7 +68,10 @@ lines(Age, pop1)
 lines(Age, pop2, col = "red", lty = 2, lwd = 2) 
 lines(Age, pop3, col = "magenta")
 lines(Age, pop4, col = "orange", lty = 2)
-legend("topright", lty = c(1,1,2,1,2), lwd = c(1,1,2,1,1), col = c("blue","black","red","magenta","orange"),
+legend("topright", 
+lty = c(1,1,2,1,2), 
+lwd = c(1,1,2,1,1), 
+col = c("blue","black","red","magenta","orange"),
 		legend = c("spragueSimple()",
                 "splitOscillate(splitfun = spragueSimple)", 
 				   "splitOscillate(splitfun = beersSimple)",

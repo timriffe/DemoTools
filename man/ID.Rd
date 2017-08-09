@@ -37,3 +37,6 @@ pop3[1:5]            <- 0
 pop4[6:length(pop4)] <- 0
 ID(pop3, pop4)     # no overlap = 100.
 }
+\references{
+\insertRef{siegel2004methods}{DemoTools}
+}
