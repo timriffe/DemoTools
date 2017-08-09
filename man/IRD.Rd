@@ -24,7 +24,8 @@ We assume that the populations are ordered in the same way and
 that said ordering happens before this function is called. We only check here that the vectors
 are of the same length. The input arguments could indeed be popualtions structured on multiple
 variables (more than just age), as long as they are ordered in the same way. It is advised to lower 
-the open age group for this method because each age has the same weight.
+the open age group for this method because each age has the same weight. Ages where one population 
+has a zero count and the other does not are thrown out.
 }
 \examples{
 pop1 <- c(7.38,14.16,14.79,17.36,15.11,10.14,8.50,7.28,5.28)
