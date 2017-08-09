@@ -14,14 +14,15 @@ load_all("/home/tim/git/DemoTools")
 check("/home/tim/git/DemoTools")
 #build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
 #?devtools::build
+devtools::use_testthat("/home/tim/git/DemoTools")
 
-#build("/home/tim/git/DemoTools")
 
 # these created the necessary files to run automatic remote code testing
 #use_appveyor("/home/tim/git/DemoTools")
 #use_travis("/home/tim/git/DemoTools")
 #use_coverage(pkg = "/home/tim/git/DemoTools", type = c("codecov", "coveralls"))
 
-#install.packages("/home/tim/git/DemoTools_0.45.tar.gz", repos = NULL, type="source")
-# library(DemoTools)
-#?ageRatioScore
+
+
+# how many functions are there?
+# length(dir("/home/tim/git/DemoTools/man"))

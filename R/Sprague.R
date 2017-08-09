@@ -216,20 +216,20 @@ spragueExpand <- function(popmat, OAG = TRUE){
 }
 
 
-#' an oscillatory average of Sprague age splits
+#' an oscillatory average of age splits
 #' @description Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits.
-#' This method is a bit smoother than the standard \code{spragueSimple()} method, but not as smooth as \code{grabill()}.
+#' This method is a bit smoother than the standard Sprague or Beers methods, but not as smooth as \code{grabill()}.
 #' 
 #' @details This function works on a single vector of single-age counts, not on a matrix. Results are not
-#' constrained to any particular age group, but are constrained to the total count.
-#' The option to closeout using \code{monoCloseout()} is recommended because it usually gives 
-#' more plausible results and it avoids negative values. This is run separately on each Sprague split,
-#' rather than on the aggregate results. 
+#' constrained to any particular age group, but are constrained to the total count. Negatives, \code{NA}, or \code{NaN} 
+#' values are ignored in averaging. This can happen in older ages . It is recommended to run \code{monoCloseout()} or 
+#' similar after the oscillatory split in such situations.
 #' 
 #' @param Value numeric vector of single age counts
 #' @param Age integer vector of single ages (lower bound)
 #' @param OAG logical (default \code{TRUE}). Is the last value the open age group?
-
+#' @param splitfun function used to split at each digit grouping (default \code{spragueSimple()}.
+#' @param ... optional arguments passed to \code{splitfun()}.
 #' 
 #' @return numeric vector of Sprague-smoothed counts
 #' @references 
@@ -255,12 +255,15 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' pop0    <- spragueSimple(groupAges(Value),  OAG = TRUE)
 #' # note: this function needs single ages to work because
 #' # ages are grouped into 5-year age groups in 5 different ways.
-#' pop1   <- spragueOscillate(Value, OAG = TRUE)
-#' # what's smoother, spragueOscillate() or grabill()?
+#' pop1    <- splitOscillate(Value, OAG = TRUE, splitfun = spragueSimple)
+#' pop2    <- splitOscillate(Value, OAG = TRUE, splitfun = beersSimple)
+#' # what's smoother, splitOscillate() or grabill()?
 #' # note, same closeout problem, can be handled by monoCloseout()
-#' pop2   <- grabill(Value, OAG = TRUE)
-#' #pop4   <- monoCloseout(groupAges(Value, Age), pops = pop3)
-#' \dontrun{
+#' pop3    <- grabill(Value, OAG = TRUE)
+#' # and technically you could give grabill as splitfun too
+#' pop4   <- splitOscillate(Value, OAG = TRUE, splitfun = grabill)
+#' \dontrun{}
+#' Age <- 0:100
 #' plot(Age, Value)
 #' lines(Age, pop0, col = "blue")
 #' # slightly smoother (also shifted though)
@@ -268,14 +271,29 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' # only different at very high ages, small nrs
 #' lines(Age, pop2, col = "red", lty = 2, lwd = 2) 
 #' lines(Age, pop3, col = "magenta")
-#' legend("topright", lty = c(1,1,2,1), lwd = c(1,1,2,1), col = c("blue","black","red","magenta"),
+#' lines(Age, pop4, col = "orange", lty = 2)
+#' legend("topright", lty = c(1,1,2,1,2), lwd = c(1,1,2,1,1), col = c("blue","black","red","magenta","orange"),
 #' 		legend = c("spragueSimple()",
-#'                 "spragueOscillate(closeout = FALSE)", 
-#' 				   "spragueOscillate(closeout = TRUE)",
-#' 				   "grabill()"))
+#'                 "splitOscillate(splitfun = spragueSimple)", 
+#' 				   "splitOscillate(splitfun = beersSimple)",
+#' 				   "grabill()",
+#'                 "splitOscillate(splitfun = grabill)"))
 #' }
+#' # index of dissimilarity
+#' ID(Value, pop0) # original vs sprague
+#' ID(pop0,pop1) # sprague vs sprague osc
+#' ID(pop1,pop2) # sprague osc vs beers osc
+#' ID(pop2,pop3) # beersSimple osc vs grabill
+#' ID(pop3,pop4) # grabill vs grabill osc
+#' # measre of smoothness:
+#' mean(abs(diff(Value)))
+#' mean(abs(diff(pop0)))
+#' mean(abs(diff(pop1)))
+#' mean(abs(diff(pop2)))
+#' mean(abs(diff(pop3)))
+#' mean(abs(diff(pop4)))
 
-spragueOscillate <- function(Value, Age = 1:length(Value) - 1, OAG = TRUE){
+splitOscillate <- function(Value, Age = 1:length(Value) - 1, OAG = TRUE, splitfun = spragueSimple, ...){
 	
 	N     <- length(Value)
 	if (OAG){
@@ -287,7 +305,7 @@ spragueOscillate <- function(Value, Age = 1:length(Value) - 1, OAG = TRUE){
 	} 
 	TOT    <- sum(Value)
 # select which ages to keep:
-	p1x1   <- matrix(nrow = length(Value), ncol = 5)
+	p1x1   <- matrix(nrow = N, ncol = 5)
 	rownames(p1x1) <- Age
 	for (i in 0:4){
 		# regroup ages
@@ -302,14 +320,14 @@ spragueOscillate <- function(Value, Age = 1:length(Value) - 1, OAG = TRUE){
 		Val.i.5             <- groupAges(Val.i, AgeN = Age.i.5)
 	
 		# get first run estimate
-		pop.est             <- spragueSimple(Val.i.5, OAG = FALSE)
+		pop.est             <- splitfun(Val.i.5, OAG = FALSE, ...)
 #        a                   <- rownames(pop.est)
 #		if (closeout){
 #			a.fake  <- (1:nrow(pop.est) - 1) * 5
 #			pop.est <- monoCloseout(Val.i.5, Age = a.fake, pops = pop.est, OAG = FALSE)
 #		}
 		
-		pop.est[pop.est < 0] <- NA
+		pop.est[pop.est < 0] <- 0
 		p1x1[keep.i, i + 1]  <- pop.est
 	}
 	# take average per age

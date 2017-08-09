@@ -40,8 +40,7 @@ library(DemoTools)
 ?grabill
 ?splitMono
 ?monoCloseout
-?spragueOscillate
-?beersModSimple
+?splitOscillate # accepting e.g. spragueSimple, beersSimple as split methods
 ?birthCohorts
 ?adjustAge
 ?ADM

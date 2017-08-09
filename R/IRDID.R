@@ -12,7 +12,8 @@
 #' that said ordering happens before this function is called. We only check here that the vectors
 #' are of the same length. The input arguments could indeed be popualtions structured on multiple
 #' variables (more than just age), as long as they are ordered in the same way. It is advised to lower 
-#' the open age group for this method because each age has the same weight.
+#' the open age group for this method because each age has the same weight. Ages where one population 
+#' has a zero count and the other does not are thrown out.
 
 #' @param pop1 numeric vector of counts from population 1
 #' @param pop2 numeric vector of counts from population 2
@@ -33,12 +34,15 @@ IRD <- function(pop1, pop2){
 	# for now just make sure they're the same lengths. We won't do
 	# age matching here.
 	stopifnot(length(pop1) == length(pop2))
-	n  <- length(pop1)
+	n     <- length(pop1)
 	
-	r1 <- rescale.vector(pop1)
-	r2 <- rescale.vector(pop2)
+	r1    <- rescale.vector(pop1)
+	r2    <- rescale.vector(pop2)
 	
-	sum(abs((r2 / r1 * 100) - 100)) / (2 * n)
+	ratio <- r2 / r1 
+	# we don't like zeros in denominators
+	ratio[is.infinite(ratio)] <- NA
+	sum(abs((ratio * 100) - 100), na.rm = TRUE) / (2 * n)
 	
 }
 

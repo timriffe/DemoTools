@@ -233,7 +233,7 @@ grabill <- function(popmat, Age, OAG = TRUE){
 	# ---------------------------------------------
 	# label dims and return
 	rg                <- range(as.integer(rownames(popmat)))
-	dimnames(popg)    <- list(rg[1]:rg[2], colnames(popmat))
+	dimnames(popg)    <- list(rg[1]:(rg[2]+ifelse(OAG, 0, 4)), colnames(popmat))
 	
 	popg
 }
