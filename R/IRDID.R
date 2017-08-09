@@ -57,10 +57,12 @@ IRD <- function(pop1, pop2){
 #' that said ordering happens before this function is called. We only check here that the vectors
 #' are of the same length. The input arguments could indeed be popualtions structured on multiple
 #' variables (more than just age), as long as they are ordered in the same way.
-
+#' 
 #' @param pop1 numeric vector of counts from population 1
 #' @param pop2 numeric vector of counts from population 2
 #' 
+#' @references 
+#' \insertRef{siegel2004methods}{DemoTools}
 #' @return an index value ranging from 0 to 100.
 #' @export
 #' @examples
