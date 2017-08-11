@@ -300,6 +300,38 @@ calcAgeAbr <- function(Age){
 	Abr
 }
 
+#' infer abrdiged age group widths based on the length of a vector
+#' 
+#' @description This function is an auxiliary used strictly by top level functions where it is 
+#' guaranteed that age groups are standard abridged age groups.
+#' 
+#' @param vec any vector, presumably a count, rate, or similar.
+#' @param OAG logical (default \code{FALSE}). Is the final age group open?
+#' 
+#' @details This will give erroneous results if ages are anything other than standard abridged ages groups. 
+#' If the final age group is open, the interval with is defined as \code{NA}. \code{Inf} or \code{-1} would have 
+#' also been a good choice, but we went with \code{NA}.
+#' 
+#'  
+#' @return an integer vector of \code{length(vec)} indicating the width of the abridged age group that each 
+#' vector element corresponds to.
+#' 
+#' @export
+#' @examples
+#' vec <- runif(20)
+#' inferAgeAbr(vec)
+#' inferAgeAbr(vec, OAG = TRUE)
+inferAgeAbr <- function(vec, OAG = FALSE){
+	ageint    <- rep(5,length(vec))
+	ageint[1] <- 1
+	ageint[2] <- 4
+	if (OAG){
+		ageint[length(ageint)] <- NA
+	}
+	ageint
+}
+
+
 #' aggregates single year age groups into 5 year age groups
 #' 
 #' @description Creates five year age groups from single year ages. 

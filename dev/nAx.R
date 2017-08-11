@@ -53,7 +53,7 @@ geta1_4CD <- function(M0, IMR, sex = "M", region = "W"){
 # so need args for a0 and a1_4
 # make a single abridged ax function that does this stuff
 # this is a terrible name, hate it. Not elegant
-nMx2nAxCDabr <- function(nMx, AgeInt, IMR, sex = "M", region = "W", OAG = TRUE){
+axPAS <- function(nMx, AgeInt, IMR, sex = "M", region = "W", OAG = TRUE){
 	# sex can be "m", "f", or "b"
 	# region can be "n","e","s","w",or
 	sex    <- tolower(sex)
@@ -69,4 +69,8 @@ nMx2nAxCDabr <- function(nMx, AgeInt, IMR, sex = "M", region = "W", OAG = TRUE){
 	a0[2]  <- geta1_4CD(M0 = nMx[1], IMR = IMR, sex = sex, region = region)
 	a0[N]  <- ifelse(!is.na(AgeInt[N]) & AgeInt[N] == 5, 2.5, 1 / nMx[N])
 	a0
+}
+
+axUN <- function(nMx, AgeInt, IMR, sex = "M", region = "W", OAG = TRUE){
+	
 }

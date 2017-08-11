@@ -14,7 +14,7 @@ load_all("/home/tim/git/DemoTools")
 check("/home/tim/git/DemoTools")
 #build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
 #?devtools::build
-devtools::use_testthat("/home/tim/git/DemoTools")
+#devtools::use_testthat("/home/tim/git/DemoTools")
 
 
 # these created the necessary files to run automatic remote code testing
