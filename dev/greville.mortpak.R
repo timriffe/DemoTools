@@ -1,7 +1,7 @@
 lt <- readRDS("C:/Users/pgerl/Dropbox/bayesPop/bayesPop2017/LTWorldMale.rds")
 
 
-nMx <- 
+
 
 greville.mortpak <- function(QxMx, inputQxMx, Sex) {
   # QxMx is either Qx or Mx vector of values  
@@ -180,11 +180,33 @@ qx2ax.greville <- function(nqx, Sex = "m", SRB = 1.05) {
 	ax
 }
 
+
+
 axUN <- function(qx, mx, Sex, tol = .Machine$double.eps, maxit = 1e3){
 	stopifnot(!missing(qx) | !missing(mx))
 	smsq    <- 99999
 	
+
+	if (missing(qx) & !missing(mx)){
+# UN (1982) p 31 
+# http://www.un.org/esa/population/publications/Model_Life_Tables/Model_Life_Tables.htm
+#		For ages 15 and over, the expression for nQx is derived
+#		from Greville" as ,nax, = 2.5 - (25/12) (nmx) - k), where
+#		k = 1/10 log(nmx+5/nmx-5). For ages 5 and 10, nQx = 2.5
+#		and for ages under 5, nQx values from the Coale and
+#		Demeny West region relationships are used."
+		
+		axi <- mx2ax.greville(nMx = mx, Sex = Sex)
+	}
 	if (!missing(qx) & missing(mx)){
+# UN (1982) p 31 
+# http://www.un.org/esa/population/publications/Model_Life_Tables/Model_Life_Tables.htm
+#		With nqx as input, the procedure is identical, except
+#		that an iterative procedure is used to find the nmx and nqx
+#		values consistent with the given nqx and with the Greville
+#		expression. To complete the life table, the last six nqx
+#		values are used to fit the Makeham-type expression
+		
 		axi <- qx2ax.greville(nqx = qx, Sex = Sex)
 		mxi <- mx.from.qx(qx, ax = axi)
 		for (i in 1:maxit) {
@@ -197,23 +219,9 @@ axUN <- function(qx, mx, Sex, tol = .Machine$double.eps, maxit = 1e3){
 			}
 		}
 	}
-	if (missing(qx) & !missing(mx)){
-		axi <- mx2ax.greville(nMx = mx, Sex = Sex)
-		qxi <- qx.from.mx(nMx = mx, ax = axi)
-		for (i in 1:maxit) {
-			qxi   <- qx.from.mx(mx, axi)
-			axi   <- qx2ax.greville(qxi, Sex = Sex, SRB = SRB)
-			mxnew <- mx.from.mx(qxi, axi)
-			smsq  <- sum((mxnew - mx)^2)
-			if (smsq < tol){
-				break
-			}
-		}
-	}
 	# if both given, then we have ax via identity:
 	if (!missing(qx) & !missing(mx)){
 		axi <- ax.from.qxmx(qx = qx, mx = mx)
-		
 	}
 	
 	# if mx, qx, or both are given, then by now we have ax
