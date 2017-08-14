@@ -73,7 +73,7 @@ axPAS <- function(nMx, AgeInt, IMR, Sex = "M", region = "W", OAG = TRUE){
 
 # this is strictly CD west, but what about the others? asked for Preston ref.
 # I'd program these differently if I had all the coefs
-nMx2ax.greville <- function(nMx, Sex = "m", SRB = 1.05) {
+nMx2ax.greville <- function(nMx, Sex = "m", SRB = 1.05, kludge = FALSE) {
 	# QxMx is either Qx or Mx vector of values  
 	# with inputQxMx = 1 for Qx as input for QxMx, and 2 for Mx otherwise like in Mortpak LIFETB
 	# with Sex ="m" for Male and "f" for Female
@@ -104,8 +104,18 @@ nMx2ax.greville <- function(nMx, Sex = "m", SRB = 1.05) {
 	}
 	N <- length(nMx)
 	## Greville (based on Mortpak LIFETB) for other ages
-	ax <- c(NA, 2.5 - (25 / 12) * (nMx[-c(1, N)] - 0.1 * log(nMx[3:N] / nMx[1:(N - 2)])),	1 / nMx[N])
+	
+	# this AK jitter replicates a FORTRAN quirk?
+	AK             <- 0.1 * log(nMx[3:N] / nMx[1:(N - 2)])
+	if (kludge){
+	  AK[length(AK)] <- AK[length(AK) -1 ]
+    }
+	ax <- c(NA, 2.5 - (25 / 12) * (nMx[-c(1, N)] - AK),	1 / nMx[N])
 	ax[1:4] <- c(ax0, ax1, 2.5, 2.5)
+	if (kludge){
+		# Fortran also appears to be doing this, as results cascade...
+		ax <- round(ax, 3)
+	}
 	ax
 }
 
@@ -149,9 +159,7 @@ qx2ax.greville <- function(nqx, Sex = "m", SRB = 1.05) {
 	ax
 }
 
-
-
-axUN <- function(nqx, nMx, AgeInt, Sex = "m", tol = .Machine$double.eps, maxit = 1e3){
+axUN <- function(nqx, nMx, AgeInt, Sex = "m", tol = .Machine$double.eps, maxit = 1e3, kludge = FALSE){
 	stopifnot(!missing(nqx) | !missing(nMx))
 	smsq    <- 99999
 	
@@ -165,7 +173,7 @@ axUN <- function(nqx, nMx, AgeInt, Sex = "m", tol = .Machine$double.eps, maxit =
 #		and for ages under 5, nQx values from the Coale and
 #		Demeny West region relationships are used."
 		
-		axi <- nMx2ax.greville(nMx = nMx, Sex = Sex)
+		axi <- nMx2ax.greville(nMx = nMx, Sex = Sex, kludge = kludge)
 	}
 	if (!missing(nqx) & missing(nMx)){
 # UN (1982) p 31 
