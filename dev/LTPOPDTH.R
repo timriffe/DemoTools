@@ -72,23 +72,53 @@ mxax2qx <- function(nMx, nax, AgeInt, closeout = TRUE, IMR){
 	qx
 }
 
-
-qx2lx <- function(nqx, radix=1e5){
-	
+#' derive lifetable survivorship from death probabilities
+#' @description This lifetable identity is the same no matter what kind of lifetable
+#' we're making. You can find it in any demography textbook.
+#' @details set \code{radix = 1} for the probability of surviving until age x. The vector returned is
+#' the same length as \code{nqx}, thereby throwing out the final value of qx, which is probably set to 1 anyway.
+#' 
+#' @param nqx numeric vector. Age-specific death probabilities in any age classes.
+#' @param radix numeric (default 100000). The lifetable starting population.
+#' @return lx numeric vector of lifetable survivorship
+#' @export
+qx2lx <- function(nqx, radix = 1e5){
 	radix * cumprod(c(1, 1 - nqx[-length(nqx)]))
 }
-
+#' derive lifetable deaths from survivorship
+#' @description This lifetable identity is the same no matter what kind of lifetable
+#' we're making. You can find it in any demography textbook.
+#' @details The vector returned is the same length as \code{lx} and it sums to the lifetable radix. 
+#' If the radix is one then this is the discrete deaths distribution.
+#' 
+#' @param lx numeric vector. Age-specific lifetable survivorship
+#' @return ndx numeric vector of lifetable deaths.
+#' @export
 lx2dx <- function(lx){
 	diff(-c(lx,0))
 }
-# dx <- ndx; ax <- nAx
-lxdxax2Lx <- function(lx,dx,ax,AgeInt){
+
+#' derive lifetable exposure from lx, ndx and nax.
+#' @description This is a common approximation of lifetable exposure: 
+#' All persons surviving to the end of the interval time the interval width, plus all those that died 
+#' in the interval multiplied by their average time spent in the interval.
+#' @details There is no checking of equal vector lengths at this time.
+#' @param lx numeric vector of lifetable survivorship
+#' @param ndx numeric vector of lifetable deaths, summing to radix of \code{lx}.
+#' @param nax numeric vector of average time spent in the age interval of those dying in the interval.
+#' @param AgeInt integer vector of age class widths
+#' @return nLx numeric vector of lifetable exposure.
+#' @export
+lxdxax2Lx <- function(lx, ndx, nax, AgeInt){
 	N                   <- length(lx)
-	Lx                  <- rep(0,N)
-	Lx[1:(N - 1)]       <- AgeInt[1:(N - 1)] * lx[2:N] + ax[1:(N - 1)] * dx[1:(N - 1)]
-	Lx[N]		        <- lx[N] * ax[N]
-	Lx
+	nLx                 <- rep(0, N)
+	nLx[1:(N - 1)]      <- AgeInt[1:(N - 1)] * lx[2:N] + nax[1:(N - 1)] * ndx[1:(N - 1)]
+	nLx[N]		        <- lx[N] * nax[N]
+	nLx
 }
+
+#' derive lifetable total person years left to live from exposure
+#' @description 
 Lx2Tx <- function(Lx){
 	rev(cumsum(rev(Lx)))
 }
