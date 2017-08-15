@@ -333,6 +333,7 @@ inferAgeIntAbr <- function(Age, vec, OAG = FALSE){
 	}
 	# otherwise length of vector will do
 	if (missing(Age) & !missing(vec)){
+		stopifnot(length(vec)>5)
 		ageint    <- rep(5,length(vec))
 		ageint[1] <- 1
 		ageint[2] <- 4
