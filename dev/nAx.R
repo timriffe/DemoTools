@@ -51,7 +51,7 @@
 # separate estimate of IMR optional
 # Markus: see if the model lifetables in refs/UN_1982... follow this rule of thumb for age 0.
 # You may need to try giving q0 as IMR, or else M0 as M0 to the function, not sure.
-geta0CD <- function(M0, IMR=NA, Sex = "M", region = "W"){
+geta0CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
 	# sex can be "m", "f", or "b"
 	# region can be "n","e","s","w",or
 	Sex    <- tolower(Sex)
@@ -80,7 +80,7 @@ geta0CD <- function(M0, IMR=NA, Sex = "M", region = "W"){
 		# formula from PAS LTPOPDTH
 		a   <- M0 * Beta
 		b   <- 1 + M0 * (1 - Alpha)
-		IMR <- (b-sqrt(b^2-4*a*M0))/(2*a)		
+		IMR <- (b - sqrt(b^2 - 4 * a * M0)) / (2 * a)		
 	}
 	ifelse(IMR > .1, Age0Const[region, Sex], {Alpha + Beta * IMR})
 }
@@ -152,13 +152,11 @@ geta1_4CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
 			dimnames = list(c("w", "n", "e", "s"), c("m","f","b")))
 	Slope        <- c(3.013, 	1.627, 	1.6270 )
 	names(Slope) <- c("m","f","b")
-	if (!missing(IMR) & !is.na(IMR)){
-		q0 <- IMR
-	} else {
-		a0 <- geta0CD(M0, Sex = Sex, region = region)
-		q0 <- mxax2qx(nMx = M0, nax = a0, AgeInt = 1, closeout = FALSE, IMR = NA)
+	if (missing(IMR) | is.na(IMR)){
+		a0 <- geta0CD(M0, IMR = NA, Sex = Sex, region = region)
+		IMR <- mxax2qx(nMx = M0, nax = a0, AgeInt = 1, closeout = FALSE, IMR = NA)
 	}
-	ifelse(q0 > .1, Age1_4Const[region, Sex], Intercept[region, Sex] - Slope[Sex]*q0)
+	ifelse(IMR > .1, Age1_4Const[region, Sex], Intercept[region, Sex] - Slope[Sex] * IMR)
 }
 
 
@@ -182,7 +180,7 @@ geta1_4CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
 #' @references \insertRef{united1983manual}{DemoTools}
 # Markus: see if the model lifetables in refs/UN_1982... follow this rule of thumb for age 0.
 # You may need to try giving q0 as IMR, or else M0 as M0 to the function, not sure.
-axPAS <- function(nMx, AgeInt, IMR, Sex = "M", region = "W", OAG = TRUE){
+axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "M", region = "W", OAG = TRUE){
 	# sex can be "m", "f", or "b"
 	# region can be "n","e","s","w",or
 	Sex    <- tolower(Sex)
@@ -191,9 +189,6 @@ axPAS <- function(nMx, AgeInt, IMR, Sex = "M", region = "W", OAG = TRUE){
 	N      <- length(nMx)
 	ax     <- AgeInt / 2
 	
-	if (missing(IMR) | is.na(IMR)){
-		IMR <- NA
-	}
 	ax[1]  <- geta0CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
 	ax[2]  <- geta1_4CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
 	ax[N]  <- ifelse(OAG, 1 / nMx[N], ax[N])
@@ -213,10 +208,12 @@ axPAS <- function(nMx, AgeInt, IMR, Sex = "M", region = "W", OAG = TRUE){
 #' and we do not check age groups here! 
 #' 
 #' @param nMx numeric vector. Mortality rates in standard abridged age groups.
-#' @param IMR numeric infant death probability. Optional. Otherwise we approximate this based on M0.
+#' @param nqx numeric vector. Age specific death probabilities in standard abridged age groups.
+#' @param nlx numeric vector. Lifetable survivorship in standard abridged age groups.
+#' @param IMR numeric infant death probability. Optional if using \code{nMx}, not required otherwise.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
-#' @param kludge logical (default \code{FALSE}). Do we want to replciate the MORTPACK behavior more exactly?
+#' @param mod
 #' 
 #' @return ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
 #' @export
@@ -225,93 +222,90 @@ axPAS <- function(nMx, AgeInt, IMR, Sex = "M", region = "W", OAG = TRUE){
 #' \insertRef{greville1977short}{DemoTools}
 #' \insertRef{un1982model}{DemoTools}
 #' \insertRef{arriaga1994population}{DemoTools}
-# this is strictly CD west, but what about the others? asked for Preston ref.
-# I'd program these differently if I had all the coefs
-nMx2ax.greville <- function(nMx, IMR = NA, Sex = "m", region = "W", kludge = FALSE) {
-	Sex    <- tolower(Sex)
-	region <- tolower(region)
-	# QxMx is either Qx or Mx vector of values  
-	# with inputQxMx = 1 for Qx as input for QxMx, and 2 for Mx otherwise like in Mortpak LIFETB
-	# with Sex ="m" for Male and "f" for Female
-	
-	a0   <- geta0CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
-	a1_4 <- geta1_4CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
-#	if (Sex == "m"){ # Male under age 5 based on CD-West
-#		
-#		#if input is Mx (Table 3.3, p. 48 in Preston et al 2001)
-#		if (nMx[1] < 0.107) {
-#			ax0 <- 0.045 + 2.684 * nMx[1]
-#			ax1 <- 1.651 - 2.816 * nMx[1]
-#		} else {
-#			ax0 <- 0.330
-#			ax1 <- 1.352
-#		}
-#		
-#	}
-#	if (Sex == "f"){ # Female under age 5 based on CD-West
-#		#if input is Mx (Table 3.3, p. 48 in Preston et al 2001)
-#		if (nMx[1] < 0.107) {
-#			ax0 <- 0.053 + 2.800 * nMx[1]
-#			ax1 <- 1.522 - 1.518 * nMx[1]
-#		} else {
-#			ax0 <- 0.350
-#			ax1 <- 1.361
-#		}
-#	}
-#	if (Sex == "b"){
-#		# take SRB weighted avg of the above
-#	}
-	N <- length(nMx)
-	## Greville (based on Mortpak LIFETB) for other ages
-	
-	# this AK jitter replicates a FORTRAN quirk?
-	AK             <- 0.1 * log(nMx[3:N] / nMx[1:(N - 2)])
-	if (kludge){
-	  AK[length(AK)] <- AK[length(AK) -1 ]
-    }
-	ax      <- c(NA, 2.5 - (25 / 12) * (nMx[-c(1, N)] - AK), 1 / nMx[N])
-	ax[1:4] <- c(a0, a1_4, 2.5, 2.5)
-	ax
-}
-#' UN version of the Greville formula for a(x) from q(x)
-#' 
-#' @description The UN ax formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 
-#' for ages 5-9 and 10-14, and the Greville formula thereafter. In the original sources 
-#' these are referred to as separation factors.
-#' 
-#' @details ax for age 0 and age group 1-4 are based on Coale-Demeny q0-based lookup tables.
-#' The final ax value is closed out as the reciprocal of the final q(x), which is not standard lifetable practice.
-#' Age groups must be standard abridged, and we do not check age groups here! This method is only used as an initial
-#' approximation by \code{axUN()}, and its results should not be taken as a final estimate of ax.
-#' 
-#' @param nMx numeric vector. Mortality rates in standard abridged age groups.
-#' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
-#' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
-#' @param kludge logical (default \code{FALSE}). Do we want to replciate the MORTPACK behavior more exactly?
-#' 
-#' @return ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
-#' @export
-#' 
-#' @references
-#' \insertRef{greville1977short}{DemoTools}
-#' \insertRef{un1982model}{DemoTools}
-#' \insertRef{arriaga1994population}{DemoTools}
-nqx2ax.greville <- function(nqx, Sex = "m", region = "W", kludge = FALSE) {
-	Sex    <- tolower(Sex)
-	region <- tolower(region)
-    # in this case we can feed q0 directly to CD functions as IMR
-	a0     <- geta0CD(M0 = NA, IMR = nqx[1], Sex = Sex, region = region)
-	a1_4   <- geta1_4CD(M0 = NA, IMR = nqx[1], Sex = Sex, region = region)
-	
-	N      <- length(nqx)
-	## Greville (based on Mortpak LIFETB) for other ages
-	AK             <- 0.1 * log(nqx[3:N] / nqx[1:(N - 2)])
-	if (kludge){
-		AK[length(AK)] <- AK[length(AK) - 1]
+#' \insertref{mortpak1988}{DemoTools}
+
+ax.greville.mortpak <- function(nMx, nqx, lx, IMR = NA, Sex = "m", region = "W", mod = TRUE){
+	Sex     <- tolower(Sex)
+	region  <- tolower(region)
+	DBL_MIN <- .Machine$double.xmin
+	stopifnot(!missing(nMx) | !missing(nqx) | !missing(lx))
+	# sort out arguments:
+	if (missing(nqx) & !missing(lx)){
+		nqx <- lx2dx(lx) / lx
 	}
-	ax      <- c(NA, 2.5 - (25 / 12) * (nqx[-c(1, N)] - AK), 1 / nqx[N])
-    # TR: this closeout works for mx, but not for qx. Is this just blended out in the iteration?
-	ax[1:4] <- c(a0, a1_4, 2.5, 2.5)
+	# now we have either qx or mx
+	
+	if (missing(nqx) & !missing(nMx)){
+		a0     <- geta0CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
+		a1_4   <- geta1_4CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
+		qind   <- FALSE
+	}
+	if (missing(nMx) & !missing(nqx)){
+		a0     <- geta0CD(M0 = NA, IMR = nqx[1], Sex = Sex, region = region)
+		a1_4   <- geta1_4CD(M0 = NA, IMR = nqx[1], Sex = Sex, region = region)
+		# just call it nMx for rest of calcs:
+		nMx    <- nqx
+		qind   <- TRUE
+	}
+	
+	# some setup 
+	N      <- length(nMx)
+	AgeInt <- inferAgeIntAbr(vec=nMx)
+	
+	# use ages rather than index positions to select.
+	Age    <- AgefromAgeInt(AgeInt)
+	# default midpoints to overwrite
+	ax     <- AgeInt / 2
+	
+	for (i in 3:(N - 1)) {
+		## Mortpak LIFETB for age 5-9 and 10-14
+		# ax[j] = 2.5 
+		## for ages 15-19 onward
+		## AK <- log(QxMx[j+1]/QxMx[j-1])/10
+		## ax[j] <- 2.5 - (25.0/12.0) * (QxMx[j] - AK)
+		
+		## improved Greville formula for adolescent ages 5-9 and 10-14
+		## Let the three successive lengths be n1, n2 and n3, the formula for 5a5 is:
+		## ax[i] = 2.5 - (25 / 12) * (mx[i] - log(mx[i + 1] / mx[i-1])/(n1/2+n2+n3/2))
+		## for age 5-9, coefficient should be 1/9.5, because age group 1-4 has only 4 ages (not 5), while the other 5-year age group are 1/10
+		## ax[i] = 2.5 - (25 / 12) * (mx[i] - (1/9.5)* log(mx[i + 1] / mx[i-1]))
+		## Age 20-25, ..., 95-99
+		## Greville (based on Mortpak LIFETB) for other ages, new implementation
+		
+		# front term
+		Af     <- (AgeInt[i] / 2) - (AgeInt[i]^2 / 12)
+		# back term
+		Ab     <- 1 / (AgeInt[i - 1] / 2 + AgeInt[i] + AgeInt[i + 1] / 2)
+		# subtract
+	    if (i < (N - 1)){
+		# N-1 uses K from N-2...
+		   K      <- rlog(max(nMx[i + 1] / max(nMx[i - 1], DBL_MIN))) 
+	    }
+		# main formula
+		ax[i]  <- Af * (nMx[i] - K) * Ab
+
+		## add constraint at older ages (in Mortpak and bayesPop)
+		## 0.97 = 1-5*exp(-5)/(1-exp(-5)), for constant mu=1, Kannisto assumption  
+		## (Mortpak used 1 instead of 0.97).
+		if (Age[i] > 35 && ax[i] < 0.97) {
+			ax[i] <- 0.97
+		}
+		
+		## Extra condition based on Mortpak LIFETB for age 65 onward
+		# TR: why .8a[x-1] only for qx?
+        tmp   <- 0.8 * ax[i - 1]
+		ax[i] <- ifelse(qind & Age[i] >= 65 & ax[i] < tmp, tmp, ax[i])
+
+	}
+
+	if (!mod){
+		ax[3:4] <- 2.5
+	}
+    # closeout
+	aomega         <- max(c(1 / nMx[N], .97))
+	aomega         <- ifelse(qind, max(aomega, .8 * ax[N - 1]), aomega)
+	ax[N]          <- aomega
+	# 
 	ax
 }
 
@@ -324,19 +318,19 @@ nqx2ax.greville <- function(nqx, Sex = "m", region = "W", kludge = FALSE) {
 #' @details ax for age 0 and age group 1-4 are based on Coale-Demeny q0-based lookup tables. If the main 
 #' input is \code{nMx}, and if \code{IMR} is not given, we first approximate q0 for the CD formula 
 #' before applying the formula.
-#' The final ax value is closed out as the reciprocal of the final m(x), which is standard lifetable practice. For nMx inputs 
-#' this method is rather direct, but for qx inputs it is iterative. Age groups must be standard abridged, 
-#' and we do not check age groups here! Unlike \code{nqx2ax.greville()}, if your main input is qx here you can
-#' treat the ax output as final and consistent.
+#' The final ax value is closed out as the reciprocal of the final m(x), which is standard lifetable practice, but . For nMx inputs 
+#' this method is rather direct, but for qx or lx inputs it is iterative. Age groups must be standard abridged, 
+#' and we do not check age groups here!
 #' 
-#' @param nqx numeric vector. Age specific death probabilities for abridged ages.
 #' @param nMx numeric vector. Mortality rates in standard abridged age groups.
+#' @param nqx numeric vector. Age specific death probabilities in standard abridged age groups.
+#' @param nlx numeric vector. Lifetable survivorship in standard abridged age groups.
 #' @param IMR numeric. Infant death probability, (q0). Optional.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
 #' @param tol the tolerance for the qx-based iterative method (default \code{.Machine$double.eps}).
 #' @param maxit the maximum numbder of iterations for the qx-based iterative method (default 1000).
-#' @param kludge logical (default \code{FALSE}). Do we want to replciate the MORTPACK behavior more exactly?
+#' @param mod logical (default \code{TRUE}). Use Gerland's modification for ages 5-14?
 #' 
 #' @return ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
 #' @export
@@ -345,6 +339,7 @@ nqx2ax.greville <- function(nqx, Sex = "m", region = "W", kludge = FALSE) {
 #' \insertRef{greville1977short}{DemoTools}
 #' \insertRef{un1982model}{DemoTools}
 #' \insertRef{arriaga1994population}{DemoTools}
+#' \insertref{mortpak1988}{DemoTools}
 #' @examples 
 #' # example data from UN 1982 Model Life Tables for Developing Countries.
 #' # first Latin American model table for males (p. 34).
@@ -359,21 +354,36 @@ nqx2ax.greville <- function(nqx, Sex = "m", region = "W", kludge = FALSE) {
 #' nAx1       <- axUN(nMx = Mx, 
 #' 		              AgeInt = AgeInt, 
 #' 		              Sex = "m",
-#' 		              kludge = FALSE)
-#' # now with the FORTRAN shift in the penultimate age.
+#' 		              mod = FALSE)
 #' nAx2       <- axUN(nMx = Mx, 
 #' 		              AgeInt = AgeInt, 
 #' 		              Sex = "m",
-#' 		              kludge = TRUE)
+#' 		              mod = TRUE)
 #' # this is acceptable...
-#' round(nAx1,3) - ax # only different in penultimate age
+#' round(nAx2,3) - ax # only different in ages 5-9 and 10-14
 #' # default unit test...
-#' stopifnot(all(round(nAx2,3) - ax == 0)) # spot on
-axUN <- function(nqx, nMx, IMR = NA, AgeInt, Sex = "m", region = "W", tol = .Machine$double.eps, maxit = 1e3, kludge = FALSE){
+#' stopifnot(all(round(nAx1,3) - ax == 0)) # spot on
+axUN <- function(
+		nMx,
+		nqx, 
+		lx, 
+		IMR = NA, 
+		AgeInt, 
+		Sex = "m", 
+		region = "W", 
+		tol = .Machine$double.eps, 
+		maxit = 1e3, 
+		kludge = FALSE){
 	stopifnot(!missing(nqx) | !missing(nMx))
 	smsq    <- 99999
 	Sex     <- tolower(Sex)
 	region  <- tolower(region)
+	
+	
+	if (missing(nqx) & !missing(lx)){
+		nqx <- lx2dx(lx) / lx
+	}
+	# now we have either nqx or nMx
 	
 	if (missing(nqx) & !missing(nMx)){
 # UN (1982) p 31 
@@ -384,7 +394,7 @@ axUN <- function(nqx, nMx, IMR = NA, AgeInt, Sex = "m", region = "W", tol = .Mac
 #		and for ages under 5, nQx values from the Coale and
 #		Demeny West region relationships are used." 
 		
-		axi <- nMx2ax.greville(nMx = nMx, IMR = IMR, Sex = Sex, region = region, kludge = kludge)
+		axi <- ax.greville.mortpak(nMx = nMx, IMR = IMR, Sex = Sex, region = region, mod = mod)
 	}
 	if (!missing(nqx) & missing(nMx)){
 # UN (1982) p 31 
@@ -394,12 +404,12 @@ axUN <- function(nqx, nMx, IMR = NA, AgeInt, Sex = "m", region = "W", tol = .Mac
 #		values consistent with the given nqx and with the Greville
 #		expression. 
 		
-		axi <- nqx2ax.greville(nqx = nqx, Sex = Sex, region = region, kludge = kludge)
+		axi <- ax.greville.mortpak(nqx = nqx, Sex = Sex, region = region, mod = mod)
 		
 		mxi <- mx.from.qx(nqx, ax = axi)
 		for (i in 1:maxit) {
 			mxi   <- qx2mx(nqx, axi)
-			axi   <- nMx2ax.greville(nMx = mxi, IMR = nqx[1], Sex = Sex, region = region, kludge = kludge)
+			axi   <- ax.greville.mortpak(nMx = mxi, IMR = nqx[1], Sex = Sex, region = region, mod = mod)
 			qxnew <- mx2qx(mxi, axi)
 			smsq  <- sum((qxnew - nqx)^2)
 			if (smsq < tol){

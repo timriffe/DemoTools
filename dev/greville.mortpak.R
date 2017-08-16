@@ -59,6 +59,100 @@ greville.mortpak <- function(QxMx, inputQxMx, Sex) {
   ax
 }
 
+
+greville.mortpak.redux <- function(QxMx, inputQxMx, Sex) {
+	
+	## Double.MIN_VALUE for log
+	DBL_MIN <- .Machine$double.xmin
+	
+	# n = age interval
+	n <- c(1, 4, rep(5, length(QxMx)))
+	# with inputQxMx = 1 for Qx as input for QxMx, and 2 for Mx otherwise like in Mortpak LIFETB
+	# with Sex =1 for Male and 2 for Female
+	if (Sex==1){ # Male under age 5 based on CD-West
+		if (inputQxMx == 1) {  #if input is Qx (Table on p. 20 in Coale and Demeny 1983 for CD-West)
+			if (QxMx[1] < 0.1) {
+				ax0 <- 0.0425 + 2.875 * QxMx[1]
+				ax1 <- 1.653 - 3.013 * QxMx[1]
+			} else {
+				ax0 <- 0.330
+				ax1 <- 1.352
+			}
+		}
+		if (inputQxMx == 2) {  #if input is Mx (Table 3.3, p. 48 in Preston et al 2001)
+			if (QxMx[1] < 0.1072) {
+				ax0 <- 0.045 + 2.684 * QxMx[1]
+				ax1 <- 1.651 - 2.816 * QxMx[1]
+			} else {
+				ax0 <- 0.330
+				ax1 <- 1.352
+			}
+		}
+	}
+	
+	if (Sex==2){ # Female under age 5 based on CD-West
+		if (inputQxMx == 1) {  #if input is Qx (Table on p. 20 in Coale and Demeny 1983 for CD-West)
+			if (QxMx[1] < 0.1) {
+				ax0 <- 0.050 + 3.000 * QxMx[1]
+				ax1 <- 1.524 - 1.625 * QxMx[1]
+			} else {
+				ax0 <- 0.350
+				ax1 <- 1.361
+			}
+		}
+		if (inputQxMx == 2) {  #if input is Mx (Table 3.3, p. 48 in Preston et al 2001)
+			if (QxMx[1] < 0.1072) {
+				ax0 <- 0.053 + 2.800 * QxMx[1]
+				ax1 <- 1.522 - 1.518 * QxMx[1]
+			} else {
+				ax0 <- 0.350
+				ax1 <- 1.361
+			}
+		}
+	}
+	
+	## Initial ax default values
+	ax <- c(ax0, ax1, rep(2.5, length(QxMx)-2))
+	
+	## ax for age 5-9 onward using Greville formula
+	for (j in 3:(length(QxMx)-1)) {
+		## Mortpak LIFETB for age 5-9 and 10-14
+		# ax[j] = 2.5 
+		## for ages 15-19 onward
+		## AK <- log(QxMx[j+1]/QxMx[j-1])/10
+		## ax[j] <- 2.5 - (25.0/12.0) * (QxMx[j] - AK)
+		
+		## improved Greville formula for adolescent ages 5-9 and 10-14
+		## Let the three successive lengths be n1, n2 and n3, the formula for 5a5 is:
+		## ax[i] = 2.5 - (25 / 12) * (mx[i] - log(mx[i + 1] / mx[i-1])/(n1/2+n2+n3/2))
+		## for age 5-9, coefficient should be 1/9.5, because age group 1-4 has only 4 ages (not 5), while the other 5-year age group are 1/10
+		## ax[i] = 2.5 - (25 / 12) * (mx[i] - (1/9.5)* log(mx[i + 1] / mx[i-1]))
+		## Age 20-25, ..., 95-99
+		## Greville (based on Mortpak LIFETB) for other ages, new implementation
+		ax[j] = (n[j]/2) - ((n[j]^2) / 12) * (QxMx[j] - log(max(QxMx[j + 1] / max(QxMx[j - 1], DBL_MIN), DBL_MIN)) / (n[j-1]/2 + n[j] + n[j+1]/2))
+		
+		
+		## add constraint at older ages (in Mortpak and bayesPop)
+		## 0.97 = 1-5*exp(-5)/(1-exp(-5)), for constant mu=1, Kannisto assumption  (Mortpak used 1 instead of 0.97).
+		if (j > 9 && ax[j] < 0.97) {ax[j] = 0.97}
+		
+		## Extra condition based on Mortpak LIFETB for age 65 onward
+		if (inputQxMx == 1 & j >= 15) {
+			tmp <- 0.8 * ax[j-1]
+			if (ax[j] < tmp) {ax[j] <- tmp}
+		}
+		
+	}
+	ax[length(QxMx)] <- 1/QxMx[length(QxMx)]
+	if (ax[length(QxMx)] < 0.97) {ax[length(QxMx)] = 0.97}
+	if (inputQxMx == 1) {
+		tmp <- 0.8 * ax[length(QxMx)-1]
+		if (ax[length(QxMx)] < tmp) {ax[length(QxMx)]  <- tmp}
+	}
+	
+	return(ax)
+}
+
 QxMx <- qx
 
 
