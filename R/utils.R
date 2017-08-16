@@ -33,7 +33,7 @@ shift.vector <- function(x,shift = 0, fill = FALSE){
 #' able to continue with calcs. 
 #' @details Use judiciously, since errors are good too.
 #' @param x  a numeric or complex vector.
-#' @param a positive or complex number: the base with respect to which
+#' @param base a positive or complex number: the base with respect to which
 #'           logarithms are computed.  Defaults to \code{e=exp(1)}.
 #' @export
 rlog <- function(x, base = exp(1)){

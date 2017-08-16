@@ -9,7 +9,7 @@ rlog(x, base = exp(1))
 \arguments{
 \item{x}{a numeric or complex vector.}
 
-\item{a}{positive or complex number: the base with respect to which
+\item{base}{a positive or complex number: the base with respect to which
 logarithms are computed.  Defaults to \code{e=exp(1)}.}
 }
 \description{
