@@ -9,7 +9,7 @@
 #' @description This is the common ax-qx-mx identity as found in any demography text.
 #' 
 #' @param nqx numeric vector. Age specific death probabilities.
-#' @param ax numeric vector. Average time spent in interval by those dying in interval
+#' @param nax numeric vector. Average time spent in interval by those dying in interval
 #' @param AgeInt integer width of each age interval
 #' 
 #' @return nMx vector of age specific death rates derived via identity.
@@ -34,8 +34,8 @@ mx2qx <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
 #' derive nax from nqx and nMx
 #' @description This is the common ax-qx-mx identity as found in any demography text.
 #' 
+#' @param nqx numeric vector of age specifici conditional death probabilities
 #' @param nMx numeric vector. Age specific death rates.
-#' @param nax numeric vector. Average time spent in interval by those dying in interval
 #' @param AgeInt integer width of each age interval
 #' 
 #' @return nax numeric vector of average time spent in interval by those dying in interval

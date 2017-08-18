@@ -7,11 +7,11 @@
 qxmx2ax(nqx, nMx, AgeInt)
 }
 \arguments{
+\item{nqx}{numeric vector of age specifici conditional death probabilities}
+
 \item{nMx}{numeric vector. Age specific death rates.}
 
 \item{AgeInt}{integer width of each age interval}
-
-\item{nax}{numeric vector. Average time spent in interval by those dying in interval}
 }
 \value{
 nax numeric vector of average time spent in interval by those dying in interval

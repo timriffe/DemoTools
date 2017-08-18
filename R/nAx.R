@@ -174,7 +174,8 @@ geta1_4CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
 #' values are taken for a0 and 4a1, per the PAS spreadsheet. If IMR is not given, the M0 is used in its 
 #' stead for ages < 5. This function is not vectorized. ax closeout assumes constant mortality hazard in the open age group.
 #' 
-#' @param M0 numeric. Event exposure infant mortality rate
+#' @param nMx numeric. Event exposure mortality rates
+#' @param AgeInt integer vector of age interval widths.
 #' @param IMR numeric. Optional. q0, the death probability in first year of life, in case available separately.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
@@ -214,11 +215,11 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "M", region = "W", OAG = TRUE){
 #' 
 #' @param nMx numeric vector. Mortality rates in standard abridged age groups.
 #' @param nqx numeric vector. Age specific death probabilities in standard abridged age groups.
-#' @param nlx numeric vector. Lifetable survivorship in standard abridged age groups.
+#' @param lx numeric vector. Lifetable survivorship in standard abridged age groups.
 #' @param IMR numeric infant death probability. Optional if using \code{nMx}, not required otherwise.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
-#' @param mod
+#' @param mod logical (default \code{TRUE}). Use Gerland's modification for ages 5-14?
 #' 
 #' @return ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
 #' @export
@@ -227,7 +228,7 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "M", region = "W", OAG = TRUE){
 #' \insertRef{greville1977short}{DemoTools}
 #' \insertRef{un1982model}{DemoTools}
 #' \insertRef{arriaga1994population}{DemoTools}
-#' \insertref{mortpak1988}{DemoTools}
+#' \insertRef{mortpak1988}{DemoTools}
 
 ax.greville.mortpak <- function(
 		nMx, 
@@ -334,8 +335,9 @@ ax.greville.mortpak <- function(
 #' 
 #' @param nMx numeric vector. Mortality rates in standard abridged age groups.
 #' @param nqx numeric vector. Age specific death probabilities in standard abridged age groups.
-#' @param nlx numeric vector. Lifetable survivorship in standard abridged age groups.
+#' @param lx numeric vector. Lifetable survivorship in standard abridged age groups.
 #' @param IMR numeric. Infant death probability, (q0). Optional.
+#' @param AgeInt integer vector of age interval widths.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
 #' @param tol the tolerance for the qx-based iterative method (default \code{.Machine$double.eps}).
@@ -349,7 +351,7 @@ ax.greville.mortpak <- function(
 #' \insertRef{greville1977short}{DemoTools}
 #' \insertRef{un1982model}{DemoTools}
 #' \insertRef{arriaga1994population}{DemoTools}
-#' \insertref{mortpak1988}{DemoTools}
+#' \insertRef{mortpak1988}{DemoTools}
 #' @examples 
 #' # example data from UN 1982 Model Life Tables for Developing Countries.
 #' # first Latin American model table for males (p. 34).
@@ -431,7 +433,7 @@ axUN <- function(
 	}
 	# if both given, then we have ax via identity:
 	if (!missing(nqx) & !missing(nMx)){
-		axi <- qxmx2ax(nqx = nqx, nmx = nMx, AgeInt = inferAgeIntAbr(vec = nMx))
+		axi <- qxmx2ax(nqx = nqx, nMx = nMx, AgeInt = inferAgeIntAbr(vec = nMx))
 	}
 	
 	# if mx, qx, or both are given, then by now we have ax

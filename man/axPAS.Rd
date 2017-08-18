@@ -7,6 +7,10 @@
 axPAS(nMx, AgeInt, IMR = NA, Sex = "M", region = "W", OAG = TRUE)
 }
 \arguments{
+\item{nMx}{numeric. Event exposure mortality rates}
+
+\item{AgeInt}{integer vector of age interval widths.}
+
 \item{IMR}{numeric. Optional. q0, the death probability in first year of life, in case available separately.}
 
 \item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
@@ -14,8 +18,6 @@ axPAS(nMx, AgeInt, IMR = NA, Sex = "M", region = "W", OAG = TRUE)
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 
 \item{OAG}{logical (default \code{TRUE}). Is the last element of \code{nMx} the open age group?}
-
-\item{M0}{numeric. Event exposure infant mortality rate}
 }
 \value{
 nAx average contribution to exposure of those dying in the interval.

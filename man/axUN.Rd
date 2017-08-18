@@ -12,7 +12,11 @@ axUN(nMx, nqx, lx, IMR = NA, AgeInt, Sex = "m", region = "W",
 
 \item{nqx}{numeric vector. Age specific death probabilities in standard abridged age groups.}
 
+\item{lx}{numeric vector. Lifetable survivorship in standard abridged age groups.}
+
 \item{IMR}{numeric. Infant death probability, (q0). Optional.}
+
+\item{AgeInt}{integer vector of age interval widths.}
 
 \item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
 
@@ -23,8 +27,6 @@ axUN(nMx, nqx, lx, IMR = NA, AgeInt, Sex = "m", region = "W",
 \item{maxit}{the maximum numbder of iterations for the qx-based iterative method (default 1000).}
 
 \item{mod}{logical (default \code{TRUE}). Use Gerland's modification for ages 5-14?}
-
-\item{nlx}{numeric vector. Lifetable survivorship in standard abridged age groups.}
 }
 \value{
 ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
@@ -72,5 +74,5 @@ stopifnot(all(round(nAx1,3) - ax == 0)) # spot on
 \insertRef{greville1977short}{DemoTools}
 \insertRef{un1982model}{DemoTools}
 \insertRef{arriaga1994population}{DemoTools}
-\insertref{mortpak1988}{DemoTools}
+\insertRef{mortpak1988}{DemoTools}
 }

@@ -12,15 +12,15 @@ ax.greville.mortpak(nMx, nqx, lx, IMR = NA, Sex = "m", region = "W",
 
 \item{nqx}{numeric vector. Age specific death probabilities in standard abridged age groups.}
 
+\item{lx}{numeric vector. Lifetable survivorship in standard abridged age groups.}
+
 \item{IMR}{numeric infant death probability. Optional if using \code{nMx}, not required otherwise.}
 
 \item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
 
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 
-\item{mod}{}
-
-\item{nlx}{numeric vector. Lifetable survivorship in standard abridged age groups.}
+\item{mod}{logical (default \code{TRUE}). Use Gerland's modification for ages 5-14?}
 }
 \value{
 ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
@@ -41,5 +41,5 @@ and we do not check age groups here!
 \insertRef{greville1977short}{DemoTools}
 \insertRef{un1982model}{DemoTools}
 \insertRef{arriaga1994population}{DemoTools}
-\insertref{mortpak1988}{DemoTools}
+\insertRef{mortpak1988}{DemoTools}
 }

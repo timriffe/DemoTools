@@ -9,9 +9,9 @@ qxax2mx(nqx, nax, AgeInt = inferAgeIntAbr(vec = nqx))
 \arguments{
 \item{nqx}{numeric vector. Age specific death probabilities.}
 
-\item{AgeInt}{integer width of each age interval}
+\item{nax}{numeric vector. Average time spent in interval by those dying in interval}
 
-\item{ax}{numeric vector. Average time spent in interval by those dying in interval}
+\item{AgeInt}{integer width of each age interval}
 }
 \value{
 nMx vector of age specific death rates derived via identity.
