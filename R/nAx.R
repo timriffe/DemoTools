@@ -15,9 +15,9 @@
 #' Formulas for North, South, and West are identical- only East is different. If \code{IMR} is not given,
 #' then \code{M0} is converted to q0 using the following approximation:
 #' \itemize{
-#' \item{find \eqn{\alpha,\Beta} }{ Look up the appropriate slope and intercept for the given sex and region.}
-#' \item{calc \eqn{a} as: }{ \deqn{a = M_0 * \Beta} }
-#' \item{calc \eqn{b} as: }{ \deqn{b =  1 + M_0 * (1 - \alpha)} }
+#' \item{find \eqn{alpha , beta} }{ Look up the appropriate slope and intercept for the given sex and region.}
+#' \item{calc \eqn{a} as: }{ \deqn{a = M_0 * beta} }
+#' \item{calc \eqn{b} as: }{ \deqn{b =  1 + M_0 * (1 - alpha)} }
 #' \item{approx \eqn{q_0} as: }{ \deqn{q_0 = \frac{ b - sqrt(b^2 - 4 * a * M_0) }{ 2 * a } } }
 #' }
 #' q0 is then taken as IMR, and applied directly to the Coale-Demeny piecewise linear formula.
