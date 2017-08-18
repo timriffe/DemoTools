@@ -334,8 +334,8 @@ calcAgeAbr <- function(Age){
 #' @export
 #' @examples
 #' vec <- runif(20)
-#' inferAgeIntAbr(vec)
-#' inferAgeIntAbr(vec, OAG = TRUE)
+#' inferAgeIntAbr(vec = vec)
+#' inferAgeIntAbr(vec = vec, OAG = TRUE)
 inferAgeIntAbr <- function(Age, vec, OAG = FALSE){
 	
 	# Age is preferred (lower bounds)

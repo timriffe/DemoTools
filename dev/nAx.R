@@ -1,11 +1,9 @@
 
 # Author: tim
 ###############################################################################
-
-# TR: lots of approaches to a(0). Sometimes called 'separation factors'. These ought to be 
-# collected, organized, and standardized here.
-
-# these are the PAS versions:
+# lots of approaches to a(0). Sometimes called 'separation factors'. These ought to be 
+# collected, organized, and standardized here. We have two major versions here:
+# PAS (mostly uniform) and UN (ostly mgreville-based).
 
 #' Coale-Demeny a0 as function of m0, region, and sex
 #' 
@@ -15,7 +13,15 @@
 #' @details If sex is given as both, \code{"b"}, then female 
 #' values are taken, per the PAS spreadsheet. This function is not vectorized. 
 #' Formulas for North, South, and West are identical- only East is different. If \code{IMR} is not given,
-#' then \code{M0} is used in its stead.
+#' then \code{M0} is converted to q0 using the following approximation:
+#' \itemize{
+#' \item{find \eqn{\alpha,\Beta}}{Look up the appropriate \eqn{\alpha} and \eqn{\Beta} for 
+#' the given sex and region.}
+#' \item{calc \eqn{a} as:}{ \eqn{a = M_0 * \Beta}}
+#' \item{calc \eqn{b} as:}{ \eqn{b =  1 + M_0 * (1 - \alpha)}}
+#' \item{approx \eqn{q_0} as:}{ \eqn{q_0 = \frac{b - sqrt(b^2 - 4 * a * M_0)} {2 * a}}
+#' }
+#' q0 is then taken as IMR, and applied directly to the Coale-Demeny piecewise linear formula.
 #' 
 #' @param M0 numeric. Event exposure infant mortality rate
 #' @param IMR numeric. Optional. q0, the death probability in first year of life, in case available separately.
@@ -224,7 +230,14 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "M", region = "W", OAG = TRUE){
 #' \insertRef{arriaga1994population}{DemoTools}
 #' \insertref{mortpak1988}{DemoTools}
 
-ax.greville.mortpak <- function(nMx, nqx, lx, IMR = NA, Sex = "m", region = "W", mod = TRUE){
+ax.greville.mortpak <- function(
+		nMx, 
+		nqx, 
+		lx, 
+		IMR = NA, 
+		Sex = "m", 
+		region = "W", 
+		mod = TRUE){
 	Sex     <- tolower(Sex)
 	region  <- tolower(region)
 	DBL_MIN <- .Machine$double.xmin
@@ -257,7 +270,7 @@ ax.greville.mortpak <- function(nMx, nqx, lx, IMR = NA, Sex = "m", region = "W",
 	# default midpoints to overwrite
 	ax     <- AgeInt / 2
 	
-	for (i in 3:(N - 1)) {
+	for (i in 2:(N - 1)) {
 		## Mortpak LIFETB for age 5-9 and 10-14
 		# ax[j] = 2.5 
 		## for ages 15-19 onward
@@ -271,18 +284,15 @@ ax.greville.mortpak <- function(nMx, nqx, lx, IMR = NA, Sex = "m", region = "W",
 		## ax[i] = 2.5 - (25 / 12) * (mx[i] - (1/9.5)* log(mx[i + 1] / mx[i-1]))
 		## Age 20-25, ..., 95-99
 		## Greville (based on Mortpak LIFETB) for other ages, new implementation
-		
-		# front term
-		Af     <- (AgeInt[i] / 2) - (AgeInt[i]^2 / 12)
 		# back term
 		Ab     <- 1 / (AgeInt[i - 1] / 2 + AgeInt[i] + AgeInt[i + 1] / 2)
 		# subtract
 	    if (i < (N - 1)){
 		# N-1 uses K from N-2...
-		   K      <- rlog(max(nMx[i + 1] / max(nMx[i - 1], DBL_MIN))) 
+		   K      <- rlog(nMx[i + 1] / max(nMx[i - 1], DBL_MIN))
 	    }
 		# main formula
-		ax[i]  <- Af * (nMx[i] - K) * Ab
+		ax[i]  <-  AgeInt[i] / 2 - (AgeInt[i]^2 / 12) * (nMx[i] - K * Ab) 
 
 		## add constraint at older ages (in Mortpak and bayesPop)
 		## 0.97 = 1-5*exp(-5)/(1-exp(-5)), for constant mu=1, Kannisto assumption  
@@ -297,10 +307,11 @@ ax.greville.mortpak <- function(nMx, nqx, lx, IMR = NA, Sex = "m", region = "W",
 		ax[i] <- ifelse(qind & Age[i] >= 65 & ax[i] < tmp, tmp, ax[i])
 
 	}
-
+    ax[1:2] <- c(a0, a1_4)
 	if (!mod){
 		ax[3:4] <- 2.5
 	}
+
     # closeout
 	aomega         <- max(c(1 / nMx[N], .97))
 	aomega         <- ifelse(qind, max(aomega, .8 * ax[N - 1]), aomega)
@@ -354,10 +365,12 @@ ax.greville.mortpak <- function(nMx, nqx, lx, IMR = NA, Sex = "m", region = "W",
 #' nAx1       <- axUN(nMx = Mx, 
 #' 		              AgeInt = AgeInt, 
 #' 		              Sex = "m",
+#'					  region = "w",
 #' 		              mod = FALSE)
 #' nAx2       <- axUN(nMx = Mx, 
 #' 		              AgeInt = AgeInt, 
 #' 		              Sex = "m",
+#'					  region = "w",
 #' 		              mod = TRUE)
 #' # this is acceptable...
 #' round(nAx2,3) - ax # only different in ages 5-9 and 10-14
@@ -373,7 +386,7 @@ axUN <- function(
 		region = "W", 
 		tol = .Machine$double.eps, 
 		maxit = 1e3, 
-		kludge = FALSE){
+		mod = TRUE){
 	stopifnot(!missing(nqx) | !missing(nMx))
 	smsq    <- 99999
 	Sex     <- tolower(Sex)
@@ -393,7 +406,6 @@ axUN <- function(
 #		k = 1/10 log(nmx+5/nmx-5). For ages 5 and 10, nQx = 2.5
 #		and for ages under 5, nQx values from the Coale and
 #		Demeny West region relationships are used." 
-		
 		axi <- ax.greville.mortpak(nMx = nMx, IMR = IMR, Sex = Sex, region = region, mod = mod)
 	}
 	if (!missing(nqx) & missing(nMx)){
@@ -403,14 +415,13 @@ axUN <- function(
 #		that an iterative procedure is used to find the nmx and nqx
 #		values consistent with the given nqx and with the Greville
 #		expression. 
+		axi <- ax.greville.mortpak(nqx = nqx, IMR = nqx[1], Sex = Sex, region = region, mod = mod)
 		
-		axi <- ax.greville.mortpak(nqx = nqx, Sex = Sex, region = region, mod = mod)
-		
-		mxi <- mx.from.qx(nqx, ax = axi)
+		mxi <- qxax2mx(nqx = nqx, nax = axi, AgeInt = AgeInt)
 		for (i in 1:maxit) {
-			mxi   <- qx2mx(nqx, axi)
+			mxi   <- qxax2mx(nqx = nqx, nax = axi, AgeInt = AgeInt)
 			axi   <- ax.greville.mortpak(nMx = mxi, IMR = nqx[1], Sex = Sex, region = region, mod = mod)
-			qxnew <- mx2qx(mxi, axi)
+			qxnew <- mxax2qx(nMx = mxi, nax = axi, AgeInt = AgeInt)
 			smsq  <- sum((qxnew - nqx)^2)
 			if (smsq < tol){
 				break

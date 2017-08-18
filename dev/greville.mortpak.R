@@ -53,8 +53,11 @@ greville.mortpak <- function(QxMx, inputQxMx, Sex) {
   }
   
   ## Greville (based on Mortpak LIFETB) for other ages
-  ax <- c(NA, 2.5 - (25 / 12) * (QxMx[-c(1, length(QxMx))] - 0.1 * log(QxMx[3:length(QxMx)] / QxMx[1:(length(QxMx)-2)])),
+  ax <- c(NA, 
+		  2.5 - (25 / 12) * (QxMx[-c(1, length(QxMx))] - 0.1 * 
+					  log(QxMx[3:length(QxMx)] / QxMx[1:(length(QxMx)-2)])),
             1/QxMx[length(QxMx)])
+	
   ax[1:4] <- c(ax0, ax1, 2.5, 2.5)
   ax
 }
