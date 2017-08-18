@@ -133,3 +133,9 @@ The main variations here are in the treatment of nAx.
  		mod = FALSE)
  stopifnot(max(abs(round(MP_UNLT$ex,3) - MPexcheck)) <= .001 + 1e-12)
 }
+\references{
+\insertRef{greville1977short}{DemoTools}
+\insertRef{un1982model}{DemoTools}
+\insertRef{arriaga1994population}{DemoTools}
+\insertRef{mortpak1988}{DemoTools}
+}

@@ -34,6 +34,12 @@
 #'   \item{Tx}{numeric. Lifetable total years left to live above age x.} 
 #'   \item{ex}{numeric. Age-specific remaining life expectancy.}
 #' }
+#' @references 
+#' \insertRef{greville1977short}{DemoTools}
+#' \insertRef{un1982model}{DemoTools}
+#' \insertRef{arriaga1994population}{DemoTools}
+#' \insertRef{mortpak1988}{DemoTools}
+#' 
 #' @examples
 #' # trial code from PAS LTPOPDTH, North, Males, IMR = .1
 #'  Exposures <- c(100958,466275,624134,559559,446736,370653,301862,249409,
