@@ -45,9 +45,10 @@ library(DemoTools)
 ?adjustAge
 ?ADM
 ?RDM
-# last updated 7-Aug-2017
+?LTabr # with options to replicate PAS and Mortpak
+# last updated 18-Aug-2017
 ```
-These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. We won't bother demonstrating those. 
+These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. presently top-level + utilities = 65 documented functions, with more in development. 
 
 Presently all functions are in first drafts, but the aim is to end up with a set of robust generic functions around which wrappers can be easily built for various institutional data production needs. As-is, these functions may also be useful for DIY demographers. This set of methods is a cherry-pick from legacy methods collections, including PAS, DAPPS, MPCDA, MortPack, IREDA, UN Manual X, G. Feeney Spreadsheets, formulas found in Siegel and Swanson or Shyrock and Siegel, and various (apparent) first-implementations from formulas in papers, or ad hoc DIY approximations from old pros. 
 
