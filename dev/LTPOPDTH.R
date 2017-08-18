@@ -3,129 +3,6 @@
 ###############################################################################
 
 
-# 
-source("/home/tim/git/DemoTools/dev/nAx.R")
-
-#' derive nMx from nqx and nax
-#' @description This is the common ax-qx-mx identity as found in any demography text.
-#' 
-#' @param nqx numeric vector. Age specific death probabilities.
-#' @param ax numeric vector. Average time spent in interval by those dying in interval
-#' @param AgeInt integer width of each age interval
-#' 
-#' @return nMx vector of age specific death rates derived via identity.
-#' @export
-qx2mx <- function(nqx, nax, AgeInt = inferAgeIntAbr(vec = nqx)) {
-	nqx / (AgeInt - (AgeInt - nax) * nqx)      }
-
-#' derive nqx from nMx and nax
-#' @description This is the common ax-qx-mx identity as found in any demography text.
-#' 
-#' @param nMx numeric vector. Age specific death rates.
-#' @param nax numeric vector. Average time spent in interval by those dying in interval
-#' @param AgeInt integer width of each age interval
-#' 
-#' @return nqx vector of age specific death probabilities derived via identity.
-#' @export
-mx2qx <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
-	(AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
-}
-
-#' derive nax from nqx and nMx
-#' @description This is the common ax-qx-mx identity as found in any demography text.
-#' 
-#' @param nMx numeric vector. Age specific death rates.
-#' @param nax numeric vector. Average time spent in interval by those dying in interval
-#' @param AgeInt integer width of each age interval
-#' 
-#' @return nax numeric vector of average time spent in interval by those dying in interval
-#' @export
-qxmx2ax <- function(nqx, nMx, AgeInt){
-	1 / nMx - AgeInt / nqx + AgeInt
-}
-
-#' derive nqx from nMx and nax
-#' @description This is the common ax-qx-mx identity as found in any demography text. 
-#' This is a more full-service wrapper of \code{mx2qx()}, with closeoput options and optional age 0 
-#' treatment.
-#' 
-#' @param nMx numeric vector. Age specific death rates.
-#' @param nax numeric vector. Average time spent in interval by those dying in interval
-#' @param AgeInt integer width of each age interval
-#' @param closeout logical (default \code{TRUE}). Set to 1 if TRUE. Identity otherwise
-#' @param IMR numeric. Optional q0 to impute, in case available separately.
-#' 
-#' @return nqx vector of age specific death probabilities derived via identity.
-#' @export
-mxax2qx <- function(nMx, nax, AgeInt, closeout = TRUE, IMR){
-	
-	qx <- mx2qx(nMx, nax, AgeInt)
-	if (closeout){
-		qx[length(qx)] <- 1
-		if (length(nMx) == 1){
-			warning("only a single nMx was given, and it was treated as age omega, with qx = 1.\nSpecify closeout = FALSE otherwise")
-		}
-	}
-	if (!missing(IMR) & !is.na(IMR)){
-		qx[1] <- IMR
-	}
-	qx
-}
-
-#' derive lifetable survivorship from death probabilities
-#' @description This lifetable identity is the same no matter what kind of lifetable
-#' we're making. You can find it in any demography textbook.
-#' @details set \code{radix = 1} for the probability of surviving until age x. The vector returned is
-#' the same length as \code{nqx}, thereby throwing out the final value of qx, which is probably set to 1 anyway.
-#' 
-#' @param nqx numeric vector. Age-specific death probabilities in any age classes.
-#' @param radix numeric (default 100000). The lifetable starting population.
-#' @return lx numeric vector of lifetable survivorship
-#' @export
-qx2lx <- function(nqx, radix = 1e5){
-	radix * cumprod(c(1, 1 - nqx[-length(nqx)]))
-}
-#' derive lifetable deaths from survivorship
-#' @description This lifetable identity is the same no matter what kind of lifetable
-#' we're making. You can find it in any demography textbook.
-#' @details The vector returned is the same length as \code{lx} and it sums to the lifetable radix. 
-#' If the radix is one then this is the discrete deaths distribution.
-#' 
-#' @param lx numeric vector. Age-specific lifetable survivorship
-#' @return ndx numeric vector of lifetable deaths.
-#' @export
-lx2dx <- function(lx){
-	diff(-c(lx,0))
-}
-
-#' derive lifetable exposure from lx, ndx and nax.
-#' @description This is a common approximation of lifetable exposure: 
-#' All persons surviving to the end of the interval time the interval width, plus all those that died 
-#' in the interval multiplied by their average time spent in the interval.
-#' @details There is no checking of equal vector lengths at this time.
-#' @param lx numeric vector of lifetable survivorship
-#' @param ndx numeric vector of lifetable deaths, summing to radix of \code{lx}.
-#' @param nax numeric vector of average time spent in the age interval of those dying in the interval.
-#' @param AgeInt integer vector of age class widths
-#' @return nLx numeric vector of lifetable exposure.
-#' @export
-lxdxax2Lx <- function(lx, ndx, nax, AgeInt){
-	N                   <- length(lx)
-	nLx                 <- rep(0, N)
-	nLx[1:(N - 1)]      <- AgeInt[1:(N - 1)] * lx[2:N] + nax[1:(N - 1)] * ndx[1:(N - 1)]
-	nLx[N]		        <- lx[N] * nax[N]
-	nLx
-}
-
-#' derive lifetable total person years left to live from exposure
-#' @description 
-Lx2Tx <- function(Lx){
-	rev(cumsum(rev(Lx)))
-}
-
-
-
-
 #' @examples
 #' # trial code from PAS LTPOPDTH, North, Males, IMR = .1
 #' Exposures <- c(100958,466275,624134,559559,446736,370653,301862,249409,
@@ -179,21 +56,35 @@ Lx2Tx <- function(Lx){
 #' 		axmethod = "UN",
 #' 		Sex = "M", 
 #' 		kludge = TRUE)
-#' # TODO: possibly there is more intermediate rounding happening in the FOR code?
 #' round(UNLT2$ex,2) - round(excheckUN,2)
 #' UNLT2$ex - UNLT1$ex
+
+
 LTabr <- function(
 		Deaths, 
 		Exposures, 
 		nMx,
+		nqx,
+		lx,
 		Age,
 		AgeInt = inferAgeIntAbr(Age = Age), 
 		axmethod = "pas", 
 		Sex = "m", 
 		region = "w",
 		SRB = 1.05, 
-		IMR,
-		kludge = FALSE){
+		IMR = NA,
+		mod = TRUE){
+	
+	# need to make it possible to start w (D,E), M, q or l...
+	
+	# 1) if lx given but not qx:
+	if (missing(nqx) & !missing(lx)){
+		nqx <- lx2dx(lx) / lx
+	}
+	# 2) if still no nqx then make sure we have or can get nMx
+	if (missing(nqx) & missing(nMx)){
+		nMx       <- Deaths / Exposures
+	}
 	
 	if (missing(Deaths)){
 		Deaths    <- NULL
@@ -205,34 +96,65 @@ LTabr <- function(
 	axmethod      <- tolower(axmethod)
 	Sex           <- tolower(Sex)
 	region        <- tolower(region)
-	
-	if (missing(nMx)){
-		nMx       <- Deaths / Exposures
-    }
-	if (missing(IMR)){
-		IMR       <- ifelse(axmethod == "pas", nMx[1],NA)
-	}
-	
+		
 	# take care of ax first, two ways presently
 	if (axmethod == "pas"){
-	    nAx       <- axPAS(
-				      nMx, 
-				      AgeInt = AgeInt, 
-				      IMR = IMR, 
-				      Sex = Sex, 
-				      region = region)
-      }
+		# what if only qx was given?
+		if (missing(nMx)){
+			fakenMx <- nqx
+			nAx       <- axPAS(
+					       nMx = fakenMx, 
+						   AgeInt = AgeInt, 
+						   IMR = nqx[1], 
+						   Sex = Sex, 
+						   region = region,
+						   OAG = TRUE)
+			
+		} else {
+			# if nMx avail, then Open age group
+			# closed according to convention.
+			nAx       <- axPAS(
+					       nMx = nMx, 
+						   AgeInt = AgeInt, 
+						   IMR = IMR, 
+						   ex = Sex, 
+						   region = region,
+						   OAG = TRUE)
+		}	
+	}
 	if (axmethod == "un"){
 		# UN method just CD west for now, so no region arg
-		nAx       <- axUN(
-				      nMx = nMx, 
-				      AgeInt = AgeInt, 
-				      Sex = Sex,
-					  kludge = kludge)
+		if (missing(nMx)){
+			fakenMx   <- nqx
+			nAx       <- axUN(
+					       nqx = nqx, 
+						   AgeInt = AgeInt, 
+						   IMR = nqx[1], 
+						   Sex = Sex, 
+						   region = region,
+						   mod = mod)
+			
+		} else {
+			nAx       <- axUN(
+					       nMx = nMx, 
+						   AgeInt = AgeInt, 
+						   IMR = IMR, 
+						   Sex = Sex, 
+						   region = region,
+						   mod = mod)
+		}	
+		
 	}
-    # these are the same always. Only thing different is ax method.
-	nqx <- mxax2qx(nMx = nMx, nax = nAx, AgeInt = AgeInt, closeout = TRUE, IMR = IMR)
-	# TODO: differences might begin here
+	# as of here we have nAx either way. And we have either mx or qx.
+	
+    if (missing(nqx)){
+		nqx <- mxax2qx(nMx = nMx, nax = nAx, AgeInt = AgeInt, closeout = TRUE, IMR = IMR)
+	}
+	if (missing(nMx)){
+		nMx <- qxax2mx(nqx = nqx, nax = nAx, AgeInt = AgeInt)
+	}
+	# now we have all three, [mx,ax,qx] guaranteed
+
 	lx  <- qx2lx(nqx)
 	ndx <- lx2dx(lx)
 	nLx <- lxdxax2Lx(lx = lx, dx = ndx, ax = nAx, AgeInt = AgeInt)

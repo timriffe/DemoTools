@@ -30,6 +30,6 @@ also been a good choice, but we went with \code{NA}.
 }
 \examples{
 vec <- runif(20)
-inferAgeIntAbr(vec)
-inferAgeIntAbr(vec, OAG = TRUE)
+inferAgeIntAbr(vec = vec)
+inferAgeIntAbr(vec = vec, OAG = TRUE)
 }
