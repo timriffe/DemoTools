@@ -2,7 +2,7 @@
 ###############################################################################
 
 #' calculate the moving average (mav) over 3 or 5 years
-#' @description  This purely mathematical smoothing aims at eliminating the irregularities of the population pyramid 
+#' @description  This purely mathematical smoothing aims to eliminate irregularities of the population pyramid 
 #' by single ages due to errors (attractions or repulsions for certain ages). This comes from 
 #' pp. 361-367 in GDA_1981_Structures-par-sexe-et-age-en-Afrique_[IREDA]
 
