@@ -11,7 +11,7 @@
 
 #' @details Single year age groups are assumed.
 
-#' @return a vector with the smoothed values
+#' @return a named vector with the smoothed values
 #' @export
 
 #' @references 
