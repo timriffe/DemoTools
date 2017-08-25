@@ -7,7 +7,7 @@
 #' pp. 361-367 in GDA_1981_Structures-par-sexe-et-age-en-Afrique_[IREDA]
 
 #' @param Value numeric. A vector of demographic counts in single age groups.
-#' @param n numeric. A single number, (3 or 5), indicating the number of years taken to smooth the population distribution by single ages.
+#' @param nyears numeric. A single number, (3 or 5), indicating the number of years taken to smooth the population distribution by single ages.
 
 #' @details Single year age groups are assumed.
 
