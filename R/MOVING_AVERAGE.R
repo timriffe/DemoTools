@@ -30,7 +30,6 @@
 #' # final age group assumed open
 #' mav(Pop, n=3)      
 mav <- function(Value,nyears){
-  smooth<-c(3,5)
   result<-as.numeric(filter(Value,rep(1/if(nyears==3){3}else 
   {if(nyears==5){5}else
   {if(nyears<3|nyears>5|nyears==4){print("Recall: n has to be equal to 3 or 5")}}},nyears)))
