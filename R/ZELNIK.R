@@ -28,7 +28,7 @@
 #'       429816,7951,35583,8612,6589,454645)
 #' Age  <-c(0:75) 
 #' zelnik(Pop,1)
-zelnik <- function(x,q){
+zelnik <- function(Value,q){
   
   # Table 11, pp.20 Linear operators for use in deriving unbiased estimates of single-age distributions
   q1 <-c(-0.0025,-0.01,-0.02,-0.03,-0.04,0.05,0.14,0.13,0.12,0.11,
@@ -39,7 +39,7 @@ zelnik <- function(x,q){
         0.0255,0.0105,-0.0065,-0.018,-0.0165,-0.0095,-0.0045,-0.0015,-0.00025)
   
   # Multiply the vector of single ages by the linear operators Q1 or Q2
-  multi<-x %*% t(if(q==1){q1}else 
+  multi<-Value %*% t(if(q==1){q1}else 
   {if(q==2) {q2}})
   
   # Get the diagonal for each age and split the vector
