@@ -24,19 +24,19 @@
 #'          239243,74788,112354,61746,72366,144828,92563,53924,94635,52351,178832)
 #' Age  <-c(0:40) 
 #' spencer(Pop)
-spencer <- function(x){
+spencer <- function(Value){
   
   # ni3= The sum of the ages of three consecutive ages, centered on age i.
-  ni3<-c(NA,filter(x, rep(1, 3L))[-c(1, length(x))],NA)
+  ni3<-c(NA,filter(Value, rep(1, 3L))[-c(1, length(Value))],NA)
   
   # ni5= The sum of the ages of five consecutive ages, centered on age i.
-  ni5<-c(NA,filter(x, rep(1, 5L))[-c(1, length(x))],NA)
+  ni5<-c(NA,filter(Value, rep(1, 5L))[-c(1, length(Value))],NA)
   
   # ni7= The sum of the ages of seven consecutive ages, centered on age i.
-  ni7<-c(NA,filter(x, rep(1, 7L))[-c(1, length(x))],NA)
+  ni7<-c(NA,filter(Value, rep(1, 7L))[-c(1, length(Value))],NA)
   
   # Ni= 
-  Ni<- x+ni3+ni5-ni7
+  Ni<- Value+ni3+ni5-ni7
   
   # n5i= The sum of ni population for five consecutive ages, centered on age i.
   n5i<-c(NA,filter(Ni, rep(1, 5L))[-c(1, length(Ni))],NA)
