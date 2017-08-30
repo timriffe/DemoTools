@@ -20,7 +20,7 @@
 #' \insertRef{feeney1979}{DemoTools}
 
 #' @examples 
-#' # data from gray1987missingages, Table 2, page 21: Aplication of Q1 and Q2 linear operators, Bangladesh Census, 1 March 1974-Males.
+#' # data from feeney1979, Table 1, page 12: Population of Indonesia, 22 provinces, by single year of age: Census of 24 September 1971.
 #' Pop <-c(2337,3873,3882,3952,4056,3685,3687,3683,3611,3175,
 #'         3457,2379,3023,2375,2316,2586,2014,2123,2584,1475,
 #'         3006,1299,1236,1052,992,3550,1334,1314,1337,942,
