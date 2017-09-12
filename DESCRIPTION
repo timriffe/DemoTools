@@ -12,4 +12,4 @@ RoxygenNote: 6.0.1
 Suggests: covr,
     testthat
 RdMacros: Rdpack
-Imports: demogR, Rdpack
+Imports: demogR, Rdpack, zoo

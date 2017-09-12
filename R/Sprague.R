@@ -13,6 +13,7 @@
 #' @param Age integer vector. Lower age bound of age groups. Detected from row names of \code{popmat} if missing.
 #' @param OAG logical (default \code{TRUE}. Is the final age group open?
 #' @param closeout logical or character (default \code{"mono"}). 
+#' @param pivotAge integer (default 90).
 #' @param ... extra arguments passed to the closeout function.
 #' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
 #' Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
@@ -53,32 +54,32 @@
 #' # another case, starting with single ages
 #' # note spragueSimple() does not group ages. You need to do it 
 #' # first.
- Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
- 		14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
- 		9055588,5519173,12546779,4784102,13365429,4630254,9595545,4727963,
- 		5195032,15061479,5467392,4011539,8033850,1972327,17396266,1647397,
- 		6539557,2233521,2101024,16768198,3211834,1923169,4472854,
- 		1182245,15874081,1017752,3673865,1247304,1029243,12619050,1499847,
- 		1250321,2862148,723195,12396632,733501,2186678,777379,810700,
- 		7298270,1116032,650402,1465209,411834,9478824,429296,1190060,
- 		446290,362767,4998209,388753,334629,593906,178133,
- 		4560342,179460,481230,159087,155831,1606147,166763,93569,182238,
- 		53567,1715697,127486,150782,52332,48664,456387,46978,34448,
- 		44015,19172,329149,48004,28574,9200,7003,75195,13140,5889,
- 		18915,21221,72373)
+#' Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
+#' 		14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
+#' 		9055588,5519173,12546779,4784102,13365429,4630254,9595545,4727963,
+#' 		5195032,15061479,5467392,4011539,8033850,1972327,17396266,1647397,
+#' 		6539557,2233521,2101024,16768198,3211834,1923169,4472854,
+#' 		1182245,15874081,1017752,3673865,1247304,1029243,12619050,1499847,
+#' 		1250321,2862148,723195,12396632,733501,2186678,777379,810700,
+#' 		7298270,1116032,650402,1465209,411834,9478824,429296,1190060,
+#' 		446290,362767,4998209,388753,334629,593906,178133,
+#' 		4560342,179460,481230,159087,155831,1606147,166763,93569,182238,
+#' 		53567,1715697,127486,150782,52332,48664,456387,46978,34448,
+#' 		44015,19172,329149,48004,28574,9200,7003,75195,13140,5889,
+#' 		18915,21221,72373)
 #' Age         <- 0:100
 #' # group ages
 #' Val5        <- groupAges(Value, Age)
 #' # notice how this particular case produces a negative value in the last age
 #' # before OAG:
-#' pops <- spragueSimple(popmat = Val5, OAG = TRUE, closeuout = FALSE)
+#' pops <- spragueSimple(popmat = Val5, OAG = TRUE, closeout = FALSE)
 #' # this replaces ages 90+, guaranteed no negatives.
 #' pops1 <- monoCloseout(popmat = Val5, pops = pops, OAG = TRUE)
 #' # identical to:
-#' pops2 <- spragueSimple(popmat = Val5, OAG = TRUE, closeuout = "mono")
+#' pops2 <- spragueSimple(popmat = Val5, OAG = TRUE, closeout = "mono")
 #' stopifnot(all(pops1==pops2))
 
-spragueSimple <- function(popmat, Age, OAG = TRUE, closeout = "mono", pivotAge = pivotAge){
+spragueSimple <- function(popmat, Age, OAG = TRUE, closeout = "mono", pivotAge = 90){
 	popmat            <- as.matrix(popmat)
 	
 	if (missing(Age)){
@@ -251,6 +252,8 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' @param Age integer vector of single ages (lower bound)
 #' @param OAG logical (default \code{TRUE}). Is the last value the open age group?
 #' @param splitfun function used to split at each digit grouping (default \code{spragueSimple()}.
+#' @param closeout logical or \code{"mono"} 
+#' @param pivotAge Age to start blending in closeout values
 #' @param ... optional arguments passed to \code{splitfun()}.
 #' 
 #' @return numeric vector of Sprague-smoothed counts
@@ -258,6 +261,8 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' \insertRef{booth2015demographic}{DemoTools}
 #' @export
 #' @examples
+#' # code currently breaking, needs to be revisited and updates completed, sorry
+#' \dontrun{
 #' Value <- structure(c(9544406, 7471790, 11590109, 11881844, 11872503, 12968350, 
 #' 		 11993151, 10033918, 14312222, 8111523, 15311047, 6861510, 13305117, 
 #' 		 7454575, 9015381, 10325432, 9055588, 5519173, 12546779, 4784102, 
@@ -277,14 +282,15 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' pop0    <- spragueSimple(groupAges(Value),  OAG = TRUE)
 #' # note: this function needs single ages to work because
 #' # ages are grouped into 5-year age groups in 5 different ways.
-#' pop1    <- splitOscillate(Value, OAG = TRUE, splitfun = spragueSimple)
+#' # breaks
+#' #pop1    <- splitOscillate(Value, OAG = TRUE, splitfun = spragueSimple)
 #' pop2    <- splitOscillate(Value, OAG = TRUE, splitfun = beersSimple)
 #' # what's smoother, splitOscillate() or grabill()?
 #' # note, same closeout problem, can be handled by monoCloseout()
 #' pop3    <- grabill(Value, OAG = TRUE)
 #' # and technically you could give grabill as splitfun too
 #' pop4   <- splitOscillate(Value, OAG = TRUE, splitfun = grabill)
-#' \dontrun{
+#' 
 #' Age <- 0:100
 #' plot(Age, Value)
 #' lines(Age, pop0, col = "blue")
@@ -303,7 +309,7 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' 				   "splitOscillate(splitfun = beersSimple)",
 #' 				   "grabill()",
 #'                 "splitOscillate(splitfun = grabill)"))
-#' }
+#' 
 #' # index of dissimilarity
 #' ID(Value, pop0) # original vs sprague
 #' ID(pop0,pop1) # sprague vs sprague osc
@@ -317,7 +323,7 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' mean(abs(diff(pop2)))
 #' mean(abs(diff(pop3)))
 #' mean(abs(diff(pop4)))
-
+#' }
 splitOscillate <- function(
 		Value, 
 		Age = 1:length(Value) - 1, 

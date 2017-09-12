@@ -4,7 +4,7 @@
 \alias{spragueSimple}
 \title{the basic Sprague age-splitting method}
 \usage{
-spragueSimple(popmat, Age, OAG = TRUE)
+spragueSimple(popmat, Age, OAG = TRUE, closeout = "mono", pivotAge = 90)
 }
 \arguments{
 \item{popmat}{a numeric matrix of population counts in 5-year age groups, with integer-labeled 
@@ -13,6 +13,12 @@ margins (age in rows and year in columns).}
 \item{Age}{integer vector. Lower age bound of age groups. Detected from row names of \code{popmat} if missing.}
 
 \item{OAG}{logical (default \code{TRUE}. Is the final age group open?}
+
+\item{closeout}{logical or character (default \code{"mono"}).}
+
+\item{pivotAge}{integer (default 90).}
+
+\item{...}{extra arguments passed to the closeout function.}
 }
 \value{
 an age-period matrix od split population counts with the same number of 
@@ -26,7 +32,10 @@ in Siegel and Swanson, 2004, p. 727.
 \details{
 Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
 Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
-work as well, as long as it's given as a single-column matrix.
+work as well, as long as it's given as a single-column matrix. There are different ways 
+to specify closing out the graduation: To leave the Sprague results as-is specify \code{closeout = FALSE}. \code{TRUE} 
+or \code{"mono"} will call the \code{monoCloseout()} function. The guarantees no negative values. Other closeout
+ methods may be integrated in the future.
 }
 \examples{
 p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
@@ -44,7 +53,7 @@ p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933,
 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 head(p5) # this is the entire matrix
 # the last value is an open age group, preserve as such:
-p1 <- spragueSimple(p5, OAG = TRUE)
+p1 <- spragueSimple(p5, OAG = TRUE, closeout = FALSE)
 head(p1); tail(p1)
 colSums(p1) - colSums(p5) 
 
@@ -69,11 +78,12 @@ Age         <- 0:100
 Val5        <- groupAges(Value, Age)
 # notice how this particular case produces a negative value in the last age
 # before OAG:
-pops <- spragueSimple(popmat = Val5, OAG = TRUE)
+pops <- spragueSimple(popmat = Val5, OAG = TRUE, closeout = FALSE)
 # this replaces ages 90+, guaranteed no negatives.
-monoCloseout(popmat = Val5, pops = pops, OAG = TRUE)
-# Note: there are no kludges built into spragueSimple() to handle such cases.
-# these ought to be handled by wrappers as appropriate.
+pops1 <- monoCloseout(popmat = Val5, pops = pops, OAG = TRUE)
+# identical to:
+pops2 <- spragueSimple(popmat = Val5, OAG = TRUE, closeout = "mono")
+stopifnot(all(pops1==pops2))
 }
 \references{
 \insertRef{sprague1880explanation}{DemoTools}

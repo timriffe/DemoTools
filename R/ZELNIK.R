@@ -7,6 +7,8 @@
 #' Gray_1987_The Missing Ages: Adjusting for Digit Preference
 
 #' @param Value numeric. A vector of demographic counts in single age groups.
+#' @param q to be defined
+#' @param Age integer lower bound of age classes
 
 #' @details Single year age groups are assumed.
 
@@ -17,7 +19,8 @@
 #' \insertRef{gray1987missingages}{DemoTools}
 
 #' @examples 
-#' # data from gray1987missingages, Table 2, page 21: Aplication of Q1 and Q2 linear operators, Bangladesh Census, 1 March 1974-Males.
+#' # data from gray1987missingages, Table 2, page 21: Aplication of Q1 and 
+#' # Q2 linear operators, Bangladesh Census, 1 March 1974-Males.
 #' Pop<-c(941307,1041335,1237034,1411359,1383853,1541942,1321576,1285877,1563448,886705,
 #'       1623998,562924,1485173,543216,771219,903496,686431,370007,942999,250820,
 #'       1023667,200131,688640,222011,281738,1239965,288363,263326,483143,78635,
@@ -27,8 +30,8 @@
 #'       790643,20596,70109,18044,19891,357491,15253,17489,31057,8481,
 #'       429816,7951,35583,8612,6589,454645)
 #' Age  <-c(0:75) 
-#' zelnik(Pop,1)
-zelnik <- function(Value,q){
+#' zelnik(Pop,1,Age)
+zelnik <- function(Value,q,Age){
   
   # Table 11, pp.20 Linear operators for use in deriving unbiased estimates of single-age distributions
   q1 <-c(-0.0025,-0.01,-0.02,-0.03,-0.04,0.05,0.14,0.13,0.12,0.11,

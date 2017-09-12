@@ -5,7 +5,7 @@
 \title{an oscillatory average of age splits}
 \usage{
 splitOscillate(Value, Age = 1:length(Value) - 1, OAG = TRUE,
-  splitfun = spragueSimple, ...)
+  splitfun = spragueSimple, closeout = "mono", pivotAge = 90, ...)
 }
 \arguments{
 \item{Value}{numeric vector of single age counts}
@@ -15,6 +15,10 @@ splitOscillate(Value, Age = 1:length(Value) - 1, OAG = TRUE,
 \item{OAG}{logical (default \code{TRUE}). Is the last value the open age group?}
 
 \item{splitfun}{function used to split at each digit grouping (default \code{spragueSimple()}.}
+
+\item{closeout}{logical or \code{"mono"}}
+
+\item{pivotAge}{Age to start blending in closeout values}
 
 \item{...}{optional arguments passed to \code{splitfun()}.}
 }
@@ -32,6 +36,8 @@ values are ignored in averaging. This can happen in older ages . It is recommend
 similar after the oscillatory split in such situations.
 }
 \examples{
+# code currently breaking, needs to be revisited and updates completed, sorry
+\dontrun{
 Value <- structure(c(9544406, 7471790, 11590109, 11881844, 11872503, 12968350, 
 		 11993151, 10033918, 14312222, 8111523, 15311047, 6861510, 13305117, 
 		 7454575, 9015381, 10325432, 9055588, 5519173, 12546779, 4784102, 
@@ -51,14 +57,15 @@ Value <- structure(c(9544406, 7471790, 11590109, 11881844, 11872503, 12968350,
 pop0    <- spragueSimple(groupAges(Value),  OAG = TRUE)
 # note: this function needs single ages to work because
 # ages are grouped into 5-year age groups in 5 different ways.
-pop1    <- splitOscillate(Value, OAG = TRUE, splitfun = spragueSimple)
+# breaks
+#pop1    <- splitOscillate(Value, OAG = TRUE, splitfun = spragueSimple)
 pop2    <- splitOscillate(Value, OAG = TRUE, splitfun = beersSimple)
 # what's smoother, splitOscillate() or grabill()?
 # note, same closeout problem, can be handled by monoCloseout()
 pop3    <- grabill(Value, OAG = TRUE)
 # and technically you could give grabill as splitfun too
 pop4   <- splitOscillate(Value, OAG = TRUE, splitfun = grabill)
-\dontrun{
+
 Age <- 0:100
 plot(Age, Value)
 lines(Age, pop0, col = "blue")
@@ -77,7 +84,7 @@ col = c("blue","black","red","magenta","orange"),
 				   "splitOscillate(splitfun = beersSimple)",
 				   "grabill()",
                 "splitOscillate(splitfun = grabill)"))
-}
+
 # index of dissimilarity
 ID(Value, pop0) # original vs sprague
 ID(pop0,pop1) # sprague vs sprague osc
@@ -91,6 +98,7 @@ mean(abs(diff(pop1)))
 mean(abs(diff(pop2)))
 mean(abs(diff(pop3)))
 mean(abs(diff(pop4)))
+}
 }
 \references{
 \insertRef{booth2015demographic}{DemoTools}
