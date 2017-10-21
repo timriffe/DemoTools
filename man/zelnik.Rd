@@ -9,7 +9,7 @@ zelnik(Value, q, Age)
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in single age groups.}
 
-\item{q}{to be defined}
+\item{q}{integer which perturbation vector do we want? 1 or 2 (default 1).}
 
 \item{Age}{integer lower bound of age classes}
 }
@@ -17,8 +17,7 @@ zelnik(Value, q, Age)
 a named vector with the adjusted values
 }
 \description{
-Zelnik method is used to adjust distributions by year of age for digit preference.This comes from 
-Gray_1987_The Missing Ages: Adjusting for Digit Preference
+Zelnik method is used to adjust distributions by year of age for digit preference.
 }
 \details{
 Single year age groups are assumed.
@@ -35,7 +34,55 @@ Pop<-c(941307,1041335,1237034,1411359,1383853,1541942,1321576,1285877,1563448,88
       790643,20596,70109,18044,19891,357491,15253,17489,31057,8481,
       429816,7951,35583,8612,6589,454645)
 Age  <-c(0:75) 
-zelnik(Pop,1,Age)
+z1 <- zelnik(Pop,1,Age)
+z2 <- zelnik(Pop,2,Age)
+\dontrun{
+plot(Age,Pop,type='l',col = gray(.4))
+lines(as.integer(names(z1)),z1,col = "blue",lwd=2)
+lines(as.integer(names(z2)),z2,col = "red",lwd = 2)
+}
+# here some units tests:
+# a function required to make original table work
+perturb <- function(x, pert = 0, pos = 45){
+	x[pos] <- x[pos] + pert
+	x
+}
+ q1_answer <- c(rep(NA,10),1151172,1077888,982103,891354,
+ 		828173,762583,718528,649206,579004,535521,552769,572789,
+ 		543715,504766,456185,484627,516545,487585,458525,437117,
+ 		442480,456052,440706,415651,400515,403565,409668,402329,
+ 		391982,392801,362520,327180,322889,318215,316334,296278,
+ 		276958,275057,272350,279354,244466,209374,214178,210162,
+ 		208499,191717,173916,173882,172936,176417,158124,138487,
+ 		141009,142779,145479,rep(NA,11))
+ 
+ q2_answer <- c(rep(NA,15),769826,711733,663995,623069,
+ 		584797,552352,530538,515578,505073,497808,489977,479740,
+ 		469326,460446,454699,449240,439744,429856,422980,419200,
+ 		414487,403537,389871,378716,370274,361289,348796,334849,
+ 		321901,310028,298308,286242,274796,263983,253143,242464,
+ 		232007,221636,211372,200807,191057,183573,176971,170539,164776,
+      rep(NA,16))
+ \dontrun{
+ 	# using census as given in table. Symmetry makes TR suspect this
+ 	# is due to a single value. Trial and error ensued.
+ plot(Age,zelnik(Pop,1,Age) - q1_answer,xlim=c(32,54),type='l')
+     # change value of age 44 by removing 40 individuals. Suspected
+ 	# error in original table (or in value used by original authors to carry out calcs)
+ 	# 54995 now is 54955, and we get a match.
+ lines(Age,round(zelnik(perturb(Pop,-40,45),1,Age)) - q1_answer, col = "blue")
+ 
+ # that the same adjustment works for q2 makes me suspect that the error
+ # is indeed in the value given for the census count at age 44.
+ plot(Age,round(zelnik(Pop,2,Age)) - q2_answer,xlim=c(30,55),type='l')
+ lines(Age,round(zelnik(perturb(Pop,-40, 45), 2, Age)) - q2_answer, col = "blue")
+ }
+ # we use this for the de facto unit test:
+
+d1 <- round(zelnik(perturb(Pop,-40,45),1,Age)) - q1_answer
+d2 <- round(zelnik(perturb(Pop,-40,45),2,Age)) - q2_answer
+stopifnot(all(d1[!is.na(d1)] == 0))
+stopifnot(all(d2[!is.na(d2)] == 0))
 }
 \references{
 \insertRef{gray1987missingages}{DemoTools}
