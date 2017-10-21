@@ -9,8 +9,7 @@
 #' @param q integer which perturbation vector do we want? 1 or 2 (default 1).
 #' @param Age integer lower bound of age classes
 
-#' @details Single year age groups are assumed.
-
+#' @details Single year age groups are assumed. If \code{q=1}, age x is affected by ages x-10 through x+10. If \code{q=2}, age x is affected by ages x-15 through x+15. A vector is returned of the same length as \code{Value}, but the boundary values are imputed with \code{NA}.  If \code{q=1}, ages 0-9 and the final 10 ages are \code{NA}. If \code{q=2}, ages 0-14 and the final 15 ages are returned as \code{NA}. Note results do not sum to the total from the same age-range of \code{Value} because smoothing draws from ages outside that range.
 #' @return a named vector with the adjusted values
 #' @export
 
@@ -98,11 +97,12 @@ zelnik <- function(Value, q, Age){
   multi      <- Value %*% t(qi)
   
   # Get the diagonal for each age and split the vector
-  diagonal   <- row(multi) - col(multi) + n 
- 
   # used for aggregation
-
-  Q          <-  tapply(multi, diagonal,sum)[as.character(Age)]
+  diagonal   <- row(multi) - col(multi) + n 
+  # this replaces sapply, and if statements to select ranges
+  Q          <- tapply(multi, diagonal, sum)[as.character(Age)]
+  
+  # impute ends with NA
   Q[1:n]     <- NA
   Q[(length(Q)-n):length(Q)]   <- NA
   
