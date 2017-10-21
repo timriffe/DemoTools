@@ -1,4 +1,4 @@
-# Author: Juan Galeano
+# Author: Juan Galeano 
 ###############################################################################
 
 #' Zelnik 11-term moving average. Adjusting for digit preference
