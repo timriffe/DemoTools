@@ -9,7 +9,7 @@
  
 #' @param Value numeric. A vector of demographic counts in single age groups.
 #' @param Age numeric or character. A vector with ages (in single years).
-#' @param ns numeric. In case their is some Age not stated population. By default this is equal to 0.
+#' @param ns numeric. Cases of unknown (not-stated) age. By default this is equal to 0.
 
 #' @details Single year age groups are assumed.
 
@@ -32,19 +32,20 @@
 #'         696,170,60,38,23,745,15)
 #' Ages<-c(0:74,"75+","Not Stated")
 #' T9R5L(Pop, Ages,15)
-T9R5L<- function(Value,Age,ns=0){
+
+T9R5L<- function(Value, Age, ns = 0){
   
   # Get Px and Pxsum (Px+)  
-  PxPxsum<- function(x){
-   
-    Px <- x[seq(1, length(x), 5)]
-    A2<-Px[-length(Px)]
-    sum04<-as.numeric(tapply( x, (seq_along(x)-1) %/% 5, sum))
-    sum04<-sum04[-length(sum04)]
-    Pxsum<-sum04-A2
-    aj1 <- list(A2,Pxsum, Px)
-    aj1
-}
+	PxPxsum<- function(x){
+		
+		Px    <- x[seq(1, length(x), 5)]
+		A2    <- Px[ -length(Px)]
+		sum04 <- as.numeric(tapply( x, (seq_along(x)-1) %/% 5, sum))
+		sum04 <- sum04[-length(sum04)]
+		Pxsum <- sum04 - A2
+		aj1   <- list(A2, Pxsum, Px)
+		aj1
+	}
   
   inicio<-PxPxsum(Value) # create a list with the three elements 
   sumPxPxsum<-inicio[[1]]+inicio[[2]]
@@ -77,23 +78,23 @@ T9R5L<- function(Value,Age,ns=0){
   }
   
   # Iterate 
-  Pxp<-inicio[[1]]
+  Pxp    <- inicio[[1]]
   
-  Pxsump<-inicio[[2]]
+  Pxsump <- inicio[[2]]
   
-  i <- 1
-  
+
+  # TR?????????????????????
   for (i in 1:100) {
     
     ajuste <- f_AJUSTE(Pxp,Pxsump)
-    Pxp <- ajuste[[2]] 
+    Pxp    <- ajuste[[2]] 
     Pxsump <- ajuste[[3]] 
     
     i <- i + 1
   }
   
   finalc <- ajuste[[1]] 
-  finalA<- ajuste[[2]]
+  finalA <- ajuste[[2]]
   
   result <- list(finalc,finalA,Pxsump)
   

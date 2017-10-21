@@ -11,7 +11,7 @@ T9R5L(Value, Age, ns = 0)
 
 \item{Age}{numeric or character. A vector with ages (in single years).}
 
-\item{ns}{numeric. In case their is some Age not stated population. By default this is equal to 0.}
+\item{ns}{numeric. Cases of unknown (not-stated) age. By default this is equal to 0.}
 }
 \value{
 a dataframe with 3 columns: Five year age groups, recoded values and corrected values.
