@@ -10,6 +10,7 @@
 #' @param Value numeric. A vector of demographic counts in single age groups.
 #' @param Age numeric or character. A vector with ages (in single years).
 #' @param ns numeric. Cases of unknown (not-stated) age. By default this is equal to 0.
+#' @param maxit integer how many times should we iterate at most?
 
 #' @details Value is assumed to be in single ages. The last element of Value is assumed to be the open age group, and it is assumed that this age is evenly divisible by 5.
 
@@ -28,44 +29,44 @@
 #' @examples 
 #' # data from feeney1979, Table 1, page 12: Population of Indonesia, 22 provinces, 
 #' # by single year of age: Census of 24 September 1971.
-#' Pop <- c(2337,3873,3882,3952,4056,3685,3687,3683,3611,3175,
-#'         3457,2379,3023,2375,2316,2586,2014,2123,2584,1475,
-#'         3006,1299,1236,1052,992,3550,1334,1314,1337,942,
-#'         3951,1128,1108,727,610,3919,1221,868,979,637,
-#'         3409,887,687,533,313,2488,677,426,524,333,
-#'         2259,551,363,290,226,1153,379,217,223,152,
-#'         1500,319,175,143,89,670,149,96,97,69,
-#'         696,170,60,38,23,745)
-#' Ages <- c(0:75)
-#' result <- T9R5L(Pop, Ages, ns = 15)
-#'
-#' \dontrun{
-#' plot(Ages, Pop, type= 'l')
-#' segments(result$Age,
-#'		 result$recorded/5,
-#'		 result$Age+5,
-#'		 result$recorded/5,
-#'		 col = "blue")
-#' segments(result$Age,
-#'		 result$corrected/5,
-#'		 result$Age+5,
-#'		 result$corrected/5,
-#'		 col = "red")
-#' legend("topright",col=c("black","blue","red"),lty=c(1,1,1),legend=c("recorded 1","recorded 5","corrected 5"))
-#'}
-#'
-#' # some checks 
-#'tab2_answer <- c(18004,17351,14018,10927,8837,8145,7823,7029,
-#'		5748,4326,3289,2415,1794,1197,982,741,0)
+#'  Pop <- c(2337,3873,3882,3952,4056,3685,3687,3683,3611,3175,
+#'          3457,2379,3023,2375,2316,2586,2014,2123,2584,1475,
+#'          3006,1299,1236,1052,992,3550,1334,1314,1337,942,
+#'          3951,1128,1108,727,610,3919,1221,868,979,637,
+#'          3409,887,687,533,313,2488,677,426,524,333,
+#'          2259,551,363,290,226,1153,379,217,223,152,
+#'          1500,319,175,143,89,670,149,96,97,69,
+#'          696,170,60,38,23,745)
+#'  Ages <- c(0:75)
+#'  result <- T9R5L(Pop, Ages, ns = 15)
 #' 
-#' # make sure sums match
-#' stopifnot(abs(sum(result$corrected,na.rm=TRUE)-
-#' sum(result$recorded,na.rm=TRUE))<1e-8)
-#'
-#' # compare results with original Feeney table
-#' difference <- round(T9R5L(Pop, Ages, ns = 15, maxit = 100)$corrected) - tab2_answer
-#'# apaprently the open age group is handled differently?
-#' stopifnot(max(abs(difference[1:16])) <= 2)
+#'  \dontrun{
+#'  plot(Ages, Pop, type= 'l')
+#'  segments(result$Age,
+#' 		 result$recorded/5,
+#' 		 result$Age+5,
+#' 		 result$recorded/5,
+#' 		 col = "blue")
+#'  segments(result$Age,
+#' 		 result$corrected/5,
+#' 		 result$Age+5,
+#' 		 result$corrected/5,
+#' 		 col = "red")
+#'  legend("topright",col=c("black","blue","red"),lty=c(1,1,1),legend=c("recorded 1","recorded 5","corrected 5"))
+#' }
+#' 
+#'  # some checks 
+#' tab2_answer <- c(18004,17351,14018,10927,8837,8145,7823,7029,
+#' 		5748,4326,3289,2415,1794,1197,982,741,0)
+#'  
+#'  # make sure sums match
+#'  stopifnot(abs(sum(result$corrected,na.rm=TRUE)-
+#'  sum(result$recorded,na.rm=TRUE))<1e-8)
+#' 
+#'  # compare results with original Feeney table
+#'  difference <- round(T9R5L(Pop, Ages, ns = 15, maxit = 100)$corrected) - tab2_answer
+#' # apaprently the open age group is handled differently?
+#'  stopifnot(max(abs(difference[1:16])) <= 2)
 
 T9R5L <- function(Value, Age, ns = 0, maxit = 100){
   
@@ -106,6 +107,9 @@ T9R5L <- function(Value, Age, ns = 0, maxit = 100){
 	adjust <- f_adjust(A = Pxp, B = Px4)
     Pxp    <- adjust[[2]] 
 	Px4    <- adjust[[3]] 
+	if (all(abs(adjust[[1]]) < 1e-8)){
+		break
+	}
   }
   
   G      <- (Pxp * .6)[c(2:(n - 1))]
