@@ -87,7 +87,7 @@ T9R5L <- function(Value, Age, ns = 0, maxit = 100){
 	ages_implied <- seq_along(Value) - 1
 	last_age     <- ages_implied[N]
 	a5           <- ages_implied - ages_implied %% 5
-
+    OAG          <- Value[N]
 	
 	# TR: no function requried for this stuff
 	Px     <- Value[seq(1, N, 5)]
