@@ -20,99 +20,158 @@ Value <- c(941307,1041335,1237034,1411359,1383853,1541942,1321576,1285877,156344
        1038747,32894,136179,37667,38230,596049,52602,36493,74106,16759,
        790643,20596,70109,18044,19891,357491,15253,17489,31057,8481,
        429816,7951,35583,8612,6589,454645)
- Age  <- 0:75
+Age  <- 0:75
 
-
-ogive_loess <- function(Value, Age, scale = sum(Value), OAG = TRUE, ...){
-	
-	N   <- length(Value)
+# ---------
+# less obvious arguments:
+# OAG: logical is the last value an open age group that shoud be preserved?
+# ... optional arguments to pass to \code{loess()}. notably \code{span} might be interesting, as it controls smoothness
+ogive_loess <- function(Value, Age, OAG = TRUE, ...){
+	scale      <- sum(Value, na.rm = TRUE)
+	N          <- length(Value)
 	stopifnot(N == length(Age))
 	
-	age <- Age
+	age        <- Age
 	
 	# separate Open age group if desired.
 	if (OAG){
-		OA    <- Value[N]
-		Value <- Value[-N]
-		age   <- age[-N]
+		OA     <- Value[N]
+		Value  <- Value[-N]
+		age    <- age[-N]
+		scale  <- scale - OA
 	}
 	
-	fit <- loess(Value ~ age, ...)
-	out <- fit$fitted
-	
-	if (OAG){
-		out <- c(out, OA)
-	}
-	
-	names(out) <- Age
+	fit        <- loess(Value ~ age, ...)
+	out        <- fit$fitted
 	
 	# enforce sums
-	out <- rescale.vector(out) * scale
+	out        <- rescale.vector(out,  scale) 
+	
+	# tack open age group back on
+	if (OAG){
+		out    <- c(out, OA)
+	}
+	
+	# name vector
+	names(out) <- Age
 	
 	out
 }
 
-# TODO log transform not working...
-ogive_poly <- function(Value, Age, degree = 2, trans, scale = sum(Value), OAG = TRUE, ...){
 
+# ---------
+# less obvious arguments:
+# degree integer degree of polynomial, default 2
+# trans character. tranformation to Value prior to fitting? \code{"log"} is the
+# only implemented possibility at this time. Leave empty otherwise.
+# OAG: logical is the last value an open age group that shoud be preserved?
+# ... other optional arguments to pass to \code{lm()}
+ogive_poly <- function(Value, Age, degree = 2, trans, OAG = TRUE, ...){
+	scale     <- sum(Value, na.rm = TRUE)
 	N         <- length(Value)
 	stopifnot(N == length(Age))
 	
+	# rename because we modify
 	age       <- Age
+	value     <- Value
 	
+	# default regression weights
+	w         <- rep(1, length(value))
 	# separate Open age group if desired.
 	if (OAG){
-		OA    <- Value[N]
-		Value <- Value[-N]
+		OA    <- value[N]
+		value <- value[-N]
 		age   <- age[-N]
+		scale <- scale - OA
+		w     <- w[-N]
 	}
 	
-	
+	# -------------------------
 	# log transform to constrain positive, if desired
-	w     <- rep(1, length(Value))
+	# indicator
+	lTF       <- FALSE
 	if (!missing(trans)){
 		if (trans == "log"){
-			lTF <- TRUE
-			Value <- log(Value)
+			lTF   <- TRUE
+			value <- log(value)
+			w[is.infinite(value)] <- 0
 		} else {
 			warning("The only transformation implemented now is log(Value)\nSpecify trans = 'log' for this.\nfunction continued with no transformation.")
 		}
 		
 	}
 	
+	# -------------------------
+	# build up polynomial expression
 	polys     <- 2:degree
 	polys2    <- paste0("age^", polys)
 	polys3    <- paste0(" + I(",polys2,")")
-	expr      <- paste0("Value ~ age", paste(polys3, collapse = ""))
-	data      <- data.frame(Value = Value, age = age, w = w)
-	fit       <- lm(expr, weight = w, data = data)
+	# final formula
+	expr      <- paste0("Value. ~ age", paste(polys3, collapse = ""))
+	
+	# stick elements into ad hoc data.frame
+	dataf     <- data.frame(Value. = value, age = age, w = w)
+	# fit linear model
+	fit       <- lm(expr, weight = w, data = dataf, ...)
+	# get predicted values
 	out       <- predict(fit)
 	
+	# -------------------------
 	# transform back, if necessary
 	if (lTF){
 			out <- exp(out)
 	} 		
 	
-	
-	# enforce sums
-	out        <- rescale.vector(out) * scale
+	# -------------------------
+    # closing steps
+    # enforce sums
+    out        <- rescale.vector(out,  scale) 
 	
 	# tack OAG back on, if necessary
 	if (OAG){
 		out    <- c(out, OA)
 	}
+	
+	# name vector
 	names(out) <- Age
 	
 	out
 }
 
-plot(Age, Value, pch = 16, col = gray(.5))
-lines(Age, ogive_poly(Value, Age, degree = 2))
-lines(Age, ogive_poly(Value, Age, degree = 3))
-lines(Age, ogive_poly(Value, Age, degree = 2, OAG = FALSE))
-lines(Age, ogive_poly(Value, Age, degree = 3, OAG = FALSE))
 
-lines(Age, ogive_poly(Value, Age, degree = 2, trans = "log"))
-lines(Age, ogive_poly(Value, Age, degree = 3))
-lines(Age, ogive_poly(Value, Age, degree = 2, OAG = FALSE))
-lines(Age, ogive_poly(Value, Age, degree = 3, OAG = FALSE))
+# same args as above:
+
+ogive <- function(Value, Age, method = "loess", OAG = TRUE, degree = 2, trans, ...){
+	
+	if (method == "loess"){
+		out <- ogive_loess(Value = Value, Age = Age, OAG = OAG, ...)
+	}
+	if (method == "poly"){
+		out <- ogive_poly(Value = Value, Age = Age, degree = degree, trans = trans, OAG = OAG, ...)
+	}
+	out
+}
+
+
+# examples
+# \dontrun{
+#plot(Age, Value, pch = 16, col = gray(.5))
+#lines(Age, ogive_poly(Value, Age, degree = 2))
+#lines(Age, ogive_poly(Value, Age, degree = 3))
+#lines(Age, ogive_poly(Value, Age, degree = 2, OAG = FALSE))
+#lines(Age, ogive_poly(Value, Age, degree = 3, OAG = FALSE))
+#
+#lines(Age, ogive_poly(Value, Age, degree = 2, trans = "log"))
+#lines(Age, ogive_poly(Value, Age, degree = 3, trans = "log"))
+#lines(Age, ogive_poly(Value, Age, degree = 2, OAG = FALSE, trans = "log"))
+#lines(Age, ogive_poly(Value, Age, degree = 3, OAG = FALSE, trans = "log"))
+
+# different only toward the upper age boundary due to OAG
+#plot(Age, Value, pch = 16, col = gray(.5))
+#lines(Age, ogive_loess(Value, Age, OAG = FALSE), col = "blue",lwd = 2)
+#lines(Age, ogive_loess(Value, Age, OAG = TRUE), col = "red",lwd = 2)
+## you can change the span argument for loess to modify smoothness.
+#lines(Age, ogive_loess(Value, Age, OAG = FALSE, span = .5), col = "blue",lwd = 2, lty = 2)
+#lines(Age, ogive_loess(Value, Age, OAG = FALSE, span = 2), col = "blue",lwd = 2, lty = 2)
+#
+#}
