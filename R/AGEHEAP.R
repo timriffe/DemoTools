@@ -49,7 +49,7 @@
 Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 	
 	# TR: changed to all %in% since identical not order independent.
-	stopifnot(length(digit) == 1 || all(digit %in% c(0, 5)))
+	stopifnot(length(digit) == 1 || (all(c(0, 5) %in% digit) & length(digit == 2)))
 	stopifnot(length(Value) == length(Age))
 	
 	numeratorind   <- Age >= ageMin & Age <= ageMax & Age %% 10 %in% digit
