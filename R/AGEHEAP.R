@@ -45,13 +45,13 @@
 #' Whipple(Value, Age, 25, 60, digit = 3) 
 
 Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
-	stopifnot(length(digit) <= 2)
+	stopifnot(length(digit) == 1 || identical(digit, c(0, 5)))
 	stopifnot(length(Value) == length(Age))
 	
 	numeratorind   <- Age >= ageMin & Age <= ageMax & Age %% 10 %in% digit
 	# if we are checking just one digit, go down 7 up two, so that the right nr
 	# of counts in denom. This per the French formulas.
-	denominatorind <- Age >= (ageMin - ifelse(all(digit %in% c(0,5)),2,7)) & Age <= (ageMax + 2)
+	denominatorind <- Age >= (ageMin - ifelse(identical(digit, c(0,5)),2,7)) & Age <= (ageMax + 2)
 	
 	whip           <- ifelse(length(digit) == 2,5,10) * sum(Value[numeratorind]) / sum(Value[denominatorind])
 	
