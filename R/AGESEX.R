@@ -30,25 +30,23 @@
 #' 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 #' Age     <- seq(0, 75, by = 5)
 #' 
-#' # final age group assumed closed
-#' ageRatioScore(Males, Age, ageMax = 75) 
-#' # if it's open, remove it by dropping ageMax
-#' ageRatioScore(Males, Age, ageMax = 70)    # 3.9, matches PAS
-#' ageRatioScore(Females, Age, ageMax = 70)  # 3.65 matches PAS
-#' ageRatioScore(Females, Age, ageMax = 70, method = "Ramachandran") # 1.8
-#' ageRatioScore(Females, Age, ageMax = 70, method = "Zelnick")      # 2.4
+#' # Top age group should not include ageMax
+#' ageRatioScore(Males, Age, ageMax = 75)    # 3.9, matches PAS
+#' ageRatioScore(Females, Age, ageMax = 75)  # 3.66 matches PAS
+#' ageRatioScore(Females, Age, ageMax = 75, method = "Ramachandran") # 1.8
+#' ageRatioScore(Females, Age, ageMax = 75, method = "Zelnick")      # 2.4
 ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "UN"){
 	stopifnot(length(Value) == length(Age))
 	method          <- tolower(method)
 	stopifnot(method %in% c("un","zelnick","ramachandran"))
 
 	# cut down data if necessary
-	keep            <- Age >= ageMin & Age <= ageMax
+	keep            <- Age >= ageMin & Age < ageMax
 	Value           <- Value[keep]
 	Age             <- Age[keep]
 	
 	# selectors for numerators and denominators
-	numi            <- Age > ageMin & Age < ageMax
+	numi            <- Age > ageMin & Age < max(Age)
 	denomleft       <- shift.vector(numi, -1) 
 	denommiddle     <- numi
 	denomright      <- shift.vector(numi, 1)
@@ -104,7 +102,7 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 	stopifnot(length(Males) == length(Age) & length(Males) == length(Females))
 	
-	keep      <- Age >= ageMin & Age <= ageMax
+	keep      <- Age >= ageMin & Age < ageMax
 	Males     <- Males[keep]
 	Females   <- Females[keep]
 	
