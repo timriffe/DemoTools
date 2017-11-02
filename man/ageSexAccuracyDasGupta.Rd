@@ -4,7 +4,8 @@
 \alias{ageSexAccuracyDasGupta}
 \title{Calculate Ajit Das Gupta's (1995) age sex accuracy index}
 \usage{
-ageSexAccuracyDasGupta(Males, Females, Age, ageMin = 0, ageMax = max(Age))
+ageSexAccuracyDasGupta(Males, Females, Age, ageMin = 0, ageMax = max(Age),
+  OAG = TRUE)
 }
 \arguments{
 \item{Males}{numeric. A vector of population counts for males by age}
@@ -16,15 +17,15 @@ ageSexAccuracyDasGupta(Males, Females, Age, ageMin = 0, ageMax = max(Age))
 \item{ageMin}{integer. The lowest age included in calcs. Default 0}
 
 \item{ageMax}{integer. The upper age bound used for calcs. Default \code{max(Age)}}
+
+\item{OAG}{logical. default \code{TRUE}. Is the top age group open?}
 }
 \description{
 Given population counts in 5-year age groups for males and females, follow Ajit Das Gupta's steps
  to calculate a composite index of the quality of the age and sex structure for a given population.
 }
 \details{
-It is assumed that the terminal age group is closed and not open. 
-If the final element of \code{Males} and \code{Females} is the open age group,
-then lower \code{ageMax} to remove it in calculations.
+It is assumed that the terminal age group is open, in which case it's ignored.  Set \code{OAG = FALSE} if the top age is indeed a closed interval that you want included in calculations. If \code{ageMax == max(Age)} and \code{OAG} is \code{TRUE}, then \code{ageMax} gets decremented one age class.
 }
 \examples{
 # data from table for South West Africa (1946) given in reference
@@ -36,4 +37,7 @@ Age     <- seq(0, 65, by = 5)
 ageSexAccuracyDasGupta(Males, Females, Age)
 # this method is not on the same scale as the others, so don't directly compare.
 ageSexAccuracy(Males, Females, Age, method = "das gupta")
+}
+\references{
+\insertRef{dasgupta1955}{DemoTools}
 }

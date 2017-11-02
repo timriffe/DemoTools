@@ -4,7 +4,8 @@
 \alias{ageRatioScore}
 \title{calculate the PAS age ratio score}
 \usage{
-ageRatioScore(Value, Age, ageMin = 0, ageMax = max(Age), method = "UN")
+ageRatioScore(Value, Age, ageMin = 0, ageMax = max(Age), method = "UN",
+  OAG = TRUE)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in 5-year age groups.}
@@ -16,6 +17,8 @@ ageRatioScore(Value, Age, ageMin = 0, ageMax = max(Age), method = "UN")
 \item{ageMax}{integer. The upper age bound used for calcs. Default \code{max(Age)}.}
 
 \item{method}{character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"}}
+
+\item{OAG}{logical. default \code{TRUE}. Is the top age group open?}
 }
 \value{
 the value of the index
@@ -27,7 +30,7 @@ absolute deviation from 100 defines the index. This comes from the PAS spreadshe
 }
 \details{
 Age groups must be of equal intervals. Five year age groups are assumed.
- We also assume that the final age group is open, unless \code{ageMax < max(Age)}
+ We also assume that the final age group is open, unless \code{ageMax < max(Age)}. Setting \code{OAG = FALSE} will override this and potentially include \code{max(Age)} in calculations.
 }
 \examples{
 # data from PAS spreadsheet AGESEX.xlsx
@@ -37,14 +40,16 @@ Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 Age     <- seq(0, 75, by = 5)
 
-# final age group assumed closed
-ageRatioScore(Males, Age, ageMax = 75) 
-# if it's open, remove it by dropping ageMax
-ageRatioScore(Males, Age, ageMax = 70)    # 3.9, matches PAS
-ageRatioScore(Females, Age, ageMax = 70)  # 3.65 matches PAS
-ageRatioScore(Females, Age, ageMax = 70, method = "Ramachandran") # 1.8
-ageRatioScore(Females, Age, ageMax = 70, method = "Zelnick")      # 2.4
+ageRatioScore(Males, Age, ageMax = 75)    # 3.9, matches PAS
+ageRatioScore(Females, Age, ageMax = 75)  # 3.66 matches PAS
+ageRatioScore(Females, Age, ageMax = 75, method = "Ramachandran") # 1.8
+ageRatioScore(Females, Age, ageMax = 75, method = "Zelnick")      # 2.4
+
+# de facto unit test:
+stopifnot(round(ageRatioScore(Males, Age, ageMax = 75) ,3) == 3.907)
+stopifnot(round(ageRatioScore(Females, Age, ageMax = 75) ,3) == 3.655)
 }
 \references{
 \insertRef{accuracyun1952}{DemoTools}
+\insertRef{ramachandran1967}{DemoTools}
 }

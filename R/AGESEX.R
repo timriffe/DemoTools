@@ -12,16 +12,17 @@
 #' @param ageMin integer. The lowest age included in calcs. Default 0.
 #' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}.
 #' @param method character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"}
+#' @param OAG logical. default \code{TRUE}. Is the top age group open?
 
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
-#'  We also assume that the final age group is open, unless \code{ageMax < max(Age)}
+#'  We also assume that the final age group is open, unless \code{ageMax < max(Age)}. Setting \code{OAG = FALSE} will override this and potentially include \code{max(Age)} in calculations.
 
 #' @return the value of the index
 #' @export
 #' 
 #' @references 
 #' \insertRef{accuracyun1952}{DemoTools}
-##  \insertRef{ramachandran1967}{DemoTools}
+#' \insertRef{ramachandran1967}{DemoTools}
 #' @examples 
 #' # data from PAS spreadsheet AGESEX.xlsx
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
@@ -30,18 +31,31 @@
 #' 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 #' Age     <- seq(0, 75, by = 5)
 #' 
-#' # Top age group should not include ageMax
 #' ageRatioScore(Males, Age, ageMax = 75)    # 3.9, matches PAS
 #' ageRatioScore(Females, Age, ageMax = 75)  # 3.66 matches PAS
 #' ageRatioScore(Females, Age, ageMax = 75, method = "Ramachandran") # 1.8
 #' ageRatioScore(Females, Age, ageMax = 75, method = "Zelnick")      # 2.4
-ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "UN"){
+#' 
+#' # de facto unit test:
+#' stopifnot(round(ageRatioScore(Males, Age, ageMax = 75) ,3) == 3.907)
+#' stopifnot(round(ageRatioScore(Females, Age, ageMax = 75) ,3) == 3.655)
+
+ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "UN", OAG = TRUE){
 	stopifnot(length(Value) == length(Age))
 	method          <- tolower(method)
 	stopifnot(method %in% c("un","zelnick","ramachandran"))
 
+	N <- length(Value)
+	if (OAG){
+		Age        <- Age[-N]
+		Value      <- Value[-N]
+		if (ageMax > max(Age)){
+			ageMax <- max(Age)
+		}
+	}
+	
 	# cut down data if necessary
-	keep            <- Age >= ageMin & Age < ageMax
+	keep            <- Age >= ageMin & Age <= ageMax
 	Value           <- Value[keep]
 	Age             <- Age[keep]
 	
@@ -78,7 +92,7 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 #' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts
 #' @param ageMin integer. The lowest age included in calcs. Default 0
 #' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
-
+#' @param OAG logical. default \code{TRUE}. Is the top age group open?
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
 #'  We also assume that the final age group is open, unless \code{ageMax < max(Age)}. The method
 #' argument determines the weighting of numerators and denominators, where the UN method puts
@@ -88,8 +102,8 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 #' double-counted in the numerator. Ramachandran is therefore less judgemental, so to speak.
 
 #' @return the value of the index
-## @references 
-##\insertref{accuracyun1952}{DemoTools}
+#' @references 
+#' \insertRef{accuracyun1952}{DemoTools}
 #' @export
 #' @examples 
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
@@ -98,11 +112,25 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 #' 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 #' Age     <- seq(0, 75, by = 5)
 #' sexRatioScore(Males, Females, Age)  # 2.2, matches PAS
+#' # de facto unit test
+#' stopifnot(round(sexRatioScore(Males, Females, Age),3) == 2.249)
+#' stopifnot(round(sexRatioScore(Males, Females, Age, ageMax = 70),3) == 2.249)
 
-sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
+sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), OAG = TRUE){
 	stopifnot(length(Males) == length(Age) & length(Males) == length(Females))
 	
-	keep      <- Age >= ageMin & Age < ageMax
+	# handle open age group
+	N <- length(Males)
+	if (OAG){
+		Age        <- Age[-N]
+		Males      <- Males[-N]
+		Females    <- Females[-N]
+		if (ageMax > max(Age)){
+			ageMax <- max(Age)
+		}
+	}
+	# now make 
+	keep      <- Age >= ageMin & Age <= ageMax
 	Males     <- Males[keep]
 	Females   <- Females[keep]
 	
@@ -125,19 +153,19 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 #' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
 #' @param method character. Either \code{"UN"} (default), \code{"Zelnick"}, \code{"Ramachandran"}, or \code{"das gupta"}
 #' @param adjust logical do we adjust the measure when population size is under one million?
+#' @param OAG logical. default \code{TRUE}. Is the top age group open?
 
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
-#' It is assumed that the terminal age group is closed and not open. 
 #' If the final element of \code{Males} and \code{Females} is the open age group,
-#' then lower \code{ageMax} to remove it in calculations. The method argument 
+#' then either make sure \code{ageMax} is lower than it, or leave \code{OAG} as \code{TRUE} so that it is properly removed for calcs. The method argument 
 #' is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators, 
 #' except in the case of Das Gupta, where it's a different method entirely (see \code{ageSexAccuracyDasGupta()}.
 
 #' @return the value of the index
 #' @export
-##@references 
-##\insert_ref(accuracyun1952,DemoTools)
-##\insert_ref(dasgupta1955,DemoTools)
+#' @references 
+#' \insertRef{accuracyun1952}{DemoTools}
+#' \insertRef{dasgupta1955}{DemoTools}
 #' 
 #' @examples
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
@@ -150,9 +178,20 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
 #' ageSexAccuracy(Males, Females, Age, ageMax = 65, adjust = FALSE)
 #' ageSexAccuracy(Males, Females, Age, method = "Zelnick")
 #' ageSexAccuracy(Males, Females, Age, method = "Ramachandran")
+#' # Das Gupta not a comparable magnitude, FYI.
 #' ageSexAccuracy(Males, Females, Age, method = "Das Gupta")
-
-ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), method = "UN", adjust =  TRUE){
+#' 
+#' # de facto unit test:
+#' stopifnot(round(ageSexAccuracy(Males, Females, Age),3) == 14.308)
+ageSexAccuracy <- function(
+		Males, 
+		Females, 
+		Age, 
+		ageMin = 0, 
+		ageMax = max(Age), 
+		method = "UN", 
+		adjust =  TRUE, 
+		OAG = TRUE){
 	method <- tolower(method)
 	stopifnot(method %in% c("un","zelnick","ramachandran", "das gupta", "dasgupta"))
 	
@@ -163,7 +202,8 @@ ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), m
 				Females = Females,
 				Age = Age,
 				ageMin = ageMin,
-				ageMax = ageMax)
+				ageMax = ageMax,
+				OAG = OAG)
 		# early return in this case
 		return(ind)
 	}
@@ -173,19 +213,22 @@ ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), m
 			Females = Females, 
 			Age = Age, 
 			ageMin = ageMin, 
-			ageMax = ageMax)
+			ageMax = ageMax,
+			OAG = OAG)
 	MA <- ageRatioScore(
 			Value = Males,
 			Age = Age,
 			ageMin = ageMin, 
 			ageMax = ageMax,
-			method = method)
+			method = method,
+			OAG = OAG)
 	FA <- ageRatioScore(
 			Value = Females,
 			Age = Age,
 			ageMin = ageMin, 
 			ageMax = ageMax,
-			method = method)
+			method = method,
+			OAG = OAG)
 	# calculate index:
 	ind <- 3 * SR + MA + FA
 	tot <- sum(Males) + sum(Females)
@@ -204,13 +247,12 @@ ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), m
 #' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts
 #' @param ageMin integer. The lowest age included in calcs. Default 0
 #' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
+#' @param OAG logical. default \code{TRUE}. Is the top age group open?
 #' 
-##references 
-##\insert_ref(dasgupta1955,DemoTools)
+#' @references 
+#' \insertRef{dasgupta1955}{DemoTools}
 #' 
-#' @details It is assumed that the terminal age group is closed and not open. 
-#' If the final element of \code{Males} and \code{Females} is the open age group,
-#' then lower \code{ageMax} to remove it in calculations.
+#' @details It is assumed that the terminal age group is open, in which case it's ignored.  Set \code{OAG = FALSE} if the top age is indeed a closed interval that you want included in calculations. If \code{ageMax == max(Age)} and \code{OAG} is \code{TRUE}, then \code{ageMax} gets decremented one age class.
 #' 
 #' @export
 #' @examples
@@ -224,8 +266,17 @@ ageSexAccuracy <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), m
 #' # this method is not on the same scale as the others, so don't directly compare.
 #' ageSexAccuracy(Males, Females, Age, method = "das gupta")
 
-ageSexAccuracyDasGupta <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age)){
-	
+ageSexAccuracyDasGupta <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), OAG = TRUE){
+	# handle open age group
+	N <- length(Males)
+	if (OAG){
+		Age        <- Age[-N]
+		Males      <- Males[-N]
+		Females    <- Females[-N]
+		if (ageMax > max(Age)){
+			ageMax <- max(Age)
+		}
+	}
 	# cut down data:
 	keep      <- Age >= ageMin & Age <= ageMax
 	Males     <- Males[keep]

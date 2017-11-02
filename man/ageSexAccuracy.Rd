@@ -5,7 +5,7 @@
 \title{calculate an age-sex accuracy index}
 \usage{
 ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
-  method = "UN", adjust = TRUE)
+  method = "UN", adjust = TRUE, OAG = TRUE)
 }
 \arguments{
 \item{Males}{numeric. A vector of population counts for males in 5-year age groups}
@@ -21,6 +21,8 @@ ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
 \item{method}{character. Either \code{"UN"} (default), \code{"Zelnick"}, \code{"Ramachandran"}, or \code{"das gupta"}}
 
 \item{adjust}{logical do we adjust the measure when population size is under one million?}
+
+\item{OAG}{logical. default \code{TRUE}. Is the top age group open?}
 }
 \value{
 the value of the index
@@ -32,9 +34,8 @@ a wrapper to \code{ageRatioScore()} and \code{sexRatioScore()}.
 }
 \details{
 Age groups must be of equal intervals. Five year age groups are assumed.
-It is assumed that the terminal age group is closed and not open. 
 If the final element of \code{Males} and \code{Females} is the open age group,
-then lower \code{ageMax} to remove it in calculations. The method argument 
+then either make sure \code{ageMax} is lower than it, or leave \code{OAG} as \code{TRUE} so that it is properly removed for calcs. The method argument 
 is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators, 
 except in the case of Das Gupta, where it's a different method entirely (see \code{ageSexAccuracyDasGupta()}.
 }
@@ -49,5 +50,13 @@ ageSexAccuracy(Males, Females, Age, ageMax = 65)
 ageSexAccuracy(Males, Females, Age, ageMax = 65, adjust = FALSE)
 ageSexAccuracy(Males, Females, Age, method = "Zelnick")
 ageSexAccuracy(Males, Females, Age, method = "Ramachandran")
+# Das Gupta not a comparable magnitude, FYI.
 ageSexAccuracy(Males, Females, Age, method = "Das Gupta")
+
+# de facto unit test:
+stopifnot(round(ageSexAccuracy(Males, Females, Age),3) == 14.308)
+}
+\references{
+\insertRef{accuracyun1952}{DemoTools}
+\insertRef{dasgupta1955}{DemoTools}
 }

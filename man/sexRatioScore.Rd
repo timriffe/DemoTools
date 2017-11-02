@@ -4,7 +4,8 @@
 \alias{sexRatioScore}
 \title{calculate the PAS sex ratio score}
 \usage{
-sexRatioScore(Males, Females, Age, ageMin = 0, ageMax = max(Age))
+sexRatioScore(Males, Females, Age, ageMin = 0, ageMax = max(Age),
+  OAG = TRUE)
 }
 \arguments{
 \item{Males}{numeric. A vector of population counts for males in 5-year age groups}
@@ -16,6 +17,8 @@ sexRatioScore(Males, Females, Age, ageMin = 0, ageMax = max(Age))
 \item{ageMin}{integer. The lowest age included in calcs. Default 0}
 
 \item{ageMax}{integer. The upper age bound used for calcs. Default \code{max(Age)}}
+
+\item{OAG}{logical. default \code{TRUE}. Is the top age group open?}
 }
 \value{
 the value of the index
@@ -42,4 +45,10 @@ Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 Age     <- seq(0, 75, by = 5)
 sexRatioScore(Males, Females, Age)  # 2.2, matches PAS
+# de facto unit test
+stopifnot(round(sexRatioScore(Males, Females, Age),3) == 2.249)
+stopifnot(round(sexRatioScore(Males, Females, Age, ageMax = 70),3) == 2.249)
+}
+\references{
+\insertRef{accuracyun1952}{DemoTools}
 }

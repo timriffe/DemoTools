@@ -52,7 +52,9 @@
 #' 		 result$Age+5,
 #' 		 result$corrected/5,
 #' 		 col = "red")
-#'  legend("topright",col=c("black","blue","red"),lty=c(1,1,1),legend=c("recorded 1","recorded 5","corrected 5"))
+#'  legend("topright",col=c("black","blue","red"),
+#'    lty=c(1,1,1),
+#'    legend=c("recorded 1","recorded 5","corrected 5"))
 #' }
 #' 
 #'  # some checks 
