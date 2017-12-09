@@ -1,5 +1,6 @@
 # Author: Juan Galeano
 # Edited 9-Dec-2017 by Tim Riffe
+# redundant with utils.R ma(), which takes any n
 ###############################################################################
 
 #' calculate the moving average (mav) over 3 or 5 years

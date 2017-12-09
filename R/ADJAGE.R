@@ -1,4 +1,5 @@
 # Author: sean
+# TR: redundant with utils.R rescale.vector(), which is depended on elsewhere
 ###############################################################################
 #
 #Males      <- c(423, 1654, 1523, 1475, 1482, 1356, 1321, 1298, 1121, 1023, 974, 968, 859, 824, 756, 723, 652, 622)
@@ -35,11 +36,11 @@
 
 adjustAge <- function(Value, DesiredTotal){
   
-  valueSum <- sum(Value)
+  valueSum      <- sum(Value)
   
-  adjustFactor <- DesiredTotal/valueSum
+  adjustFactor <- DesiredTotal / valueSum
   
-  adjustValues <- round(Value*adjustFactor)
+  adjustValues <- Value * adjustFactor
   
   return(adjustValues)
 }
