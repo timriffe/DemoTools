@@ -1,10 +1,10 @@
 # Author: Juan Galeano
+# Edited 9-Dec-2017 by Tim Riffe
 ###############################################################################
 
 #' calculate the moving average (mav) over 3 or 5 years
-#' @description  This purely mathematical smoothing aims to eliminate irregularities of the population pyramid 
-#' by single ages due to errors (attractions or repulsions for certain ages). This comes from 
-#' pp. 361-367 in GDA_1981_Structures-par-sexe-et-age-en-Afrique_[IREDA]
+#' @description  This arithmetic smoothing aims to eliminate irregularities of the population pyramid 
+#' by single ages due to errors (attractions or repulsions for certain ages). 
 
 #' @param Value numeric. A vector of demographic counts in single age groups.
 #' @param nyears numeric. A single number, (3 or 5), indicating the number of years taken to smooth the population distribution by single ages.
@@ -13,6 +13,7 @@
 
 #' @return a named vector with the smoothed values
 #' @export
+#' @author Juan Galeano
 
 #' @references 
 #' \insertRef{GDA1981IREDA}{DemoTools}
@@ -28,12 +29,12 @@
 #'          323263,9535,13906,9063,8294,90459,9817,6376,8884,3773,160609)
 #' Age  <-c(0:69,'70+')  
 #' # final age group assumed open
-#' mav(Pop, n=3,Age=Age)      
-mav <- function(Value,nyears,Age){
-  result<-as.numeric(stats::filter(Value,rep(1/if(nyears==3){3}else 
-  {if(nyears==5){5}else
-  {if(nyears<3|nyears>5|nyears==4){print("Recall: n has to be equal to 3 or 5")}}},nyears)))
-  structure(result, names=Age)
+#' mav(Pop, n = 3,Age=Age)      
+mav <- function(Value, nyears, Age){
+  # TR: not sure why nyears needs to be hard coded
+  stopifnot(nyears %in% c(3, 5))
+  result <- as.numeric(stats::filter(Value,rep(1 / nyears, nyears)))
+  structure(result, names = Age)
 }      
 
 
