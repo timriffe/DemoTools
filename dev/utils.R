@@ -519,9 +519,13 @@ splitToSingleAges <- function(Value, Age, OAG = FALSE){
 #' @export
 
 getModelLifeTable <- function(ModelName, Sex){
-  if(ModelName == "coale-demeny west"){
+	Sex <- toupper(substr(Sex, 1, 1))
+	
+	stopifnot(Sex %in% c("M", "F"))
+	stopifnot(ModelName == "coale-demeny west")
+ 
     outputLT <- demogR::cdmltw(sex = Sex)
-  }
+  
   
   return(outputLT)
 }
