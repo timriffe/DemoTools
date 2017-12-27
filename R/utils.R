@@ -488,6 +488,24 @@ groupAges <- function(Value,
 	tapply(Value, AgeN, sum)
 }
 
+#' Group down to a new open age class
+#' 
+#' @description This simple utility lowers the open age group. It only returns the input value vector, not the age vector.
+#' @param Value numeric vector of counts
+#' @param Age integer vector of age classes
+#' @param OAnew the desired open age group
+#' @export 
+#' @return Value vector potentially of reduced length up to OAG
+
+groupOAG <- function(Value, Age, OAnew){
+	stopifnot(OAnew %in% Age)
+	N        <- length(Value[Age <= OAnew])
+	Value[N] <- sum(Value[Age >= OAnew])
+	Value    <- Value[1:N]
+	Value
+}
+
+
 #' logical checking of whether age classes appear single
 #' 
 #' @description check whether a vector of ages consists in single ages. This
