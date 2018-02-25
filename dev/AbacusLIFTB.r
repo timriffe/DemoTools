@@ -52,7 +52,7 @@ REGRES <- function(X,Y,N)  { #  function(X,Y,N,A,B,R,SUMSQ,ErrorCode)
   return(list("A"=A,"B"=B,"R"=R,"SUMSQ"=SUMSQ,"ErrorCode"=ErrorCode))
 }
 
-AbacusLIFTB <- function(NFIN,NUMOUT,NTYPE,NSEX,QXMX)  {
+AbacusLIFTB <- function(NFIN,NUMOUT,NTYPE,NSEX,QXMX,abort=FALSE)  {
 	
   # ---------------------------------------------------------------------------------------------------------------
   #         LIFTB is derived from MORTPAK software package and customized for Abacus
@@ -265,7 +265,9 @@ AbacusLIFTB <- function(NFIN,NUMOUT,NTYPE,NSEX,QXMX)  {
   ARRAY[5,5]<-0.0
   for(I in seq(6,NFIN,by=5)) {ARRAY[I,5]<-A[I]*ARRAY[I,3]+(5.0-A[I])*ARRAY[I+5,3]}
 
-  
+  if (abort){
+	  return(ARRAY)
+  }
   
   #  This block extrapolates qx to get Lx at the open age group. Skip if NTYPE is set to 3
   if(UseMxOpenAgeGroup == 0)  {     #  This block extrapolates qx to get Lx at the open age group. Skip if NTYPE is set to 3
@@ -501,6 +503,7 @@ AbacusLIFTB <- function(NFIN,NUMOUT,NTYPE,NSEX,QXMX)  {
 
 do.this <- FALSE
 if (do.this){
+	library(DemoTools)
   MPnMx <- c(0.12846,0.02477,0.00603,0.0034,
   0.00417,0.00513,0.00581,0.00645,0.00725,
   0.00813,0.00913,0.01199,0.01647,
@@ -511,7 +514,7 @@ QXMX[ cumsum(Int)-Int+1] <- MPnMx
 # try w single ages?
 
 NTYPE <- 2
-ARRAY <- AbacusLIFTB(NFIN=80, NUMOUT=80,NTYPE=2,NSEX=1,QXMX=QXMX)$ARRAY
+ARRAY <- AbacusLIFTB(NFIN=80, NUMOUT=80,NTYPE=2,NSEX=1,QXMX=QXMX,abort=TRUE)
 rownames(ARRAY) <- 0:100
 # identify columns for named indexing
 colnames(ARRAY) <- c("Mx","qx","lx")
