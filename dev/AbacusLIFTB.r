@@ -53,7 +53,6 @@ REGRES <- function(X,Y,N)  { #  function(X,Y,N,A,B,R,SUMSQ,ErrorCode)
 }
 
 AbacusLIFTB <- function(NFIN,NUMOUT,NTYPE,NSEX,QXMX,abort=FALSE)  {
-	
   # ---------------------------------------------------------------------------------------------------------------
   #         LIFTB is derived from MORTPAK software package and customized for Abacus
   #               UNITED NATIONS SOFTWARE PACKAGE FOR MORTALITY MEASUREMENT     
@@ -501,33 +500,29 @@ AbacusLIFTB <- function(NFIN,NUMOUT,NTYPE,NSEX,QXMX,abort=FALSE)  {
   return(list("ARRAY"=ARRAY,"ErrorCode"=ErrorCode))  
 }
 
-do.this <- FALSE
-if (do.this){
-	library(DemoTools)
-  MPnMx <- c(0.12846,0.02477,0.00603,0.0034,
-  0.00417,0.00513,0.00581,0.00645,0.00725,
-  0.00813,0.00913,0.01199,0.01647,
-  0.0256,0.04047,0.06624,0.10638,0.19611)
-QXMX <- rep(0,86)
-Int <- inferAgeIntAbr(vec = MPnMx)
-QXMX[ cumsum(Int)-Int+1] <- MPnMx
-# try w single ages?
 
-NTYPE <- 2
-ARRAY <- AbacusLIFTB(NFIN=80, NUMOUT=80,NTYPE=2,NSEX=1,QXMX=QXMX,abort=TRUE)
-rownames(ARRAY) <- 0:100
-# identify columns for named indexing
-colnames(ARRAY) <- c("Mx","qx","lx")
-}
-#sum(ARRAY[,5])
-
-
-# THIS IS THE BLOCK THAT REQUIRES REFACTORING 
-
-#  This block extrapolates qx to get Lx at the open age group. Skip if NTYPE is set to 3
-# annoyance of unnamed indices
-if(UseMxOpenAgeGroup == 0)  {     #  This block extrapolates qx to get Lx at the open age group. Skip if NTYPE is set to 3
-	
+do.extend <- function(ARRAY,NFIN){
+	NEND 		<- NFIN+1
+	NM10		<- NEND-10
+	NM5			<- NEND-5
+	#  This block extrapolates qx to get Lx at the open age group. Skip if NTYPE is set to 3
+	QVAL		<- rep(0.0,25)
+	XVAL		<- rep(0.0,6)
+	TT			<- rep(0.0,3)
+	AM			<- rep(0.0,101)
+	A			<- rep(0.0,101)
+	G			<- rep(0.0,101)
+	XV			<- rep(0.0,6)
+	YV			<- rep(0.0,6)
+	oag			<- rep(0.0,9)
+	XAgeGroup 	<- rep(0.0,22)
+	YLnMxValues <- rep(0.0,22)
+	C1 	<- 0.0
+	C2 	<- 0.0
+	C3 	<- 0.0
+	SUM1 	<- 0.0
+	SUM2 	<- 0.0
+	SUM3 	<- 0.0
 	ErrorFlag       <- 0
 	for (I in seq(46,NFIN,by=5)) {
 		if(ARRAY[I,2] < ARRAY[I-5,2]) {
@@ -646,4 +641,149 @@ if(UseMxOpenAgeGroup == 0)  {     #  This block extrapolates qx to get Lx at the
 	ARRAY[NEND,5]<-CAPL
 	ARRAY[NEND,7]<-CAPL
 	
+	ARRAY
+}
+
+do.extend2 <- function(ARRAY, NFIN, NUMOUT = NFIN, NSEX = 1){
+	QVAL			<- rep(0.0,25)
+	A			<- rep(0.0,101)
+	oag			<- rep(0.0,9)
+	nfnout 	<- NUMOUT
+	NEND <- NFIN + 1
+	for (I in 1:5)  {
+		if (ARRAY[I,5] >= 1.0) ARRAY[I,1] <-ARRAY[I,4]/ARRAY[I,5]
+		if (ARRAY[I,5] < 1.0) ARRAY[I,1] <-0.0
+	}
+	for( I in seq(6,NEND,by=5)) {ARRAY[I,1]<-ARRAY[I,4]/ARRAY[I,5]}
+	K<-NEND-5
+	for (I in seq(6,K,by=5)) {
+		J<-NEND-I+1
+		ARRAY[J,7]<-ARRAY[J+5,7]+ARRAY[J,5]
+	}
+	for(I in 1:5)  {
+		J<-6-I
+		ARRAY[J,7]<-ARRAY[J+1,7]+ARRAY[J,5]
+	}
+	SUM<-sum(ARRAY[1:5,5])
+	ARRAY[1,6]<-SUM/500000.0
+	ARRAY[2,6]<-ARRAY[6,5]/SUM
+	KM10<-NEND-10
+	for (I in seq(6,KM10,by=5))  {ARRAY[I,6]<-ARRAY[I+5,5]/ARRAY[I,5]}
+	ARRAY[K,6]<-ARRAY[NEND,7]/ARRAY[K,7]
+	ARRAY[1:5,8]<-ARRAY[1:5,7]/ARRAY[1:5,3]
+	for(J in seq(6,NEND,by=5))  {ARRAY[J,8]<-ARRAY[J,7]/ARRAY[J,3]}
+	for(J in seq(6,NFIN,by=5))  {ARRAY[J,9]<-A[J]}
+	ARRAY[NEND,9]<-1.0/ARRAY[NEND,1]
+	ARRAY[3,9]<-0.47
+	ARRAY[4,9]<-0.49
+	ARRAY[5,9]<-0.50
+	if(ARRAY[1,2] >= 0.100 & NSEX == 1) {
+		A[1] <- 0.33
+		A[2] <- 1.352
+	}
+	if(ARRAY[1,2] >= 0.100 & NSEX == 2) {
+		A[1] <- 0.35
+		A[2] <- 1.361
+	}
+	if(ARRAY[1,2] < 0.100 & NSEX == 1) {
+		A[1] <- 0.0425+2.875*ARRAY[1,2]
+		A[2] <- 1.653-3.013*ARRAY[1,2]
+	}
+	if(ARRAY[1,2] < 0.100 & NSEX == 2) {
+		A[1] <- 0.050+3.00*ARRAY[1,2]
+		A[2] <- 1.524-1.627*ARRAY[1,2]
+	}
+	ARRAY[1,9]<-A[1]
+	ARRAY[2,9]<-A[2]
+	# Extend table to 100+ if not already 100+
+	if(NFIN != 100 | nfnout != 100)  {
+		oag[1:9]<-ARRAY[NEND,1:9]
+		ictr<-6
+		idx<-2
+		oagL<-oag[5]
+		for (i in seq(NEND,96,by=5))  {
+			ictr<-ictr+1
+			idx<-idx+5
+			ARRAY[i,5]<-ARRAY[idx,5]
+			oagL<-oagL-ARRAY[i,5]
+			ARRAY[i,2]<-QVAL[ictr]
+			ARRAY[i,3]<-ARRAY[i-5,3]*(1.0-ARRAY[i-5,2])
+			ARRAY[i,4]<-ARRAY[i,3]*ARRAY[i,2]
+			ARRAY[i,1]<-ARRAY[i,4]/ARRAY[i,5]
+			ARRAY[i,9]<-G[ictr]
+		}
+		ARRAY[101,5]<-oagL
+		ARRAY[101,2]<-1.0
+		ARRAY[101,3]<-ARRAY[96,3]*(1.0-ARRAY[96,2])
+		ARRAY[101,4]<-ARRAY[101,3]*ARRAY[101,2]
+		ARRAY[101,1]<-ARRAY[101,4]/ARRAY[101,5]
+		ARRAY[101,9]<-1.0/ARRAY[101,1]
+		ARRAY[101,7]<-oagL
+		ARRAY[101,8]<-ARRAY[101,7]/ARRAY[101,3]
+		ARRAY[101,6]<-0.0
+		idx<-101
+		for (i in seq(NEND,96,by=5))  {
+			idx<-idx-5
+			ARRAY[idx,7]<-ARRAY[idx+5,7]+ARRAY[idx,5]
+			ARRAY[idx,8]<-ARRAY[idx,7]/ARRAY[idx,3]
+		}
+		ARRAY[96,6]<-ARRAY[101,7]/ARRAY[96,7]
+		nend5<-NEND-5
+		for (i in seq(nend5,91,by=5)) {ARRAY[i,6]<-ARRAY[i+5,5]/ARRAY[i,5]}
+		# New code allows output table to have flexible open age group, independent of input open age group (max of 100+).
+		nend2<-nfnout+1
+		ARRAY[nend2,2]<-1.0
+		ARRAY[nend2,4]<-ARRAY[nend2,3]
+		ARRAY[nend2,5]<-ARRAY[nend2,7]
+		ARRAY[nend2,1]<-ARRAY[nend2,4]/ARRAY[nend2,5]
+		ARRAY[nend2,9]<-1.0/ARRAY[nend2,1]
+		ARRAY[nend2-5,6]<-ARRAY[nend2,7]/ARRAY[nend2-5,7]
+	}  #  end of block to extend age group to 100+
+	ARRAY
+}
+calc_AgeAbr_OAG <- function(OAG){
+	sort(unique(calcAgeAbr(0:OAG)))
+}
+
+AbacusLIFTB_wrap <- function(Mx, OAG, OAGnew, Sex = "m"){
+	N          <- length(Mx)
+	AgeInt     <- inferAgeIntAbr(vec = Mx)
+	OA         <- sum(AgeInt) - AgeInt[N]
+	QXMX       <- rep(0,sum(AgeInt)+1)
+	AgeI       <- cumsum(AgeInt)-AgeInt+1
+	QXMX[AgeI] <- Mx
+	NSEX       <- ifelse(Sex == "m",1,2)
+	NUMOUT     <- OAGnew
+	ARRAY      <- AbacusLIFTB(NFIN = OAG, NUMOUT = OAGnew, 
+			NTYPE = 2, NSEX = 1, QXMX = QXMX,
+			abort = FALSE)$ARRAY
+	if (OAGnew > OAG){
+		AgeI <- calc_AgeAbr_OAG(OAGnew) + 1
+	}
+	ARRAY <- ARRAY[AgeI, ]
+	colnames(ARRAY) <- c("Mx","qx","lx","dx","Lx","Sx","Tx","ex","ax")
+	rownames(ARRAY) <- AgeI - 1
+	ARRAY
+}
+do.this <- FALSE
+if (do.this){
+	source("/home/tim/git/DemoTools/dev/AbacusLIFTB.r")
+	library(DemoTools)
+  MPnMx <- c(0.12846,0.02477,0.00603,0.0034,
+  0.00417,0.00513,0.00581,0.00645,0.00725,
+  0.00813,0.00913,0.01199,0.01647,
+  0.0256,0.04047,0.06624,0.10638,0.19611)
+MPnMx <- MPnMx[1:15]
+N           <- length(MPnMx)
+Int         <- inferAgeIntAbr(vec = MPnMx)
+AgeI        <- cumsum(Int)-Int+1
+QXMX        <- rep(0,sum(Int[-N])+1)
+QXMX[ AgeI] <- MPnMx
+
+# try w single ages?
+	
+AbacusLIFTB_wrap(Mx = MPnMx,65,60,"m")
+# wrapper
+	AbacusLIFTB(NFIN=65,NUMOUT=65,NTYPE=2,NSEX=1,QXMX=QXMX)$ARRAY[AgeI,]
+
 }
