@@ -221,6 +221,7 @@ LTabr <- function(
 	}
 	if (axmethod == "un"){
 		# UN method just CD west for now, so no region arg
+	    # no sense calling Abacus here because it gets called later if necessary
 		if (missing(nMx)){
 			#fakenMx   <- nqx
 			nAx       <- axUN(
@@ -229,7 +230,8 @@ LTabr <- function(
 					IMR = nqx[1], 
 					Sex = Sex, 
 					region = region,
-					mod = mod)
+					mod = mod,
+					closeout = "")
 			
 		} else {
 			nAx       <- axUN(
@@ -238,7 +240,8 @@ LTabr <- function(
 					IMR = IMR, 
 					Sex = Sex, 
 					region = region,
-					mod = mod)
+					mod = mod,
+					closeout = "")
 		}	
 		
 	}

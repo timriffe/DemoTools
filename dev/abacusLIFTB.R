@@ -6,6 +6,18 @@
 # lower bound ages obtain positive numbers, while other intermediate values are 0.
 # an odd way to design a function, probably with some legacy.
 
+#' calculate simple linear model by hand
+#' @description A legacy function internal to the mortpak lifetable. It calculates intercept, slope, correlation coef, and the residual sum of squares. Just like \code{lm()}? Unchecked.
+#' @details Used internally by \code{AbacusLIFTB()}. 
+#' @param X x
+#' @param Y y
+#' @param N length of X and Y
+#' @return A list containing, A, B, R, SUMSQ, and potentially an error code.
+#' @export
+#' @references 
+#' \insertRef{mortpak1988}{DemoTools}
+
+
 REGRES <- function(X,Y,N)  { #  function(X,Y,N,A,B,R,SUMSQ,ErrorCode)
 	#     -----------------------------------------------------------------------
 	#     X,Y ARE INPUT DATA ARRAYS.
@@ -52,7 +64,20 @@ REGRES <- function(X,Y,N)  { #  function(X,Y,N,A,B,R,SUMSQ,ErrorCode)
 	return(list("A"=A,"B"=B,"R"=R,"SUMSQ"=SUMSQ,"ErrorCode"=ErrorCode))
 }
 
-AbacusLIFTB <- function(NFIN,NUMOUT,NTYPE,NSEX,QXMX,abort=FALSE)  {
+#' literal translation of mortpak from Fortran
+#' @description This has not been modified in any meaningful way by the package maintainer, nor will it be documented in depth, as it is intended to be replaced in the future with a refactored version of the same. 
+#' @details Try \code{AbacusLIFTB_wrap()} if you just want to make quick use of this functionality. Standard abridged ages are assumed. The lifetable stops at 100+. Note \code{QXMX} needs to be an object in single ages
+#' @param NFIN integer the open age
+#' @param NUMOUT the desired open age group (under 100)
+#' @param NTYPE 1 means nqx. 2 means nMx. 3 means nMx but do not extrapolate to close out.
+#' @param NSEX 1 is male. 2 is female
+#' @param QXMX numeric vector of either nMx or nqx in abridged ages
+#' @export 
+#' 
+#' @references 
+#' \insertRef{mortpak1988}{DemoTools}
+
+AbacusLIFTB <- function(NFIN,NUMOUT,NTYPE,NSEX,QXMX)  {
 	# ---------------------------------------------------------------------------------------------------------------
 	#         LIFTB is derived from MORTPAK software package and customized for Abacus
 	#               UNITED NATIONS SOFTWARE PACKAGE FOR MORTALITY MEASUREMENT     
@@ -92,7 +117,6 @@ AbacusLIFTB <- function(NFIN,NUMOUT,NTYPE,NSEX,QXMX,abort=FALSE)  {
 	oag			<- rep(0.0,9)
 	XAgeGroup 	<- rep(0.0,22)
 	YLnMxValues 	<- rep(0.0,22)
-	
 	
 	# New feature, when NTYPE is 3, do not extrapolate qx but instead use mx at open age group (e.g. ax(oag)<-1.0/mx(oag))
 	UseMxOpenAgeGroup <- 0   # Extrapolate q until no survivors remain.  The mx at the open age group is based on extrapolated qx.  
@@ -264,9 +288,6 @@ AbacusLIFTB <- function(NFIN,NUMOUT,NTYPE,NSEX,QXMX,abort=FALSE)  {
 	ARRAY[5,5]<-0.0
 	for(I in seq(6,NFIN,by=5)) {ARRAY[I,5]<-A[I]*ARRAY[I,3]+(5.0-A[I])*ARRAY[I+5,3]}
 	
-	if (abort){
-		return(ARRAY)
-	}
 	
 	#  This block extrapolates qx to get Lx at the open age group. Skip if NTYPE is set to 3
 	if(UseMxOpenAgeGroup == 0)  {     #  This block extrapolates qx to get Lx at the open age group. Skip if NTYPE is set to 3
@@ -501,270 +522,54 @@ AbacusLIFTB <- function(NFIN,NUMOUT,NTYPE,NSEX,QXMX,abort=FALSE)  {
 }
 
 
-do.extend <- function(ARRAY,NFIN){
-	NEND 		<- NFIN+1
-	NM10		<- NEND-10
-	NM5			<- NEND-5
-	#  This block extrapolates qx to get Lx at the open age group. Skip if NTYPE is set to 3
-	QVAL		<- rep(0.0,25)
-	XVAL		<- rep(0.0,6)
-	TT			<- rep(0.0,3)
-	AM			<- rep(0.0,101)
-	A			<- rep(0.0,101)
-	G			<- rep(0.0,101)
-	XV			<- rep(0.0,6)
-	YV			<- rep(0.0,6)
-	oag			<- rep(0.0,9)
-	XAgeGroup 	<- rep(0.0,22)
-	YLnMxValues <- rep(0.0,22)
-	C1 	<- 0.0
-	C2 	<- 0.0
-	C3 	<- 0.0
-	SUM1 	<- 0.0
-	SUM2 	<- 0.0
-	SUM3 	<- 0.0
-	ErrorFlag       <- 0
-	for (I in seq(46,NFIN,by=5)) {
-		if(ARRAY[I,2] < ARRAY[I-5,2]) {
-			ErrorFlag <- 1
-		}
-	}
-	if(ErrorFlag != 0) {
-		ErrorCode<-6
-	}   # WARNING:  MORTALITY RATES AT OLDER AGES DO NOT INCREASE MONOTONICALLY. 
-	NBEG			<- NEND - 30
-	KN				<- 0
-	for (I in seq(NBEG,NFIN,by=5)) {
-		KN			<- KN+1
-		QVAL[KN]	<- ARRAY[I,2] / (1.0-ARRAY[I,2])
-		XVAL[KN]	<- I-1
-	}
-	TMP1 			<- (QVAL[5]-QVAL[3])/(QVAL[3]-QVAL[1])
-	TMP2 			<- (QVAL[6]-QVAL[4])/(QVAL[4]-QVAL[2])
+#' wrapper to a rote translation of the Abacus version LIFTB
+#' @description A minimal argument wrapper that calls a minimally modified \code{AbacusLIFTB()}, an R transaltion of by UN staff of the Mortpak Fortran code. A wrapper is necessary because \code{AbacusLIFTB()} abides by some non-conventional indexing. We also take care of dimension naming.
+#' @details The wrapper itself does little argument checking, but \code{AbacusLIFTB()} itself has nuanced argument checking and error reporting. Such errors rarely stop the function. Instead they are caught and returned. The wrapper returns such messages as warnings, but does not pass them on as objects. This function is used internally by \code{LTabr()}. Although this is a wrapper, it is not intended to be used directly.
+#' @param Mx numeric vector of Mx in standard abridged age classes
+#' @param qx numeric vector of qx in standard abridged age classes
+#' @param mx_ind logical indicator of whether Mx or qx is given/preferred to be used
+#' @param OAnew the desired open age group, max 100
+#' @param Sex \code{"m"} or \code{"f"}. Anything not \code{"m"} treated as \code{"f"}
+#' @export
+#' @references 
+#' \insertRef{mortpak1988}{DemoTools}
+AbacusLIFTB_wrap <- function(Mx, qx, mx_ind = TRUE, OAnew = 100, Sex = "m"){
 	
-	if(TMP1 <= 0  | TMP2 <= 0) {
-		STVAL <- 1.12
+	if (missing(Mx) & !missing(qx)){
+		mx_ind   <- FALSE
+	}
+	if (missing(qx) & !missing(Mx)){
+		mx_ind   <- TRUE
+	}
+	if (mx_ind){
+		mx_or_qx <- Mx
 	} else {
-		STVAL <- (TMP1^0.1+TMP2^0.1)/2.0
+		mx_or_qx <- qx
 	}
-	#----------------------------------------------
-	#     CALCULATION OF NON-LINEAR REGRESSION
-	#----------------------------------------------
-	DELTA		<- 0.05
-	TT[3]		<- STVAL-DELTA
-	ErrorFlag	<- 1  #  If iteration converges, then set code to zero. 
-	for (ITER in 1:99)  {
-		for (I in 1:6)  {
-			XV[I]	<- TT[3]^XVAL[I]
-			YV[I]	<- QVAL[I]
-		}
-		FN			<- 6.0
-		SUMX		<- sum(XV[1:6])
-		SUMY		<- sum(YV[1:6])
-		SUMXX		<- sum(XV[1:6]^2)
-		CROSP		<- sum(XV[1:6]*YV[1:6])
-		SX 			<- (FN*SUMXX-SUMX*SUMX)
-		if(SX == 0.0) break   #  If SX is zero, break to avoid divide by zero. Then set ErrorCode to 5 for not converging.
-		TT[1] <- (SUMY*SUMXX-SUMX*CROSP)/SX
-		TT[2] <- (FN*CROSP-SUMX*SUMY)/SX
-		SUMSQ <- 0.0
-		for (J in 1:6)  {
-			SUMSQ <- SUMSQ+(TT[1]+TT[2]*XV[J]-YV[J])^2
-		}
-		#  An epsilon value of TT(3)/100000.0 will produce enough accuracy. The epsilon value was reduced so that
-		#  the regression will produce identical results to NLS, the original non-linear least squares procedure
-		if(ITER >= 3)  {
-			EPS			  <- TT[3]/500000.0  
-			DIFF		  <- abs(TT[3]-C1)
-			if(DIFF < EPS) {
-				ErrorFlag <- 0; break
-			}
-			DIFF          <- abs(TT[3]-C2)
-			if(DIFF < EPS) {
-				ErrorFlag <- 0; break
-			}
-		}
-		C3			<- C2
-		C2			<- C1
-		C1			<- TT[3]
-		SUM3		<- SUM2
-		SUM2		<- SUM1
-		SUM1		<- SUMSQ
-		if(ITER == 1) TT[3]	<- STVAL+DELTA
-		if(ITER == 2) TT[3]	<- STVAL
-		if(ITER >= 3) {
-			TT[3]					<- ((SUM2-SUM1)*(C3*C3-C2*C2)-(SUM3-SUM2)*(C2*C2-C1*C1))/2.0
-			TT[3]					<- TT[3]/((SUM2-SUM1)*(C3-C2)-(SUM3-SUM2)*(C2-C1))
-			if(TT[3] < 0.50)TT[3]   <- 0.5
-			if(TT[3] > 2.1) TT[3]   <- 2.1
-		}
-	}   #  Iteration loop
-	if(TT[3] <= 1.0 | TT[3] >= 2.0)  ErrorFlag=1   #  Value for TT[3] out of range 1 to 2, give ErrorCode=5 for non-convergence
-	if (ErrorFlag==1) {ARRAY[100,2]=0.0; ErrorCode<-5}   #  convergence not reached for completion of life table
-	#---------------------------------------------------------------------
-	#     COEFFICIENTS FOR NON-LINEAR REGRESSION EQUATION WERE CALCULATED.
-	#---------------------------------------------------------------------
-	KN<-KN+1
-	KNP12<-KN+13
-	IK<-NEND-6
-	for (I in KN:KNP12)  {
-		IK<-IK+5
-		QVAL[I]<-TT[1]+TT[2]*TT[3]^IK
-		QVAL[I]<-QVAL[I]/(1.0+QVAL[I])
-	}
-	if(NTYPE == 2) AM[KN-1]<-QXMX[NM5]
-	if(NTYPE == 1) AM[KN-1]<-AM[NM5]
-	AM[KNP12+1] <- 1.0
-	G[KN:KNP12] <- 2.5
-	for (IT in 1:10)  {
-		for (I in KN:KNP12)  {
-			if(G[I] <= 0.0) G[I]<-0.5
-			AM[I]<-QVAL[I]/(5.0-(5.0-G[I])*QVAL[I])
-		}
-		for (I in KN:KNP12)  {
-			AK<-log(AM[I+1]/AM[I-1])/10.0
-			G[I]<-2.5-(25.0/12.0)*(AM[I]-AK)
-		}
-	}
-	for (I in KN:KNP12)  {if(G[I] <= 0.0) G[I]<-0.5}
-	CAPL<-0.0
-	SMLX<-ARRAY[NEND,3]
-	for (I in KN:KNP12) {
-		SMLX1<-SMLX*(1.0-QVAL[I])
-		#     CHECK SMLX1 FOR POSSIBLE UNDERFLOW IN EXTREME CASES.
-		if(SMLX1 < 0.001) SMLX1<-0.0
-		ARRAY[5*I-28,5]<-G[I]*SMLX+(5.0-G[I])*SMLX1
-		ARRAY[5*I-28,1]<-AM[I]
-		CAPL<-CAPL+G[I]*SMLX+(5.0-G[I])*SMLX1
-		SMLX<-SMLX1
-	}
-	ARRAY[NEND,5]<-CAPL
-	ARRAY[NEND,7]<-CAPL
 	
-	ARRAY
-}
-
-do.extend2 <- function(ARRAY, NFIN, NUMOUT = NFIN, NSEX = 1){
-	QVAL			<- rep(0.0,25)
-	A			<- rep(0.0,101)
-	oag			<- rep(0.0,9)
-	nfnout 	<- NUMOUT
-	NEND <- NFIN + 1
-	for (I in 1:5)  {
-		if (ARRAY[I,5] >= 1.0) ARRAY[I,1] <-ARRAY[I,4]/ARRAY[I,5]
-		if (ARRAY[I,5] < 1.0) ARRAY[I,1] <-0.0
-	}
-	for( I in seq(6,NEND,by=5)) {ARRAY[I,1]<-ARRAY[I,4]/ARRAY[I,5]}
-	K<-NEND-5
-	for (I in seq(6,K,by=5)) {
-		J<-NEND-I+1
-		ARRAY[J,7]<-ARRAY[J+5,7]+ARRAY[J,5]
-	}
-	for(I in 1:5)  {
-		J<-6-I
-		ARRAY[J,7]<-ARRAY[J+1,7]+ARRAY[J,5]
-	}
-	SUM<-sum(ARRAY[1:5,5])
-	ARRAY[1,6]<-SUM/500000.0
-	ARRAY[2,6]<-ARRAY[6,5]/SUM
-	KM10<-NEND-10
-	for (I in seq(6,KM10,by=5))  {ARRAY[I,6]<-ARRAY[I+5,5]/ARRAY[I,5]}
-	ARRAY[K,6]<-ARRAY[NEND,7]/ARRAY[K,7]
-	ARRAY[1:5,8]<-ARRAY[1:5,7]/ARRAY[1:5,3]
-	for(J in seq(6,NEND,by=5))  {ARRAY[J,8]<-ARRAY[J,7]/ARRAY[J,3]}
-	for(J in seq(6,NFIN,by=5))  {ARRAY[J,9]<-A[J]}
-	ARRAY[NEND,9]<-1.0/ARRAY[NEND,1]
-	ARRAY[3,9]<-0.47
-	ARRAY[4,9]<-0.49
-	ARRAY[5,9]<-0.50
-	if(ARRAY[1,2] >= 0.100 & NSEX == 1) {
-		A[1] <- 0.33
-		A[2] <- 1.352
-	}
-	if(ARRAY[1,2] >= 0.100 & NSEX == 2) {
-		A[1] <- 0.35
-		A[2] <- 1.361
-	}
-	if(ARRAY[1,2] < 0.100 & NSEX == 1) {
-		A[1] <- 0.0425+2.875*ARRAY[1,2]
-		A[2] <- 1.653-3.013*ARRAY[1,2]
-	}
-	if(ARRAY[1,2] < 0.100 & NSEX == 2) {
-		A[1] <- 0.050+3.00*ARRAY[1,2]
-		A[2] <- 1.524-1.627*ARRAY[1,2]
-	}
-	ARRAY[1,9]<-A[1]
-	ARRAY[2,9]<-A[2]
-	# Extend table to 100+ if not already 100+
-	if(NFIN != 100 | nfnout != 100)  {
-		oag[1:9]<-ARRAY[NEND,1:9]
-		ictr<-6
-		idx<-2
-		oagL<-oag[5]
-		for (i in seq(NEND,96,by=5))  {
-			ictr<-ictr+1
-			idx<-idx+5
-			ARRAY[i,5]<-ARRAY[idx,5]
-			oagL<-oagL-ARRAY[i,5]
-			ARRAY[i,2]<-QVAL[ictr]
-			ARRAY[i,3]<-ARRAY[i-5,3]*(1.0-ARRAY[i-5,2])
-			ARRAY[i,4]<-ARRAY[i,3]*ARRAY[i,2]
-			ARRAY[i,1]<-ARRAY[i,4]/ARRAY[i,5]
-			ARRAY[i,9]<-G[ictr]
-		}
-		ARRAY[101,5]<-oagL
-		ARRAY[101,2]<-1.0
-		ARRAY[101,3]<-ARRAY[96,3]*(1.0-ARRAY[96,2])
-		ARRAY[101,4]<-ARRAY[101,3]*ARRAY[101,2]
-		ARRAY[101,1]<-ARRAY[101,4]/ARRAY[101,5]
-		ARRAY[101,9]<-1.0/ARRAY[101,1]
-		ARRAY[101,7]<-oagL
-		ARRAY[101,8]<-ARRAY[101,7]/ARRAY[101,3]
-		ARRAY[101,6]<-0.0
-		idx<-101
-		for (i in seq(NEND,96,by=5))  {
-			idx<-idx-5
-			ARRAY[idx,7]<-ARRAY[idx+5,7]+ARRAY[idx,5]
-			ARRAY[idx,8]<-ARRAY[idx,7]/ARRAY[idx,3]
-		}
-		ARRAY[96,6]<-ARRAY[101,7]/ARRAY[96,7]
-		nend5<-NEND-5
-		for (i in seq(nend5,91,by=5)) {ARRAY[i,6]<-ARRAY[i+5,5]/ARRAY[i,5]}
-		# New code allows output table to have flexible open age group, independent of input open age group (max of 100+).
-		nend2<-nfnout+1
-		ARRAY[nend2,2]<-1.0
-		ARRAY[nend2,4]<-ARRAY[nend2,3]
-		ARRAY[nend2,5]<-ARRAY[nend2,7]
-		ARRAY[nend2,1]<-ARRAY[nend2,4]/ARRAY[nend2,5]
-		ARRAY[nend2,9]<-1.0/ARRAY[nend2,1]
-		ARRAY[nend2-5,6]<-ARRAY[nend2,7]/ARRAY[nend2-5,7]
-	}  #  end of block to extend age group to 100+
-	ARRAY
-}
-calc_AgeAbr_OAG <- function(OAG){
-	sort(unique(calcAgeAbr(0:OAG)))
-}
-
-AbacusLIFTB_wrap <- function(Mx, OAG, OAGnew, Sex = "m"){
-	N          <- length(Mx)
-	AgeInt     <- inferAgeIntAbr(vec = Mx)
+	stopifnot(OAnew <= 100)
+	N          <- length(mx_or_qx)
+	AgeInt     <- inferAgeIntAbr(vec = mx_or_qx)
 	OA         <- sum(AgeInt) - AgeInt[N]
 	QXMX       <- rep(0,sum(AgeInt)+1)
 	AgeI       <- cumsum(AgeInt)-AgeInt+1
-	QXMX[AgeI] <- Mx
+	QXMX[AgeI] <- mx_or_qx
 	NSEX       <- ifelse(Sex == "m",1,2)
-	NUMOUT     <- OAGnew
-	ARRAY      <- AbacusLIFTB(NFIN = OAG, NUMOUT = OAGnew, 
-							  NTYPE = 2, NSEX = 1, QXMX = QXMX,
-							  abort = FALSE)$ARRAY
-	if (OAGnew > OAG){
-		AgeI <- calc_AgeAbr_OAG(OAGnew) + 1
+	NTYPE      <- ifelse(mx_ind,2,1)
+	OUT        <- AbacusLIFTB(NFIN = OA, NUMOUT = OAnew, 
+							  NTYPE = NTYPE, NSEX = 1, QXMX = QXMX,
+							  abort = FALSE)
+	ARRAY           <- OUT$ARRAY
+	AgeI            <- calc_AgeAbr_OAG(OAnew) + 1
+	ARRAY           <- ARRAY[AgeI, ]
+	if (sum(ARRAY == 0) / length(ARRAY) > .9){
+		warning(OUT$ErrorCode)
 	}
-	ARRAY <- ARRAY[AgeI, ]
 	colnames(ARRAY) <- c("Mx","qx","lx","dx","Lx","Sx","Tx","ex","ax")
 	rownames(ARRAY) <- AgeI - 1
 	ARRAY
 }
+
 do.this <- FALSE
 if (do.this){
 	source("/home/tim/git/DemoTools/dev/AbacusLIFTB.r")
@@ -782,8 +587,130 @@ if (do.this){
 	
 	# try w single ages?
 	
-	AbacusLIFTB_wrap(Mx = MPnMx,65,60,"m")
+	ARRAY <- AbacusLIFTB_wrap(Mx = MPnMx,60,"m")
 	# wrapper
 	AbacusLIFTB(NFIN=65,NUMOUT=65,NTYPE=2,NSEX=1,QXMX=QXMX)$ARRAY[AgeI,]
-	
+	source("/home/tim/git/DemoTools/dev/AbacusLIFTB.r")
+	source("/home/tim/git/DemoTools/dev/abacusLIFTB.R")
+	source("/home/tim/git/DemoTools/dev/LTPOPDTH.R")
+
+  
+  Exposures <- c(100958,466275,624134,559559,446736,370653,301862,249409,
+  		247473,223014,172260,149338,127242,105715,79614,53660,
+  		31021,16805,8000,4000,2000,1000)
+  
+  Deaths <- c(8674,1592,618,411,755,1098,1100,1357,
+  		1335,3257,2200,4023,2167,4578,2956,4212,
+  		2887,2351,1500,900,500,300)
+  # lower age bounds
+  Age    <- c(0, 1, seq(5, 100, by = 5))
+  AgeInt <- c(diff(Age), NA)
+  
+  PASLT <- LTabr(Deaths = Deaths, 
+  		Exposures = Exposures, 
+  		Age = Age,
+  		AgeInt =AgeInt,
+  		axmethod = "pas",
+  		IMR = .1,
+  		region = "n",
+  		Sex = "m")
+  # de facto unit test. The unsmoothed output from PAS
+  # spreadsheet (allow for rounding error in last decimal)
+  excheck <- c(56.31,61.53,58.35,53.63, 
+  		48.81,44.21,39.83,35.52,
+  		31.43,27.22,24.09,20.52,
+  		18.12,14.51,12.42,9.45,7.85, 
+  		6.09,4.95,4.28,3.85,3.33)
+# final ex values are different because lifetable
+# closeout is via lifetable extention rather than mx inverse.
+  ind <- 1:20
+  stopifnot(abs(round(PASLT$ex[ind],2) - excheck[ind])== 0)
+  
+  # examples based on UN 1982 (p. 34)
+  Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
+  		.01332,.01528,.01757,.02092,.02517,.03225,.04241,.06056,
+  		.08574,.11840,.16226,.23745)
+  excheckUN <-  c(35.000,42.901,47.190,44.438,
+  		40.523,36.868,33.691,30.567,27.500,24.485,21.504,18.599,
+  		15.758,13.080,10.584,8.466,6.729,5.312,4.211)
+  AgeInt <- inferAgeIntAbr(vec = Mx)
+  
+ # generate two variants: with and without PG's variants
+ # for ages 5-14
+  UNLT1 <- LTabr(nMx = Mx,
+  		Age = c(0,1,seq(5,85,by=5)),
+  		AgeInt = AgeInt,
+  		axmethod = "un",
+  		Sex = "m", 
+  		mod = FALSE)
+  UNLT2 <- LTabr(nMx = Mx,
+  		Age = c(0,1,seq(5,85,by=5)),
+  		AgeInt = AgeInt,
+  		axmethod = "un",
+  		Sex = "m", 
+  		mod = TRUE)
+ # de facto unit test:
+  stopifnot(abs(round(UNLT1$ex,2) - round(excheckUN,2)) <= .01)
+#  \dontrun{
+# 	 plot(UNLT2$ex - UNLT1$ex)
+#  }
+  # a Mortpak unit test:
+  # data from  p. 82 United Nations (1988) Mortpak - ...
+  MPnMx <- c(0.12846,0.02477,0.00603,0.0034,
+  0.00417,0.00513,0.00581,0.00645,0.00725,
+  0.00813,0.00913,0.01199,0.01647,
+  0.0256,0.04047,0.06624,0.10638,0.19611)
+
+  MPexcheck <- c(49.997,55.675,57.245,53.921,
+  		49.803,45.799,41.922,38.084,34.249,
+  		30.420,26.578,22.701,18.945,
+  		15.349,12.095,9.240,6.903,5.099)
+
+# First with lifetable extention to 100
+MP_UNLT100 <- LTabr(
+		nMx = MPnMx,
+		Age = c(0,1,seq(5,80,by=5)),
+		AgeInt = inferAgeIntAbr(vec = MPnMx),
+		axmethod = "un",
+		Sex = "f",
+		mod = FALSE,
+		OAnew = 100)
+
+# lifetable to original open age group
+MP_UNLT80 <- LTabr(
+		nMx = MPnMx,
+		Age = c(0,1,seq(5,80,by=5)),
+		AgeInt = inferAgeIntAbr(vec = MPnMx),
+		axmethod = "un",
+		Sex = "f",
+		mod = FALSE,
+		OAnew = 80)
+
+# same, but truncated at 60
+MP_UNLT60 <- LTabr(
+		nMx = MPnMx,
+		Age = c(0,1,seq(5,80,by=5)),
+		AgeInt = inferAgeIntAbr(vec = MPnMx),
+		axmethod = "un",
+		Sex = "f",
+		mod = FALSE,
+		OAnew = 60)
+# matches published results closely
+stopifnot(max(abs(MP_UNLT100$ex[1:length(MPexcheck)] - MPexcheck)) < .002)
+stopifnot(max(abs(MP_UNLT80$ex - MPexcheck)) < .002)
+
+# identical results irrespective of max age
+stopifnot(abs(MP_UNLT60$ex - MP_UNLT80$ex[1:14]) < 1e-12)
+stopifnot(abs(MP_UNLT80$ex - MP_UNLT100$ex[1:18]) < 1e-12)
+nAx1       <- axUN(nMx = Mx, 
+ 		              AgeInt = AgeInt, 
+ 		              Sex = "m",
+					  region = "w",
+ 		              mod = FALSE)
+ nAx2       <- axUN(nMx = Mx, 
+ 		              AgeInt = AgeInt, 
+ 		              Sex = "m",
+					  region = "w",
+ 		              mod = TRUE,
+					  closeout = "")
 }
