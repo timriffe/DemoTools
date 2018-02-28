@@ -22,7 +22,7 @@ check("/home/tim/git/DemoTools")
 #use_travis("/home/tim/git/DemoTools")
 #use_coverage(pkg = "/home/tim/git/DemoTools", type = c("codecov", "coveralls"))
 
-
+length(dir("/home/tim/git/DemoTools/man"))
 
 # how many functions are there?
 # length(dir("/home/tim/git/DemoTools/man"))
