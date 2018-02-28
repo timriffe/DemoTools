@@ -357,6 +357,19 @@ inferAgeIntAbr <- function(Age, vec, OAG = FALSE){
 	ageint
 }
 
+#' produce abridged ages up to a given open age group
+#' @description Produce standard abrdiged age groups up to a specified open age group. 
+#' @details If the open age group is not evenly divisible by 5 then age classes only go up to its 5-year lower bound.
+#' @param OAG integer. Default 80
+#' @return integer vector of ages \code{c(0,1,5,10,15,...)}
+#' @export 
+#' @examples 
+#' calc_AgeAbr_OAG(80)
+#' stopifnot(all(calc_AgeAbr_OAG(100) == calc_AgeAbr_OAG(102)))
+calc_AgeAbr_OAG <- function(OAG=80){
+	sort(unique(calcAgeAbr(0:OAG)))
+}
+
 #' infer lower age class bounds from vector of age intervals
 #' 
 #' @description a simple identity

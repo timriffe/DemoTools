@@ -3,7 +3,7 @@
 ###############################################################################
 # lots of approaches to a(0). Sometimes called 'separation factors'. These ought to be 
 # collected, organized, and standardized here. We have two major versions here:
-# PAS (mostly uniform) and UN (ostly mgreville-based).
+# PAS (mostly uniform) and UN (mostly greville-based).
 
 #' Coale-Demeny a0 as function of m0, region, and sex
 #' 
@@ -209,7 +209,7 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "M", region = "W", OAG = TRUE){
 #' 
 #' @details ax for age 0 and age group 1-4 are based on Coale-Demeny q0-based lookup tables.
 #' We use an approximation to get from m0 to q0 for the sake of generating a0 and 4a1. 
-#' The final ax value is closed out as if the final Mx value were constant thereafter, 
+#' By default the lifetbale is closed out using the Mortpak extrapolation. Otherwise the final ax value is closed out as if the final Mx value were constant thereafter, 
 #' which is a common lifetable closeout choice. Age groups must be standard abridged, 
 #' and we do not check age groups here! 
 #' 
@@ -220,6 +220,7 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "M", region = "W", OAG = TRUE){
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
 #' @param mod logical (default \code{TRUE}). Use Gerland's modification for ages 5-14?
+#' @param closeout character. Default \code{"mortpak"}.
 #' 
 #' @return ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
 #' @export
@@ -237,7 +238,8 @@ ax.greville.mortpak <- function(
 		IMR = NA, 
 		Sex = "m", 
 		region = "W", 
-		mod = TRUE){
+		mod = TRUE,
+		closeout = "mortpak"){
 	Sex     <- tolower(Sex)
 	region  <- tolower(region)
 	DBL_MIN <- .Machine$double.xmin
@@ -287,13 +289,13 @@ ax.greville.mortpak <- function(
 		# back term
 		Ab     <- 1 / (AgeInt[i - 1] / 2 + AgeInt[i] + AgeInt[i + 1] / 2)
 		# subtract
-	    if (i < (N - 1)){
-		# N-1 uses K from N-2...
-		   K      <- rlog(nMx[i + 1] / max(nMx[i - 1], DBL_MIN))
-	    }
+		if (i < (N - 1)){
+			# N-1 uses K from N-2...
+			K      <- rlog(nMx[i + 1] / max(nMx[i - 1], DBL_MIN))
+		}
 		# main formula
 		ax[i]  <-  AgeInt[i] / 2 - (AgeInt[i]^2 / 12) * (nMx[i] - K * Ab) 
-
+		
 		## add constraint at older ages (in Mortpak and bayesPop)
 		## 0.97 = 1-5*exp(-5)/(1-exp(-5)), for constant mu=1, Kannisto assumption  
 		## (Mortpak used 1 instead of 0.97).
@@ -303,19 +305,25 @@ ax.greville.mortpak <- function(
 		
 		## Extra condition based on Mortpak LIFETB for age 65 onward
 		# TR: why .8a[x-1] only for qx?
-        tmp   <- 0.8 * ax[i - 1]
+		tmp   <- 0.8 * ax[i - 1]
 		ax[i] <- ifelse(qind & Age[i] >= 65 & ax[i] < tmp, tmp, ax[i])
-
+		
 	}
-    ax[1:2] <- c(a0, a1_4)
+	ax[1:2] <- c(a0, a1_4)
 	if (!mod){
 		ax[3:4] <- 2.5
 	}
-
-    # closeout
+	
+	# closeout
+	
 	aomega         <- max(c(1 / nMx[N], .97))
 	aomega         <- ifelse(qind, max(aomega, .8 * ax[N - 1]), aomega)
+	if (closeout == "mortpak" & sum(AgeInt) < 100){
+		N      <- length(axi)
+		aomega <- aomegaMORTPAK(mx_or_qx = nMx, qind = FALSE)
+	} # otherwise other rules of thumb followed
 	ax[N]          <- aomega
+	
 	# 
 	ax
 }
@@ -329,7 +337,7 @@ ax.greville.mortpak <- function(
 #' @details ax for age 0 and age group 1-4 are based on Coale-Demeny q0-based lookup tables. If the main 
 #' input is \code{nMx}, and if \code{IMR} is not given, we first approximate q0 for the CD formula 
 #' before applying the formula.
-#' The final ax value is closed out as the reciprocal of the final m(x), which is standard lifetable practice, but . For nMx inputs 
+#' The final ax value is closed out by default as the Mortpak Abacus estimate (based on extrapolation of nMx). If the closeout argument is anything other than \code{"mortpak"}, then life expectancy in the open age group is taken as the reciprocal of the final m(x). For nMx inputs 
 #' this method is rather direct, but for qx or lx inputs it is iterative. Age groups must be standard abridged, 
 #' and we do not check age groups here!
 #' 
@@ -343,6 +351,7 @@ ax.greville.mortpak <- function(
 #' @param tol the tolerance for the qx-based iterative method (default \code{.Machine$double.eps}).
 #' @param maxit the maximum numbder of iterations for the qx-based iterative method (default 1000).
 #' @param mod logical (default \code{TRUE}). Use Gerland's modification for ages 5-14?
+#' @param closeout character. Default \code{"mortpak"}.
 #' 
 #' @return ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
 #' @export
@@ -387,7 +396,8 @@ axUN <- function(
 		region = "W", 
 		tol = .Machine$double.eps, 
 		maxit = 1e3, 
-		mod = TRUE){
+		mod = TRUE,
+		closeout = "mortpak"){
 	stopifnot(!missing(nqx) | !missing(nMx))
 	smsq    <- 99999
 	Sex     <- tolower(Sex)
@@ -436,9 +446,34 @@ axUN <- function(
 		axi <- qxmx2ax(nqx = nqx, nMx = nMx, AgeInt = inferAgeIntAbr(vec = nMx))
 	}
 	
+	if (closeout == "mortpak" & sum(AgeInt) < 100){
+		N      <- length(axi)
+		aomega <- aomegaMORTPAK(mx_or_qx = nMx, qind = FALSE)
+		axi[N] <- aomega
+	}
+	
 	# if mx, qx, or both are given, then by now we have ax
 	axi
 }
 
+#' just get closeout Mx
+#' 
+#' @description Get the Abacus Mortpak estimate of life expectancy in the open age group.
+#' @details Since the Mortpak lifetable just goes to age 100, it only makes sense to call this function if your data have a lower open age group. If your data go to 100 or higher, there is no apparent advantage to closing out with this function. Specify the entire nMx schedule, in standard abridged ages.
+#' @details The estimate will be the same for males and females
+#' @param mx_or_qx numeric vector of mortality rates or probabilities in standard abridged age classes
+#' @param qind logical. Default \code{FALSE} (implying Mx used). \code{TRUE} means qx was given.
+#' @export
+#' @references 
+#' \insertRef{mortpak1988}{DemoTools}
 
+aomegaMORTPAK <- function(mx_or_qx,qind=FALSE){
+	OA  <- length(mx_or_qx) * 5 - 10
+	if (qind){
+		OUT <- AbacusLIFTB_wrap(qx = mx_or_qx, mx_ind = FALSE, OAnew = OA, Sex = "m")
+	} else {
+		OUT <- AbacusLIFTB_wrap(Mx = mx_or_qx, OAnew = OA, Sex = "m")
+	}
+	OUT[nrow(OUT),"ax"]
+}
 
