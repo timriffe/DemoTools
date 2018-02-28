@@ -5,7 +5,8 @@
 \title{UN a(x) estimates from either M(x), q(x), or both}
 \usage{
 axUN(nMx, nqx, lx, IMR = NA, AgeInt, Sex = "m", region = "W",
-  tol = .Machine$double.eps, maxit = 1000, mod = TRUE)
+  tol = .Machine$double.eps, maxit = 1000, mod = TRUE,
+  closeout = "mortpak")
 }
 \arguments{
 \item{nMx}{numeric vector. Mortality rates in standard abridged age groups.}
@@ -27,6 +28,8 @@ axUN(nMx, nqx, lx, IMR = NA, AgeInt, Sex = "m", region = "W",
 \item{maxit}{the maximum numbder of iterations for the qx-based iterative method (default 1000).}
 
 \item{mod}{logical (default \code{TRUE}). Use Gerland's modification for ages 5-14?}
+
+\item{closeout}{character. Default \code{"mortpak"}.}
 }
 \value{
 ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
@@ -40,7 +43,7 @@ these are referred to as separation factors.
 ax for age 0 and age group 1-4 are based on Coale-Demeny q0-based lookup tables. If the main 
 input is \code{nMx}, and if \code{IMR} is not given, we first approximate q0 for the CD formula 
 before applying the formula.
-The final ax value is closed out as the reciprocal of the final m(x), which is standard lifetable practice, but . For nMx inputs 
+The final ax value is closed out by default as the Mortpak Abacus estimate (based on extrapolation of nMx). If the closeout argument is anything other than \code{"mortpak"}, then life expectancy in the open age group is taken as the reciprocal of the final m(x). For nMx inputs 
 this method is rather direct, but for qx or lx inputs it is iterative. Age groups must be standard abridged, 
 and we do not check age groups here!
 }

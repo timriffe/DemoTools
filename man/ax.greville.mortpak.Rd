@@ -5,7 +5,7 @@
 \title{UN version of the Greville formula for a(x) from M(x)}
 \usage{
 ax.greville.mortpak(nMx, nqx, lx, IMR = NA, Sex = "m", region = "W",
-  mod = TRUE)
+  mod = TRUE, closeout = "mortpak")
 }
 \arguments{
 \item{nMx}{numeric vector. Mortality rates in standard abridged age groups.}
@@ -21,6 +21,8 @@ ax.greville.mortpak(nMx, nqx, lx, IMR = NA, Sex = "m", region = "W",
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 
 \item{mod}{logical (default \code{TRUE}). Use Gerland's modification for ages 5-14?}
+
+\item{closeout}{character. Default \code{"mortpak"}.}
 }
 \value{
 ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
@@ -33,7 +35,7 @@ these are referred to as separation factors.
 \details{
 ax for age 0 and age group 1-4 are based on Coale-Demeny q0-based lookup tables.
 We use an approximation to get from m0 to q0 for the sake of generating a0 and 4a1. 
-The final ax value is closed out as if the final Mx value were constant thereafter, 
+By default the lifetbale is closed out using the Mortpak extrapolation. Otherwise the final ax value is closed out as if the final Mx value were constant thereafter, 
 which is a common lifetable closeout choice. Age groups must be standard abridged, 
 and we do not check age groups here!
 }

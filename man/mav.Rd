@@ -17,9 +17,8 @@ mav(Value, nyears, Age)
 a named vector with the smoothed values
 }
 \description{
-This purely mathematical smoothing aims to eliminate irregularities of the population pyramid 
-by single ages due to errors (attractions or repulsions for certain ages). This comes from 
-pp. 361-367 in GDA_1981_Structures-par-sexe-et-age-en-Afrique_[IREDA]
+This arithmetic smoothing aims to eliminate irregularities of the population pyramid 
+by single ages due to errors (attractions or repulsions for certain ages).
 }
 \details{
 Single year age groups are assumed.
@@ -35,8 +34,11 @@ Pop  <-c(303583,390782,523903,458546,517996,400630,485606,325423,471481,189710,
          323263,9535,13906,9063,8294,90459,9817,6376,8884,3773,160609)
 Age  <-c(0:69,'70+')  
 # final age group assumed open
-mav(Pop, n=3,Age=Age)      
+mav(Pop, n = 3,Age=Age)      
 }
 \references{
 \insertRef{GDA1981IREDA}{DemoTools}
+}
+\author{
+Juan Galeano
 }
