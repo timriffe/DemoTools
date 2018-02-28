@@ -584,33 +584,13 @@ splitToSingleAges <- function(Value, Age, OAG = FALSE){
 }
 
 #' Wrapper to provide a single location to reference all model life tables.
-#' 
 #' @description Still in the works.
-#' 
 #' @param ModelName string naming the life table to return. Can be "coale-demeny west".
 #' @param Sex string indicating which sex should be returned. Can be either "M" or "F".
-#' 
 #' @return list of life tables
-#' 
 #' @details More model families can easily be added.
-#' 
 #' @importFrom demogR cdmltw
 #' @export
-
-#' Wrapper to provide a single location to reference all model life tables.
-#' 
-#' @description Still in the works.
-#' 
-#' @param ModelName string naming the life table to return. Can be "coale-demeny west".
-#' @param Sex string indicating which sex should be returned. Can be either "M" or "F".
-#' 
-#' @return list of life tables
-#' 
-#' @details More model families can easily be added.
-#' 
-#' @importFrom demogR cdmltw
-#' @export
-
 getModelLifeTable <- function(ModelName, Sex){
 	Sex <- toupper(substr(Sex, 1, 1))
 	

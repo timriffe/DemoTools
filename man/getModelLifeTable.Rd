@@ -10,23 +10,13 @@ getModelLifeTable(ModelName, Sex)
 \item{ModelName}{string naming the life table to return. Can be "coale-demeny west".}
 
 \item{Sex}{string indicating which sex should be returned. Can be either "M" or "F".}
-
-\item{ModelName}{string naming the life table to return. Can be "coale-demeny west".}
-
-\item{Sex}{string indicating which sex should be returned. Can be either "M" or "F".}
 }
 \value{
-list of life tables
-
 list of life tables
 }
 \description{
 Still in the works.
-
-Still in the works.
 }
 \details{
-More model families can easily be added.
-
 More model families can easily be added.
 }

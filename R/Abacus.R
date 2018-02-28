@@ -554,8 +554,7 @@ AbacusLIFTB_wrap <- function(Mx, qx, mx_ind = TRUE, OAnew = 100, Sex = "m"){
 	NSEX       <- ifelse(Sex == "m",1,2)
 	NTYPE      <- ifelse(mx_ind,2,1)
 	OUT        <- AbacusLIFTB(NFIN = OA, NUMOUT = OAnew, 
-			NTYPE = NTYPE, NSEX = 1, QXMX = QXMX,
-			abort = FALSE)
+			NTYPE = NTYPE, NSEX = 1, QXMX = QXMX)
 	ARRAY           <- OUT$ARRAY
 	AgeI            <- calc_AgeAbr_OAG(OAnew) + 1
 	ARRAY           <- ARRAY[AgeI, ]

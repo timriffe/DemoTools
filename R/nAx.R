@@ -319,7 +319,7 @@ ax.greville.mortpak <- function(
 	aomega         <- max(c(1 / nMx[N], .97))
 	aomega         <- ifelse(qind, max(aomega, .8 * ax[N - 1]), aomega)
 	if (closeout == "mortpak" & sum(AgeInt) < 100){
-		N      <- length(axi)
+		N      <- length(nMx)
 		aomega <- aomegaMORTPAK(mx_or_qx = nMx, qind = FALSE)
 	} # otherwise other rules of thumb followed
 	ax[N]          <- aomega
