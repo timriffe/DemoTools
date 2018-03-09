@@ -4,7 +4,7 @@
 \alias{axUN}
 \title{UN a(x) estimates from either M(x), q(x), or both}
 \usage{
-axUN(nMx, nqx, lx, IMR = NA, AgeInt, Sex = "m", region = "W",
+axUN(nMx, nqx, lx, IMR = NA, AgeInt, Sex = "m", region = "w",
   tol = .Machine$double.eps, maxit = 1000, mod = TRUE,
   closeout = "mortpak")
 }

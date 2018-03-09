@@ -4,7 +4,7 @@
 \alias{axPAS}
 \title{PAS a(x) rule of thumb}
 \usage{
-axPAS(nMx, AgeInt, IMR = NA, Sex = "M", region = "W", OAG = TRUE)
+axPAS(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE)
 }
 \arguments{
 \item{nMx}{numeric. Event exposure mortality rates}

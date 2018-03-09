@@ -9,7 +9,7 @@ getModelLifeTable(ModelName, Sex)
 \arguments{
 \item{ModelName}{string naming the life table to return. Can be "coale-demeny west".}
 
-\item{Sex}{string indicating which sex should be returned. Can be either "M" or "F".}
+\item{Sex}{string indicating which sex should be returned. Can be either "m" or "f".}
 }
 \value{
 list of life tables

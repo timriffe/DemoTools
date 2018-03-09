@@ -56,7 +56,7 @@
 # separate estimate of IMR optional
 # Markus: see if the model lifetables in refs/UN_1982... follow this rule of thumb for age 0.
 # You may need to try giving q0 as IMR, or else M0 as M0 to the function, not sure.
-geta0CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
+geta0CD <- function(M0, IMR = NA, Sex = "m", region = "w"){
 	# sex can be "m", "f", or "b"
 	# region can be "n","e","s","w",or
 	Sex    <- tolower(Sex)
@@ -137,7 +137,7 @@ geta0CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
 #' }
 # Markus: see if the model lifetables in refs/UN_1982... follow this rule of thumb for age 1-4.
 # You may need to try giving q0 as IMR, or else M0 as M0 to the function, not sure.
-geta1_4CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
+geta1_4CD <- function(M0, IMR = NA, Sex = "m", region = "w"){
 	# sex can be "m", "f", or "b"
 	# region can be "n","e","s","w",or
 	Sex    <- tolower(Sex)
@@ -186,7 +186,7 @@ geta1_4CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
 #' @references \insertRef{united1983manual}{DemoTools}
 # Markus: see if the model lifetables in refs/UN_1982... follow this rule of thumb for age 0.
 # You may need to try giving q0 as IMR, or else M0 as M0 to the function, not sure.
-axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "M", region = "W", OAG = TRUE){
+axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 	# sex can be "m", "f", or "b"
 	# region can be "n","e","s","w",or
 	Sex    <- tolower(Sex)
@@ -237,7 +237,7 @@ ax.greville.mortpak <- function(
 		lx, 
 		IMR = NA, 
 		Sex = "m", 
-		region = "W", 
+		region = "w", 
 		mod = TRUE,
 		closeout = "mortpak"){
 	Sex     <- tolower(Sex)
@@ -393,7 +393,7 @@ axUN <- function(
 		IMR = NA, 
 		AgeInt, 
 		Sex = "m", 
-		region = "W", 
+		region = "w", 
 		tol = .Machine$double.eps, 
 		maxit = 1e3, 
 		mod = TRUE,

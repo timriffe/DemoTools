@@ -4,7 +4,7 @@
 \alias{geta1_4CD}
 \title{Coale-Demeny 4a1 as function of m0, region, and sex}
 \usage{
-geta1_4CD(M0, IMR = NA, Sex = "M", region = "W")
+geta1_4CD(M0, IMR = NA, Sex = "m", region = "w")
 }
 \arguments{
 \item{M0}{numeric. Event exposure infant mortality rate}

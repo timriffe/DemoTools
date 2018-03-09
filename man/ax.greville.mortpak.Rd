@@ -4,7 +4,7 @@
 \alias{ax.greville.mortpak}
 \title{UN version of the Greville formula for a(x) from M(x)}
 \usage{
-ax.greville.mortpak(nMx, nqx, lx, IMR = NA, Sex = "m", region = "W",
+ax.greville.mortpak(nMx, nqx, lx, IMR = NA, Sex = "m", region = "w",
   mod = TRUE, closeout = "mortpak")
 }
 \arguments{
