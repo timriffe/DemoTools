@@ -2,22 +2,22 @@
 % Please edit documentation in R/ADJAGE.R
 \name{adjustAge}
 \alias{adjustAge}
-\title{proportionally adjust a population age distribution to a new total.}
+\title{Proportionally adjust population or death counts by age to a given total.}
 \usage{
 adjustAge(Value, DesiredTotal)
 }
 \arguments{
-\item{Value}{numeric. A vector of demographic population counts.}
+\item{Value}{numeric. A vector of population or death counts by age.}
 
-\item{DesiredTotal}{integer. An integer giving the desired total population.}
+\item{DesiredTotal}{integer. An integer giving the desired total counts.}
 }
 \value{
-a vector of the adjusted population.
+A vector of the adjusted counts by age.
 }
 \description{
 The adjustment factor for each age is the ratio of the 
-desired population total divided by the initial population total. This 
-adjustment factor is used to adjust each age group to the new total.
+desired counts total divided by the initial counts total. This 
+adjustment factor is used to adjust each age group to the new given total.
 This comes from the PAS spreadsheet called ADJAGE.
 }
 \details{
