@@ -7,19 +7,19 @@
 #DesiredTotalMale       <- 23657
 #DesiredTotalFemale     <- 24764
 
-#' proportionally adjust a population age distribution to a new total.
+#' Proportionally adjust population or death counts by age to a given total.
 #' @description The adjustment factor for each age is the ratio of the 
-#' desired population total divided by the initial population total. This 
-#' adjustment factor is used to adjust each age group to the new total.
+#' desired counts total divided by the initial counts total. This 
+#' adjustment factor is used to adjust each age group to the new given total.
 #' This comes from the PAS spreadsheet called ADJAGE.
 
-#' @param Value   numeric. A vector of demographic population counts.
-#' @param DesiredTotal integer. An integer giving the desired total population.
+#' @param Value   numeric. A vector of population or death counts by age.
+#' @param DesiredTotal integer. An integer giving the desired total counts.
 
 #' @details The age group structure of the output is the same as that of the 
 #' input. This function does not adjust for unknown age groups.
 
-#' @return a vector of the adjusted population.
+#' @return A vector of the adjusted counts by age.
 #' 
 #' @export
 #' 
