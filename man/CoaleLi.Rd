@@ -8,17 +8,17 @@ CoaleLi(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5,
   digit = 0)
 }
 \arguments{
-\item{Value}{a vector of demographic rates or counts by single age}
+\item{Value}{numeric. A vector of demographic rates or counts by single age.}
 
-\item{Age}{a vector of ages corresponding to the lower integer bound of the counts}
+\item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{the lowest age included in calcs. Default 20}
+\item{ageMin}{integer. The lowest age included in calculations. Default 20.}
 
-\item{ageMax}{the upper age bound used for calcs. Default 65}
+\item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
 
-\item{terms}{integer (default 5). How wide shall the (centered) moving average be?}
+\item{terms}{integer. Length of the (centered) moving average be. Default 5.}
 
-\item{digit}{any digit 0-9. Default \code{0}.}
+\item{digit}{integer. Any digit 0-9. Default 0.}
 }
 \value{
 the index value
@@ -31,7 +31,8 @@ an index. This procedure was used in that paper for ages 65-100 for mortality ra
 It is probably better suited to rates than counts, but that is not a hard rule.
 }
 \details{
-\code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. It is therefore recommended for single digits, or else \code{c(0,5)}
+\code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. 
+It is therefore recommended for single digits, or else \code{c(0,5)}
 }
 \examples{
 Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
@@ -48,11 +49,7 @@ Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
 Age <- 0:99
 CoaleLi(Value, Age, 65, 95, 5, 0) # 3.7
 CoaleLi(Value, Age, 65, 95, 5, 5) # 3.5 almost just as high
-Whipple(Value, Age, 65, 95, 0)    # 3.4
-Whipple(Value, Age, 65, 95, 5)    # 3.2
-Noumbissi(Value, Age, 65, 95, 0)  # 3.6
-Noumbissi(Value, Age, 65, 95, 5)  # 3.0
 }
 \references{
-Coale, A. and S. Li (1991) The effect of age misreporting in China on the calculation of mortality rates at very high ages. Demography 28(2)
+\insertRef{coale1991effect}{DemoTools}
 }
