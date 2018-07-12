@@ -7,17 +7,23 @@
 Bachi(Value, Age, ageMin = 30, ageMax = 80, pasex = FALSE)
 }
 \arguments{
-\item{Value}{a vector of demographic counts by single age}
+\item{Value}{numeric. A vector of demographic counts by single age.}
 
-\item{Age}{a vector of ages corresponding to the lower integer bound of the counts}
+\item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{the lowest age included in calcs. Default 30}
+\item{ageMin}{integer. The lowest age included in calculations. Default 30.}
 
-\item{ageMax}{the upper age bound used for calcs. Default 80}
+\item{ageMax}{integer. The upper age bound used for calculations. Default 80.}
 
-\item{pasex}{logical default \code{FALSE}. Do we want to reproduce the specific age weightings in the PASEX spreadsheet?}
+\item{pasex}{logical.  Default \code{FALSE}. Do we want to reproduce the specific age weightings in the PASEX spreadsheet?}
+}
+\value{
+the index value
 }
 \description{
+Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit.
+Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90, 
+and 10 is the expected value for each digit.
 Two Implementations: one following the PASEX spreadsheet SINGAGE (\code{pasex = TRUE}), with ages hard-coded, and another with flexible upper and lower age bounds, but that does not match the PASEX implementation.
 }
 \details{
@@ -40,4 +46,8 @@ Age <- 0:99
 
 Bachi(Value, Age, ageMin = 20, ageMax = 80, pasex = TRUE) # reproduces PASEX SINGAGE
 Bachi(Value, Age, ageMin = 20, ageMax = 80) # default simpler
+}
+\references{
+\insertRef{bachi1951tendency}{DemoTools}
+\insertRef{shryock1973methods}{DemoTools}
 }

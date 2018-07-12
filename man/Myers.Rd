@@ -2,21 +2,26 @@
 % Please edit documentation in R/AGEHEAP.R
 \name{Myers}
 \alias{Myers}
-\title{calculate Myer's blended index of age heaping}
+\title{Calculate Myer's blended index of age heaping}
 \usage{
 Myers(Value, Age, ageMin = 10, ageMax = 90)
 }
 \arguments{
-\item{Value}{a vector of demographic counts by single age}
+\item{Value}{numeric. A vector of demographic counts by single age.}
 
-\item{Age}{a vector of ages corresponding to the lower integer bound of the counts}
+\item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{the lowest age included in calcs. Default 10}
+\item{ageMin}{integer. The lowest age included in calculations. Default 10.}
 
-\item{ageMax}{the upper age bound used for calcs. Default 90}
+\item{ageMax}{integer. The upper age bound used for calculations. Default 90.}
+}
+\value{
+the index value
 }
 \description{
-Implementation following the PASEX spreadsheet SINGAGE
+Implementation following the PASEX spreadsheet SINGAGE. Myers' measures preferences for each of the ten possible digits
+as a blended index. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits
+ 0 to 9 should represent 10 percent of the total population.
 }
 \details{
 \code{ageMax} is the hard upper bound, treated as interval. If you want ages
@@ -35,6 +40,11 @@ Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
 		2495,2319,1335,12022,1401,1668,1360,1185,
 		9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 Age <- 0:99
+Myers(Value, Age, 10, 90) 
 
 Myers(Value, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
+}
+\references{
+\insertRef{myers1954accuracy}{DemoTools}
+\insertRef{spoorenberg2007quality}{DemoTools}
 }

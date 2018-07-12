@@ -2,27 +2,27 @@
 % Please edit documentation in R/AGEHEAP.R
 \name{Noumbissi}
 \alias{Noumbissi}
-\title{calculate Noubmissi's digit heaping index}
+\title{calculate Noumbissi's digit heaping index}
 \usage{
 Noumbissi(Value, Age, ageMin = 20, ageMax = 65, digit = 0)
 }
 \arguments{
-\item{Value}{a vector of demographic counts by single age}
+\item{Value}{numeric. A vector of demographic counts by single age.}
 
-\item{Age}{a vector of ages corresponding to the lower integer bound of the counts}
+\item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{the lowest age included in calcs. Default 20}
+\item{ageMin}{integer. The lowest age included in calculations. Default 20.}
 
-\item{ageMax}{the upper age bound used for calcs. Default 65}
+\item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
 
-\item{digit}{which terminal digit do we calculate for?}
+\item{digit}{integer. Any digit 0-9. Default 0.}
 }
 \value{
 the index value
 }
 \description{
-this method compares single terminal digit numerators to denominators 
-consisting in 5-year age groups centered on the digit in question. As seen in Spoorenberg (2007)
+Noumbissi's method imprvoes on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators 
+consisting in 5-year age groups centered on the digit in question.
 }
 \details{
 \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
@@ -52,4 +52,8 @@ Noumbissi(Value, Age, digit = 6) # 0.66
 Noumbissi(Value, Age, digit = 7) # 1.08  7 looks good!
 Noumbissi(Value, Age, digit = 8) # 0.57
 Noumbissi(Value, Age, digit = 9) # 0.59
+}
+\references{
+\insertRef{noumbissi1992indice}{DemoTools}
+\insertRef{spoorenberg2007quality}{DemoTools}
 }

@@ -36,11 +36,7 @@
 
 adjustAge <- function(Value, DesiredTotal){
   
-  valueSum      <- sum(Value)
-  
-  adjustFactor <- DesiredTotal / valueSum
-  
-  adjustValues <- Value * adjustFactor
+  adjustValues <- rescale.vector(Value,DesiredTotal)
   
   return(adjustValues)
 }

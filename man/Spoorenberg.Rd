@@ -7,20 +7,21 @@
 Spoorenberg(Value, Age, ageMin = 20, ageMax = 65)
 }
 \arguments{
-\item{Value}{a vector of demographic counts by single age}
+\item{Value}{numeric. A vector of demographic counts by single age.}
 
-\item{Age}{a vector of ages corresponding to the lower integer bound of the counts}
+\item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{the lowest age included in calcs. Default 20}
+\item{ageMin}{integer. The lowest age included in calculations. Default 20.}
 
-\item{ageMax}{the upper age bound used for calcs. Default 65}
+\item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
 }
 \value{
 the index value
 }
 \description{
-This index consists in calculating the Noumbissi index, Wi, for each
-terminal digit, then taking the sum of the absolute deviations of these from unity.
+Using the digit-specific modified Whipple's index, this index summarizes
+all age preference and avoidance effects by taking the sum of the absolute differences between digit-specific Whipple's index and 1 (counting all
+differences as positive).
 }
 \details{
 \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
@@ -41,4 +42,7 @@ Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
 9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 Age <- 0:99
 Spoorenberg(Value, Age)
+}
+\references{
+\insertRef{spoorenberg2007quality}{DemoTools}
 }

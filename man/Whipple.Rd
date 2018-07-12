@@ -2,29 +2,35 @@
 % Please edit documentation in R/AGEHEAP.R
 \name{Whipple}
 \alias{Whipple}
-\title{calculate Whipple's index of age heaping}
+\title{Calculate Whipple's index of age heaping}
 \usage{
 Whipple(Value, Age, ageMin = 25, ageMax = 65, digit = c(0, 5))
 }
 \arguments{
-\item{Value}{a vector of demographic counts by single age}
+\item{Value}{numeric. A vector of demographic counts by single age.}
 
-\item{Age}{a vector of ages corresponding to the lower integer bound of the counts}
+\item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{the lowest age included in calcs. Default 25}
+\item{ageMin}{integer. The lowest age included in calculations. Default 25.}
 
-\item{ageMax}{the upper age bound used for calcs. Default 65}
+\item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
 
-\item{digit}{any digit 0-9. Default \code{c(0,5)}. Otherwise it needs to be a single digit.}
+\item{digit}{integer. Any digit between 0 and 9. Default \code{c(0,5)}. Otherwise it needs to be a single digit.}
+}
+\value{
+the index value
 }
 \description{
-Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking.
+Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking. 
+Whipple's index is a summary measure of age heaping on ages ending usually in 0 or 5 used to determine variability in the
+quality of age reporting between regions or countries and its evolution over time. It assumes a
+linear distribution of ages in each five-year age range.
 }
 \details{
 \code{ageMax} is the hard upper bound, treated as interval. If you want ages
 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. You can get 
 arbitrary W(i) indicies by specifying other digits. Note you can only do pairs of digits
-if it's 0,5. Otherwise just one digit at a time.
+they are 0 and 5. Otherwise just one digit at a time.
 }
 \examples{
  Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
@@ -42,8 +48,7 @@ if it's 0,5. Otherwise just one digit at a time.
  
  (w05 <- Whipple(Value, Age, 25, 60, digit = c(0,5))) # 2.34,replicates SINGAGE males
  
- # implements formula from GDA_1981_Structures-par-age-et-sexe-en-Afrique_[IREDA]
- # p 148
+ # implements formula from Roger et al. (1981, p. 148)
  (w0 <- Whipple(Value, Age, 25, 60, digit = 0))
  (w5 <- Whipple(Value, Age, 25, 60, digit = 5)) 
  
@@ -52,4 +57,8 @@ if it's 0,5. Otherwise just one digit at a time.
  
  # Whipple types
  Whipple(Value, Age, 25, 60, digit = 3) 
+}
+\references{
+\insertRef{spoorenberg2007quality}{DemoTools}
+\insertRef{GDA1981IREDA}{DemoTools}
 }

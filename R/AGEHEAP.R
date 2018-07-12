@@ -3,22 +3,28 @@
 ###############################################################################
 
 
-#' calculate Whipple's index of age heaping
+#' Calculate Whipple's index of age heaping
 
-#' @description Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking.
+#' @description Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking. 
+#' Whipple's index is a summary measure of age heaping on ages ending usually in 0 or 5 used to determine variability in the
+#' quality of age reporting between regions or countries and its evolution over time. It assumes a
+#' linear distribution of ages in each five-year age range.
 
-#' @param Value a vector of demographic counts by single age
-#' @param Age a vector of ages corresponding to the lower integer bound of the counts
-#' @param ageMin the lowest age included in calcs. Default 25
-#' @param ageMax the upper age bound used for calcs. Default 65
-#' @param digit any digit 0-9. Default \code{c(0,5)}. Otherwise it needs to be a single digit.
+#' @param Value numeric. A vector of demographic counts by single age.
+#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param ageMin integer. The lowest age included in calculations. Default 25.
+#' @param ageMax integer. The upper age bound used for calculations. Default 65.
+#' @param digit integer. Any digit between 0 and 9. Default \code{c(0,5)}. Otherwise it needs to be a single digit.
 #'  
 #' 
 #' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. You can get 
 #' arbitrary W(i) indicies by specifying other digits. Note you can only do pairs of digits
-#' if it's 0,5. Otherwise just one digit at a time. 
-
+#' they are 0 and 5. Otherwise just one digit at a time. 
+#' @return the index value 
+#' @references 
+#' \insertRef{spoorenberg2007quality}{DemoTools}
+#' \insertRef{GDA1981IREDA}{DemoTools}
 #' @export 
 #' @examples 
 #'  Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
@@ -36,8 +42,7 @@
 #'  
 #'  (w05 <- Whipple(Value, Age, 25, 60, digit = c(0,5))) # 2.34,replicates SINGAGE males
 #'  
-#'  # implements formula from GDA_1981_Structures-par-age-et-sexe-en-Afrique_[IREDA]
-#'  # p 148
+#'  # implements formula from Roger et al. (1981, p. 148)
 #'  (w0 <- Whipple(Value, Age, 25, 60, digit = 0))
 #'  (w5 <- Whipple(Value, Age, 25, 60, digit = 5)) 
 #'  
@@ -64,18 +69,22 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 }
 
 
-#' calculate Myer's blended index of age heaping
+#' Calculate Myer's blended index of age heaping
 
-#' @description Implementation following the PASEX spreadsheet SINGAGE
-
-#' @param Value a vector of demographic counts by single age
-#' @param Age a vector of ages corresponding to the lower integer bound of the counts
-#' @param ageMin the lowest age included in calcs. Default 10
-#' @param ageMax the upper age bound used for calcs. Default 90
+#' @description Implementation following the PASEX spreadsheet SINGAGE. Myers' measures preferences for each of the ten possible digits
+#' as a blended index. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits
+#'  0 to 9 should represent 10 percent of the total population.
+#' @param Value numeric. A vector of demographic counts by single age.
+#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param ageMin integer. The lowest age included in calculations. Default 10.
+#' @param ageMax integer. The upper age bound used for calculations. Default 90.
 
 #' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89.
-
+#' @return the index value 
+#' @references 
+#' \insertRef{myers1954accuracy}{DemoTools}
+#' \insertRef{spoorenberg2007quality}{DemoTools}
 #' @export 
 #' @examples
 #' Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
@@ -90,6 +99,7 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 #' 		2495,2319,1335,12022,1401,1668,1360,1185,
 #' 		9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 #' Age <- 0:99
+#' Myers(Value, Age, 10, 90) 
 #' 
 #' Myers(Value, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
 
@@ -124,17 +134,23 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 90){
 
 #' calculate Bachi's index of age heaping
 
-#' @description Two Implementations: one following the PASEX spreadsheet SINGAGE (\code{pasex = TRUE}), with ages hard-coded, and another with flexible upper and lower age bounds, but that does not match the PASEX implementation.
+#' @description Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit.
+#' Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90, 
+#' and 10 is the expected value for each digit.
+#' Two Implementations: one following the PASEX spreadsheet SINGAGE (\code{pasex = TRUE}), with ages hard-coded, and another with flexible upper and lower age bounds, but that does not match the PASEX implementation.
 
-#' @param Value a vector of demographic counts by single age
-#' @param Age a vector of ages corresponding to the lower integer bound of the counts
-#' @param ageMin the lowest age included in calcs. Default 30
-#' @param ageMax the upper age bound used for calcs. Default 80
-#' @param pasex logical default \code{FALSE}. Do we want to reproduce the specific age weightings in the PASEX spreadsheet?
+#' @param Value numeric. A vector of demographic counts by single age.
+#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param ageMin integer. The lowest age included in calculations. Default 30.
+#' @param ageMax integer. The upper age bound used for calculations. Default 80.
+#' @param pasex logical.  Default \code{FALSE}. Do we want to reproduce the specific age weightings in the PASEX spreadsheet?
 #' 
 #' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. These are only heeded if \code{pasex = FALSE}.
-
+#' @return the index value 
+#' @references 
+#' \insertRef{bachi1951tendency}{DemoTools}
+#' \insertRef{shryock1973methods}{DemoTools}
 #' @export 
 #' @examples
 #' Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
@@ -226,19 +242,21 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 80, pasex = FALSE){
 #' an index. This procedure was used in that paper for ages 65-100 for mortality rates. 
 #' It is probably better suited to rates than counts, but that is not a hard rule.
 #' 
-#' @param Value a vector of demographic rates or counts by single age
-#' @param Age a vector of ages corresponding to the lower integer bound of the counts
-#' @param ageMin the lowest age included in calcs. Default 20
-#' @param ageMax the upper age bound used for calcs. Default 65
-#' @param terms integer (default 5). How wide shall the (centered) moving average be?
-#' @param digit any digit 0-9. Default \code{0}.
+#' @param Value numeric. A vector of demographic rates or counts by single age.
+#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param ageMin integer. The lowest age included in calculations. Default 20.
+#' @param ageMax integer. The upper age bound used for calculations. Default 65.
+#' @param terms integer. Length of the (centered) moving average be. Default 5.
+#' @param digit integer. Any digit 0-9. Default 0.
 
-#' @details \code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. It is therefore recommended for single digits, or else \code{c(0,5)}
+
+#' @details \code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. 
+#' It is therefore recommended for single digits, or else \code{c(0,5)}
 #' 
 #' @return the index value 
 #' 
 #' @references 
-#' Coale, A. and S. Li (1991) The effect of age misreporting in China on the calculation of mortality rates at very high ages. Demography 28(2)
+#' \insertRef{coale1991effect}{DemoTools}
 #' @export
 #' @examples 
 #' Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
@@ -255,10 +273,6 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 80, pasex = FALSE){
 #' Age <- 0:99
 #' CoaleLi(Value, Age, 65, 95, 5, 0) # 3.7
 #' CoaleLi(Value, Age, 65, 95, 5, 5) # 3.5 almost just as high
-#' Whipple(Value, Age, 65, 95, 0)    # 3.4
-#' Whipple(Value, Age, 65, 95, 5)    # 3.2
-#' Noumbissi(Value, Age, 65, 95, 0)  # 3.6
-#' Noumbissi(Value, Age, 65, 95, 5)  # 3.0
 
 CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0){
 	
@@ -282,21 +296,23 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 }
 
 
-#' calculate Noubmissi's digit heaping index
+#' calculate Noumbissi's digit heaping index
 #' 
-#' @description this method compares single terminal digit numerators to denominators 
-#' consisting in 5-year age groups centered on the digit in question. As seen in Spoorenberg (2007)
+#' @description Noumbissi's method imprvoes on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators 
+#' consisting in 5-year age groups centered on the digit in question.
 
-#' @param Value a vector of demographic counts by single age
-#' @param Age a vector of ages corresponding to the lower integer bound of the counts
-#' @param ageMin the lowest age included in calcs. Default 20
-#' @param ageMax the upper age bound used for calcs. Default 65
-#' @param digit which terminal digit do we calculate for?
+#' @param Value numeric. A vector of demographic counts by single age.
+#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param ageMin integer. The lowest age included in calculations. Default 20.
+#' @param ageMax integer. The upper age bound used for calculations. Default 65.
+#' @param digit integer. Any digit 0-9. Default 0.
 #' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
 #'  Denominators are always 5-year age groups centered on the digit in question,
 #' and these therefore stretch into ages a bit higher or lower than the numerator ages.
 #' @return the index value 
-
+#' @references 
+#' \insertRef{noumbissi1992indice}{DemoTools}
+#' \insertRef{spoorenberg2007quality}{DemoTools}
 #' @export
 #' @examples
 #' Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
@@ -321,6 +337,7 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 #' Noumbissi(Value, Age, digit = 7) # 1.08  7 looks good!
 #' Noumbissi(Value, Age, digit = 8) # 0.57
 #' Noumbissi(Value, Age, digit = 9) # 0.59
+
 Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 65, digit = 0){
 	stopifnot(length(Age) == length(Value))
 	stopifnot(length(digit) == 1)
@@ -336,19 +353,20 @@ Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 65, digit = 0){
 
 #' Spoorenberg's total modified Whipple index
 
-#' @description This index consists in calculating the Noumbissi index, Wi, for each
-#' terminal digit, then taking the sum of the absolute deviations of these from unity.
-
-#' @param Value a vector of demographic counts by single age
-#' @param Age a vector of ages corresponding to the lower integer bound of the counts
-#' @param ageMin the lowest age included in calcs. Default 20
-#' @param ageMax the upper age bound used for calcs. Default 65
-#' @return the index value 
+#' @description Using the digit-specific modified Whipple's index, this index summarizes
+#' all age preference and avoidance effects by taking the sum of the absolute differences between digit-specific Whipple's index and 1 (counting all
+#' differences as positive).
+#' @param Value numeric. A vector of demographic counts by single age.
+#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param ageMin integer. The lowest age included in calculations. Default 20.
+#' @param ageMax integer. The upper age bound used for calculations. Default 65.
 #' 
 #' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
 #'  Denominators are always 5-year age groups centered on the digit in question,
 #' and these therefore stretch into ages a bit higher or lower than the numerator ages.
-#' 
+#' @return the index value 
+#' @references 
+#' \insertRef{spoorenberg2007quality}{DemoTools}
 #' @export 
 #' @examples
 #' Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
