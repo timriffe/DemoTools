@@ -143,7 +143,7 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 90){
 #' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
 #' @param ageMin integer. The lowest age included in calculations. Default 30.
 #' @param ageMax integer. The upper age bound used for calculations. Default 80.
-#' @param pasex logical.  Default \code{FALSE}. Do we want to reproduce the specific age weightings in the PASEX spreadsheet?
+#' @param pasex logical. Whether or not reproduce the specific age weightings in the PASEX spreadsheet. Default \code{FALSE}.
 #' 
 #' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. These are only heeded if \code{pasex = FALSE}.
@@ -298,7 +298,7 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 
 #' calculate Noumbissi's digit heaping index
 #' 
-#' @description Noumbissi's method imprvoes on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators 
+#' @description Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators 
 #' consisting in 5-year age groups centered on the digit in question.
 
 #' @param Value numeric. A vector of demographic counts by single age.
