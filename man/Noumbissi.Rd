@@ -21,7 +21,7 @@ Noumbissi(Value, Age, ageMin = 20, ageMax = 65, digit = 0)
 the index value
 }
 \description{
-Noumbissi's method imprvoes on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators 
+Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators 
 consisting in 5-year age groups centered on the digit in question.
 }
 \details{

@@ -7,11 +7,11 @@
 AHI(Value, Age, Agei = 90)
 }
 \arguments{
-\item{Value}{a vector of demographic counts or rates by single age}
+\item{Value}{numeric. A vector of demographic counts or rates by single age.}
 
-\item{Age}{a vector of ages corresponding to the lower integer bound of the counts}
+\item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{Agei}{the age on which the index is centered.}
+\item{Agei}{integer. The age on which the index is centered.}
 }
 \value{
 the index value.
@@ -39,6 +39,5 @@ AHI(Value, Age, 90)
 AHI(Value, Age, 95)
 }
 \references{
-Kannisto (1999) Assessing the Information on Age at Death of Old Persons in National Vital Statistics. 
-Validation of Exceptional Longevity. [Monographs on Population Aging. Vol. 6]
+\insertRef{kannisto1999assessing}{DemoTools}
 }

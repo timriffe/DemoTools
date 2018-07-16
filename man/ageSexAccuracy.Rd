@@ -2,27 +2,27 @@
 % Please edit documentation in R/AGESEX.R
 \name{ageSexAccuracy}
 \alias{ageSexAccuracy}
-\title{calculate an age-sex accuracy index}
+\title{Calculate an age-sex accuracy index}
 \usage{
 ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
   method = "UN", adjust = TRUE, OAG = TRUE)
 }
 \arguments{
-\item{Males}{numeric. A vector of population counts for males in 5-year age groups}
+\item{Males}{numeric.  A vector of demographic counts in 5-year age groups for males.}
 
-\item{Females}{numeric. A vector of population counts for females in 5-year age groups}
+\item{Females}{numeric. A vector of demographic counts in 5-year age groups for females.}
 
-\item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts}
+\item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{integer. The lowest age included in calcs. Default 0}
+\item{ageMin}{integer. The lowest age included in calculations. Default 0.}
 
-\item{ageMax}{integer. The upper age bound used for calcs. Default \code{max(Age)}}
+\item{ageMax}{integer. The upper age bound used for calculations. Default \code{max(Age)}.}
 
-\item{method}{character. Either \code{"UN"} (default), \code{"Zelnick"}, \code{"Ramachandran"}, or \code{"das gupta"}}
+\item{method}{character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"},or \code{"das gupta"}.}
 
-\item{adjust}{logical do we adjust the measure when population size is under one million?}
+\item{adjust}{logical. Whether or not to adjust the measure when population size is under one million. Default \code{TRUE}.}
 
-\item{OAG}{logical. default \code{TRUE}. Is the top age group open?}
+\item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
 }
 \value{
 the value of the index
@@ -35,7 +35,7 @@ a wrapper to \code{ageRatioScore()} and \code{sexRatioScore()}.
 \details{
 Age groups must be of equal intervals. Five year age groups are assumed.
 If the final element of \code{Males} and \code{Females} is the open age group,
-then either make sure \code{ageMax} is lower than it, or leave \code{OAG} as \code{TRUE} so that it is properly removed for calcs. The method argument 
+then either make sure \code{ageMax} is lower than it, or leave \code{OAG} as \code{TRUE} so that it is properly removed for calculations. The method argument 
 is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators, 
 except in the case of Das Gupta, where it's a different method entirely (see \code{ageSexAccuracyDasGupta()}.
 }

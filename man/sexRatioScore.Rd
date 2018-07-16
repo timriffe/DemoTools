@@ -2,23 +2,23 @@
 % Please edit documentation in R/AGESEX.R
 \name{sexRatioScore}
 \alias{sexRatioScore}
-\title{calculate the PAS sex ratio score}
+\title{Calculate the PAS sex ratio score}
 \usage{
 sexRatioScore(Males, Females, Age, ageMin = 0, ageMax = max(Age),
   OAG = TRUE)
 }
 \arguments{
-\item{Males}{numeric. A vector of population counts for males in 5-year age groups}
+\item{Males}{numeric.  A vector of demographic counts in 5-year age groups for males.}
 
-\item{Females}{numeric. A vector of population counts for females in 5-year age groups}
+\item{Females}{numeric. A vector of demographic counts in 5-year age groups for females.}
 
-\item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts}
+\item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{integer. The lowest age included in calcs. Default 0}
+\item{ageMin}{integer. The lowest age included in calculations. Default 0.}
 
-\item{ageMax}{integer. The upper age bound used for calcs. Default \code{max(Age)}}
+\item{ageMax}{integer. The upper age bound used for calculations. Default \code{max(Age)}.}
 
-\item{OAG}{logical. default \code{TRUE}. Is the top age group open?}
+\item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
 }
 \value{
 the value of the index
@@ -31,12 +31,7 @@ age defines the index. This comes from the PAS spreadsheet called AGESEX.
 }
 \details{
 Age groups must be of equal intervals. Five year age groups are assumed.
- We also assume that the final age group is open, unless \code{ageMax < max(Age)}. The method
-argument determines the weighting of numerators and denominators, where the UN method puts
-twice the numerator over the sum of the adjacent ages classes, Zelnich does thrice the 
-numerator over the sum of the whole range from the next lowest to the next highest age, and 
-Ramachandran does four times the numerator over the same sum, but with the central age 
-double-counted in the numerator. Ramachandran is therefore less judgemental, so to speak.
+ It is also assumed that the final age group is open, unless \code{ageMax < max(Age)}.
 }
 \examples{
 Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
