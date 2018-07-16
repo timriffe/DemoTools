@@ -15,7 +15,7 @@ Bachi(Value, Age, ageMin = 30, ageMax = 80, pasex = FALSE)
 
 \item{ageMax}{integer. The upper age bound used for calculations. Default 80.}
 
-\item{pasex}{logical.  Default \code{FALSE}. Do we want to reproduce the specific age weightings in the PASEX spreadsheet?}
+\item{pasex}{logical. Whether or not reproduce the specific age weightings in the PASEX spreadsheet. Default \code{FALSE}.}
 }
 \value{
 the index value

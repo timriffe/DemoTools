@@ -2,16 +2,16 @@
 % Please edit documentation in R/AGESEX.R
 \name{WI}
 \alias{WI}
-\title{calculate Jdanov's old-age heaping index}
+\title{Calculate Jdanov's old-age heaping index}
 \usage{
 WI(Value, Age, Ages = seq(95, 105, by = 5))
 }
 \arguments{
-\item{Value}{a vector of demographic counts (probably deaths) by single age}
+\item{Value}{numeric. A vector of demographic counts by single age.}
 
-\item{Age}{a vector of ages corresponding to the lower integer bound of the counts}
+\item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{Ages}{a vector of ages to put in the numerator, default \code{c(95,100,105)}.}
+\item{Ages}{integer. A vector of ages to put in the numerator, default \code{c(95,100,105)}.}
 }
 \value{
 the index value
@@ -19,10 +19,9 @@ the index value
 \description{
 This is a slightly more flexible implementation of Jdanov's fomula,
 with defaults set to match his parameters. The numerator is the sum of 
-(death counts) in ages 95, 100, and 105. Really the numerator could be an cound and any set of ages.
-The denominator consists in the sum of the 5-year age groups centered around each of the numerator ages.
+(death counts) in ages 95, 100, and 105. The denominator consists in the sum of the 5-year age groups centered around each of the numerator ages.
 It probably only makes sense to use this with the default values, however. Used with a single age
-in the numerator, it's almost the same as \code{Noumbissi()}, except here we pick out particular ages,
+in the numerator, it is almost the same as \code{Noumbissi()}, except here we pick out particular ages,
 whereas Noumbissi picks out terminal digits.
 }
 \examples{
@@ -40,6 +39,5 @@ Age <- 0:110
 WI(Value, Age, c(95,100,105))
 }
 \references{
-Jdanov (2008) Beyond the Kannisto-Thatcher database on old age mortality - 
-An assessment of data quality at advanced ages. MPIDR Working Paper WP-2008-013.
+\insertRef{jdanov2008beyond}{DemoTools}
 }

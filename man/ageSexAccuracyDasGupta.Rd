@@ -2,30 +2,32 @@
 % Please edit documentation in R/AGESEX.R
 \name{ageSexAccuracyDasGupta}
 \alias{ageSexAccuracyDasGupta}
-\title{Calculate Ajit Das Gupta's (1995) age sex accuracy index}
+\title{Calculate Das Gupta's (1995) age sex accuracy index}
 \usage{
 ageSexAccuracyDasGupta(Males, Females, Age, ageMin = 0, ageMax = max(Age),
   OAG = TRUE)
 }
 \arguments{
-\item{Males}{numeric. A vector of population counts for males by age}
+\item{Males}{numeric.  A vector of demographic counts in 5-year age groups for males.}
 
-\item{Females}{numeric. A vector of population counts for females by age}
+\item{Females}{numeric. A vector of demographic counts in 5-year age groups for females.}
 
-\item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts}
+\item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{integer. The lowest age included in calcs. Default 0}
+\item{ageMin}{integer. The lowest age included in calculations. Default 0.}
 
-\item{ageMax}{integer. The upper age bound used for calcs. Default \code{max(Age)}}
+\item{ageMax}{integer. The upper age bound used for calculations. Default \code{max(Age)}.}
 
-\item{OAG}{logical. default \code{TRUE}. Is the top age group open?}
+\item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
 }
 \description{
-Given population counts in 5-year age groups for males and females, follow Ajit Das Gupta's steps
+Given population counts in 5-year age groups for males and females, follow Das Gupta's steps
  to calculate a composite index of the quality of the age and sex structure for a given population.
 }
 \details{
-It is assumed that the terminal age group is open, in which case it's ignored.  Set \code{OAG = FALSE} if the top age is indeed a closed interval that you want included in calculations. If \code{ageMax == max(Age)} and \code{OAG} is \code{TRUE}, then \code{ageMax} gets decremented one age class.
+It is assumed that the terminal age group is open, in which case it is ignored.  
+Set \code{OAG = FALSE} if the top age is indeed a closed interval that you want included in calculations. 
+If \code{ageMax == max(Age)} and \code{OAG} is \code{TRUE}, then \code{ageMax} gets decremented one age class.
 }
 \examples{
 # data from table for South West Africa (1946) given in reference

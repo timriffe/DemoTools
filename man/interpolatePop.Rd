@@ -8,28 +8,30 @@ interpolatePop(Pop1, Pop2, Date1, Date2, DesiredDate, method = "linear",
   roundoutput = FALSE)
 }
 \arguments{
-\item{Pop1}{numeric. A vector of demographic population counts for an earlier date.}
+\item{Pop1}{numeric. A vector of demographic counts by age at time 1 (earlier date).}
 
-\item{Pop2}{numeric. A vector of demographic population counts for a later date.}
+\item{Pop2}{numeric. A vector of demographic counts by age at time 2 (later date).}
 
-\item{Date1}{date (See details for ways to express it). The date corresponding to the earlier population age distribution.}
+\item{Date1}{date. The date corresponding to the population age distribution at time 1. See details for ways to express it.}
 
-\item{Date2}{date (See details for ways to express it). The date corresponding to the later population age distribution.}
+\item{Date2}{date. The date corresponding to the population age distribution at time 2. See details for ways to express it.}
 
-\item{DesiredDate}{date (See details for ways to express it). The desired date of the output population age distribution.}
+\item{DesiredDate}{date. The desired date of the output population age distribution. See details for ways to express it.}
 
-\item{method}{string. The method to use for the interpolation, either "linear" or "exponential". Default "Linear".}
+\item{method}{string. The method to use for the interpolation, either "linear" or "exponential". Default "linear".}
 
-\item{roundoutput}{logical. defaul \code{FALSE}. Should we return integers?}
+\item{roundoutput}{logical. Whether or not to return integers. Default \code{FALSE}.}
 }
 \value{
-a vector of the interpolated population for the requested date.
+A vector of the interpolated population for the requested date.
 }
 \description{
 The interpolation is done by age (not cohort) using a linear or exponential function. This comes from the PAS spreadsheet called ADJINT.
 }
 \details{
-The age group structure of the output is the same as that of the input. Ideally, the DesiredDate should be between the Date1 and Date2. Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
+The age group structure of the output is the same as that of the input. Ideally, \code{DesiredDate} should be between the Date1 and Date2. 
+Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, 
+or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
 }
 \examples{
 EarlyPop      <- c(100958, 466275, 624134, 559559, 446736, 370653, 301862, 249409,

@@ -2,27 +2,33 @@
 # Author: tim
 ###############################################################################
 
-#' calculate the PAS age ratio score
+#' Calculate the PAS age ratio score
 #' @description A single ratio is defined as the 100 times twice the size of an age group 
-#' to it's neighboring two age groups. Under uniformity these would all be 100. The average 
-#' absolute deviation from 100 defines the index. This comes from the PAS spreadsheet called AGESEX
+#' to its neighboring two age groups. Under uniformity these would all be 100. The average 
+#' absolute deviation from 100 defines this index. This comes from the PAS spreadsheet called AGESEX
 
 #' @param Value numeric. A vector of demographic counts in 5-year age groups.
-#' @param Age an integer vector of ages corresponding to the lower integer bound of the counts.
-#' @param ageMin integer. The lowest age included in calcs. Default 0.
-#' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}.
+#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param ageMin integer. The lowest age included in calculations. Default 0.
+#' @param ageMax integer. The upper age bound used for calculations. Default \code{max(Age)}.
 #' @param method character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"}
-#' @param OAG logical. default \code{TRUE}. Is the top age group open?
+#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
 
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
-#'  We also assume that the final age group is open, unless \code{ageMax < max(Age)}. Setting \code{OAG = FALSE} will override this and potentially include \code{max(Age)} in calculations.
+#'  It is also assumed that the final age group is open, unless \code{ageMax < max(Age)}. 
+#'  Setting \code{OAG = FALSE} will override this and potentially include \code{max(Age)} in calculations.
+#'  The method argument determines the weighting of numerators and denominators, where the UN method puts
+#' twice the numerator over the sum of the adjacent ages classes, Zelnich does thrice the 
+#' numerator over the sum of the whole range from the next lowest to the next highest age, and 
+#' Ramachandran does four times the numerator over the same sum, but with the central age 
+#' double-counted in the numerator.
 
 #' @return the value of the index
-#' @export
 #' 
 #' @references 
 #' \insertRef{accuracyun1952}{DemoTools}
 #' \insertRef{ramachandran1967}{DemoTools}
+#' @export
 #' @examples 
 #' # data from PAS spreadsheet AGESEX.xlsx
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
@@ -81,25 +87,20 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 	sum(absres) / length(absres)
 }
 
-#' calculate the PAS sex ratio score
+#' Calculate the PAS sex ratio score
 #' @description A single ratio is defined as males per 100 females.
 #' Taking the first difference of the ratios over age would give 0s
 #' if the ratio were constant. The average absolute difference over
 #' age defines the index. This comes from the PAS spreadsheet called AGESEX.
 
-#' @param Males numeric. A vector of population counts for males in 5-year age groups
-#' @param Females numeric. A vector of population counts for females in 5-year age groups
-#' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts
-#' @param ageMin integer. The lowest age included in calcs. Default 0
-#' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
-#' @param OAG logical. default \code{TRUE}. Is the top age group open?
+#' @param Males numeric.  A vector of demographic counts in 5-year age groups for males.
+#' @param Females numeric. A vector of demographic counts in 5-year age groups for females.
+#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param ageMin integer. The lowest age included in calculations. Default 0.
+#' @param ageMax integer. The upper age bound used for calculations. Default \code{max(Age)}.
+#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
-#'  We also assume that the final age group is open, unless \code{ageMax < max(Age)}. The method
-#' argument determines the weighting of numerators and denominators, where the UN method puts
-#' twice the numerator over the sum of the adjacent ages classes, Zelnich does thrice the 
-#' numerator over the sum of the whole range from the next lowest to the next highest age, and 
-#' Ramachandran does four times the numerator over the same sum, but with the central age 
-#' double-counted in the numerator. Ramachandran is therefore less judgemental, so to speak.
+#'  It is also assumed that the final age group is open, unless \code{ageMax < max(Age)}. 
 
 #' @return the value of the index
 #' @references 
@@ -141,32 +142,31 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), OA
 }
 
 
-#' calculate an age-sex accuracy index
+#' Calculate an age-sex accuracy index
 #' @description This index is a composite consisting in the sum of thrice the sex 
 #' ratio index plus the age ratio index for males and females. This function is therefore
 #' a wrapper to \code{ageRatioScore()} and \code{sexRatioScore()}.
 
-#' @param Males numeric. A vector of population counts for males in 5-year age groups
-#' @param Females numeric. A vector of population counts for females in 5-year age groups
-#' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts
-#' @param ageMin integer. The lowest age included in calcs. Default 0
-#' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
-#' @param method character. Either \code{"UN"} (default), \code{"Zelnick"}, \code{"Ramachandran"}, or \code{"das gupta"}
-#' @param adjust logical do we adjust the measure when population size is under one million?
-#' @param OAG logical. default \code{TRUE}. Is the top age group open?
+#' @param Males numeric.  A vector of demographic counts in 5-year age groups for males.
+#' @param Females numeric. A vector of demographic counts in 5-year age groups for females.
+#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param ageMin integer. The lowest age included in calculations. Default 0.
+#' @param ageMax integer. The upper age bound used for calculations. Default \code{max(Age)}.
+#' @param method character. Either \code{"UN"} (default), \code{"Zelnick"}, or \code{"Ramachandran"},or \code{"das gupta"}.
+#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
+#' @param adjust logical. Whether or not to adjust the measure when population size is under one million. Default \code{TRUE}.
 
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
 #' If the final element of \code{Males} and \code{Females} is the open age group,
-#' then either make sure \code{ageMax} is lower than it, or leave \code{OAG} as \code{TRUE} so that it is properly removed for calcs. The method argument 
+#' then either make sure \code{ageMax} is lower than it, or leave \code{OAG} as \code{TRUE} so that it is properly removed for calculations. The method argument 
 #' is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators, 
 #' except in the case of Das Gupta, where it's a different method entirely (see \code{ageSexAccuracyDasGupta()}.
 
 #' @return the value of the index
-#' @export
 #' @references 
 #' \insertRef{accuracyun1952}{DemoTools}
 #' \insertRef{dasgupta1955}{DemoTools}
-#' 
+#' @export
 #' @examples
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
 #' 		1786000,1505000,1390000,984000,745000,537000,346000,335000)
@@ -238,21 +238,23 @@ ageSexAccuracy <- function(
 	return(ind)
 }
 
-#' Calculate Ajit Das Gupta's (1995) age sex accuracy index
-#' @description Given population counts in 5-year age groups for males and females, follow Ajit Das Gupta's steps
+#' Calculate Das Gupta's (1995) age sex accuracy index
+#' @description Given population counts in 5-year age groups for males and females, follow Das Gupta's steps
 #'  to calculate a composite index of the quality of the age and sex structure for a given population.
 #' 
-#' @param Males numeric. A vector of population counts for males by age
-#' @param Females numeric. A vector of population counts for females by age
-#' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts
-#' @param ageMin integer. The lowest age included in calcs. Default 0
-#' @param ageMax integer. The upper age bound used for calcs. Default \code{max(Age)}
-#' @param OAG logical. default \code{TRUE}. Is the top age group open?
+#' @param Males numeric.  A vector of demographic counts in 5-year age groups for males.
+#' @param Females numeric. A vector of demographic counts in 5-year age groups for females.
+#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param ageMin integer. The lowest age included in calculations. Default 0.
+#' @param ageMax integer. The upper age bound used for calculations. Default \code{max(Age)}.
+#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
 #' 
 #' @references 
 #' \insertRef{dasgupta1955}{DemoTools}
 #' 
-#' @details It is assumed that the terminal age group is open, in which case it's ignored.  Set \code{OAG = FALSE} if the top age is indeed a closed interval that you want included in calculations. If \code{ageMax == max(Age)} and \code{OAG} is \code{TRUE}, then \code{ageMax} gets decremented one age class.
+#' @details It is assumed that the terminal age group is open, in which case it is ignored.  
+#' Set \code{OAG = FALSE} if the top age is indeed a closed interval that you want included in calculations. 
+#' If \code{ageMax == max(Age)} and \code{OAG} is \code{TRUE}, then \code{ageMax} gets decremented one age class.
 #' 
 #' @export
 #' @examples
@@ -334,16 +336,15 @@ ageSexAccuracyDasGupta <- function(Males, Females, Age, ageMin = 0, ageMax = max
 #' 
 #' @description This age heaping index is used for particular old ages, such as 90, 95, 100, 105, and so forth.
 #' 
-#' @param Value a vector of demographic counts or rates by single age
-#' @param Age a vector of ages corresponding to the lower integer bound of the counts
-#' @param Agei the age on which the index is centered.
+#' @param Value numeric. A vector of demographic counts or rates by single age.
+#' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param Agei integer. The age on which the index is centered.
 #' 
 #' @details The index looks down two ages and up two ages, so the data must accomodate that range.
 #' @return the index value.
 #' 
 #' @references 
-#' Kannisto (1999) Assessing the Information on Age at Death of Old Persons in National Vital Statistics. 
-#' Validation of Exceptional Longevity. [Monographs on Population Aging. Vol. 6]
+#' \insertRef{kannisto1999assessing}{DemoTools}
 #' @export
 #' 
 #' @examples
@@ -368,26 +369,23 @@ AHI <- function(Value, Age, Agei = 90){
 }
 
 
-#' calculate Jdanov's old-age heaping index
+#' Calculate Jdanov's old-age heaping index
 #' 
 #' @description This is a slightly more flexible implementation of Jdanov's fomula,
 #' with defaults set to match his parameters. The numerator is the sum of 
-#' (death counts) in ages 95, 100, and 105. Really the numerator could be an cound and any set of ages.
-#' The denominator consists in the sum of the 5-year age groups centered around each of the numerator ages.
+#' (death counts) in ages 95, 100, and 105. The denominator consists in the sum of the 5-year age groups centered around each of the numerator ages.
 #' It probably only makes sense to use this with the default values, however. Used with a single age
-#' in the numerator, it's almost the same as \code{Noumbissi()}, except here we pick out particular ages,
+#' in the numerator, it is almost the same as \code{Noumbissi()}, except here we pick out particular ages,
 #' whereas Noumbissi picks out terminal digits.
 #' 
-#' @param Value a vector of demographic counts (probably deaths) by single age
-#' @param Age a vector of ages corresponding to the lower integer bound of the counts
-#' @param Ages a vector of ages to put in the numerator, default \code{c(95,100,105)}.
+#' @param Value numeric. A vector of demographic counts by single age.
+#' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param Ages integer. A vector of ages to put in the numerator, default \code{c(95,100,105)}.
 #' 
 #' @return the index value
-#' @export
-#' 
 #' @references 
-#' Jdanov (2008) Beyond the Kannisto-Thatcher database on old age mortality - 
-#' An assessment of data quality at advanced ages. MPIDR Working Paper WP-2008-013.
+#' \insertRef{jdanov2008beyond}{DemoTools}
+#' @export
 #' @examples
 #'Value <-c(8904, 592, 354, 299, 292, 249, 222, 216, 181, 169, 151, 167, 
 #'		170, 196, 249, 290, 425, 574, 671, 724, 675, 754, 738, 695, 597, 
