@@ -2,27 +2,27 @@
 % Please edit documentation in R/Beers.R
 \name{beersSimple}
 \alias{beersSimple}
-\title{the ordinary modified Beers splitting methods}
+\title{The ordinary modified Beers splitting methods}
 \usage{
 beersSimple(popmat, Age, OAG = FALSE, method = "mod", johnson = FALSE,
   Age0)
 }
 \arguments{
-\item{popmat}{a numeric matrix of population counts in 5-year age groups, with integer-labeled 
+\item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 
 margins (age in rows and year in columns).}
 
-\item{Age}{integer vector. Lower age bound of age groups. Detected from row names of \code{popmat} if missing.}
+\item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.}
 
-\item{OAG}{logical (default \code{TRUE}. Is the final age group open?}
+\item{OAG}{logical. Whether ot nor the final age group open. Default \code{TRUE}.}
 
-\item{method}{character (default \code{"mod"}). Options are presently \code{"mod"} and \code{"ord"}.}
+\item{method}{character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}.}
 
-\item{johnson}{logical (deault \code{FALSE}). Do we want to adjust young ages according to the DAPPS method?}
+\item{johnson}{logical. Whether or not to adjust young ages according to the DAPPS method. Default \code{FALSE}.}
 
 \item{Age0}{numeric. If doing the \code{johnson} adjustment, we need a separate estimate of age 0. Taken from \code{popmat} if missing.}
 }
 \value{
-an age-period matrix od split population counts with the same number of 
+An age-period matrix of split population counts with the same number of 
 columns as \code{popmat}, and single ages in rows.
 }
 \description{
@@ -33,7 +33,7 @@ with an optional DAPPS adjustment \code{johnson} for ages under 10.
 Ages should refer to lower age bounds. 
 The rows of \code{popmat} must be labelled with ages unless \code{Age} is given separately.
  There must be at least six 5-year age groups (including the open group, 5 otherwise). One year of data will 
-work as well, as long as it's given as a single-column matrix. If you want the \code{johnson} adjustment of young 
+work as well, as long as it is given as a single-column matrix. If you want the \code{johnson} adjustment of young 
 ages, a separate estimate of \code{Age0} can either be specified directly, or else it is taken from age 0 if \code{popmat} 
 is specified in single or standard abridged ages.
 }

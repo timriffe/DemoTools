@@ -21,7 +21,7 @@ ageRatioScore(Value, Age, ageMin = 0, ageMax = max(Age), method = "UN",
 \item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
 }
 \value{
-the value of the index
+The value of the index.
 }
 \description{
 A single ratio is defined as the 100 times twice the size of an age group 
@@ -58,4 +58,5 @@ stopifnot(round(ageRatioScore(Females, Age, ageMax = 75) ,3) == 3.655)
 \references{
 \insertRef{accuracyun1952}{DemoTools}
 \insertRef{ramachandran1967}{DemoTools}
+\insertRef{PAS}{DemoTools}
 }

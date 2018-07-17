@@ -2,16 +2,16 @@
 % Please edit documentation in R/Beers.R
 \name{beersExpand}
 \alias{beersExpand}
-\title{create the Beers ordinary or modified coefficient matrix}
+\title{Create the Beers ordinary or modified coefficient matrix}
 \usage{
 beersExpand(popmat, OAG = FALSE, method = "Mod")
 }
 \arguments{
-\item{popmat}{numeric matrix of age-period population counts in 5-year age groups}
+\item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups.}
 
-\item{OAG}{logical (default \code{TRUE}. Is the final age group open?}
+\item{OAG}{logical. Whether ot nor the final age group open. Default \code{TRUE}.}
 
-\item{method}{character (default \code{"mod"}. Valid values are \code{"mod"} or \code{"ord"}.}
+\item{method}{character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}.}
 }
 \description{
 The resulting coefficient matrix is based on the number of rows in \code{popmat}
@@ -21,7 +21,7 @@ or closed age group, as indicated by the \code{OAG} argument.
 \details{
 The \code{popmat} matrix is really just a placeholder in this case. This function is 
 a utility called by the Beers family of functions, where it is most convenient to just pass
-in the same matrix being used in those calcs to determine the layout of the coefficient matrix.
+in the same matrix being used in those calculations to determine the layout of the coefficient matrix.
 }
 \examples{
 popmat <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 

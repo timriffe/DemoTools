@@ -18,7 +18,7 @@ Whipple(Value, Age, ageMin = 25, ageMax = 65, digit = c(0, 5))
 \item{digit}{integer. Any digit between 0 and 9. Default \code{c(0,5)}. Otherwise it needs to be a single digit.}
 }
 \value{
-the index value
+The value of the index.
 }
 \description{
 Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking. 
@@ -61,4 +61,5 @@ they are 0 and 5. Otherwise just one digit at a time.
 \references{
 \insertRef{spoorenberg2007quality}{DemoTools}
 \insertRef{GDA1981IREDA}{DemoTools}
+\insertRef{PAS}{DemoTools}
 }

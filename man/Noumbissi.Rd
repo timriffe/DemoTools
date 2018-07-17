@@ -18,7 +18,7 @@ Noumbissi(Value, Age, ageMin = 20, ageMax = 65, digit = 0)
 \item{digit}{integer. Any digit 0-9. Default 0.}
 }
 \value{
-the index value
+The value of the index.
 }
 \description{
 Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators 

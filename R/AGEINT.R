@@ -17,6 +17,8 @@
 #' or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
 #' @return A vector of the interpolated population for the requested date.
 #' @author Sean Fennel
+#' @references 
+#' \insertRef{PAS}{DemoTools}
 #' @export
 #' 
 #' @examples 

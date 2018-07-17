@@ -18,7 +18,7 @@ Bachi(Value, Age, ageMin = 30, ageMax = 80, pasex = FALSE)
 \item{pasex}{logical. Whether or not reproduce the specific age weightings in the PASEX spreadsheet. Default \code{FALSE}.}
 }
 \value{
-the index value
+The value of the index.
 }
 \description{
 Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit.
@@ -48,6 +48,7 @@ Bachi(Value, Age, ageMin = 20, ageMax = 80, pasex = TRUE) # reproduces PASEX SIN
 Bachi(Value, Age, ageMin = 20, ageMax = 80) # default simpler
 }
 \references{
+\insertRef{PAS}{DemoTools}
 \insertRef{bachi1951tendency}{DemoTools}
 \insertRef{shryock1973methods}{DemoTools}
 }

@@ -21,10 +21,11 @@
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. You can get 
 #' arbitrary W(i) indicies by specifying other digits. Note you can only do pairs of digits
 #' they are 0 and 5. Otherwise just one digit at a time. 
-#' @return the index value 
+#' @return The value of the index.
 #' @references 
 #' \insertRef{spoorenberg2007quality}{DemoTools}
 #' \insertRef{GDA1981IREDA}{DemoTools}
+#' \insertRef{PAS}{DemoTools}
 #' @export 
 #' @examples 
 #'  Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
@@ -81,10 +82,11 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 
 #' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89.
-#' @return the index value 
+#' @return The value of the index. 
 #' @references 
 #' \insertRef{myers1954accuracy}{DemoTools}
 #' \insertRef{spoorenberg2007quality}{DemoTools}
+#' \insertRef{PAS}{DemoTools}
 #' @export 
 #' @examples
 #' Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
@@ -147,8 +149,9 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 90){
 #' 
 #' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. These are only heeded if \code{pasex = FALSE}.
-#' @return the index value 
+#' @return The value of the index.
 #' @references 
+#' \insertRef{PAS}{DemoTools}
 #' \insertRef{bachi1951tendency}{DemoTools}
 #' \insertRef{shryock1973methods}{DemoTools}
 #' @export 
@@ -253,7 +256,7 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 80, pasex = FALSE){
 #' @details \code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. 
 #' It is therefore recommended for single digits, or else \code{c(0,5)}
 #' 
-#' @return the index value 
+#' @return The value of the index. 
 #' 
 #' @references 
 #' \insertRef{coale1991effect}{DemoTools}
@@ -309,7 +312,7 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 #' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
 #'  Denominators are always 5-year age groups centered on the digit in question,
 #' and these therefore stretch into ages a bit higher or lower than the numerator ages.
-#' @return the index value 
+#' @return The value of the index. 
 #' @references 
 #' \insertRef{noumbissi1992indice}{DemoTools}
 #' \insertRef{spoorenberg2007quality}{DemoTools}
@@ -364,7 +367,7 @@ Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 65, digit = 0){
 #' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
 #'  Denominators are always 5-year age groups centered on the digit in question,
 #' and these therefore stretch into ages a bit higher or lower than the numerator ages.
-#' @return the index value 
+#' @return The value of the index.
 #' @references 
 #' \insertRef{spoorenberg2007quality}{DemoTools}
 #' @export 

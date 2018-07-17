@@ -14,7 +14,7 @@ AHI(Value, Age, Agei = 90)
 \item{Agei}{integer. The age on which the index is centered.}
 }
 \value{
-the index value.
+The value of the index.
 }
 \description{
 This age heaping index is used for particular old ages, such as 90, 95, 100, 105, and so forth.

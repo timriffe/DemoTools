@@ -25,7 +25,7 @@ ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
 \item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
 }
 \value{
-the value of the index
+The value of the index.
 }
 \description{
 This index is a composite consisting in the sum of thrice the sex 
@@ -59,4 +59,5 @@ stopifnot(round(ageSexAccuracy(Males, Females, Age),3) == 14.308)
 \references{
 \insertRef{accuracyun1952}{DemoTools}
 \insertRef{dasgupta1955}{DemoTools}
+\insertRef{PAS}{DemoTools}
 }

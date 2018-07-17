@@ -14,7 +14,7 @@ WI(Value, Age, Ages = seq(95, 105, by = 5))
 \item{Ages}{integer. A vector of ages to put in the numerator, default \code{c(95,100,105)}.}
 }
 \value{
-the index value
+The value of the index.
 }
 \description{
 This is a slightly more flexible implementation of Jdanov's fomula,

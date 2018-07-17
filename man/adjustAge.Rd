@@ -35,3 +35,6 @@ adjustAge(Males, DesiredTotalMale)
 adjustAge(Females, DesiredTotalFemale)
 adjustAge(Males+Females, DesiredTotalMale+DesiredTotalFemale)
 }
+\references{
+\insertRef{PAS}{DemoTools}
+}

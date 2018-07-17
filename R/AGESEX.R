@@ -23,11 +23,12 @@
 #' Ramachandran does four times the numerator over the same sum, but with the central age 
 #' double-counted in the numerator.
 
-#' @return the value of the index
+#' @return The value of the index.
 #' 
 #' @references 
 #' \insertRef{accuracyun1952}{DemoTools}
 #' \insertRef{ramachandran1967}{DemoTools}
+#' \insertRef{PAS}{DemoTools}
 #' @export
 #' @examples 
 #' # data from PAS spreadsheet AGESEX.xlsx
@@ -102,9 +103,10 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
 #'  It is also assumed that the final age group is open, unless \code{ageMax < max(Age)}. 
 
-#' @return the value of the index
+#' @return The value of the index.
 #' @references 
 #' \insertRef{accuracyun1952}{DemoTools}
+#' \insertRef{PAS}{DemoTools}
 #' @export
 #' @examples 
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
@@ -162,10 +164,11 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), OA
 #' is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators, 
 #' except in the case of Das Gupta, where it's a different method entirely (see \code{ageSexAccuracyDasGupta()}.
 
-#' @return the value of the index
+#' @return The value of the index.
 #' @references 
 #' \insertRef{accuracyun1952}{DemoTools}
 #' \insertRef{dasgupta1955}{DemoTools}
+#' \insertRef{PAS}{DemoTools}
 #' @export
 #' @examples
 #' Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,
@@ -341,7 +344,7 @@ ageSexAccuracyDasGupta <- function(Males, Females, Age, ageMin = 0, ageMax = max
 #' @param Agei integer. The age on which the index is centered.
 #' 
 #' @details The index looks down two ages and up two ages, so the data must accomodate that range.
-#' @return the index value.
+#' @return The value of the index.
 #' 
 #' @references 
 #' \insertRef{kannisto1999assessing}{DemoTools}
@@ -382,7 +385,7 @@ AHI <- function(Value, Age, Agei = 90){
 #' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts.
 #' @param Ages integer. A vector of ages to put in the numerator, default \code{c(95,100,105)}.
 #' 
-#' @return the index value
+#' @return The value of the index.
 #' @references 
 #' \insertRef{jdanov2008beyond}{DemoTools}
 #' @export

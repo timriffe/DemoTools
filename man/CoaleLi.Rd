@@ -21,7 +21,7 @@ CoaleLi(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5,
 \item{digit}{integer. Any digit 0-9. Default 0.}
 }
 \value{
-the index value
+The value of the index.
 }
 \description{
 This implementation is based largely on the sparse verbal description given in
