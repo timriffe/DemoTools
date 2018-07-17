@@ -2,35 +2,38 @@
 % Please edit documentation in R/CENSUR.R
 \name{survRatioError}
 \alias{survRatioError}
-\title{census survival estimation}
+\title{Census survival estimation}
 \usage{
 survRatioError(pop1, pop2, Age, date1, date2, exprior)
 }
 \arguments{
-\item{pop1}{numeric vector population counts of census 1}
+\item{pop1}{numeric. Vector of population counts in 5-year age groups of census 1.}
 
-\item{pop2}{numeric vector population counts of census 2}
+\item{pop2}{numeric. Vector of population counts in 5-year age groups of census 2.}
 
-\item{Age}{an integer vector of the lower bound of each age group.}
+\item{Age}{numeric. Vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{date1}{the date of the first census. See details for ways to express it.}
+\item{date1}{date. Date of the first census. See details for ways to express it.}
 
-\item{date2}{the date of the second census. See details for ways to express it.}
+\item{date2}{date. Date of the second census. See details for ways to express it.}
 
-\item{exprior}{numeric vector of remaining life expectancy for same population and time but from a different source}
+\item{exprior}{numeric. Vector of remaining life expectancy for same population and time but from a different source.}
 }
 \value{
-the median absolute percent error of the census survival remaining life expectancy vector compared with the external remaining life expectancy estimate (\code{exprior}).
+The median absolute percent error of the census survival remaining life expectancy vector compared with the external remaining life expectancy estimate (\code{exprior}).
 }
 \description{
 This function family implements the spreadsheets from the UN repository 
 "Adult Mortality Estimation Files/countries/JAPAN/CENSUS~1.SUR", prepared by Griffith Feeney ca 2007.
 }
 \details{
-Ages must be in five-year age groups, not abridged. The lengths of \code{pop1} and \code{pop2} should also match. We assume that the last age group is open, and throw it out. If your last age group is not open and you want to keep it, append an element, such as \code{NA} to the end of your vectors. Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
+The lengths of \code{pop1} and \code{pop2} should match. We assume that the last age group is open, and throw it out. 
+If your last age group is not open and you want to keep it, append an element, such as \code{NA} to the end of your vectors. 
+Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, 
+or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
 }
 \examples{
-# based on Feeney's spreadsheets CENSUR~1.XLS, CENSUR~2.XLS, and CENSUR~3.XLS
+# Based on Feeney's spreadsheets CENSUR~1.XLS, CENSUR~2.XLS, and CENSUR~3.XLS
 # this is census data from Japan
 
 # create a bunch of data to show the three variants.
@@ -80,11 +83,4 @@ survRatioError(
 		date1 = date1960fake,
 		date2 = date1970,
 		exprior = ex1)# 1.067818
-# result matches CENSUR~2 exactly if you change the 
-# decimal dates used in the spreadsheet to the following
-print(dec.date(date1960fake),digits=15)
-# can't call up the synthetic method on the original dates
-# because it gets automatically directed to the cleaner 10-year
-# staggered method, which is preferred.
-
 }

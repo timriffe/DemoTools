@@ -2,33 +2,37 @@
 % Please edit documentation in R/CENSUR.R
 \name{survN}
 \alias{survN}
-\title{estimate survival curve from censuses spaced N years apart}
+\title{Estimate survival curve from censuses spaced N years apart.}
 \usage{
 survN(pop1, pop2, interval)
 }
 \arguments{
-\item{pop1}{numeric vector population counts of census 1}
+\item{pop1}{numeric. Vector of population counts in 5-year age groups of census 1.}
 
-\item{pop2}{numeric vector population counts of census 2}
+\item{pop2}{numeric. Vector of population counts in 5-year age groups of census 2.}
 
-\item{interval}{a numeric value, annualized intercensal period.}
+\item{interval}{numeric. Length of the inter-censal period.}
 }
 \value{
-lx numeric vector of surivorship (radix 1)
+Survival function lx as a numeric vector with radix 1.
 }
 \description{
-This simple function reproduces calculations through column H of \code{CENSUR~2.XLS} 
-by Griff Feeney. We have censuses spaced an arbitrary N years apart and population counts for 
-both censuses in 5-year age groups.
+This function reproduces calculations of \code{CENSUR~2.XLS} by 
+Griff Feeney. Censuses are assumed to be spaced N years apart and population counts for both censuses in 5-year age groups. 
+The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. 
+The cumulative product of this approximates the survival function lx.
 }
 \details{
-We assume the open age group has already been trimmed off. No checking done here at all. 
+Checking for census spacing of N years must happen prior to this function. 
+Also, we assume the open age group has already been trimmed off.
+
+We assume the open age group has already been trimmed off. 
 The time interval N must be measured as a decimal in advance
 and specified. This method uses a synthetic approximation of person-years lived in each age interval
 over the intercensal period and then a second approximation based on age-specific growth rates to 
 produce an estimate of lifetable px. This value of px is not bounded to [0,1], and therefore the 
 resulting lx approximation is not strictly positive or monotonically non-increasing, 
-so downstream usage of this result is limited. For example, you wouldn't want to use it in the 
+so downstream usage of this result is limited. For example, is not advisable to use it in the 
 standard way to derive the lifetable dx.
 }
 \examples{
