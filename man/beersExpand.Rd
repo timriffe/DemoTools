@@ -9,7 +9,7 @@ beersExpand(popmat, OAG = FALSE, method = "Mod")
 \arguments{
 \item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups.}
 
-\item{OAG}{logical. Whether ot nor the final age group open. Default \code{TRUE}.}
+\item{OAG}{logical. Whether or not the final age group open. Default \code{TRUE}.}
 
 \item{method}{character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}.}
 }

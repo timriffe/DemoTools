@@ -13,7 +13,7 @@ margins (age in rows and year in columns).}
 
 \item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.}
 
-\item{OAG}{logical. Whether ot nor the final age group open. Default \code{TRUE}.}
+\item{OAG}{logical. Whether or not the final age group open. Default \code{TRUE}.}
 
 \item{method}{character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}.}
 

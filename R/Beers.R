@@ -19,7 +19,7 @@
 #' or closed age group, as indicated by the \code{OAG} argument.
 #' 
 #' @param popmat numeric. Matrix of age-period population counts in 5-year age groups.
-#' @param OAG logical. Whether ot nor the final age group open. Default \code{TRUE}.
+#' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
 #' @param method character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}. 
 #' 
 #' @details The \code{popmat} matrix is really just a placeholder in this case. This function is 
@@ -185,7 +185,7 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' @param popmat numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 
 #' margins (age in rows and year in columns). 
 #' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.
-#' @param OAG logical. Whether ot nor the final age group open. Default \code{TRUE}.
+#' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
 #' @param method character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}. 
 #' @param johnson  logical. Whether or not to adjust young ages according to the DAPPS method. Default \code{FALSE}.
 #' @param Age0 numeric. If doing the \code{johnson} adjustment, we need a separate estimate of age 0. Taken from \code{popmat} if missing. 
