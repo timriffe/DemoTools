@@ -2,18 +2,18 @@
 % Please edit documentation in R/LTidentities.R
 \name{mxax2qx}
 \alias{mxax2qx}
-\title{derive nqx from nMx and nax}
+\title{Derive nqx from nMx and nax.}
 \usage{
 mxax2qx(nMx, nax, AgeInt, closeout = TRUE, IMR)
 }
 \arguments{
-\item{nMx}{numeric vector. Age specific death rates.}
+\item{nMx}{numeric. Vector of age-specific death rates.}
 
-\item{nax}{numeric vector. Average time spent in interval by those dying in interval}
+\item{nax}{numeric. Vector of average time spent in interval by those dying in interval.}
 
-\item{AgeInt}{integer width of each age interval}
+\item{AgeInt}{integer. Vector of age class widths.}
 
-\item{closeout}{logical (default \code{TRUE}). Set to 1 if TRUE. Identity otherwise}
+\item{closeout}{logical. Set to 1 if TRUE. Identity otherwise. Default \code{TRUE}.}
 
 \item{IMR}{numeric. Optional q0 to impute, in case available separately.}
 }
@@ -21,7 +21,10 @@ mxax2qx(nMx, nax, AgeInt, closeout = TRUE, IMR)
 nqx vector of age specific death probabilities derived via identity.
 }
 \description{
-This is the common ax-qx-mx identity as found in any demography text. 
+This is the standard identity to derive nqx from nax and nMx.
 This is a more full-service wrapper of \code{mx2qx()}, with closeoput options and optional age 0 
 treatment.
+}
+\references{
+\insertRef{preston2000demography}{DemoTools}
 }

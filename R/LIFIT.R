@@ -7,31 +7,28 @@
 # Washington : U.S. Dept. of Commerce, Bureau of the Census, International Statistical Programs
 # Center, 1976.
 
-#' mean absolute difference in survival rates
+#' Mean absolute difference in survival rates.
 #' 
-#' @description Take two survival curves, use them to calculate 5-year survival 
-#' ratios, then take the mean absolute difference between these, with optional age trimming. 
+#' @description The mean absolute difference between 5-year survival 
+#' ratios with optional age trimming. 
 #' Based on LIFIT program from the MPCDA code base.
 #' 
-#' @param lx1 numeric vector. The first survival function, any radix size
-#' @param lx2 numeric vector. The second survival function, any radix size
-#' @param Age1 integer vector. The age groups (lower bound) corresponding to \code{lx1}
-#' @param Age2 integer vector. The age groups (lower bound) corresponding to \code{lx2}
-#' @param ageMin integer. Optional lower age bound for calcs
-#' @param ageMax integer. Optional upper age bound for calcs
-#' @return the mean absolute difference in survival ratios
+#' @param lx1 numeric. Vector of the first survival function, any radix size.
+#' @param lx2 numeric. Vector of the first survival function, any radix size.
+#' @param Age1 integer. A vector of ages of the lower integer bound of the age groups corresponding to \code{lx1}.
+#' @param Age2 integer. A vector of ages of the lower integer bound of the age groups corresponding to \code{lx2}.
+#' @param ageMin integer. Optional lower age bound for calculations.
+#' @param ageMax integer. Optional upper age bound for calculations.
 #' @export
-#' @details \code{lx1} and \code{lx2} can be of different lengths, and needn't have identically 
-#' grouped data. For example, either or both input vectors could be in single or five-year age groups
+#' @details \code{lx1} and \code{lx2} can be of different lengths and grouped differently. For example, either or both input vectors could be in single or five-year age groups
 #' for this function. Results are selected internally for 5-year age groups, and vector lengths are matched.
 #' The input vectors can also be of different lifetable radices. As with the original Fortran code, 
 #' the open age group must be included in input vectors, even though it is not included in calcs. 
 #' If your final age group is not open, then tack an extra element to it to simulate an open element,
 #' and just make sure to match ages.
+#' @return The mean absolute difference in survival ratios.
 #' @references
-#' Eduardo Arriaga, Patricia Anderson, Larry Heligman (1976). Computer programs for demographic analysis
-#' Washington : U.S. Dept. of Commerce, Bureau of the Census, International Statistical Programs
-#' Center.
+#' \insertRef{arriaga1976}{DemoTools}
 #' 
 #' @examples 
 #' lx1 <-c(1, 0.94265, 0.93344, 0.92708, 0.923, 0.92023, 0.91796, 0.91601, 
@@ -110,32 +107,31 @@ ADM <- function(
 	mean(abs(AD))
 }
 
-#' mean absolute difference in age-ratios of survival rates
+#' Mean absolute difference in age-ratios of survival rates.
 #' 
 #' @description Take two survival curves, use them to calculate 5-year survival 
 #' ratios, then again take the consecutive age-ratios of these. Finally, take the 
 #' mean absolute difference between ratios, with optional age trimming. 
 #' Based on LIFIT program from the MPCDA code base.
 #' 
-#' @param lx1 numeric vector. The first survival function, any radix size
-#' @param lx2 numeric vector. The second survival function, any radix size
-#' @param Age1 integer vector. The age groups (lower bound) corresponding to \code{lx1}
-#' @param Age2 integer vector. The age groups (lower bound) corresponding to \code{lx2}
-#' @param ageMin integer. Optional lower age bound for calcs
-#' @param ageMax integer. Optional upper age bound for calcs
-#' @return the mean absolute difference in survival ratios
+#' @param lx1 numeric. Vector of the first survival function, any radix size.
+#' @param lx2 numeric. Vector of the first survival function, any radix size.
+#' @param Age1 integer. A vector of ages of the lower integer bound of the age groups corresponding to \code{lx1}.
+#' @param Age2 integer. A vector of ages of the lower integer bound of the age groups corresponding to \code{lx2}.
+#' @param ageMin integer. Optional lower age bound for calculations.
+#' @param ageMax integer. Optional upper age bound for calculations.
 #' @export
-#' @details \code{lx1} and \code{lx2} can be of different lengths, and needn't have identically 
-#' grouped data. For example, either or both input vectors could be in single or five-year age groups
+#' @details \code{lx1} and \code{lx2} can be of different lengths and grouped differently. 
+#' For example, either or both input vectors could be in single or five-year age groups
 #' for this function. Results are selected internally for 5-year age groups, and vector lengths are matched.
 #' The input vectors can also be of different lifetable radices. As with the original Fortran code, 
 #' the open age group must be included in input vectors, even though it is not included in calcs. 
 #' If your final age group is not open, then tack an extra element to it to simulate an open element,
 #' and just make sure to match ages.
+#' @return The mean absolute difference in survival ratios.
 #' @references
-#' Eduardo Arriaga, Patricia Anderson, Larry Heligman (1976). Computer programs for demographic analysis
-#' Washington : U.S. Dept. of Commerce, Bureau of the Census, International Statistical Programs
-#' Center.
+#' \insertRef{arriaga1976}{DemoTools}
+#' 
 #' @examples 
 #' lx1 <-c(1, 0.94265, 0.93344, 0.92708, 0.923, 0.92023, 0.91796, 0.91601, 
 #'		0.91431, 0.9128, 0.91145, 0.91025, 0.90914, 0.90805, 0.90692, 

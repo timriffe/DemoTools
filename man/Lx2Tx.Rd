@@ -2,15 +2,15 @@
 % Please edit documentation in R/LTidentities.R
 \name{Lx2Tx}
 \alias{Lx2Tx}
-\title{derive lifetable total person years left to live from exposure}
+\title{Derive lifetable total person years left to live from exposure.}
 \usage{
 Lx2Tx(Lx)
 }
 \arguments{
-\item{Lx}{numeric vector of lifetable exposure.}
+\item{Lx}{numeric. Vector of lifetable exposure.}
 }
 \value{
-Tx total years left to live above age x
+Tx total years left to live above age x.
 }
 \description{
 A lifetable identity. Tx is interpreted as the total years
@@ -18,5 +18,8 @@ left to live above age x in the life table stationary population.
 }
 \details{
 No \code{NA} or other error checking here. This is taken as the numerator in the classic lifetable method
- of calculation life expectancy.
+ of calculation of life expectancy.
+}
+\references{
+\insertRef{preston2000demography}{DemoTools}
 }

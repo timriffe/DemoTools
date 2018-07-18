@@ -17,7 +17,7 @@ margins (age in rows and year in columns).}
 
 \item{method}{character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}.}
 
-\item{johnson}{logical. Whether or not to adjust young ages according to the DAPPS method. Default \code{FALSE}.}
+\item{johnson}{logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default \code{FALSE}.}
 
 \item{Age0}{numeric. If doing the \code{johnson} adjustment, we need a separate estimate of age 0. Taken from \code{popmat} if missing.}
 }
@@ -27,7 +27,7 @@ columns as \code{popmat}, and single ages in rows.
 }
 \description{
 This method offers both ordinary and modified Beers splitting, 
-with an optional DAPPS adjustment \code{johnson} for ages under 10.
+with an optional \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} adjustment \code{johnson} for ages under 10.
 }
 \details{
 Ages should refer to lower age bounds. 

@@ -1,3 +1,5 @@
+
+#TODO in top to CENSUR.R: check that data in 5 year ages, group to 5-year ages if not before running.
 # Author: tim
 ###############################################################################
 #' Census survival estimation
@@ -10,12 +12,16 @@
 #' @param Age numeric. Vector of ages corresponding to the lower integer bound of the counts.
 #' @param date1 date. Date of the first census. See details for ways to express it.
 #' @param date2 date. Date of the second census. See details for ways to express it.
-#' @param exprior numeric. Vector of remaining life expectancy for same population and time but from a different source.
+#' @param exprior numeric. Vector of remaining life expectancy (not e(0), see details) for same population and time but from a different source.
 
 #' @details The lengths of \code{pop1} and \code{pop2} should match. We assume that the last age group is open, and throw it out. 
 #' If your last age group is not open and you want to keep it, append an element, such as \code{NA} to the end of your vectors. 
 #' Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, 
-#' or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
+#' or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. Value for life expectancy at birth e(0) in \code{exprior} 
+#' should be set to \code{NA}.
+#' @references 
+#' \insertRef{united1955manual}{DemoTools}
+#' \insertRef{united1983manual}{DemoTools}
 #' @return The median absolute percent error of the census survival remaining life expectancy vector compared with the external remaining life expectancy estimate (\code{exprior}).
 #' @export
 #' @importFrom stats median

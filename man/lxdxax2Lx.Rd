@@ -2,18 +2,18 @@
 % Please edit documentation in R/LTidentities.R
 \name{lxdxax2Lx}
 \alias{lxdxax2Lx}
-\title{derive lifetable exposure from lx, ndx and nax.}
+\title{Derive lifetable exposure from lx, ndx and nax.}
 \usage{
 lxdxax2Lx(lx, ndx, nax, AgeInt)
 }
 \arguments{
-\item{lx}{numeric vector of lifetable survivorship}
+\item{lx}{numeric.  Vector of age-specific lifetable survivorship.}
 
-\item{ndx}{numeric vector of lifetable deaths, summing to radix of \code{lx}.}
+\item{ndx}{numeric. Vector of lifetable deaths, summing to radix of \code{lx}.}
 
-\item{nax}{numeric vector of average time spent in the age interval of those dying in the interval.}
+\item{nax}{numeric. Vector of average time spent in interval by those dying in interval.}
 
-\item{AgeInt}{integer vector of age class widths}
+\item{AgeInt}{integer. Vector of age class widths.}
 }
 \value{
 nLx numeric vector of lifetable exposure.
@@ -25,4 +25,7 @@ in the interval multiplied by their average time spent in the interval.
 }
 \details{
 There is no checking of equal vector lengths at this time.
+}
+\references{
+\insertRef{preston2000demography}{DemoTools}
 }

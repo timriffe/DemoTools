@@ -3,16 +3,16 @@
 # redundant with utils.R ma(), which takes any n
 ###############################################################################
 
-#' calculate the moving average (mav) over 3 or 5 years
+#' Calculate the moving average (mav) over 3 or 5 years.
 #' @description  This arithmetic smoothing aims to eliminate irregularities of the population pyramid 
 #' by single ages due to errors (attractions or repulsions for certain ages). 
 
 #' @param Value numeric. A vector of demographic counts in single age groups.
-#' @param nyears numeric. A single number, (3 or 5), indicating the number of years taken to smooth the population distribution by single ages.
-#' @param Age integer lower age bounds
+#' @param nyears integer. A single number, (3 or 5), indicating the number of years taken to smooth the population distribution by single ages.
+#' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts. 
 #' @details Single year age groups are assumed.
 
-#' @return a named vector with the smoothed values
+#' @return Vector with the smoothed demographic counts.
 #' @export
 #' @author Juan Galeano
 

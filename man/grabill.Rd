@@ -10,7 +10,7 @@ grabill(popmat, Age, OAG = TRUE)
 \item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 
 margins (age in rows and year in columns).}
 
-\item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.}
+\item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.}
 
 \item{OAG}{logical. Whether or not the final age group open. Default \code{TRUE}.}
 }

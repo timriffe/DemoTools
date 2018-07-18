@@ -5,8 +5,7 @@
 #' Index of relative difference.
 #' 
 #' @description Calculate the relative percent difference between two population structures. A returned 
-#' value of zero means that the two population have identical structure. A value of 100 means
-#' that the populations have no overlap at all (not likely for populations structured only by age).
+#' value of zero means that the two population have identical structure. 
 #' 
 #' @param pop1 numeric. Vector of counts from population 1.
 #' @param pop2 numeric. Vector of counts from population 2.

@@ -2,35 +2,34 @@
 % Please edit documentation in R/LIFIT.R
 \name{ADM}
 \alias{ADM}
-\title{mean absolute difference in survival rates}
+\title{Mean absolute difference in survival rates.}
 \usage{
 ADM(lx1, lx2, Age1, Age2 = Age1, ageMin = max(c(min(Age1), min(Age2))),
   ageMax = min(c(max(Age1), max(Age2))))
 }
 \arguments{
-\item{lx1}{numeric vector. The first survival function, any radix size}
+\item{lx1}{numeric. Vector of the first survival function, any radix size.}
 
-\item{lx2}{numeric vector. The second survival function, any radix size}
+\item{lx2}{numeric. Vector of the first survival function, any radix size.}
 
-\item{Age1}{integer vector. The age groups (lower bound) corresponding to \code{lx1}}
+\item{Age1}{integer. A vector of ages of the lower integer bound of the age groups corresponding to \code{lx1}.}
 
-\item{Age2}{integer vector. The age groups (lower bound) corresponding to \code{lx2}}
+\item{Age2}{integer. A vector of ages of the lower integer bound of the age groups corresponding to \code{lx2}.}
 
-\item{ageMin}{integer. Optional lower age bound for calcs}
+\item{ageMin}{integer. Optional lower age bound for calculations.}
 
-\item{ageMax}{integer. Optional upper age bound for calcs}
+\item{ageMax}{integer. Optional upper age bound for calculations.}
 }
 \value{
-the mean absolute difference in survival ratios
+The mean absolute difference in survival ratios.
 }
 \description{
-Take two survival curves, use them to calculate 5-year survival 
-ratios, then take the mean absolute difference between these, with optional age trimming. 
+The mean absolute difference between 5-year survival 
+ratios with optional age trimming. 
 Based on LIFIT program from the MPCDA code base.
 }
 \details{
-\code{lx1} and \code{lx2} can be of different lengths, and needn't have identically 
-grouped data. For example, either or both input vectors could be in single or five-year age groups
+\code{lx1} and \code{lx2} can be of different lengths and grouped differently. For example, either or both input vectors could be in single or five-year age groups
 for this function. Results are selected internally for 5-year age groups, and vector lengths are matched.
 The input vectors can also be of different lifetable radices. As with the original Fortran code, 
 the open age group must be included in input vectors, even though it is not included in calcs. 
@@ -74,7 +73,5 @@ ADM(lx1,lx2, 0:110)
 ADM(lx1,lx2,0:110,ageMax = 80)
 }
 \references{
-Eduardo Arriaga, Patricia Anderson, Larry Heligman (1976). Computer programs for demographic analysis
-Washington : U.S. Dept. of Commerce, Bureau of the Census, International Statistical Programs
-Center.
+\insertRef{arriaga1976}{DemoTools}
 }
