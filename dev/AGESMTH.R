@@ -36,6 +36,8 @@
 #' popAgeSmth(MalePop, Ages, "UN", SplitU5 = FALSE)
 #' popAgeSmth(underOnePop, Ages2, Method="Strong", SplitU5 = TRUE)
 
+# TR: SplitU5 can be superceded by detection from Age vector.
+# see is.abridged()
 popAgeSmth <- function(
 		Value, 
 		Age, 
