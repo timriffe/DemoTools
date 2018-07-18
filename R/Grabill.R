@@ -112,7 +112,7 @@ grabillExpand <- function(popmat, OAG = TRUE){
 #' 
 #' @param popmat numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 
 #' margins (age in rows and year in columns). 
-#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.
+#' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.
 #' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
 #' @details  Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
 #' work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages.

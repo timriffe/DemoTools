@@ -2,19 +2,19 @@
 % Please edit documentation in R/MAV.R
 \name{mav}
 \alias{mav}
-\title{calculate the moving average (mav) over 3 or 5 years}
+\title{Calculate the moving average (mav) over 3 or 5 years.}
 \usage{
 mav(Value, nyears, Age)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in single age groups.}
 
-\item{nyears}{numeric. A single number, (3 or 5), indicating the number of years taken to smooth the population distribution by single ages.}
+\item{nyears}{integer. A single number, (3 or 5), indicating the number of years taken to smooth the population distribution by single ages.}
 
-\item{Age}{integer lower age bounds}
+\item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts.}
 }
 \value{
-a named vector with the smoothed values
+Vector with the smoothed demographic counts.
 }
 \description{
 This arithmetic smoothing aims to eliminate irregularities of the population pyramid 

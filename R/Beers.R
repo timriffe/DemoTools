@@ -1,5 +1,4 @@
 
-
 ###############################################################################
 # Based on BeersMSplit.R, whose header was:
 ########################################################################
@@ -180,14 +179,14 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' The ordinary modified Beers splitting methods
 #' 
 #' @description This method offers both ordinary and modified Beers splitting, 
-#' with an optional DAPPS adjustment \code{johnson} for ages under 10.
+#' with an optional \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} adjustment \code{johnson} for ages under 10.
 #' 
 #' @param popmat numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 
 #' margins (age in rows and year in columns). 
 #' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.
 #' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
 #' @param method character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}. 
-#' @param johnson  logical. Whether or not to adjust young ages according to the DAPPS method. Default \code{FALSE}.
+#' @param johnson  logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default \code{FALSE}.
 #' @param Age0 numeric. If doing the \code{johnson} adjustment, we need a separate estimate of age 0. Taken from \code{popmat} if missing. 
 #' @details Ages should refer to lower age bounds. 
 #' The rows of \code{popmat} must be labelled with ages unless \code{Age} is given separately.

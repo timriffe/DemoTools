@@ -17,7 +17,7 @@ survRatioError(pop1, pop2, Age, date1, date2, exprior)
 
 \item{date2}{date. Date of the second census. See details for ways to express it.}
 
-\item{exprior}{numeric. Vector of remaining life expectancy for same population and time but from a different source.}
+\item{exprior}{numeric. Vector of remaining life expectancy (not e(0), see details) for same population and time but from a different source.}
 }
 \value{
 The median absolute percent error of the census survival remaining life expectancy vector compared with the external remaining life expectancy estimate (\code{exprior}).
@@ -30,7 +30,8 @@ This function family implements the spreadsheets from the UN repository
 The lengths of \code{pop1} and \code{pop2} should match. We assume that the last age group is open, and throw it out. 
 If your last age group is not open and you want to keep it, append an element, such as \code{NA} to the end of your vectors. 
 Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, 
-or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
+or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. Value for life expectancy at birth e(0) in \code{exprior} 
+should be set to \code{NA}.
 }
 \examples{
 # Based on Feeney's spreadsheets CENSUR~1.XLS, CENSUR~2.XLS, and CENSUR~3.XLS
@@ -83,4 +84,8 @@ survRatioError(
 		date1 = date1960fake,
 		date2 = date1970,
 		exprior = ex1)# 1.067818
+}
+\references{
+\insertRef{united1955manual}{DemoTools}
+\insertRef{united1983manual}{DemoTools}
 }

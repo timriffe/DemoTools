@@ -2,20 +2,23 @@
 % Please edit documentation in R/LTidentities.R
 \name{qxax2mx}
 \alias{qxax2mx}
-\title{derive nMx from nqx and nax}
+\title{Derive nMx from nqx and nax.}
 \usage{
 qxax2mx(nqx, nax, AgeInt = inferAgeIntAbr(vec = nqx))
 }
 \arguments{
-\item{nqx}{numeric vector. Age specific death probabilities.}
+\item{nqx}{numeric. Vector of age specific death probabilities.}
 
-\item{nax}{numeric vector. Average time spent in interval by those dying in interval}
+\item{nax}{numeric. Vector of average time spent in interval by those dying in interval.}
 
-\item{AgeInt}{integer width of each age interval}
+\item{AgeInt}{integer. Vector of age class widths.}
 }
 \value{
 nMx vector of age specific death rates derived via identity.
 }
 \description{
-This is the common ax-qx-mx identity as found in any demography text.
+This is the standard identity to derive nMx from nax and nqx.
+}
+\references{
+\insertRef{preston2000demography}{DemoTools}
 }

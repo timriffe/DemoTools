@@ -2,30 +2,33 @@
 # Author: tim
 ###############################################################################
 
-#' calculate an abridged-age lifetable
-#' @description Given vectors for Deaths and Exposures, or Mx, or qx, or lx, calculate a full abridged lifetable
+#' Calculate an abridged-age lifetable.
+#' @description Given vectors for Deaths and Exposures, or Mx, or qx, or lx, calculate a full abridged lifetable.
 #' 
-#' @details The main variations here are in the treatment of nAx. In all cases, the lifetable is extended and clsoed out using the method of Mortpak (Abacus version). For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 100 in the present implementation. The ax method beyond and including the original open age group in the data follows the Mortpak (UN) method only.
+#' @details The main variations here are in the treatment of nAx. In all cases, the lifetable is extended and closed out 
+#' using the method of Mortpak (Abacus version). 
+#' For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 100 in the present implementation.
+#' The ax method beyond and including the original open age group in the data follows the Mortpak (UN) method only.
 #' 
-#' @param Deaths numeric vector of death counts in abridged age classes.
-#' @param Exposures numeric vector of population exposures in abridged age classes.
-#' @param nMx numeric vector of mortality rates in abridged age classes.
-#' @param nqx numeric vector of conditional death probabilities in abridged age classes.
-#' @param lx numeric vector of lifetable survivorship at abridged ages.
-#' @param Age integer vector of age class lower bounds
-#' @param AgeInt integer vector of age class widths (default \code{inferAgeIntAbr(Age = Age)} )
-#' @param radix numeric (probably integer). Lifetable radix, \eqn{l_0} (default 100000).
+#' @param Deaths numeric. Vector of death counts in abridged age classes.
+#' @param Exposures numeric. Vector of population exposures in abridged age classes.
+#' @param nMx numeric. Vector of mortality rates in abridged age classes.
+#' @param nqx numeric. Vector of conditional death probabilities in abridged age classes.
+#' @param lx numeric. Vector of lifetable survivorship at abridged ages.
+#' @param Age integer. A vector of ages of the lower integer bound of the age classes.
+#' @param AgeInt integer. Vector of age class widths. Ddefault \code{inferAgeIntAbr(Age = Age)}.
+#' @param radix numeric. Lifetable radix, \ifelse{html}{\out{l<sub>0}}{\eqn{l_0}}. Default 100000.
 #' @param axmethod character. Either \code{"pas"} or \code{"un"}. 
-#' @param Sex character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}   
-#' @param region character North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"} (default code{"w"})
-#' @param IMR numeric. Default NA. Infant mortality rate (q0), in case available and \code{nqx} is not specified.
-#' @param mod logical (default \code{TRUE}). if \code{"un"} specified for \code{axmethod}, do we wish to use Patrick Gerland's modification for ages 5-14?
-#' @param OAnew desired open age group (5-yr ages only). Defaults to \code{max(Age)}.
+#' @param Sex character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}.   
+#' @param region character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.
+#' @param IMR numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.
+#' @param mod logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Patrick Gerland's modification for ages 5-14. Default \code{TRUE}.
+#' @param OAnew integer. Desired open age group (5-year ages only). Default \code{max(Age)}.
 #' @export
-#' @return data.frame with columns
+#' @return Lifetable in data.frame with columns
 #' \itemize{
-#'   \item{Age}{integer. Lower. bound of abridged age class},
-#'   \item{AgeInt}{integer. Age class interval width.}
+#'   \item{Age}{integer. Lower bound of abridged age class},
+#'   \item{AgeInt}{integer. Age class widths.}
 #'   \item{nMx}{numeric. Age-specific central death rates.} 
 #'   \item{nAx}{numeric. Average time spent in interval by those deceased in interval. } 
 #'   \item{nqx}{numeric. Age-specific conditional death probabilities.} 
@@ -40,6 +43,7 @@
 #' \insertRef{un1982model}{DemoTools}
 #' \insertRef{arriaga1994population}{DemoTools}
 #' \insertRef{mortpak1988}{DemoTools}
+#' \insertRef{PAS}{DemoTools}
 #' 
 #' @examples
 #' # trial code from PAS LTPOPDTH, North, Males, IMR = .1

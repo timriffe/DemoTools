@@ -2,46 +2,46 @@
 % Please edit documentation in R/LTPOPDTH.R
 \name{LTabr}
 \alias{LTabr}
-\title{calculate an abridged-age lifetable}
+\title{Calculate an abridged-age lifetable.}
 \usage{
 LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = inferAgeIntAbr(Age =
   Age), radix = 1e+05, axmethod = "pas", Sex = "m", region = "w",
   IMR = NA, mod = TRUE, OAnew = max(Age))
 }
 \arguments{
-\item{Deaths}{numeric vector of death counts in abridged age classes.}
+\item{Deaths}{numeric. Vector of death counts in abridged age classes.}
 
-\item{Exposures}{numeric vector of population exposures in abridged age classes.}
+\item{Exposures}{numeric. Vector of population exposures in abridged age classes.}
 
-\item{nMx}{numeric vector of mortality rates in abridged age classes.}
+\item{nMx}{numeric. Vector of mortality rates in abridged age classes.}
 
-\item{nqx}{numeric vector of conditional death probabilities in abridged age classes.}
+\item{nqx}{numeric. Vector of conditional death probabilities in abridged age classes.}
 
-\item{lx}{numeric vector of lifetable survivorship at abridged ages.}
+\item{lx}{numeric. Vector of lifetable survivorship at abridged ages.}
 
-\item{Age}{integer vector of age class lower bounds}
+\item{Age}{integer. A vector of ages of the lower integer bound of the age classes.}
 
-\item{AgeInt}{integer vector of age class widths (default \code{inferAgeIntAbr(Age = Age)} )}
+\item{AgeInt}{integer. Vector of age class widths. Ddefault \code{inferAgeIntAbr(Age = Age)}.}
 
-\item{radix}{numeric (probably integer). Lifetable radix, \eqn{l_0} (default 100000).}
+\item{radix}{numeric. Lifetable radix, \ifelse{html}{\out{l<sub>0}}{\eqn{l_0}}. Default 100000.}
 
 \item{axmethod}{character. Either \code{"pas"} or \code{"un"}.}
 
-\item{Sex}{character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}}
+\item{Sex}{character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}.}
 
-\item{region}{character North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"} (default code{"w"})}
+\item{region}{character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.}
 
-\item{IMR}{numeric. Default NA. Infant mortality rate (q0), in case available and \code{nqx} is not specified.}
+\item{IMR}{numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.}
 
-\item{mod}{logical (default \code{TRUE}). if \code{"un"} specified for \code{axmethod}, do we wish to use Patrick Gerland's modification for ages 5-14?}
+\item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Patrick Gerland's modification for ages 5-14. Default \code{TRUE}.}
 
-\item{OAnew}{desired open age group (5-yr ages only). Defaults to \code{max(Age)}.}
+\item{OAnew}{integer. Desired open age group (5-year ages only). Default \code{max(Age)}.}
 }
 \value{
-data.frame with columns
+Lifetable in data.frame with columns
 \itemize{
-  \item{Age}{integer. Lower. bound of abridged age class},
-  \item{AgeInt}{integer. Age class interval width.}
+  \item{Age}{integer. Lower bound of abridged age class},
+  \item{AgeInt}{integer. Age class widths.}
   \item{nMx}{numeric. Age-specific central death rates.} 
   \item{nAx}{numeric. Average time spent in interval by those deceased in interval. } 
   \item{nqx}{numeric. Age-specific conditional death probabilities.} 
@@ -53,10 +53,13 @@ data.frame with columns
 }
 }
 \description{
-Given vectors for Deaths and Exposures, or Mx, or qx, or lx, calculate a full abridged lifetable
+Given vectors for Deaths and Exposures, or Mx, or qx, or lx, calculate a full abridged lifetable.
 }
 \details{
-The main variations here are in the treatment of nAx. In all cases, the lifetable is extended and clsoed out using the method of Mortpak (Abacus version). For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 100 in the present implementation. The ax method beyond and including the original open age group in the data follows the Mortpak (UN) method only.
+The main variations here are in the treatment of nAx. In all cases, the lifetable is extended and closed out 
+using the method of Mortpak (Abacus version). 
+For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 100 in the present implementation.
+The ax method beyond and including the original open age group in the data follows the Mortpak (UN) method only.
 }
 \examples{
 # trial code from PAS LTPOPDTH, North, Males, IMR = .1
@@ -173,4 +176,5 @@ stopifnot(abs(MP_UNLT80$ex - MP_UNLT100$ex[1:18]) < 1e-12)
 \insertRef{un1982model}{DemoTools}
 \insertRef{arriaga1994population}{DemoTools}
 \insertRef{mortpak1988}{DemoTools}
+\insertRef{PAS}{DemoTools}
 }

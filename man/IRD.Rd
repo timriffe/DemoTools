@@ -16,8 +16,7 @@ The value of the index ranging from 0 to infinity.
 }
 \description{
 Calculate the relative percent difference between two population structures. A returned 
-value of zero means that the two population have identical structure. A value of 100 means
-that the populations have no overlap at all (not likely for populations structured only by age).
+value of zero means that the two population have identical structure.
 }
 \details{
 Input populations are assumed to be ordered in the same way prior to calling the function. 
