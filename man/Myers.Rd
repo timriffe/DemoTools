@@ -16,7 +16,7 @@ Myers(Value, Age, ageMin = 10, ageMax = 90)
 \item{ageMax}{integer. The upper age bound used for calculations. Default 90.}
 }
 \value{
-the index value
+The value of the index.
 }
 \description{
 Implementation following the PASEX spreadsheet SINGAGE. Myers' measures preferences for each of the ten possible digits
@@ -47,4 +47,5 @@ Myers(Value, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
 \references{
 \insertRef{myers1954accuracy}{DemoTools}
 \insertRef{spoorenberg2007quality}{DemoTools}
+\insertRef{PAS}{DemoTools}
 }

@@ -2,17 +2,17 @@
 % Please edit documentation in R/IRDID.R
 \name{ID}
 \alias{ID}
-\title{index of dissimilarity}
+\title{Index of dissimilarity}
 \usage{
 ID(pop1, pop2)
 }
 \arguments{
-\item{pop1}{numeric vector of counts from population 1}
+\item{pop1}{numeric. Vector of counts from population 1.}
 
-\item{pop2}{numeric vector of counts from population 2}
+\item{pop2}{numeric. Vector of counts from population 2.}
 }
 \value{
-an index value ranging from 0 to 100.
+The value of the index ranging from 0 to infinity..
 }
 \description{
 Calculate the index of dissimilarity between two population structures. A returned 
@@ -21,9 +21,8 @@ that the populations have no overlap at all (not likely for populations structur
 This is a simple measure of distribution overlap on the absolute scale.
 }
 \details{
-We assume that the populations are ordered in the same way and 
-that said ordering happens before this function is called. We only check here that the vectors
-are of the same length. The input arguments could indeed be popualtions structured on multiple
+Input populations are assumed to be ordered in the same way prior to calling the function. 
+It is only checked  that the vectors are of the same length. The input arguments could indeed be popualtions structured on multiple
 variables (more than just age), as long as they are ordered in the same way.
 }
 \examples{

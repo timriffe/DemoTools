@@ -16,7 +16,7 @@ Spoorenberg(Value, Age, ageMin = 20, ageMax = 65)
 \item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
 }
 \value{
-the index value
+The value of the index.
 }
 \description{
 Using the digit-specific modified Whipple's index, this index summarizes

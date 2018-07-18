@@ -20,7 +20,8 @@
 #' input. This function does not adjust for unknown age groups.
 
 #' @return A vector of the adjusted counts by age.
-#' 
+#' @references 
+#' \insertRef{PAS}{DemoTools}
 #' @export
 #' 
 #' @examples 

@@ -1,23 +1,26 @@
 # Author: tim
 ###############################################################################
-#' census survival estimation
+#' Census survival estimation
 #' 
 #' @description This function family implements the spreadsheets from the UN repository 
 #' "Adult Mortality Estimation Files/countries/JAPAN/CENSUS~1.SUR", prepared by Griffith Feeney ca 2007.
 #' 
-#' @param pop1 numeric vector population counts of census 1
-#' @param pop2 numeric vector population counts of census 2
-#' @param Age an integer vector of the lower bound of each age group.
-#' @param date1 the date of the first census. See details for ways to express it.
-#' @param date2 the date of the second census. See details for ways to express it.
-#' @param exprior numeric vector of remaining life expectancy for same population and time but from a different source
+#' @param pop1 numeric. Vector of population counts in 5-year age groups of census 1.
+#' @param pop2 numeric. Vector of population counts in 5-year age groups of census 2.
+#' @param Age numeric. Vector of ages corresponding to the lower integer bound of the counts.
+#' @param date1 date. Date of the first census. See details for ways to express it.
+#' @param date2 date. Date of the second census. See details for ways to express it.
+#' @param exprior numeric. Vector of remaining life expectancy for same population and time but from a different source.
 
-#' @details Ages must be in five-year age groups, not abridged. The lengths of \code{pop1} and \code{pop2} should also match. We assume that the last age group is open, and throw it out. If your last age group is not open and you want to keep it, append an element, such as \code{NA} to the end of your vectors. Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. 
-#' @return the median absolute percent error of the census survival remaining life expectancy vector compared with the external remaining life expectancy estimate (\code{exprior}).
+#' @details The lengths of \code{pop1} and \code{pop2} should match. We assume that the last age group is open, and throw it out. 
+#' If your last age group is not open and you want to keep it, append an element, such as \code{NA} to the end of your vectors. 
+#' Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, 
+#' or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
+#' @return The median absolute percent error of the census survival remaining life expectancy vector compared with the external remaining life expectancy estimate (\code{exprior}).
 #' @export
 #' @importFrom stats median
 #' @examples
-#'# based on Feeney's spreadsheets CENSUR~1.XLS, CENSUR~2.XLS, and CENSUR~3.XLS
+#'# Based on Feeney's spreadsheets CENSUR~1.XLS, CENSUR~2.XLS, and CENSUR~3.XLS
 #'# this is census data from Japan
 #' 
 #' # create a bunch of data to show the three variants.
@@ -67,13 +70,14 @@
 #' 		date1 = date1960fake,
 #' 		date2 = date1970,
 #' 		exprior = ex1)# 1.067818
-#' # result matches CENSUR~2 exactly if you change the 
-#' # decimal dates used in the spreadsheet to the following
-#' print(dec.date(date1960fake),digits=15)
-#' # can't call up the synthetic method on the original dates
-#' # because it gets automatically directed to the cleaner 10-year
-#' # staggered method, which is preferred.
-#' 
+
+# result matches CENSUR~2 exactly if you change the
+# decimal dates used in the spreadsheet to the following
+# print(dec.date(date1960fake),digits=15)
+# can't call up the synthetic method on the original dates
+# because it gets automatically directed to the cleaner 10-year
+# staggered method, which is preferred.
+
 survRatioError <- function(pop1, pop2, Age, date1, date2, exprior){
 	stopifnot(all.equal(length(pop1),length(pop2),length(Age)))
 	
@@ -125,18 +129,18 @@ survRatioError <- function(pop1, pop2, Age, date1, date2, exprior){
 	median(abserror, na.rm = TRUE)
 }
 
-#' estimate survival curve from censuses spaced 5 years apart
+#' Estimate survival curve from censuses spaced 10 years apart.
 #' 
-#' @description This simple function reproduces calculations through column H of \code{CENSUR~1.XLS} by 
-#' Griff Feeney. We assume censuses spaced 10 years apart and population counts for both censuses in 5-year age groups. 
-#' The staggered ratio of these is like the lifetable px (1-qx). The cumulative product of this then spits back something 
-#' we can use to approximate lx.  
+#' @description This function reproduces calculations through column H of \code{CENSUR~1.XLS} by 
+#' Griff Feeney. Censuses are assumed to be spaced 10 years apart and population counts for both censuses in 5-year age groups. 
+#' The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. 
+#' The cumulative product of this approximates the survival function lx.  
 #' 
-#' @param pop1 numeric vector population counts of census 1
-#' @param pop2 numeric vector population counts of census 2
-#' @return lx numeric vector of surivorship (radix 1)
-#' @details Checking for census spacing of 10 years must happen prrior to this function. 
-#' Also, we assume the open age group has already been trimmed off. No checking done here at all.
+#' @param pop1 numeric. Vector of population counts in 5-year age groups of census 1.
+#' @param pop2 numeric. Vector of population counts in 5-year age groups of census 2.
+#' @return Survival function lx as a numeric vector with radix 1.
+#' @details Checking for census spacing of 10 years must happen prior to this function. 
+#' Also, we assume the open age group has already been trimmed off.
 #' @export
 
 #' @examples
@@ -170,18 +174,18 @@ surv10 <- function(pop1, pop2){
 	lx[1:N]
 }
 
-#' estimate survival curve from censuses spaced 5 years apart
+#' Estimate survival curve from censuses spaced 5 years apart.
 #' 
-#' @description This simple function reproduces calculations through column F of \code{CENSUR~3.XLS} 
-#' by Griff Feeney. We assume censuses spaced 5 years apart and population counts for both censuses in 5-year age groups. 
-#' The staggered ratio of these is like the lifetable px (1-qx). The cumulative product of this then spits back something 
-#' we can use to approximate lx.  
+#' @description This function reproduces calculations of \code{CENSUR~3.XLS} by 
+#' Griff Feeney. Censuses are assumed to be spaced 5 years apart and population counts for both censuses in 5-year age groups. 
+#' The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. 
+#' The cumulative product of this approximates the survival function lx.  
 #' 
-#' @param pop1 numeric vector population counts of census 1
-#' @param pop2 numeric vector population counts of census 2
-#' @return lx numeric vector of surivorship (radix 1)
-#' @details Checking for census spacing of 5 years must happen prrior to this function. 
-#' Also, we assume the open age group has already been trimmed off. No checking done here at all.
+#' @param pop1 numeric. Vector of population counts in 5-year age groups of census 1.
+#' @param pop2 numeric. Vector of population counts in 5-year age groups of census 2.
+#' @return Survival function lx as a numeric vector with radix 1.
+#' @details Checking for census spacing of 5 years must happen prior to this function. 
+#' Also, we assume the open age group has already been trimmed off.
 #' @export
 
 #' @examples
@@ -199,22 +203,28 @@ surv5 <- function(pop1, pop2){
 	lx
 }
 
-#' estimate survival curve from censuses spaced N years apart
+#' Estimate survival curve from censuses spaced N years apart.
 #' 
-#' @description This simple function reproduces calculations through column H of \code{CENSUR~2.XLS} 
-#' by Griff Feeney. We have censuses spaced an arbitrary N years apart and population counts for 
-#' both censuses in 5-year age groups. 
-#' @param pop1 numeric vector population counts of census 1
-#' @param pop2 numeric vector population counts of census 2
-#' @param interval a numeric value, annualized intercensal period.
-#' @return lx numeric vector of surivorship (radix 1)
-#' @details We assume the open age group has already been trimmed off. No checking done here at all. 
+#' @description This function reproduces calculations of \code{CENSUR~2.XLS} by 
+#' Griff Feeney. Censuses are assumed to be spaced N years apart and population counts for both censuses in 5-year age groups. 
+#' The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. 
+#' The cumulative product of this approximates the survival function lx.  
+#' 
+#' @param pop1 numeric. Vector of population counts in 5-year age groups of census 1.
+#' @param pop2 numeric. Vector of population counts in 5-year age groups of census 2.
+#' @param interval numeric. Length of the inter-censal period.
+#' 
+#' @return Survival function lx as a numeric vector with radix 1.
+#' @details Checking for census spacing of N years must happen prior to this function. 
+#' Also, we assume the open age group has already been trimmed off.
+#' @export
+#' @details We assume the open age group has already been trimmed off. 
 #' The time interval N must be measured as a decimal in advance
 #' and specified. This method uses a synthetic approximation of person-years lived in each age interval
 #' over the intercensal period and then a second approximation based on age-specific growth rates to 
 #' produce an estimate of lifetable px. This value of px is not bounded to [0,1], and therefore the 
 #' resulting lx approximation is not strictly positive or monotonically non-increasing, 
-#' so downstream usage of this result is limited. For example, you wouldn't want to use it in the 
+#' so downstream usage of this result is limited. For example, is not advisable to use it in the 
 #' standard way to derive the lifetable dx.
 #' 
 #' @export

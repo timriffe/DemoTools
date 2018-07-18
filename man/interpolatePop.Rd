@@ -46,6 +46,9 @@ DesiredDate     <- "1990-07-01"
 interpolatePop(EarlyPop, LaterPop, EarlyDate, LaterDate, DesiredDate)
 interpolatePop(EarlyPop, LaterPop, EarlyDate, LaterDate, DesiredDate, method = "exponential")
 }
+\references{
+\insertRef{PAS}{DemoTools}
+}
 \author{
 Sean Fennel
 }

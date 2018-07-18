@@ -2,27 +2,27 @@
 % Please edit documentation in R/CENSUR.R
 \name{surv5}
 \alias{surv5}
-\title{estimate survival curve from censuses spaced 5 years apart}
+\title{Estimate survival curve from censuses spaced 5 years apart.}
 \usage{
 surv5(pop1, pop2)
 }
 \arguments{
-\item{pop1}{numeric vector population counts of census 1}
+\item{pop1}{numeric. Vector of population counts in 5-year age groups of census 1.}
 
-\item{pop2}{numeric vector population counts of census 2}
+\item{pop2}{numeric. Vector of population counts in 5-year age groups of census 2.}
 }
 \value{
-lx numeric vector of surivorship (radix 1)
+Survival function lx as a numeric vector with radix 1.
 }
 \description{
-This simple function reproduces calculations through column F of \code{CENSUR~3.XLS} 
-by Griff Feeney. We assume censuses spaced 5 years apart and population counts for both censuses in 5-year age groups. 
-The staggered ratio of these is like the lifetable px (1-qx). The cumulative product of this then spits back something 
-we can use to approximate lx.
+This function reproduces calculations of \code{CENSUR~3.XLS} by 
+Griff Feeney. Censuses are assumed to be spaced 5 years apart and population counts for both censuses in 5-year age groups. 
+The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. 
+The cumulative product of this approximates the survival function lx.
 }
 \details{
-Checking for census spacing of 5 years must happen prrior to this function. 
-Also, we assume the open age group has already been trimmed off. No checking done here at all.
+Checking for census spacing of 5 years must happen prior to this function. 
+Also, we assume the open age group has already been trimmed off.
 }
 \examples{
 # 1965 vs 1970 pops

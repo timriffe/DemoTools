@@ -2,29 +2,28 @@
 % Please edit documentation in R/Grabill.R
 \name{grabill}
 \alias{grabill}
-\title{the basic Grabill age-splitting method}
+\title{The basic Grabill age-splitting method}
 \usage{
 grabill(popmat, Age, OAG = TRUE)
 }
 \arguments{
-\item{popmat}{a numeric matrix of population counts in 5-year age groups, with integer-labeled 
+\item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 
 margins (age in rows and year in columns).}
 
-\item{Age}{integer vector lower age bound of age groups}
+\item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.}
 
-\item{OAG}{logical (default \code{TRUE}. Is the final age group open?}
+\item{OAG}{logical. Whether or not the final age group open. Default \code{TRUE}.}
 }
 \value{
-an age-period matrix od split population counts with the same number of 
+An age-period matrix of split population counts with the same number of 
 columns as \code{popmat}, and single ages in rows.
 }
 \description{
-This method uses Grabill's aggressive redistribution of middle ages and blends into
+This method uses Grabill's redistribution of middle ages and blends into
 Sprague estimated single-age population counts for the first and final ten ages. Open age groups
 are preserved, as are annual totals.
 }
 \details{
-Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
 Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
 work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages.
 }

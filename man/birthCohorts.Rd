@@ -2,21 +2,21 @@
 % Please edit documentation in R/GRPOPYB.R
 \name{birthCohorts}
 \alias{birthCohorts}
-\title{create the historical birth cohorts for a census}
+\title{Create the historical birth cohorts for a census.}
 \usage{
 birthCohorts(Value, Age, CensusDate, cohortSize = 5)
 }
 \arguments{
-\item{Value}{numeric vector of demographic population counts.}
+\item{Value}{numeric. A vector of demographic population counts by age.}
 
-\item{Age}{integer vector of ages corresponding to the lower integer bound of the age range.}
+\item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{CensusDate}{the date of the first census. See details for ways to express it.}
+\item{CensusDate}{date . The date of the first census. See details for ways to express it.}
 
 \item{cohortSize}{integer. The length of time (years) surrounding each output birth cohort. Default 5.}
 }
 \value{
-a data frame with a decimal date corresponding to the midpoint of the birth cohort and resulting population counts.
+A data frame with a decimal date corresponding to the midpoint of the birth cohort and resulting population counts.
 }
 \description{
 The birth cohorts for a census represent the population born during a set interval
@@ -26,11 +26,11 @@ This is generalized from the PAS spreadsheet called GRPOP-YB.
 \details{
 Age groups must be of equal intervals. No specific age structure is assumed for the census. Births
 are assumed to happen uniformly over the cohorts' intervals. The final age group is assumed to be the same
-size as all the other age groups. If the cohortSize does not divide evenly into the largest age in the data,
+size as all the other age groups. If \code{cohortSize} does not divide evenly into the largest age in the data,
 any additional (higher) ages needed are set as zero. For example, if cohortSize is 7 and the largest age is 90,
-then age 91 (necessary for the matrix sum) is set as zero. Dates can be given in three ways 1) a 
-\code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 
-3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
+then age 91 (necessary for the matrix sum) is set as zero. Dates can be given in three ways 1) a \code{Date} class object,
+ 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, 
+or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
 }
 \examples{
 Males      <- c(18052, 16523, 15555, 12063, 9654, 9256, 10058, 10035, 9785, 9025,
@@ -42,4 +42,7 @@ CensusDate       <- 1950.25
 birthCohorts(Males, Age, CensusDate)
 birthCohorts(Females, Age, CensusDate)
 birthCohorts(Females, Age, CensusDate, cohortSize = 10)
+}
+\references{
+\insertRef{PAS}{DemoTools}
 }

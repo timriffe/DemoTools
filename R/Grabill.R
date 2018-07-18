@@ -1,15 +1,15 @@
-#' create the Grabill coefficient matrix 
+#' Create the Grabill coefficient matrix.
 #' 
 #' @description The resulting coefficient matrix is based on the number of rows in \code{popmat}
 #' where we assume that each row of data is a 5-year age group and the final row is an open age group
 #' to be preserved as such.
 #' 
-#' @param popmat numeric matrix of age-period population counts in 5-year age groups
-#' @param OAG logical (default \code{TRUE}. Is the final age group open?
+#' @param popmat numeric. Matrix of age-period population counts in 5-year age groups.
+#' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
 #' 
 #' @details The \code{popmat} matrix is really just a placeholder in this case. This function is 
 #' a utility called by the Grabill family of functions, where it is most convenient to just pass
-#' in the same matrix being used in those calcs to determine the layout of the coefficient matrix.
+#' in the same matrix being used in those calculations to determine the layout of the coefficient matrix.
 #' Note that these coefficients do not constrain population counts to their year totals. This function 
 #' is called by \code{grabill()}, which ensures matching marginals by 1) blending boundary ages 
 #' into the Sprague estimated population, and 2) a second constraint on the middle age groups to enforce
@@ -104,21 +104,20 @@ grabillExpand <- function(popmat, OAG = TRUE){
 	gm
 }
 
-#' the basic Grabill age-splitting method
+#' The basic Grabill age-splitting method
 #' 
-#' @description This method uses Grabill's aggressive redistribution of middle ages and blends into
+#' @description This method uses Grabill's redistribution of middle ages and blends into
 #' Sprague estimated single-age population counts for the first and final ten ages. Open age groups
 #' are preserved, as are annual totals.
 #' 
-#' @param popmat a numeric matrix of population counts in 5-year age groups, with integer-labeled 
-#' margins (age in rows and year in columns).
-#' @param Age integer vector lower age bound of age groups
-#' @param OAG logical (default \code{TRUE}. Is the final age group open?
-#' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
-#' Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
+#' @param popmat numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 
+#' margins (age in rows and year in columns). 
+#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.
+#' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
+#' @details  Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
 #' work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages.
 #' 
-#' @return an age-period matrix od split population counts with the same number of 
+#' @return An age-period matrix of split population counts with the same number of 
 #' columns as \code{popmat}, and single ages in rows.
 #' 
 #' @references 

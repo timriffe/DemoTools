@@ -2,14 +2,14 @@
 % Please edit documentation in R/Grabill.R
 \name{grabillExpand}
 \alias{grabillExpand}
-\title{create the Grabill coefficient matrix}
+\title{Create the Grabill coefficient matrix.}
 \usage{
 grabillExpand(popmat, OAG = TRUE)
 }
 \arguments{
-\item{popmat}{numeric matrix of age-period population counts in 5-year age groups}
+\item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups.}
 
-\item{OAG}{logical (default \code{TRUE}. Is the final age group open?}
+\item{OAG}{logical. Whether or not the final age group open. Default \code{TRUE}.}
 }
 \description{
 The resulting coefficient matrix is based on the number of rows in \code{popmat}
@@ -19,7 +19,7 @@ to be preserved as such.
 \details{
 The \code{popmat} matrix is really just a placeholder in this case. This function is 
 a utility called by the Grabill family of functions, where it is most convenient to just pass
-in the same matrix being used in those calcs to determine the layout of the coefficient matrix.
+in the same matrix being used in those calculations to determine the layout of the coefficient matrix.
 Note that these coefficients do not constrain population counts to their year totals. This function 
 is called by \code{grabill()}, which ensures matching marginals by 1) blending boundary ages 
 into the Sprague estimated population, and 2) a second constraint on the middle age groups to enforce

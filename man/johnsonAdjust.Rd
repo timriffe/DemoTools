@@ -2,19 +2,19 @@
 % Please edit documentation in R/Beers.R
 \name{johnsonAdjust}
 \alias{johnsonAdjust}
-\title{adjust ages under 10 using a modification of Beers}
+\title{Adjust ages under 10 using a modification of Beers}
 \usage{
 johnsonAdjust(Age0, pop5, pop1)
 }
 \arguments{
-\item{Age0}{numeric an estimate of age 0}
+\item{Age0}{numeric. An estimate of age 0.}
 
-\item{pop5}{numeric matrix population in 5-year age groups}
+\item{pop5}{numeric. Matrix of age-period population counts in 5-year age groups.}
 
-\item{pop1}{numeric matrix population split using Beers ordinary (or some other) method}
+\item{pop1}{numeric. Matrix of age-period population using Beers ordinary (or some other) method.}
 }
 \value{
-numeric matrix of single age population estimates
+A matrix of single age population estimates.
 }
 \description{
 Assuming we have an external estimate of age 0, this method

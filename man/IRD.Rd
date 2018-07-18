@@ -2,17 +2,17 @@
 % Please edit documentation in R/IRDID.R
 \name{IRD}
 \alias{IRD}
-\title{index of relative difference}
+\title{Index of relative difference.}
 \usage{
 IRD(pop1, pop2)
 }
 \arguments{
-\item{pop1}{numeric vector of counts from population 1}
+\item{pop1}{numeric. Vector of counts from population 1.}
 
-\item{pop2}{numeric vector of counts from population 2}
+\item{pop2}{numeric. Vector of counts from population 2.}
 }
 \value{
-an index value ranging from 0 to infinity.
+The value of the index ranging from 0 to infinity.
 }
 \description{
 Calculate the relative percent difference between two population structures. A returned 
@@ -20,9 +20,8 @@ value of zero means that the two population have identical structure. A value of
 that the populations have no overlap at all (not likely for populations structured only by age).
 }
 \details{
-We assume that the populations are ordered in the same way and 
-that said ordering happens before this function is called. We only check here that the vectors
-are of the same length. The input arguments could indeed be popualtions structured on multiple
+Input populations are assumed to be ordered in the same way prior to calling the function. 
+It is only checked  that the vectors are of the same length. The input arguments could indeed be popualtions structured on multiple
 variables (more than just age), as long as they are ordered in the same way. It is advised to lower 
 the open age group for this method because each age has the same weight. Ages where one population 
 has a zero count and the other does not are thrown out.

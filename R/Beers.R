@@ -12,19 +12,19 @@
 ########################################################################
 
 
-#' create the Beers ordinary or modified coefficient matrix 
+#' Create the Beers ordinary or modified coefficient matrix 
 #' 
 #' @description The resulting coefficient matrix is based on the number of rows in \code{popmat}
 #' which must be in 5-year age groups (not abridged). The final row may be an open 
 #' or closed age group, as indicated by the \code{OAG} argument.
 #' 
-#' @param popmat numeric matrix of age-period population counts in 5-year age groups
-#' @param OAG logical (default \code{TRUE}. Is the final age group open?
-#' @param method character (default \code{"mod"}. Valid values are \code{"mod"} or \code{"ord"}.
+#' @param popmat numeric. Matrix of age-period population counts in 5-year age groups.
+#' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
+#' @param method character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}. 
 #' 
 #' @details The \code{popmat} matrix is really just a placeholder in this case. This function is 
 #' a utility called by the Beers family of functions, where it is most convenient to just pass
-#' in the same matrix being used in those calcs to determine the layout of the coefficient matrix.
+#' in the same matrix being used in those calculations to determine the layout of the coefficient matrix.
 #' 
 #' @references 
 #' \insertRef{beers1945modified}{DemoTools}
@@ -177,25 +177,25 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 	bm
 }
 
-#' the ordinary modified Beers splitting methods
+#' The ordinary modified Beers splitting methods
 #' 
 #' @description This method offers both ordinary and modified Beers splitting, 
 #' with an optional DAPPS adjustment \code{johnson} for ages under 10.
 #' 
-#' @param popmat a numeric matrix of population counts in 5-year age groups, with integer-labeled 
+#' @param popmat numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 
 #' margins (age in rows and year in columns). 
-#' @param Age integer vector. Lower age bound of age groups. Detected from row names of \code{popmat} if missing.
-#' @param OAG logical (default \code{TRUE}. Is the final age group open?
-#' @param method character (default \code{"mod"}). Options are presently \code{"mod"} and \code{"ord"}.
-#' @param johnson logical (deault \code{FALSE}). Do we want to adjust young ages according to the DAPPS method?
+#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.
+#' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
+#' @param method character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}. 
+#' @param johnson  logical. Whether or not to adjust young ages according to the DAPPS method. Default \code{FALSE}.
 #' @param Age0 numeric. If doing the \code{johnson} adjustment, we need a separate estimate of age 0. Taken from \code{popmat} if missing. 
 #' @details Ages should refer to lower age bounds. 
 #' The rows of \code{popmat} must be labelled with ages unless \code{Age} is given separately.
 #'  There must be at least six 5-year age groups (including the open group, 5 otherwise). One year of data will 
-#' work as well, as long as it's given as a single-column matrix. If you want the \code{johnson} adjustment of young 
+#' work as well, as long as it is given as a single-column matrix. If you want the \code{johnson} adjustment of young 
 #' ages, a separate estimate of \code{Age0} can either be specified directly, or else it is taken from age 0 if \code{popmat} 
 #' is specified in single or standard abridged ages.  
-#' @return an age-period matrix od split population counts with the same number of 
+#' @return An age-period matrix of split population counts with the same number of 
 #' columns as \code{popmat}, and single ages in rows.
 #' @references 
 #' \insertRef{beers1945modified}{DemoTools}
@@ -306,15 +306,16 @@ beersSimple <- function(popmat, Age, OAG = FALSE, method = "mod", johnson = FALS
 	dimnames(pop1)    <- list(ages, colnames(popmat))
 	pop1
 }
-#' adjust ages under 10 using a modification of Beers
+
+#' Adjust ages under 10 using a modification of Beers
 #' @description Assuming we have an external estimate of age 0, this method
 #' refits to the ordinary Beers single age results, remaining constrained to the
 #' original 5-year age groups and smoothly blending into ages greater than 10.
-#' @param Age0 numeric an estimate of age 0
-#' @param pop5 numeric matrix population in 5-year age groups
-#' @param pop1 numeric matrix population split using Beers ordinary (or some other) method
+#' @param Age0 numeric. An estimate of age 0.
+#' @param pop5 numeric. Matrix of age-period population counts in 5-year age groups.
+#' @param pop1 numeric. Matrix of age-period population using Beers ordinary (or some other) method.
 #' 
-#' @return numeric matrix of single age population estimates
+#' @return A matrix of single age population estimates.
 #' @details This has not been tested using \code{pop1} as generated from other methods, such as 
 #' the Beers modified, Sprague, or Grabill methods. Called internally by \code{BeersSimple()}.
 #' @export

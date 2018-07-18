@@ -21,7 +21,7 @@ sexRatioScore(Males, Females, Age, ageMin = 0, ageMax = max(Age),
 \item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
 }
 \value{
-the value of the index
+The value of the index.
 }
 \description{
 A single ratio is defined as males per 100 females.
@@ -46,4 +46,5 @@ stopifnot(round(sexRatioScore(Males, Females, Age, ageMax = 70),3) == 2.249)
 }
 \references{
 \insertRef{accuracyun1952}{DemoTools}
+\insertRef{PAS}{DemoTools}
 }

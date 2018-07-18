@@ -2,23 +2,22 @@
 # Author: tim
 ###############################################################################
 
-#' index of relative difference
+#' Index of relative difference.
 #' 
 #' @description Calculate the relative percent difference between two population structures. A returned 
 #' value of zero means that the two population have identical structure. A value of 100 means
 #' that the populations have no overlap at all (not likely for populations structured only by age).
 #' 
-#' @details We assume that the populations are ordered in the same way and 
-#' that said ordering happens before this function is called. We only check here that the vectors
-#' are of the same length. The input arguments could indeed be popualtions structured on multiple
+#' @param pop1 numeric. Vector of counts from population 1.
+#' @param pop2 numeric. Vector of counts from population 2.
+#' 
+#' @details Input populations are assumed to be ordered in the same way prior to calling the function. 
+#' It is only checked  that the vectors are of the same length. The input arguments could indeed be popualtions structured on multiple
 #' variables (more than just age), as long as they are ordered in the same way. It is advised to lower 
 #' the open age group for this method because each age has the same weight. Ages where one population 
 #' has a zero count and the other does not are thrown out.
-
-#' @param pop1 numeric vector of counts from population 1
-#' @param pop2 numeric vector of counts from population 2
 #' 
-#' @return an index value ranging from 0 to infinity.
+#' @return The value of the index ranging from 0 to infinity.
 #' @export
 #' @examples
 #' pop1 <- c(7.38,14.16,14.79,17.36,15.11,10.14,8.50,7.28,5.28)
@@ -46,24 +45,23 @@ IRD <- function(pop1, pop2){
 	
 }
 
-#' index of dissimilarity
+#' Index of dissimilarity
 #' 
 #' @description Calculate the index of dissimilarity between two population structures. A returned 
 #' value of zero means that the two population have identical structure. A value of 100 means
 #' that the populations have no overlap at all (not likely for populations structured only by age). 
 #' This is a simple measure of distribution overlap on the absolute scale.
 #' 
-#' @details We assume that the populations are ordered in the same way and 
-#' that said ordering happens before this function is called. We only check here that the vectors
-#' are of the same length. The input arguments could indeed be popualtions structured on multiple
+#' @details Input populations are assumed to be ordered in the same way prior to calling the function. 
+#' It is only checked  that the vectors are of the same length. The input arguments could indeed be popualtions structured on multiple
 #' variables (more than just age), as long as they are ordered in the same way.
 #' 
-#' @param pop1 numeric vector of counts from population 1
-#' @param pop2 numeric vector of counts from population 2
+#' @param pop1 numeric. Vector of counts from population 1.
+#' @param pop2 numeric. Vector of counts from population 2.
 #' 
 #' @references 
 #' \insertRef{siegel2004methods}{DemoTools}
-#' @return an index value ranging from 0 to 100.
+#' @return The value of the index ranging from 0 to infinity..
 #' @export
 #' @examples
 #' pop1 <- c(7.38,14.16,14.79,17.36,15.11,10.14,8.50,7.28,5.28)
