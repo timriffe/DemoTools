@@ -5,31 +5,34 @@
 # collected, organized, and standardized here. We have two major versions here:
 # PAS (mostly uniform) and UN (mostly greville-based).
 
-#' Coale-Demeny a0 as function of m0, region, and sex
+#' Coale-Demeny a(0) as function of m(0), region, and sex.
 #' 
-#' @description Coale-Demeny a0 from Manual X Table 164. This is just a rule of thumb. 
+#' @description Coale-Demeny a(0) from Manual X Table 164. This is a rule of thumb. 
 #' In this and some other older texts, a(0) is known as a 'separation factor'.
+#' 
+#' @param M0 numeric. Event exposure infant mortality rate.
+#' @param IMR numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.
+#' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
+#' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
 #' 
 #' @details If sex is given as both, \code{"b"}, then female 
 #' values are taken, per the PAS spreadsheet. This function is not vectorized. 
 #' Formulas for North, South, and West are identical- only East is different. If \code{IMR} is not given,
-#' then \code{M0} is converted to q0 using the following approximation:
-#' \itemize{
-#' \item{find \eqn{alpha , beta} }{ Look up the appropriate slope and intercept for the given sex and region.}
-#' \item{calc \eqn{a} as: }{ \deqn{a = M_0 * beta} }
-#' \item{calc \eqn{b} as: }{ \deqn{b =  1 + M_0 * (1 - alpha)} }
-#' \item{approx \eqn{q_0} as: }{ \deqn{q_0 = \frac{ b - sqrt(b^2 - 4 * a * M_0) }{ 2 * a } } }
-#' }
-#' q0 is then taken as IMR, and applied directly to the Coale-Demeny piecewise linear formula.
+#' then \code{M0} is converted to q(0) using the following approximation:
+#' \enumerate{
+#' \item{Find \eqn{\alpha , \beta}.}{ Look up the appropriate slope and intercept for the given sex and region.}
+#' \item{calculate \eqn{a} as: }{\ifelse{html}{\out{a = M<sub>0</sub> * &beta;}}{\eqn{a = M_0 * \beta}}}
+#' \item{calculate \eqn{b} as: }{\ifelse{html}{\out{b = 1 + M<sub>0</sub> *(1- &alpha;)}}{\eqn{b =  1 + M_0 * (1 - \alpha)}}}
+#' \item{approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} as:}{ \ifelse{html}{\out{q<sub>0</sub> = (b<sup>2</sup>- &radic; [b -4*a*M<sub>0</sub>]) / (2*a)}}{\eqn{q_0 = \frac{ b - sqrt(b^2 - 4 * a * M_0) }{ 2 * a } }}}
+#' \item{use {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} as}{ IMR, and applied directly to the Coale-Demeny piecewise linear formula.}
+#' } 
 #' 
-#' @param M0 numeric. Event exposure infant mortality rate
-#' @param IMR numeric. Optional. q0, the death probability in first year of life, in case available separately.
-#' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
-#' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
+#' @references 
+#' \insertRef{united1983manual}{DemoTools}
+#' \insertRef{PAS}{DemoTools}
 #' 
-#' @return a0 the average age at death in the first year of life.
+#' @return The average age at death in the first year of life a(0).
 #' @export
-#' @references \insertRef{united1983manual}{DemoTools}
 #' @examples
 #' m0 <- seq(.001,.2,by=.001)
 #' \dontrun{
@@ -89,12 +92,13 @@ geta0CD <- function(M0, IMR = NA, Sex = "m", region = "w"){
 	}
 	ifelse(IMR > .1, Age0Const[region, Sex], {Alpha + Beta * IMR})
 }
-# separate estimate of IMR optional
+
+# Separate estimate of IMR optional
 # TR: I think it's funny that a1-4 doesn't depend at all on m1-4
 
-#' Coale-Demeny 4a1 as function of m0, region, and sex
+#' Coale-Demeny 4a1 as function of M(0), region, and sex.
 #' 
-#' @description Coale-Demeny 4a1. This is just a rule of thumb. 
+#' @description Coale-Demeny 4a1. This is a rule of thumb. 
 #' In this and some other older texts, 4a1 is known as a 'separation factor'. These coefficients
 #' were pulled from the PAS spreadsheets \code{LTPOPDTH.XLS} and not located in the original
 #' Manual X.
@@ -103,14 +107,16 @@ geta0CD <- function(M0, IMR = NA, Sex = "m", region = "w"){
 #' values are taken, per the PAS spreadsheet. This function is not vectorized. 
 #' If \code{IMR} is not given, then \code{M0} is used in its stead.
 #' 
-#' @param M0 numeric. Event exposure infant mortality rate
-#' @param IMR numeric. Optional. q0, the death probability in first year of life, in case available separately.
+#' @param M0 numeric. Event exposure infant mortality rate.
+#' @param IMR numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
 #' 
-#' @return a0 the average age at death in the first year of life.
+#' @return The average age at death between ages 1-4, 4a1.
 #' @export
-#' @references \insertRef{united1983manual}{DemoTools}
+#' @references 
+#' \insertRef{united1983manual}{DemoTools}
+#' \insertRef{PAS}{DemoTools}
 #' @examples
 #' m0 <- seq(.001,.2,by=.001)
 #' \dontrun{
@@ -165,25 +171,27 @@ geta1_4CD <- function(M0, IMR = NA, Sex = "m", region = "w"){
 }
 
 
-#' PAS a(x) rule of thumb
+#' PAS a(x) rule of thumb.
 #' 
-#' @description ax is calculated following the Coale-Demeny rules for ages 0 and 1-4, and assumes interval midpoints in higher ages. 
+#' @description a(x) is calculated following the Coale-Demeny rules for ages 0 and 1-4, and assumes interval midpoints in higher ages. 
 #' This is just a rule of thumb. This procedure is as found in the PAS spreadsheet \code{LTPOPDTH.XLS}.
 #' 
 #' @details If sex is given as both, \code{"b"}, then female 
-#' values are taken for a0 and 4a1, per the PAS spreadsheet. If IMR is not given, the M0 is used in its 
-#' stead for ages < 5. This function is not vectorized. ax closeout assumes constant mortality hazard in the open age group.
+#' values are taken for a(0) and 4a1, per the PAS spreadsheet. If IMR is not given, the M(0) is used to estimate a(x) for ages < 5. 
+#' This function is not vectorized. a(x) closeout assumes constant mortality hazard in the open age group.
 #' 
-#' @param nMx numeric. Event exposure mortality rates
-#' @param AgeInt integer vector of age interval widths.
-#' @param IMR numeric. Optional. q0, the death probability in first year of life, in case available separately.
+#' @param nMx numeric. Event exposure mortality rates.
+#' @param AgeInt integer. Vector of age interval widths.
+#' @param IMR numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
-#' @param OAG logical (default \code{TRUE}). Is the last element of \code{nMx} the open age group?
+#' @param OAG logical. Whether or not the last element of \code{nMx} is the open age group Default \code{TRUE}.
 #' 
-#' @return nAx average contribution to exposure of those dying in the interval.
+#' @return nax average contribution to exposure of those dying in the interval.
 #' @export
-#' @references \insertRef{united1983manual}{DemoTools}
+#' @references 
+#' \insertRef{united1983manual}{DemoTools}
+#' \insertRef{PAS}{DemoTools}
 # Markus: see if the model lifetables in refs/UN_1982... follow this rule of thumb for age 0.
 # You may need to try giving q0 as IMR, or else M0 as M0 to the function, not sure.
 axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
@@ -203,33 +211,34 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 
 #' UN version of the Greville formula for a(x) from M(x)
 #' 
-#' @description The UN ax formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 
+#' @description The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 
 #' for ages 5-9 and 10-14, and the Greville formula thereafter. In the original sources 
 #' these are referred to as separation factors.
 #' 
-#' @details ax for age 0 and age group 1-4 are based on Coale-Demeny q0-based lookup tables.
-#' We use an approximation to get from m0 to q0 for the sake of generating a0 and 4a1. 
-#' By default the lifetbale is closed out using the Mortpak extrapolation. Otherwise the final ax value is closed out as if the final Mx value were constant thereafter, 
-#' which is a common lifetable closeout choice. Age groups must be standard abridged, 
-#' and we do not check age groups here! 
-#' 
-#' @param nMx numeric vector. Mortality rates in standard abridged age groups.
-#' @param nqx numeric vector. Age specific death probabilities in standard abridged age groups.
-#' @param lx numeric vector. Lifetable survivorship in standard abridged age groups.
-#' @param IMR numeric infant death probability. Optional if using \code{nMx}, not required otherwise.
+#' @param nMx numeric. Event exposure mortality rates.
+#' @param nqx numeric.  Vector of age specific death probabilities in standard abridged age groups.
+#' @param lx numeric.  Vector oflifetable survivorship in standard abridged age groups.
+#' @param IMR numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
-#' @param mod logical (default \code{TRUE}). Use Gerland's modification for ages 5-14?
+#' @param mod logical. Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.
 #' @param closeout character. Default \code{"mortpak"}.
 #' 
-#' @return ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
-#' @export
+#' 
+#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables.
+#' An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. 
+#' By default the lifetbale is closed out using the Mortpak extrapolation. Otherwise the final a(x) value is closed out as if the final M(x) value were constant thereafter, 
+#' which is a common lifetable closeout choice. Age groups must be standard abridged. No check on age groups is done.
+
 #' 
 #' @references
 #' \insertRef{greville1977short}{DemoTools}
 #' \insertRef{un1982model}{DemoTools}
 #' \insertRef{arriaga1994population}{DemoTools}
 #' \insertRef{mortpak1988}{DemoTools}
+#' @return nax average contribution to exposure of those dying in the interval.
+#' @export
+
 
 ax.greville.mortpak <- function(
 		nMx, 
@@ -330,31 +339,33 @@ ax.greville.mortpak <- function(
 
 #' UN a(x) estimates from either M(x), q(x), or both
 #' 
-#' @description The UN ax formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 
+#' @description The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 
 #' for ages 5-9 and 10-14, and the Greville formula for higher ages. In the original sources 
 #' these are referred to as separation factors.
 #' 
-#' @details ax for age 0 and age group 1-4 are based on Coale-Demeny q0-based lookup tables. If the main 
-#' input is \code{nMx}, and if \code{IMR} is not given, we first approximate q0 for the CD formula 
+#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. If the main 
+#' input is \code{nMx}, and if \code{IMR} is not given, we first approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the Coale-Demeny approach
 #' before applying the formula.
-#' The final ax value is closed out by default as the Mortpak Abacus estimate (based on extrapolation of nMx). If the closeout argument is anything other than \code{"mortpak"}, then life expectancy in the open age group is taken as the reciprocal of the final m(x). For nMx inputs 
-#' this method is rather direct, but for qx or lx inputs it is iterative. Age groups must be standard abridged, 
-#' and we do not check age groups here!
+#' The final a(x) value is closed out by default as the Mortpak Abacus estimate (based on extrapolation of nMx). If the closeout argument is anything other than \code{"mortpak"}, 
+#' then life expectancy in the open age group is taken as the reciprocal of the final M(x). For nMx inputs 
+#' this method is rather direct, but for {\ifelse{html}{\out{q<sub>X</sub>}}{\eqn{q_X}}} or l(x) inputs it is iterative. Age groups must be standard abridged.
+#' No check on age groups are done.
 #' 
-#' @param nMx numeric vector. Mortality rates in standard abridged age groups.
-#' @param nqx numeric vector. Age specific death probabilities in standard abridged age groups.
-#' @param lx numeric vector. Lifetable survivorship in standard abridged age groups.
-#' @param IMR numeric. Infant death probability, (q0). Optional.
-#' @param AgeInt integer vector of age interval widths.
+#' @param nMx numeric. Event exposure mortality rates.
+#' @param nqx numeric.  Vector of age specific death probabilities in standard abridged age groups.
+#' @param lx numeric. Vector of lifetable survivorship in standard abridged age groups.
+#' @param IMR numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.
+#' @param AgeInt integer. Vector of age interval widths.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
-#' @param tol the tolerance for the qx-based iterative method (default \code{.Machine$double.eps}).
-#' @param maxit the maximum numbder of iterations for the qx-based iterative method (default 1000).
-#' @param mod logical (default \code{TRUE}). Use Gerland's modification for ages 5-14?
+#' @param tol numeric. The tolerance for the qx-based iterative method. Default \code{.Machine$double.eps}.
+#' @param maxit integer. The maximum number of iterations for the qx-based iterative method. Ddefault 1000.
+#' @param mod logical.  Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.
 #' @param closeout character. Default \code{"mortpak"}.
 #' 
-#' @return ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
+#' @return nax average contribution to exposure of those dying in the interval.
 #' @export
+#' 
 #' 
 #' @references
 #' \insertRef{greville1977short}{DemoTools}
@@ -456,16 +467,18 @@ axUN <- function(
 	axi
 }
 
-#' just get closeout Mx
+#' Life expectancy in the open age group.
 #' 
 #' @description Get the Abacus Mortpak estimate of life expectancy in the open age group.
-#' @details Since the Mortpak lifetable just goes to age 100, it only makes sense to call this function if your data have a lower open age group. If your data go to 100 or higher, there is no apparent advantage to closing out with this function. Specify the entire nMx schedule, in standard abridged ages.
-#' @details The estimate will be the same for males and females
-#' @param mx_or_qx numeric vector of mortality rates or probabilities in standard abridged age classes
+#' @details Since the Mortpak lifetable just goes to age 100, it only makes sense to call this function if the data have a lower open age group. 
+#' If the data go to 100 or higher, there is no apparent advantage to closing out with this function. Specify the entire nMx schedule, in standard abridged ages.
+#' @details The estimate will be the same for males and females.
+#' @param mx_or_qx numeric.  Vector of mortality rates or probabilities in standard abridged age classes.
 #' @param qind logical. Default \code{FALSE} (implying Mx used). \code{TRUE} means qx was given.
-#' @export
+#' @return Open age groups life expectancy.
 #' @references 
 #' \insertRef{mortpak1988}{DemoTools}
+#' @export
 
 aomegaMORTPAK <- function(mx_or_qx,qind=FALSE){
 	OA  <- length(mx_or_qx) * 5 - 10
