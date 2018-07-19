@@ -2,35 +2,36 @@
 % Please edit documentation in R/nAx.R
 \name{axPAS}
 \alias{axPAS}
-\title{PAS a(x) rule of thumb}
+\title{PAS a(x) rule of thumb.}
 \usage{
 axPAS(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE)
 }
 \arguments{
 \item{nMx}{numeric. Event exposure mortality rates}
 
-\item{AgeInt}{integer vector of age interval widths.}
+\item{AgeInt}{integer. Vector of age interval widths.}
 
-\item{IMR}{numeric. Optional. q0, the death probability in first year of life, in case available separately.}
+\item{IMR}{numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.}
 
 \item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
 
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 
-\item{OAG}{logical (default \code{TRUE}). Is the last element of \code{nMx} the open age group?}
+\item{OAG}{logical. Whether or not the last element of \code{nMx} is the open age group Default \code{TRUE}.}
 }
 \value{
-nAx average contribution to exposure of those dying in the interval.
+nax average contribution to exposure of those dying in the interval.
 }
 \description{
-ax is calculated following the Coale-Demeny rules for ages 0 and 1-4, and assumes interval midpoints in higher ages. 
+a(x) is calculated following the Coale-Demeny rules for ages 0 and 1-4, and assumes interval midpoints in higher ages. 
 This is just a rule of thumb. This procedure is as found in the PAS spreadsheet \code{LTPOPDTH.XLS}.
 }
 \details{
 If sex is given as both, \code{"b"}, then female 
-values are taken for a0 and 4a1, per the PAS spreadsheet. If IMR is not given, the M0 is used in its 
-stead for ages < 5. This function is not vectorized. ax closeout assumes constant mortality hazard in the open age group.
+values are taken for a(0) and 4a1, per the PAS spreadsheet. If IMR is not given, the M(0) is used to estimate a(x) for ages < 5. 
+This function is not vectorized. a(x) closeout assumes constant mortality hazard in the open age group.
 }
 \references{
 \insertRef{united1983manual}{DemoTools}
+\insertRef{PAS}{DemoTools}
 }

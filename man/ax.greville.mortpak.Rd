@@ -25,19 +25,18 @@ ax.greville.mortpak(nMx, nqx, lx, IMR = NA, Sex = "m", region = "w",
 \item{closeout}{character. Default \code{"mortpak"}.}
 }
 \value{
-ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
+nax average contribution to exposure of those dying in the interval.
 }
 \description{
-The UN ax formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 
+The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 
 for ages 5-9 and 10-14, and the Greville formula thereafter. In the original sources 
 these are referred to as separation factors.
 }
 \details{
-ax for age 0 and age group 1-4 are based on Coale-Demeny q0-based lookup tables.
-We use an approximation to get from m0 to q0 for the sake of generating a0 and 4a1. 
-By default the lifetbale is closed out using the Mortpak extrapolation. Otherwise the final ax value is closed out as if the final Mx value were constant thereafter, 
-which is a common lifetable closeout choice. Age groups must be standard abridged, 
-and we do not check age groups here!
+a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables.
+An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. 
+By default the lifetbale is closed out using the Mortpak extrapolation. Otherwise the final a(x) value is closed out as if the final M(x) value were constant thereafter, 
+which is a common lifetable closeout choice. Age groups must be standard abridged. No check on age groups is done.
 }
 \references{
 \insertRef{greville1977short}{DemoTools}

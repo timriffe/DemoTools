@@ -2,24 +2,24 @@
 % Please edit documentation in R/nAx.R
 \name{geta1_4CD}
 \alias{geta1_4CD}
-\title{Coale-Demeny 4a1 as function of m0, region, and sex}
+\title{Coale-Demeny 4a1 as function of M(0), region, and sex.}
 \usage{
 geta1_4CD(M0, IMR = NA, Sex = "m", region = "w")
 }
 \arguments{
-\item{M0}{numeric. Event exposure infant mortality rate}
+\item{M0}{numeric. Event exposure infant mortality rate.}
 
-\item{IMR}{numeric. Optional. q0, the death probability in first year of life, in case available separately.}
+\item{IMR}{numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.}
 
 \item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
 
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 }
 \value{
-a0 the average age at death in the first year of life.
+The average age at death between ages 1-4, 4a1.
 }
 \description{
-Coale-Demeny 4a1. This is just a rule of thumb. 
+Coale-Demeny 4a1. This is a rule of thumb. 
 In this and some other older texts, 4a1 is known as a 'separation factor'. These coefficients
 were pulled from the PAS spreadsheets \code{LTPOPDTH.XLS} and not located in the original
 Manual X.
@@ -56,4 +56,5 @@ text(0, geta1_4CD(.01,Sex = "f", region = "n"),"females N",font=2,pos=4)
 }
 \references{
 \insertRef{united1983manual}{DemoTools}
+\insertRef{PAS}{DemoTools}
 }
