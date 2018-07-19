@@ -272,7 +272,7 @@ convertSplitTo5Year <- function(Value){
 #' @param N integer. Default 5. The desired width of resulting age groups
 #' @param shiftdown integer. Default 0. Optionally shift age groupings down by single ages 
 #' @param AgeN optional integer vector, otherwise calculated using \code{calcAgeN()}
-#' @param integer value of open age group to impose.
+#' @param OAG integer value of open age group to impose.
 #' @return vector of counts in N-year age groups
 #' 
 #' @details If you shift the groupings, then the first age groups may have a negative lower bound 

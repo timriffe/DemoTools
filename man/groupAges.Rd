@@ -18,7 +18,7 @@ groupAges(Value, Age = 1:length(Value) - 1, N = 5, shiftdown = 0, AgeN,
 
 \item{AgeN}{optional integer vector, otherwise calculated using \code{calcAgeN()}}
 
-\item{integer}{value of open age group to impose.}
+\item{OAG}{integer value of open age group to impose.}
 }
 \value{
 vector of counts in N-year age groups
