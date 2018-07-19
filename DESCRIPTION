@@ -1,7 +1,7 @@
 Package: DemoTools
 Type: Package
 Title: standardize, evaluate, and adjust demographic data
-Version: 0.5.92
+Version: 0.5.921
 Date: 18, July, 2018
 Author: Tim Riffe, Sean Fennell, Juan Galeano, Jose Manuel Aburto
 Maintainer: Tim Riffe <tim.riffe@gmail.com>
