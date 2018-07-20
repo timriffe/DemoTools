@@ -48,13 +48,13 @@ library(DemoTools)
 ?LTabr # with options to replicate PAS and Mortpak
 ?spencer
 ?zelnik
-# last updated 18-Aug-2017
+# last updated 20-Jul-2018
 ```
 Note, at the moment the Sprague family of functions is being updated, and things may not work as expected until changes are complete. Please stand by.
 
-These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. presently top-level + utilities = 76 documented functions, with more in development. 
+These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 77 documented functions, with more in development. 
 
 Presently all functions are in first drafts, but the aim is to end up with a set of robust generic functions around which wrappers can be easily built for various institutional data production needs. As-is, these functions may also be useful for DIY demographers. This set of methods is a cherry-pick from legacy methods collections, including PAS, DAPPS, MPCDA, MortPack, IREDA, UN Manual X, G. Feeney Spreadsheets, formulas found in Siegel and Swanson or Shyrock and Siegel, and various (apparent) first-implementations from formulas in papers, or ad hoc DIY approximations from old pros. 
 
 ## about those icons 
-Every time this repository is updated the entire code base is rebuilt on a server somewhere, and undergoes a series of checks. This happens on a linux machine and on a windows machine. Any warnings or errors in these builds will yield a red fail tag, and successes are green passes. Code coverage indicates what percentage of lines of code undergo testing of some kind. We've not yet set up units tests, but when we start to do so, the aim will be to push this percentage as high as possible.
+Every time this repository is updated the entire code base is rebuilt on a server somewhere, and undergoes a series of checks. This happens on a Linux machine and on a Windows machine. Any warnings or errors in these builds will yield a red fail tag, and successes are green passes. Code coverage indicates what percentage of lines of code undergo testing of some kind. We've not yet set up units tests, but when we start to do so, the aim will be to push this percentage as high as possible.
