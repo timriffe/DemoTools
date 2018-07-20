@@ -2,28 +2,26 @@
 % Please edit documentation in R/Sprague.R
 \name{splitOscillate}
 \alias{splitOscillate}
-\title{an oscillatory average of age splits}
+\title{An oscillatory average of age splits.}
 \usage{
 splitOscillate(Value, Age = 1:length(Value) - 1, OAG = TRUE,
   splitfun = sprague, closeout = "mono", pivotAge = 90, ...)
 }
 \arguments{
-\item{Value}{numeric vector of single age counts}
+\item{Value}{numeric. Vector of single age counts.}
 
-\item{Age}{integer vector of single ages (lower bound)}
+\item{Age}{integer. Vector of single ages.}
 
-\item{OAG}{logical (default \code{TRUE}). Is the last value the open age group?}
+\item{OAG}{logical. Whether or not the last value is the open age group. Default \code{TRUE}.}
 
-\item{splitfun}{function used to split at each digit grouping (default \code{sprague()}.}
+\item{closeout}{logical or character. Default \code{"mono"}.}
 
-\item{closeout}{logical or \code{"mono"}}
-
-\item{pivotAge}{Age to start blending in closeout values}
+\item{pivotAge}{integer. Age to start blending in closeout values.}
 
 \item{...}{optional arguments passed to \code{splitfun()}.}
 }
 \value{
-numeric vector of Sprague-smoothed counts
+Nmeric vector of smoothed counts.
 }
 \description{
 Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits.

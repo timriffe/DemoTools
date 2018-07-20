@@ -1,22 +1,19 @@
 # Author: Juan Galeano
 ###############################################################################
 
-#' smoothing of an age structure by single years using the formula of Spencer
+#' Smoothing of an age structure by single years using Spencer's formula.
 
-#' @description  Spencer's method is used to adjust distributions by year of age based on cumulative series.This comes from 
-#' pp. 373-377 in GDA_1981_Structures-par-sexe-et-age-en-Afrique_[IREDA]
-
+#' @description  Spencer's method is used to adjust distributions by year of age based on cumulative series.This comes from Roger et al (1981, pp. 373-377).
+#' 
 #' @param Value numeric. A vector of demographic counts in single age groups.
-#' @param Age numeric or character. A vector with ages (in single years).
+#' @param Age numeric or character. A vector with ages in single years.
 #' @details Single year age groups are assumed.
 
-#' @return a named vector with the smoothed values
+#' @return A named vector with the smoothed age structure.
 #' @importFrom stats filter
 #' @export
-
 #' @references 
 #' \insertRef{GDA1981IREDA}{DemoTools}
-
 #' @examples 
 #' # data from GDA1981IREDA, Table 15 and 16, page 375-376: Ghana (1970 Males + Females), 
 #' # population between 10 and 40 years by single age.

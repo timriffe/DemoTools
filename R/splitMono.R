@@ -1,18 +1,17 @@
 
-#' split age groups using a monotonic spline
+#' Split age groups using a monotonic spline.
 #' @description Take the cumulative sum of \code{Value} and then run a monotonic spline through it. The first 
 #' differences split back single-age estimates of \code{Value}. Optionally keep the open age group untouched. 
 #' 
-#' @details We use the \code{"monoH.FC"} method of \code{stats::splinefun()} to fit the spline because 1)
+#' @details The \code{"monoH.FC"} method of \code{stats::splinefun()} is used to fit the spline because 1)
 #' it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) 
-#' it seems to be a bit less wiggly (lower average first differences of split counts) than a pchip tends to do, 
-#' at least in the tested data. Data may be given in single or grouped ages.
+#' it seems to be a bit less wiggly (lower average first differences of split counts). Data may be given in single or grouped ages.
 #' 
-#' @param Value numeric vector of counts in age groups
-#' @param Age integer vector of lower bound of age groups
-#' @param OAG logical (default \code{FALSE}). Would we like to re-impute the last 
-#' element of \code{Value} as the open age group?
-#' @return numeric vector of single age counts 
+#' @param Value numeric. Vector of counts in age groups.
+#' @param Age integer. Vector of lower bound of age groups.
+#' @param OAG logical. Whether or not to re-impute the last 
+#' element of \code{Value} as the open age group. Default \code{FALSE}.
+#' @return Numeric. vector of single smooothed age counts.
 #' @importFrom stats splinefun
 #' @references 
 #' \insertRef{fritsch1980monotone}{DemoTools}

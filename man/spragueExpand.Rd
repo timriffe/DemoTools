@@ -2,24 +2,25 @@
 % Please edit documentation in R/Sprague.R
 \name{spragueExpand}
 \alias{spragueExpand}
-\title{create the Sprague coefficient matrix}
+\title{Create the Sprague coefficient matrix.}
 \usage{
 spragueExpand(popmat, OAG = TRUE)
 }
 \arguments{
-\item{popmat}{numeric matrix of age-period population counts in 5-year age groups}
+\item{popmat}{numeric. A matrix of population counts in 5-year age groups with integer-labeled 
+margins (age in rows and year in columns).}
 
-\item{OAG}{logical (default \code{TRUE}. Is the final age group open?}
+\item{OAG}{logical. Whether or not the final age group open. Default \code{TRUE}.}
 }
 \description{
 The resulting coefficient matrix is based on the number of rows in \code{popmat}
-where we assume that each row of data is a 5-year age group. The final row may be an open 
+where is assumed that each row of data is a 5-year age group. The final row may be an open 
 or closed age group, as indicated by the \code{OAG} argument.
 }
 \details{
 The \code{popmat} matrix is really just a placeholder in this case. This function is 
 a utility called by the Sprague family of functions, where it is most convenient to just pass
-in the same matrix being used in those calcs to determine the layout of the coefficient matrix.
+in the same matrix being used in those calculationss to determine the layout of the coefficient matrix.
 }
 \examples{
 p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
