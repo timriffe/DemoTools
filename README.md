@@ -35,8 +35,8 @@ library(DemoTools)
 ?IRD
 ?ID
 ?survRatioError
-?spragueSimple
-?beersSimple # methods including "ord" and "mod", as well as johnson option for young ages
+?sprague
+?beers # methods including "ord" and "mod", as well as johnson option for young ages
 ?grabill
 ?splitMono
 ?monoCloseout
