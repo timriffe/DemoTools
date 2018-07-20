@@ -2,13 +2,13 @@
 % Please edit documentation in R/utilsAge.R
 \name{groupAges}
 \alias{groupAges}
-\title{aggregates single year age groups into 5 year age groups}
+\title{group single ages into equal age groups of arbitrary width}
 \usage{
 groupAges(Value, Age = 1:length(Value) - 1, N = 5, shiftdown = 0, AgeN,
   OAnew = max(Age))
 }
 \arguments{
-\item{Value}{numeric vector of single year age groups.}
+\item{Value}{numeric vector of single age counts}
 
 \item{Age}{integer vector of lower bounds of single age groups}
 
@@ -19,26 +19,14 @@ groupAges(Value, Age = 1:length(Value) - 1, N = 5, shiftdown = 0, AgeN,
 \item{AgeN}{optional integer vector, otherwise calculated using \code{calcAgeN()}}
 
 \item{OAnew}{integer value of lower bound of new open age group}
-
-\item{Value}{numeric vector of population age groups that includes 0, 1-4, and 5 year ages.}
-
-\item{Value}{numeric vector of single age counts}
 }
 \value{
 vector of counts in N-year age groups
 }
 \description{
-Creates five year age groups from single year ages.
-
-Creates a five year age group from split 0 & 1-4 year age groups.
-
 This can be useful to check constrained sums, or as an intermediate step for smoothing.
 }
 \details{
-Sums five year age intervals
-
-Sums 0 & 1-4 age groups and outputs new 5 year age group vector.
-
 If you shift the groupings, then the first age groups may have a negative lower bound 
 (for example of -5). These counts would be discarded for the osculatory version of Sprague smoothing,
 for example, but they are preserved in this function. The important thing to know is that if you shift 
@@ -47,14 +35,6 @@ but they are the name attribute of the output count vector. Note this will also 
 into equal 5-year age groups if the \code{Age} argument is explicitly given. \code{OAnew} (optional) must be less than or equal to \code{max(Age)} to have any effect.
 }
 \examples{
-MalePop <- seq(1,100)
-convertSingleTo5Year(MalePop)
-aggregates split 0 & 1-4 age groups into a single 5 year age group
-
-MalePop <- seq(1,100)
-convertSplitTo5Year(MalePop)
-group single ages into equal age groups of arbitrary width
-
  India1991males <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918
  		,14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
           9055588,5519173,12546779,4784102,13365429,4630254,9595545,4727963

@@ -48,10 +48,10 @@ popAgeSmth <- function(
     #intermediateAgg <- convertSplitTo5Year(Value) #Consolidate under split under 5 group
 	intermediateAgg <-	groupAges(Value,Age=Age)
     newAges <- seq(0, max(Age), by=5) #Create new age groups
-    aggValue <- splitToSingleAges(Value, newAges) #split into single age groups
+    aggValue <- splitUniform(Value, Age=newAges) #split into single age groups
   }
   else{
-    aggValue <- splitToSingleAges(Value, Age) #split into single age groups
+    aggValue <- splitUniform(Value, Age = Age) #split into single age groups
     newAges <- seq(0, length(aggValue)-1) #Create new age groups
   }
   

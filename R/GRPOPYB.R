@@ -48,7 +48,7 @@ birthCohorts <- function(Value, Age, CensusDate, cohortSize = 5){
 	  # TR: added date handling. dec.date() is in utils.R
 	  CensusDate   <- dec.date(CensusDate)
       
-      singleAgeGroupBirths  <- splitToSingleAges(Value, Age)
+      singleAgeGroupBirths  <- splitUniform(Value, Age = Age)
       
       # Check that the cohort divides into the max age. If not, 
 	  # add some zeros to prevent errors when summing across the vector.

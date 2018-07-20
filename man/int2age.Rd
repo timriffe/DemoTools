@@ -2,41 +2,22 @@
 % Please edit documentation in R/utilsAge.R
 \name{int2age}
 \alias{int2age}
-\title{infer lower age class bounds from vector of age intervals}
+\title{infer lower age bounds from age class intervals}
 \usage{
 int2age(AgeInt, minA = 0)
 }
 \arguments{
-\item{AgeInt}{vector of age intervals}
-
-\item{minA}{what is the lowest age bound to start counting from (default 0)?}
-
 \item{AgeInt}{integer or numeric vector of age intervals}
 
 \item{minA}{the lowest age, default 0.}
 }
 \value{
-integer vector of ages
-
 Age vector, of same length as \code{AgeInt}.
 }
 \description{
-a simple identity
-
 Determine lower bounds of age classes based on a vector of age intervals and a starting age.
 }
-\details{
-It makes no difference whether the final age group is open or how that is coded,
-as long as all lower age intervals are coercible to integer.
-}
 \examples{
-int1 <- c(rep(1,100),NA)
-int2 <- c(rep(1,100),"+")
-int3 <- inferAgeIntAbr(vec = rep(1,20), OAG = TRUE)
-AgefromAgeInt(int1)
-AgefromAgeInt(int2) # character OK
-AgefromAgeInt(int3)
-infer lower age bounds from age class intervals
 AgeInt <- c(1,4,rep(5,17))
 int2age(AgeInt)
 }
