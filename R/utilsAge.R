@@ -107,7 +107,7 @@ calcAgeAbr <- function(Age){
 #' @param Age integer vector. Lower bound of each age group.
 #' @param vec any vector, presumably a count, rate, or similar.
 #' @param OAG logical (default \code{FALSE}). Is the final age group open?
-#' @param OAGvalue numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.
+#' @param OAvalue numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.
 #' 
 #' @details If based soley on the length of a vector, this will give erroneous results if ages 
 #' are anything other than standard abridged ages groups. If the final age group is open, the 
@@ -123,13 +123,13 @@ calcAgeAbr <- function(Age){
 #' vec <- runif(20)
 #' inferAgeIntAbr(vec = vec)
 #' inferAgeIntAbr(vec = vec, OAG = TRUE)
-inferAgeIntAbr <- function(Age, vec, OAG = FALSE, OAGvalue = NA){
+inferAgeIntAbr <- function(Age, vec, OAG = FALSE, OAvalue = NA){
 	
 	# Age is preferred (lower bounds)
 	if (!missing(Age)){
 		ageint <- age2int(Age = Age, 
 				          OAG = OAG, 
-						  OAGvalue = OAGvalue)
+						  OAvalue = OAvalue)
 	}
 	# otherwise length of vector will do
 	if (missing(Age) & !missing(vec)){
