@@ -235,6 +235,8 @@ convertSingleTo5Year <- function(Value){
 	return(aggFinal)
 }
 
+# TR deprecate, use groupAges() instead
+
 #' aggregates split 0 & 1-4 age groups into a single 5 year age group
 #' 
 #' @description Creates a five year age group from split 0 & 1-4 year age groups. 
