@@ -47,12 +47,12 @@
 #' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 #' head(p5) # this is the entire matrix
 #' # the last value is an open age group, preserve as such:
-#' p1 <- spragueSimple(p5, OAG = TRUE, closeout = FALSE)
+#' p1 <- sprague(p5, OAG = TRUE, closeout = FALSE)
 #' head(p1); tail(p1)
 #' colSums(p1) - colSums(p5) 
 #' 
 #' # another case, starting with single ages
-#' # note spragueSimple() does not group ages. You need to do it 
+#' # note sprague() does not group ages. You need to do it 
 #' # first.
 #' Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
 #' 		14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
@@ -72,14 +72,14 @@
 #' Val5        <- groupAges(Value, Age)
 #' # notice how this particular case produces a negative value in the last age
 #' # before OAG:
-#' pops <- spragueSimple(popmat = Val5, OAG = TRUE, closeout = FALSE)
+#' pops <- sprague(popmat = Val5, OAG = TRUE, closeout = FALSE)
 #' # this replaces ages 90+, guaranteed no negatives.
 #' pops1 <- monoCloseout(popmat = Val5, pops = pops, OAG = TRUE)
 #' # identical to:
-#' pops2 <- spragueSimple(popmat = Val5, OAG = TRUE, closeout = "mono")
+#' pops2 <- sprague(popmat = Val5, OAG = TRUE, closeout = "mono")
 #' stopifnot(all(pops1==pops2))
 
-spragueSimple <- function(popmat, Age, OAG = TRUE, closeout = "mono", pivotAge = 90){
+sprague <- function(popmat, Age, OAG = TRUE, closeout = "mono", pivotAge = 90){
 	popmat            <- as.matrix(popmat)
 	
 	if (missing(Age)){
@@ -251,7 +251,7 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' @param Value numeric vector of single age counts
 #' @param Age integer vector of single ages (lower bound)
 #' @param OAG logical (default \code{TRUE}). Is the last value the open age group?
-#' @param splitfun function used to split at each digit grouping (default \code{spragueSimple()}.
+#' @param splitfun function used to split at each digit grouping (default \code{sprague()}.
 #' @param closeout logical or \code{"mono"} 
 #' @param pivotAge Age to start blending in closeout values
 #' @param ... optional arguments passed to \code{splitfun()}.
@@ -279,12 +279,12 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' 		 5889, 18915, 21221, 72373), .Names = 0:100)
 #' #barplot(Value, main = "yup, these have heaping!")
 #' # this is the basic case we compare with:
-#' pop0    <- spragueSimple(groupAges(Value),  OAG = TRUE)
+#' pop0    <- sprague(groupAges(Value),  OAG = TRUE)
 #' # note: this function needs single ages to work because
 #' # ages are grouped into 5-year age groups in 5 different ways.
 #' # breaks
-#' #pop1    <- splitOscillate(Value, OAG = TRUE, splitfun = spragueSimple)
-#' pop2    <- splitOscillate(Value, OAG = TRUE, splitfun = beersSimple)
+#' #pop1    <- splitOscillate(Value, OAG = TRUE, splitfun = sprague)
+#' pop2    <- splitOscillate(Value, OAG = TRUE, splitfun = beers)
 #' # what's smoother, splitOscillate() or grabill()?
 #' # note, same closeout problem, can be handled by monoCloseout()
 #' pop3    <- grabill(Value, OAG = TRUE)
@@ -304,9 +304,9 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' lty = c(1,1,2,1,2), 
 #' lwd = c(1,1,2,1,1), 
 #' col = c("blue","black","red","magenta","orange"),
-#' 		legend = c("spragueSimple()",
-#'                 "splitOscillate(splitfun = spragueSimple)", 
-#' 				   "splitOscillate(splitfun = beersSimple)",
+#' 		legend = c("sprague()",
+#'                 "splitOscillate(splitfun = sprague)", 
+#' 				   "splitOscillate(splitfun = beers)",
 #' 				   "grabill()",
 #'                 "splitOscillate(splitfun = grabill)"))
 #' 
@@ -314,7 +314,7 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' ID(Value, pop0) # original vs sprague
 #' ID(pop0,pop1) # sprague vs sprague osc
 #' ID(pop1,pop2) # sprague osc vs beers osc
-#' ID(pop2,pop3) # beersSimple osc vs grabill
+#' ID(pop2,pop3) # beers osc vs grabill
 #' ID(pop3,pop4) # grabill vs grabill osc
 #' # measre of smoothness:
 #' mean(abs(diff(Value)))
@@ -328,7 +328,7 @@ splitOscillate <- function(
 		Value, 
 		Age = 1:length(Value) - 1, 
 		OAG = TRUE, 
-		splitfun = spragueSimple, 
+		splitfun = sprague, 
 		closeout = "mono", 
 		pivotAge = 90, ...){
 	

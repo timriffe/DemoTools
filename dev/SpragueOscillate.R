@@ -4,7 +4,7 @@
 
 #' an oscillatory average of Sprague age splits
 #' @description Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits.
-#' This method is a bit smoother than the standard \code{spragueSimple()} method, but not as smooth as \cide{grabill()}.
+#' This method is a bit smoother than the standard \code{sprague()} method, but not as smooth as \cide{grabill()}.
 #' 
 #' @details This function works on a single vector of single-age counts, not on a matrix. Results are not
 #' constrained to any particular age group, but are constrained to the total count.
@@ -37,12 +37,12 @@
 #' names(Value) <- Age
 #' #barplot(Value, main = "yup, these have heaping!")
 #' # this is the basic case we compare with:
-#' pop0    <- spragueSimple(groupAges(Value,Age))
+#' pop0    <- sprague(groupAges(Value,Age))
 #' # note: this function needs single ages to work because
 #' # ages are grouped into 5-year age groups in 5 different ways.
 #' (pop1   <- spragueOscillate(Value, Age, closeout = FALSE))
 #' # see the NaN value? That because there were some negatives produced by 
-#' # spragueSimple(). We can call spragueCloseout() inside spragueOscillate()
+#' # sprague(). We can call spragueCloseout() inside spragueOscillate()
 #' # to handle such cases:
 #' (pop2   <- spragueOscillate(Value, Age, closeout = TRUE))
 #' # what's smoother, spragueOscillate() or grabill()?
@@ -58,7 +58,7 @@
 #' lines(Age, pop2, col = "red", lty = 2, lwd = 2) 
 #' lines(Age, pop3, col = "magenta")
 #' legend("topright", lty = c(1,1,2,1), lwd = c(1,1,2,1), col = c("blue","black","red","magenta"),
-#' 		legend = c("spragueSimple()",
+#' 		legend = c("sprague()",
 #'                 "spragueOscillate(closeout = FALSE)", 
 #' 				   "spragueOscillate(closeout = TRUE)",
 #' 				   "grabill()"))
@@ -93,7 +93,7 @@ spragueOscillate <- function(Value, Age, OAG = TRUE, closeout = TRUE){
 		Val.i.5             <- c(Val.i.5, pi)
 		names(Val.i.5)      <- c(unique(Age.i.5), max(Age.i.5) + 5)
 		# get first run estimate
-		pop.est             <- spragueSimple(Val.i.5)
+		pop.est             <- sprague(Val.i.5)
 		if (closeout){
 			pop.est <- spragueCloseout(Val.i.5, pop.est)
 		}

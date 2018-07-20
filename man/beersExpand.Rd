@@ -44,7 +44,7 @@ dim(beersExpand(popmat, TRUE))
 dim(beersExpand(popmat, FALSE))
 coefso      <- beersExpand(popmat, OAG = TRUE, method = "ord")
 
-# how to use (under the hood in beersSimple()
+# how to use (under the hood in beers()
 
 }
 \references{

@@ -8,19 +8,19 @@ ax.greville.mortpak(nMx, nqx, lx, IMR = NA, Sex = "m", region = "w",
   mod = TRUE, closeout = "mortpak")
 }
 \arguments{
-\item{nMx}{numeric vector. Mortality rates in standard abridged age groups.}
+\item{nMx}{numeric. Event exposure mortality rates.}
 
-\item{nqx}{numeric vector. Age specific death probabilities in standard abridged age groups.}
+\item{nqx}{numeric.  Vector of age specific death probabilities in standard abridged age groups.}
 
-\item{lx}{numeric vector. Lifetable survivorship in standard abridged age groups.}
+\item{lx}{numeric.  Vector oflifetable survivorship in standard abridged age groups.}
 
-\item{IMR}{numeric infant death probability. Optional if using \code{nMx}, not required otherwise.}
+\item{IMR}{numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.}
 
 \item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
 
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 
-\item{mod}{logical (default \code{TRUE}). Use Gerland's modification for ages 5-14?}
+\item{mod}{logical. Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.}
 
 \item{closeout}{character. Default \code{"mortpak"}.}
 }

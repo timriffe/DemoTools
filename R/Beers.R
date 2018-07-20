@@ -50,7 +50,7 @@
 #' dim(beersExpand(popmat, FALSE))
 #' coefso      <- beersExpand(popmat, OAG = TRUE, method = "ord")
 #' 
-#' # how to use (under the hood in beersSimple()
+#' # how to use (under the hood in beers()
 #' 
 beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 	method <- tolower(method)
@@ -217,14 +217,14 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' 		.Dim = c(21L, 5L), 
 #' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 #' head(p5) # this is the entire matrix
-#' p1 <- beersSimple(p5, OAG = FALSE)
+#' p1 <- beers(p5, OAG = FALSE)
 #' head(p1)
 #' # note some negatives in high ages
 #' tail(p1) 
 #' colSums(p1) - colSums(p5) 
 #' 
 #' # another case, starting with single ages
-#' # note beersSimple() groups ages. 
+#' # note beers() groups ages. 
 #' Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
 #' 		14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
 #' 		9055588,5519173,12546779,4784102,13365429,4630254,9595545,4727963,
@@ -240,8 +240,8 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' 		18915,21221,72373)
 #' Age          <- 0:100
 #' names(Value) <- Age
-#' ord1 <-  beersSimple(Value, OAG = TRUE, method = "ord")
-#' mod1 <- beersSimple(Value, OAG = TRUE, method = "mod")
+#' ord1 <-  beers(Value, OAG = TRUE, method = "ord")
+#' mod1 <- beers(Value, OAG = TRUE, method = "mod")
 #' \dontrun{
 #' plot(Age,Value)
 #' lines(Age, ord1)
@@ -252,7 +252,7 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' tail(mod1)
 #' # this replaces ages 90+, guaranteed no negatives.
 #' monoCloseout(Value, pops = mod1, OAG = TRUE)
-#' # Note: there are no kludges built into beersSimple() to handle such cases.
+#' # Note: there are no kludges built into beers() to handle such cases.
 #' # these ought to be handled by wrappers as appropriate.
 #' 
 #' # This replicates Johnson_2016_BEERSP.XLS, males
@@ -262,7 +262,7 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' dim(M)      <- c(length(M),1)
 #' rownames(M) <- seq(0,80,by=5)
 #' Age0        <- 184499
-#' johnson     <- beersSimple(
+#' johnson     <- beers(
 #' 		         popmat = M, 
 #' 		         OAG = TRUE,
 #' 			     method = "ord", 
@@ -276,7 +276,7 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' # difference of 1
 #' stopifnot(max(abs(round(johnson)[1:length(output)] - output)) == 1)
 
-beersSimple <- function(popmat, Age, OAG = FALSE, method = "mod", johnson = FALSE, Age0){
+beers <- function(popmat, Age, OAG = FALSE, method = "mod", johnson = FALSE, Age0){
 	popmat            <- as.matrix(popmat)
 	
 	if (missing(Age)){
@@ -316,7 +316,7 @@ beersSimple <- function(popmat, Age, OAG = FALSE, method = "mod", johnson = FALS
 #' 
 #' @return A matrix of single age population estimates.
 #' @details This has not been tested using \code{pop1} as generated from other methods, such as 
-#' the Beers modified, Sprague, or Grabill methods. Called internally by \code{BeersSimple()}.
+#' the Beers modified, Sprague, or Grabill methods. Called internally by \code{beers()}.
 #' @export
 #' @references
 #' \insertRef{stover2008spectrum}{DemoTools}

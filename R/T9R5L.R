@@ -1,4 +1,5 @@
 # Author: Juan Galeano
+# TR: TODO: if abridged data give, group to 5
 ###############################################################################
 
 #' Feeney T9R5L formula on 9 years to correct for heaping on multiples of five

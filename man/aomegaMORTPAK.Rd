@@ -2,22 +2,26 @@
 % Please edit documentation in R/nAx.R
 \name{aomegaMORTPAK}
 \alias{aomegaMORTPAK}
-\title{just get closeout Mx}
+\title{Life expectancy in the open age group.}
 \usage{
 aomegaMORTPAK(mx_or_qx, qind = FALSE)
 }
 \arguments{
-\item{mx_or_qx}{numeric vector of mortality rates or probabilities in standard abridged age classes}
+\item{mx_or_qx}{numeric.  Vector of mortality rates or probabilities in standard abridged age classes.}
 
 \item{qind}{logical. Default \code{FALSE} (implying Mx used). \code{TRUE} means qx was given.}
+}
+\value{
+Open age groups life expectancy.
 }
 \description{
 Get the Abacus Mortpak estimate of life expectancy in the open age group.
 }
 \details{
-Since the Mortpak lifetable just goes to age 100, it only makes sense to call this function if your data have a lower open age group. If your data go to 100 or higher, there is no apparent advantage to closing out with this function. Specify the entire nMx schedule, in standard abridged ages.
+Since the Mortpak lifetable just goes to age 100, it only makes sense to call this function if the data have a lower open age group. 
+If the data go to 100 or higher, there is no apparent advantage to closing out with this function. Specify the entire nMx schedule, in standard abridged ages.
 
-The estimate will be the same for males and females
+The estimate will be the same for males and females.
 }
 \references{
 \insertRef{mortpak1988}{DemoTools}

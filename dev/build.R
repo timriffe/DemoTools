@@ -16,7 +16,7 @@ check("/home/tim/git/DemoTools")
 #?devtools::build
 #devtools::use_testthat("/home/tim/git/DemoTools")
 #dir("/home/tim/git/DemoTools/man")
-
+install_github("timriffe/DemoTools")
 # these created the necessary files to run automatic remote code testing
 #use_appveyor("/home/tim/git/DemoTools")
 #use_travis("/home/tim/git/DemoTools")

@@ -38,12 +38,12 @@
 #' 		.Dim = c(21L, 5L), 
 #' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 #' head(p5) # this is the entire matrix
-#' p1 <- spragueSimple(p5)
+#' p1 <- sprague(p5)
 #' head(p1); tail(p1)
 #' colSums(p1) - colSums(p5) 
 #' 
 #' # another case, starting with single ages
-#' # note \spragueSimple() does not group ages. You need to do it 
+#' # note \sprague() does not group ages. You need to do it 
 #' # first.
 #' Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
 #' 		14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
@@ -66,13 +66,13 @@
 #' names(Val5) <- Age[Age %% 5 == 0]
 #' # notice how this particular case produces a negative value in the last age
 #' # before OAG:
-#' (pops <- spragueSimple(Val5))
+#' (pops <- sprague(Val5))
 #' # this replaces ages 90+, guaranteed no negatives.
 #' spragueCloseout(Val5, pops = pops)
-#' # Note: there are no kludges built into spragueSimple() to handle such cases.
+#' # Note: there are no kludges built into sprague() to handle such cases.
 #' # these ought to be handled by wrappers as appropriate.
 
-spragueSimple <- function(popmat){
+sprague <- function(popmat){
 	popmat            <- as.matrix(popmat)
 	scm               <- spragueExpand(popmat)
 	
@@ -319,7 +319,7 @@ grabillExpand <- function(popmat){
 #' p1 <- grabill(p5)
 #' head(p1); tail(p1)
 #' colSums(p1) - colSums(p5) 
-#' p1 - spragueSimple(p5)
+#' p1 - sprague(p5)
 
 grabill <- function(popmat){
 	popmat            <- as.matrix(popmat)
@@ -471,21 +471,21 @@ splitMono <- function(Value, Age5 = seq(0, length(Value)*5-5, 5), keep.OAG = FAL
 #' # also works on an age-labelled vector of data
 #' popvec <- popmat[,1]
 #' closed.vec <- spragueCloseout(popvec)
-#' # let's compare this one with spragueSimple()
-#' simple.vec <- spragueSimple(popvec)
+#' # let's compare this one with sprague()
+#' simple.vec <- sprague(popvec)
 #' # and with a simple monotonic spline
 #' mono.vec <- splitMono(popvec)
 #' \dontrun{
-#' plot(85:100,simple.vec[86:101], type = 'l', main = "In this case spragueSimple() is the smoothest")
+#' plot(85:100,simple.vec[86:101], type = 'l', main = "In this case sprague() is the smoothest")
 #' lines(85:100,closed.vec[86:101], col = "red", lwd = 2)
 #' lines(85:100,mono.vec[86:101], col = "blue", lty = 2)
 #' legend("topright",lty=c(1,2,2), col = c("black","red","blue"),lwd = c(1,2,1),
-#' 		legend = c("spragueSimple()","spragueCloseout()", "splitMono()"))
+#' 		legend = c("sprague()","spragueCloseout()", "splitMono()"))
 #' }
 spragueCloseout <- function(popmat, pops, pivotAge = 90){
 	popmat <- as.matrix(popmat)
 	if (missing(pops)){
-		pops    <- spragueSimple(popmat)
+		pops    <- sprague(popmat)
 	}
 	# get the spline population split
 	popmono <- apply(popmat, 2, splitMono, keep.OAG = TRUE)
@@ -500,7 +500,7 @@ spragueCloseout <- function(popmat, pops, pivotAge = 90){
 		if (pivotAge < 80){
 			warning("pivotAge wasn't in rownames(popmat), moved it to 3rd 
 from bottom row of popmat, but appears to be < 80
-so returning spragueSimple() output as-is, no extra closeout performed.")
+so returning sprague() output as-is, no extra closeout performed.")
             return(pops)
 		}
 		warning("pivotAge moved to ", pivotAge, ", continued.")
@@ -539,7 +539,7 @@ so returning spragueSimple() output as-is, no extra closeout performed.")
 
 #' an oscillatory average of Sprague age splits
 #' @description Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits.
-#' This method is a bit smoother than the standard \code{spragueSimple()} method, but not as smooth as \code{grabill()}.
+#' This method is a bit smoother than the standard \code{sprague()} method, but not as smooth as \code{grabill()}.
 #' 
 #' @details This function works on a single vector of single-age counts, not on a matrix. Results are not
 #' constrained to any particular age group, but are constrained to the total count.
@@ -572,12 +572,12 @@ so returning spragueSimple() output as-is, no extra closeout performed.")
 #' names(Value) <- Age
 #' #barplot(Value, main = "yup, these have heaping!")
 #' # this is the basic case we compare with:
-#' pop0    <- spragueSimple(groupAges(Value,Age))
+#' pop0    <- sprague(groupAges(Value,Age))
 #' # note: this function needs single ages to work because
 #' # ages are grouped into 5-year age groups in 5 different ways.
 #' (pop1   <- spragueOscillate(Value, Age, closeout = FALSE))
 #' # see the NaN value? That because there were some negatives produced by 
-#' # spragueSimple(). We can call spragueCloseout() inside spragueOscillate()
+#' # sprague(). We can call spragueCloseout() inside spragueOscillate()
 #' # to handle such cases:
 #' (pop2   <- spragueOscillate(Value, Age, closeout = TRUE))
 #' # what's smoother, spragueOscillate() or grabill()?
@@ -593,7 +593,7 @@ so returning spragueSimple() output as-is, no extra closeout performed.")
 #' lines(Age, pop2, col = "red", lty = 2, lwd = 2) 
 #' lines(Age, pop3, col = "magenta")
 #' legend("topright", lty = c(1,1,2,1), lwd = c(1,1,2,1), col = c("blue","black","red","magenta"),
-#' 		legend = c("spragueSimple()",
+#' 		legend = c("sprague()",
 #'                 "spragueOscillate(closeout = FALSE)", 
 #' 				   "spragueOscillate(closeout = TRUE)",
 #' 				   "grabill()"))
@@ -628,7 +628,7 @@ spragueOscillate <- function(Value, Age, OAG = TRUE, closeout = TRUE){
 		Val.i.5             <- c(Val.i.5, pi)
 		names(Val.i.5)      <- c(unique(Age.i.5), max(Age.i.5) + 5)
 		# get first run estimate
-		pop.est             <- spragueSimple(Val.i.5)
+		pop.est             <- sprague(Val.i.5)
 		if (closeout){
 			pop.est <- spragueCloseout(Val.i.5, pop.est)
 		}

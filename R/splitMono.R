@@ -83,7 +83,7 @@ splitMono <- function(Value, Age, OAG = FALSE){
 #' margins (age in rows and year in columns).
 #' @param pops optional numeric matrix of single age population counts derived from \code{popmat}.
 #' @param pivotAge integer (default 90). Age at which to switch to spline-based estimates.
-#' @param splitfun optional. The function used to create pops. Default \code{spragueSimple}. 
+#' @param splitfun optional. The function used to create pops. Default \code{sprague}. 
 #' Could also be \code{grabill}, \code{beersModSimple}, or any other function that similarly transforms.
 #' @param OAG logical (default \code{FALSE}). Would we like to re-impute the last 
 #' element of \code{Value} as the open age group?
@@ -133,19 +133,19 @@ splitMono <- function(Value, Age, OAG = FALSE){
 #' # also works on an age-labelled vector of data
 #' popvec <- popmat[,1]
 #' closed.vec <- monoCloseout(popvec)
-#' # let's compare this one with spragueSimple()
-#' simple.vec <- spragueSimple(popvec)
+#' # let's compare this one with sprague()
+#' simple.vec <- sprague(popvec)
 #' # and with a simple monotonic spline
 #' mono.vec <- splitMono(popvec)
 #' \dontrun{
-#' plot(85:100,simple.vec[86:101], type = 'l', main = "In this case spragueSimple() is the smoothest")
+#' plot(85:100,simple.vec[86:101], type = 'l', main = "In this case sprague() is the smoothest")
 #' lines(85:100,closed.vec[86:101], col = "red", lwd = 2)
 #' lines(85:100,mono.vec[86:101], col = "blue", lty = 2)
 #' legend("topright",lty=c(1,2,2), col = c("black","red","blue"),lwd = c(1,2,1),
-#' 		legend = c("spragueSimple()","monoCloseout()", "splitMono()"))
+#' 		legend = c("sprague()","monoCloseout()", "splitMono()"))
 #' }
 # TODO: make this deal w OAG in a more consistent way
-monoCloseout <- function(popmat, pops, pivotAge = 90, splitfun = spragueSimple, OAG = FALSE, ...){
+monoCloseout <- function(popmat, pops, pivotAge = 90, splitfun = sprague, OAG = FALSE, ...){
 	popmat <- as.matrix(popmat)
 	if (missing(pops)){
 		pops    <- splitfun(popmat, ...)
@@ -163,7 +163,7 @@ monoCloseout <- function(popmat, pops, pivotAge = 90, splitfun = spragueSimple, 
 		if (pivotAge < 80){
 			warning("pivotAge wasn't in rownames(popmat), moved it to 3rd 
 							from bottom row of popmat, but appears to be < 80
-							so returning spragueSimple() output as-is, no extra closeout performed.")
+							so returning sprague() output as-is, no extra closeout performed.")
 			return(pops)
 		}
 		warning("pivotAge moved to ", pivotAge, ", continued.")

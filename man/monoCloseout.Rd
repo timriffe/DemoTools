@@ -4,8 +4,8 @@
 \alias{monoCloseout}
 \title{blend the Sprague upper boundary age estimates into monotonic spline estimates}
 \usage{
-monoCloseout(popmat, pops, pivotAge = 90, splitfun = spragueSimple,
-  OAG = FALSE, ...)
+monoCloseout(popmat, pops, pivotAge = 90, splitfun = sprague, OAG = FALSE,
+  ...)
 }
 \arguments{
 \item{popmat}{a numeric matrix of population counts in 5-year age groups, with integer-labeled 
@@ -15,7 +15,7 @@ margins (age in rows and year in columns).}
 
 \item{pivotAge}{integer (default 90). Age at which to switch to spline-based estimates.}
 
-\item{splitfun}{optional. The function used to create pops. Default \code{spragueSimple}. 
+\item{splitfun}{optional. The function used to create pops. Default \code{sprague}. 
 Could also be \code{grabill}, \code{beersModSimple}, or any other function that similarly transforms.}
 
 \item{OAG}{logical (default \code{FALSE}). Would we like to re-impute the last 
@@ -73,15 +73,15 @@ colSums(grabill.closed.out) - colSums(popmat)
 # also works on an age-labelled vector of data
 popvec <- popmat[,1]
 closed.vec <- monoCloseout(popvec)
-# let's compare this one with spragueSimple()
-simple.vec <- spragueSimple(popvec)
+# let's compare this one with sprague()
+simple.vec <- sprague(popvec)
 # and with a simple monotonic spline
 mono.vec <- splitMono(popvec)
 \dontrun{
-plot(85:100,simple.vec[86:101], type = 'l', main = "In this case spragueSimple() is the smoothest")
+plot(85:100,simple.vec[86:101], type = 'l', main = "In this case sprague() is the smoothest")
 lines(85:100,closed.vec[86:101], col = "red", lwd = 2)
 lines(85:100,mono.vec[86:101], col = "blue", lty = 2)
 legend("topright",lty=c(1,2,2), col = c("black","red","blue"),lwd = c(1,2,1),
-		legend = c("spragueSimple()","monoCloseout()", "splitMono()"))
+		legend = c("sprague()","monoCloseout()", "splitMono()"))
 }
 }

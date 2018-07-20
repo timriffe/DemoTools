@@ -23,7 +23,7 @@ original 5-year age groups and smoothly blending into ages greater than 10.
 }
 \details{
 This has not been tested using \code{pop1} as generated from other methods, such as 
-the Beers modified, Sprague, or Grabill methods. Called internally by \code{BeersSimple()}.
+the Beers modified, Sprague, or Grabill methods. Called internally by \code{beers()}.
 }
 \references{
 \insertRef{stover2008spectrum}{DemoTools}

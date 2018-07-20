@@ -7,7 +7,7 @@
 axPAS(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE)
 }
 \arguments{
-\item{nMx}{numeric. Event exposure mortality rates}
+\item{nMx}{numeric. Event exposure mortality rates.}
 
 \item{AgeInt}{integer. Vector of age interval widths.}
 

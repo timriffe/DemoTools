@@ -9,43 +9,44 @@ axUN(nMx, nqx, lx, IMR = NA, AgeInt, Sex = "m", region = "w",
   closeout = "mortpak")
 }
 \arguments{
-\item{nMx}{numeric vector. Mortality rates in standard abridged age groups.}
+\item{nMx}{numeric. Event exposure mortality rates.}
 
-\item{nqx}{numeric vector. Age specific death probabilities in standard abridged age groups.}
+\item{nqx}{numeric.  Vector of age specific death probabilities in standard abridged age groups.}
 
-\item{lx}{numeric vector. Lifetable survivorship in standard abridged age groups.}
+\item{lx}{numeric. Vector of lifetable survivorship in standard abridged age groups.}
 
-\item{IMR}{numeric. Infant death probability, (q0). Optional.}
+\item{IMR}{numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.}
 
-\item{AgeInt}{integer vector of age interval widths.}
+\item{AgeInt}{integer. Vector of age interval widths.}
 
 \item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
 
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 
-\item{tol}{the tolerance for the qx-based iterative method (default \code{.Machine$double.eps}).}
+\item{tol}{numeric. The tolerance for the qx-based iterative method. Default \code{.Machine$double.eps}.}
 
-\item{maxit}{the maximum numbder of iterations for the qx-based iterative method (default 1000).}
+\item{maxit}{integer. The maximum number of iterations for the qx-based iterative method. Ddefault 1000.}
 
-\item{mod}{logical (default \code{TRUE}). Use Gerland's modification for ages 5-14?}
+\item{mod}{logical.  Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.}
 
 \item{closeout}{character. Default \code{"mortpak"}.}
 }
 \value{
-ax numeric vector of a(x) the average time spent in the interval of those that die in the interval.
+nax average contribution to exposure of those dying in the interval.
 }
 \description{
-The UN ax formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 
+The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 
 for ages 5-9 and 10-14, and the Greville formula for higher ages. In the original sources 
 these are referred to as separation factors.
 }
 \details{
-ax for age 0 and age group 1-4 are based on Coale-Demeny q0-based lookup tables. If the main 
-input is \code{nMx}, and if \code{IMR} is not given, we first approximate q0 for the CD formula 
+a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. If the main 
+input is \code{nMx}, and if \code{IMR} is not given, we first approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the Coale-Demeny approach
 before applying the formula.
-The final ax value is closed out by default as the Mortpak Abacus estimate (based on extrapolation of nMx). If the closeout argument is anything other than \code{"mortpak"}, then life expectancy in the open age group is taken as the reciprocal of the final m(x). For nMx inputs 
-this method is rather direct, but for qx or lx inputs it is iterative. Age groups must be standard abridged, 
-and we do not check age groups here!
+The final a(x) value is closed out by default as the Mortpak Abacus estimate (based on extrapolation of nMx). If the closeout argument is anything other than \code{"mortpak"}, 
+then life expectancy in the open age group is taken as the reciprocal of the final M(x). For nMx inputs 
+this method is rather direct, but for {\ifelse{html}{\out{q<sub>X</sub>}}{\eqn{q_X}}} or l(x) inputs it is iterative. Age groups must be standard abridged.
+No check on age groups are done.
 }
 \examples{
 # example data from UN 1982 Model Life Tables for Developing Countries.

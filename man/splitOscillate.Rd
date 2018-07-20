@@ -5,7 +5,7 @@
 \title{an oscillatory average of age splits}
 \usage{
 splitOscillate(Value, Age = 1:length(Value) - 1, OAG = TRUE,
-  splitfun = spragueSimple, closeout = "mono", pivotAge = 90, ...)
+  splitfun = sprague, closeout = "mono", pivotAge = 90, ...)
 }
 \arguments{
 \item{Value}{numeric vector of single age counts}
@@ -14,7 +14,7 @@ splitOscillate(Value, Age = 1:length(Value) - 1, OAG = TRUE,
 
 \item{OAG}{logical (default \code{TRUE}). Is the last value the open age group?}
 
-\item{splitfun}{function used to split at each digit grouping (default \code{spragueSimple()}.}
+\item{splitfun}{function used to split at each digit grouping (default \code{sprague()}.}
 
 \item{closeout}{logical or \code{"mono"}}
 
@@ -54,12 +54,12 @@ Value <- structure(c(9544406, 7471790, 11590109, 11881844, 11872503, 12968350,
 		 5889, 18915, 21221, 72373), .Names = 0:100)
 #barplot(Value, main = "yup, these have heaping!")
 # this is the basic case we compare with:
-pop0    <- spragueSimple(groupAges(Value),  OAG = TRUE)
+pop0    <- sprague(groupAges(Value),  OAG = TRUE)
 # note: this function needs single ages to work because
 # ages are grouped into 5-year age groups in 5 different ways.
 # breaks
-#pop1    <- splitOscillate(Value, OAG = TRUE, splitfun = spragueSimple)
-pop2    <- splitOscillate(Value, OAG = TRUE, splitfun = beersSimple)
+#pop1    <- splitOscillate(Value, OAG = TRUE, splitfun = sprague)
+pop2    <- splitOscillate(Value, OAG = TRUE, splitfun = beers)
 # what's smoother, splitOscillate() or grabill()?
 # note, same closeout problem, can be handled by monoCloseout()
 pop3    <- grabill(Value, OAG = TRUE)
@@ -79,9 +79,9 @@ legend("topright",
 lty = c(1,1,2,1,2), 
 lwd = c(1,1,2,1,1), 
 col = c("blue","black","red","magenta","orange"),
-		legend = c("spragueSimple()",
-                "splitOscillate(splitfun = spragueSimple)", 
-				   "splitOscillate(splitfun = beersSimple)",
+		legend = c("sprague()",
+                "splitOscillate(splitfun = sprague)", 
+				   "splitOscillate(splitfun = beers)",
 				   "grabill()",
                 "splitOscillate(splitfun = grabill)"))
 
@@ -89,7 +89,7 @@ col = c("blue","black","red","magenta","orange"),
 ID(Value, pop0) # original vs sprague
 ID(pop0,pop1) # sprague vs sprague osc
 ID(pop1,pop2) # sprague osc vs beers osc
-ID(pop2,pop3) # beersSimple osc vs grabill
+ID(pop2,pop3) # beers osc vs grabill
 ID(pop3,pop4) # grabill vs grabill osc
 # measre of smoothness:
 mean(abs(diff(Value)))
