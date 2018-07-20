@@ -560,7 +560,7 @@ AbacusLIFTB_wrap <- function(Mx, qx, mx_ind = TRUE, OAnew = 100, Sex = "m"){
 							  NTYPE = NTYPE, NSEX = 1, QXMX = QXMX,
 							  abort = FALSE)
 	ARRAY           <- OUT$ARRAY
-	AgeI            <- calc_AgeAbr_OAG(OAnew) + 1
+	AgeI            <- maxA2abridged(OAnew) + 1
 	ARRAY           <- ARRAY[AgeI, ]
 	if (sum(ARRAY == 0) / length(ARRAY) > .9){
 		warning(OUT$ErrorCode)

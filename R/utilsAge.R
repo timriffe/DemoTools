@@ -107,6 +107,7 @@ calcAgeAbr <- function(Age){
 #' @param Age integer vector. Lower bound of each age group.
 #' @param vec any vector, presumably a count, rate, or similar.
 #' @param OAG logical (default \code{FALSE}). Is the final age group open?
+#' @param OAGvalue numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.
 #' 
 #' @details If based soley on the length of a vector, this will give erroneous results if ages 
 #' are anything other than standard abridged ages groups. If the final age group is open, the 
@@ -122,12 +123,13 @@ calcAgeAbr <- function(Age){
 #' vec <- runif(20)
 #' inferAgeIntAbr(vec = vec)
 #' inferAgeIntAbr(vec = vec, OAG = TRUE)
-inferAgeIntAbr <- function(Age, vec, OAG = FALSE){
+inferAgeIntAbr <- function(Age, vec, OAG = FALSE, OAGvalue = NA){
 	
 	# Age is preferred (lower bounds)
 	if (!missing(Age)){
-		ageint <- diff(Age)
-		ageint <- c(ageint, ifelse(OAG, NA, ageint[length(ageint)]))
+		ageint <- age2int(Age = Age, 
+				          OAG = OAG, 
+						  OAGvalue = OAGvalue)
 	}
 	# otherwise length of vector will do
 	if (missing(Age) & !missing(vec)){
@@ -136,46 +138,90 @@ inferAgeIntAbr <- function(Age, vec, OAG = FALSE){
 		ageint[1] <- 1
 		ageint[2] <- 4
 		if (OAG){
-			ageint[length(ageint)] <- NA
+			ageint[length(ageint)] <- OAGvalue
 		}
 	}
 	
 	ageint
 }
 
-#' produce abridged ages up to a given open age group
-#' @description Produce standard abrdiged age groups up to a specified open age group. 
-#' @details If the open age group is not evenly divisible by 5 then age classes only go up to its 5-year lower bound.
-#' @param OAG integer. Default 80
+#' determine abridged ages up to a given maximum age group
+#' @description Produce standard abridged age groups (lower bounds) up to a specified maximum age group. 
+#' @details If the highest age group is not evenly divisible by 5 then age classes only go up to its 5-year lower bound.
+#' @param maxA integer. Default 80
 #' @return integer vector of ages \code{c(0,1,5,10,15,...)}
 #' @export 
 #' @examples 
-#' calc_AgeAbr_OAG(80)
-#' stopifnot(all(calc_AgeAbr_OAG(100) == calc_AgeAbr_OAG(102)))
-calc_AgeAbr_OAG <- function(OAG=80){
-	sort(unique(calcAgeAbr(0:OAG)))
+#' maxA2abridged(80)
+#' stopifnot(all(maxA2abridged(100) == maxA2abridged(102)))
+maxA2abridged <- function(maxA = 80){
+	sort(unique(calcAgeAbr(0:maxA)))
 }
 
-#' infer lower age class bounds from vector of age intervals
+# TR: deprecated July 20, 2018
+##' infer lower age class bounds from vector of age intervals
+##' 
+##' @description a simple identity
+##' @details It makes no difference whether the final age group is open or how that is coded,
+##' as long as all lower age intervals are coercible to integer.
+##' @param AgeInt vector of age intervals
+##' @param minA what is the lowest age bound to start counting from (default 0)?
+##' @return integer vector of ages
+##' @export 
+##' @examples 
+##' int1 <- c(rep(1,100),NA)
+##' int2 <- c(rep(1,100),"+")
+##' int3 <- inferAgeIntAbr(vec = rep(1,20), OAG = TRUE)
+##' AgefromAgeInt(int1)
+##' AgefromAgeInt(int2) # character OK
+##' AgefromAgeInt(int3)
+## TR: does this give upper bounds rather than lower bounds
+## of age?
+#AgefromAgeInt <- function(AgeInt, minA = 0){
+#	N      <- length(AgeInt)
+#	AgeInt <- as.integer(AgeInt[-N])
+#	cumsum(c(minA, AgeInt))
+#}
+
+#' infer lower age bounds from age class intervals
+#' @description Determine lower bounds of age classes based on a vector of age intervals and a starting age.
 #' 
-#' @description a simple identity
-#' @details It makes no difference whether the final age group is open or how that is coded,
-#' as long as all lower age intervals are coercible to integer.
-#' @param AgeInt vector of age intervals
-#' @param minA what is the lowest age bound to start counting from (default 0)?
-#' @return integer vector of ages
+#' @param AgeInt integer or numeric vector of age intervals 
+#' @param minA the lowest age, default 0.
 #' @export 
+#' @return Age vector, of same length as \code{AgeInt}.
 #' @examples 
-#' int1 <- c(rep(1,100),NA)
-#' int2 <- c(rep(1,100),"+")
-#' int3 <- inferAgeIntAbr(vec = rep(1,20), OAG = TRUE)
-#' AgefromAgeInt(int1)
-#' AgefromAgeInt(int2) # character OK
-#' AgefromAgeInt(int3)
-AgefromAgeInt <- function(AgeInt, minA = 0){
-	N      <- length(AgeInt)
-	AgeInt <- as.integer(AgeInt[-N])
-	cumsum(c(minA, AgeInt))
+#' AgeInt <- c(1,4,rep(5,17))
+#' int2age(AgeInt)
+int2age <- function(AgeInt, minA = 0){
+	cumsum(AgeInt) - AgeInt + minA
+}
+
+#' infer age class intervals from lower age bounds
+#' @description Determine age calss intervals based on a vector of age class lower bounds.
+#' @details If the final age group is open, it is given a value of \code{NA} by default, or else a user-determined value. 
+#' If the final age group is closed, it is assumed to be equal to the next-lower interval. If the final age interval is 
+#' known and not equal to the next lowest interval, specify \code{OAG = TRUE} and assign its value to \code{OAvalue}.
+#' @param Age integer or numeric vector of age intervals 
+#' @param OAG logical. \code{TRUE} if the final age group is open.
+#' @param OAGvalue numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.
+#' @export 
+#' @return Age interval vector, of same length as \code{Age}.
+#' @examples 
+#' # single age examples:
+#' Age  <- 0:100
+#' age2int(Age, OAG = TRUE, OAvalue = NA)
+#' age2int(Age, OAG = TRUE, OAvalue = Inf)
+#' age2int(Age, OAG = FALSE)
+#' 
+#' # and for abridged ages:
+#' AgeA <- c(0,1,seq(5,85,by=5))
+#' age2int(AgeA, OAG = TRUE, OAvalue = NA)
+#' age2int(AgeA, OAG = TRUE, OAvalue = Inf)
+#' age2int(AgeA, OAG = FALSE)
+age2int <- function(Age, OAG = TRUE, OAvalue = NA){
+	fd <- diff(Age)
+	c(fd,ifelse(OAG,OAvalue,fd[length(fd)]))
 }
 
 #' detect if a vector of lower age bounds is plausibly of abridged ages
@@ -203,66 +249,68 @@ is.abridged <- function(Age){
 	identical(Age,abr_default)
 }
 
-#' aggregates single year age groups into 5 year age groups
-#' 
-#' @description Creates five year age groups from single year ages. 
-#' @details Sums five year age intervals
-#' 
-#' @param Value numeric vector of single year age groups.
-#' 
-#' @export 
-#' @examples 
-#' MalePop <- seq(1,100)
-#' convertSingleTo5Year(MalePop)
+# TR deprecated 20 July, 2018. Use groupAges() instead
 
-convertSingleTo5Year <- function(Value){
-	shiftZero  <- Value
-	shiftOne   <- Value[-1]
-	shiftTwo   <- shiftOne[-1]
-	shiftThree <- shiftTwo[-1]
-	shiftFour  <- shiftThree[-1]
-	
-	# TR: not sure what to make of zero-indexing
-	shiftZero  <- shiftZero[0:(length(shiftZero)-4)]
-	shiftOne   <- shiftOne[0:(length(shiftOne)-3)]
-	shiftTwo   <- shiftTwo[0:(length(shiftTwo)-2)]
-	shiftThree <- shiftThree[0:(length(shiftThree)-1)]
-	
-	initialSum <- shiftZero + shiftOne + shiftTwo + shiftThree + shiftFour
-	
-	aggFinal   <- initialSum[c(TRUE, FALSE, FALSE, FALSE, FALSE)]
-	
-	return(aggFinal)
-}
+##' aggregates single year age groups into 5 year age groups
+##' 
+##' @description Creates five year age groups from single year ages. 
+##' @details Sums five year age intervals
+##' 
+##' @param Value numeric vector of single year age groups.
+##' 
+##' @export 
+##' @examples 
+##' MalePop <- seq(1,100)
+##' convertSingleTo5Year(MalePop)
+#
+#convertSingleTo5Year <- function(Value){
+#	shiftZero  <- Value
+#	shiftOne   <- Value[-1]
+#	shiftTwo   <- shiftOne[-1]
+#	shiftThree <- shiftTwo[-1]
+#	shiftFour  <- shiftThree[-1]
+#	
+#	# TR: not sure what to make of zero-indexing
+#	shiftZero  <- shiftZero[0:(length(shiftZero)-4)]
+#	shiftOne   <- shiftOne[0:(length(shiftOne)-3)]
+#	shiftTwo   <- shiftTwo[0:(length(shiftTwo)-2)]
+#	shiftThree <- shiftThree[0:(length(shiftThree)-1)]
+#	
+#	initialSum <- shiftZero + shiftOne + shiftTwo + shiftThree + shiftFour
+#	
+#	aggFinal   <- initialSum[c(TRUE, FALSE, FALSE, FALSE, FALSE)]
+#	
+#	return(aggFinal)
+#}
 
-# TR deprecate, use groupAges() instead
+# TR deprecated 20 July, 2018, use groupAges() instead
 
-#' aggregates split 0 & 1-4 age groups into a single 5 year age group
-#' 
-#' @description Creates a five year age group from split 0 & 1-4 year age groups. 
-#' @details Sums 0 & 1-4 age groups and outputs new 5 year age group vector.
-#' 
-#' @param Value numeric vector of population age groups that includes 0, 1-4, and 5 year ages.
-#' 
-#' @export 
-#' @examples 
-#' MalePop <- seq(1,100)
-#' convertSplitTo5Year(MalePop)
-
-convertSplitTo5Year <- function(Value){
-	output <- rep(0, length(Value))
-	
-	intermediate1 <- Value[1]
-	intermediate2 <- Value[2]
-	
-	intermediateValue <- Value[-1]
-	intermediateValue[1] <- intermediate1 + intermediate2
-	
-	output <- data.frame(intermediateValue)
-	row.names(output) <- seq(0, 5*length(output[,1])-1, by = 5)
-	
-	return(output)
-}
+##' aggregates split 0 & 1-4 age groups into a single 5 year age group
+##' 
+##' @description Creates a five year age group from split 0 & 1-4 year age groups. 
+##' @details Sums 0 & 1-4 age groups and outputs new 5 year age group vector.
+##' 
+##' @param Value numeric vector of population age groups that includes 0, 1-4, and 5 year ages.
+##' 
+##' @export 
+##' @examples 
+##' MalePop <- seq(1,100)
+##' convertSplitTo5Year(MalePop)
+#
+#convertSplitTo5Year <- function(Value){
+#	output <- rep(0, length(Value))
+#	
+#	intermediate1 <- Value[1]
+#	intermediate2 <- Value[2]
+#	
+#	intermediateValue <- Value[-1]
+#	intermediateValue[1] <- intermediate1 + intermediate2
+#	
+#	output <- data.frame(intermediateValue)
+#	row.names(output) <- seq(0, 5*length(output[,1])-1, by = 5)
+#	
+#	return(output)
+#}
 
 
 #' group single ages into equal age groups of arbitrary width
@@ -274,7 +322,7 @@ convertSplitTo5Year <- function(Value){
 #' @param N integer. Default 5. The desired width of resulting age groups
 #' @param shiftdown integer. Default 0. Optionally shift age groupings down by single ages 
 #' @param AgeN optional integer vector, otherwise calculated using \code{calcAgeN()}
-#' @param OAG integer value of open age group to impose.
+#' @param OAnew integer value of lower bound of new open age group
 #' @return vector of counts in N-year age groups
 #' 
 #' @details If you shift the groupings, then the first age groups may have a negative lower bound 
@@ -282,7 +330,7 @@ convertSplitTo5Year <- function(Value){
 #' for example, but they are preserved in this function. The important thing to know is that if you shift 
 #'  the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1, the first age group is 4-ages wide. The ages themselves are not returned, 
 #' but they are the name attribute of the output count vector. Note this will also correctly group abridged ages
-#' into equal 5-year age groups if the \code{Age} argument is explicitly given. \code{OAG} (optional) must be less than or equal to \code{max(Age)}.
+#' into equal 5-year age groups if the \code{Age} argument is explicitly given. \code{OAnew} (optional) must be less than or equal to \code{max(Age)} to have any effect.
 #' @export
 #' @examples
 #'  India1991males <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918
@@ -303,23 +351,23 @@ convertSplitTo5Year <- function(Value){
 #'  groupAges(India1991males, N = 5, shiftdown = 2)
 #'  groupAges(India1991males, N = 5, shiftdown = 3)
 #'  groupAges(India1991males, N = 5, shiftdown = 4)
-#'  groupAges(India1991males, N = 5, OAG = 80) 
+#'  groupAges(India1991males, N = 5, OAnew = 80) 
  
 groupAges <- function(Value, 
 		Age = 1:length(Value) - 1, 
 		N = 5, 
 		shiftdown = 0, 
 		AgeN,
-		OAG){
+		OAnew = max(Age)){
 	if (missing(AgeN)){
 		AgeN <- calcAgeN(Age = Age, N = N, shiftdown = shiftdown)
 	}
 	out <- tapply(Value, AgeN, sum)
 	
 	# group down open age 
-	if (!missing(OAG)){
+	if (OAnew < max(AgeN)){
 		AgeA <- sort(unique(AgeN))
-		out  <- groupOAG(Value = out, Age = AgeA, OAnew = OAG)
+		out  <- groupOAG(Value = out, Age = AgeA, OAnew = OAnew)
 	}
 	out
 }

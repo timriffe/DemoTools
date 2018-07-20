@@ -1,6 +1,11 @@
 
 # Author: tim
 ###############################################################################
+shhh <- function(expr){
+	capture.output(x <- suppressPackageStartupMessages(
+					suppressMessages(suppressWarnings(expr))))
+	invisible(x)
+}
 
 library(devtools)
 #install_github("hadley/devtools")
@@ -8,7 +13,7 @@ library(devtools)
 document("/home/tim/git/DemoTools")
 
 # run this to get access to already-written functions
-load_all("/home/tim/git/DemoTools")
+shhh(load_all("/home/tim/git/DemoTools"))
 
 # do this whenever major changes happen
 check("/home/tim/git/DemoTools")

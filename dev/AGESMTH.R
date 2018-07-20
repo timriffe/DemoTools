@@ -21,14 +21,14 @@
 #' @export
 #' 
 #' @examples 
-#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-#'   198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
-#' FemalePop    <- c(654258, 503070, 323460, 265534, 322576, 306329, 245883, 
-#'   179182, 145572, 95590, 81715, 48412, 54572, 28581, 26733, 14778, 30300)
-#' underOnePop  <- c(321476, 332782, 503070, 323460, 265534, 322576, 306329, 
-#'   245883, 179182, 145572, 95590, 81715, 48412, 54572, 28581, 26733, 14778, 30300)
-#' Ages <- seq(0, 80, by = 5)
-#' Ages2 <- c(0,1,seq(5, 80, by = 5))
+ MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
+   198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
+ FemalePop    <- c(654258, 503070, 323460, 265534, 322576, 306329, 245883, 
+   179182, 145572, 95590, 81715, 48412, 54572, 28581, 26733, 14778, 30300)
+ underOnePop  <- c(321476, 332782, 503070, 323460, 265534, 322576, 306329, 
+   245883, 179182, 145572, 95590, 81715, 48412, 54572, 28581, 26733, 14778, 30300)
+ Ages <- seq(0, 80, by = 5)
+ Ages2 <- c(0,1,seq(5, 80, by = 5))
 #' 
 #' popAgeSmth(MalePop, Ages, "Carrier-Farrag")
 #' popAgeSmth(FemalePop, Ages, "KKN")
@@ -41,10 +41,12 @@
 popAgeSmth <- function(
 		Value, 
 		Age, 
-		Method, 
-		SplitU5 = FALSE){
-  if (SplitU5){
-    intermediateAgg <- convertSplitTo5Year(Value) #Consolidate under split under 5 group
+		Method){
+	
+	# buggy? newAges could be either 5 or single
+  if ( is.abridged(Age) | is.single(Age) ){
+    #intermediateAgg <- convertSplitTo5Year(Value) #Consolidate under split under 5 group
+	intermediateAgg <-	groupAges(Value,Age=Age)
     newAges <- seq(0, max(Age), by=5) #Create new age groups
     aggValue <- splitToSingleAges(Value, newAges) #split into single age groups
   }
@@ -54,7 +56,7 @@ popAgeSmth <- function(
   }
   
   # Aggregate groups and create method inputs
-  if (Method == "Carrier-Farrag" || Method == "KKN" || Method == "Arriaga" || Method == "Strong"){
+  if (Method %in% c("Carrier-Farrag", "KKN" , "Arriaga", "Strong")){
     Value10PxMinus10 <- groupAges(aggValue, Age = newAges, N = 10)
     Value10Px        <- Value10PxMinus10[-1]
     Value10PxPlus10  <- Value10Px[-1]
@@ -99,7 +101,7 @@ popAgeSmth <- function(
   }
   
   #Create output
-  if (Method == "Carrier-Farrag" || Method == "KKN" || Method == "Arriaga"){
+  if (Method %in% c("Carrier-Farrag", "KKN", "Arriaga")){
     #Combine sequences and create full 5-year age group structure
     SmthPop                                    <- rep(0, length(aggValue)/5)
     SmthPop[seq(3, length(SmthPop) - 4, by=2)] <- Value5Px
@@ -128,6 +130,8 @@ popAgeSmth <- function(
     
     #Add on the under 10 and final age groups
     Value5YearGroups                           <- groupAges(aggValue, Age = newAges)
+	
+	# TR why in 2 steps?
     SmthPop[seq(1, 2)]                         <- Value5YearGroups[1:2]
     SmthPop[seq(length(SmthPop)-2, length(SmthPop))] <- Value5YearGroups[(length(Value5YearGroups)-2):length(Value5YearGroups)]
   }

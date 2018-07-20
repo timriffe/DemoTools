@@ -277,7 +277,7 @@ ax.greville.mortpak <- function(
 	AgeInt <- inferAgeIntAbr(vec=nMx)
 	
 	# use ages rather than index positions to select.
-	Age    <- AgefromAgeInt(AgeInt)
+	Age    <- int2age(AgeInt)
 	# default midpoints to overwrite
 	ax     <- AgeInt / 2
 	

@@ -4,7 +4,7 @@
 \alias{inferAgeIntAbr}
 \title{infer abridged age groups widths}
 \usage{
-inferAgeIntAbr(Age, vec, OAG = FALSE)
+inferAgeIntAbr(Age, vec, OAG = FALSE, OAGvalue = NA)
 }
 \arguments{
 \item{Age}{integer vector. Lower bound of each age group.}
@@ -12,6 +12,8 @@ inferAgeIntAbr(Age, vec, OAG = FALSE)
 \item{vec}{any vector, presumably a count, rate, or similar.}
 
 \item{OAG}{logical (default \code{FALSE}). Is the final age group open?}
+
+\item{OAGvalue}{numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.}
 }
 \value{
 an integer vector of \code{length(vec)} indicating the width of the abridged age group that each 

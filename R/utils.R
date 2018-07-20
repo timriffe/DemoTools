@@ -228,12 +228,12 @@ ratx <- function(fx, k = 1){
 #' 
 #' @return numeric vector of counts for single year age groups.
 #' 
-#' @details Assumes that all age groups are equal width. (Default is 5-year age groups.) Also, assumes that the population is uniformly distributed across each age interval. If there is a split under 5 age group (0 and 1-4 age groups), use function convertSplitTo5Year to consolidate before using this function. The default setting is to assume that the final age group is the same width as the other age groups.
+#' @details Assumes that all age groups are equal width. (Default is 5-year age groups.) Also, assumes that the population is uniformly distributed across each age interval. If there is a split under 5 age group (0 and 1-4 age groups), use \code{groupAges()} to consolidate before using this function. The default setting is to assume that the final age group is the same width as the other age groups.
 #' 
 #' @export
 #' @examples 
-#' MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,
-#'              11993151,10033918,14312222,8111523,15311047,6861510,13305117,7454575,
+#' MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,            
+#' 11993151,10033918,14312222,8111523,15311047,6861510,13305117,7454575,
 #'              9015381,10325432,9055588,5519173)
 #' Ages <- seq(0,85, by=5)
 #' splitToSingleAges(MalePop, Ages)
@@ -256,6 +256,9 @@ splitToSingleAges <- function(Value, Age, OAG = FALSE){
 	
 	return(singleAgeGroupBirths)
 }
+
+
+
 
 #' Wrapper to provide a single location to reference all model life tables.
 #' @description Still in the works.

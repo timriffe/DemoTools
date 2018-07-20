@@ -67,9 +67,12 @@ opag <- function(Value, Age, BirthLE, LTCode = "coale-demeny west", LxLifeTable 
     LxMaleLifeTableInit2 <- c(LxMaleLifeTableInit[1:(length(Value[,1]))], sum(LxMaleLifeTableInit[(length(Value[,1])+1):length(LxMaleLifeTableInit)]))
     LxFemaleLifeTableInit2 <- c(LxFemaleLifeTableInit[1:(length(Value[,1]))], sum(LxFemaleLifeTableInit[(length(Value[,1])+1):length(LxFemaleLifeTableInit)]))
     
-    LxMaleLifeTableInit2 <- convertSplitTo5Year(LxMaleLifeTableInit)
-    LxFemaleLifeTableInit2 <- convertSplitTo5Year(LxFemaleLifeTableInit)
-    
+	# groupAges()
+#    LxMaleLifeTableInit2 <- convertSplitTo5Year(LxMaleLifeTableInit)
+#    LxFemaleLifeTableInit2 <- convertSplitTo5Year(LxFemaleLifeTableInit)
+    LxMaleLifeTableInit2   <- groupAges(LxMaleLifeTableInit)
+    LxFemaleLifeTableInit2 <- groupAges(LxFemaleLifeTableInit)
+	
     LxMaleLifeTable <- c(LxMaleLifeTableInit2[1:16,], sum(LxMaleLifeTableInit2[17:length(LxMaleLifeTableInit2[,1]),1]))
     LxFemaleLifeTable <- c(LxFemaleLifeTableInit2[1:16,], sum(LxFemaleLifeTableInit2[17:length(LxFemaleLifeTableInit2[,1]),1]))
     
