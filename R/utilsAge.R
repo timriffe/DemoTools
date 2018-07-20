@@ -138,7 +138,7 @@ inferAgeIntAbr <- function(Age, vec, OAG = FALSE, OAvalue = NA){
 		ageint[1] <- 1
 		ageint[2] <- 4
 		if (OAG){
-			ageint[length(ageint)] <- OAGvalue
+			ageint[length(ageint)] <- OAvalue
 		}
 	}
 	
@@ -181,7 +181,7 @@ int2age <- function(AgeInt, minA = 0){
 #' known and not equal to the next lowest interval, specify \code{OAG = TRUE} and assign its value to \code{OAvalue}.
 #' @param Age integer or numeric vector of age intervals 
 #' @param OAG logical. \code{TRUE} if the final age group is open.
-#' @param OAGvalue numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.
+#' @param OAvalue numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.
 #' @export 
 #' @return Age interval vector, of same length as \code{Age}.
 #' @examples 

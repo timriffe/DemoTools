@@ -11,7 +11,7 @@ age2int(Age, OAG = TRUE, OAvalue = NA)
 
 \item{OAG}{logical. \code{TRUE} if the final age group is open.}
 
-\item{OAGvalue}{numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.}
+\item{OAvalue}{numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.}
 }
 \value{
 Age interval vector, of same length as \code{Age}.
