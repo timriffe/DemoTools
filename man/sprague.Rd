@@ -2,30 +2,30 @@
 % Please edit documentation in R/Sprague.R
 \name{sprague}
 \alias{sprague}
-\title{the basic Sprague age-splitting method}
+\title{The basic Sprague age-splitting method.}
 \usage{
 sprague(popmat, Age, OAG = TRUE, closeout = "mono", pivotAge = 90)
 }
 \arguments{
-\item{popmat}{a numeric matrix of population counts in 5-year age groups, with integer-labeled 
+\item{popmat}{numeric. A matrix of population counts in 5-year age groups with integer-labeled 
 margins (age in rows and year in columns).}
 
-\item{Age}{integer vector. Lower age bound of age groups. Detected from row names of \code{popmat} if missing.}
+\item{Age}{integer. Vector of lower age bound of age groups. Detected from row names of \code{popmat} if missing.}
 
-\item{OAG}{logical (default \code{TRUE}. Is the final age group open?}
+\item{OAG}{logical. Whether or not the final age group open. Default \code{TRUE}.}
 
-\item{closeout}{logical or character (default \code{"mono"}).}
+\item{closeout}{logical or character. Default \code{"mono"}. See details.}
 
-\item{pivotAge}{integer (default 90).}
+\item{pivotAge}{integer. Pivotal age. Default 90.}
 
 \item{...}{extra arguments passed to the closeout function.}
 }
 \value{
-an age-period matrix od split population counts with the same number of 
+An age-period matrix of split population counts with the same number of 
 columns as \code{popmat}, and single ages in rows.
 }
 \description{
-This method is based on the first stage of the Sprague R 
+This method is used to interpolate counts based on the Sprague formula. It is based on the first stage of the Sprague R 
 script prepared by Thomas Buettner and Patrick Gerland, itself based on the description
 in Siegel and Swanson, 2004, p. 727.
 }
@@ -34,8 +34,7 @@ Ages should refer to lower age bounds, ending in the open age group in the last 
 Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
 work as well, as long as it's given as a single-column matrix. There are different ways 
 to specify closing out the graduation: To leave the Sprague results as-is specify \code{closeout = FALSE}. \code{TRUE} 
-or \code{"mono"} will call the \code{monoCloseout()} function. The guarantees no negative values. Other closeout
- methods may be integrated in the future.
+or \code{"mono"} will call the \code{monoCloseout()} function. This guarantees no negative values.
 }
 \examples{
 p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 

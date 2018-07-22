@@ -2,21 +2,20 @@
 % Please edit documentation in R/SPENCER.R
 \name{spencer}
 \alias{spencer}
-\title{smoothing of an age structure by single years using the formula of Spencer}
+\title{Smoothing of an age structure by single years using Spencer's formula.}
 \usage{
 spencer(Value, Age)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in single age groups.}
 
-\item{Age}{numeric or character. A vector with ages (in single years).}
+\item{Age}{numeric or character. A vector with ages in single years.}
 }
 \value{
-a named vector with the smoothed values
+A named vector with the smoothed age structure.
 }
 \description{
-Spencer's method is used to adjust distributions by year of age based on cumulative series.This comes from 
-pp. 373-377 in GDA_1981_Structures-par-sexe-et-age-en-Afrique_[IREDA]
+Spencer's method is used to adjust distributions by year of age based on cumulative series.This comes from Roger et al (1981, pp. 373-377).
 }
 \details{
 Single year age groups are assumed.
