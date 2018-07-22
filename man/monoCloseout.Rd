@@ -58,9 +58,9 @@ and this function performs to rescaling. The open age group is preserved (and mu
 "65", "70", "75", "80", "85", "90", "95", "100"), c("1950", "1951", 
 "1952", "1953", "1954")))
 
-closed.out <- monoCloseout(popmat)
-colSums(closed.out) - colSums(popmat)
-monoCloseout(popmat, pivotAge = 85)
+#closed.out <- monoCloseout(popmat)
+#colSums(closed.out) - colSums(popmat)
+#monoCloseout(popmat, pivotAge = 85)
 # giving a different single-age split to close out this way:
 popg <- grabill(popmat)
 grabill.closed.out <- monoCloseout(popmat, popg)

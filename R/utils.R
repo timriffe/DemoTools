@@ -221,10 +221,11 @@ ratx <- function(fx, k = 1){
 #' 
 #' @description Uniformly splits aggregate counts in age groups into single year age groups.
 #' 
-#' @param Value numeric vector of counts in grouped ages
+#' @param Counts numeric vector of counts in grouped ages
 #' @param AgeInt integer or numeric vector of age intervals 
 #' @param Age numeric vector of ages corresponding to the lower integer bound of the age range.
 #' @param OAG boolean argument that determines whether the final age group (assumed open ended) is kept as it is or has the same length as the rest of the age groups. Default is FALSE, i.e. use the same length for the final age group.
+#' @param OAvalue desired width of open age group. See details.
 #' 
 #' @return numeric vector of counts for single year age groups.
 #' 

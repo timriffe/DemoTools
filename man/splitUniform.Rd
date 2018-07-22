@@ -7,13 +7,15 @@
 splitUniform(Counts, AgeInt, Age, OAG = TRUE, OAvalue = 1)
 }
 \arguments{
+\item{Counts}{numeric vector of counts in grouped ages}
+
 \item{AgeInt}{integer or numeric vector of age intervals}
 
 \item{Age}{numeric vector of ages corresponding to the lower integer bound of the age range.}
 
 \item{OAG}{boolean argument that determines whether the final age group (assumed open ended) is kept as it is or has the same length as the rest of the age groups. Default is FALSE, i.e. use the same length for the final age group.}
 
-\item{Value}{numeric vector of counts in grouped ages}
+\item{OAvalue}{desired width of open age group. See details.}
 }
 \value{
 numeric vector of counts for single year age groups.

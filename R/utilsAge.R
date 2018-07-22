@@ -324,7 +324,7 @@ is.single <- function(Age){
 is.abridged <- function(Age){
 	maxA        <- max(Age)
 	minA        <- min(Age)
-	abr_default <- calc_AgeAbr_OAG(maxA)
+	abr_default <- maxA2abridged(maxA)
 	abr_default <- abr_default[abr_default >= minA]
 	identical(Age,abr_default)
 }

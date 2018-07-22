@@ -45,7 +45,7 @@ head(p5) # this is the entire matrix
 p1g <- grabill(p5)
 head(p1g); tail(p1g)
 colSums(p1g) - colSums(p5) 
-p1s <- sprague(p5)
+#p1s <- sprague(p5)
 \dontrun{
 plot(seq(0,100,by=5),p5[,1]/5,type = "s", col = "gray", xlab = "Age", ylab = "Count")
 lines(0:100, p1g[,1], col = "red", lwd = 2)
