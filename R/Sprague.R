@@ -2,27 +2,26 @@
 # Author: tim
 ###############################################################################
 
-#' the basic Sprague age-splitting method
+#' The basic Sprague age-splitting method.
 #' 
-#' @description This method is based on the first stage of the Sprague R 
+#' @description This method is used to interpolate counts based on the Sprague formula. It is based on the first stage of the Sprague R 
 #' script prepared by Thomas Buettner and Patrick Gerland, itself based on the description
 #' in Siegel and Swanson, 2004, p. 727.
 #' 
-#' @param popmat a numeric matrix of population counts in 5-year age groups, with integer-labeled 
+#' @param popmat numeric. A matrix of population counts in 5-year age groups with integer-labeled 
 #' margins (age in rows and year in columns).
-#' @param Age integer vector. Lower age bound of age groups. Detected from row names of \code{popmat} if missing.
-#' @param OAG logical (default \code{TRUE}. Is the final age group open?
-#' @param closeout logical or character (default \code{"mono"}). 
-#' @param pivotAge integer (default 90).
+#' @param Age integer. Vector of lower age bound of age groups. Detected from row names of \code{popmat} if missing.
+#' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
+#' @param closeout logical or character. Default \code{"mono"}. See details. 
+#' @param pivotAge integer. Pivotal age. Default 90.
 #' @param ... extra arguments passed to the closeout function.
 #' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
 #' Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
 #' work as well, as long as it's given as a single-column matrix. There are different ways 
 #' to specify closing out the graduation: To leave the Sprague results as-is specify \code{closeout = FALSE}. \code{TRUE} 
-#' or \code{"mono"} will call the \code{monoCloseout()} function. The guarantees no negative values. Other closeout
-#'  methods may be integrated in the future.
+#' or \code{"mono"} will call the \code{monoCloseout()} function. This guarantees no negative values.
 #' 
-#' @return an age-period matrix od split population counts with the same number of 
+#' @return An age-period matrix of split population counts with the same number of 
 #' columns as \code{popmat}, and single ages in rows.
 #' 
 #' @references 
@@ -117,18 +116,19 @@ sprague <- function(popmat, Age, OAG = TRUE, closeout = "mono", pivotAge = 90){
 	pop1
 }
 
-#' create the Sprague coefficient matrix 
+#' Create the Sprague coefficient matrix.
 #' 
 #' @description The resulting coefficient matrix is based on the number of rows in \code{popmat}
-#' where we assume that each row of data is a 5-year age group. The final row may be an open 
+#' where is assumed that each row of data is a 5-year age group. The final row may be an open 
 #' or closed age group, as indicated by the \code{OAG} argument.
 #' 
-#' @param popmat numeric matrix of age-period population counts in 5-year age groups
-#' @param OAG logical (default \code{TRUE}. Is the final age group open?
+#' @param popmat numeric. A matrix of population counts in 5-year age groups with integer-labeled 
+#' margins (age in rows and year in columns).
+#' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
 #' 
 #' @details The \code{popmat} matrix is really just a placeholder in this case. This function is 
 #' a utility called by the Sprague family of functions, where it is most convenient to just pass
-#' in the same matrix being used in those calcs to determine the layout of the coefficient matrix.
+#' in the same matrix being used in those calculationss to determine the layout of the coefficient matrix.
 #' 
 #' @export
 #' 
@@ -239,7 +239,7 @@ spragueExpand <- function(popmat, OAG = TRUE){
 }
 
 
-#' an oscillatory average of age splits
+#' An oscillatory average of age splits.
 #' @description Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits.
 #' This method is a bit smoother than the standard Sprague or Beers methods, but not as smooth as \code{grabill()}.
 #' 
@@ -248,15 +248,15 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' values are ignored in averaging. This can happen in older ages . It is recommended to run \code{monoCloseout()} or 
 #' similar after the oscillatory split in such situations.
 #' 
-#' @param Value numeric vector of single age counts
-#' @param Age integer vector of single ages (lower bound)
-#' @param OAG logical (default \code{TRUE}). Is the last value the open age group?
-#' @param splitfun function used to split at each digit grouping (default \code{sprague()}.
-#' @param closeout logical or \code{"mono"} 
-#' @param pivotAge Age to start blending in closeout values
+#' @param Value numeric. Vector of single age counts.
+#' @param Age integer. Vector of single ages.
+#' @param OAG logical. Whether or not the last value is the open age group. Default \code{TRUE}.
+#' @param splitfun function. Used to split at each digit grouping. Default \code{sprague().
+#' @param closeout logical or character. Default \code{"mono"}.
+#' @param pivotAge integer. Age to start blending in closeout values.
 #' @param ... optional arguments passed to \code{splitfun()}.
 #' 
-#' @return numeric vector of Sprague-smoothed counts
+#' @return Nmeric vector of smoothed counts.
 #' @references 
 #' \insertRef{booth2015demographic}{DemoTools}
 #' @export
