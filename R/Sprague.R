@@ -251,7 +251,7 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' @param Value numeric. Vector of single age counts.
 #' @param Age integer. Vector of single ages.
 #' @param OAG logical. Whether or not the last value is the open age group. Default \code{TRUE}.
-#' @param splitfun function. Used to split at each digit grouping. Default \code{sprague().
+#' @param splitfun function used to split at each digit grouping. Default \code{sprague()}.
 #' @param closeout logical or character. Default \code{"mono"}.
 #' @param pivotAge integer. Age to start blending in closeout values.
 #' @param ... optional arguments passed to \code{splitfun()}.

@@ -14,6 +14,8 @@ splitOscillate(Value, Age = 1:length(Value) - 1, OAG = TRUE,
 
 \item{OAG}{logical. Whether or not the last value is the open age group. Default \code{TRUE}.}
 
+\item{splitfun}{function used to split at each digit grouping. Default \code{sprague()}.}
+
 \item{closeout}{logical or character. Default \code{"mono"}.}
 
 \item{pivotAge}{integer. Age to start blending in closeout values.}

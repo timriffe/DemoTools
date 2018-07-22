@@ -59,7 +59,7 @@ splitMono <- function(Value, Age, OAG = FALSE){
 	
 	# this is innocuous if ages are already grouped
 	Age5       <- calcAgeN(Age, N = 5)
-	pop5       <- groupAges(Value, AgeN = Age5, shiftdown = 0)
+	pop5       <- groupAges(Value, Age = Age, AgeN = Age5, shiftdown = 0)
 	
 	AgePred    <- min(Age):(max(Age) + 1)
 	y          <- c(0, cumsum(pop5))
@@ -117,9 +117,9 @@ splitMono <- function(Value, Age, OAG = FALSE){
 #' "65", "70", "75", "80", "85", "90", "95", "100"), c("1950", "1951", 
 #' "1952", "1953", "1954")))
 #' 
-#' #closed.out <- monoCloseout(popmat)
-#' #colSums(closed.out) - colSums(popmat)
-#' #monoCloseout(popmat, pivotAge = 85)
+#' closed.out <- monoCloseout(popmat)
+#' colSums(closed.out) - colSums(popmat)
+#' monoCloseout(popmat, pivotAge = 85)
 #' # giving a different single-age split to close out this way:
 #' popg <- grabill(popmat)
 #' grabill.closed.out <- monoCloseout(popmat, popg)

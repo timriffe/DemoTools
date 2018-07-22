@@ -2,32 +2,30 @@
 % Please edit documentation in R/T9R5L.R
 \name{T9R5L}
 \alias{T9R5L}
-\title{Feeney T9R5L formula on 9 years to correct for heaping on multiples of five}
+\title{Feeney'S formula on 9 years to correct for heaping on multiples of 5.}
 \usage{
 T9R5L(Value, Age, ns = 0, maxit = 100)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in single age groups.}
 
-\item{Age}{numeric or character. A vector with ages (in single years).}
+\item{Age}{numeric or character. A vector with ages in single years.}
 
 \item{ns}{numeric. Cases of unknown (not-stated) age. By default this is equal to 0.}
 
-\item{maxit}{integer how many times should we iterate at most?}
+\item{maxit}{integer. Maximum number of iterations.}
 }
 \value{
 a dataframe with 4 columns: 
 \itemize{
-  \item Age integer
-  \item AgeInterval character 5, except open age group and unstated ages
-  \item recorded numeric original data grouped to 5-year ages
-  \item corrected numeric adjusted data in 5-year age groups
+  \item Age 
+  \item Age Interval character 5, except open age group and unstated ages.
+  \item recorded numeric original data grouped to 5-year ages.
+  \item corrected numeric adjusted data in 5-year age groups.
 }
 }
 \description{
-Fenney technique for correcting age distributions for heaping on multiples of five. This comes from 
-Feeney, G. 1979. "A technique for correcting age distributions for heaping on multiples of five," 
-Paper presented at Asian and Pacific Census Forum. Vol. 5:12-14
+Fenney's technique for correcting age distributions for heaping on multiples of five.
 }
 \details{
 Value is assumed to be in single ages. The last element of Value is assumed to be the open age group, and it is assumed that this age is evenly divisible by 5.
