@@ -2,20 +2,20 @@
 % Please edit documentation in R/utils.R
 \name{rlog}
 \alias{rlog}
-\title{logging that doesn't cause jams}
+\title{Logging that does not cause jams.}
 \usage{
 rlog(x, base = exp(1))
 }
 \arguments{
-\item{x}{a numeric or complex vector.}
+\item{x}{numeric or complex vector.}
 
-\item{base}{a positive or complex number: the base with respect to which
+\item{base}{positive or complex number. The base with respect to which
 logarithms are computed.  Defaults to \code{e=exp(1)}.}
 }
 \description{
 Zeros happen. Logging zeros leads to errors in downstream code.
-For the sake of robustness, we replace 0s with a small positive number to be 
-able to continue with calcs.
+For the sake of robustness, we replace zeros with a small positive number to be 
+able to continue with calculations.
 }
 \details{
 Use judiciously, since errors are good too.

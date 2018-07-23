@@ -2,20 +2,20 @@
 % Please edit documentation in R/utils.R
 \name{ypart}
 \alias{ypart}
-\title{determine the proportion of a year passed as of a particular date}
+\title{Determine the proportion of a year passed as of a particular date.}
 \usage{
 ypart(Year, Month, Day, detect.mid.year = TRUE, detect.start.end = TRUE)
 }
 \arguments{
-\item{Year}{4-digit year (string or integer)}
+\item{Year}{string or itneger. 4-digit year.}
 
-\item{Month}{month digits (string or integer, 1 or 2 characters)}
+\item{Month}{string or integer. Month digits, 1 or 2 characters.}
 
-\item{Day}{Day of month digits (string or integer, 1 or 2 characters)}
+\item{Day}{string or integer. Day of month digits, 1 or 2 characters.}
 
-\item{detect.mid.year}{logical. if \code{TRUE}, June 30 or July 1 will always return .5.}
+\item{detect.mid.year}{logical. If \code{TRUE}, June 30 or July 1 will always return .5.}
 
-\item{detect.start.end}{logical. default \code{TRUE}. Should Jan 1 always be 0 and Dec 31 always be 1?}
+\item{detect.start.end}{logical. Whether or not Jan 1 always be 0 and Dec 31 always be 1. Default \code{TRUE}.}
 }
 \description{
 The fraction returned by this is used e.g. for intercensal estimates.

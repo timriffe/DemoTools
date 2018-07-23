@@ -2,20 +2,20 @@
 % Please edit documentation in R/utils.R
 \name{rescale.vector}
 \alias{rescale.vector}
-\title{rescale a vector proportionally to a new sum}
+\title{Rescale a vector proportionally to a new sum.}
 \usage{
 rescale.vector(x, scale = 1)
 }
 \arguments{
-\item{x}{numeric vector}
+\item{x}{numeric vector.}
 
-\item{scale}{what you want the vector to sum to. Default 1.}
+\item{scale}{numeric. Value the vector should sum to. Default 1.}
 }
 \value{
-the vector, rescaled
+The vector rescaled.
 }
 \description{
-THis is a frequently needed operation, so it's being added as a general utility.
+Function used to rescale a vector to a given value. This is a frequently needed operation.
 }
 \details{
 For a distribution, use \code{scale = 1}. For percentages, use \code{scale = 100}, etc.
