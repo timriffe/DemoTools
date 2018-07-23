@@ -160,9 +160,9 @@ monoCloseout <- function(popmat, pops, pivotAge = 90, splitfun = sprague, OAG = 
 	if (!(max(Age1) - 10) >= pivotAge){
 		pivotAge <- max(Age1) - 10
 		if (pivotAge < 80){
-			warning("pivotAge wasn't in rownames(popmat), moved it to 3rd 
-							from bottom row of popmat, but appears to be < 80
-							so returning sprague() output as-is, no extra closeout performed.")
+			warning("pivotAge wasn't in rownames(popmat), moved it to 3rd ", 
+			        "from bottom row of popmat, but appears to be < 80 ",
+			        "so returning sprague() output as-is, no extra closeout performed.")
 			return(pops)
 		}
 		warning("pivotAge moved to ", pivotAge, ", continued.")
