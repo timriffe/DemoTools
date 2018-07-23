@@ -2,29 +2,29 @@
 % Please edit documentation in R/utilsAge.R
 \name{AGEN}
 \alias{AGEN}
-\title{trim two age vectors to matching N-year age groups}
+\title{Trim two age vectors to matching N-year age groups.}
 \usage{
 AGEN(Age1, Age2, N = 5, consecutive = TRUE, ageMin = 0,
   ageMax = max(c(Age1, Age2)))
 }
 \arguments{
-\item{Age1}{integer vector of first age groups (lower bounds)}
+\item{Age1}{integer. Vector of first age groups (lower bounds).}
 
-\item{Age2}{integer vector of second age groups (lower bounds)}
+\item{Age2}{integer. Vector of second age groups (lower bounds).}
 
-\item{N}{integer target age group interval (just one number)}
+\item{N}{integer. Target age group interval (just one number).}
 
-\item{consecutive}{logical default \code{TRUE}. Throw error if resulting age groups not consecutive?}
+\item{consecutive}{logical.  Whether or not to throw error if resulting age groups not consecutive. Default \code{TRUE}.}
 
-\item{ageMin}{integer optional lower age bound for output}
+\item{ageMin}{integer. Optional lower age bound for output.}
 
-\item{ageMax}{integer optional upper age bound for output}
+\item{ageMax}{integer. Optional upper age bound for output.}
 }
 \value{
-an integer vector of the N-year age groups present in both \code{Age1} and \code{Age2}
+Integer vector of the N-year age groups present in both \code{Age1} and \code{Age2}.
 }
 \description{
-determining which N-year (e.g. 5-year) age groups two vectors have in common
+Determining which N-year (e.g. 5-year) age groups two vectors have in common
 is helpful for matching vector lengths, and questions of alignment. Used as a utility throughout.
 }
 \examples{

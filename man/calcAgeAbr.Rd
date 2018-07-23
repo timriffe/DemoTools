@@ -2,15 +2,15 @@
 % Please edit documentation in R/utilsAge.R
 \name{calcAgeAbr}
 \alias{calcAgeAbr}
-\title{calculate which abridged age group single ages belong to}
+\title{Calculate which abridged age group single ages belong to.}
 \usage{
 calcAgeAbr(Age)
 }
 \arguments{
-\item{Age}{integer vector of single ages (lower bound)}
+\item{Age}{integer. Vector of single ages (lower bound).}
 }
 \value{
-an integer vector of \code{length(Age)} indicating the abridged age group that each single age belongs to.
+An integer vector of \code{length(Age)} indicating the abridged age group that each single age belongs to.
 }
 \description{
 Assign single ages to 5-year abridged age groups. That means that age 0 is kept as a single age,

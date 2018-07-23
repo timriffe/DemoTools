@@ -2,19 +2,19 @@
 % Please edit documentation in R/utilsAge.R
 \name{groupOAG}
 \alias{groupOAG}
-\title{Group down to a new open age class}
+\title{Group down to a new open age class.}
 \usage{
 groupOAG(Value, Age, OAnew)
 }
 \arguments{
-\item{Value}{numeric vector of counts}
+\item{Value}{numeric. Vector of counts.}
 
-\item{Age}{integer vector of age classes}
+\item{Age}{integer. Vector of age classes.}
 
-\item{OAnew}{the desired open age group}
+\item{OAnew}{The desired open age group.}
 }
 \value{
-Value vector potentially of reduced length up to OAG
+Value vector potentially of reduced length up to OAG.
 }
 \description{
 This simple utility lowers the open age group. It only returns the input value vector, not the age vector.

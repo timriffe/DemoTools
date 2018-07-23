@@ -2,23 +2,23 @@
 % Please edit documentation in R/utilsAge.R
 \name{is.single}
 \alias{is.single}
-\title{logical checking of whether age classes appear single}
+\title{Logical checking of whether age classes appear single.}
 \usage{
 is.single(Age)
 }
 \arguments{
-\item{Age}{integer vector of age classes}
+\item{Age}{integer. Vector of age classes.}
 }
 \value{
-logical \code{TRUE} if detected as single ages, \code{FALSE} otherwise
+logical. \code{TRUE} if detected as single ages, \code{FALSE} otherwise.
 }
 \description{
-check whether a vector of ages consists in single ages. This
+Check whether a vector of ages consists in single ages. This
 makes sense sometimes when age intervals are not explicitly given.
 }
 \details{
 In cases where ages are indeed single, but repeated, this will still return \code{FALSE}. 
-Therefore make sure that the age vector given refers to a single year of a single population, etc.
+Therefore make sure that the age vector given refers to a single year of a single population.
 }
 \examples{
 Age <- 0:99
