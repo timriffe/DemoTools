@@ -57,6 +57,7 @@ CarrierFarrag <- function(Value,
 	}
 	
 	Value5     <- groupAges(Value, Age = Age, N = 5)
+	N          <- length(Value5)
 	Age5       <- as.integer(names(Value5))
 	
 	# get staggered vectors
@@ -113,6 +114,7 @@ KKN <- function(Value,
 	}
 	
 	Value5     <- groupAges(Value, Age = Age, N = 5)
+	N          <- length(Value5)
 	Age5       <- as.integer(names(Value5))
 	
 	# get staggered vectors
@@ -147,6 +149,94 @@ KKN <- function(Value,
 	# make sure sum(odds) == sum(evens)
 	out[evens]  <- (Value5 + Value5L)[odds] - ValuePert[odds]
 	
+	# cut back down (depending) and name
+	out        <- out[1:N]
+	names(out) <- Age5
+	out
+}
+
+
+AMales <- Arriaga(MalePop, Ages, TRUE)
+Atest <- c(662761, 495126, 345744, 287629, 285919, 261018, 237469, 203277, 
+161733, 126960, 88586, 67496, 54587, 41257, 28790, 17189,34729 ) 
+all(round(AMales) - Atest == 0, na.rm = TRUE)
+
+
+# TODO: test this to vectors of different lengths: didn't work for age 70.
+# need more general indexing solution.
+Atest2        <- c(662761, 495126, 345744, 287629, 285919, 261018, 237469, 203277, 
+		161733, 126960, 88586, 67496, 54587, 41257, 28790, 17189+34729 ) 
+MalePop2      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
+		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183 + 34729)
+AMales2 <- Arriaga(MalePop2, seq(0,75,by=5), TRUE)
+
+
+
+Arriaga <- function(Value, 
+		Age, 
+		OAG = TRUE){
+	
+	N <- length(Value)
+	if (OAG){
+		OAGvalue <- Value[N]
+		Value[N] <- NA
+	}
+	
+	Value5     <- groupAges(Value, Age = Age, N = 5)
+	N          <- length(Value5)
+	Age5       <- as.integer(names(Value5))
+	
+	# get staggered vectors
+	Value5LLLL <- shift.vector(Value5, -4, fill = NA)
+	Value5LLL  <- shift.vector(Value5, -3, fill = NA)
+	Value5LL   <- shift.vector(Value5, -2, fill = NA)
+	Value5L    <- shift.vector(Value5, -1, fill = NA)
+	Value5R    <- shift.vector(Value5, 1, fill = NA)
+	Value5RR   <- shift.vector(Value5, 2, fill = NA)
+	Value5RRR  <- shift.vector(Value5, 3, fill = NA)
+	Value5RRRR <- shift.vector(Value5, 4, fill = NA)
+	
+	# thValue5RRR  <- shift.vector(Value5, 3, fill = NA)is is the funny KNN operation
+
+	ValuePertYoung <- (8*(Value5 + Value5R) + 5 * (Value5L + Value5LL) - Value5LLL - Value5LLLL) / 24
+	ValuePert      <- (-Value5RRR - Value5RR + 11 * (Value5R + Value5) + 2 * (Value5L + Value5LL)) / 24
+	ValuePertOld   <- (8*(Value5 + Value5L) + 5 * (Value5R + Value5RR) - Value5RRR - Value5RRRR) / 24
+	oldi           <- (N-2):N
+	youngi         <- 1:3
+	# cbind(ValuePertYoung, ValuePert, ValuePertOld)
+	# combine into one vector.
+	ValuePert[youngi] <- ValuePertYoung[youngi]
+	ValuePert[oldi] <- ValuePertOld[oldi]
+	
+	
+	# indices for switching behavior on and off.
+	# need same nr of evens and odds.
+	NN         <- N
+	if (N %% 2 == 1){
+		NN        <- N + 1
+		ValuePert <- c(ValuePert, NA)
+		Value5    <- c(Value5, NA)
+		Value5L   <- c(Value5L, NA)
+		Value5R   <- c(Value5R, NA)
+	}
+	
+	inds       <- 1:NN
+	evens      <- inds %% 2 == 0 & inds < (N-1)
+	evens[N-2] <- TRUE
+	
+	# produce results vector
+	out        <- Value5 * NA 
+	out[evens] <- ValuePert[evens]
+	# tougher
+    odds       <- inds %% 2 == 1 & inds < N & ! evens
+	out[odds]  <- (Value5 + Value5L)[odds] - ValuePert[which(odds)+1]
+	# now final value might have to look 'up'
+    final      <- !odds & !evens
+	out[final] <- (Value5 + Value5R)[final] - shift.vector(ValuePert, 1)[final]
+	# replace OAG if relevant:
+    if (OAG){
+		out[N]     <- OAGvalue
+	}
 	# cut back down (depending) and name
 	out        <- out[1:N]
 	names(out) <- Age5
