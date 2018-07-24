@@ -2,22 +2,22 @@
 % Please edit documentation in R/utils.R
 \name{shift.vector}
 \alias{shift.vector}
-\title{shift a vector left or right}
+\title{Shift a vector left or right.}
 \usage{
 shift.vector(x, shift = 0, fill = FALSE)
 }
 \arguments{
-\item{x}{a vector}
+\item{x}{vector.}
 
-\item{shift}{an integer value \code{< length(x)}}
+\item{shift}{integer. Value \code{< length(x)}. Default 0.}
 
-\item{fill}{what value do we put in the newly created positions? Possibly values like \code{FALSE}, \code{NA}, or  \code{0}.}
+\item{fill}{Values to fill newly created positions, e.g. \code{FALSE}, \code{NA}, or  \code{0}.}
 }
 \value{
-the vector x, shifted left or right.
+The vector x, shifted left or right.
 }
 \description{
-a simple function to move the elements of a vector to earlier or 
+Simple function to move the elements of a vector to earlier or 
 later positions depending on the value of \code{shift}. Auxiliary to other functions,
  rather multipurpose.
 }

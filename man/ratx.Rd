@@ -2,20 +2,20 @@
 % Please edit documentation in R/utils.R
 \name{ratx}
 \alias{ratx}
-\title{take consecutive ratios of a vector}
+\title{Take consecutive ratios of a vector.}
 \usage{
 ratx(fx, k = 1)
 }
 \arguments{
-\item{fx}{numeric vector of \code{length > k}}
+\item{fx}{numeric. Vector of \code{length > k}.}
 
-\item{k}{integer the size of the lag in elements of \code{fx}.}
+\item{k}{integer. The size of the lag in elements of \code{fx}.}
 }
 \description{
 This can be used, for example to take survival ratios.
 }
 \details{
-behavior similar to \code{diff()}, in that returned vector is \code{k} elements
+Behavior similar to \code{diff()}, in that returned vector is \code{k} elements
 shorter than the given vector \code{fx}.
 }
 \examples{

@@ -2,15 +2,15 @@
 % Please edit documentation in R/utils.R
 \name{isLeapYear}
 \alias{isLeapYear}
-\title{determine whether a year is a leap year.}
+\title{Determine whether a year is a leap year.}
 \usage{
 isLeapYear(Year)
 }
 \arguments{
-\item{Year}{integer of year to query}
+\item{Year}{integer. Year to query.}
 }
 \value{
-logical is the Year a leap year or not
+Logical value for whether the year is a leap year or not.
 }
 \description{
 In order to remove \code{lubridate} dependency, we self-detect leap years and adjust February accordingly. Code inherited from HMD.

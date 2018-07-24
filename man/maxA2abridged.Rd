@@ -2,15 +2,15 @@
 % Please edit documentation in R/utilsAge.R
 \name{maxA2abridged}
 \alias{maxA2abridged}
-\title{determine abridged ages up to a given maximum age group}
+\title{Determine abridged ages up to a given maximum age group.}
 \usage{
 maxA2abridged(maxA = 80)
 }
 \arguments{
-\item{maxA}{integer. Default 80}
+\item{maxA}{integer. Default 80.}
 }
 \value{
-integer vector of ages \code{c(0,1,5,10,15,...)}
+integer. Vector of ages, e.g. \code{c(0,1,5,10,15,...)}.
 }
 \description{
 Produce standard abridged age groups (lower bounds) up to a specified maximum age group.

@@ -5,19 +5,19 @@
 # - simple operations like detecting, grouping, and so forth.
 # not complex things like ungrouping ages.
 
-#' trim two age vectors to matching N-year age groups
+#' Trim two age vectors to matching N-year age groups.
 #' 
-#' @description determining which N-year (e.g. 5-year) age groups two vectors have in common
+#' @description Determining which N-year (e.g. 5-year) age groups two vectors have in common
 #' is helpful for matching vector lengths, and questions of alignment. Used as a utility throughout.
 
-#' @param Age1 integer vector of first age groups (lower bounds)
-#' @param Age2 integer vector of second age groups (lower bounds)
-#' @param N integer target age group interval (just one number)
-#' @param consecutive logical default \code{TRUE}. Throw error if resulting age groups not consecutive?
-#' @param ageMin integer optional lower age bound for output
-#' @param ageMax integer optional upper age bound for output
+#' @param Age1 integer. Vector of first age groups (lower bounds).
+#' @param Age2 integer. Vector of second age groups (lower bounds).
+#' @param N integer. Target age group interval (just one number).
+#' @param consecutive logical.  Whether or not to throw error if resulting age groups not consecutive. Default \code{TRUE}.
+#' @param ageMin integer. Optional lower age bound for output.
+#' @param ageMax integer. Optional upper age bound for output.
 #' 
-#' @return an integer vector of the N-year age groups present in both \code{Age1} and \code{Age2}
+#' @return Integer vector of the N-year age groups present in both \code{Age1} and \code{Age2}.
 #' 
 #' @export 
 #' 
@@ -42,13 +42,13 @@ AGEN <- function(Age1, Age2, N = 5, consecutive  = TRUE, ageMin = 0, ageMax = ma
 	ageN
 }
 
-#' calculate which large age group single ages belong to
+#' Calculate which large age group single ages belong to.
 #' 
 #' @description Assign single ages to age groups of equal and arbitrary width, and also optionally shifted.
 #' 
-#' @param Age integer vector of single ages (lower bound)
-#' @param N integer. Desired width of resulting age groups
-#' @param shiftdown integer (optional), move the grouping down by one or more single ages?
+#' @param Age integer. Vector of single ages (lower bound).
+#' @param N integer. Desired width of resulting age groups.
+#' @param shiftdown integer. Move the grouping down by one or more single ages. Optional argument.
 #' 
 #' @details If you shift the groupings, then the first age groups may have a negative lower bound 
 #' (for example of -5). These counts would be discarded for the osculatory version of Sprague smoothing,
@@ -56,7 +56,7 @@ AGEN <- function(Age1, Age2, N = 5, consecutive  = TRUE, ageMin = 0, ageMax = ma
 #'  the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1, 
 #' the first age group is 4-ages wide. 
 #'  
-#' @return an integer vector of \code{length(Age)} indicating the age group that each single age belongs to.
+#' @return An integer vector of \code{length(Age)} indicating the age group that each single age belongs to.
 #' 
 #' @export
 #' @examples
@@ -75,17 +75,17 @@ calcAgeN <- function(Age, N = 5, shiftdown = 0){
 	(Age + shift) - (Age + shift) %% N 
 }
 
-#' calculate which abridged age group single ages belong to
+#' Calculate which abridged age group single ages belong to.
 #' 
 #' @description Assign single ages to 5-year abridged age groups. That means that age 0 is kept as a single age,
 #' ages 1-4 are grouped together as abridged age 1, and thereafter 5-year age groups are used.
 #' 
-#' @param Age integer vector of single ages (lower bound)
+#' @param Age integer. Vector of single ages (lower bound).
 #' 
 #' @details In the case that the single \code{Age} vector starts at some age higher than 4, 
 #' this is just the same as \code{calcAgeN(Age,5,0)}.
 #'  
-#' @return an integer vector of \code{length(Age)} indicating the abridged age group that each single age belongs to.
+#' @return An integer vector of \code{length(Age)} indicating the abridged age group that each single age belongs to.
 #' 
 #' @export
 #' @examples
@@ -98,24 +98,24 @@ calcAgeAbr <- function(Age){
 	Abr
 }
 
-#' infer abridged age groups widths
+#' Infer abridged age groups widths.
 #' 
 #' @description This function is an auxiliary used by top level functions where it is 
 #' guaranteed that age groups are standard abridged age groups. If \code{Age} is specified,
 #' this will work as well for other age groupings.
 #' 
-#' @param Age integer vector. Lower bound of each age group.
-#' @param vec any vector, presumably a count, rate, or similar.
-#' @param OAG logical (default \code{FALSE}). Is the final age group open?
+#' @param Age integer. Vector of lower bound of each age group.
+#' @param vec Any vector, presumably a count, rate, or similar.
+#' @param OAG logical. Whether or not the final age group open. Default \code{FALSE}. 
 #' @param OAvalue numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.
 #' 
 #' @details If based soley on the length of a vector, this will give erroneous results if ages 
 #' are anything other than standard abridged ages groups. If the final age group is open, the 
-#' interval with is defined as \code{NA}. \code{Inf} or \code{-1} would have 
+#' interval width is defined as \code{NA}. \code{Inf} or \code{-1} would have 
 #' also been a good choice, but we went with \code{NA}.
 #' 
 #'  
-#' @return an integer vector of \code{length(vec)} indicating the width of the abridged age group that each 
+#' @return An integer vector of \code{length(vec)} indicating the width of the abridged age group that each 
 #' vector element corresponds to.
 #' 
 #' @export
@@ -145,11 +145,11 @@ inferAgeIntAbr <- function(Age, vec, OAG = FALSE, OAvalue = NA){
 	ageint
 }
 
-#' determine abridged ages up to a given maximum age group
+#' Determine abridged ages up to a given maximum age group.
 #' @description Produce standard abridged age groups (lower bounds) up to a specified maximum age group. 
 #' @details If the highest age group is not evenly divisible by 5 then age classes only go up to its 5-year lower bound.
-#' @param maxA integer. Default 80
-#' @return integer vector of ages \code{c(0,1,5,10,15,...)}
+#' @param maxA integer. Default 80.
+#' @return integer. Vector of ages, e.g. \code{c(0,1,5,10,15,...)}.
 #' @export 
 #' @examples 
 #' maxA2abridged(80)
@@ -160,13 +160,13 @@ maxA2abridged <- function(maxA = 80){
 
 
 
-#' infer lower age bounds from age class intervals
+#' Infer lower age bounds from age class intervals.
 #' @description Determine lower bounds of age classes based on a vector of age intervals and a starting age.
 #' 
-#' @param AgeInt integer or numeric vector of age intervals 
-#' @param minA the lowest age, default 0.
+#' @param AgeInt integer or numeric. Vector of age intervals.
+#' @param minA integer. The lowest age, default 0.
 #' @export 
-#' @return Age vector, of same length as \code{AgeInt}.
+#' @return Age vector of same length as \code{AgeInt}.
 #' @examples 
 #' AgeInt <- c(1,4,rep(5,17))
 #' int2age(AgeInt)
@@ -174,13 +174,13 @@ int2age <- function(AgeInt, minA = 0){
 	cumsum(AgeInt) - AgeInt + minA
 }
 
-#' infer age class intervals from lower age bounds
-#' @description Determine age calss intervals based on a vector of age class lower bounds.
+#' Infer age class intervals from lower age bounds.
+#' @description Determine age class intervals based on a vector of age class lower bounds.
 #' @details If the final age group is open, it is given a value of \code{NA} by default, or else a user-determined value. 
 #' If the final age group is closed, it is assumed to be equal to the next-lower interval. If the final age interval is 
 #' known and not equal to the next lowest interval, specify \code{OAG = TRUE} and assign its value to \code{OAvalue}.
-#' @param Age integer or numeric vector of age intervals 
-#' @param OAG logical. \code{TRUE} if the final age group is open.
+#' @param Age integer or numeric. Vector of age intervals. 
+#' @param OAG logical. Whether or not the final age group is open. Default \code{TRUE}.
 #' @param OAvalue numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.
 #' @export 
 #' @return Age interval vector, of same length as \code{Age}.
@@ -202,22 +202,22 @@ age2int <- function(Age, OAG = TRUE, OAvalue = NA){
 }
 
 
-#' group single ages into equal age groups of arbitrary width
+#' Group single ages into equal age groups of arbitrary width
 #' 
 #' @description This can be useful to check constrained sums, or as an intermediate step for smoothing.
 #' 
-#' @param Value numeric vector of single age counts
-#' @param Age integer vector of lower bounds of single age groups
-#' @param N integer. Default 5. The desired width of resulting age groups
-#' @param shiftdown integer. Default 0. Optionally shift age groupings down by single ages 
-#' @param AgeN optional integer vector, otherwise calculated using \code{calcAgeN()}
-#' @param OAnew integer value of lower bound of new open age group
-#' @return vector of counts in N-year age groups
+#' @param Value numeric. Vector of single age counts.
+#' @param Age integer. Vector of lower bounds of single age groups.
+#' @param N integer. The desired width of resulting age groups. Default 5.
+#' @param shiftdown integer. Optionally shift age groupings down by single ages. Default 0.
+#' @param AgeN integer. Vector, otherwise calculated using \code{calcAgeN()}. Optional argument.
+#' @param OAnew integer. Value of lower bound of new open age group.
+#' @return Vector of counts in N-year age groups.
 #' 
 #' @details If you shift the groupings, then the first age groups may have a negative lower bound 
 #' (for example of -5). These counts would be discarded for the osculatory version of Sprague smoothing,
 #' for example, but they are preserved in this function. The important thing to know is that if you shift 
-#'  the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1, the first age group is 4-ages wide. The ages themselves are not returned, 
+#'  the groups, the first and last groups will not be N years wide. For example if \code{shiftdown} is 1, the first age group is 4-ages wide. The ages themselves are not returned, 
 #' but they are the name attribute of the output count vector. Note this will also correctly group abridged ages
 #' into equal 5-year age groups if the \code{Age} argument is explicitly given. \code{OAnew} (optional) must be less than or equal to \code{max(Age)} to have any effect.
 #' @export
@@ -261,14 +261,14 @@ groupAges <- function(Value,
 	out
 }
 
-#' Group down to a new open age class
+#' Group down to a new open age class.
 #' 
 #' @description This simple utility lowers the open age group. It only returns the input value vector, not the age vector.
-#' @param Value numeric vector of counts
-#' @param Age integer vector of age classes
-#' @param OAnew the desired open age group
+#' @param Value numeric. Vector of counts.
+#' @param Age integer. Vector of age classes.
+#' @param OAnew The desired open age group.
 #' @export 
-#' @return Value vector potentially of reduced length up to OAG
+#' @return Value vector potentially of reduced length up to OAG.
 
 groupOAG <- function(Value, Age, OAnew){
 	stopifnot(OAnew %in% Age)
@@ -279,17 +279,17 @@ groupOAG <- function(Value, Age, OAnew){
 }
 
 
-#' logical checking of whether age classes appear single
+#' Logical checking of whether age classes appear single.
 #' 
-#' @description check whether a vector of ages consists in single ages. This
+#' @description Check whether a vector of ages consists in single ages. This
 #' makes sense sometimes when age intervals are not explicitly given.
 #' 
-#' @param Age integer vector of age classes
+#' @param Age integer. Vector of age classes.
 #' 
-#' @return logical \code{TRUE} if detected as single ages, \code{FALSE} otherwise
+#' @return logical. \code{TRUE} if detected as single ages, \code{FALSE} otherwise.
 #' 
 #' @details In cases where ages are indeed single, but repeated, this will still return \code{FALSE}. 
-#' Therefore make sure that the age vector given refers to a single year of a single population, etc.
+#' Therefore make sure that the age vector given refers to a single year of a single population.
 #' @export
 #' @examples
 #' Age <- 0:99
@@ -304,11 +304,11 @@ is.single <- function(Age){
 	all(diff(sort(Age)) == 1)
 }
 
-#' detect if a vector of lower age bounds is plausibly of abridged ages
-#' @description a logical utility that checks if a given vector is of the lower bounds of abridged age groups or not.
-#' @param Age integer vector of lower age bounds
+#' Detect if a vector of lower age bounds is plausibly of abridged ages.
+#' @description A logical utility that checks if a given vector is of the lower bounds of abridged age groups or not.
+#' @param Age integer. Vector of lower age bounds.
 #' @export
-#' @return logical \code{TRUE} if abridged, \code{FALSE} otherwise.
+#' @return Logical \code{TRUE} if abridged, \code{FALSE} otherwise.
 
 #' @examples
 #' # as expected, TRUE

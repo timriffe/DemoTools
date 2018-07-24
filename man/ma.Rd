@@ -2,20 +2,21 @@
 % Please edit documentation in R/utils.R
 \name{ma}
 \alias{ma}
-\title{a simple centered moving average function}
+\title{A simple centered moving average function.}
 \usage{
 ma(x, n = 5)
 }
 \arguments{
-\item{x}{numeric vector to produce a moving average of}
+\item{x}{numeric. Vector to produce a moving average of.}
 
-\item{n}{integer the width of the moving avarage. Default 5 time steps (years)}
+\item{n}{integer. The width of the moving avarage. Default 5 time steps.}
 }
 \value{
-numeric vector of same length as \code{x}.
+Numeric vector of same length as \code{x}.
 }
 \description{
-This function is defined based on a code chunk found here \url{https://stackoverflow.com/questions/743812/calculating-moving-average}. This is a centered moving average of arbitrary width.
+This function is defined based on a code chunk found \href{https://stackoverflow.com/questions/743812/calculating-moving-average}{here}. 
+This is a centered moving average of arbitrary width.
 }
 \details{
 \code{NA} values

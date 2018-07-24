@@ -2,19 +2,19 @@
 % Please edit documentation in R/utilsAge.R
 \name{calcAgeN}
 \alias{calcAgeN}
-\title{calculate which large age group single ages belong to}
+\title{Calculate which large age group single ages belong to.}
 \usage{
 calcAgeN(Age, N = 5, shiftdown = 0)
 }
 \arguments{
-\item{Age}{integer vector of single ages (lower bound)}
+\item{Age}{integer. Vector of single ages (lower bound).}
 
-\item{N}{integer. Desired width of resulting age groups}
+\item{N}{integer. Desired width of resulting age groups.}
 
-\item{shiftdown}{integer (optional), move the grouping down by one or more single ages?}
+\item{shiftdown}{integer. Move the grouping down by one or more single ages. Optional argument.}
 }
 \value{
-an integer vector of \code{length(Age)} indicating the age group that each single age belongs to.
+An integer vector of \code{length(Age)} indicating the age group that each single age belongs to.
 }
 \description{
 Assign single ages to age groups of equal and arbitrary width, and also optionally shifted.

@@ -2,18 +2,18 @@
 % Please edit documentation in R/utilsAge.R
 \name{is.abridged}
 \alias{is.abridged}
-\title{detect if a vector of lower age bounds is plausibly of abridged ages}
+\title{Detect if a vector of lower age bounds is plausibly of abridged ages.}
 \usage{
 is.abridged(Age)
 }
 \arguments{
-\item{Age}{integer vector of lower age bounds}
+\item{Age}{integer. Vector of lower age bounds.}
 }
 \value{
-logical \code{TRUE} if abridged, \code{FALSE} otherwise.
+Logical \code{TRUE} if abridged, \code{FALSE} otherwise.
 }
 \description{
-a logical utility that checks if a given vector is of the lower bounds of abridged age groups or not.
+A logical utility that checks if a given vector is of the lower bounds of abridged age groups or not.
 }
 \examples{
 # as expected, TRUE

@@ -2,17 +2,17 @@
 % Please edit documentation in R/utilsAge.R
 \name{int2age}
 \alias{int2age}
-\title{infer lower age bounds from age class intervals}
+\title{Infer lower age bounds from age class intervals.}
 \usage{
 int2age(AgeInt, minA = 0)
 }
 \arguments{
-\item{AgeInt}{integer or numeric vector of age intervals}
+\item{AgeInt}{integer or numeric. Vector of age intervals.}
 
-\item{minA}{the lowest age, default 0.}
+\item{minA}{integer. The lowest age, default 0.}
 }
 \value{
-Age vector, of same length as \code{AgeInt}.
+Age vector of same length as \code{AgeInt}.
 }
 \description{
 Determine lower bounds of age classes based on a vector of age intervals and a starting age.

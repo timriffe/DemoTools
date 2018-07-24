@@ -2,14 +2,14 @@
 % Please edit documentation in R/utilsAge.R
 \name{age2int}
 \alias{age2int}
-\title{infer age class intervals from lower age bounds}
+\title{Infer age class intervals from lower age bounds.}
 \usage{
 age2int(Age, OAG = TRUE, OAvalue = NA)
 }
 \arguments{
-\item{Age}{integer or numeric vector of age intervals}
+\item{Age}{integer or numeric. Vector of age intervals.}
 
-\item{OAG}{logical. \code{TRUE} if the final age group is open.}
+\item{OAG}{logical. Whether or not the final age group is open. Default \code{TRUE}.}
 
 \item{OAvalue}{numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.}
 }
@@ -17,7 +17,7 @@ age2int(Age, OAG = TRUE, OAvalue = NA)
 Age interval vector, of same length as \code{Age}.
 }
 \description{
-Determine age calss intervals based on a vector of age class lower bounds.
+Determine age class intervals based on a vector of age class lower bounds.
 }
 \details{
 If the final age group is open, it is given a value of \code{NA} by default, or else a user-determined value. 

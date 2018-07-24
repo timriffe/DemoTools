@@ -2,18 +2,18 @@
 # Author: tim
 ###############################################################################
 
-#' shift a vector left or right
+#' Shift a vector left or right.
 #' 
-#' @description a simple function to move the elements of a vector to earlier or 
+#' @description Simple function to move the elements of a vector to earlier or 
 #' later positions depending on the value of \code{shift}. Auxiliary to other functions,
 #'  rather multipurpose.
 
-#' @param x a vector
-#' @param shift an integer value \code{< length(x)}
-#' @param fill what value do we put in the newly created positions? Possibly values like \code{FALSE}, \code{NA}, or  \code{0}.
+#' @param x vector.
+#' @param shift integer. Value \code{< length(x)}. Default 0.
+#' @param fill Values to fill newly created positions, e.g. \code{FALSE}, \code{NA}, or  \code{0}.
 
 #' @details Nothing fancy here. This is used for example in \code{Noumbissi()} to match denominator ranges to numerator positions using logical vectors.
-#' @return the vector x, shifted left or right.
+#' @return The vector x, shifted left or right.
 #' @export
 shift.vector <- function(x,shift = 0, fill = FALSE){
 	n <- length(x)
@@ -27,13 +27,13 @@ shift.vector <- function(x,shift = 0, fill = FALSE){
 	x
 }
 
-#' logging that doesn't cause jams
+#' Logging that does not cause jams.
 #' @description Zeros happen. Logging zeros leads to errors in downstream code.
-#' For the sake of robustness, we replace 0s with a small positive number to be 
-#' able to continue with calcs. 
+#' For the sake of robustness, we replace zeros with a small positive number to be 
+#' able to continue with calculations. 
 #' @details Use judiciously, since errors are good too.
-#' @param x  a numeric or complex vector.
-#' @param base a positive or complex number: the base with respect to which
+#' @param x  numeric or complex vector.
+#' @param base positive or complex number. The base with respect to which
 #'           logarithms are computed.  Defaults to \code{e=exp(1)}.
 #' @export
 rlog <- function(x, base = exp(1)){
@@ -41,15 +41,16 @@ rlog <- function(x, base = exp(1)){
 	log(x, base = base)
 }
 
-#' a simple centered moving average function
+#' A simple centered moving average function.
 
-#' @description This function is defined based on a code chunk found here \url{https://stackoverflow.com/questions/743812/calculating-moving-average}. This is a centered moving average of arbitrary width. 
+#' @description This function is defined based on a code chunk found \href{https://stackoverflow.com/questions/743812/calculating-moving-average}{here}. 
+#' This is a centered moving average of arbitrary width. 
 #' 
-#' @param x numeric vector to produce a moving average of
-#' @param n integer the width of the moving avarage. Default 5 time steps (years)
+#' @param x numeric. Vector to produce a moving average of.
+#' @param n integer. The width of the moving avarage. Default 5 time steps.
 #' 
-#' @return numeric vector of same length as \code{x}.
-#' 
+#' @return Numeric vector of same length as \code{x}.
+#'
 #' @details \code{NA} values
 #' are used as padding on the left and right to make the returned vector of equal length.
 #' 
@@ -69,16 +70,16 @@ ma <- function(x,n=5){
 }
 
 
-#' rescale a vector proportionally to a new sum
+#' Rescale a vector proportionally to a new sum.
 
-#' @description THis is a frequently needed operation, so it's being added as a general utility.
+#' @description Function used to rescale a vector to a given value. This is a frequently needed operation.
 #' 
-#' @param x numeric vector
-#' @param scale what you want the vector to sum to. Default 1.
+#' @param x numeric vector.
+#' @param scale numeric. Value the vector should sum to. Default 1.
 #' 
 #' @details For a distribution, use \code{scale = 1}. For percentages, use \code{scale = 100}, etc.
 #' 
-#' @return the vector, rescaled
+#' @return The vector rescaled.
 #' @examples 
 #' x <- runif(10)
 #' sum(x)
@@ -90,13 +91,14 @@ rescale.vector <- function(x, scale = 1){
 	scale * x / sum(x, na.rm = TRUE)
 }
 
-#' @title determine whether a year is a leap year. 
+
+#' @title Determine whether a year is a leap year. 
 #' 
 #' @description In order to remove \code{lubridate} dependency, we self-detect leap years and adjust February accordingly. Code inherited from HMD.
 #' 
-#' @param Year integer of year to query
+#' @param Year integer. Year to query.
 #' 
-#' @return logical is the Year a leap year or not
+#' @return Logical value for whether the year is a leap year or not.
 #' 
 #' @export
 #' @author Carl Boe
@@ -107,15 +109,15 @@ isLeapYear <- function (Year){      # CB: mostly good algorithm from wikipedia
 			TRUE, FALSE )
 }
 
-#' @title determine the proportion of a year passed as of a particular date
+#' @title Determine the proportion of a year passed as of a particular date.
 #' 
 #' @description The fraction returned by this is used e.g. for intercensal estimates.
 #' 
-#' @param Year 4-digit year (string or integer)
-#' @param Month month digits (string or integer, 1 or 2 characters)
-#' @param Day Day of month digits (string or integer, 1 or 2 characters)
-#' @param detect.mid.year logical. if \code{TRUE}, June 30 or July 1 will always return .5.
-#' @param detect.start.end logical. default \code{TRUE}. Should Jan 1 always be 0 and Dec 31 always be 1?
+#' @param Year string or itneger. 4-digit year.
+#' @param Month string or integer. Month digits, 1 or 2 characters.
+#' @param Day string or integer. Day of month digits, 1 or 2 characters.
+#' @param detect.mid.year logical. If \code{TRUE}, June 30 or July 1 will always return .5.
+#' @param detect.start.end logical. Whether or not Jan 1 always be 0 and Dec 31 always be 1. Default \code{TRUE}.
 #' @details Code inherited from HMD, slightly modified to remove matlab legacy bit.
 #' @export
 #' @examples
@@ -161,14 +163,17 @@ ypart <- function(Year, Month, Day, detect.mid.year = TRUE, detect.start.end = T
 }
 
 
-#' a convert date to decimal year fraction
+#' Convert date to decimal year fraction.
 #'  
 #' @description Convert a character or date class to decimal, taking into account leap years. 
 
-#' @details This makes use of two HMD functions, \code{ypart()}, and \code{isLeapYear()} to compute. If the date is numeric, it is returned as such. If it is \code{"character"}, we try to coerce to \code{"Date"} class, ergo, it is best to specify a character string in an unambiguous \code{"YYYY-MM-DD"} format. If \code{date} is given in a \code{"Date"} class it is dealt with accordingly.
-#' @param date either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.
+#' @details This makes use of two HMD functions, \code{ypart()}, and \code{isLeapYear()} to compute. If the date is numeric, it is returned as such. 
+#' If it is \code{"character"}, we try to coerce to \code{"Date"} class, ergo, it is best to specify a character string in an unambiguous \code{"YYYY-MM-DD"} format.
+#'  If \code{date} is given in a \code{"Date"} class it is dealt with accordingly.
+#'  
+#' @param date Either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.
 #' 
-#' @return numeric expression of the date, year plus the fraction of the year passed as of the date.
+#' @return Numeric expression of the date, year plus the fraction of the year passed as of the date.
 #' @export
 dec.date <- function(date){
 	if (class(date) == "numeric"){
@@ -189,14 +194,14 @@ dec.date <- function(date){
 }
 
 
-#' take consecutive ratios of a vector
+#' Take consecutive ratios of a vector.
 #' 
 #' @description This can be used, for example to take survival ratios. 
-#' @details behavior similar to \code{diff()}, in that returned vector is \code{k} elements
+#' @details Behavior similar to \code{diff()}, in that returned vector is \code{k} elements
 #' shorter than the given vector \code{fx}.
 #' 
-#' @param fx numeric vector of \code{length > k}
-#' @param k integer the size of the lag in elements of \code{fx}.
+#' @param fx numeric. Vector of \code{length > k}.
+#' @param k integer. The size of the lag in elements of \code{fx}.
 #' 
 #' @export 
 #' @examples 
@@ -217,19 +222,22 @@ ratx <- function(fx, k = 1){
 	fx
 }
 
-#' Convert arbitrary age groupings into single years of age
+#' Convert arbitrary age groupings into single years of age.
 #' 
 #' @description Uniformly splits aggregate counts in age groups into single year age groups.
 #' 
-#' @param Counts numeric vector of counts in grouped ages
-#' @param AgeInt integer or numeric vector of age intervals 
-#' @param Age numeric vector of ages corresponding to the lower integer bound of the age range.
-#' @param OAG boolean argument that determines whether the final age group (assumed open ended) is kept as it is or has the same length as the rest of the age groups. Default is FALSE, i.e. use the same length for the final age group.
-#' @param OAvalue desired width of open age group. See details.
+#' @param Counts numeric. Vector of counts in grouped ages.
+#' @param AgeInt integer or numeric. Vector of age intervals. 
+#' @param Age numeric. Vector of ages corresponding to the lower integer bound of the age range.
+#' @param OAG boolean. Argument that determines whether the final age group (assumed open ended) is kept as it is or has the same length as the rest of the age groups. Default is FALSE, i.e. use the same length for the final age group.
+#' @param OAvalue Desired width of open age group. See details.
 #' 
-#' @return numeric vector of counts for single year age groups.
+#' @return Numeric vector of counts for single year age groups.
 #' 
-#' @details Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If \code{AgeInt} is given, its final value is used as the interval for the final age group. If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, *or* give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}. 
+#' @details Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. 
+#' If \code{AgeInt} is given, its final value is used as the interval for the final age group. 
+#' If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. 
+#' To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, *or* give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}. 
 #' 
 #' @export
 #' @examples 
