@@ -23,6 +23,7 @@
 #' @examples 
  MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
    198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
+
  FemalePop    <- c(654258, 503070, 323460, 265534, 322576, 306329, 245883, 
    179182, 145572, 95590, 81715, 48412, 54572, 28581, 26733, 14778, 30300)
  underOnePop  <- c(321476, 332782, 503070, 323460, 265534, 322576, 306329, 
@@ -36,24 +37,157 @@
 #' popAgeSmth(MalePop, Ages, "UN", SplitU5 = FALSE)
 #' popAgeSmth(underOnePop, Ages2, Method="Strong", SplitU5 = TRUE)
 
+Value <- MalePop
+Age   <- Ages
+OAG   <- TRUE
+CFmales <- CarrierFarrag(MalePop, Ages, TRUE) 
+
+# spreadsheet results
+CFtest <- c(NA,NA,346290,287083,285855,261082,237937,
+202809,162973,125720,88730,67352,55187,40657,NA,NA,NA)
+all(round(CFmales) - CFtest == 0, na.rm = TRUE)
+
+CarrierFarrag <- function(Value, 
+		Age, 
+		OAG = TRUE){
+	
+	N <- length(Value)
+	if (OAG){
+		Value[N] <- NA
+	}
+	
+	Value5     <- groupAges(Value, Age = Age, N = 5)
+	Age5       <- as.integer(names(Value5))
+	
+	# get staggered vectors
+	Value5LL   <- shift.vector(Value5, -2, fill = NA)
+	Value5L    <- shift.vector(Value5, -1, fill = NA)
+	Value5R    <- shift.vector(Value5, 1, fill = NA)
+	Value5RR   <- shift.vector(Value5, 2, fill = NA)
+	Value5RRR  <- shift.vector(Value5, 3, fill = NA)
+	
+	# this is the funny C-F operation
+	ValuePert  <-  (Value5 + Value5R) / 
+			(1 + ((Value5RRR + Value5RR) / (Value5L + Value5LL))^.25)
+	
+	# indices for switching behavior on and off.
+	# need same nr of evens and odds.
+	NN         <- N
+	if (N %% 2 == 1){
+		NN        <- N + 1
+		ValuePert <- c(ValuePert, NA)
+		Value5    <- c(Value5, NA)
+		Value5L   <- c(Value5L, NA)
+	}
+	
+	inds       <- 1:NN
+	odds       <- inds %% 2 == 1
+	evens      <- !odds
+	
+	# produce results vector
+	out        <- Value5 * NA 
+	out[evens] <- ValuePert[evens]
+	
+	# make sure sum(odds) == sum(evens)
+	out[odds]  <- (Value5 + Value5L)[odds] - ValuePert[evens]
+	
+	# cut back down (depending) and name
+	out        <- out[1:N]
+	names(out) <- Age5
+    out
+	# tail behavior will be controlled in top level function.
+}
+KKNtest <- c(NA,NA,354871,278502,285508,261429,236513 ,
+204233,162138,126555,90094,65988,54803,41041,NA,NA,NA)
+
+KKNmales <- KKN(MalePop, Ages, TRUE)
+all(round(KKNmales) - KKNtest == 0, na.rm = TRUE)
+
+KKN <- function(Value, 
+		Age, 
+		OAG = TRUE){
+	
+	N <- length(Value)
+	if (OAG){
+		Value[N] <- NA
+	}
+	
+	Value5     <- groupAges(Value, Age = Age, N = 5)
+	Age5       <- as.integer(names(Value5))
+	
+	# get staggered vectors
+	Value5LLL  <- shift.vector(Value5, -3, fill = NA)
+	Value5LL   <- shift.vector(Value5, -2, fill = NA)
+	Value5L    <- shift.vector(Value5, -1, fill = NA)
+	Value5R    <- shift.vector(Value5, 1, fill = NA)
+	Value5RR   <- shift.vector(Value5, 2, fill = NA)
+	Value5RRR  <- shift.vector(Value5, 3, fill = NA)
+	
+	# this is the funny KNN operation
+	ValuePert  <-  (Value5 + Value5L) / 2 + (Value5R + Value5RR - Value5LL - Value5LLL) / 16
+
+	# indices for switching behavior on and off.
+	# need same nr of evens and odds.
+	NN         <- N
+	if (N %% 2 == 1){
+		NN        <- N + 1
+		ValuePert <- c(ValuePert, NA)
+		Value5    <- c(Value5, NA)
+		Value5L   <- c(Value5L, NA)
+	}
+	
+	inds       <- 1:NN
+	odds       <- inds %% 2 == 1
+	evens      <- !odds
+	
+	# produce results vector
+	out        <- Value5 * NA 
+	out[odds]  <- ValuePert[odds]
+	
+	# make sure sum(odds) == sum(evens)
+	out[evens]  <- (Value5 + Value5L)[odds] - ValuePert[odds]
+	
+	# cut back down (depending) and name
+	out        <- out[1:N]
+	names(out) <- Age5
+	out
+}
+
 # TR: SplitU5 can be superceded by detection from Age vector.
 # see is.abridged()
 popAgeSmth <- function(
 		Value, 
 		Age, 
-		Method){
+		Method,
+		OAG = TRUE){
+  # TR, move to single ages FROM 5-year age groups. 
+  Value5     <- groupAges(Value, Age = Age, N = 5)
+  Value10    <- groupAges(Value, Age = Age, N = 10)
+  Age5       <- as.integer(names(Value5))
+  Value1     <- splitUniform(Value5, Age = Age5, OAG = OAG)
+  
+  # vectors for "Carrier-Farrag", "KKN" , "Arriaga", "Strong"
+  Value10R   <- shift.vector(Value10, -1, fill = NA) #Value10PxMinus10
+  Value10L   <- shift.vector(Value10, 1, fill = NA)  #Value10PxPlus10
+  
+  # not sure if needed
+  Value5LL   <- shift.vector(Value5, -2, fill = NA)
+  Value5L    <- shift.vector(Value5, -1, fill = NA)
+  Value5R    <- shift.vector(Value5, 1, fill = NA)
+  Value5RR   <- shift.vector(Value5, 2, fill = NA)
+  #rbind(Value10L,Value10,Value10R)
 	
-	# buggy? newAges could be either 5 or single
-  if ( is.abridged(Age) | is.single(Age) ){
-    #intermediateAgg <- convertSplitTo5Year(Value) #Consolidate under split under 5 group
-	intermediateAgg <-	groupAges(Value,Age=Age)
-    newAges <- seq(0, max(Age), by=5) #Create new age groups
-    aggValue <- splitUniform(Value, Age=newAges) #split into single age groups
-  }
-  else{
-    aggValue <- splitUniform(Value, Age = Age) #split into single age groups
-    newAges <- seq(0, length(aggValue)-1) #Create new age groups
-  }
+#  if ( is.abridged(Age) | is.single(Age) ){
+#    #intermediateAgg <- convertSplitTo5Year(Value) #Consolidate under split under 5 group
+#	intermediateAgg <- groupAges(Value,Age=Age)
+#    newAges         <- as.integer(names(intermediateAgg)) 
+#	# TR: by default final age group held as-is.
+#    aggValue        <- splitUniform(Value, Age=newAges,OAG=OAG) #split into single age groups
+#  }
+#  else{
+#    aggValue <- splitUniform(Value, Age = Age) #split into single age groups
+#    newAges <- seq(0, length(aggValue)-1) #Create new age groups
+#  }
   
   # Aggregate groups and create method inputs
   if (Method %in% c("Carrier-Farrag", "KKN" , "Arriaga", "Strong")){
@@ -65,8 +199,13 @@ popAgeSmth <- function(
     Value10Px        <- Value10Px[0:(length(Value10Px)-2)]
     Value10PxMinus10 <- Value10PxMinus10[0:(length(Value10PxMinus10)-3)]
   }
+  
+  # TR: this'll take a while to sort through
   else if (Method == "UN"){
     Value5PxMinus10  <- groupAges(aggValue, Age = newAges, N = 5) #aggregate to 5 year groups
+	# Value5
+
+	
     Value5PxMinus5   <- Value5PxMinus10[-1]
     Value5Px         <- Value5PxMinus5[-1]
     Value5PxPlus5    <- Value5Px[-1]
@@ -81,9 +220,11 @@ popAgeSmth <- function(
   
   # Apply method-specific formula
   if (Method == "Carrier-Farrag"){
+	  
     Value5PxPlus5    <- Value10Px / (1 + (Value10PxMinus10 / Value10PxPlus10)^(1/4))
     Value5Px         <- Value10Px - Value5PxPlus5
   }
+  
   else if (Method == "KKN"){
     Value5Px         <- (1/2) * Value10Px + (1/16)*(Value10PxMinus10 - Value10PxPlus10)
     Value5PxPlus5    <- Value10Px - Value5Px
