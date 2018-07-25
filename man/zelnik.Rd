@@ -2,25 +2,28 @@
 % Please edit documentation in R/ZELNIK.R
 \name{zelnik}
 \alias{zelnik}
-\title{Zelnik 11-term moving average. Adjusting for digit preference}
+\title{Zelnik 11-term moving average to adjust for digit preference.}
 \usage{
 zelnik(Value, q, Age)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in single age groups.}
 
-\item{q}{integer which perturbation vector do we want? 1 or 2 (default 1).}
+\item{q}{integer. Perturbation vector used, 1 or 2. Default 1.}
 
-\item{Age}{integer lower bound of age classes}
+\item{Age}{integer. Vector of lower bound of age classes.}
 }
 \value{
-a named vector with the adjusted values
+A vector with the adjusted values.
 }
 \description{
-Zelnik method is used to adjust distributions by year of age for digit preference.
+Zelnik's method is used to adjust distributions by year of age for digit preference.
 }
 \details{
-Single year age groups are assumed. If \code{q=1}, age x is affected by ages x-10 through x+10. If \code{q=2}, age x is affected by ages x-15 through x+15. A vector is returned of the same length as \code{Value}, but the boundary values are imputed with \code{NA}.  If \code{q=1}, ages 0-9 and the final 10 ages are \code{NA}. If \code{q=2}, ages 0-14 and the final 15 ages are returned as \code{NA}. Note results do not sum to the total from the same age-range of \code{Value} because smoothing draws from ages outside that range.
+Single year age groups are assumed. If \code{q=1}, age x is affected by ages x-10 through x+10. If \code{q=2}, age x is affected by ages x-15 through x+15. 
+A vector is returned of the same length as \code{Value}, but the boundary values are imputed with \code{NA}.  
+If \code{q=1}, ages 0-9 and the final 10 ages are \code{NA}. If \code{q=2}, ages 0-14 and the final 15 ages are returned as \code{NA}.
+ Note results do not sum to the total from the same age-range of \code{Value} because smoothing draws from ages outside that range.
 }
 \examples{
 # data from gray1987missingages, Table 2, page 21: Aplication of Q1 and 

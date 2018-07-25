@@ -1,16 +1,19 @@
 # Author: Juan Galeano 
 ###############################################################################
 
-#' Zelnik 11-term moving average. Adjusting for digit preference
+#' Zelnik 11-term moving average to adjust for digit preference.
 
-#' @description  Zelnik method is used to adjust distributions by year of age for digit preference. 
+#' @description  Zelnik's method is used to adjust distributions by year of age for digit preference. 
 
 #' @param Value numeric. A vector of demographic counts in single age groups.
-#' @param q integer which perturbation vector do we want? 1 or 2 (default 1).
-#' @param Age integer lower bound of age classes
+#' @param q integer. Perturbation vector used, 1 or 2. Default 1.
+#' @param Age integer. Vector of lower bound of age classes.
 
-#' @details Single year age groups are assumed. If \code{q=1}, age x is affected by ages x-10 through x+10. If \code{q=2}, age x is affected by ages x-15 through x+15. A vector is returned of the same length as \code{Value}, but the boundary values are imputed with \code{NA}.  If \code{q=1}, ages 0-9 and the final 10 ages are \code{NA}. If \code{q=2}, ages 0-14 and the final 15 ages are returned as \code{NA}. Note results do not sum to the total from the same age-range of \code{Value} because smoothing draws from ages outside that range.
-#' @return a named vector with the adjusted values
+#' @details Single year age groups are assumed. If \code{q=1}, age x is affected by ages x-10 through x+10. If \code{q=2}, age x is affected by ages x-15 through x+15. 
+#' A vector is returned of the same length as \code{Value}, but the boundary values are imputed with \code{NA}.  
+#' If \code{q=1}, ages 0-9 and the final 10 ages are \code{NA}. If \code{q=2}, ages 0-14 and the final 15 ages are returned as \code{NA}.
+#'  Note results do not sum to the total from the same age-range of \code{Value} because smoothing draws from ages outside that range.
+#' @return A vector with the adjusted values.
 #' @export
 
 #' @references 

@@ -3,12 +3,12 @@
 # mostly to get its closeout behavior.
 ###############################################################################
 
-#' calculate simple linear model by hand
+#' Calculate simple linear model by hand.
 #' @description A legacy function internal to the mortpak lifetable. It calculates intercept, slope, correlation coef, and the residual sum of squares. Just like \code{lm()}? Unchecked.
 #' @details Used internally by \code{AbacusLIFTB()}. 
 #' @param X x
 #' @param Y y
-#' @param N length of X and Y
+#' @param N length of X and Y.
 #' @return A list containing, A, B, R, SUMSQ, and potentially an error code.
 #' @export
 #' @references 
@@ -61,14 +61,16 @@ REGRES <- function(X,Y,N)  { #  function(X,Y,N,A,B,R,SUMSQ,ErrorCode)
 	return(list("A"=A,"B"=B,"R"=R,"SUMSQ"=SUMSQ,"ErrorCode"=ErrorCode))
 }
 
-#' literal translation of mortpak from Fortran
-#' @description This has not been modified in any meaningful way by the package maintainer, nor will it be documented in depth, as it is intended to be replaced in the future with a refactored version of the same. 
-#' @details Try \code{AbacusLIFTB_wrap()} if you just want to make quick use of this functionality. Standard abridged ages are assumed. The lifetable stops at 100+. Note \code{QXMX} needs to be an object in single ages
-#' @param NFIN integer the open age
-#' @param NUMOUT the desired open age group (under 100)
-#' @param NTYPE 1 means nqx. 2 means nMx. 3 means nMx but do not extrapolate to close out.
-#' @param NSEX 1 is male. 2 is female
-#' @param QXMX numeric vector of either nMx or nqx in abridged ages
+#' Literal translation of mortpak from Fortran.
+#' @description This has not been modified in any meaningful way by the package maintainer, nor will it be documented in depth, 
+#' as it is intended to be replaced in the future with a refactored version of the same. 
+#' @details Try \code{AbacusLIFTB_wrap()} if you just want to make quick use of this functionality. Standard abridged ages are assumed. 
+#' The lifetable stops at 100+. Note \code{QXMX} needs to be an object in single ages
+#' @param NFIN integer. The open age.
+#' @param NUMOUT integer. The desired open age group (under 100).
+#' @param NTYPE integer. 1 means nqx. 2 means nMx. 3 means nMx but do not extrapolate to close out.
+#' @param NSEX integer. 1 is male. 2 is female.
+#' @param QXMX numeric. Vector of either nMx or nqx in abridged ages.
 #' @export 
 #' 
 #' @references 
@@ -519,14 +521,19 @@ AbacusLIFTB <- function(NFIN,NUMOUT,NTYPE,NSEX,QXMX)  {
 }
 
 
-#' wrapper to a rote translation of the Abacus version LIFTB
-#' @description A minimal argument wrapper that calls a minimally modified \code{AbacusLIFTB()}, an R transaltion of by UN staff of the Mortpak Fortran code. A wrapper is necessary because \code{AbacusLIFTB()} abides by some non-conventional indexing. We also take care of dimension naming.
-#' @details The wrapper itself does little argument checking, but \code{AbacusLIFTB()} itself has nuanced argument checking and error reporting. Such errors rarely stop the function. Instead they are caught and returned. The wrapper returns such messages as warnings, but does not pass them on as objects. This function is used internally by \code{LTabr()}. Although this is a wrapper, it is not intended to be used directly.
-#' @param Mx numeric vector of Mx in standard abridged age classes
-#' @param qx numeric vector of qx in standard abridged age classes
-#' @param mx_ind logical indicator of whether Mx or qx is given/preferred to be used
-#' @param OAnew the desired open age group, max 100
-#' @param Sex \code{"m"} or \code{"f"}. Anything not \code{"m"} treated as \code{"f"}
+#' Wrapper to a rote translation of the Abacus version LIFTB.
+#' @description A minimal argument wrapper that calls a minimally modified \code{AbacusLIFTB()},
+#'  an R translation of UN staff of the Mortpak Fortran code. A wrapper is necessary because \code{AbacusLIFTB()} abides by some non-conventional indexing.
+#'   We also take care of dimension naming.
+#' @details The wrapper itself does little argument checking, but \code{AbacusLIFTB()} itself has nuanced argument checking and error reporting. 
+#' Such errors rarely stop the function. Instead they are caught and returned. 
+#' The wrapper returns such messages as warnings, but does not pass them on as objects. 
+#' This function is used internally by \code{LTabr()}. Although this is a wrapper, it is not intended to be used directly.
+#' @param Mx numeric. Vector of Mx in standard abridged age classes.
+#' @param qx numeric. Vector of qx in standard abridged age classes.
+#' @param mx_ind logical. Indicator of whether Mx or qx is given/preferred to be used.
+#' @param OAnew integer. The desired open age group, max 100.
+#' @param Sex character. \code{"m"} or \code{"f"}. Anything not \code{"m"} treated as \code{"f"}.
 #' @export
 #' @references 
 #' \insertRef{mortpak1988}{DemoTools}

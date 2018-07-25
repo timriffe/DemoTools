@@ -2,7 +2,7 @@
 % Please edit documentation in R/Abacus.R
 \name{REGRES}
 \alias{REGRES}
-\title{calculate simple linear model by hand}
+\title{Calculate simple linear model by hand.}
 \usage{
 REGRES(X, Y, N)
 }
@@ -11,7 +11,7 @@ REGRES(X, Y, N)
 
 \item{Y}{y}
 
-\item{N}{length of X and Y}
+\item{N}{length of X and Y.}
 }
 \value{
 A list containing, A, B, R, SUMSQ, and potentially an error code.
