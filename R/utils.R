@@ -244,15 +244,20 @@ ratx <- function(fx, k = 1){
 #' MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,            
 #' 		11993151,10033918,14312222,8111523,15311047,6861510,13305117,7454575,
 #' 		9015381,10325432,9055588,5519173)
-#' Ages <- seq(0,85, by=5)
+#' Ages <- seq(0, 85, by = 5)
 #' splitUniform(MalePop, Age = Ages)
 splitUniform <- function(Counts, AgeInt, Age, OAG = TRUE, OAvalue = 1){
 	if (missing(AgeInt)){
 		# give 1 to final interval to preserve
 		AgeInt <- age2int(Age, OAG = OAG, OAvalue = OAvalue)
 	}
+	if (missing(Age)){
+		Age <- cumsum(AgeInt) - AgeInt
+	}
 	# discount for single
-	rep(Counts / AgeInt, times = AgeInt)
+	out <- rep(Counts / AgeInt, times = AgeInt)
+	names(out) <- min(Age):(min(Age) + length(out) - 1)
+	out
 }
 
 
