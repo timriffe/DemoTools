@@ -29,16 +29,12 @@ Value <- c(13331,4151,1746,1585,3859,8354,11146,12076,
 	12216,12016,12473,11513,12899,11413,12710,11516,11408,6733,4031,2069)
 Age <- c(0,1,seq(5,90,by=5))
 	
- zigzag(Value, age,10,18)
+ zz <- zigzag(Value, Age)
+ plot(Age, Value,type = 'l')
+ lines(as.integer(names(zz)),zz,col="red",lty=2)
 
- # function for average adjacent values excluding index value
-avg_adj <- function(x){
-	n <- length(x)
-	(shift.vector(x, -1, NA) + shift.vector(x, 1, NA)) / 2
-}
 
-#avg_adj(Value)
-#p <- c(0.0235802695087692,0.0724286618207911,0.0242327829742267,0.0883411499065237)
+
 zigzag_min <- function(Value, Age, start = 40, end = 80, p = rep(0.05, (end - start) / 10)){
   
    # first, we need an odd number of age groups to smooth over.
@@ -88,10 +84,10 @@ zigzagp <- function(Value, Age, start = 40, end = 80, p = rep(0.05, (end - start
 	avg1        <- avg_adj(Value) * id
 	
 	# 3) take difference
-	diff1       <- (Value - avg) * id
+	diff1       <- (Value - avg1) * id
 	
 	# 4) p used differently
-	pid         <- Age %in% as.integer(seq((start + 5),end-5,by=10))
+	pid         <- Age %in% as.integer(seq((start + 5), end - 5, by = 10))
 	npid        <- as.logical(id * !pid)
 	npfromabove <- npid & Age < end
 	npfrombelow <- npid & Age > start
@@ -109,10 +105,24 @@ zigzagp <- function(Value, Age, start = 40, end = 80, p = rep(0.05, (end - start
 	Smoothed
 }
 
-zigzag <- function(Value, Age, start = 40, end = 80){
-	p <- rep(0.05, (end - start) / 10)
-	p <- optim(p , zigzag_min, Value = Value, Age = Age, start = start, end = end)$par
-	Smoothed <- zigzagp(Value = Value, Age = Age, start = start, end = end, p = p)
+
+
+zigzag <- function(Value, Age, OAG = TRUE, minA = 40, maxA = 80){
+	N <- length(Value)
+	# enforce 5-year age groups. Data could be given as such,
+	# in abridged ages, or in single ages, but will be returned
+	# in 5-year age groups.
+	if (OAG){
+		OAGvalue <- Value[N]
+		Value[N] <- NA
+	}
+	Value5   <- groupAges(Value, Age)
+	Age5     <- as.integer(names(Value5))
+	
+	
+	p        <- rep(0.05, (end - start) / 10)
+	p        <- optim(p , zigzag_min, Value = Value5, Age = Age5, start = minA, end = maxA)$par
+	Smoothed <- zigzagp(Value = Value5, Age = Age5, start = minA, end = maxA, p = p)
 	Smoothed
 }
 
