@@ -276,7 +276,39 @@ getModelLifeTable <- function(ModelName, Sex){
 	return(outputLT)
 }
 
+# function for average adjacent values excluding index value
+#' calculate average of vector elements adjacent to and exlcuding the index element
+#' @description Calculate average of vector elements adjacent to and exlcuding the index element. 
+#' For example, the second element of the result is the average of the first and third elements of the
+#' input vector \code{x}. Used by \code{zigzag()}, and possibly useful elsewhere.
+#' @details Tails are given a value of \code{NA}.
+#' @param numeric vector
+#' @return numeric vector the same length as \code{x}.
+#' @export
+#' @examples 
+#' x <- 1:10
+#' all(avg_adj(x) == x, na.rm = TRUE)
 
+avg_adj <- function(x){
+	n <- length(x)
+	(shift.vector(x, -1, NA) + shift.vector(x, 1, NA)) / 2
+}
+
+#' convert strings to concatenation of lower case alphabet
+#' @description all characters are converteusd to lower case, and all non-alphabet characters are removed. 
+#' This is usefull for reducing checks on names of user-specified strings, like \code{method} arguments.
+#' For example, \code{"Carrier-Farrag"}, \code{"Carrier Farrag"}, or \code{"carrier_farrag"} all get 
+#' converted to \code{"carrierfarrag"}.
+#' @param string character string
+#' @return character string
+#' @export
+#' @examples 
+#' simplify.text(c("carrier_farrag","CarrierFarrag","Carrier-Farrag"))
+
+simplify.text <- function(string){
+	lower <- tolower(string)
+	sub("[^[:alpha:]]+", "", lower)
+}
 
 # deprecated functions
 

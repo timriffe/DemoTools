@@ -355,15 +355,11 @@ strong_smth <- function(Value,
 	out
 }
 
-string <- "Carrier_Farrag"
-simplifytext <- function(string){
-	lower <- tolower(string)
-	sub("[^[:alpha:]]+", "", lower)
-}
+
 
 
 agesmth <- function(Value, Age, method = "Carrier-Farrag", OAG = TRUE, minA = 10, maxA = 70){
-	method <- simplifytext(method)
+	method <- simplify.text(method)
 	# carrierfarrag or cf
 	if (method %in% c("cf", "carrierfarrag")){
 		out <- carrier_farrag_smth(Value = Value, Age = Age, OAG = OAG)
