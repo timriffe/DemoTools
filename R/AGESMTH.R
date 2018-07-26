@@ -1,6 +1,8 @@
 # Author: sean
 # modified by TR 18 July, 2018
 # TODO: see individual TODO notes for functions, but mainly need to test for length robustness.
+# also need to add generic DemoTools wrapper here, will offer tail imputation options
+# and call various methods with a method argument.
 ###############################################################################
 
 #' The Carrier-Farrag method of population count smoothing
@@ -87,7 +89,7 @@ carrier_farrag_smth <- function(Value,
 	# cut back down (depending) and name
 	out        <- out[1:N]
 	names(out) <- Age5
-    out
+	out
 	# tail behavior will be controlled in top level function.
 }
 
@@ -145,7 +147,7 @@ kkn_smth <- function(Value,
 	
 	# this is the funny KNN operation
 	ValuePert  <-  (Value5 + Value5L) / 2 + (Value5R + Value5RR - Value5LL - Value5LLL) / 16
-
+	
 	# indices for switching behavior on and off.
 	# need same nr of evens and odds.
 	NN         <- N
@@ -242,7 +244,7 @@ arriaga_smth <- function(Value,
 	# prepare output
 	out         <- c(rbind(V5odds, V5evens))[1:N]
 	names(out)  <- Age5
-
+	
 	if (OAG){
 		out[N] <- OAGvalue
 	}
@@ -309,10 +311,14 @@ united_nations_smth <- function(Value,
 #' @description Smooth population counts in 5-year age groups.
 #' @details The open age group is aggregated down to be evenly divisible by 10. 
 #' This method accounts for the youngest and oldest age groups. Age classes must be cleanly 
-#' groupable to 5-year age groups. 
+#' groupable to 5-year age groups. All age classes are returned, but the strongest adjustment
+#' ocurrs in ages bounded by \code{minA} and \code{maxA}. To be clear \code{maxA} refers to 
+#' the lower bound of the highest age class, inclusive. So, if you want a ceiling of 70 (default), specify 65.
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
+#' @param minA integer. The lowest age included included in intermediate adjustment. Default 10.
+#' @param maxA integer. The highest age class included in intermediate adjustment. Default 65.
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @export
 #' @examples
@@ -399,8 +405,8 @@ strong_smth <- function(Value,
 	out         <- c(rbind(V5odds, V5evens))[1:N]
 	names(out)  <- Age5
 	
-    # keep but rescale?
-    if (OAG){
+	# keep but rescale?
+	if (OAG){
 		out[N] <- OAGvalue
 	}
 	
@@ -409,180 +415,5 @@ strong_smth <- function(Value,
 }
 
 
-#clean_tails_smth <- function(Value,Age,Smoothed)
 
-#' @details The Carrier-Farrag, Karup-King-Newton, and Arriaga methods do not modify the totals 
-#' in each 10-year age group; the United Nations and Strong methods do. The age group structure 
-#' of the output is five year age groups. The under 10 age group and the final 10-year age group 
-#' are included in the output but are unable to be smoothed because of the lack of a lower or 
-#' higher (respectively) 10-year interval for each of the methods.
 
-agesmth <- function(Value, 
-		Age, 
-		method = "Carrier-Farrag", 
-		OAG = TRUE, 
-		minA = 10, maxA = 65,
-		young.tail = "Arriaga", # TODO add this functionality. Maybe with separate modular function.
-		old.tail = young.tail){
-	method <- simplify.text(method)
-	if (missing(Age)){
-		Age <- as.integer(names(Value))
-	}
-	stopifnot(length(Age) == length(Value))
-	# carrierfarrag or cf
-	if (method %in% c("cf", "carrierfarrag")){
-		out <- carrier_farrag_smth(Value = Value, Age = Age, OAG = OAG)
-	}
-	
-	# stong
-	if (method == "strong"){
-		out <- strong_smth(Value = Value, Age = Age, OAG = OAG, minA = minA, maxA = maxA)
-	}
-	
-	# un or unitednations
-	if (method %in% c("un", "unitednations")){
-		out <- united_nations_smth(Value = Value, Age = Age, OAG = OAG)
-	}
-	
-	# arriaga
-	if (method  == "arriaga"){
-		out <- arriaga_smth(Value = Value, Age = Age, OAG = OAG)
-	}
-	
-	# kkn kkingnewton karupkingnewton
-	if (method %in% c("kkn", "kkingnewton", "karupkingnewton")){
-		out <- kkn_smth(Value = Value, Age = Age, OAG = OAG)
-	}
-	
-	out
-}
-
-agesmth(MalePop, Ages, "Carrier-Farrag", TRUE)
-
-# TR: Sean's code, slightly modified below.
-# TR: SplitU5 can be superceded by detection from Age vector.
-# see is.abridged()
-#popAgeSmth <- function(
-#		Value, 
-#		Age, 
-#		Method,
-#		OAG = TRUE){
-#  # TR, move to single ages FROM 5-year age groups. 
-#  Value5     <- groupAges(Value, Age = Age, N = 5)
-#  Value10    <- groupAges(Value, Age = Age, N = 10)
-#  Age5       <- as.integer(names(Value5))
-#  Value1     <- splitUniform(Value5, Age = Age5, OAG = OAG)
-#  
-#  # vectors for "Carrier-Farrag", "KKN" , "Arriaga", "Strong"
-#  Value10R   <- shift.vector(Value10, -1, fill = NA) #Value10PxMinus10
-#  Value10L   <- shift.vector(Value10, 1, fill = NA)  #Value10PxPlus10
-#  
-#  # not sure if needed
-#  Value5LL   <- shift.vector(Value5, -2, fill = NA)
-#  Value5L    <- shift.vector(Value5, -1, fill = NA)
-#  Value5R    <- shift.vector(Value5, 1, fill = NA)
-#  Value5RR   <- shift.vector(Value5, 2, fill = NA)
-#  #rbind(Value10L,Value10,Value10R)
-#	
-##  if ( is.abridged(Age) | is.single(Age) ){
-##    #intermediateAgg <- convertSplitTo5Year(Value) #Consolidate under split under 5 group
-##	intermediateAgg <- groupAges(Value,Age=Age)
-##    newAges         <- as.integer(names(intermediateAgg)) 
-##	# TR: by default final age group held as-is.
-##    aggValue        <- splitUniform(Value, Age=newAges,OAG=OAG) #split into single age groups
-##  }
-##  else{
-##    aggValue <- splitUniform(Value, Age = Age) #split into single age groups
-##    newAges <- seq(0, length(aggValue)-1) #Create new age groups
-##  }
-#  
-#  # Aggregate groups and create method inputs
-#  if (Method %in% c("Carrier-Farrag", "KKN" , "Arriaga", "Strong")){
-#    Value10PxMinus10 <- groupAges(aggValue, Age = newAges, N = 10)
-#    Value10Px        <- Value10PxMinus10[-1]
-#    Value10PxPlus10  <- Value10Px[-1]
-#    
-#    Value10PxPlus10  <- Value10PxPlus10[0:(length(Value10PxPlus10)-1)]
-#    Value10Px        <- Value10Px[0:(length(Value10Px)-2)]
-#    Value10PxMinus10 <- Value10PxMinus10[0:(length(Value10PxMinus10)-3)]
-#  }
-#  
-#  # TR: this'll take a while to sort through
-#  else if (Method == "UN"){
-#    Value5PxMinus10  <- groupAges(aggValue, Age = newAges, N = 5) #aggregate to 5 year groups
-#	# Value5
-#
-#	
-#    Value5PxMinus5   <- Value5PxMinus10[-1]
-#    Value5Px         <- Value5PxMinus5[-1]
-#    Value5PxPlus5    <- Value5Px[-1]
-#    Value5PxPlus10   <- Value5PxPlus5[-1]
-#    
-#    Value5PxPlus10   <- Value5PxPlus10[0:(length(Value5PxPlus10)-1)]
-#    Value5PxPlus5    <- Value5PxPlus5[0:(length(Value5PxPlus5)-2)]
-#    Value5Px         <- Value5Px[0:(length(Value5Px)-3)]
-#    Value5PxMinus5   <- Value5PxMinus5[0:(length(Value5PxMinus5)-4)]
-#    Value5PxMinus10  <- Value5PxMinus10[0:(length(Value5PxMinus10)-5)]
-#  }
-#  
-#  # Apply method-specific formula
-#  if (Method == "Carrier-Farrag"){
-#	  
-#    Value5PxPlus5    <- Value10Px / (1 + (Value10PxMinus10 / Value10PxPlus10)^(1/4))
-#    Value5Px         <- Value10Px - Value5PxPlus5
-#  }
-#  
-#  else if (Method == "KKN"){
-#    Value5Px         <- (1/2) * Value10Px + (1/16)*(Value10PxMinus10 - Value10PxPlus10)
-#    Value5PxPlus5    <- Value10Px - Value5Px
-#  }
-#  else if (Method == "Arriaga"){
-#    Value5PxPlus5    <- (-Value10PxMinus10 + 11*Value10Px + 2*Value10PxPlus10)/24
-#    Value5Px         <- Value10Px - Value5PxPlus5
-#  }
-#  else if (Method == "UN"){
-#    Value5PxPrime    <- (1/16 )* (-Value5PxMinus10 + 4*Value5PxMinus5 + 10*Value5Px + 
-#				                  4*Value5PxPlus5 - Value5PxMinus10)
-#  }
-#  else if (Method == "Strong"){
-#    Value10PxPrime   <- (Value10PxMinus10 + 2*Value10Px + Value10PxPlus10)/4
-#  }
-#  
-#  #Create output
-#  if (Method %in% c("Carrier-Farrag", "KKN", "Arriaga")){
-#    #Combine sequences and create full 5-year age group structure
-#    SmthPop                                    <- rep(0, length(aggValue)/5)
-#    SmthPop[seq(3, length(SmthPop) - 4, by=2)] <- Value5Px
-#    SmthPop[seq(4, length(SmthPop) - 3, by=2)] <- Value5PxPlus5
-#    
-#    #Add on the under 10 and final age groups
-#    Value5YearGroups                           <- groupAges(aggValue, Age = newAges)
-#    SmthPop[seq(1, 2)]                         <- Value5YearGroups[1:2]
-#    SmthPop[seq(length(SmthPop)-2, length(SmthPop))] <- Value5YearGroups[(length(Value5YearGroups)-2):length(Value5YearGroups)]
-#  }
-#  else if (Method == "UN"){
-#    #Combine sequences and create full 5-year age group structure
-#    SmthPop                                    <- rep(0, length(aggValue)/5)
-#    SmthPop[seq(3, length(SmthPop) - 3)]       <- Value5PxPrime
-#    
-#    #Add on the under 10 and final age groups
-#    Value5YearGroups                           <- groupAges(aggValue, Age = newAges)
-#    SmthPop[seq(1, 2)]                         <- Value5YearGroups[1:2]
-#    SmthPop[seq(length(SmthPop)-2, length(SmthPop))] <- Value5YearGroups[(length(Value5YearGroups)-2):length(Value5YearGroups)]
-#  }
-#  else if (Method == "Strong"){
-#    #Combine sequences and create full 5-year age group structure
-#    SmthPop                                    <- rep(0, length(aggValue)/5)
-#    SmthPop[seq(3, length(SmthPop) - 4, by=2)] <- Value10PxPrime/2
-#    SmthPop[seq(4, length(SmthPop) - 3, by=2)] <- Value10PxPrime/2
-#    
-#    #Add on the under 10 and final age groups
-#    Value5YearGroups                           <- groupAges(aggValue, Age = newAges)
-#	
-#	# TR why in 2 steps?
-#    SmthPop[seq(1, 2)]                         <- Value5YearGroups[1:2]
-#    SmthPop[seq(length(SmthPop)-2, length(SmthPop))] <- Value5YearGroups[(length(Value5YearGroups)-2):length(Value5YearGroups)]
-#  }
-#  
-#  return(SmthPop)
-#}
