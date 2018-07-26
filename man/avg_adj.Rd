@@ -7,7 +7,7 @@
 avg_adj(x)
 }
 \arguments{
-\item{numeric}{vector}
+\item{x}{numeric vector}
 }
 \value{
 numeric vector the same length as \code{x}.

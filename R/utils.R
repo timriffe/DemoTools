@@ -282,7 +282,7 @@ getModelLifeTable <- function(ModelName, Sex){
 #' For example, the second element of the result is the average of the first and third elements of the
 #' input vector \code{x}. Used by \code{zigzag()}, and possibly useful elsewhere.
 #' @details Tails are given a value of \code{NA}.
-#' @param numeric vector
+#' @param x numeric vector
 #' @return numeric vector the same length as \code{x}.
 #' @export
 #' @examples 
