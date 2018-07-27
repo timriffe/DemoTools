@@ -33,7 +33,7 @@ This function blends the given single age population estimates starting at \code
 }
 \details{
 The \code{pivotAge} must be at least 10 years below the maximum age detected from 
-\code{rownames(popmat)}, but not lower than 80. In the exact \code{pivotAge}, we may either take
+\code{rownames(popmat)}, but not lower than 75. In the exact \code{pivotAge}, we may either take
 the Sprague estimates or the spline estimates, depending on which is larger, then the single-age estimates
 for this 5-year age group are rescaled to sum to the original total in \code{popmat}. Higher ages are taken from
 the spline-based age splits. The spline results are derive from the \code{"monoH.FC"} method of \code{splinefun()} 

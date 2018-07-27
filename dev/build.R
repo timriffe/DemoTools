@@ -14,6 +14,7 @@ document("/home/tim/git/DemoTools")
 
 # run this to get access to already-written functions
 shhh(load_all("/home/tim/git/DemoTools"))
+?sprague
 
 # do this whenever major changes happen
 check("/home/tim/git/DemoTools")

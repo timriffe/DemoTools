@@ -194,6 +194,11 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' work as well, as long as it is given as or coercible to a single-column matrix. If you want the \code{johnson} adjustment of young 
 #' ages, a separate estimate of \code{Age0} can either be specified directly, or else it is taken from age 0 if \code{popmat} 
 #' is specified in single or standard abridged ages.  
+#' 
+#' If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next 
+#' highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend
+#' to single ages covering the entire 5-year age group. 
+#' 
 #' @return An age-period matrix of split population counts with the same number of 
 #' columns as \code{popmat}, and single ages in rows.
 #' @references 

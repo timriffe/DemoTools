@@ -21,6 +21,10 @@
 #' to specify closing out the graduation: To leave the Sprague results as-is specify \code{closeout = FALSE}. \code{TRUE} 
 #' or \code{"mono"} will call the \code{monoCloseout()} function. This guarantees no negative values.
 #' 
+#' If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next 
+#' highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend
+#' to single ages covering the entire 5-year age group. 
+#' 
 #' @return An age-period matrix of split population counts with the same number of 
 #' columns as \code{popmat}, and single ages in rows.
 #' 
@@ -80,7 +84,7 @@
 
 sprague <- function(
 		popmat, 
-		Age = as.integer(rownames(popmat)), 
+		Age = as.integer(rownames(as.matrix(popmat))), 
 		OAG = TRUE, 
 		closeout = "mono", 
 		pivotAge = max(Age) - 10){
@@ -90,7 +94,8 @@ sprague <- function(
 	punif1            <- apply(popmat, 2, splitUniform, Age = Age, OAG = OAG)
 	# this is innocuous if ages are already grouped
 	pop5              <- apply(punif1, 2, groupAges, Age = Age, N = 5, shiftdown = 0)
-	
+	# depending on OAG, highest age may shift down.
+	punif1            <- apply(pop5, 2, splitUniform, Age = as.integer(rownames(pop5)), OAG = OAG)
 	# generate coefficient matrix
 	scm               <- spragueExpand(pop5, OAG = OAG)
 	

@@ -4,7 +4,8 @@
 \alias{sprague}
 \title{The basic Sprague age-splitting method.}
 \usage{
-sprague(popmat, Age, OAG = TRUE, closeout = "mono", pivotAge = 90)
+sprague(popmat, Age = as.integer(rownames(as.matrix(popmat))), OAG = TRUE,
+  closeout = "mono", pivotAge = max(Age) - 10)
 }
 \arguments{
 \item{popmat}{numeric. A matrix of population counts in 5-year age groups with integer-labeled 
@@ -35,6 +36,10 @@ Dimension labelling is necessary. There must be at least six age groups (includi
 work as well, as long as it's given as a single-column matrix. There are different ways 
 to specify closing out the graduation: To leave the Sprague results as-is specify \code{closeout = FALSE}. \code{TRUE} 
 or \code{"mono"} will call the \code{monoCloseout()} function. This guarantees no negative values.
+
+If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next 
+highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend
+to single ages covering the entire 5-year age group.
 }
 \examples{
 p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
