@@ -152,7 +152,8 @@ monoCloseout <- function(popmat, pops, pivotAge = 90, splitfun = sprague, OAG = 
 		pops    <- splitfun(popmat, ...)
 	}
 	# get the spline population split
-	popmono <- apply(popmat, 2, splitMono, OAG = OAG)
+	AgeIn   <- as.integer(rownames(popmat))
+	popmono <- apply(popmat, 2, splitMono, OAG = OAG, Age = AgeIn)
 	
 	# some age pars
 	Age     <- as.integer(rownames(popmono))

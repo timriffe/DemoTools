@@ -187,17 +187,9 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
 #' @param method character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}. 
 #' @param johnson  logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default \code{FALSE}.
-#' @param Age0 numeric. If doing the \code{johnson} adjustment, we need a separate estimate of age 0. Taken from \code{popmat} if missing. 
-#' @details Ages should refer to lower age bounds. 
-#' The rows of \code{popmat} must be labelled with ages unless \code{Age} is given separately.
-#'  There must be at least six 5-year age groups (including the open group, 5 otherwise). One year of data will 
-#' work as well, as long as it is given as or coercible to a single-column matrix. If you want the \code{johnson} adjustment of young 
-#' ages, a separate estimate of \code{Age0} can either be specified directly, or else it is taken from age 0 if \code{popmat} 
-#' is specified in single or standard abridged ages.  
+#' @details Ages should refer to lower age bounds. The rows of \code{popmat} must be labelled with ages unless \code{Age} is given separately. There must be at least six 5-year age groups (including the open group, 5 otherwise). One year of data will work as well, as long as it is given as or coercible to a single-column matrix. If you want the \code{johnson} adjustment then \code{popmat} must contain a single-year estimate of the population count in age 0. That means popmat must come either as standard abridged or single age data.  
 #' 
-#' If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next 
-#' highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend
-#' to single ages covering the entire 5-year age group. 
+#' If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend to single ages covering the entire 5-year age group. 
 #' 
 #' @return An age-period matrix of split population counts with the same number of 
 #' columns as \code{popmat}, and single ages in rows.
@@ -299,9 +291,8 @@ beers <- function(popmat, Age, OAG = TRUE, method = "mod", johnson = FALSE){
 	# can only do the Johnson adjust if ages are single or abridged. 
 	# cuz we need a separate age 0
 	if (johnson & ((min(Age) == 0 & 1 %in% Age))){
-		if (missing(Age0)){
-			Age0 = popmat[1, , drop = FALSE]
-		}
+	
+		Age0 <- popmat[1, , drop = FALSE]
 		pop1 <- johnsonAdjust(Age0 = Age0, pop5 = pop5, pop1 = pop1)
 	}
 	

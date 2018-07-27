@@ -12,14 +12,7 @@
 #' margins (age in rows and year in columns).
 #' @param Age integer. Vector of lower age bound of age groups. Detected from row names of \code{popmat} if missing.
 #' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
-#' @param closeout logical or character. Default \code{"mono"}. See details. 
-#' @param pivotAge integer. Pivotal age. Default 90.
-#' @param ... extra arguments passed to the closeout function.
-#' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
-#' Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
-#' work as well, as long as it's given as a single-column matrix. There are different ways 
-#' to specify closing out the graduation: To leave the Sprague results as-is specify \code{closeout = FALSE}. \code{TRUE} 
-#' or \code{"mono"} will call the \code{monoCloseout()} function. This guarantees no negative values.
+#' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as or coercible to a single-column matrix. This method may produce negative values, most likely in the youngest or oldest ages.
 #' 
 #' If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next 
 #' highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend
@@ -50,13 +43,11 @@
 #' 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 #' head(p5) # this is the entire matrix
 #' # the last value is an open age group, preserve as such:
-#' p1 <- sprague(p5, OAG = TRUE, closeout = FALSE)
+#' p1 <- sprague(p5, OAG = TRUE)
 #' head(p1); tail(p1)
 #' colSums(p1) - colSums(p5) 
 #' 
 #' # another case, starting with single ages
-#' # note sprague() does not group ages. You need to do it 
-#' # first.
 #' Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
 #' 		14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
 #' 		9055588,5519173,12546779,4784102,13365429,4630254,9595545,4727963,
@@ -71,29 +62,20 @@
 #' 		44015,19172,329149,48004,28574,9200,7003,75195,13140,5889,
 #' 		18915,21221,72373)
 #' Age         <- 0:100
-#' # group ages
-#' Val5        <- groupAges(Value, Age)
 #' # notice how this particular case produces a negative value in the last age
 #' # before OAG:
-#' pops <- sprague(popmat = Val5, OAG = TRUE, closeout = FALSE)
-#' # this replaces ages 90+, guaranteed no negatives.
-#' pops1 <- monoCloseout(popmat = Val5, pops = pops, OAG = TRUE)
-#' # identical to:
-#' pops2 <- sprague(popmat = Val5, OAG = TRUE, closeout = "mono")
-#' stopifnot(all(pops1==pops2))
+#' pops <- sprague(popmat = Value, Age = Age, OAG = TRUE)
 
 sprague <- function(
 		popmat, 
 		Age = as.integer(rownames(as.matrix(popmat))), 
-		OAG = TRUE, 
-		closeout = "mono", 
-		pivotAge = max(Age) - 10){
+		OAG = TRUE){
 	popmat            <- as.matrix(popmat)
 	
 
 	punif1            <- apply(popmat, 2, splitUniform, Age = Age, OAG = OAG)
 	# this is innocuous if ages are already grouped
-	pop5              <- apply(punif1, 2, groupAges, Age = Age, N = 5, shiftdown = 0)
+	pop5              <- apply(punif1, 2, groupAges, Age = as.integer(rownames(punif1)), N = 5, shiftdown = 0)
 	# depending on OAG, highest age may shift down.
 	punif1            <- apply(pop5, 2, splitUniform, Age = as.integer(rownames(pop5)), OAG = OAG)
 	# generate coefficient matrix
@@ -106,31 +88,34 @@ sprague <- function(
 	AgeOut            <- as.integer(rownames(punif1))
 	dimnames(pop1)    <- list(AgeOut, colnames(popmat))
 	
-	# default closeout with monoCloseout().
-	# set to FALSE to turn off, write "mono"
-	if (is.logical(closeout)){
-		if (!closeout){
-			return(pop1)
-		}
-		closeout <- "mono"
-	}
-	if (closeout == "mono"){
-		
-		# note, if OAG = FALSE and Age %% 5 != 0, 
-		# then we need to group popmat to next lowest
-		# age divisible by 5...
-		if (nrow(popmat) > nrow(pop1)){
-			n <- nrow(pop1)
-			popmat[n, ] <- colSums(popmat[n:nrow(popmat), ,drop = FALSE])
-			popmat <- popmat[1:n, , drop = FALSE]
-		}
-		
-		pop1 <- monoCloseout(
-				popmat = popmat, 
-				pops = pop1, 
-				OAG = OAG, 
-				pivotAge = pivotAge)
-	}
+	# no sense adding closeout behavior here, when it isn't offered
+	# in grabill or beers. Better make wrapper with this sugar.
+	
+#	# default closeout with monoCloseout().
+#	# set to FALSE to turn off, write "mono"
+#	if (is.logical(closeout)){
+#		if (!closeout){
+#			return(pop1)
+#		}
+#		closeout <- "mono"
+#	}
+#	if (closeout == "mono"){
+#		
+#		# note, if OAG = FALSE and Age %% 5 != 0, 
+#		# then we need to group popmat to next lowest
+#		# age divisible by 5...
+#		if (nrow(popmat) > nrow(pop1)){
+#			n <- nrow(pop1)
+#			popmat[n, ] <- colSums(popmat[n:nrow(popmat), ,drop = FALSE])
+#			popmat <- popmat[1:n, , drop = FALSE]
+#		}
+#		
+#		pop1 <- monoCloseout(
+#				popmat = popmat, 
+#				pops = pop1, 
+#				OAG = OAG, 
+#				pivotAge = pivotAge)
+#	}
 	pop1
 }
 

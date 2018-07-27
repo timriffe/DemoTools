@@ -4,8 +4,7 @@
 \alias{sprague}
 \title{The basic Sprague age-splitting method.}
 \usage{
-sprague(popmat, Age = as.integer(rownames(as.matrix(popmat))), OAG = TRUE,
-  closeout = "mono", pivotAge = max(Age) - 10)
+sprague(popmat, Age = as.integer(rownames(as.matrix(popmat))), OAG = TRUE)
 }
 \arguments{
 \item{popmat}{numeric. A matrix of population counts in 5-year age groups with integer-labeled 
@@ -14,12 +13,6 @@ margins (age in rows and year in columns).}
 \item{Age}{integer. Vector of lower age bound of age groups. Detected from row names of \code{popmat} if missing.}
 
 \item{OAG}{logical. Whether or not the final age group open. Default \code{TRUE}.}
-
-\item{closeout}{logical or character. Default \code{"mono"}. See details.}
-
-\item{pivotAge}{integer. Pivotal age. Default 90.}
-
-\item{...}{extra arguments passed to the closeout function.}
 }
 \value{
 An age-period matrix of split population counts with the same number of 
@@ -31,11 +24,7 @@ script prepared by Thomas Buettner and Patrick Gerland, itself based on the desc
 in Siegel and Swanson, 2004, p. 727.
 }
 \details{
-Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). 
-Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
-work as well, as long as it's given as a single-column matrix. There are different ways 
-to specify closing out the graduation: To leave the Sprague results as-is specify \code{closeout = FALSE}. \code{TRUE} 
-or \code{"mono"} will call the \code{monoCloseout()} function. This guarantees no negative values.
+Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as or coercible to a single-column matrix. This method may produce negative values, most likely in the youngest or oldest ages.
 
 If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next 
 highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend
@@ -57,13 +46,11 @@ p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933,
 		.Dimnames = list(seq(0,100,by=5), 1950:1954))
 head(p5) # this is the entire matrix
 # the last value is an open age group, preserve as such:
-p1 <- sprague(p5, OAG = TRUE, closeout = FALSE)
+p1 <- sprague(p5, OAG = TRUE)
 head(p1); tail(p1)
 colSums(p1) - colSums(p5) 
 
 # another case, starting with single ages
-# note sprague() does not group ages. You need to do it 
-# first.
 Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918,
 		14312222,8111523,15311047,6861510,13305117,7454575,9015381,10325432,
 		9055588,5519173,12546779,4784102,13365429,4630254,9595545,4727963,
@@ -78,16 +65,9 @@ Value <- c(9544406,7471790,11590109,11881844,11872503,12968350,11993151,10033918
 		44015,19172,329149,48004,28574,9200,7003,75195,13140,5889,
 		18915,21221,72373)
 Age         <- 0:100
-# group ages
-Val5        <- groupAges(Value, Age)
 # notice how this particular case produces a negative value in the last age
 # before OAG:
-pops <- sprague(popmat = Val5, OAG = TRUE, closeout = FALSE)
-# this replaces ages 90+, guaranteed no negatives.
-pops1 <- monoCloseout(popmat = Val5, pops = pops, OAG = TRUE)
-# identical to:
-pops2 <- sprague(popmat = Val5, OAG = TRUE, closeout = "mono")
-stopifnot(all(pops1==pops2))
+pops <- sprague(popmat = Value, Age = Age, OAG = TRUE)
 }
 \references{
 \insertRef{sprague1880explanation}{DemoTools}
