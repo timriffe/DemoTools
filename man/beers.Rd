@@ -4,7 +4,7 @@
 \alias{beers}
 \title{The ordinary modified Beers splitting methods}
 \usage{
-beers(popmat, Age, OAG = FALSE, method = "mod", johnson = FALSE, Age0)
+beers(popmat, Age, OAG = TRUE, method = "mod", johnson = FALSE)
 }
 \arguments{
 \item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 
@@ -32,7 +32,7 @@ with an optional \href{https://www.census.gov/data/software/dapps.html}{Demograp
 Ages should refer to lower age bounds. 
 The rows of \code{popmat} must be labelled with ages unless \code{Age} is given separately.
  There must be at least six 5-year age groups (including the open group, 5 otherwise). One year of data will 
-work as well, as long as it is given as a single-column matrix. If you want the \code{johnson} adjustment of young 
+work as well, as long as it is given as or coercible to a single-column matrix. If you want the \code{johnson} adjustment of young 
 ages, a separate estimate of \code{Age0} can either be specified directly, or else it is taken from age 0 if \code{popmat} 
 is specified in single or standard abridged ages.
 }
@@ -90,18 +90,17 @@ monoCloseout(Value, pops = mod1, OAG = TRUE)
 # these ought to be handled by wrappers as appropriate.
 
 # This replicates Johnson_2016_BEERSP.XLS, males
-M <- c(752124,582662,463534,369976,286946,235867,
+M <- c(184499,752124-184499,582662,463534,369976,286946,235867,
 		199561,172133,151194,131502,113439,95614,
 		78777,60157,40960,21318,25451)
 dim(M)      <- c(length(M),1)
-rownames(M) <- seq(0,80,by=5)
+rownames(M) <- c(0,1,seq(5,80,by=5))
 Age0        <- 184499
 johnson     <- beers(
 		         popmat = M, 
 		         OAG = TRUE,
 			     method = "ord", 
-			     johnson = TRUE, 
-			     Age0 = Age0)
+			     johnson = TRUE)
 # copied from spreadsheet output, a de facto unit test, 
 output <- c(184499,158163,143895,135416,130151,
             126153,122028,117182,111566,105733,

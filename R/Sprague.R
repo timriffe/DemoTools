@@ -78,14 +78,18 @@
 #' pops2 <- sprague(popmat = Val5, OAG = TRUE, closeout = "mono")
 #' stopifnot(all(pops1==pops2))
 
-sprague <- function(popmat, Age, OAG = TRUE, closeout = "mono", pivotAge = 90){
+sprague <- function(
+		popmat, 
+		Age = as.integer(rownames(popmat)), 
+		OAG = TRUE, 
+		closeout = "mono", 
+		pivotAge = max(Age) - 10){
 	popmat            <- as.matrix(popmat)
 	
-	if (missing(Age)){
-		Age               <- as.integer(rownames(popmat))
-	}
+
+	punif1            <- apply(popmat, 2, splitUniform, Age = Age, OAG = OAG)
 	# this is innocuous if ages are already grouped
-	pop5              <- apply(popmat, 2, groupAges, Age = Age, N = 5, shiftdown = 0)
+	pop5              <- apply(punif1, 2, groupAges, Age = Age, N = 5, shiftdown = 0)
 	
 	# generate coefficient matrix
 	scm               <- spragueExpand(pop5, OAG = OAG)
@@ -94,9 +98,8 @@ sprague <- function(popmat, Age, OAG = TRUE, closeout = "mono", pivotAge = 90){
 	pop1              <- scm %*% pop5
 	
 	# label and return
-	zero              <- min(as.integer(rownames(popmat)))
-	ages              <- zero:(nrow(scm)-1 + zero)
-	dimnames(pop1)    <- list(ages, colnames(popmat))
+	AgeOut            <- as.integer(rownames(punif1))
+	dimnames(pop1)    <- list(AgeOut, colnames(popmat))
 	
 	# default closeout with monoCloseout().
 	# set to FALSE to turn off, write "mono"
@@ -107,6 +110,16 @@ sprague <- function(popmat, Age, OAG = TRUE, closeout = "mono", pivotAge = 90){
 		closeout <- "mono"
 	}
 	if (closeout == "mono"){
+		
+		# note, if OAG = FALSE and Age %% 5 != 0, 
+		# then we need to group popmat to next lowest
+		# age divisible by 5...
+		if (nrow(popmat) > nrow(pop1)){
+			n <- nrow(pop1)
+			popmat[n, ] <- colSums(popmat[n:nrow(popmat), ,drop = FALSE])
+			popmat <- popmat[1:n, , drop = FALSE]
+		}
+		
 		pop1 <- monoCloseout(
 				popmat = popmat, 
 				pops = pop1, 

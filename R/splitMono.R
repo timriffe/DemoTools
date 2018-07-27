@@ -69,7 +69,9 @@ splitMono <- function(Value, Age, OAG = FALSE){
 	if (OAG){
 		single.out[length(single.out)] <- pop5[length(pop5)]
 	}
-	single.out
+	
+	names(single.out) <- min(Age):max(Age)
+    single.out
 }
 
 #' blend the Sprague upper boundary age estimates into monotonic spline estimates
@@ -90,7 +92,7 @@ splitMono <- function(Value, Age, OAG = FALSE){
 #' @return numeric matrix of age by year estimates of single-age counts.
 #' 
 #' @details The \code{pivotAge} must be at least 10 years below the maximum age detected from 
-#' \code{rownames(popmat)}, but not lower than 80. In the exact \code{pivotAge}, we may either take
+#' \code{rownames(popmat)}, but not lower than 75. In the exact \code{pivotAge}, we may either take
 #' the Sprague estimates or the spline estimates, depending on which is larger, then the single-age estimates
 #' for this 5-year age group are rescaled to sum to the original total in \code{popmat}. Higher ages are taken from
 #' the spline-based age splits. The spline results are derive from the \code{"monoH.FC"} method of \code{splinefun()} 
@@ -143,7 +145,7 @@ splitMono <- function(Value, Age, OAG = FALSE){
 #' legend("topright",lty=c(1,2,2), col = c("black","red","blue"),lwd = c(1,2,1),
 #' 		legend = c("sprague()","monoCloseout()", "splitMono()"))
 #' }
-# TODO: make this deal w OAG in a more consistent way
+
 monoCloseout <- function(popmat, pops, pivotAge = 90, splitfun = sprague, OAG = FALSE, ...){
 	popmat <- as.matrix(popmat)
 	if (missing(pops)){
@@ -153,15 +155,14 @@ monoCloseout <- function(popmat, pops, pivotAge = 90, splitfun = sprague, OAG = 
 	popmono <- apply(popmat, 2, splitMono, OAG = OAG)
 	
 	# some age pars
-	Age5    <- as.integer(rownames(popmat))
-	Age1    <- min(Age5):max(Age5)
+	Age     <- as.integer(rownames(popmono))
 	
 	# some checks on pivotAge...
-	if (!(max(Age1) - 10) >= pivotAge){
-		pivotAge <- max(Age1) - 10
-		if (pivotAge < 80){
+	if (!(max(Age) - 10) >= pivotAge){
+		pivotAge <- max(Age) - 10
+		if (pivotAge < 75){
 			warning("pivotAge wasn't in rownames(popmat), moved it to 3rd ", 
-			        "from bottom row of popmat, but appears to be < 80 ",
+			        "from bottom row of popmat, but appears to be < 75 ",
 			        "so returning sprague() output as-is, no extra closeout performed.")
 			return(pops)
 		}
@@ -169,8 +170,8 @@ monoCloseout <- function(popmat, pops, pivotAge = 90, splitfun = sprague, OAG = 
 	}
 	# -----------------------------
 	# now begin the closeout blend.
-	p.i              <- which(Age1 == pivotAge)
-	## substitute Sprague interpolation if > pchip for better belnding of the two series
+	p.i              <- which(Age == pivotAge)
+	## substitute Sprague interpolation if > pchip for better blending of the two series
 	pop.c            <- popmono[p.i:(p.i + 4), , drop = FALSE]
 	ind              <- pops[p.i, ] > pop.c[1, ]
 	pop.c[1, ind]    <- pops[p.i, ind] 
@@ -193,7 +194,7 @@ monoCloseout <- function(popmat, pops, pivotAge = 90, splitfun = sprague, OAG = 
 	
 	# label and return
 	#dimnames(pop.c) <- list(Age1, colnames(popmat))
-	rownames(pop.c) <- Age1
+	rownames(pop.c) <- Age
 	colnames(pop.c) <- colnames(popmat)
 	pop.c
 }

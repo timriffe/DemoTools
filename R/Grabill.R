@@ -196,7 +196,7 @@ grabill <- function(popmat, Age, OAG = TRUE){
 	popg              <- scmg %*% pop5
 	
 	# ---------------------------------------------
-	# now we graft the two estimates in together,
+	# now we graft the two estimates together,
 	# preserving the middle part for grabill, and blending
 	# aggressively into the young and closeout parts of Sprague
 	# weights for grafting in grabill
@@ -231,8 +231,8 @@ grabill <- function(popmat, Age, OAG = TRUE){
 	popg              <- popg + add.in
 	# ---------------------------------------------
 	# label dims and return
-	rg                <- range(as.integer(rownames(popmat)))
-	dimnames(popg)    <- list(rg[1]:(rg[2]+ifelse(OAG, 0, 4)), colnames(popmat))
+    AgeOut            <- min(Age):(min(Age) + nrow(popg) - 1)
+	dimnames(popg)    <- list(AgeOut, colnames(popmat))
 	
 	popg
 }
