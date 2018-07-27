@@ -6,9 +6,9 @@
 #' Calculate Whipple's index of age heaping
 
 #' @description Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking. 
-#' Whipple's index is a summary measure of age heaping on ages ending usually in 0 or 5 used to determine variability in the
+#' Whipple's index is a summary measure of age heaping on ages ending usually in the digits 0 or 5 used to determine variability in the
 #' quality of age reporting between regions or countries and its evolution over time. It assumes a
-#' linear distribution of ages in each five-year age range.
+#' linear distribution of ages in each five-year age range. Digits refer to terminal age digits. For example, 9, 19, 29, etc are all of digit 9.
 
 #' @param Value numeric. A vector of demographic counts by single age.
 #' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
@@ -302,7 +302,7 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 #' calculate Noumbissi's digit heaping index
 #' 
 #' @description Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators 
-#' consisting in 5-year age groups centered on the digit in question.
+#' consisting in 5-year age groups centered on the terminal digit of age in question. For example, 9, 19, 29, etc are all of digit 9.
 
 #' @param Value numeric. A vector of demographic counts by single age.
 #' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.

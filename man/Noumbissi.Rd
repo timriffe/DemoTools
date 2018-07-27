@@ -22,7 +22,7 @@ The value of the index.
 }
 \description{
 Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators 
-consisting in 5-year age groups centered on the digit in question.
+consisting in 5-year age groups centered on the terminal digit of age in question. For example, 9, 19, 29, etc are all of digit 9.
 }
 \details{
 \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.

@@ -22,9 +22,9 @@ The value of the index.
 }
 \description{
 Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking. 
-Whipple's index is a summary measure of age heaping on ages ending usually in 0 or 5 used to determine variability in the
+Whipple's index is a summary measure of age heaping on ages ending usually in the digits 0 or 5 used to determine variability in the
 quality of age reporting between regions or countries and its evolution over time. It assumes a
-linear distribution of ages in each five-year age range.
+linear distribution of ages in each five-year age range. Digits refer to terminal age digits. For example, 9, 19, 29, etc are all of digit 9.
 }
 \details{
 \code{ageMax} is the hard upper bound, treated as interval. If you want ages
