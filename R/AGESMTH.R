@@ -1,6 +1,6 @@
-# Author: sean
+# Author: tim, based on earlier version by sean
 # modified by TR 18 July, 2018
-# TODO: see individual TODO notes for functions, but mainly need to test for length robustness.
+# TODO: see individual TODO notes for functions
 # also need to add generic DemoTools wrapper here, will offer tail imputation options
 # and call various methods with a method argument.
 ###############################################################################
@@ -38,57 +38,38 @@
 
 # plz add PASEX citation, and add above to bibtex
 
-# TODO: make odds and evens use rbind trick. add check on 10-year age groups.
 carrier_farrag_smth <- function(Value, 
 		Age, 
 		OAG = TRUE){
-	
-	N <- length(Value)
-	if (OAG){
-		Value[N] <- NA
-	}
-	
-	Value5     <- groupAges(Value, Age = Age, N = 5)
+	# these values are not used, it's just for lengths, and to make sure we 
+	# end on an even 10. Technically we could even provide data in 10-year
+	# age groups and it'd still not break.
+	Value1     <- splitUniform(Counts = Value, Age = Age, OAG = OAG)
+	Value5     <- groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
 	N          <- length(Value5)
 	Age5       <- as.integer(names(Value5))
 	
-	Value5LL   <- shift.vector(Value5, -2, fill = NA)
-	Value5L    <- shift.vector(Value5, -1, fill = NA)
-	Value5R    <- shift.vector(Value5, 1, fill = NA)
-	Value5RR   <- shift.vector(Value5, 2, fill = NA)
-	Value5RRR  <- shift.vector(Value5, 3, fill = NA)
+	# would need to move this up to ensure?
+	# or in case of 85+ would we want to keep 80-84, 85+ as-is?
+	Value10    <- groupAges(Value, Age = Age, N = 10)
 	
-	# get staggered vectors. We calc every 10 years, but throw out 
-	# every second one
-	# this is the funny C-F operation
-	ValuePert  <-  (Value5 + Value5R) / 
-			(1 + ((Value5RRR + Value5RR) / (Value5L + Value5LL))^.25)
-	
-	# can this be simplified?
-	# indices for switching behavior on and off.
-	# need same nr of evens and odds.
-	NN         <- N
-	if (N %% 2 == 1){
-		NN        <- N + 1
-		ValuePert <- c(ValuePert, NA)
-		Value5    <- c(Value5, NA)
-		Value5L   <- c(Value5L, NA)
+	# what OAG is a strange digit? Then take OAG after grouping.
+	if (OAG){
+		OAGvalue <- Value10[length(Value10)]
+		Value10[length(Value10)] <- NA
 	}
 	
-	inds       <- 1:NN
-	odds       <- inds %% 2 == 1
-	evens      <- !odds
+	v10R       <- shift.vector(Value10, 1, fill = NA)
+	v10L       <- shift.vector(Value10, -1, fill = NA)
+	vevens     <- Value10 / (1 + (v10R / v10L) ^ .25)
+	vodds      <- Value10 - vevens
 	
-	# produce results vector
-	out        <- Value5 * NA 
-	out[evens] <- ValuePert[evens]
-	
-	# make sure sum(odds) == sum(evens)
-	out[odds]  <- (Value5 + Value5L)[odds] - ValuePert[evens]
-	
+	out        <- Value5 * NA	
 	# cut back down (depending) and name
-	out        <- out[1:N]
-	names(out) <- Age5
+	interleaf  <- c(rbind(vodds, vevens))
+	n          <- min(c(length(interleaf),N))
+	out[1:n]   <- interleaf[1:n]
+
 	out
 	# tail behavior will be controlled in top level function.
 }
@@ -123,55 +104,42 @@ carrier_farrag_smth <- function(Value,
 #' Population Studies 12.3 (1959): 240-285.
 # plz add PASEX citation, and add above to bibtex
 
-# TODO make odds and evens use rbind trick
 kkn_smth <- function(Value, 
 		Age, 
 		OAG = TRUE){
 	
-	N <- length(Value)
-	if (OAG){
-		Value[N] <- NA
-	}
-	
-	Value5     <- groupAges(Value, Age = Age, N = 5)
+	# these values are not used, it's just for lengths, and to make sure we 
+	# end on an even 10. Technically we could even provide data in 10-year
+	# age groups and it'd still not break.
+	Value1     <- splitUniform(Counts = Value, Age = Age, OAG = OAG)
+	Value5     <- groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
 	N          <- length(Value5)
 	Age5       <- as.integer(names(Value5))
 	
-	# get staggered vectors
-	Value5LLL  <- shift.vector(Value5, -3, fill = NA)
-	Value5LL   <- shift.vector(Value5, -2, fill = NA)
-	Value5L    <- shift.vector(Value5, -1, fill = NA)
-	Value5R    <- shift.vector(Value5, 1, fill = NA)
-	Value5RR   <- shift.vector(Value5, 2, fill = NA)
-	Value5RRR  <- shift.vector(Value5, 3, fill = NA)
+	# would need to move this up to ensure?
+	# or in case of 85+ would we want to keep 80-84, 85+ as-is?
+	Value10    <- groupAges(Value, Age = Age, N = 10)
 	
-	# this is the funny KNN operation
-	ValuePert  <-  (Value5 + Value5L) / 2 + (Value5R + Value5RR - Value5LL - Value5LLL) / 16
-	
-	# indices for switching behavior on and off.
-	# need same nr of evens and odds.
-	NN         <- N
-	if (N %% 2 == 1){
-		NN        <- N + 1
-		ValuePert <- c(ValuePert, NA)
-		Value5    <- c(Value5, NA)
-		Value5L   <- c(Value5L, NA)
+	# what OAG is a strange digit? Then take OAG after grouping.
+	if (OAG){
+		OAGvalue <- Value10[length(Value10)]
+		Value10[length(Value10)] <- NA
 	}
 	
-	inds       <- 1:NN
-	odds       <- inds %% 2 == 1
-	evens      <- !odds
+	v10R       <- shift.vector(Value10, 1, fill = NA)
+	v10L       <- shift.vector(Value10, -1, fill = NA)
 	
+	# this is the KNN operation
+	vodds      <- Value10 / 2 + (v10R - v10L) / 16
+	# constrained in 10-year age groups
+	vevens     <- Value10 - vodds
+	# stagger odd even 5s
+	interleaf  <- c(rbind(vodds, vevens))
 	# produce results vector
 	out        <- Value5 * NA 
-	out[odds]  <- ValuePert[odds]
-	
-	# make sure sum(odds) == sum(evens)
-	out[evens]  <- (Value5 + Value5L)[odds] - ValuePert[odds]
-	
-	# cut back down (depending) and name
-	out        <- out[1:N]
-	names(out) <- Age5
+	n          <- min(c(length(interleaf),N))
+    out[1:n]   <- interleaf[1:n]
+
 	out
 }
 
@@ -208,23 +176,24 @@ kkn_smth <- function(Value,
 arriaga_smth <- function(Value, 
 		Age, 
 		OAG = TRUE){
+	# these values are not used, it's just for lengths, and to make sure we 
+	# end on an even 10. Technically we could even provide data in 10-year
+	# age groups and it'd still not break.
+	Value1     <- splitUniform(Counts = Value, Age = Age, OAG = OAG)
+	Value5     <- groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
+	N          <- length(Value5)
+	Age5       <- as.integer(names(Value5))
 	
 	# would need to move this up to ensure?
 	# or in case of 85+ would we want to keep 80-84, 85+ as-is?
 	Value10    <- groupAges(Value, Age = Age, N = 10)
-	v1u        <- splitUniform(Value10, Age = as.integer(names(Value10)), OAG = OAG)
 	
-	# these values are not used, it's just for lengths, and to make sure we 
-	# end on an even 10.
-	Value5     <- groupAges(v1u, Age = as.integer(names(v1u)), N = 5)
-	N          <- length(Value5)
 	# what OAG is a strange digit? Then take OAG after grouping.
 	if (OAG){
-		OAGvalue <- Value10[length(Value10)]
+		OAGvalue <- Value5[length(Value5)]
 		Value10[length(Value10)] <- NA
+		Value5[length(Value5)]   <- NA
 	}
-	
-	Age5        <- as.integer(names(Value5))
 	
 	# again get staggered vectors
 	Value10LL   <- shift.vector(Value10, -2, fill = NA)
@@ -233,18 +202,24 @@ arriaga_smth <- function(Value,
 	Value10RR   <- shift.vector(Value10, 2, fill = NA)
 	
 	# alternating calc, with differences at tails
-	V5evens     <- (-Value10R + 11 * Value10 + 2 * Value10L) / 24
+	vevens      <- (-Value10R + 11 * Value10 + 2 * Value10L) / 24
 	# tails different
-	V5evens[1]  <- (8 * Value10[1] + 5 * Value10L[1] - Value10LL[1]) / 24
-	lastind     <- which(is.na(V5evens))[1]
-	V5evens[lastind] <-  Value10[lastind] - (8 * Value10[lastind] + 5 * Value10R[lastind] - Value10RR[lastind]) / 24
+	vevens[1]   <- (8 * Value10[1] + 5 * Value10L[1] - Value10LL[1]) / 24
+	lastind     <- which(is.na(vevens))[1]
+	vevens[lastind] <-  Value10[lastind] - (8 * Value10[lastind] + 5 * Value10R[lastind] - Value10RR[lastind]) / 24
 	# odds are complement
-	V5odds      <- Value10 - V5evens
+	vodds       <- Value10 - vevens
 	
 	# prepare output
-	out         <- c(rbind(V5odds, V5evens))[1:N]
-	names(out)  <- Age5
+	interleaf  <- c(rbind(vodds, vevens))
+	# produce results vector
+	out        <- Value5 * NA 
+	n          <- min(c(length(interleaf),N))
+	out[1:n]   <- interleaf[1:n]
 	
+	# if OA ends in 5, then we can save penultimate value too
+	na.i       <- is.na(out)
+	out[na.i]  <- Value5[na.i]
 	if (OAG){
 		out[N] <- OAGvalue
 	}
@@ -348,25 +323,24 @@ strong_smth <- function(Value,
 		minA = 10,
 		maxA = 65){
 	
+	# these values are not used, it's just for lengths, and to make sure we 
+	# end on an even 10. Technically we could even provide data in 10-year
+	# age groups and it'd still not break.
+	Value1     <- splitUniform(Counts = Value, Age = Age, OAG = OAG)
+	Value5     <- groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
+	N          <- length(Value5)
+	Age5       <- as.integer(names(Value5))
+	
 	# would need to move this up to ensure?
 	# or in case of 85+ would we want to keep 80-84, 85+ as-is?
 	Value10    <- groupAges(Value, Age = Age, N = 10)
-	v1u        <- splitUniform(Value10, Age = as.integer(names(Value10)), OAG = OAG)
 	
-	# these values are not used, it's just for lengths, and to make sure we 
-	# end on an even 10.
-	Value5     <- groupAges(v1u, Age = as.integer(names(v1u)), N = 5)
-	N          <- length(Value5)
 	# what OAG is a strange digit? Then take OAG after grouping.
 	if (OAG){
-		OAGvalue <- Value10[length(Value10)]
+		OAGvalue <- Value5[length(Value5)]
 		Value10[length(Value10)] <- NA
+		Value5[length(Value5)]   <- NA
 	}
-	
-	Age5        <- as.integer(names(Value5))
-	
-	
-	N          <- length(Value5)
 	Age5       <- as.integer(names(Value5))
 	Age10      <- as.integer(names(Value10))
 	
@@ -393,19 +367,25 @@ strong_smth <- function(Value,
 	V10adjRR    <- shift.vector(Value10Adj, 2, fill = NA)
 	
 	# alternating calc, with differences at tails
-	V5evens     <- (-V10adjR + 11 * Value10Adj + 2 * V10adjL) / 24
+	vevens     <- (-V10adjR + 11 * Value10Adj + 2 * V10adjL) / 24
 	# tails different
-	V5evens[1]  <- (8 * Value10Adj[1] + 5 * V10adjL[1] - V10adjLL[1]) / 24
-	lastind     <- which(is.na(V5evens))[1]
-	V5evens[lastind] <-  Value10Adj[lastind] - (8 * Value10Adj[lastind] + 5 * V10adjR[lastind] - V10adjRR[lastind]) / 24
+	vevens[1]  <- (8 * Value10Adj[1] + 5 * V10adjL[1] - V10adjLL[1]) / 24
+	lastind     <- which(is.na(vevens))[1]
+	vevens[lastind] <-  Value10Adj[lastind] - (8 * Value10Adj[lastind] + 5 * V10adjR[lastind] - V10adjRR[lastind]) / 24
 	# odds are complement
-	V5odds      <- Value10Adj - V5evens
+	vodds      <- Value10Adj - vevens
 	
 	# prepare output
-	out         <- c(rbind(V5odds, V5evens))[1:N]
-	names(out)  <- Age5
+    # prepare output
+	interleaf  <- c(rbind(vodds, vevens))
+    # produce results vector
+	out        <- Value5 * NA 
+	n          <- min(c(length(interleaf),N))
+	out[1:n]   <- interleaf[1:n]
 	
-	# keep but rescale?
+    # if OA ends in 5, then we can save penultimate value too
+	na.i       <- is.na(out)
+	out[na.i]  <- Value5[na.i]
 	if (OAG){
 		out[N] <- OAGvalue
 	}

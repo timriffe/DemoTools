@@ -1,4 +1,4 @@
-
+# TODO: make require abridged data if johnson = TRUE
 
 ###############################################################################
 # Based on BeersMSplit.R, whose header was:

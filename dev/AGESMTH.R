@@ -1,430 +1,124 @@
 # Author: sean
 # modified by TR 18 July, 2018
-# TODO: see individual TODO notes for functions, but mainly need to test for length robustness.
+# TODO: see individual TODO notes for functions
 ###############################################################################
 
-#' The Carrier-Farrag method of population count smoothing
-#' @description Smooth population counts in 5-year age groups.
-#' @details This method does not account for ages < 10 nor for the 10 year age 
-#' interval prior to the open age group. These are returned imputed with \code{NA}.
-#' Age classes must be cleanly groupable to 5-year age groups.
-#' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
-#' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
-#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
-#' @return numeric vector of smoothed counts in 5-year age groups.
-#' @export
-#' @examples
-#' # from PASEX AGESMTH
-#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-#' 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
-#' Ages         <- seq(0, 80, by = 5)
-#' KKNtest <- c(NA,NA,354871,278502,285508,261429,236513 ,
-#' 		204233,162138,126555,90094,65988,54803,41041,NA,NA,NA)
+# code simplified to enable testing. Individual methods now in /R since their examples work
+Value      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
+		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
+Age      <- seq(0, 80, by = 5)
+
+smth_all <- function(Value, Age, OAG){
+	data.frame(Age,Value,
+			cf = carrier_farrag_smth(Value,Age,OAG),
+			strong = strong_smth(Value,Age,OAG),
+			arriaga = arriaga_smth(Value,Age,OAG),
+			kkn = kkn_smth(Value,Age,OAG),
+			un = united_nations_smth(Value,Age,OAG))
+}
+
+smth_all(Value,Age,TRUE)
+smth_all(groupOAG(Value,Age,OAnew=75),seq(0,75,by=5),TRUE)
+
+#' Smooth population in 5-year age groups using various methods
 #' 
-#' CFmales <- carrier_farrag_smth(MalePop, Ages, TRUE)
-#' CFtest <- c(NA,NA,346290,287083,285855,261082,237937,
-#' 202809,162973,125720,88730,67352,55187,40657,NA,NA,NA)
-#' all(round(CFmales) - CFtest == 0, na.rm = TRUE)
-#' \dontrun{
-#' plot(Ages, MalePop)
-#' lines(as.integer(names(CFmales)),CFmales)
-#' }
-#' @references
-#' Carrier, Norman H., and A. M. Farrag. "The reduction of errors 
-#' in census populations for statistically underdeveloped countries." 
-#' Population Studies 12.3 (1959): 240-285.
-
-# plz add PASEX citation, and add above to bibtex
-
-# TODO: make odds and evens use rbind trick. add check on 10-year age groups.
-carrier_farrag_smth <- function(Value, 
-		Age, 
-		OAG = TRUE){
-	
-	N <- length(Value)
-	if (OAG){
-		Value[N] <- NA
-	}
-	
-	Value5     <- groupAges(Value, Age = Age, N = 5)
-	N          <- length(Value5)
-	Age5       <- as.integer(names(Value5))
-	
-	Value5LL   <- shift.vector(Value5, -2, fill = NA)
-	Value5L    <- shift.vector(Value5, -1, fill = NA)
-	Value5R    <- shift.vector(Value5, 1, fill = NA)
-	Value5RR   <- shift.vector(Value5, 2, fill = NA)
-	Value5RRR  <- shift.vector(Value5, 3, fill = NA)
-	
-	# get staggered vectors. We calc every 10 years, but throw out 
-	# every second one
-	# this is the funny C-F operation
-	ValuePert  <-  (Value5 + Value5R) / 
-			(1 + ((Value5RRR + Value5RR) / (Value5L + Value5LL))^.25)
-	
-	# can this be simplified?
-	# indices for switching behavior on and off.
-	# need same nr of evens and odds.
-	NN         <- N
-	if (N %% 2 == 1){
-		NN        <- N + 1
-		ValuePert <- c(ValuePert, NA)
-		Value5    <- c(Value5, NA)
-		Value5L   <- c(Value5L, NA)
-	}
-	
-	inds       <- 1:NN
-	odds       <- inds %% 2 == 1
-	evens      <- !odds
-	
-	# produce results vector
-	out        <- Value5 * NA 
-	out[evens] <- ValuePert[evens]
-	
-	# make sure sum(odds) == sum(evens)
-	out[odds]  <- (Value5 + Value5L)[odds] - ValuePert[evens]
-	
-	# cut back down (depending) and name
-	out        <- out[1:N]
-	names(out) <- Age5
-    out
-	# tail behavior will be controlled in top level function.
-}
-
-#' Karup-King-Newton method of population count smoothing
-#' @description Smooth population counts in 5-year age groups.
-#' @details This method does not account for ages < 10 nor for the 10 year age 
-#' interval prior to the open age group. These are returned imputed with \code{NA}.
-#' Age classes must be cleanly groupable to 5-year age groups.
-#' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
-#' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
-#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
-#' @return numeric vector of smoothed counts in 5-year age groups.
-#' @export
-#' @examples
-#' # from PASEX AGESMTH
-#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-#' 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
-#' Ages         <- seq(0, 80, by = 5)
-#' KKNtest <- c(NA,NA,354871,278502,285508,261429,236513 ,
-#' 		204233,162138,126555,90094,65988,54803,41041,NA,NA,NA)
-#' 
-#' KKNmales <- kkn_smth(MalePop, Ages, TRUE)
-#' all(round(KKNmales) - KKNtest == 0, na.rm = TRUE)
-#' \dontrun{
-#' plot(Ages, MalePop)
-#' lines(as.integer(names(KKNmales)),KKNmales)
-#' }
-#' @references
-#' Carrier, Norman H., and A. M. Farrag. "The reduction of errors 
-#' in census populations for statistically underdeveloped countries." 
-#' Population Studies 12.3 (1959): 240-285.
-# plz add PASEX citation, and add above to bibtex
-
-# TODO make odds and evens use rbind trick
-kkn_smth <- function(Value, 
-		Age, 
-		OAG = TRUE){
-	
-	N <- length(Value)
-	if (OAG){
-		Value[N] <- NA
-	}
-	
-	Value5     <- groupAges(Value, Age = Age, N = 5)
-	N          <- length(Value5)
-	Age5       <- as.integer(names(Value5))
-	
-	# get staggered vectors
-	Value5LLL  <- shift.vector(Value5, -3, fill = NA)
-	Value5LL   <- shift.vector(Value5, -2, fill = NA)
-	Value5L    <- shift.vector(Value5, -1, fill = NA)
-	Value5R    <- shift.vector(Value5, 1, fill = NA)
-	Value5RR   <- shift.vector(Value5, 2, fill = NA)
-	Value5RRR  <- shift.vector(Value5, 3, fill = NA)
-	
-	# this is the funny KNN operation
-	ValuePert  <-  (Value5 + Value5L) / 2 + (Value5R + Value5RR - Value5LL - Value5LLL) / 16
-
-	# indices for switching behavior on and off.
-	# need same nr of evens and odds.
-	NN         <- N
-	if (N %% 2 == 1){
-		NN        <- N + 1
-		ValuePert <- c(ValuePert, NA)
-		Value5    <- c(Value5, NA)
-		Value5L   <- c(Value5L, NA)
-	}
-	
-	inds       <- 1:NN
-	odds       <- inds %% 2 == 1
-	evens      <- !odds
-	
-	# produce results vector
-	out        <- Value5 * NA 
-	out[odds]  <- ValuePert[odds]
-	
-	# make sure sum(odds) == sum(evens)
-	out[evens]  <- (Value5 + Value5L)[odds] - ValuePert[odds]
-	
-	# cut back down (depending) and name
-	out        <- out[1:N]
-	names(out) <- Age5
-	out
-}
-
-#' E. Arriaga's method of population count smoothing
-#' @description Smooth population counts in 5-year age groups.
-#' @details The open age group is aggregated down to be evenly divisible by 10. 
-#' This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups.
-#' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
-#' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
-#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
-#' @return numeric vector of smoothed counts in 5-year age groups.
-#' @export
-#' @examples
-#' # from PASEX AGESMTH
-#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-#' 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
-#' Ages         <- seq(0, 80, by = 5)
-#' AMales       <- arriaga_smth(Value = MalePop, Age = Ages, OAG = TRUE)
-#' # PAS spreadsheet result:
-#' Atest        <- c(662761, 495126, 345744, 287629, 285919, 261018, 237469, 203277, 
-#' 161733, 126960, 88586, 67496, 54587, 41257, 28790, 17189, 34729) 
-#' all(round(AMales) - Atest == 0, na.rm = TRUE)
-#' \dontrun{
-#' plot(Ages, MalePop)
-#' lines(as.integer(names(AMales)),AMales)
-#' }
-#' @references 
-#' Arriaga, Eduardo, 1968. New Life Tables for Latin American Populations in the
-#' Nineteenth and Twentieth Centuries, Population Monograph Series, no. 3,
-#' appendix 3, page 295. University of California, Berkeley.
-
-# plz add ref to bibtex, also cite PASEX and 
-# DemGen_1994_Method_Arriaga....pdf page 40
-arriaga_smth <- function(Value, 
-		Age, 
-		OAG = TRUE){
-	
-	# would need to move this up to ensure?
-	# or in case of 85+ would we want to keep 80-84, 85+ as-is?
-	Value10    <- groupAges(Value, Age = Age, N = 10)
-	v1u        <- splitUniform(Value10, Age = as.integer(names(Value10)), OAG = OAG)
-	
-	# these values are not used, it's just for lengths, and to make sure we 
-	# end on an even 10.
-	Value5     <- groupAges(v1u, Age = as.integer(names(v1u)), N = 5)
-	N          <- length(Value5)
-	# what OAG is a strange digit? Then take OAG after grouping.
-	if (OAG){
-		OAGvalue <- Value10[length(Value10)]
-		Value10[length(Value10)] <- NA
-	}
-	
-	Age5        <- as.integer(names(Value5))
-	
-	# again get staggered vectors
-	Value10LL   <- shift.vector(Value10, -2, fill = NA)
-	Value10L    <- shift.vector(Value10, -1, fill = NA)
-	Value10R    <- shift.vector(Value10, 1, fill = NA)
-	Value10RR   <- shift.vector(Value10, 2, fill = NA)
-	
-	# alternating calc, with differences at tails
-	V5evens     <- (-Value10R + 11 * Value10 + 2 * Value10L) / 24
-	# tails different
-	V5evens[1]  <- (8 * Value10[1] + 5 * Value10L[1] - Value10LL[1]) / 24
-	lastind     <- which(is.na(V5evens))[1]
-	V5evens[lastind] <-  Value10[lastind] - (8 * Value10[lastind] + 5 * Value10R[lastind] - Value10RR[lastind]) / 24
-	# odds are complement
-	V5odds      <- Value10 - V5evens
-	
-	# prepare output
-	out         <- c(rbind(V5odds, V5evens))[1:N]
-	names(out)  <- Age5
-
-	if (OAG){
-		out[N] <- OAGvalue
-	}
-	
-	out
-}
-
-#' The old United Nations method of population count smoothing
-#' @description Smooth population counts in 5-year age groups.
-#' @details The open age group is aggregated down to be evenly divisible by 10. 
-#' This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups.
-#' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
-#' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
-#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
-#' @return numeric vector of smoothed counts in 5-year age groups.
-#' @export
-#' @examples
-#' # from PASEX AGESMTH
-#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-#' 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
-#' Ages         <- seq(0, 80, by = 5)
-#' un_test <- c(NA,NA,364491,279123,268724,272228,243638,200923,162752,126304,
-#' 		91662,67432,54677,38833,NA,NA,NA)
-#' un_result <- united_nations_smth(MalePop, Ages, TRUE)
-#' all(round(un_result) - un_test == 0, na.rm = TRUE)
-#' \dontrun{
-#' plot(Ages, MalePop)
-#' lines(as.integer(names(un_result)),un_result)
-#' }
-#' @references
-#' Carrier, Norman H., and A. M. Farrag. "The reduction of errors 
-#' in census populations for statistically underdeveloped countries." 
-#' Population Studies 12.3 (1959): 240-285.
-# plz add Demgen 1994 and PASEX. I can't download above citation while 
-# on vacation. plz check if this method is discussed there as well.
-united_nations_smth <- function(Value, 
-		Age, 
-		OAG = TRUE){
-	N <- length(Value)
-	if (OAG){
-		Value[N] <- NA
-	}
-	
-	Value5     <- groupAges(Value, Age = Age, N = 5)
-	N          <- length(Value5)
-	Age5       <- as.integer(names(Value5))
-	
-	# get staggered vectors
-	Value5LL   <- shift.vector(Value5, -2, fill = NA)
-	Value5L    <- shift.vector(Value5, -1, fill = NA)
-	Value5R    <- shift.vector(Value5, 1, fill = NA)
-	Value5RR   <- shift.vector(Value5, 2, fill = NA)
-	
-	# this is the funny KNN operation
-	# B11 is central
-	out  <-  (-Value5RR + 4 * (Value5L + Value5R) + 10 * Value5 - Value5LL) / 16
-	
-	# cut back down (depending) and name
-	names(out) <- Age5
-	out
-}
-
-#' A strong method of population count smoothing
-#' @description Smooth population counts in 5-year age groups.
-#' @details The open age group is aggregated down to be evenly divisible by 10. 
-#' This method accounts for the youngest and oldest age groups. Age classes must be cleanly 
-#' groupable to 5-year age groups. 
-#' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
-#' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
-#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
-#' @return numeric vector of smoothed counts in 5-year age groups.
-#' @export
-#' @examples
-#' # from PASEX AGESMTH
-#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-#' 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
-#' Ages         <- seq(0, 80, by = 5)
-#' strongtest <- c(646617,511270,386889,317345,273736,240058,218645,188297, 
-#' 		153931, 124347,93254,71858,53594,39721,27887,18092,34729 ) 
-#' strong_result <- strong_smth(MalePop,Ages,TRUE)
-#' # differences due to intermediate rounding in spreadsheet (bad practice IMO)
-#' all(abs(strong_result - strongtest) < 1, na.rm = TRUE)
-#' \dontrun{
-#' plot(Ages, MalePop)
-#' lines(as.integer(names(strong_result)),strong_result)
-#' }
-#' @references
-#' Carrier, Norman H., and A. M. Farrag. "The reduction of errors 
-#' in census populations for statistically underdeveloped countries." 
-#' Population Studies 12.3 (1959): 240-285.
-# plz add Demgen 1994 and PASEX. I can't download above citation while 
-# on vacation. plz check if this method is discussed there as well.
-
-strong_smth <- function(Value, 
-		Age, 
-		OAG = TRUE,
-		minA = 10,
-		maxA = 65){
-	
-	# would need to move this up to ensure?
-	# or in case of 85+ would we want to keep 80-84, 85+ as-is?
-	Value10    <- groupAges(Value, Age = Age, N = 10)
-	v1u        <- splitUniform(Value10, Age = as.integer(names(Value10)), OAG = OAG)
-	
-	# these values are not used, it's just for lengths, and to make sure we 
-	# end on an even 10.
-	Value5     <- groupAges(v1u, Age = as.integer(names(v1u)), N = 5)
-	N          <- length(Value5)
-	# what OAG is a strange digit? Then take OAG after grouping.
-	if (OAG){
-		OAGvalue <- Value10[length(Value10)]
-		Value10[length(Value10)] <- NA
-	}
-	
-	Age5        <- as.integer(names(Value5))
-	
-	
-	N          <- length(Value5)
-	Age5       <- as.integer(names(Value5))
-	Age10      <- as.integer(names(Value10))
-	
-	# subtotal
-	indsub     <- Age10 >= minA & Age10 <= maxA
-	SubTot     <- sum(Value10[indsub])
-	
-#	# get staggered vectors
-	Value10L    <- shift.vector(Value10, -1, fill = NA)
-	Value10R    <- shift.vector(Value10, 1, fill = NA)
-	# this is the funny KNN operation
-	# B11 is central
-	Value10Pert <- (Value10 * 2 + Value10L + Value10R) / 4
-	Value10Pert[is.na(Value10Pert)] <- Value10[is.na(Value10Pert)]
-	
-	# rescale ages between min and max to sum to original
-	Value10Adj  <- Value10Pert
-	Value10Adj[indsub] <- Value10Adj[indsub] * SubTot / sum(Value10Adj[indsub])
-	
-	# again get staggered vectors
-	V10adjLL    <- shift.vector(Value10Adj, -2, fill = NA)
-	V10adjL     <- shift.vector(Value10Adj, -1, fill = NA)
-	V10adjR     <- shift.vector(Value10Adj, 1, fill = NA)
-	V10adjRR    <- shift.vector(Value10Adj, 2, fill = NA)
-	
-	# alternating calc, with differences at tails
-	V5evens     <- (-V10adjR + 11 * Value10Adj + 2 * V10adjL) / 24
-	# tails different
-	V5evens[1]  <- (8 * Value10Adj[1] + 5 * V10adjL[1] - V10adjLL[1]) / 24
-	lastind     <- which(is.na(V5evens))[1]
-	V5evens[lastind] <-  Value10Adj[lastind] - (8 * Value10Adj[lastind] + 5 * V10adjR[lastind] - V10adjRR[lastind]) / 24
-	# odds are complement
-	V5odds      <- Value10Adj - V5evens
-	
-	# prepare output
-	out         <- c(rbind(V5odds, V5evens))[1:N]
-	names(out)  <- Age5
-	
-    # keep but rescale?
-    if (OAG){
-		out[N] <- OAGvalue
-	}
-	
-	# what if OAis e.g. 85?
-	out
-}
-
-
-#clean_tails_smth <- function(Value,Age,Smoothed)
+#' @description Smooth population counts in 5-year age groups using the Carrier-Farrag, 
+#' Karup-King-Newton, Arriaga, United Nations, or Stong methods. Allows for imputation 
+#' of values in the youngest and oldest age groups for the Carrier-Farrag, Karup-King-Newton, 
+#' and United Nations methods.
 
 #' @details The Carrier-Farrag, Karup-King-Newton, and Arriaga methods do not modify the totals 
-#' in each 10-year age group; the United Nations and Strong methods do. The age group structure 
-#' of the output is five year age groups. The under 10 age group and the final 10-year age group 
-#' are included in the output but are unable to be smoothed because of the lack of a lower or 
-#' higher (respectively) 10-year interval for each of the methods.
+#' in each 10-year age group, whereas the United Nations and Strong methods do. The age intervals 
+#' of input data could be any integer structure (single, abridged, 5-year, other), but 
+#' output is always in 5-year age groups. All methods except the United Nations methods
+#' operate based on 10-year age group totals, excluding the open age group. 
+#' 
+#' The Carrier-Farrag, Karup-King-Newton, and United Nations methods do not produce estimates 
+#' for the first and final 10-year age groups. By default, these are imputed with \code{NA}, but
+#' you can also specify to impute with the observed 5-year totals, or the results of the Arriaga or
+#' Strong methods. If the terminal digit of the open age group is 5, then the terminal 10-year 
+#' age group shifts down, so imputations may affect more ages in this case. Imputation can follow 
+#' different methods for young and old ages.
+#' 
+#' Method names are simplified using \code{simplify.text} and checked against a set of plausible matches 
+#' designed to give some flexibility in case you're not sure 
+#' 
+#' In accordance with the description of these methods in Arriaga (1994), it is advised to 
+#' compare the resutls from a variety of methods. 
+#' 
+#' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
+#' @param Age integer vector of ages corresponding to the lower integer bound of the counts.
+#' @param method
+#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
+#' @param minA integer. The lowest age included included in intermediate adjustment. Default 10. Only relevant for Strong method.
+#' @param maxA integer. The highest age class included in intermediate adjustment. Default 65. Only relevant for Strong method.
+#' @param young.tail \code{NA} or character. Method to use for ages 0-9. Default \code{NA}.
+#' @param old.tail \code{NA} or character. Method to use for the final age groups. Default \code{NA}.
+#' @return numeric vector of smoothed counts in 5-year age groups.
+#' @export
+#' 
+#' @examples
+ MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
+ 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
+ Ages         <- seq(0, 80, by = 5)
+
+ # names a bit flexible:
+cf1 <- agesmth(Value = MalePop, 
+		Age = Ages, 
+		method = "Carrier-Farrag", 
+		OAG = TRUE, 
+		young.tail = "original")
+# old.tail be default same as young.tail
+# "cf" also works
+cf2 <- agesmth(Value = MalePop, 
+		Age = Ages, 
+		method = "cf", 
+		OAG = TRUE, 
+		young.tail = "original")
+all(cf1 == cf2)
+# no need to specify tails for Arriaga or Strong
+arr <- agesmth(Value = MalePop, 
+		Age = Ages, 
+		method = "Arriaga", 
+		OAG = TRUE)
+strong <- agesmth(Value = MalePop, 
+		Age = Ages, 
+		method = "Strong", 
+		OAG = TRUE)
+# other methods:
+un <- agesmth(Value = MalePop, 
+		Age = Ages, 
+		method = "United Nations", 
+		OAG = TRUE,
+		young.tail = "original")
+kkn <- agesmth(Value = MalePop, 
+		Age = Ages, 
+		method = "Karup-King-Newton", 
+		OAG = TRUE,
+		young.tail = "original")
+
+\dontrun{
+	plot(Ages,MalePop,pch=16)
+	lines(Ages, cf1)
+	lines(Ages, arr, col = "red")
+	lines(Ages, strong, col = "#FF000080", lwd = 3)
+	lines(Ages, kkn, col = "blue")
+	lines(Ages, un, col = "magenta")
+}
+
+# TODO: why to kkn and un give basically same result?
 
 agesmth <- function(Value, 
 		Age, 
-		method = "Carrier-Farrag", 
+		method = c("Carrier-Farrag","KKN","Arriaga","United Nations","Strong")[1], 
 		OAG = TRUE, 
 		minA = 10, maxA = 65,
-		young.tail = "Arriaga", # TODO add this functionality. Maybe with separate modular function.
+		young.tail = c(NA,"Original","Arriaga","Strong")[1], 
 		old.tail = young.tail){
-	method <- simplify.text(method)
+	method     <- simplify.text(method)
+	young.tail <- simplify.text(young.tail)
+	old.tail   <- simplify.text(old.tail)
+	
 	if (missing(Age)){
 		Age <- as.integer(names(Value))
 	}
@@ -454,10 +148,62 @@ agesmth <- function(Value,
 		out <- kkn_smth(Value = Value, Age = Age, OAG = OAG)
 	}
 	
+	# -------------------------------
+	# clean tails
+	nas     <- is.na(out)
+	if (any(nas) & (!is.na(old.tail) | !is.na(young.tail))){
+		nrle         <- rle(as.integer(nas))
+		original     <- groupAges(Value, Age = Age, N = 5)
+		arriaga      <- arriaga_smth(Value, Age = Age, OAG = OAG)
+		strong       <- strong_smth(Value, Age = Age, OAG = OAG)
+		# are the final entries NAs?
+		if (nrle$values[length(nrle$values)] == 1 & !is.na(old.tail)){
+			nrle$values[1] <- 0
+			old.ind        <- as.logical(rep(nrle$values, times = nrle$lengths))
+			# do we want original values?
+		    if (old.tail %in% c("o","orig","original")){
+				stopifnot(length(original) == length(out))
+				out[old.ind] <- original[old.ind]
+			}
+			# or arriaga?
+		    if (old.tail == "arriaga"){
+			    stopifnot(length(arriaga) == length(out))
+			    out[old.ind] <- arriaga[old.ind]
+		    }
+			# or strong?
+			if (old.tail == "strong"){
+				stopifnot(length(strong) == length(out))
+				out[old.ind] <- strong[old.ind]
+			}
+			
+		}
+		nrle             <- rle(as.integer(nas))
+		# take care of young tail
+		if (nrle$values[1] == 1 & !is.na(young.tail)){
+			nrle$values[length(nrle$values)] <- 0
+			young.ind        <- as.logical(rep(nrle$values, times = nrle$lengths))
+			
+			if (young.tail %in% c("o","orig","original")){
+				stopifnot(length(original) == length(out))
+				out[young.ind] <- original[young.ind]
+			}
+			# or arriaga?
+			if (young.tail == "arriaga"){
+				stopifnot(length(arriaga) == length(out))
+				out[young.ind] <- arriaga[young.ind]
+			}
+			# or strong?
+			if (young.tail == "strong"){
+				stopifnot(length(strong) == length(out))
+				out[young.ind] <- strong[young.ind]
+			}
+		}
+	} # end tail operations
+	
 	out
 }
 
-agesmth(MalePop, Ages, "Carrier-Farrag", TRUE)
+
 
 # TR: Sean's code, slightly modified below.
 # TR: SplitU5 can be superceded by detection from Age vector.
