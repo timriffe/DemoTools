@@ -29,6 +29,7 @@ library(DemoTools)
 ?CoaleLi
 ?Noumbissi
 ?Spoorenberg
+
 # other age-structure quality measures:
 ?ageRatioScore  # methods including "UN", "Zelnick", "Ramachandran"
 ?sexRatioScore
@@ -38,6 +39,7 @@ library(DemoTools)
 ?IRD
 ?ID
 ?survRatioError
+
 # graduation methods
 ?sprague
 ?beers # methods including "ord" and "mod", as well as johnson option for young ages
