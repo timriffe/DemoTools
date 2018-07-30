@@ -311,8 +311,9 @@ avg_adj <- function(x){
 #' simplify.text(c("carrier_farrag","CarrierFarrag","Carrier-Farrag"))
 
 simplify.text <- function(string){
-	lower <- tolower(string)
-	sub("[^[:alpha:]]+", "", lower)
+	lc <- tolower(string)
+#	stringr::str_replace_all(lc, "[^[:lower:]]", "")
+	gsub("[^a-z]","" , lc)
 }
 
 # deprecated functions
