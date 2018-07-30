@@ -81,7 +81,8 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 #' @param ageMax integer. The upper age bound used for calculations. Default 90.
 
 #' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
-#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89.
+#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. \code{ageMax} may be
+#' internally rounded down if necessary so that \code{ageMax - ageMin} is evenly divisible by 10.
 #' @return The value of the index. 
 #' @references 
 #' \insertRef{myers1954accuracy}{DemoTools}
@@ -108,12 +109,19 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 Myers <- function(Value, Age, ageMin = 10, ageMax = 90){
 	
 	# hard code period to 10 for digits
-	period <- 10
+	period  <- 10
 	
 	# must be of same length for indexing
 	stopifnot(length(Value) == length(Age))
-	stopifnot(ageMin %% period == 0 & ageMax %% period == 0)
+	#stopifnot(ageMin %% period == 0 & ageMax %% period == 0)
 	
+	# ageMax dynamically rounded down 
+	# to a total span divisible by period
+	Diff    <- ageMax - ageMin
+	AgeMax  <- ageMin + Diff - Diff %% period
+	
+	# may as well be certain here
+	stopifnot(ageMax <= max(Age))
 	
 	# select out ages, place into matrix for summing over digits
 	ind     <- Age >= ageMin & Age < ageMax
