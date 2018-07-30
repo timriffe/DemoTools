@@ -4,7 +4,7 @@
 \alias{Bachi}
 \title{calculate Bachi's index of age heaping}
 \usage{
-Bachi(Value, Age, ageMin = 30, ageMax = 80, pasex = FALSE)
+Bachi(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}
@@ -27,8 +27,8 @@ and 10 is the expected value for each digit.
 Two Implementations: one following the PASEX spreadsheet SINGAGE (\code{pasex = TRUE}), with ages hard-coded, and another with flexible upper and lower age bounds, but that does not match the PASEX implementation.
 }
 \details{
-\code{ageMax} is the hard upper bound, treated as interval. If you want ages
-20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. These are only heeded if \code{pasex = FALSE}.
+\code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
+20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. These are only heeded if \code{pasex = FALSE}.
 }
 \examples{
 Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
@@ -44,8 +44,8 @@ Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
 		9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 Age <- 0:99
 
-Bachi(Value, Age, ageMin = 20, ageMax = 80, pasex = TRUE) # reproduces PASEX SINGAGE
-Bachi(Value, Age, ageMin = 20, ageMax = 80) # default simpler
+Bachi(Value, Age, ageMin = 20, ageMax = 79, pasex = TRUE) # reproduces PASEX SINGAGE
+Bachi(Value, Age, ageMin = 20, ageMax = 79) # default simpler
 }
 \references{
 \insertRef{PAS}{DemoTools}

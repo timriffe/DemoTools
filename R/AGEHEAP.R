@@ -17,8 +17,7 @@
 #' @param digit integer. Any digit between 0 and 9. Default \code{c(0,5)}. Otherwise it needs to be a single digit.
 #'  
 #' 
-#' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
-#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. You can get 
+#' @details \code{ageMin} and \code{ageMax} refer to the bounds of the numerator, where \code{ageMax} is inclusive. The denominator looks 7 ages lower and 2 ages higher, so these ages must be available. You can get 
 #' arbitrary W(i) indicies by specifying other digits. Note you can only do pairs of digits
 #' they are 0 and 5. Otherwise just one digit at a time. 
 #' @return The value of the index.
@@ -54,7 +53,7 @@
 #'  Whipple(Value, Age, 25, 60, digit = 3) 
 Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 	
-	# TR: changed to all %in% since identical not order independent.
+	stopifnot(is.single(Age))
 	stopifnot(length(digit) == 1 || (all(c(0, 5) %in% digit) & length(digit == 2)))
 	stopifnot(length(Value) == length(Age))
 	
@@ -80,9 +79,9 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 #' @param ageMin integer. The lowest age included in calculations. Default 10.
 #' @param ageMax integer. The upper age bound used for calculations. Default 90.
 
-#' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
-#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. \code{ageMax} may be
-#' internally rounded down if necessary so that \code{ageMax - ageMin} is evenly divisible by 10.
+#' @details \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
+#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}. \code{ageMax} may be
+#' internally rounded down if necessary so that \code{ageMax - ageMin + 1} is evenly divisible by 10.
 #' @return The value of the index. 
 #' @references 
 #' \insertRef{myers1954accuracy}{DemoTools}
@@ -106,7 +105,7 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 #' 
 #' Myers(Value, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
 
-Myers <- function(Value, Age, ageMin = 10, ageMax = 90){
+Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
 	
 	# hard code period to 10 for digits
 	period  <- 10
@@ -117,8 +116,8 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 90){
 	
 	# ageMax dynamically rounded down 
 	# to a total span divisible by period
-	Diff    <- ageMax - ageMin
-	AgeMax  <- ageMin + Diff - Diff %% period
+	Diff    <- ageMax - ageMin + 1
+	AgeMax  <- ageMin + Diff - Diff %% period 
 	
 	# may as well be certain here
 	stopifnot(ageMax <= max(Age))
@@ -155,8 +154,8 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 90){
 #' @param ageMax integer. The upper age bound used for calculations. Default 80.
 #' @param pasex logical. Whether or not reproduce the specific age weightings in the PASEX spreadsheet. Default \code{FALSE}.
 #' 
-#' @details \code{ageMax} is the hard upper bound, treated as interval. If you want ages
-#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. These are only heeded if \code{pasex = FALSE}.
+#' @details \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
+#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. These are only heeded if \code{pasex = FALSE}.
 #' @return The value of the index.
 #' @references 
 #' \insertRef{PAS}{DemoTools}
@@ -177,12 +176,12 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 90){
 #' 		9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 #' Age <- 0:99
 #' 
-#' Bachi(Value, Age, ageMin = 20, ageMax = 80, pasex = TRUE) # reproduces PASEX SINGAGE
-#' Bachi(Value, Age, ageMin = 20, ageMax = 80) # default simpler
+#' Bachi(Value, Age, ageMin = 20, ageMax = 79, pasex = TRUE) # reproduces PASEX SINGAGE
+#' Bachi(Value, Age, ageMin = 20, ageMax = 79) # default simpler
 
-Bachi <- function(Value, Age, ageMin = 30, ageMax = 80, pasex = FALSE){
+Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 	
-	
+	stopifnot(is.single(Age))
 	# make a matrix for numerators
 	w1           <- matrix(0, nrow = length(Age), ncol = 10)
 	w2           <- matrix(0, nrow = length(Age), ncol = 10)
@@ -226,6 +225,8 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 80, pasex = FALSE){
 		w2[Age > 24 & Age < 74,10]    <- 1
 		w2[Age %in% c(24,74),10]      <- .5
 	} else {
+		# cheap way to make upper bound inclusive
+		ageMax       <- ageMax + 1
 		markers      <- row(w1) - col(w1)
 		w1[markers %% 10 == 0 & markers >= ageMin & markers < ageMax]   <- 1
 		w2[markers == ageMin - 5 | markers == ageMax - 5] <- .5
@@ -261,10 +262,9 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 80, pasex = FALSE){
 #' @param digit integer. Any digit 0-9. Default 0.
 
 
-#' @details \code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. 
-#' It is therefore recommended for single digits, or else \code{c(0,5)}
+#' @details \code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. It is therefore recommended for single digits, or else \code{c(0,5)}. \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. By default all available ages greater than or equal to \code{ageMin} are used. 
 #' 
-#' @return The value of the index. 
+#' @return The value of the index.
 #' 
 #' @references 
 #' \insertRef{coale1991effect}{DemoTools}
@@ -319,7 +319,7 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 #' @param digit integer. Any digit 0-9. Default 0.
 #' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
 #'  Denominators are always 5-year age groups centered on the digit in question,
-#' and these therefore stretch into ages a bit higher or lower than the numerator ages.
+#' and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. 
 #' @return The value of the index. 
 #' @references 
 #' \insertRef{noumbissi1992indice}{DemoTools}
@@ -349,7 +349,7 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 #' Noumbissi(Value, Age, digit = 8) # 0.57
 #' Noumbissi(Value, Age, digit = 9) # 0.59
 
-Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 65, digit = 0){
+Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 64, digit = 0){
 	stopifnot(length(Age) == length(Value))
 	stopifnot(length(digit) == 1)
 	
@@ -374,7 +374,7 @@ Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 65, digit = 0){
 #' 
 #' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
 #'  Denominators are always 5-year age groups centered on the digit in question,
-#' and these therefore stretch into ages a bit higher or lower than the numerator ages.
+#' and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. 
 #' @return The value of the index.
 #' @references 
 #' \insertRef{spoorenberg2007quality}{DemoTools}
@@ -394,7 +394,7 @@ Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 65, digit = 0){
 #' Age <- 0:99
 #' Spoorenberg(Value, Age)
 
-Spoorenberg <- function(Value, Age, ageMin = 20, ageMax = 65){
+Spoorenberg <- function(Value, Age, ageMin = 20, ageMax = 64){
 	
 	digits <- 0:9
 	Wi   <- sapply(digits, 
