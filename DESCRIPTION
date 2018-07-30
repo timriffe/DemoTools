@@ -7,9 +7,11 @@ Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
           email = "tim.riffe@gmail.com"),
    person("Sean", "Fennell", role = "aut"),
+   person("Jose Manuel", "Aburto", role = "aut"),
    person("Juan", "Galeano", role = "ctb"),
-   person("Jose Manuel", "Aburto", role = "ctb"),
-   person("Marius D.", "Pascariu", role = "ctb"))
+   person("Marius D.", "Pascariu", role = "ctb"),
+   person("Derek", "Burk", role = "ctb"),
+   person("Greg", "Freedman Ellis", role = "ctb"))
 Description: A collection of classic demographic methods used to evaluate, adjust, and standardize demographic data.
 License: CC BY-NC 4.0
 LazyLoad: yes
