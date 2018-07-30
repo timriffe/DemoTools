@@ -2,9 +2,14 @@ Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
 Version: 0.5.963
-Date: 2018-07-27
-Author: Tim Riffe, Sean Fennell, Juan Galeano, Jose Manuel Aburto
-Maintainer: Tim Riffe <tim.riffe@gmail.com>
+Date: 2018-07-30
+Authors@R: c(
+   person("Tim", "Riffe", role = c("aut", "cre"), 
+          email = "tim.riffe@gmail.com"),
+   person("Sean", "Fennell", role = "aut"),
+   person("Juan", "Galeano", role = "ctb"),
+   person("Jose Manuel", "Aburto", role = "ctb"),
+   person("Marius D.", "Pascariu", role = "ctb"))
 Description: A collection of classic demographic methods used to evaluate, adjust, and standardize demographic data.
 License: CC BY-NC 4.0
 LazyLoad: yes
@@ -13,3 +18,4 @@ Suggests: covr,
     testthat
 RdMacros: Rdpack
 Imports: demogR, Rdpack
+BugReports: https://github.com/timriffe/DemoTools/issues
