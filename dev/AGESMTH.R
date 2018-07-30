@@ -34,8 +34,8 @@ smth_all(groupOAG(Value,Age,OAnew=75),seq(0,75,by=5),TRUE)
 #' operate based on 10-year age group totals, excluding the open age group. 
 #' 
 #' The Carrier-Farrag, Karup-King-Newton, and United Nations methods do not produce estimates 
-#' for the first and final 10-year age groups. By default, these are imputed with \code{NA}, but
-#' you can also specify to impute with the observed 5-year totals, or the results of the Arriaga or
+#' for the first and final 10-year age groups. By default, these are imputed with the original 5-year age group totals, but
+#' you can also specify to impute with \code{NA}, or the results of the Arriaga or
 #' Strong methods. If the terminal digit of the open age group is 5, then the terminal 10-year 
 #' age group shifts down, so imputations may affect more ages in this case. Imputation can follow 
 #' different methods for young and old ages.
@@ -50,70 +50,120 @@ smth_all(groupOAG(Value,Age,OAnew=75),seq(0,75,by=5),TRUE)
 #' @param Age integer vector of ages corresponding to the lower integer bound of the counts.
 #' @param method
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
-#' @param minA integer. The lowest age included included in intermediate adjustment. Default 10. Only relevant for Strong method.
-#' @param maxA integer. The highest age class included in intermediate adjustment. Default 65. Only relevant for Strong method.
-#' @param young.tail \code{NA} or character. Method to use for ages 0-9. Default \code{NA}.
-#' @param old.tail \code{NA} or character. Method to use for the final age groups. Default \code{NA}.
+#' @param ageMin integer. The lowest age included included in intermediate adjustment. Default 10. Only relevant for Strong method.
+#' @param ageMax integer. The highest age class included in intermediate adjustment. Default 65. Only relevant for Strong method.
+#' @param young.tail \code{NA} or character. Method to use for ages 0-9. Default \code{"original}.
+#' @param old.tail \code{NA} or character. Method to use for the final age groups. Default \code{"original"}.
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @export
 #' 
 #' @examples
- MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
- 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
- Ages         <- seq(0, 80, by = 5)
-
- # names a bit flexible:
-cf1 <- agesmth(Value = MalePop, 
-		Age = Ages, 
-		method = "Carrier-Farrag", 
-		OAG = TRUE, 
-		young.tail = "original")
-# old.tail be default same as young.tail
-# "cf" also works
-cf2 <- agesmth(Value = MalePop, 
-		Age = Ages, 
-		method = "cf", 
-		OAG = TRUE, 
-		young.tail = "original")
-all(cf1 == cf2)
-# no need to specify tails for Arriaga or Strong
-arr <- agesmth(Value = MalePop, 
-		Age = Ages, 
-		method = "Arriaga", 
-		OAG = TRUE)
-strong <- agesmth(Value = MalePop, 
-		Age = Ages, 
-		method = "Strong", 
-		OAG = TRUE)
-# other methods:
-un <- agesmth(Value = MalePop, 
-		Age = Ages, 
-		method = "United Nations", 
-		OAG = TRUE,
-		young.tail = "original")
-kkn <- agesmth(Value = MalePop, 
-		Age = Ages, 
-		method = "Karup-King-Newton", 
-		OAG = TRUE,
-		young.tail = "original")
-
-\dontrun{
-	plot(Ages,MalePop,pch=16)
-	lines(Ages, cf1)
-	lines(Ages, arr, col = "red")
-	lines(Ages, strong, col = "#FF000080", lwd = 3)
-	lines(Ages, kkn, col = "blue")
-	lines(Ages, un, col = "magenta")
-}
-
-# TODO: why to kkn and un give basically same result?
+#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
+#' 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
+#' Ages         <- seq(0, 80, by = 5)
+#'
+#' # names a bit flexible:
+#' cf <- agesmth(Value = MalePop, 
+#'		Age = Ages, 
+#'		method = "Carrier-Farrag", 
+#'		OAG = TRUE)
+#'# old.tail be default same as young.tail
+#'# "cf" also works
+#'
+#'# no need to specify tails for Arriaga or Strong
+#'arr <- agesmth(Value = MalePop, 
+#'		Age = Ages, 
+#'		method = "Arriaga", 
+#'		OAG = TRUE)
+#'strong <- agesmth(Value = MalePop, 
+#'		Age = Ages, 
+#'		method = "Strong", 
+#'		OAG = TRUE)
+#'# other methods:
+#'un <- agesmth(Value = MalePop, 
+#'		Age = Ages, 
+#'		method = "United Nations", 
+#'		OAG = TRUE)
+#'kkn <- agesmth(Value = MalePop, 
+#'		Age = Ages, 
+#'		method = "Karup-King-Newton", 
+#'		OAG = TRUE)
+#'
+#'\dontrun{
+#'	plot(Ages,MalePop,pch=16)
+#'	lines(Ages, cf)
+#'	lines(Ages, arr, col = "red")
+#'	lines(Ages, strong, col = "#FF000080", lwd = 3)
+#'	lines(Ages, kkn, col = "blue")
+#'	lines(Ages, un, col = "magenta")
+#'	legend("topright",
+#'			pch=c(16,NA,NA,NA,NA,NA),
+#'			lty = c(NA,1,1,1,1,1),
+#'			lwd = c(NA,1,1,3,1,1),
+#'			col = c("black","black","red","#FF000080","blue","magenta"),
+#'			legend = c("orig 5","Carrier-Farrag","Arriaga","Strong","KKN","UN"))
+#'}
+#' # an extreme case:
+#'  Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
+#'  		75984,89982,95525,56973,78767,65672,53438,85014,
+#'  		47600,64363,42195,42262,73221,30080,34391,29072,
+#'  		20531,66171,24029,44227,24128,23599,82088,16454,
+#'  		22628,17108,12531,57325,17220,28425,16206,17532,
+#'  		65976,11593,15828,13541,8133,44696,11165,18543,
+#'  		12614,12041,55798,9324,10772,10453,6773,28358,
+#'  		9916,13348,8039,7583,42470,5288,5317,6582,
+#'  		3361,17949,3650,5873,3279,3336,27368,1965,
+#'  		2495,2319,1335,12022,1401,1668,1360,1185,
+#'  		9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
+#'  Age <- 0:99
+#'  
+#'  V5 <- groupAges(Value, Age=Age)
+#'  Age5 <- as.integer(names(V5))
+#'  cf2 <- agesmth(Value = Value, 
+#'		  Age = Age, 
+#'		  method = "Carrier-Farrag", 
+#'		  OAG = TRUE)
+#'  st2 <- agesmth(Value = Value, 
+#'		  Age = Age, 
+#'		  method = "Strong", 
+#'		  OAG = TRUE)
+#'  \dontrun{
+#'  plot(Age,Value,pch=16)
+#'  lines(Age,splitUniform(V5,Age=Age5,OAG=FALSE), lty=2, lwd = 2)
+#'  lines(Age,splitUniform(cf2,Age=Age5,OAG=FALSE),col="blue")
+#'  lines(Age,splitUniform(st2,Age=Age5,OAG=FALSE),col="red")
+#'  legend("topright",
+#'		  pch=c(16,NA,NA,NA),
+#'		  lty=c(NA,2,1,1),
+#'		  col=c("black","black","blue","red"),
+#'		  lwd=c(NA,2,1,1),
+#'		  legend=c("orig single","orig 5","Carrier-Farrag","Strong"))
+#'}
+#'  
+#'# it might make sense to do this level of smoothing as intermediate step
+#'# in Sprague-like situation. Compare:
+#'spr1 <- sprague(Value, Age=Age,OAG=FALSE)
+#'spr2 <- sprague(cf2, Age=Age5,OAG=FALSE)
+#'spr3 <- sprague(st2, Age=Age5,OAG=FALSE)
+#'\dontrun{
+#'plot(Age,Value,pch=16, main = "Smoothing as pre-step to graduation")
+#'lines(Age,spr1,lty=2)
+#'lines(Age,spr2,col="blue")
+#'lines(Age,spr3,col="red")
+#'legend("topright",
+#'		pch=c(16,NA,NA,NA),
+#'		lty=c(NA,2,1,1),
+#'		col=c("black","black","blue","red"),
+#'		lwd=c(NA,2,1,1),
+#'		legend=c("orig single","orig->Sprague","C-F->Sprague","Strong->Sprague"))
+#'}
 
 agesmth <- function(Value, 
 		Age, 
 		method = c("Carrier-Farrag","KKN","Arriaga","United Nations","Strong")[1], 
 		OAG = TRUE, 
-		minA = 10, maxA = 65,
-		young.tail = c(NA,"Original","Arriaga","Strong")[1], 
+		ageMin = 10, ageMax = 65,
+		young.tail = c("Original","Arriaga","Strong",NA)[1], 
 		old.tail = young.tail){
 	method     <- simplify.text(method)
 	young.tail <- simplify.text(young.tail)
@@ -130,7 +180,7 @@ agesmth <- function(Value,
 	
 	# stong
 	if (method == "strong"){
-		out <- strong_smth(Value = Value, Age = Age, OAG = OAG, minA = minA, maxA = maxA)
+		out <- strong_smth(Value = Value, Age = Age, OAG = OAG, ageMin = ageMin, ageMax = ageMax)
 	}
 	
 	# un or unitednations
