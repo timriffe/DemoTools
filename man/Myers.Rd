@@ -4,7 +4,7 @@
 \alias{Myers}
 \title{Calculate Myer's blended index of age heaping}
 \usage{
-Myers(Value, Age, ageMin = 10, ageMax = 90)
+Myers(Value, Age, ageMin = 10, ageMax = 89)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}
@@ -24,9 +24,9 @@ as a blended index. It is based on the principle that in the absence of age heap
  0 to 9 should represent 10 percent of the total population.
 }
 \details{
-\code{ageMax} is the hard upper bound, treated as interval. If you want ages
-20 to 89, then give \code{ageMin = 20} and \code{ageMax = 90}, not 89. \code{ageMax} may be
-internally rounded down if necessary so that \code{ageMax - ageMin} is evenly divisible by 10.
+\code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
+20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}. \code{ageMax} may be
+internally rounded down if necessary so that \code{ageMax - ageMin + 1} is evenly divisible by 10.
 }
 \examples{
 Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
