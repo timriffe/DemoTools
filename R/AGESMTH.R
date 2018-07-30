@@ -287,13 +287,13 @@ united_nations_smth <- function(Value,
 #' @details The open age group is aggregated down to be evenly divisible by 10. 
 #' This method accounts for the youngest and oldest age groups. Age classes must be cleanly 
 #' groupable to 5-year age groups. All age classes are returned, but the strongest adjustment
-#' ocurrs in ages bounded by \code{minA} and \code{maxA}. To be clear \code{maxA} refers to 
+#' ocurrs in ages bounded by \code{ageMin} and \code{ageMax}. To be clear \code{ageMax} refers to 
 #' the lower bound of the highest age class, inclusive. So, if you want a ceiling of 70 (default), specify 65.
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
-#' @param minA integer. The lowest age included included in intermediate adjustment. Default 10.
-#' @param maxA integer. The highest age class included in intermediate adjustment. Default 65.
+#' @param ageMin integer. The lowest age included included in intermediate adjustment. Default 10.
+#' @param ageMax integer. The highest age class included in intermediate adjustment. Default 65.
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @export
 #' @examples
@@ -320,8 +320,8 @@ united_nations_smth <- function(Value,
 strong_smth <- function(Value, 
 		Age, 
 		OAG = TRUE,
-		minA = 10,
-		maxA = 65){
+		ageMin = 10,
+		ageMax = 65){
 	
 	# these values are not used, it's just for lengths, and to make sure we 
 	# end on an even 10. Technically we could even provide data in 10-year
@@ -345,7 +345,7 @@ strong_smth <- function(Value,
 	Age10      <- as.integer(names(Value10))
 	
 	# subtotal
-	indsub     <- Age10 >= minA & Age10 <= maxA
+	indsub     <- Age10 >= ageMin & Age10 <= ageMax
 	SubTot     <- sum(Value10[indsub])
 	
 #	# get staggered vectors

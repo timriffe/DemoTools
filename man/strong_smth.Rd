@@ -4,7 +4,7 @@
 \alias{strong_smth}
 \title{A strong method of population count smoothing}
 \usage{
-strong_smth(Value, Age, OAG = TRUE, minA = 10, maxA = 65)
+strong_smth(Value, Age, OAG = TRUE, ageMin = 10, ageMax = 65)
 }
 \arguments{
 \item{Value}{numeric vector of counts in single, abridged, or 5-year age groups.}
@@ -13,9 +13,9 @@ strong_smth(Value, Age, OAG = TRUE, minA = 10, maxA = 65)
 
 \item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
 
-\item{minA}{integer. The lowest age included included in intermediate adjustment. Default 10.}
+\item{ageMin}{integer. The lowest age included included in intermediate adjustment. Default 10.}
 
-\item{maxA}{integer. The highest age class included in intermediate adjustment. Default 65.}
+\item{ageMax}{integer. The highest age class included in intermediate adjustment. Default 65.}
 }
 \value{
 numeric vector of smoothed counts in 5-year age groups.
@@ -27,7 +27,7 @@ Smooth population counts in 5-year age groups.
 The open age group is aggregated down to be evenly divisible by 10. 
 This method accounts for the youngest and oldest age groups. Age classes must be cleanly 
 groupable to 5-year age groups. All age classes are returned, but the strongest adjustment
-ocurrs in ages bounded by \code{minA} and \code{maxA}. To be clear \code{maxA} refers to 
+ocurrs in ages bounded by \code{ageMin} and \code{ageMax}. To be clear \code{ageMax} refers to 
 the lower bound of the highest age class, inclusive. So, if you want a ceiling of 70 (default), specify 65.
 }
 \examples{
