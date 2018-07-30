@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{avg_adj}
 \alias{avg_adj}
-\title{calculate average of vector elements adjacent to and exlcuding the index element}
+\title{calculate average of vector elements adjacent to and excluding the index element}
 \usage{
 avg_adj(x)
 }

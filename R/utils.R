@@ -282,7 +282,7 @@ getModelLifeTable <- function(ModelName, Sex){
 }
 
 # function for average adjacent values excluding index value
-#' calculate average of vector elements adjacent to and exlcuding the index element
+#' calculate average of vector elements adjacent to and excluding the index element
 #' @description Calculate average of vector elements adjacent to and exlcuding the index element. 
 #' For example, the second element of the result is the average of the first and third elements of the
 #' input vector \code{x}. Used by \code{zigzag()}, and possibly useful elsewhere.

@@ -4,10 +4,10 @@
 \alias{maxA2abridged}
 \title{Determine abridged ages up to a given maximum age group.}
 \usage{
-maxA2abridged(maxA = 80)
+maxA2abridged(ageMax = 80)
 }
 \arguments{
-\item{maxA}{integer. Default 80.}
+\item{ageMax}{integer. Default 80.}
 }
 \value{
 integer. Vector of ages, e.g. \code{c(0,1,5,10,15,...)}.

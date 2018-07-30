@@ -16,7 +16,7 @@ groupAges(Value, Age = 1:length(Value) - 1, N = 5, shiftdown = 0, AgeN,
 
 \item{shiftdown}{integer. Optionally shift age groupings down by single ages. Default 0.}
 
-\item{AgeN}{integer. Vector, otherwise calculated using \code{calcAgeN()}. Optional argument.}
+\item{AgeN}{integer vector, otherwise calculated using \code{calcAgeN()}. Optional argument.}
 
 \item{OAnew}{integer. Value of lower bound of new open age group.}
 }

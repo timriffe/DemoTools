@@ -93,6 +93,7 @@ calcAgeN <- function(Age, N = 5, shiftdown = 0){
 #' calcAgeAbr(Age)
 #' calcAgeN(Age,5,0)
 calcAgeAbr <- function(Age){
+	stopifnot(is.integer(Age))
 	Abr               <- Age - Age %% 5
 	Abr[Age %in% 1:4] <- 1
 	Abr
@@ -148,14 +149,14 @@ inferAgeIntAbr <- function(Age, vec, OAG = FALSE, OAvalue = NA){
 #' Determine abridged ages up to a given maximum age group.
 #' @description Produce standard abridged age groups (lower bounds) up to a specified maximum age group. 
 #' @details If the highest age group is not evenly divisible by 5 then age classes only go up to its 5-year lower bound.
-#' @param maxA integer. Default 80.
+#' @param ageMax integer. Default 80.
 #' @return integer. Vector of ages, e.g. \code{c(0,1,5,10,15,...)}.
 #' @export 
 #' @examples 
 #' maxA2abridged(80)
 #' stopifnot(all(maxA2abridged(100) == maxA2abridged(102)))
-maxA2abridged <- function(maxA = 80){
-	sort(unique(calcAgeAbr(0:maxA)))
+maxA2abridged <- function(ageMax = 80){
+	sort(unique(calcAgeAbr(0:ageMax)))
 }
 
 
@@ -164,14 +165,14 @@ maxA2abridged <- function(maxA = 80){
 #' @description Determine lower bounds of age classes based on a vector of age intervals and a starting age.
 #' 
 #' @param AgeInt integer or numeric. Vector of age intervals.
-#' @param minA integer. The lowest age, default 0.
+#' @param ageMin integer. The lowest age, default 0.
 #' @export 
 #' @return Age vector of same length as \code{AgeInt}.
 #' @examples 
 #' AgeInt <- c(1,4,rep(5,17))
 #' int2age(AgeInt)
-int2age <- function(AgeInt, minA = 0){
-	cumsum(AgeInt) - AgeInt + minA
+int2age <- function(AgeInt, ageMin = 0){
+	cumsum(AgeInt) - AgeInt + ageMin
 }
 
 #' Infer age class intervals from lower age bounds.
@@ -210,7 +211,7 @@ age2int <- function(Age, OAG = TRUE, OAvalue = NA){
 #' @param Age integer. Vector of lower bounds of single age groups.
 #' @param N integer. The desired width of resulting age groups. Default 5.
 #' @param shiftdown integer. Optionally shift age groupings down by single ages. Default 0.
-#' @param AgeN integer. Vector, otherwise calculated using \code{calcAgeN()}. Optional argument.
+#' @param AgeN integer vector, otherwise calculated using \code{calcAgeN()}. Optional argument.
 #' @param OAnew integer. Value of lower bound of new open age group.
 #' @return Vector of counts in N-year age groups.
 #' 
@@ -242,6 +243,8 @@ age2int <- function(Age, OAG = TRUE, OAvalue = NA){
 #'  groupAges(India1991males, N = 5, shiftdown = 4)
 #'  groupAges(India1991males, N = 5, OAnew = 80) 
  
+
+
 groupAges <- function(Value, 
 		Age = 1:length(Value) - 1, 
 		N = 5, 
@@ -322,11 +325,12 @@ is.single <- function(Age){
 #' # 10 year age group not abridged, FALSE
 #' is.abridged(c(0,1,5,10,15,25))
 is.abridged <- function(Age){
-	maxA        <- max(Age)
-	minA        <- min(Age)
-	abr_default <- maxA2abridged(maxA)
-	abr_default <- abr_default[abr_default >= minA]
-	identical(Age,abr_default)
+	Age         <- as.integer(Age)
+	ageMax        <- max(Age)
+	ageMin        <- min(Age)
+	abr_default <- maxA2abridged(ageMax)
+	abr_default <- abr_default[abr_default >= ageMin]
+	all(Age==abr_default)
 }
 
 # deprecated functions

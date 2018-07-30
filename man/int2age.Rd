@@ -4,12 +4,12 @@
 \alias{int2age}
 \title{Infer lower age bounds from age class intervals.}
 \usage{
-int2age(AgeInt, minA = 0)
+int2age(AgeInt, ageMin = 0)
 }
 \arguments{
 \item{AgeInt}{integer or numeric. Vector of age intervals.}
 
-\item{minA}{integer. The lowest age, default 0.}
+\item{ageMin}{integer. The lowest age, default 0.}
 }
 \value{
 Age vector of same length as \code{AgeInt}.
