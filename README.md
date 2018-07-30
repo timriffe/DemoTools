@@ -21,12 +21,15 @@ You can then get started like so:
 ```
 library(DemoTools)
 # interesting top-level functions include:
+
+# for age heaping:
 ?Whipple
 ?Myers
 ?Bachi
 ?CoaleLi
 ?Noumbissi
 ?Spoorenberg
+# other age-structure quality measures:
 ?ageRatioScore  # methods including "UN", "Zelnick", "Ramachandran"
 ?sexRatioScore
 ?ageSexAccuracy # methods including "UN", "Zelnick", "Ramachandran", and "Das Gupta"
@@ -35,24 +38,27 @@ library(DemoTools)
 ?IRD
 ?ID
 ?survRatioError
+# graduation methods
 ?sprague
 ?beers # methods including "ord" and "mod", as well as johnson option for young ages
 ?grabill
 ?splitMono
 ?monoCloseout
 ?splitOscillate # accepting e.g. spragueSimple, beersSimple as split methods
-?birthCohorts
-?adjustAge
-?ADM
-?RDM
-?LTabr # with options to replicate PAS and Mortpak
+
+# various smoothing methods
+?agesmth # including Carrier-Farrag, Arriaga, Karup-King-Newton, United Nations, and Strong
 ?spencer
 ?zelnik
+
+# various lifetable evaluation and calculation functions
+?ADM # and ?RDM, implementing PAS LIFIT
+?LTabr # with options to replicate PAS and Mortpak
 # last updated 20-Jul-2018
 ```
 Note, at the moment the Sprague family of functions is being updated, and things may not work as expected until changes are complete. Please stand by.
 
-These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 77 documented functions, with more in development. 
+These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 84 documented functions, with more in development. 
 
 Presently all functions are in first drafts, but the aim is to end up with a set of robust generic functions around which wrappers can be easily built for various institutional data production needs. As-is, these functions may also be useful for DIY demographers. This set of methods is a cherry-pick from legacy methods collections, including PAS, DAPPS, MPCDA, MortPack, IREDA, UN Manual X, G. Feeney Spreadsheets, formulas found in Siegel and Swanson or Shyrock and Siegel, and various (apparent) first-implementations from formulas in papers, or ad hoc DIY approximations from old pros. 
 
