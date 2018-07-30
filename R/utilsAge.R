@@ -325,12 +325,16 @@ is.single <- function(Age){
 #' # 10 year age group not abridged, FALSE
 #' is.abridged(c(0,1,5,10,15,25))
 is.abridged <- function(Age){
-	Age         <- as.integer(Age)
+	Age           <- as.integer(Age)
 	ageMax        <- max(Age)
 	ageMin        <- min(Age)
-	abr_default <- maxA2abridged(ageMax)
-	abr_default <- abr_default[abr_default >= ageMin]
-	all(Age==abr_default)
+	abr_default   <- maxA2abridged(ageMax)
+	abr_default   <- abr_default[abr_default >= ageMin]
+	out           <- length(Age) == length(abr_default)
+	if (out){
+		out <- all(Age==abr_default)
+	}
+	out
 }
 
 # deprecated functions

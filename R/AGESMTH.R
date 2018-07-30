@@ -397,12 +397,12 @@ strong_smth <- function(Value,
 #' Smooth populations in 5-year age groups using various methods
 #' 
 #' @description Smooth population counts in 5-year age groups using the Carrier-Farrag, 
-#' Karup-King-Newton, Arriaga, United Nations, or Stong methods. Allows for imputation 
+#' Karup-King-Newton, Arriaga, United Nations, Stong, or Zigzag methods. Allows for imputation 
 #' of values in the youngest and oldest age groups for the Carrier-Farrag, Karup-King-Newton, 
 #' and United Nations methods.
 
 #' @details The Carrier-Farrag, Karup-King-Newton, and Arriaga methods do not modify the totals 
-#' in each 10-year age group, whereas the United Nations and Strong methods do. The age intervals 
+#' in each 10-year age group, whereas the United Nations, Strong, and Zigzag methods do. The age intervals 
 #' of input data could be any integer structure (single, abridged, 5-year, other), but 
 #' output is always in 5-year age groups. All methods except the United Nations methods
 #' operate based on 10-year age group totals, excluding the open age group. 
@@ -412,7 +412,7 @@ strong_smth <- function(Value,
 #' you can also specify to impute with \code{NA}, or the results of the Arriaga or
 #' Strong methods. If the terminal digit of the open age group is 5, then the terminal 10-year 
 #' age group shifts down, so imputations may affect more ages in this case. Imputation can follow 
-#' different methods for young and old ages.
+#' different methods for young and old ages. The Zigzag method at present preserves original values in unadjusted ages, so \code{young.tail} and \code{old.tail} have no effect.
 #' 
 #' Method names are simplified using \code{simplify.text} and checked against a set of plausible matches 
 #' designed to give some flexibility in case you're not sure 
@@ -422,7 +422,7 @@ strong_smth <- function(Value,
 #' 
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age integer vector of ages corresponding to the lower integer bound of the counts.
-#' @param method character string. Options include \code{"Carrier-Farrag"},\code{"Arriaga"},\code{"Karup-King-Newton"},\code{"United Nations"},and \code{"Strong"}. See details. Default \code{"Carrier-Farrag"}.
+#' @param method character string. Options include \code{"Carrier-Farrag"},\code{"Arriaga"},\code{"Karup-King-Newton"},\code{"United Nations"}, \code{"Strong"}, and \code{"Zigzag"}. See details. Default \code{"Carrier-Farrag"}.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
 #' @param ageMin integer. The lowest age included included in intermediate adjustment. Default 10. Only relevant for Strong method.
 #' @param ageMax integer. The highest age class included in intermediate adjustment. Default 65. Only relevant for Strong method.
@@ -462,7 +462,9 @@ strong_smth <- function(Value,
 #'		Age = Ages, 
 #'		method = "Karup-King-Newton", 
 #'		OAG = TRUE)
-#'
+#' # zigzag, not plotted.
+#' zz <- agesmth(MalePop,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 70)
+#' 
 #'\dontrun{
 #'	plot(Ages,MalePop,pch=16)
 #'	lines(Ages, cf)
@@ -534,7 +536,7 @@ strong_smth <- function(Value,
 #' 
 agesmth <- function(Value, 
 		Age, 
-		method = c("Carrier-Farrag","KKN","Arriaga","United Nations","Strong")[1], 
+		method = c("Carrier-Farrag","KKN","Arriaga","United Nations","Strong","Zigzag")[1], 
 		OAG = TRUE, 
 		ageMin = 10, ageMax = 65,
 		young.tail = c("Original","Arriaga","Strong",NA)[1], 
@@ -572,6 +574,11 @@ agesmth <- function(Value,
 		out <- kkn_smth(Value = Value, Age = Age, OAG = OAG)
 	}
 	
+	if (method %in% c("feeney","zigzag")){
+		# however, need to make it so NAs returned in unaffected ages?
+		# or make the user call it in various runs and graft together.
+		out <- zigzag(Value = Value, Age = Age, OAG = OAG, ageMin = ageMin, ageMax = ageMax)
+	}
 	# -------------------------------
 	# clean tails
 	nas     <- is.na(out)
