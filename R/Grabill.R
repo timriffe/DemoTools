@@ -181,12 +181,12 @@ grabillExpand <- function(popmat, OAG = TRUE){
 #' plot(0:100, c(popmat))
 #' lines(0:100, c(grab1))
 #' }
-grabill <- function(popmat, Age, OAG = TRUE){
+grabill <- function(
+		popmat,
+		Age = as.integer(rownames(as.matrix(popmat))), 
+		OAG = TRUE){
 	popmat            <- as.matrix(popmat)
 	
-	if (missing(Age)){
-		Age               <- as.integer(rownames(popmat))
-	}
 	# this is innocuous if ages are already grouped
 	pop5              <- apply(popmat, 2, groupAges, Age = Age, N = 5, shiftdown = 0)
 	

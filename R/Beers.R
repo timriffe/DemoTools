@@ -272,12 +272,13 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' # difference of 1
 #' stopifnot(max(abs(round(johnson)[1:length(output)] - output)) == 1)
 
-beers <- function(popmat, Age, OAG = TRUE, method = "mod", johnson = FALSE){
+beers <- function(
+		popmat, 
+		Age = as.integer(rownames(as.matrix(popmat))), 
+		OAG = TRUE, 
+		method = "mod", 
+		johnson = FALSE){
 	popmat            <- as.matrix(popmat)
-
-	if (missing(Age)){
-		Age               <- as.integer(rownames(popmat))
-	}
 
 	# this is innocuous if ages are already grouped
 	pop5              <- apply(popmat, 2, groupAges, Age = Age, N = 5, shiftdown = 0)
