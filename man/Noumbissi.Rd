@@ -13,7 +13,7 @@ Noumbissi(Value, Age, ageMin = 20, ageMax = 64, digit = 0)
 
 \item{ageMin}{integer. The lowest age included in calculations. Default 20.}
 
-\item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
+\item{ageMax}{integer. The upper age bound used for calculations. Default 64.}
 
 \item{digit}{integer. Any digit 0-9. Default 0.}
 }
@@ -27,7 +27,8 @@ consisting in 5-year age groups centered on the terminal digit of age in questio
 \details{
 \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
  Denominators are always 5-year age groups centered on the digit in question,
-and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90.
+and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval. 
+If you want ages 20 to 64, then give \code{ageMin = 20} and \code{ageMax = 64}, not 65.
 }
 \examples{
 Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,

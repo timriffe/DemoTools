@@ -13,7 +13,7 @@ Myers(Value, Age, ageMin = 10, ageMax = 89)
 
 \item{ageMin}{integer. The lowest age included in calculations. Default 10.}
 
-\item{ageMax}{integer. The upper age bound used for calculations. Default 90.}
+\item{ageMax}{integer. The upper age bound used for calculations. Default 89.}
 }
 \value{
 The value of the index.

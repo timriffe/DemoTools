@@ -14,7 +14,7 @@ CoaleLi(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5,
 
 \item{ageMin}{integer. The lowest age included in calculations. Default 20.}
 
-\item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
+\item{ageMax}{integer. The upper age bound used for calculations. Default \code{max(Age)}.}
 
 \item{terms}{integer. Length of the (centered) moving average be. Default 5.}
 
@@ -31,7 +31,9 @@ an index. This procedure was used in that paper for ages 65-100 for mortality ra
 It is probably better suited to rates than counts, but that is not a hard rule.
 }
 \details{
-\code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. It is therefore recommended for single digits, or else \code{c(0,5)}. \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. By default all available ages greater than or equal to \code{ageMin} are used.
+\code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. 
+It is therefore recommended for single digits, or else \code{c(0,5)}. \code{ageMax} is an inclusive upper bound, treated as interval.
+ If you want ages 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. By default all available ages greater than or equal to \code{ageMin} are used.
 }
 \examples{
 Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
