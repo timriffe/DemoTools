@@ -394,6 +394,52 @@ strong_smth <- function(Value,
 	out
 }
 
+
+#' G. Feeney's method of smoothing counts in 5-year age groups.
+#' @description If age heaping is much worse on 0's than on 5's then even counts in 5-year age bins can preserve a sawtooth pattern. Most graduation techniques translate the zig-zag/sawtooth pattern to a wave pattern. It is not typically desired. This method redistributes counts 'from' every second 5-year age group in a specified range 'to' the adjacent age groups. How much to redistribute depends on a detection of roughness in the 5-year binned data, which follows the formulas recommended by Feeney. 
+#' @details This function calls \code{zigzag()}, but prepares data in a way consistent with other methods called by \code{agesmth()}. It is probably preferable to call \code{zigzag()} from the top level, or else call this method from \code{agesmth()} for more control over tail imputations.
+#' @param Value numeric vector of (presumably) counts in 5-year age groups. 
+#' @param Age integer vector of age group lower bounds.
+#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
+#' @param ageMin integer. Lower age bound to adjust values.
+#' @param ageMax integer. Upper age bound to adjust values.
+#' @return numeric vector of smoothed counts in 5-year age groups.
+#' @export 
+#' @references
+#' Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/
+#' @examples
+#' Value <- c(13331,4151,1746,1585,3859,8354,11146,12076,
+#' 		12216,12016,12473,11513,12899,11413,12710,11516,11408,6733,4031,2069)
+#' Age <- c(0,1,seq(5,90,by=5))
+#' # defaults
+#' zz <- zigzag_smth(Value, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
+#' \dontrun{
+#' plot(Age, Value)
+#' lines(as.integer(names(zz)),zz)
+#' }
+zigzag_smth <- function(Value, 
+		Age, 
+		OAG = TRUE, 
+		ageMin = 40, 
+		ageMax = max(Age) - max(Age)%%10 - 5){
+	
+	# insist on 5-year age groups
+	Value <- groupAges(Value, Age = Age, N = 5)
+	Age   <- as.integer(names(Value))
+	
+	Smoothed <- zigzag(
+			Value = Value,
+			Age = Age,
+			OAG = OAG,
+			ageMin = ageMin,
+			ageMax = ageMax)
+	# put NAs in for unadjusted ages,
+	Smoothed[Smoothed != Value] <- NA
+	
+	Smoothed
+}
+
+
 #' Smooth populations in 5-year age groups using various methods
 #' 
 #' @description Smooth population counts in 5-year age groups using the Carrier-Farrag, 
@@ -412,7 +458,7 @@ strong_smth <- function(Value,
 #' you can also specify to impute with \code{NA}, or the results of the Arriaga or
 #' Strong methods. If the terminal digit of the open age group is 5, then the terminal 10-year 
 #' age group shifts down, so imputations may affect more ages in this case. Imputation can follow 
-#' different methods for young and old ages. The Zigzag method at present preserves original values in unadjusted ages, so \code{young.tail} and \code{old.tail} have no effect.
+#' different methods for young and old ages. 
 #' 
 #' Method names are simplified using \code{simplify.text} and checked against a set of plausible matches 
 #' designed to give some flexibility in case you're not sure 
@@ -573,11 +619,11 @@ agesmth <- function(Value,
 	if (method %in% c("kkn", "kkingnewton", "karupkingnewton")){
 		out <- kkn_smth(Value = Value, Age = Age, OAG = OAG)
 	}
-	
+	# TR: new Feeney method added July 31, 2018
 	if (method %in% c("feeney","zigzag")){
 		# however, need to make it so NAs returned in unaffected ages?
 		# or make the user call it in various runs and graft together.
-		out <- zigzag(Value = Value, Age = Age, OAG = OAG, ageMin = ageMin, ageMax = ageMax)
+		out <- zigzag_smth(Value = Value, Age = Age, OAG = OAG, ageMin = ageMin, ageMax = ageMax)
 	}
 	# -------------------------------
 	# clean tails

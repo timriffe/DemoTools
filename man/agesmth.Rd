@@ -47,7 +47,7 @@ for the first and final 10-year age groups. By default, these are imputed with t
 you can also specify to impute with \code{NA}, or the results of the Arriaga or
 Strong methods. If the terminal digit of the open age group is 5, then the terminal 10-year 
 age group shifts down, so imputations may affect more ages in this case. Imputation can follow 
-different methods for young and old ages. The Zigzag method at present preserves original values in unadjusted ages, so \code{young.tail} and \code{old.tail} have no effect.
+different methods for young and old ages. 
 
 Method names are simplified using \code{simplify.text} and checked against a set of plausible matches 
 designed to give some flexibility in case you're not sure 

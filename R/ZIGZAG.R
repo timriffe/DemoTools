@@ -130,7 +130,7 @@ zigzag_p <- function(
 
 #' G. Feeney's method of removing the zigzag from counts in 5-year age groups.
 #' @description If age heaping is much worse on 0's than on 5's then even counts in 5-year age bins can preserve a sawtooth pattern. Most graduation techniques translate the zig-zag/sawtooth pattern to a wave pattern. It is not typically desired. This method redistributes counts 'from' every second 5-year age group in a specified range 'to' the adjacent age groups. How much to redistribute depends on a detection of roughness in the 5-year binned data, which follows the formulas recommended by Feeney. 
-#' @details Determining the degree to redistribute population counts is an optimization problem, so this function has two auxiliary functions, \code{p_zigzag()}, which redistributes counts according to a set of specified proportions \code{p}, and \code{zigzag_min()} which is the function minimized to determine the optimal vector of \code{p}. If data is not in 5-year age groups then it is grouped as necessary (unless abridged, in which case grouping is preserved). Only ages \code{>= ageMin} and \code{<= ageMax} will be adjusted. \code{ageMax} is inclusive and interpreted as the lower bound of the highest age group to include. The number of 5-year age groups adjusted must be odd, and \code{ageMax} may be reduced internally without warning in order to force this condition. The open age group is excluded from adjustment.
+#' @details Determining the degree to redistribute population counts is an optimization problem, so this function has two auxiliary functions, \code{p_zigzag()}, which redistributes counts according to a set of specified proportions \code{p}, and \code{zigzag_min()} which is the function minimized to determine the optimal vector of \code{p}. If data is not in 5-year age groups then it is grouped as necessary (unless abridged, in which case grouping is preserved). Only ages \code{>= ageMin} and \code{<= ageMax} will be adjusted. \code{ageMax} is inclusive and interpreted as the lower bound of the highest age group to include. The number of 5-year age groups adjusted must be odd, and \code{ageMax} may be reduced internally without warning in order to force this condition. The open age group is excluded from adjustment. This function also has a wrapper \code{zigzag_smth()}, called by \code{agesmth()}.
 #' @param Value numeric vector of (presumably) counts in 5-year age groups. 
 #' @param Age integer vector of age group lower bounds.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
@@ -216,6 +216,7 @@ zigzag <- function(
 	
 	Smoothed
 }
+
 
 
 
