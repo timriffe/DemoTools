@@ -25,7 +25,7 @@ as a blended index. It is based on the principle that in the absence of age heap
 }
 \details{
 \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
-20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}. \code{ageMax} may be
+20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. \code{ageMax} may be
 internally rounded down if necessary so that \code{ageMax - ageMin + 1} is evenly divisible by 10.
 }
 \examples{

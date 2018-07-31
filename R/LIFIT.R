@@ -20,8 +20,11 @@
 #' @param ageMin integer. Optional lower age bound for calculations.
 #' @param ageMax integer. Optional upper age bound for calculations.
 #' @export
-#' @details \code{lx1} and \code{lx2} can be of different lengths and grouped differently. For example, either or both input vectors could be in single or five-year age groups
+#' @details \code{lx1} and \code{lx2} can be of different lengths and grouped differently. 
+#' For example, either or both input vectors could be in single or five-year age groups
 #' for this function. Results are selected internally for 5-year age groups, and vector lengths are matched.
+#' \code{ageMax} is an inclusive upper bound, treated as interval.
+#'  If you want the age-group 70-74 to be included in calculations, then give \code{ageMax = 70}, not 75.
 #' The input vectors can also be of different lifetable radices. As with the original Fortran code, 
 #' the open age group must be included in input vectors, even though it is not included in calcs. 
 #' If your final age group is not open, then tack an extra element to it to simulate an open element,
@@ -91,7 +94,7 @@ ADM <- function(
 			    N = 5, 
 			    consecutive = TRUE, 
 			    ageMin = ageMin, 
-			    ageMax = ageMax - 1)
+			    ageMax = ageMax)
 	# trim lx to needed ages
 	lx1_5  <- lx1[Age1 %in% age5]
 	lx2_5  <- lx2[Age2 %in% age5]
@@ -124,6 +127,7 @@ ADM <- function(
 #' @details \code{lx1} and \code{lx2} can be of different lengths and grouped differently. 
 #' For example, either or both input vectors could be in single or five-year age groups
 #' for this function. Results are selected internally for 5-year age groups, and vector lengths are matched.
+#' If you want the age-group 70-74 to be included in calculations, then give \code{ageMax = 70}, not 75.
 #' The input vectors can also be of different lifetable radices. As with the original Fortran code, 
 #' the open age group must be included in input vectors, even though it is not included in calcs. 
 #' If your final age group is not open, then tack an extra element to it to simulate an open element,
