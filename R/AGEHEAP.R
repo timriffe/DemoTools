@@ -81,7 +81,7 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 #' @param ageMax integer. The upper age bound used for calculations. Default 89.
 
 #' @details \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
-#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}. \code{ageMax} may be
+#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. \code{ageMax} may be
 #' internally rounded down if necessary so that \code{ageMax - ageMin + 1} is evenly divisible by 10.
 #' @return The value of the index. 
 #' @references 
@@ -264,7 +264,8 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 
 
 #' @details \code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. 
-#' It is therefore recommended for single digits, or else \code{c(0,5)}. \code{ageMax} is an inclusive upper bound, treated as interval.
+#' It is therefore recommended for single digits, or else \code{c(0,5)}. 
+#' \code{ageMax} is an inclusive upper bound, treated as interval.
 #'  If you want ages 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. By default all available ages greater than or equal to \code{ageMin} are used. 
 #' 
 #' @return The value of the index.
