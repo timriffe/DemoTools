@@ -1,9 +1,9 @@
 # Author: Juan Galeano
 ###############################################################################
-
+# TODO add ref to bibtex
 #' Smoothing of an age structure by single years using Spencer's formula.
 
-#' @description  Spencer's method is used to adjust distributions by year of age based on cumulative series.This comes from Roger et al (1981, pp. 373-377).
+#' @description  Spencer's method is used to adjust distributions by year of age based on cumulative series. 
 #' 
 #' @param Value numeric. A vector of demographic counts in single age groups.
 #' @param Age numeric or character. A vector with ages in single years.
@@ -14,6 +14,7 @@
 #' @export
 #' @references 
 #' \insertRef{GDA1981IREDA}{DemoTools}
+#' Roger et al (1981, pp. 373-377).
 #' @examples 
 #' # data from GDA1981IREDA, Table 15 and 16, page 375-376: Ghana (1970 Males + Females), 
 #' # population between 10 and 40 years by single age.
