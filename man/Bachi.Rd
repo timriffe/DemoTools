@@ -13,7 +13,7 @@ Bachi(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE)
 
 \item{ageMin}{integer. The lowest age included in calculations. Default 30.}
 
-\item{ageMax}{integer. The upper age bound used for calculations. Default 80.}
+\item{ageMax}{integer. The upper age bound used for calculations. Default 79.}
 
 \item{pasex}{logical. Whether or not reproduce the specific age weightings in the PASEX spreadsheet. Default \code{FALSE}.}
 }
@@ -28,7 +28,7 @@ Two Implementations: one following the PASEX spreadsheet SINGAGE (\code{pasex = 
 }
 \details{
 \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
-20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. These are only heeded if \code{pasex = FALSE}.
+30 to 79, then give \code{ageMin = 30} and \code{ageMax = 79}, not 80. These are only heeded if \code{pasex = FALSE}.
 }
 \examples{
 Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,

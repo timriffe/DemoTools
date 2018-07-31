@@ -27,7 +27,8 @@ quality of age reporting between regions or countries and its evolution over tim
 linear distribution of ages in each five-year age range. Digits refer to terminal age digits. For example, 9, 19, 29, etc are all of digit 9.
 }
 \details{
-\code{ageMin} and \code{ageMax} refer to the bounds of the numerator, where \code{ageMax} is inclusive. The denominator looks 7 ages lower and 2 ages higher, so these ages must be available. You can get 
+\code{ageMin} and \code{ageMax} refer to the bounds of the numerator, where \code{ageMax} is inclusive. 
+The denominator looks 7 ages lower and 2 ages higher, so these ages must be available. You can get 
 arbitrary W(i) indicies by specifying other digits. Note you can only do pairs of digits
 they are 0 and 5. Otherwise just one digit at a time.
 }

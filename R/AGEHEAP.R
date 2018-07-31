@@ -17,7 +17,8 @@
 #' @param digit integer. Any digit between 0 and 9. Default \code{c(0,5)}. Otherwise it needs to be a single digit.
 #'  
 #' 
-#' @details \code{ageMin} and \code{ageMax} refer to the bounds of the numerator, where \code{ageMax} is inclusive. The denominator looks 7 ages lower and 2 ages higher, so these ages must be available. You can get 
+#' @details \code{ageMin} and \code{ageMax} refer to the bounds of the numerator, where \code{ageMax} is inclusive. 
+#' The denominator looks 7 ages lower and 2 ages higher, so these ages must be available. You can get 
 #' arbitrary W(i) indicies by specifying other digits. Note you can only do pairs of digits
 #' they are 0 and 5. Otherwise just one digit at a time. 
 #' @return The value of the index.
@@ -77,7 +78,7 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 #' @param Value numeric. A vector of demographic counts by single age.
 #' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
 #' @param ageMin integer. The lowest age included in calculations. Default 10.
-#' @param ageMax integer. The upper age bound used for calculations. Default 90.
+#' @param ageMax integer. The upper age bound used for calculations. Default 89.
 
 #' @details \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}. \code{ageMax} may be
@@ -151,11 +152,11 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
 #' @param Value numeric. A vector of demographic counts by single age.
 #' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
 #' @param ageMin integer. The lowest age included in calculations. Default 30.
-#' @param ageMax integer. The upper age bound used for calculations. Default 80.
+#' @param ageMax integer. The upper age bound used for calculations. Default 79.
 #' @param pasex logical. Whether or not reproduce the specific age weightings in the PASEX spreadsheet. Default \code{FALSE}.
 #' 
 #' @details \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
-#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. These are only heeded if \code{pasex = FALSE}.
+#' 30 to 79, then give \code{ageMin = 30} and \code{ageMax = 79}, not 80. These are only heeded if \code{pasex = FALSE}.
 #' @return The value of the index.
 #' @references 
 #' \insertRef{PAS}{DemoTools}
@@ -257,12 +258,14 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 #' @param Value numeric. A vector of demographic rates or counts by single age.
 #' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
 #' @param ageMin integer. The lowest age included in calculations. Default 20.
-#' @param ageMax integer. The upper age bound used for calculations. Default 65.
+#' @param ageMax integer. The upper age bound used for calculations. Default \code{max(Age)}.
 #' @param terms integer. Length of the (centered) moving average be. Default 5.
 #' @param digit integer. Any digit 0-9. Default 0.
 
 
-#' @details \code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. It is therefore recommended for single digits, or else \code{c(0,5)}. \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. By default all available ages greater than or equal to \code{ageMin} are used. 
+#' @details \code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. 
+#' It is therefore recommended for single digits, or else \code{c(0,5)}. \code{ageMax} is an inclusive upper bound, treated as interval.
+#'  If you want ages 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. By default all available ages greater than or equal to \code{ageMin} are used. 
 #' 
 #' @return The value of the index.
 #' 
@@ -316,11 +319,12 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 #' @param Value numeric. A vector of demographic counts by single age.
 #' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
 #' @param ageMin integer. The lowest age included in calculations. Default 20.
-#' @param ageMax integer. The upper age bound used for calculations. Default 65.
+#' @param ageMax integer. The upper age bound used for calculations. Default 64.
 #' @param digit integer. Any digit 0-9. Default 0.
 #' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
 #'  Denominators are always 5-year age groups centered on the digit in question,
-#' and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. 
+#' and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval. 
+#' If you want ages 20 to 64, then give \code{ageMin = 20} and \code{ageMax = 64}, not 65. 
 #' @return The value of the index. 
 #' @references 
 #' \insertRef{noumbissi1992indice}{DemoTools}
@@ -372,11 +376,12 @@ Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 64, digit = 0){
 #' @param Value numeric. A vector of demographic counts by single age.
 #' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
 #' @param ageMin integer. The lowest age included in calculations. Default 20.
-#' @param ageMax integer. The upper age bound used for calculations. Default 65.
+#' @param ageMax integer. The upper age bound used for calculations. Default 64.
 #' 
 #' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
 #'  Denominators are always 5-year age groups centered on the digit in question,
-#' and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. 
+#' and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval. 
+#' If you want ages 20 to 64, then give \code{ageMin = 20} and \code{ageMax = 84}, not 65. 
 #' @return The value of the index.
 #' @references 
 #' \insertRef{spoorenberg2007quality}{DemoTools}
