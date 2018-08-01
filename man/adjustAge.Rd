@@ -34,6 +34,14 @@ DesiredTotalFemale     <- 24764
 adjustAge(Males, DesiredTotalMale)
 adjustAge(Females, DesiredTotalFemale)
 adjustAge(Males+Females, DesiredTotalMale+DesiredTotalFemale)
+\dontrun{
+plot(adjustAge(Males, DesiredTotalMale), t ='l', col='red',
+    ylim = c(400,2100), ylab = 'The counts', xlab = 'Age groups')
+lines(Males, t = 'l', col='black')
+legend(15,2000, legend = c('Original','Adjusted'),
+      col=c('black','red'),
+      lty = 1)
+}
 }
 \references{
 \insertRef{PAS}{DemoTools}

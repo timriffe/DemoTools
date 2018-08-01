@@ -41,10 +41,28 @@ LaterPop    <- c(201916, 932550, 1248268, 1119118, 893472, 741306, 603724, 49881
 # YYYY-MM-DD dates as character
 EarlyDate       <- "1980-04-07"
 LaterDate       <- "1990-10-06"
-DesiredDate     <- "1990-07-01"
+DesiredDate     <- "1985-07-01"
 
 interpolatePop(EarlyPop, LaterPop, EarlyDate, LaterDate, DesiredDate)
 interpolatePop(EarlyPop, LaterPop, EarlyDate, LaterDate, DesiredDate, method = "exponential")
+\dontrun{
+plot(EarlyPop, t ='l', col='red',
+    ylim = c(400,1220000), 
+    ylab = 'The counts', xlab = 'Age groups')
+
+lines(interpolatePop(EarlyPop, LaterPop, EarlyDate, LaterDate, DesiredDate),
+     t = 'l', col='black')
+
+lines(LaterPop,
+     t = 'l', col='blue')
+
+legend(12,1000000, 
+      legend = c('Pop in 1980-04-07',
+                 'Pop in 1985-07-01',
+                 'Pop in 1990-10-06'),
+      col=c('red','black','blue'),
+      lty = 1)
+}
 }
 \references{
 \insertRef{PAS}{DemoTools}
