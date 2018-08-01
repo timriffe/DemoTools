@@ -170,7 +170,7 @@ zigzag <- function(
 	
 	Age        <- as.integer(Age)
 	
-	if (!is.abridged(Age)){
+	if (!is_abridged(Age)){
 		Value5     <- groupAges(Value, Age = Age, N = 5)
 		Age5       <- as.integer(names(Value5))
 	} else {

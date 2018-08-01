@@ -47,8 +47,8 @@
 OPAG_simple <- function(Pop, Age, OAnow = max(Age), StPop, StAge, OAnew = max(StAge)){
 	
 	# assume single
-	stopifnot(is.single(Age))
-	stopifnot(is.single(StAge))
+	stopifnot(is_single(Age))
+	stopifnot(is_single(StAge))
 	# OAG can be less than or equal to max age
 	stopifnot(OAnow %in% Age)
 	# age and pop vectors must match lengths, assume ordered

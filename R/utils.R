@@ -103,7 +103,8 @@ rescale.vector <- function(x, scale = 1){
 #' @export
 #' @author Carl Boe
 
-isLeapYear <- function (Year){      # CB: mostly good algorithm from wikipedia
+is_LeapYear <- function (Year){      # CB: mostly good algorithm from wikipedia
+	Year <- floor(Year)
 	ifelse(
 			( (Year %% 4) == 0  &  (Year %% 100) != 0   ) | ( (Year %% 400) == 0 ),
 			TRUE, FALSE )
@@ -156,7 +157,7 @@ ypart <- function(Year, Month, Day, detect.mid.year = TRUE, detect.start.end = T
 	}
 	
 	monthdur    <- diff(c(M,365))
-	monthdur[2] <- monthdur[2] + isLeapYear(Year)
+	monthdur[2] <- monthdur[2] + is_LeapYear(Year)
 	M           <- cumsum(monthdur) - 31
 	return((M[Month] + Day) / sum(monthdur))
 	
@@ -167,7 +168,7 @@ ypart <- function(Year, Month, Day, detect.mid.year = TRUE, detect.start.end = T
 #'  
 #' @description Convert a character or date class to decimal, taking into account leap years. 
 
-#' @details This makes use of two HMD functions, \code{ypart()}, and \code{isLeapYear()} to compute. If the date is numeric, it is returned as such. 
+#' @details This makes use of two HMD functions, \code{ypart()}, and \code{is_LeapYear()} to compute. If the date is numeric, it is returned as such. 
 #' If it is \code{"character"}, we try to coerce to \code{"Date"} class, ergo, it is best to specify a character string in an unambiguous \code{"YYYY-MM-DD"} format.
 #'  If \code{date} is given in a \code{"Date"} class it is dealt with accordingly.
 #'  

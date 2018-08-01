@@ -299,11 +299,11 @@ groupOAG <- function(Value, Age, OAnew){
 #' Age2 <- c(0:10,0:10)
 #' Age3 <- seq(0,80,by=5)
 #' Age4 <- seq(0,10,by=.5)
-#' is.single(Age)  # TRUE
-#' is.single(Age2) # FALSE repeated, can't tell.
-#' is.single(Age3) # FALSE not single ages
-#' is.single(Age4) # FALSE not single ages
-is.single <- function(Age){
+#' is_single(Age)  # TRUE
+#' is_single(Age2) # FALSE repeated, can't tell.
+#' is_single(Age3) # FALSE not single ages
+#' is_single(Age4) # FALSE not single ages
+is_single <- function(Age){
 	all(diff(sort(Age)) == 1)
 }
 
@@ -315,16 +315,16 @@ is.single <- function(Age){
 
 #' @examples
 #' # as expected, TRUE
-#' is.abridged(c(0,1,5,10,15,20,25))
+#' is_abridged(c(0,1,5,10,15,20,25))
 #' # standard 5, not abridged, FALSE
-#' is.abridged(c(0,5,10,15,20,25))
+#' is_abridged(c(0,5,10,15,20,25))
 #' # plausible, TRUE
-#' is.abridged(c(1,5,10,15,20,25))
+#' is_abridged(c(1,5,10,15,20,25))
 #' # plausible, TRUE
-#' is.abridged(c(5,10,15,20,25))
+#' is_abridged(c(5,10,15,20,25))
 #' # 10 year age group not abridged, FALSE
-#' is.abridged(c(0,1,5,10,15,25))
-is.abridged <- function(Age){
+#' is_abridged(c(0,1,5,10,15,25))
+is_abridged <- function(Age){
 	Age           <- as.integer(Age)
 	ageMax        <- max(Age)
 	ageMin        <- min(Age)

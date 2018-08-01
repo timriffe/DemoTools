@@ -261,7 +261,7 @@ LTabr <- function(
     OA     <- max(Age)
 	if (OA <= 100){
 		
-		# TR this single line can be swapped out as needed later.
+		# TR this_single line can be swapped out as needed later.
 		ABACUS <- AbacusLIFTB_wrap(Mx = nMx, OAnew = OAnew, Sex = Sex)
 		
 		# get age elements

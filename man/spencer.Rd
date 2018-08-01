@@ -15,7 +15,7 @@ spencer(Value, Age)
 A named vector with the smoothed age structure.
 }
 \description{
-Spencer's method is used to adjust distributions by year of age based on cumulative series.This comes from Roger et al (1981, pp. 373-377).
+Spencer's method is used to adjust distributions by year of age based on cumulative series.
 }
 \details{
 Single year age groups are assumed.
@@ -38,4 +38,5 @@ stopifnot(all(na.omit(abs(sp_smoothed - Tab16answer) < 0.5)))
 }
 \references{
 \insertRef{GDA1981IREDA}{DemoTools}
+Roger et al (1981, pp. 373-377).
 }

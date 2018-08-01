@@ -280,7 +280,7 @@ agesmth <- function(Value,
 #  Value5RR   <- shift.vector(Value5, 2, fill = NA)
 #  #rbind(Value10L,Value10,Value10R)
 #	
-##  if ( is.abridged(Age) | is.single(Age) ){
+##  if ( is.abridged(Age) | is_single(Age) ){
 ##    #intermediateAgg <- convertSplitTo5Year(Value) #Consolidate under split under 5 group
 ##	intermediateAgg <- groupAges(Value,Age=Age)
 ##    newAges         <- as.integer(names(intermediateAgg)) 

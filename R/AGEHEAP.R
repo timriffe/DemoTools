@@ -54,7 +54,7 @@
 #'  Whipple(Value, Age, 25, 60, digit = 3) 
 Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 	
-	stopifnot(is.single(Age))
+	stopifnot(is_single(Age))
 	stopifnot(length(digit) == 1 || (all(c(0, 5) %in% digit) & length(digit == 2)))
 	stopifnot(length(Value) == length(Age))
 	
@@ -107,7 +107,7 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 #' Myers(Value, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
 
 Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
-	stopifnot(is.single(Age))
+	stopifnot(is_single(Age))
 	# hard code period to 10 for digits
 	period  <- 10
 	
@@ -182,7 +182,7 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
 
 Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 	stopifnot(length(Age) == length(Value))
-	stopifnot(is.single(Age))
+	stopifnot(is_single(Age))
 	# make a matrix for numerators
 	w1           <- matrix(0, nrow = length(Age), ncol = 10)
 	w2           <- matrix(0, nrow = length(Age), ncol = 10)
@@ -290,7 +290,7 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 #' CoaleLi(Value, Age, 65, 95, 5, 5) # 3.5 almost just as high
 
 CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0){
-	stopifnot(is.single(Age))
+	stopifnot(is_single(Age))
 	stopifnot(length(Age) == length(Value))
 	reference <- ma(ma(Value, n = terms), n = terms)
 	
@@ -356,7 +356,7 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 #' Noumbissi(Value, Age, digit = 9) # 0.59
 
 Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 64, digit = 0){
-	stopifnot(is.single(Age))
+	stopifnot(is_single(Age))
 	stopifnot(length(Age) == length(Value))
 	stopifnot(length(digit) == 1)
 	
@@ -404,7 +404,7 @@ Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 64, digit = 0){
 
 Spoorenberg <- function(Value, Age, ageMin = 20, ageMax = 64){
 	stopifnot(length(Age) == length(Value))
-	stopifnot(is.single(Age))
+	stopifnot(is_single(Age))
 	digits <- 0:9
 	Wi   <- sapply(digits, 
 			Noumbissi, 
