@@ -240,9 +240,15 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' ord1 <-  beers(Value, OAG = TRUE, method = "ord")
 #' mod1 <- beers(Value, OAG = TRUE, method = "mod")
 #' \dontrun{
-#' plot(Age,Value)
-#' lines(Age, ord1)
-#' lines(Age, mod1)
+#' plot(Age,Value,
+#' ylab = 'The counts', xlab = 'Age groups')
+#' lines(Age, ord1, t='l', col='blue')
+#' lines(Age, mod1, t = 'l', col ='red', lty =2)
+#' legend(80,15000000, 
+#'       legend = c('Ordinary',
+#'                  'Modified'),
+#'       col=c('blue', 'red'),
+#'       lty = c(1,2))
 #' }
 #' 
 #' # notice this negative value. Yuck! 

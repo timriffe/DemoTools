@@ -147,11 +147,11 @@ grabillExpand <- function(popmat, OAG = TRUE){
 #' p1g <- grabill(p5)
 #' head(p1g); tail(p1g)
 #' colSums(p1g) - colSums(p5) 
-#' #p1s <- sprague(p5)
+#' p1s <- sprague(p5)
 #' \dontrun{
 #' plot(seq(0,100,by=5),p5[,1]/5,type = "s", col = "gray", xlab = "Age", ylab = "Count")
 #' lines(0:100, p1g[,1], col = "red", lwd = 2)
-#' lines(0:100, p1s[,1], col = "blue", lty = 2)
+#' lines(0:100, p1s[,1], col = "blue", lty = 2, lwd =2)
 #' legend("topright", 
 #'		lty = c(1,1,2), 
 #'		col = c("gray","red","blue"), 

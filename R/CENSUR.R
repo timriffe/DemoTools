@@ -204,6 +204,11 @@ surv10 <- function(pop1, pop2){
 #' pop2 <- c(4292503,3988292,3852101,4492096,5347327,4571868,4190340,4085338,
 #' 3674127,3198934,2648360,2382691,1970485,1584699,1172155,736258,408191)
 #' surv5(pop1,pop2)
+#' \dontrun{
+#'plot(seq(0,80,5),surv5(pop1,pop2), t ='l', col='red',
+#'     ylim = c(0,1), 
+#'     ylab = 'Survival function', xlab = 'Age')
+#' }
 surv5 <- function(pop1, pop2){
 	N       <- length(pop1)
 	stagger <- 1
@@ -246,6 +251,11 @@ surv5 <- function(pop1, pop2){
 #' 		3674127,3198934,2648360,2382691,1970485,1584699,1172155,736258,408191)
 #' interval <- 10
 #' survN(pop1,pop2,interval)
+#' \dontrun{
+#' plot(seq(0,80,5),survN(pop1,pop2,interval), t ='l', col='red',
+#'     ylim = c(0,1.1), 
+#'     ylab = 'Survival function', xlab = 'Age')
+#' }
 
 survN <- function(pop1, pop2, interval){
 	r   <- log(pop2 / pop1) / interval
