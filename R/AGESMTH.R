@@ -434,11 +434,54 @@ zigzag_smth <- function(Value,
 			ageMin = ageMin,
 			ageMax = ageMax)
 	# put NAs in for unadjusted ages,
-	Smoothed[Smoothed != Value] <- NA
+	Smoothed[Smoothed == Value] <- NA
 	
 	Smoothed
 }
 
+#' Smooth in 5-year age groups using a moving average
+#' @description Smooth data in 5-year age groups. 
+#' @details This function calls \code{zigzag()}, but prepares data in a way consistent with other methods called by \code{agesmth()}. It is probably preferable to call \code{zigzag()} from the top level, or else call this method from \code{agesmth()} for more control over tail imputations.
+#' @param Value numeric vector of (presumably) counts in 5-year age groups. 
+#' @param Age integer vector of age group lower bounds.
+#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
+#' @param n integer. The width of the moving avarage. Default 3 intervals (x-5 to x+9).
+#' @return numeric vector of smoothed counts in 5-year age groups.
+#' @details This function calls \code{mav()}, which itself relies on the more general \code{ma()}. We lose the lowest and highest ages with this method, unless \code{n=1}, in which case data is returned in the original 5-year age groups.
+#' @examples
+#' Value <- c(13331,4151,1746,1585,3859,8354,11146,12076,
+#' 		12216,12016,12473,11513,12899,11413,12710,11516,11408,6733,4031,2069)
+#' Age <- c(0,1,seq(5,90,by=5))
+#' # defaults
+#' ns   <- sapply(1:5,mav_smth,Value=Value,Age=Age,OAG=TRUE)
+#' cols <- paste0(gray(seq(.8,0,length=5)),"A0")
+#' lwds <- seq(4,1,length=5)
+#' \dontrun{
+#' plot(Age, Value,pch=16)
+#' matplot(as.integer(rownames(ns)),ns,type='l',
+#' 		col = cols,
+#' 		lty = 1,
+#' 		add = TRUE,
+#' 		lwd = lwds)
+#' legend("topright", col = cols, lty = 1, lwd = lwds, legend = paste("n =",1:5))
+#' }
+#' @export
+
+mav_smth <- function(Value, 
+		Age, 
+		OAG = TRUE,
+		n = 3){
+	Value <- groupAges(Value, Age = Age, N = 5)
+	Age   <- as.integer(names(Value))
+	
+	Smoothed <- mav(
+			Value = Value,
+			Age = Age,
+			OAG = OAG,
+			n = n)
+	
+	Smoothed
+}
 
 #' Smooth populations in 5-year age groups using various methods
 #' 
@@ -448,9 +491,9 @@ zigzag_smth <- function(Value,
 #' and United Nations methods.
 
 #' @details The Carrier-Farrag, Karup-King-Newton, and Arriaga methods do not modify the totals 
-#' in each 10-year age group, whereas the United Nations, Strong, and Zigzag methods do. The age intervals 
+#' in each 10-year age group, whereas the United Nations, Strong, Zigzag, and moving average (MAV) methods do. The age intervals 
 #' of input data could be any integer structure (single, abridged, 5-year, other), but 
-#' output is always in 5-year age groups. All methods except the United Nations methods
+#' output is always in 5-year age groups. All methods except the United Nations and MAV methods
 #' operate based on 10-year age group totals, excluding the open age group. 
 #' 
 #' The Carrier-Farrag, Karup-King-Newton, and United Nations methods do not produce estimates 
@@ -472,8 +515,10 @@ zigzag_smth <- function(Value,
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
 #' @param ageMin integer. The lowest age included included in intermediate adjustment. Default 10. Only relevant for Strong method.
 #' @param ageMax integer. The highest age class included in intermediate adjustment. Default 65. Only relevant for Strong method.
+#' @param n integer. The width of the moving avarage. Default 3 intervals (x-5 to x+9). Only relevant for moving average method.
 #' @param young.tail \code{NA} or character. Method to use for ages 0-9. See details. Default \code{"original"}.
 #' @param old.tail \code{NA} or character. Method to use for the final age groups. See details. Default \code{"original"}.
+#' 
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @export
 #' 
@@ -510,6 +555,8 @@ zigzag_smth <- function(Value,
 #'		OAG = TRUE)
 #' # zigzag, not plotted.
 #' zz <- agesmth(MalePop,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 70)
+#' # mav, not plotted.
+#' ma3 <- agesmth(MalePop,Ages,OAG=TRUE,method="MAV",n=3)
 #' 
 #'\dontrun{
 #'	plot(Ages,MalePop,pch=16)
@@ -582,7 +629,7 @@ zigzag_smth <- function(Value,
 #' 
 agesmth <- function(Value, 
 		Age, 
-		method = c("Carrier-Farrag","KKN","Arriaga","United Nations","Strong","Zigzag")[1], 
+		method = c("Carrier-Farrag","KKN","Arriaga","United Nations","Strong","Zigzag","MAV")[1], 
 		OAG = TRUE, 
 		ageMin = 10, ageMax = 65,
 		young.tail = c("Original","Arriaga","Strong",NA)[1], 
@@ -624,6 +671,12 @@ agesmth <- function(Value,
 		# however, need to make it so NAs returned in unaffected ages?
 		# or make the user call it in various runs and graft together.
 		out <- zigzag_smth(Value = Value, Age = Age, OAG = OAG, ageMin = ageMin, ageMax = ageMax)
+	}
+	# TR: MAV added Aug 7
+	if (method %in% c("mav","ma","movingaverage")){
+		# however, need to make it so NAs returned in unaffected ages?
+		# or make the user call it in various runs and graft together.
+		out <- mav_smth(Value = Value, Age = Age, OAG = OAG, n = n)
 	}
 	# -------------------------------
 	# clean tails

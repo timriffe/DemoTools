@@ -4,24 +4,23 @@
 \alias{mav}
 \title{Calculate the moving average (mav) over 3 or 5 years.}
 \usage{
-mav(Value, nyears, Age)
+mav(Value, Age, n = 3, OAG = TRUE)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in single age groups.}
 
-\item{nyears}{integer. A single number, (3 or 5), indicating the number of years taken to smooth the population distribution by single ages.}
-
 \item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts.}
+
+\item{n}{integer. A single number, (often 3 or 5), indicating the number of years taken to smooth the population distribution by single ages.}
 }
 \value{
 Vector with the smoothed demographic counts.
 }
 \description{
-This arithmetic smoothing aims to eliminate irregularities of the population pyramid 
-by single ages due to errors (attractions or repulsions for certain ages).
+This arithmetic smoothing technique aims to eliminate irregularities of the population pyramid by averaging values in a moving window of user-defined width.
 }
 \details{
-Single year age groups are assumed.
+Ages may be single or grouped, but all age intervals are assumed equal.
 }
 \examples{
 # data from GDA1981IREDA, Table 11, page 361-363: Morocco (Census of 1960)
@@ -32,7 +31,7 @@ Pop  <-c(303583,390782,523903,458546,517996,400630,485606,325423,471481,189710,
          454698,34864,51810,31146,26618,228718,38504,23616,40836,15589,
          339158,21349,26997,17590,17513,119763,22704,12336,17635,8485,
          323263,9535,13906,9063,8294,90459,9817,6376,8884,3773,160609)
-Age  <-c(0:69,'70+')  
+Age  <-c(0:70)  
 # final age group assumed open
 mav(Pop, n = 3,Age=Age)      
 }

@@ -5,7 +5,7 @@
 \title{Smooth populations in 5-year age groups using various methods}
 \usage{
 agesmth(Value, Age, method = c("Carrier-Farrag", "KKN", "Arriaga",
-  "United Nations", "Strong", "Zigzag")[1], OAG = TRUE, ageMin = 10,
+  "United Nations", "Strong", "Zigzag", "MAV")[1], OAG = TRUE, ageMin = 10,
   ageMax = 65, young.tail = c("Original", "Arriaga", "Strong", NA)[1],
   old.tail = young.tail)
 }
@@ -25,6 +25,8 @@ agesmth(Value, Age, method = c("Carrier-Farrag", "KKN", "Arriaga",
 \item{young.tail}{\code{NA} or character. Method to use for ages 0-9. See details. Default \code{"original"}.}
 
 \item{old.tail}{\code{NA} or character. Method to use for the final age groups. See details. Default \code{"original"}.}
+
+\item{n}{integer. The width of the moving avarage. Default 3 intervals (x-5 to x+9). Only relevant for moving average method.}
 }
 \value{
 numeric vector of smoothed counts in 5-year age groups.
@@ -37,9 +39,9 @@ and United Nations methods.
 }
 \details{
 The Carrier-Farrag, Karup-King-Newton, and Arriaga methods do not modify the totals 
-in each 10-year age group, whereas the United Nations, Strong, and Zigzag methods do. The age intervals 
+in each 10-year age group, whereas the United Nations, Strong, Zigzag, and moving average (MAV) methods do. The age intervals 
 of input data could be any integer structure (single, abridged, 5-year, other), but 
-output is always in 5-year age groups. All methods except the United Nations methods
+output is always in 5-year age groups. All methods except the United Nations and MAV methods
 operate based on 10-year age group totals, excluding the open age group. 
 
 The Carrier-Farrag, Karup-King-Newton, and United Nations methods do not produce estimates 
@@ -88,6 +90,8 @@ kkn <- agesmth(Value = MalePop,
 	OAG = TRUE)
 # zigzag, not plotted.
 zz <- agesmth(MalePop,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 70)
+# mav, not plotted.
+ma3 <- agesmth(MalePop,Ages,OAG=TRUE,method="MAV",n=3)
 
 \dontrun{
 plot(Ages,MalePop,pch=16)
