@@ -12,6 +12,7 @@
 #' @param Value numeric. A vector of demographic counts in single age groups.
 #' @param n integer. A single number, (often 3 or 5), indicating the number of years taken to smooth the population distribution by single ages.
 #' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts. 
+#' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
 #' @details Ages may be single or grouped, but all age intervals are assumed equal.
 
 #' @return Vector with the smoothed demographic counts.

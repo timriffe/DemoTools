@@ -12,6 +12,8 @@ mav(Value, Age, n = 3, OAG = TRUE)
 \item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts.}
 
 \item{n}{integer. A single number, (often 3 or 5), indicating the number of years taken to smooth the population distribution by single ages.}
+
+\item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
 }
 \value{
 Vector with the smoothed demographic counts.
