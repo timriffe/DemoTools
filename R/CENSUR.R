@@ -1,5 +1,8 @@
 
-#TODO in top to CENSUR.R: check that data in 5 year ages, group to 5-year ages if not before running.
+# TODO in top to CENSUR.R: check that data in 5 year ages, group to 5-year ages if not before running.
+# TODO: add OAG arg, do not interpolate OAG. get unit tests. add ref to Feeney. 
+# These things can mostly be handled in the top level wrapper survRatioError(). 
+# Detect Age from names if not given.
 # Author: tim
 ###############################################################################
 #' Census survival estimation

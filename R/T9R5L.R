@@ -1,5 +1,6 @@
 # Author: Juan Galeano
-# TR: TODO: if abridged data give, group to 5
+# TR: TODO: if abridged data give, group to 5. Remove ns arg. make util for ns stuff.
+# handle OAG with care.
 ###############################################################################
 
 #' Feeney'S formula on 9 years to correct for heaping on multiples of 5.

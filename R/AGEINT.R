@@ -1,5 +1,6 @@
 # Author: sean
 # edited by TR 9-Dec-2017 & 28 Feb-2018
+# TODO: make wrapper to fill in interpolations with various input years and output years.
 ###############################################################################
 
 #' Interpolate between two population age distributions.
