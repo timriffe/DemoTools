@@ -6,8 +6,8 @@
 \usage{
 agesmth(Value, Age, method = c("Carrier-Farrag", "KKN", "Arriaga",
   "United Nations", "Strong", "Zigzag", "MAV")[1], OAG = TRUE, ageMin = 10,
-  ageMax = 65, young.tail = c("Original", "Arriaga", "Strong", NA)[1],
-  old.tail = young.tail)
+  ageMax = 65, n = 3, young.tail = c("Original", "Arriaga", "Strong",
+  NA)[1], old.tail = young.tail)
 }
 \arguments{
 \item{Value}{numeric vector of counts in single, abridged, or 5-year age groups.}
@@ -22,11 +22,11 @@ agesmth(Value, Age, method = c("Carrier-Farrag", "KKN", "Arriaga",
 
 \item{ageMax}{integer. The highest age class included in intermediate adjustment. Default 65. Only relevant for Strong method.}
 
+\item{n}{integer. The width of the moving avarage. Default 3 intervals (x-5 to x+9). Only relevant for moving average method.}
+
 \item{young.tail}{\code{NA} or character. Method to use for ages 0-9. See details. Default \code{"original"}.}
 
 \item{old.tail}{\code{NA} or character. Method to use for the final age groups. See details. Default \code{"original"}.}
-
-\item{n}{integer. The width of the moving avarage. Default 3 intervals (x-5 to x+9). Only relevant for moving average method.}
 }
 \value{
 numeric vector of smoothed counts in 5-year age groups.

@@ -632,6 +632,7 @@ agesmth <- function(Value,
 		method = c("Carrier-Farrag","KKN","Arriaga","United Nations","Strong","Zigzag","MAV")[1], 
 		OAG = TRUE, 
 		ageMin = 10, ageMax = 65,
+		n = 3,
 		young.tail = c("Original","Arriaga","Strong",NA)[1], 
 		old.tail = young.tail){
 	method     <- simplify.text(method)
