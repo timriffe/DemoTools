@@ -38,6 +38,13 @@ An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_
 By default the lifetbale is closed out using the Mortpak extrapolation. Otherwise the final a(x) value is closed out as if the final M(x) value were constant thereafter, 
 which is a common lifetable closeout choice. Age groups must be standard abridged. No check on age groups is done.
 }
+\examples{
+#Example witn Mexican data from UN
+nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,0.00418,0.00509,0.00609,0.00714,0.00808,0.00971,0.0125,0.0175,0.02551,0.03809,0.05595,0.08098,0.15353,0.2557)
+nqx <- c(0.10793,0.08554,0.02025,0.01053,0.01463,0.02071,0.02515,0.02999,0.03507,0.03958,0.04742,0.0606,0.08381,0.11992,0.17391,0.2454,0.33672,0.54723,NA)
+lx  <- c(100000,89207,81577,79924,79083,77925,76312,74393,72162,69631,66875,63704,59843,54828,48253,39861,30079,19951,9033)
+ax.greville.mortpak(nMx = nMx,nqx = nqx,lx = lx,Sex = 'f',region = 'w')
+}
 \references{
 \insertRef{greville1977short}{DemoTools}
 \insertRef{un1982model}{DemoTools}

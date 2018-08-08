@@ -7,7 +7,8 @@
 ###############################################################################
 
 #' Calculate the moving average (mav) over 3 or 5 years.
-#' @description  This arithmetic smoothing technique aims to eliminate irregularities of the population pyramid by averaging values in a moving window of user-defined width. 
+#' @description  This arithmetic smoothing technique aims to eliminate irregularities of the population pyramid by averaging values in a moving 
+#' window of user-defined width. 
 
 #' @param Value numeric. A vector of demographic counts in single age groups.
 #' @param n integer. A single number, (often 3 or 5), indicating the number of years taken to smooth the population distribution by single ages.
@@ -33,7 +34,15 @@
 #'          323263,9535,13906,9063,8294,90459,9817,6376,8884,3773,160609)
 #' Age  <-c(0:70)  
 #' # final age group assumed open
-#' mav(Pop, n = 3,Age=Age)      
+#' mav(Pop, n = 3,Age=Age)
+#' #' \dontrun{
+#' plot(Age,Pop, col = "red", xlab = "Age", ylab = "The counts", type ='l')
+#'lines(Age,mav(Pop, n = 5,Age=Age), col = "blue")
+#' legend("topright", 
+#' lty=1,
+#'		col = c("red","blue"), 
+#'		legend = c("Original","Moving average"))
+#' }      
 mav <- function(Value, Age, n = 3, OAG = TRUE){
   In <- Value
   if (missing(Age)){

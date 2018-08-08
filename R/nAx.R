@@ -192,6 +192,21 @@ geta1_4CD <- function(M0, IMR = NA, Sex = "m", region = "w"){
 #' @references 
 #' \insertRef{united1983manual}{DemoTools}
 #' \insertRef{PAS}{DemoTools}
+#' @examples 
+#' Exposures <- c(100958,466275,624134,559559,446736,370653,301862,249409,
+#' 		247473,223014,172260,149338,127242,105715,79614,53660,
+#' 		31021,16805,8000,4000,2000,1000)
+#' 
+#' Deaths <- c(8674,1592,618,411,755,1098,1100,1357,
+#' 		1335,3257,2200,4023,2167,4578,2956,4212,
+#' 		2887,2351,1500,900,500,300)
+#' # lower age bounds
+#' Age    <- c(0, 1, seq(5, 100, by = 5))
+#' AgeInt <- c(diff(Age), NA)
+#' nMx <- Exposures/Deaths
+#' axPAS(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = T)
+#' 
+#' 
 # Markus: see if the model lifetables in refs/UN_1982... follow this rule of thumb for age 0.
 # You may need to try giving q0 as IMR, or else M0 as M0 to the function, not sure.
 axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
@@ -239,6 +254,12 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 #' @return nax average contribution to exposure of those dying in the interval.
 #' @export
 
+#' @examples 
+#' #Example witn Mexican data from UN
+#' nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,0.00418,0.00509,0.00609,0.00714,0.00808,0.00971,0.0125,0.0175,0.02551,0.03809,0.05595,0.08098,0.15353,0.2557)
+#' nqx <- c(0.10793,0.08554,0.02025,0.01053,0.01463,0.02071,0.02515,0.02999,0.03507,0.03958,0.04742,0.0606,0.08381,0.11992,0.17391,0.2454,0.33672,0.54723,NA)
+#' lx  <- c(100000,89207,81577,79924,79083,77925,76312,74393,72162,69631,66875,63704,59843,54828,48253,39861,30079,19951,9033)
+#' ax.greville.mortpak(nMx = nMx,nqx = nqx,lx = lx,Sex = 'f',region = 'w')
 
 ax.greville.mortpak <- function(
 		nMx, 
