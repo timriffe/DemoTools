@@ -31,6 +31,22 @@ If sex is given as both, \code{"b"}, then female
 values are taken for a(0) and 4a1, per the PAS spreadsheet. If IMR is not given, the M(0) is used to estimate a(x) for ages < 5. 
 This function is not vectorized. a(x) closeout assumes constant mortality hazard in the open age group.
 }
+\examples{
+Exposures <- c(100958,466275,624134,559559,446736,370653,301862,249409,
+		247473,223014,172260,149338,127242,105715,79614,53660,
+		31021,16805,8000,4000,2000,1000)
+
+Deaths <- c(8674,1592,618,411,755,1098,1100,1357,
+		1335,3257,2200,4023,2167,4578,2956,4212,
+		2887,2351,1500,900,500,300)
+# lower age bounds
+Age    <- c(0, 1, seq(5, 100, by = 5))
+AgeInt <- c(diff(Age), NA)
+nMx <- Exposures/Deaths
+axPAS(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = T)
+
+
+}
 \references{
 \insertRef{united1983manual}{DemoTools}
 \insertRef{PAS}{DemoTools}

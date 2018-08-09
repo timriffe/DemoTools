@@ -19,7 +19,8 @@ mav(Value, Age, n = 3, OAG = TRUE)
 Vector with the smoothed demographic counts.
 }
 \description{
-This arithmetic smoothing technique aims to eliminate irregularities of the population pyramid by averaging values in a moving window of user-defined width.
+This arithmetic smoothing technique aims to eliminate irregularities of the population pyramid by averaging values in a moving 
+window of user-defined width.
 }
 \details{
 Ages may be single or grouped, but all age intervals are assumed equal.
@@ -35,7 +36,15 @@ Pop  <-c(303583,390782,523903,458546,517996,400630,485606,325423,471481,189710,
          323263,9535,13906,9063,8294,90459,9817,6376,8884,3773,160609)
 Age  <-c(0:70)  
 # final age group assumed open
-mav(Pop, n = 3,Age=Age)      
+mav(Pop, n = 3,Age=Age)
+#' \dontrun{
+plot(Age,Pop, col = "red", xlab = "Age", ylab = "The counts", type ='l')
+lines(Age,mav(Pop, n = 5,Age=Age), col = "blue")
+legend("topright", 
+lty=1,
+	col = c("red","blue"), 
+	legend = c("Original","Moving average"))
+}      
 }
 \references{
 \insertRef{GDA1981IREDA}{DemoTools}
