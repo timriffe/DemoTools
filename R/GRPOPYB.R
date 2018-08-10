@@ -43,7 +43,8 @@
 #' birthCohorts(Females, Age, CensusDate)
 #' birthCohorts(Females, Age, CensusDate, cohortSize = 10)
 #' \dontrun{
-#' plot(birthCohorts(Males, Age, CensusDate), col = "red", xlab = "Birth cohorts", ylab = "Births", fill =T,pch=2)
+#' plot(birthCohorts(Males, Age, CensusDate), col = "red", 
+#'   xlab = "Birth cohorts", ylab = "Births", fill =T,pch=2)
 #' points(birthCohorts(Females, Age, CensusDate), col = "blue", pch=3)
 #' legend("topleft", 
 #'		pch = 2:3, 

@@ -54,11 +54,12 @@ nqx <- c(0.10793,0.08554,0.02025,0.01053,0.01463,0.02071,0.02515,0.02999,
 lx  <- c(100000,89207,81577,79924,79083,77925,76312,74393,72162,69631,66875,
 63704,59843,54828,48253,39861,30079,19951,9033)
 
+Age <- c(0,1,seq(5,85,by=5))
 # two quite different results depending whether you start with mx or qx
 ax.greville.mortpak(nMx = nMx, Sex = 'f',region = 'w')
 ax.greville.mortpak(nqx = nqx, Sex = 'f',region = 'w')
 # same, qx comes from lx
-ax.greville.mortpak(nlx = nlx, Sex = 'f',region = 'w')
+ax.greville.mortpak(lx = lx, Sex = 'f',region = 'w')
 # both qx and lx given, but lx not used for anything = same
 ax.greville.mortpak(nqx = nqx, lx = lx, Sex = 'f',region = 'w')
 

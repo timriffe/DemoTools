@@ -1,7 +1,7 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 0.6.11
+Version: 0.6.111
 Date: 2018-08-10
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
@@ -13,7 +13,7 @@ Authors@R: c(
    person("Derek", "Burk", role = "ctb"),
    person("Greg", "Freedman Ellis", role = "ctb"))
 Description: A collection of classic demographic methods used to evaluate, adjust, and standardize demographic data.
-License: CC BY-NC 4.0
+License: file LICENSE
 LazyLoad: yes
 RoxygenNote: 6.1.0
 Suggests: covr,
