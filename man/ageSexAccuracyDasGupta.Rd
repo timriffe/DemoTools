@@ -4,8 +4,8 @@
 \alias{ageSexAccuracyDasGupta}
 \title{Calculate Das Gupta's (1995) age sex accuracy index}
 \usage{
-ageSexAccuracyDasGupta(Males, Females, Age, ageMin = 0, ageMax = max(Age),
-  OAG = TRUE)
+ageSexAccuracyDasGupta(Males, Females, Age, ageMin = 0,
+  ageMax = max(Age), OAG = TRUE)
 }
 \arguments{
 \item{Males}{numeric.  A vector of demographic counts in 5-year age groups for males.}
