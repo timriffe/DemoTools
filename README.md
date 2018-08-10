@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/timriffe/DemoTools.svg?branch=master)](https://travis-ci.org/timriffe/DemoTools)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/timriffe/DemoTools?branch=master&svg=true)](https://ci.appveyor.com/project/timriffe/DemoTools)
 [![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) 
-[![](https://img.shields.io/badge/devel%20version-0.6.104-yellow.svg)](https://github.com/timriffe/DemoTools)
+[![](https://img.shields.io/badge/devel%20version-0.6.112-yellow.svg)](https://github.com/timriffe/DemoTools)
 [![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
 [![license](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://github.com/timriffe/DemoTools/LICENSE)
 
@@ -65,7 +65,7 @@ library(DemoTools)
 ```
 Note, at the moment the Sprague family of functions is being updated, and things may not work as expected until changes are complete. Please stand by.
 
-These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 89 documented functions, with more in development. 
+These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 90 documented functions, with more in development. 
 
 Presently all functions are in first drafts, but the aim is to end up with a set of robust generic functions around which wrappers can be easily built for various institutional data production needs. As-is, these functions may also be useful for DIY demographers. This set of methods is a cherry-pick from legacy methods collections, including PAS, DAPPS, MPCDA, MortPack, IREDA, UN Manual X, G. Feeney Spreadsheets, formulas found in Siegel and Swanson or Shyrock and Siegel, and various (apparent) first-implementations from formulas in papers, or ad hoc DIY approximations from old pros. 
 
