@@ -34,3 +34,5 @@ length(dir("/home/tim/git/DemoTools/man"))
 
 # how many functions are there?
 # length(dir("/home/tim/git/DemoTools/man"))
+library(badger)
+badge_devel("timriffe/DemoTools", "yellow")
