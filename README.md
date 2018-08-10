@@ -4,6 +4,8 @@
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/timriffe/DemoTools?branch=master&svg=true)](https://ci.appveyor.com/project/timriffe/DemoTools)
 [![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) 
 [![](https://img.shields.io/badge/devel%20version-0.6.104-yellow.svg)](https://github.com/timriffe/DemoTools)
+[![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
+[![license](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://github.com/timriffe/DemoTools/LICENSE)
 
 Tools for the evaluation, adjustment, and standardization of demographic data
 
