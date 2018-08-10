@@ -43,7 +43,7 @@ Deaths <- c(8674,1592,618,411,755,1098,1100,1357,
 Age    <- c(0, 1, seq(5, 100, by = 5))
 AgeInt <- c(diff(Age), NA)
 nMx <- Deaths/Exposures
-axPAS(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = T)
+axPAS(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = TRUE)
 
 
 }

@@ -204,7 +204,7 @@ geta1_4CD <- function(M0, IMR = NA, Sex = "m", region = "w"){
 #' Age    <- c(0, 1, seq(5, 100, by = 5))
 #' AgeInt <- c(diff(Age), NA)
 #' nMx <- Deaths/Exposures
-#' axPAS(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = T)
+#' axPAS(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = TRUE)
 #' 
 #' 
 # Markus: see if the model lifetables in refs/UN_1982... follow this rule of thumb for age 0.
