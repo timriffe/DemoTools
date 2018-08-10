@@ -203,7 +203,7 @@ geta1_4CD <- function(M0, IMR = NA, Sex = "m", region = "w"){
 #' # lower age bounds
 #' Age    <- c(0, 1, seq(5, 100, by = 5))
 #' AgeInt <- c(diff(Age), NA)
-#' nMx <- Exposures/Deaths
+#' nMx <- Deaths/Exposures
 #' axPAS(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = T)
 #' 
 #' 
@@ -232,7 +232,9 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 #' 
 #' @param nMx numeric. Event exposure mortality rates.
 #' @param nqx numeric.  Vector of age specific death probabilities in standard abridged age groups.
-#' @param lx numeric.  Vector oflifetable survivorship in standard abridged age groups.
+#' @param lx numeric.  Vector of lifetable survivorship in standard abridged age groups.
+#' @param Age integer. Vector of lower bounds of abridged age groups.
+#' @param AgeInt integer. Vector of age group intervals. 
 #' @param IMR numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
@@ -240,10 +242,9 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 #' @param closeout character. Default \code{"mortpak"}.
 #' 
 #' 
-#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables.
-#' An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. 
-#' By default the lifetbale is closed out using the Mortpak extrapolation. Otherwise the final a(x) value is closed out as if the final M(x) value were constant thereafter, 
-#' which is a common lifetable closeout choice. Age groups must be standard abridged. No check on age groups is done.
+#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. By default the lifetbale is closed out using the Mortpak extrapolation. Otherwise the final a(x) value is closed out as if the final M(x) value were constant thereafter, which is a common lifetable closeout choice. Age groups must be standard abridged. No check on age groups is done.
+#' 
+#' There are different vectors one can specify for this method: ultimately it's either \code{nMx} or \code{nqx}, and the \code{nax} results will differ potentially quite a lot depending which you have on hand.
 
 #' 
 #' @references
@@ -256,89 +257,156 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 
 #' @examples 
 #' #Example witn Mexican data from UN
-#' nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,0.00418,0.00509,0.00609,0.00714,0.00808,0.00971,0.0125,0.0175,0.02551,0.03809,0.05595,0.08098,0.15353,0.2557)
-#' nqx <- c(0.10793,0.08554,0.02025,0.01053,0.01463,0.02071,0.02515,0.02999,0.03507,0.03958,0.04742,0.0606,0.08381,0.11992,0.17391,0.2454,0.33672,0.54723,NA)
-#' lx  <- c(100000,89207,81577,79924,79083,77925,76312,74393,72162,69631,66875,63704,59843,54828,48253,39861,30079,19951,9033)
-#' ax.greville.mortpak(nMx = nMx,nqx = nqx,lx = lx,Sex = 'f',region = 'w')
+#' nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,0.00418,0.00509,0.00609,
+#' 0.00714,0.00808,0.00971,0.0125,0.0175,0.02551,0.03809,0.05595,0.08098,
+#' 0.15353,0.2557)
+#' 
+#' nqx <- c(0.10793,0.08554,0.02025,0.01053,0.01463,0.02071,0.02515,0.02999,
+#' 0.03507, 0.03958,0.04742,0.0606,0.08381,0.11992,0.17391,0.2454,0.33672,
+#' 0.54723,NA)
+#' 
+#' lx  <- c(100000,89207,81577,79924,79083,77925,76312,74393,72162,69631,66875,
+#' 63704,59843,54828,48253,39861,30079,19951,9033)
+#' 
+#' # two quite different results depending whether you start with mx or qx
+#' ax.greville.mortpak(nMx = nMx, Sex = 'f',region = 'w')
+#' ax.greville.mortpak(nqx = nqx, Sex = 'f',region = 'w')
+#' # same, qx comes from lx
+#' ax.greville.mortpak(nlx = nlx, Sex = 'f',region = 'w')
+#' # both qx and lx given, but lx not used for anything = same
+#' ax.greville.mortpak(nqx = nqx, lx = lx, Sex = 'f',region = 'w')
+#' 
+#' # if both qx and mx given, then same as qxmx2ax identity,
+#' # except young ages follow Coale-Demeny, and greville uses
+#' # mortpak closeout.
+#' ax.greville.mortpak(nMx = nMx, nqx = nqx, Sex = 'f',region = 'w')-
+#' 		qxmx2ax(nqx,nMx,age2int(Age,TRUE,5))
+#' # same (qx comes from lx)
+#' ax.greville.mortpak(nMx = nMx, lx = lx, Sex = 'f',region = 'w')
 
 ax.greville.mortpak <- function(
 		nMx, 
 		nqx, 
 		lx, 
+		Age,
+		AgeInt,
 		IMR = NA, 
 		Sex = "m", 
 		region = "w", 
 		mod = TRUE,
 		closeout = "mortpak"){
+
 	Sex     <- tolower(Sex)
 	region  <- tolower(region)
 	DBL_MIN <- .Machine$double.xmin
-	stopifnot(!missing(nMx) | !missing(nqx) | !missing(lx))
+		
 	# sort out arguments:
-	if (missing(nqx) & !missing(lx)){
+	mxflag <- missing(nMx)
+	qxflag <- missing(nqx)
+	
+	# if no qx, we can get from lx if available
+	if (qxflag & !missing(lx)){
 		nqx <- lx2dx(lx) / lx
+		qxflag <- FALSE
 	}
+	stopifnot(!qxflag | !mxflag)
 	# now we have either qx or mx
 	
-	if (missing(nqx) & !missing(nMx)){
+	if (!mxflag){
 		a0     <- geta0CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
 		a1_4   <- geta1_4CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
+		# qind slightly different from qxflag?
 		qind   <- FALSE
 	}
-	if (missing(nMx) & !missing(nqx)){
+	# TR: from this it would appear that nMx is preferred input
+	if (mxflag & !qxflag){
 		a0     <- geta0CD(M0 = NA, IMR = nqx[1], Sex = Sex, region = region)
 		a1_4   <- geta1_4CD(M0 = NA, IMR = nqx[1], Sex = Sex, region = region)
-		# just call it nMx for rest of calcs:
+		# here nMx created, but mxflag upheld
 		nMx    <- nqx
 		qind   <- TRUE
 	}
+
+	# in this block we make sure to get both Age
+	# and AgeInt, in case not supplied.
+	
+	# 1) get Age from names if avail?
+	# in any case we have nMx by now
+	if (missing(Age)){
+		.age    <- names2age(nMx) 
+		# only assign to Age if valid 
+		if (!all(is.na(.age))){
+			Age <- .age
+		} # otherwise nothing happens to Age
+	}
+	
+	# best to get AgeInt from Age if not given
+	if (missing(AgeInt) & !missing(Age)){
+		stopifnot(is_abridged(Age))
+		AgeInt  <-  age2int(Age = Age, OAG = TRUE, OAvalue = 5)
+	}
+
+	# otherwise assume abridged and get from length
+	if (missing(AgeInt) & missing(Age)){
+		AgeInt  <- inferAgeIntAbr(vec = nMx)
+	}
+	
+	# and vice versa, duh
+	if (missing(Age) & !missing(AgeInt)){
+		Age     <- int2age(AgeInt)
+	}
 	
 	# some setup 
-	N      <- length(nMx)
-	AgeInt <- inferAgeIntAbr(vec=nMx)
-	
-	# use ages rather than index positions to select.
-	Age    <- int2age(AgeInt)
-	# default midpoints to overwrite
-	ax     <- AgeInt / 2
-	
-	for (i in 2:(N - 1)) {
-		## Mortpak LIFETB for age 5-9 and 10-14
-		# ax[j] = 2.5 
-		## for ages 15-19 onward
-		## AK <- log(QxMx[j+1]/QxMx[j-1])/10
-		## ax[j] <- 2.5 - (25.0/12.0) * (QxMx[j] - AK)
+	N           <- length(nMx)
+	# if both mx and qx given at start then we get ax by identity
+    # this is a fallback, always preferred, and not part of the greville
+    # method per se. Greville is an either-or method.
+	if (!qxflag & !mxflag){
+		ax <- qxmx2ax(nqx = nqx, nMx = nMx, AgeInt = AgeInt)
+		qind <- FALSE
+	} else {
 		
-		## improved Greville formula for adolescent ages 5-9 and 10-14
-		## Let the three successive lengths be n1, n2 and n3, the formula for 5a5 is:
-		## ax[i] = 2.5 - (25 / 12) * (mx[i] - log(mx[i + 1] / mx[i-1])/(n1/2+n2+n3/2))
-		## for age 5-9, coefficient should be 1/9.5, because age group 1-4 has only 4 ages (not 5), while the other 5-year age group are 1/10
-		## ax[i] = 2.5 - (25 / 12) * (mx[i] - (1/9.5)* log(mx[i + 1] / mx[i-1]))
-		## Age 20-25, ..., 95-99
-		## Greville (based on Mortpak LIFETB) for other ages, new implementation
-		# back term
-		Ab     <- 1 / (AgeInt[i - 1] / 2 + AgeInt[i] + AgeInt[i + 1] / 2)
-		# subtract
-		if (i < (N - 1)){
-			# N-1 uses K from N-2...
-			K      <- rlog(nMx[i + 1] / max(nMx[i - 1], DBL_MIN))
-		}
-		# main formula
-		ax[i]  <-  AgeInt[i] / 2 - (AgeInt[i]^2 / 12) * (nMx[i] - K * Ab) 
+	    # then we enter the greville loop
+	    ax     <- AgeInt / 2
+	    for (i in 2:(N - 1)) {
+		  ## Mortpak LIFETB for age 5-9 and 10-14
+		  # ax[j] = 2.5 
+		  ## for ages 15-19 onward
+		  ## AK <- log(QxMx[j+1]/QxMx[j-1])/10
+		  ## ax[j] <- 2.5 - (25.0/12.0) * (QxMx[j] - AK)
 		
-		## add constraint at older ages (in Mortpak and bayesPop)
-		## 0.97 = 1-5*exp(-5)/(1-exp(-5)), for constant mu=1, Kannisto assumption  
-		## (Mortpak used 1 instead of 0.97).
-		if (Age[i] > 35 && ax[i] < 0.97) {
-			ax[i] <- 0.97
-		}
+		  ## improved Greville formula for adolescent ages 5-9 and 10-14
+		  ## Let the three successive lengths be n1, n2 and n3, the formula for 5a5 is:
+		  ## ax[i] = 2.5 - (25 / 12) * (mx[i] - log(mx[i + 1] / mx[i-1])/(n1/2+n2+n3/2))
+		  ## for age 5-9, coefficient should be 1/9.5, because age group 1-4
+		  ## has only 4 ages (not 5), while the other 5-year age group are 1/10
+		  ## ax[i] = 2.5 - (25 / 12) * (mx[i] - (1/9.5)* log(mx[i + 1] / mx[i-1]))
+		  ## Age 20-25, ..., 95-99
+		  ## Greville (based on Mortpak LIFETB) for other ages, new implementation
+		  # back term
+		  Ab     <- 1 / (AgeInt[i - 1] / 2 + AgeInt[i] + AgeInt[i + 1] / 2)
+		  # subtract
+		  if (i < (N - 1)){
+		  	# N-1 uses K from N-2...
+		  	K      <- rlog(nMx[i + 1] / max(nMx[i - 1], DBL_MIN))
+		  }
+		  # main formula
+	      ax[i]  <-  AgeInt[i] / 2 - (AgeInt[i]^2 / 12) * (nMx[i] - K * Ab) 
 		
-		## Extra condition based on Mortpak LIFETB for age 65 onward
-		# TR: why .8a[x-1] only for qx?
-		tmp   <- 0.8 * ax[i - 1]
-		ax[i] <- ifelse(qind & Age[i] >= 65 & ax[i] < tmp, tmp, ax[i])
+		  ## add constraint at older ages (in Mortpak and bayesPop)
+		  ## 0.97 = 1-5*exp(-5)/(1-exp(-5)), for constant mu=1, Kannisto assumption  
+		  ## (Mortpak used 1 instead of 0.97).
+		  if (Age[i] > 35 && ax[i] < 0.97) {
+		  	ax[i] <- 0.97
+		  }
 		
-	}
+		  ## Extra condition based on Mortpak LIFETB for age 65 onward
+		  # TR: why .8a[x-1] only for qx?
+		  tmp   <- 0.8 * ax[i - 1]
+		  ax[i] <- ifelse(qind & Age[i] >= 65 & ax[i] < tmp, tmp, ax[i])
+		
+	   }
+    }
 	ax[1:2] <- c(a0, a1_4)
 	if (!mod){
 		ax[3:4] <- 2.5

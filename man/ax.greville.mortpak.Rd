@@ -4,15 +4,19 @@
 \alias{ax.greville.mortpak}
 \title{UN version of the Greville formula for a(x) from M(x)}
 \usage{
-ax.greville.mortpak(nMx, nqx, lx, IMR = NA, Sex = "m", region = "w",
-  mod = TRUE, closeout = "mortpak")
+ax.greville.mortpak(nMx, nqx, lx, Age, AgeInt, IMR = NA, Sex = "m",
+  region = "w", mod = TRUE, closeout = "mortpak")
 }
 \arguments{
 \item{nMx}{numeric. Event exposure mortality rates.}
 
 \item{nqx}{numeric.  Vector of age specific death probabilities in standard abridged age groups.}
 
-\item{lx}{numeric.  Vector oflifetable survivorship in standard abridged age groups.}
+\item{lx}{numeric.  Vector of lifetable survivorship in standard abridged age groups.}
+
+\item{Age}{integer. Vector of lower bounds of abridged age groups.}
+
+\item{AgeInt}{integer. Vector of age group intervals.}
 
 \item{IMR}{numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.}
 
@@ -33,17 +37,38 @@ for ages 5-9 and 10-14, and the Greville formula thereafter. In the original sou
 these are referred to as separation factors.
 }
 \details{
-a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables.
-An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. 
-By default the lifetbale is closed out using the Mortpak extrapolation. Otherwise the final a(x) value is closed out as if the final M(x) value were constant thereafter, 
-which is a common lifetable closeout choice. Age groups must be standard abridged. No check on age groups is done.
+a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. By default the lifetbale is closed out using the Mortpak extrapolation. Otherwise the final a(x) value is closed out as if the final M(x) value were constant thereafter, which is a common lifetable closeout choice. Age groups must be standard abridged. No check on age groups is done.
+
+There are different vectors one can specify for this method: ultimately it's either \code{nMx} or \code{nqx}, and the \code{nax} results will differ potentially quite a lot depending which you have on hand.
 }
 \examples{
 #Example witn Mexican data from UN
-nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,0.00418,0.00509,0.00609,0.00714,0.00808,0.00971,0.0125,0.0175,0.02551,0.03809,0.05595,0.08098,0.15353,0.2557)
-nqx <- c(0.10793,0.08554,0.02025,0.01053,0.01463,0.02071,0.02515,0.02999,0.03507,0.03958,0.04742,0.0606,0.08381,0.11992,0.17391,0.2454,0.33672,0.54723,NA)
-lx  <- c(100000,89207,81577,79924,79083,77925,76312,74393,72162,69631,66875,63704,59843,54828,48253,39861,30079,19951,9033)
-ax.greville.mortpak(nMx = nMx,nqx = nqx,lx = lx,Sex = 'f',region = 'w')
+nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,0.00418,0.00509,0.00609,
+0.00714,0.00808,0.00971,0.0125,0.0175,0.02551,0.03809,0.05595,0.08098,
+0.15353,0.2557)
+
+nqx <- c(0.10793,0.08554,0.02025,0.01053,0.01463,0.02071,0.02515,0.02999,
+0.03507, 0.03958,0.04742,0.0606,0.08381,0.11992,0.17391,0.2454,0.33672,
+0.54723,NA)
+
+lx  <- c(100000,89207,81577,79924,79083,77925,76312,74393,72162,69631,66875,
+63704,59843,54828,48253,39861,30079,19951,9033)
+
+# two quite different results depending whether you start with mx or qx
+ax.greville.mortpak(nMx = nMx, Sex = 'f',region = 'w')
+ax.greville.mortpak(nqx = nqx, Sex = 'f',region = 'w')
+# same, qx comes from lx
+ax.greville.mortpak(nlx = nlx, Sex = 'f',region = 'w')
+# both qx and lx given, but lx not used for anything = same
+ax.greville.mortpak(nqx = nqx, lx = lx, Sex = 'f',region = 'w')
+
+# if both qx and mx given, then same as qxmx2ax identity,
+# except young ages follow Coale-Demeny, and greville uses
+# mortpak closeout.
+ax.greville.mortpak(nMx = nMx, nqx = nqx, Sex = 'f',region = 'w')-
+		qxmx2ax(nqx,nMx,age2int(Age,TRUE,5))
+# same (qx comes from lx)
+ax.greville.mortpak(nMx = nMx, lx = lx, Sex = 'f',region = 'w')
 }
 \references{
 \insertRef{greville1977short}{DemoTools}

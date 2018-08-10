@@ -7,7 +7,7 @@
 age2int(Age, OAG = TRUE, OAvalue = NA)
 }
 \arguments{
-\item{Age}{integer or numeric. Vector of age intervals.}
+\item{Age}{integer or numeric. Vector of lower age group bounds .}
 
 \item{OAG}{logical. Whether or not the final age group is open. Default \code{TRUE}.}
 

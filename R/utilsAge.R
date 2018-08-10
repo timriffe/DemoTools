@@ -180,7 +180,7 @@ int2age <- function(AgeInt, ageMin = 0){
 #' @details If the final age group is open, it is given a value of \code{NA} by default, or else a user-determined value. 
 #' If the final age group is closed, it is assumed to be equal to the next-lower interval. If the final age interval is 
 #' known and not equal to the next lowest interval, specify \code{OAG = TRUE} and assign its value to \code{OAvalue}.
-#' @param Age integer or numeric. Vector of age intervals. 
+#' @param Age integer or numeric. Vector of lower age group bounds . 
 #' @param OAG logical. Whether or not the final age group is open. Default \code{TRUE}.
 #' @param OAvalue numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.
 #' @export 
@@ -336,6 +336,71 @@ is_abridged <- function(Age){
 	}
 	out
 }
+x <- list(1:10,2:11)
+lapply(x,as.matrix)
+mylist <- function(...){
+	list(...)
+}
+
+
+
+#' detect ages from names of vector(s)
+#' @description Often as a shorthand we pull lower age bounds from the names of a vector. This modularizes that action, and allows for giving several vectors to check for names.
+#' @details If more than one vector is given, names are pulled from the first available named vector. All vectors must be of the same length. If no names are avaialable on any vector, then \code{NA}s are returned. This clearly won't work if the names on the vector are of something else.
+#' @param ... one or more vectors of any class, which has/have a names attribute.
+#' @return integer vector of ages (presumably).
+#' @export 
+#' @examples 
+#' # create some vectors
+#' nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,0.00418,0.00509,0.00609,
+#' 0.00714,0.00808,0.00971,0.0125,0.0175,0.02551,0.03809,0.05595,0.08098,
+#' 0.15353,0.2557)
+#' 
+#' nqx <- c(0.10793,0.08554,0.02025,0.01053,0.01463,0.02071,0.02515,0.02999,
+#' 0.03507, 0.03958,0.04742,0.0606,0.08381,0.11992,0.17391,0.2454,0.33672,
+#' 0.54723,NA)
+#' 
+#' lx  <- c(100000,89207,81577,79924,79083,77925,76312,74393,72162,69631,66875,
+#' 63704,59843,54828,48253,39861,30079,19951,9033)
+#' age <- int2age(inferAgeIntAbr(vec=nMx))
+#' names(nMx) <- age
+#' names2age(nMx)
+#' # or two vectors (only one has names here)
+#' names2age(nMx,nqx)
+#' # or more
+#' names2age(nMx,nqx,lx)
+#' # order doesn't matter
+#' names2age(nqx,nMx, lx)
+#' # multiple named, take first
+#' names2age(nMx, nMx)
+#' # NAs returned
+#' names2age(lx)
+
+names2age <- function(...){
+	XL <- list(...)
+	# if multiple vectors given must be same lengths
+	if (length(XL) > 1){
+		LL <- unlist(lapply(XL,function(x){
+							length(x)
+						}))
+		stopifnot(all(diff(LL) == 0))
+	}
+	# which have names
+	TF <- unlist(lapply(XL,function(x){
+				!is.null(names(x))
+			}))
+	
+	if (any(TF)){
+		# takes names from first available
+		x   <- XL[[which(TF)[1]]]
+		Age <- as.integer(names(x))
+	} else {
+		x   <- XL[[1]]
+		Age <- rep(NA, length(x))
+	}
+	Age
+}
+
 
 # deprecated functions
 
