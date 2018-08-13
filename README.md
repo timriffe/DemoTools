@@ -5,7 +5,6 @@
 [![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) 
 [![](https://img.shields.io/badge/devel%20version-0.6.112-yellow.svg)](https://github.com/timriffe/DemoTools)
 [![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
-[![license](https://img.shields.io/badge/License-CC-BY-NC%20v4-blue.svg)](https://github.com/timriffe/DemoTools/LICENSE)
 
 Tools for the evaluation, adjustment, and standardization of demographic data
 
