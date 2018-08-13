@@ -4,7 +4,7 @@
 \alias{survRatioError}
 \title{Census survival estimation}
 \usage{
-survRatioError(pop1, pop2, Age, date1, date2, exprior)
+survRatioError(pop1, pop2, Age, date1, date2, exprior, OAG = TRUE)
 }
 \arguments{
 \item{pop1}{numeric. Vector of population counts in 5-year age groups of census 1.}
@@ -17,7 +17,10 @@ survRatioError(pop1, pop2, Age, date1, date2, exprior)
 
 \item{date2}{date. Date of the second census. See details for ways to express it.}
 
-\item{exprior}{numeric. Vector of remaining life expectancy (not e(0), see details) for same population and time but from a different source.}
+\item{exprior}{numeric. Vector of remaining life expectancy (not e(0), see details) for same population and 
+time but from a different source.}
+
+\item{OAG}{logical. Whether or not the final age group is open. Default \code{TRUE}.}
 }
 \value{
 The median absolute percent error of the census survival remaining life expectancy vector compared with the external remaining life expectancy estimate (\code{exprior}).
@@ -27,11 +30,7 @@ This function family implements the spreadsheets from the UN repository
 "Adult Mortality Estimation Files/countries/JAPAN/CENSUS~1.SUR", prepared by Griffith Feeney ca 2007.
 }
 \details{
-The lengths of \code{pop1} and \code{pop2} should match. We assume that the last age group is open, and throw it out. 
-If your last age group is not open and you want to keep it, append an element, such as \code{NA} to the end of your vectors. 
-Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, 
-or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. Value for life expectancy at birth e(0) in \code{exprior} 
-should be set to \code{NA}.
+The lengths of \code{pop1} and \code{pop2} should match. We assume that the last age group is open, and throw it out. If your last age group is not open then specify \code{OAG = FALSE}. Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. Value for life expectancy at birth e(0) in \code{exprior} should be set to \code{NA}.
 }
 \examples{
 # Based on Feeney's spreadsheets CENSUR~1.XLS, CENSUR~2.XLS, and CENSUR~3.XLS
@@ -56,34 +55,46 @@ ex2  <- c(NA,70.19,65.33,60.41,55.54,50.74,45.96,41.21,
 
 # reproduces CENSUR~1.XLS
 # this method called under the hood when censuses are a clean 10 years apart
-survRatioError(
+(s10 <- survRatioError(
  pop1 = pop1960, 
  pop2 = pop1970, 
  Age = Age, 
  date1 = date1960, 
  date2 = date1970, 
- exprior = ex1) #.44
+ exprior = ex1)) #.44
+\dontshow{
+# de facto unit test, from CENSUR~1.XLS
+stopifnot(abs(0.444659710063221 - s10) < 1e-12)
+}
 
 # reproduces CENSUR~3.XLS
 # this method called under the hood when censuses are a clean 5 years apart
-survRatioError(
+(s5 <- survRatioError(
 		pop1 = pop1965,
 		pop2 = pop1970,
 		Age = Age,
 		date1 = date1965,
 		date2 = date1970,
-		exprior = ex2) #.40
+		exprior = ex2)) #.40
+\dontshow{
+# de facto unit test, from CENSUR~3.XLS
+stopifnot(abs(0.396434724201574- s5) < 1e-12)
+}
 
 # reproduces CENSUR~2.XLS (if indeed censuses are oddly spaced)
 # this method called under the hood when censuses are not spaced 
 # a clean 5 or 10 years apart.
-survRatioError(
+(sn <- survRatioError(
 		pop1 = pop1960,
 		pop2 = pop1970,
 		Age = Age,
 		date1 = date1960fake,
 		date2 = date1970,
-		exprior = ex1)# 1.067818
+		exprior = ex1)) # 1.067818
+\dontshow{
+# de facto unit test, from CENSUR~2.XLS
+stopifnot(abs(1.06781792562135 - sn) < 1e-12)
+}
 }
 \references{
 \insertRef{united1955manual}{DemoTools}

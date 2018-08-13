@@ -1,8 +1,7 @@
 
-# TODO in top to CENSUR.R: check that data in 5 year ages, group to 5-year ages if not before running.
-# TODO: add OAG arg, do not interpolate OAG. get unit tests. add ref to Feeney. 
+
+# TODO: add ref to Feeney. 
 # These things can mostly be handled in the top level wrapper survRatioError(). 
-# Detect Age from names if not given.
 # Author: tim
 ###############################################################################
 #' Census survival estimation
@@ -15,13 +14,11 @@
 #' @param Age numeric. Vector of ages corresponding to the lower integer bound of the counts.
 #' @param date1 date. Date of the first census. See details for ways to express it.
 #' @param date2 date. Date of the second census. See details for ways to express it.
-#' @param exprior numeric. Vector of remaining life expectancy (not e(0), see details) for same population and time but from a different source.
+#' @param exprior numeric. Vector of remaining life expectancy (not e(0), see details) for same population and 
+#' time but from a different source.
+#' @param OAG logical. Whether or not the final age group is open. Default \code{TRUE}.
 
-#' @details The lengths of \code{pop1} and \code{pop2} should match. We assume that the last age group is open, and throw it out. 
-#' If your last age group is not open and you want to keep it, append an element, such as \code{NA} to the end of your vectors. 
-#' Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, 
-#' or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. Value for life expectancy at birth e(0) in \code{exprior} 
-#' should be set to \code{NA}.
+#' @details The lengths of \code{pop1} and \code{pop2} should match. We assume that the last age group is open, and throw it out. If your last age group is not open then specify \code{OAG = FALSE}. Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. Value for life expectancy at birth e(0) in \code{exprior} should be set to \code{NA}.
 #' @references 
 #' \insertRef{united1955manual}{DemoTools}
 #' \insertRef{united1983manual}{DemoTools}
@@ -51,43 +48,56 @@
 #' 
 #' # reproduces CENSUR~1.XLS
 #' # this method called under the hood when censuses are a clean 10 years apart
-#' survRatioError(
+#' (s10 <- survRatioError(
 #'  pop1 = pop1960, 
 #'  pop2 = pop1970, 
 #'  Age = Age, 
 #'  date1 = date1960, 
 #'  date2 = date1970, 
-#'  exprior = ex1) #.44
+#'  exprior = ex1)) #.44
+#' \dontshow{
+#' # de facto unit test, from CENSUR~1.XLS
+#' stopifnot(abs(0.444659710063221 - s10) < 1e-12)
+#' }
 #' 
 #' # reproduces CENSUR~3.XLS
 #' # this method called under the hood when censuses are a clean 5 years apart
-#' survRatioError(
+#' (s5 <- survRatioError(
 #' 		pop1 = pop1965,
 #' 		pop2 = pop1970,
 #' 		Age = Age,
 #' 		date1 = date1965,
 #' 		date2 = date1970,
-#' 		exprior = ex2) #.40
+#' 		exprior = ex2)) #.40
+#' \dontshow{
+#' # de facto unit test, from CENSUR~3.XLS
+#' stopifnot(abs(0.396434724201574- s5) < 1e-12)
+#' }
 #' 
 #' # reproduces CENSUR~2.XLS (if indeed censuses are oddly spaced)
 #' # this method called under the hood when censuses are not spaced 
 #' # a clean 5 or 10 years apart.
-#' survRatioError(
+#' (sn <- survRatioError(
 #' 		pop1 = pop1960,
 #' 		pop2 = pop1970,
 #' 		Age = Age,
 #' 		date1 = date1960fake,
 #' 		date2 = date1970,
-#' 		exprior = ex1)# 1.067818
+#' 		exprior = ex1)) # 1.067818
+#' \dontshow{
+#' # de facto unit test, from CENSUR~2.XLS
+#' stopifnot(abs(1.06781792562135 - sn) < 1e-12)
+#' }
 
 # result matches CENSUR~2 exactly if you change the
 # decimal dates used in the spreadsheet to the following
-# print(dec.date(date1960fake),digits=15)
+# print(dec.date(date1960fake),digits=15) # date1
+# print(dec.date(date1970),digits=15)     # date2
 # can't call up the synthetic method on the original dates
 # because it gets automatically directed to the cleaner 10-year
 # staggered method, which is preferred.
 
-survRatioError <- function(pop1, pop2, Age, date1, date2, exprior){
+survRatioError <- function(pop1, pop2, Age, date1, date2, exprior, OAG = TRUE){
 	stopifnot(all.equal(length(pop1),length(pop2),length(Age)))
 	
 	# census spacing used to stagger ages.
@@ -96,12 +106,26 @@ survRatioError <- function(pop1, pop2, Age, date1, date2, exprior){
 	# calculate intercensal period
 	int     <- date2 - date1
 	
-	# assume final age interval is open, disregard it
+	# TR: add chunk: control age grouping here:
+	if (missing(Age)){
+		Age     <- names2age(pop1,pop2)
+	}
+	
+	pop1    <- groupAges(Value = pop1, Age = Age, N = 5)
+	pop2    <- groupAges(Value = pop2, Age = Age, N = 5)
+	Age     <- names2age(pop1)
+	
 	N       <- length(pop1)
-	pop1    <- pop1[-N]
-	pop2    <- pop2[-N]
-	Age     <- Age[-N]
-	N       <- N - 1
+	if (OAG){
+		OAvalue1    <- pop1[N]
+		OAvalue2    <- pop1[N]
+		OAi         <- N
+		N           <- N - 1
+		pop1        <- pop1[-OAi]  
+		pop2        <- pop2[-OAi] 
+		Age         <- Age[-OAi]
+	}
+	
 	# this 
 	if (abs(int - 5) < .01){
 		# are we super close to 5 years apart?
@@ -120,7 +144,8 @@ survRatioError <- function(pop1, pop2, Age, date1, date2, exprior){
 	# Lx approximated as avg of lx
 	Lx         <- c(NA, ma(lx, 2))
 	# 2.5 times the pairwise sums of that to get the 5-year Lx approximation
-	Lx5        <- c(2.5 * (Lx[-length(Lx)] + Lx[-1]))
+	#Lx5        <- c(2.5 * (Lx[-length(Lx)] + Lx[-1]))
+    Lx5        <- ma(Lx, 2)[1:N] * 5
 	Lx5[N]     <- Lx[N] * exprior[N]
 	
 	# cut to size
@@ -128,7 +153,7 @@ survRatioError <- function(pop1, pop2, Age, date1, date2, exprior){
 	Lx5        <- Lx5[1:N]
 	exprior    <- exprior[1:N]
 	
-	Tx         <- rev(cumsum(rev(Lx5)))
+	Tx         <- Lx2Tx(Lx5)
 	ex.est     <- Tx / Lx
 	dif        <- exprior - ex.est
 	abserror   <- 100 * abs(dif / exprior)
