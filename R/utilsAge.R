@@ -336,13 +336,6 @@ is_abridged <- function(Age){
 	}
 	out
 }
-x <- list(1:10,2:11)
-lapply(x,as.matrix)
-mylist <- function(...){
-	list(...)
-}
-
-
 
 #' detect ages from names of vector(s)
 #' @description Often as a shorthand we pull lower age bounds from the names of a vector. This modularizes that action, and allows for giving several vectors to check for names.
