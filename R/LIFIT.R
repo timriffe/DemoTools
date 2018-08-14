@@ -79,8 +79,6 @@ ADM <- function(
     stopifnot(length(lx1) == length(Age1))
     stopifnot(length(lx2) == length(Age2))
 	
-	# TODO add OAG to control removal
-	
 	# remove open age group
 	n1     <- length(lx1)
 	n2     <- length(lx2)
@@ -182,8 +180,6 @@ RDM <- function(
 		ageMax = min(c(max(Age1), max(Age2)))){
 	stopifnot(length(lx1) == length(Age1))
 	stopifnot(length(lx2) == length(Age2))
-	
-	# TODO add OAG to control removal
 	
 	# remove open age group
 	n1     <- length(lx1)

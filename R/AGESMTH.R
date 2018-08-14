@@ -1,8 +1,5 @@
 # Author: tim, based on earlier version by sean
 # modified by TR 18 July, 2018
-# TODO: see individual TODO notes for functions
-# also need to add generic DemoTools wrapper here, will offer tail imputation options
-# and call various methods with a method argument.
 ###############################################################################
 
 #' The Carrier-Farrag method of population count smoothing
