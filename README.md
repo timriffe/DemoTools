@@ -5,6 +5,7 @@
 [![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) 
 [![](https://img.shields.io/badge/devel%20version-0.6.113-yellow.svg)](https://github.com/timriffe/DemoTools)
 [![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
 Tools for the evaluation, adjustment, and standardization of demographic data
 
