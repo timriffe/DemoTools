@@ -527,42 +527,149 @@ getModelLifeTable <- function(ModelName, Sex){
 
 
 
-library(DemoTools)
+# TODO in progress
 
-pop1 <- runif(20)
-Age1 <- 0:19
-pop2 <- DemoTools::groupAges(pop1,0:19) * c(1.1,1.05,.95,1.01)
-Age2 <- seq(0,15,by=5)
-Value1 <- pop1
-Value2 <- pop2
+#' rescale counts in age groups to match counts in different age groups
+#' @description This method rescales a vector of counts in arbitrary (integer) age groups to approximate a vector of counts in a potentially different age grouping. Common use cases will be to scale single ages (whose age pattern we wish to roughly maintain) to sum to abridged or 5-year age groups from another source. The counts to be rescaled could potentially be in any grouping (see example). 
+#' @details If the final age group is open, define its age interval as 1.
+#' 
+#' Presently the intermediate splitting function assumes that counts inside the age groups of population 1 are uniformly distributed, although this may be relaxed if other methods become available whose behavior matches that of \code{splitUniform()}. \code{splitMono()} will be modified soon to be applicable here. 
+#' 
+#' The method works by first spl
+#' @examples
+#' # just to make a point about arbitrary integer age widths in both pop1 and pop2
+#' # note if pop1 is in single ages and pop2 is in groups things work much cleaner.
+#' set.seed(3)
+#' AgeIntRandom <- sample(1:5, size = 15,replace = TRUE)
+#' AgeInt5      <- rep(5, 9)
+#' original     <- runif(45, min = 0, max = 100)
+#' pop1         <- groupAges(original, 0:45, AgeN = int2ageN(AgeIntRandom, FALSE))
+#' pop2         <- groupAges(original, 0:45, AgeN = int2ageN(AgeInt5, FALSE))
+#' # inflate (in this case) pop2
+#' perturb      <- runif(length(pop2), min = 1.05, max = 1.2)
+#' 
+#' pop2         <- pop2 * perturb
+#' 
+#' # a recursively constrained solution
+#' (pop1resc <- rescaleAgeGroups(Value1 = pop1, 
+#' 					AgeInt1 = AgeIntRandom,
+#' 					Value2 = pop2, 
+#' 					AgeInt2 = AgeInt5, 
+#' 					splitfun = splitUniform, 
+#' 					res = 1e-3,
+#'                  recursive = TRUE))
+#' # a single pass adjustment (no recursion)
+#' (pop1resc1 <- rescaleAgeGroups(Value1 = pop1, 
+#' 					AgeInt1 = AgeIntRandom,
+#' 					Value2 = pop2, 
+#' 					AgeInt2 = AgeInt5, 
+#' 					splitfun = splitUniform, 
+#' 					res = 1e-3,
+#' 					recursive = FALSE))
+#' pop1resc / pop1
+#' perturb
+#' 
+#' 
+#' \dontshow{
+#' 	newN        <- splitfun(pop1resc, AgeInt = AgeInt1)
+#' 	check       <- groupAges(newN, AgeS, AgeN = AgeN2)
+#' 	stopifnot(all(abs(check - pop2) < 1e-3))
+#' # and the non-recursive one:
+#' 	newN        <- splitfun(pop1resc1, AgeInt = AgeInt1)
+#' 	check       <- groupAges(newN, AgeS, AgeN = AgeN2)
+#' 	stopifnot(all(abs(check - pop2) < 1e-3))
+#' }
+#' 
+#' \dontrun{
+#' 	
+#' # show before / after
+#' 	plot(NULL,xlim=c(0,45),ylim=c(0,2),main = "Different (but integer) intervals",
+#' 			xlab = "Age", ylab = "", axes = FALSE)
+#' 	x1 <- c(0,cumsum(AgeIntRandom))
+#' 	rect(x1[-length(x1)],1,x1[-1],2,col = gray(.8), border = "white")
+#' 	x2 <- c(0,cumsum(AgeInt5))
+#' 	rect(x2[-length(x2)],0,x2[-1],1,col = "palegreen1", border = "white")
+#' 	text(23,1.5,"Original (arbitrary grouping)",font = 2, cex=1.5)
+#' 	text(23,.5,"Standard to rescale to (arbitrary grouping)",font = 2, cex=1.5)
+#' 	axis(1)
+#' 	
+#' # adjustment factors:
+#' 	plot(int2age(AgeInt5), perturb, ylim = c(0, 2))
+#' 	points(int2age(AgeIntRandom), pop1resc / pop1, pch = 16)
+#' # non-recursive is less disruptive for uniform
+#' 	points(int2age(AgeIntRandom), pop1resc1 / pop1, pch = 16, col = "blue")
+#' 	
+#' # show before / after under uniform (in pop1) assumption.
+#' 	plot(NULL, xlim=c(0,45),ylim = c(0,150), main = "Uniform constraint")
+#' 	lines(0:44, splitUniform(pop1, AgeInt = AgeIntRandom, OAG = FALSE), col = "red")
+#' 	lines(0:44, splitUniform(pop2, AgeInt = AgeInt5, OAG = FALSE), col = "blue")
+#' 	lines(0:44, splitUniform(pop1resc, AgeInt = AgeIntRandom, OAG = FALSE), col = "orange", lty = 2, lwd = 2)
+#' 	lines(0:44, splitUniform(pop1resc1, AgeInt = AgeIntRandom, OAG = FALSE), col = "magenta", lty = 2, lwd = 2)
+#' 	legend("topright",lty=c(1,1,2,2),col=c("red","blue","orange","magenta"),lwd=c(1,1,2,2),
+#' 			legend = c("Original N1","Prior N2","Rescaled N1 recursive","Rescaled N1 1 pass"))
+#' 	
+#' }
+#' 
 
-# I'll use rescale.vector
-rescaleAgeGroups <- function(Value1, Age1, Value2, Age2, OAG = FALSE){
+rescaleAgeGroups <- function(
+		Value1, 
+		AgeInt1, 
+		Value2, 
+		AgeInt2, 
+		splitfun = splitUniform, 
+		recursive = FALSE,
+		res = 1e-3){
 	N1          <- length(Value1)
+	# ages must cover same span
+	stopifnot(sum(AgeInt1) == sum(AgeInt2))
 	
-	if (OAG){
-		OA1 <- Age1[N1]
-		OA2 <- Age2[length(Age2)]
-	}
+	Age1        <- int2age(AgeInt1)
+	Age2        <- int2age(AgeInt2)
+	
 	stopifnot(N1 == length(Age1))
-	stopifnot(is_single(Age1))
+
+	AgeN        <- rep(Age2, times = AgeInt2)
 	
+	# scale from single.
+	ValueS      <- splitfun(Value1, AgeInt = AgeInt1)
+	# right now splitMono() doesn't have AgeInt, so does not create the right spread.
+	# comparison forthcoming.
+	AgeS        <- names2age(ValueS)
 	
-	int2        <- age2int(Age = Age2, OAG = OAG, OAvalue = 1)
+	#splitMono(Value = Value1, Age1, F)
+	#plot(splitMono(Value = Value1, Age1, T))
+
+	#
+	AgeN2       <- rep(Age2, times = AgeInt2)
+	beforeN     <- groupAges(ValueS, AgeS, AgeN = AgeN2)
 	
-	stopifnot(sum(int2) == length(Age1))
-	
-	AgeN        <- rep(Age2,times = int2)
-	beforeN     <- groupAges(Value1, Age1, AgeN = AgeN)
-	beforeNint  <- rep(beforeN, times = int2)
-	afterNint   <- rep(Value2, times = int2)
+	beforeNint  <- rep(beforeN, times = AgeInt2)
+	afterNint   <- rep(Value2, times = AgeInt2)
 	ratio       <- afterNint / beforeNint
-	Value1 * ratio
+	SRescale    <- ValueS * ratio
+	
+	
+	
+	# group back to original, in case these weren't single
+	AgeN1       <- rep(Age1, times = AgeInt1)
+	out         <- groupAges(SRescale, AgeS, AgeN = AgeN1)
+	
+	# check for recursion
+	newN        <- splitfun(out, AgeInt = AgeInt1)
+	check       <- groupAges(newN, AgeS, AgeN = AgeN2)
+	if (max(abs(check-pop2)) < res | !recursive){
+		return(out)
+	} else {
+		rescaleAgeGroups(
+				Value1 = out,  
+				AgeInt1 = AgeInt1, 
+				Value2 = Value2, 
+				AgeInt2 = AgeInt2,
+				splitfun = splitfun,
+				res = res,
+				recursive = recursive)
+	}
 }
-
-rescaleAgeGroups(pop1,Age1,pop2,Age2)
-
-
 
 
 

@@ -75,6 +75,48 @@ calcAgeN <- function(Age, N = 5, shiftdown = 0){
 	(Age + shift) - (Age + shift) %% N 
 }
 
+#' repeat age lower bounds once for each single age
+#' @description This is a frequent grouping situation. For a given vector of lower age bounds, repeat each value N times, where N is the width of the corresponding age interval. Age intervals are in this case calculated from the original Age vector.
+#' @details If {OAG = TRUE} then the last value is not repeated, otherwise the final age interval is assumed to be the same width as the penultimate. Here intervals do not need to be of uniform width.
+#' @param Age integer. Vector of lower age bounds.
+#' @param OAG logical. Whether or not the final age group open. Default \code{FALSE}. See details
+#' @return integer vector of elements of \code{Age} repeated once for each implied single age.
+#' @export
+#' @examples 
+#' age1 <- seq(0,100,by=5)
+#' (ageN1 <- age2ageN(age1, OAG = FALSE))
+#' (ageN2 <- age2ageN(age1, OAG = TRUE))
+#' \dontshow{
+#' stopifnot(length(ageN1) == 105)
+#' stopifnot(length(ageN2) == 101)
+#' }
+age2ageN <- function(Age, OAG = FALSE){
+	rep(Age, times = age2int(Age, OAG = OAG, OAvalue = 1))
+}
+
+#' repeat age lower bounds once for each single age
+#' @description This is a frequent grouping situation. For a given vector of lower age bounds, as implied by \code{AgeInt}, repeat each value N times, where N is the width of the corresponding age interval. Age intervals are in this case given, and age lower bound values are calculated from \code{AgeInt} vector.
+#' @details If {OAG = TRUE} then the last value is given just once, irrespective of the final value of \code{AgeInt}, otherwise the final age interval is repeated \code{AgeInt[length(AgeInt)]} times. Here intervals do not need to be of uniform width.
+#' @param Age integer. Vector of lower age bounds.
+#' #' @param OAG logical. Whether or not the final age group open. Default \code{FALSE}. See details
+#' @return integer vector of elements of \code{Age} repeated once for each implied single age.
+#' @export
+#' @examples 
+#' int5 <- rep(5,21)
+#' (ageN1 <- int2ageN(int5, OAG = FALSE))
+#' (ageN2 <- int2ageN(int5, OAG = TRUE))
+#' \dontshow{
+#' stopifnot(length(ageN1) == 105)
+#' stopifnot(length(ageN2) == 101)
+#' }
+
+int2ageN <- function(AgeInt, OAG){
+	if (OAG){
+		AgeInt[length(AgeInt)] <- 1
+	}
+	rep(int2age(AgeInt), times = AgeInt)
+}
+
 #' Calculate which abridged age group single ages belong to.
 #' 
 #' @description Assign single ages to 5-year abridged age groups. That means that age 0 is kept as a single age,
