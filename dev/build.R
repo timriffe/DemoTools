@@ -15,9 +15,17 @@ shhh <- function(expr){
 }
 
 library(devtools)
+library(TimUtils)
 #install_github("hadley/devtools")
+#install_github("timriffe/TimUtils/TimUtils")
 # do this whenever new functions are added to /R, or whenever roxygen is updated
 devtools::document()
+versionIncrement(
+		major = FALSE,       # only for releases
+		mid = FALSE,         # major functionality added
+		minor = TRUE,        # whenever documentation renewed, any patch, tweak, or fix
+		maxdigits = c(2,2,3),# maybe 4 required?
+		README = TRUE)       # update README dev version badge
 
 # run this to get access to already-written functions
 shhh(load_all())
@@ -39,3 +47,4 @@ length(dir("/home/tim/git/DemoTools/man"))
 
 #library(badger)
 #badge_devel("timriffe/DemoTools", "yellow")
+

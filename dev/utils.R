@@ -527,7 +527,40 @@ getModelLifeTable <- function(ModelName, Sex){
 
 
 
+library(DemoTools)
 
+pop1 <- runif(20)
+Age1 <- 0:19
+pop2 <- DemoTools::groupAges(pop1,0:19) * c(1.1,1.05,.95,1.01)
+Age2 <- seq(0,15,by=5)
+Value1 <- pop1
+Value2 <- pop2
+
+# I'll use rescale.vector
+rescaleAgeGroups <- function(Value1, Age1, Value2, Age2, OAG = FALSE){
+	N1          <- length(Value1)
+	
+	if (OAG){
+		OA1 <- Age1[N1]
+		OA2 <- Age2[length(Age2)]
+	}
+	stopifnot(N1 == length(Age1))
+	stopifnot(is_single(Age1))
+	
+	
+	int2        <- age2int(Age = Age2, OAG = OAG, OAvalue = 1)
+	
+	stopifnot(sum(int2) == length(Age1))
+	
+	AgeN        <- rep(Age2,times = int2)
+	beforeN     <- groupAges(Value1, Age1, AgeN = AgeN)
+	beforeNint  <- rep(beforeN, times = int2)
+	afterNint   <- rep(Value2, times = int2)
+	ratio       <- afterNint / beforeNint
+	Value1 * ratio
+}
+
+rescaleAgeGroups(pop1,Age1,pop2,Age2)
 
 
 
