@@ -97,8 +97,8 @@ age2ageN <- function(Age, OAG = FALSE){
 #' repeat age lower bounds once for each single age
 #' @description This is a frequent grouping situation. For a given vector of lower age bounds, as implied by \code{AgeInt}, repeat each value N times, where N is the width of the corresponding age interval. Age intervals are in this case given, and age lower bound values are calculated from \code{AgeInt} vector.
 #' @details If {OAG = TRUE} then the last value is given just once, irrespective of the final value of \code{AgeInt}, otherwise the final age interval is repeated \code{AgeInt[length(AgeInt)]} times. Here intervals do not need to be of uniform width.
-#' @param Age integer. Vector of lower age bounds.
-#' #' @param OAG logical. Whether or not the final age group open. Default \code{FALSE}. See details
+#' @param AgeInt integer or numeric. Vector of age intervals.
+#' @param OAG logical. Whether or not the final age group open. Default \code{FALSE}. See details
 #' @return integer vector of elements of \code{Age} repeated once for each implied single age.
 #' @export
 #' @examples 

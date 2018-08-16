@@ -7,8 +7,9 @@
 int2ageN(AgeInt, OAG)
 }
 \arguments{
-\item{Age}{integer. Vector of lower age bounds.
-#' @param OAG logical. Whether or not the final age group open. Default \code{FALSE}. See details}
+\item{AgeInt}{integer or numeric. Vector of age intervals.}
+
+\item{OAG}{logical. Whether or not the final age group open. Default \code{FALSE}. See details}
 }
 \value{
 integer vector of elements of \code{Age} repeated once for each implied single age.
