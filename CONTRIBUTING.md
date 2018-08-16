@@ -36,8 +36,8 @@ When filing an issue, the most important thing is to include a minimal reproduci
        2. Copy the output
        3. In my reproducible script, type `mtcars <- ` then paste.
        
-    But even better is if you can create a `data.frame()` with just a handful
-    of rows and columns that still illustrates the problem.
+    But even better is if you can create simple objects such as those
+    used in the function examples for most top-level methods in the package.
   
 1.  Spend a little bit of time ensuring that your **code** is easy for others to
     read:
@@ -82,13 +82,13 @@ A pull request is a process, and unless you're a practiced contributor it's unli
 
 1.  You submit the pull request.
 
-2.  We review at a high-level and determine if this is something that we want
+1.  We review at a high-level and determine if this is something that we want
     to include in the package. If not, we'll close the pull request and 
     suggest an alternative home for your code.
     
-3.  We'll take a closer look at the code and give you feedback.
+1.  We'll take a closer look at the code and give you feedback.
 
-4.  You respond to our feedback, update the pull request and add a comment 
+1.  You respond to our feedback, update the pull request and add a comment 
     like "PTAL" (please take a look). 
 
 Don't worry if your pull request isn't perfect. It's a learning process and we'll be happy to help you out. 
