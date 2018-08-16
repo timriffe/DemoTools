@@ -248,6 +248,9 @@ ratx <- function(fx, k = 1){
 #' Ages <- seq(0, 85, by = 5)
 #' splitUniform(MalePop, Age = Ages)
 splitUniform <- function(Counts, AgeInt, Age, OAG = TRUE, OAvalue = 1){
+	if (missing(Age) & missing(AgeInt)){
+		Age <- names2age(Counts)
+	}
 	if (missing(AgeInt)){
 		# give 1 to final interval to preserve
 		AgeInt <- age2int(Age, OAG = OAG, OAvalue = OAvalue)
