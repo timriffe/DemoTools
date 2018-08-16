@@ -527,8 +527,6 @@ getModelLifeTable <- function(ModelName, Sex){
 
 
 
-# TODO in progress
-
 #' rescale counts in age groups to match counts in different age groups
 #' @description This method rescales a vector of counts in arbitrary (integer) age groups to approximate a vector of counts in a potentially different age grouping. Common use cases will be to scale single ages (whose age pattern we wish to roughly maintain) to sum to abridged or 5-year age groups from another source. The counts to be rescaled could potentially be in any grouping (see example). 
 #' @details If the final age group is open, define its age interval as 1.

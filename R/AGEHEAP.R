@@ -69,17 +69,15 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 	return(whip)
 }
 
-
+# test to see if can override inheritParams
 #' Calculate Myer's blended index of age heaping
 
 #' @description Implementation following the PASEX spreadsheet SINGAGE. Myers' measures preferences for each of the ten possible digits
 #' as a blended index. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits
 #'  0 to 9 should represent 10 percent of the total population.
-#' @param Value numeric. A vector of demographic counts by single age.
-#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
-#' @param ageMin integer. The lowest age included in calculations. Default 10.
+#' @inheritParams Whipple
 #' @param ageMax integer. The upper age bound used for calculations. Default 89.
-
+#' 
 #' @details \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
 #' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. \code{ageMax} may be
 #' internally rounded down if necessary so that \code{ageMax - ageMin + 1} is evenly divisible by 10.

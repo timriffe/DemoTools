@@ -11,7 +11,7 @@ Myers(Value, Age, ageMin = 10, ageMax = 89)
 
 \item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{integer. The lowest age included in calculations. Default 10.}
+\item{ageMin}{integer. The lowest age included in calculations. Default 25.}
 
 \item{ageMax}{integer. The upper age bound used for calculations. Default 89.}
 }
