@@ -533,7 +533,16 @@ getModelLifeTable <- function(ModelName, Sex){
 #' 
 #' Presently the intermediate splitting function assumes that counts inside the age groups of population 1 are uniformly distributed, although this may be relaxed if other methods become available whose behavior matches that of \code{splitUniform()}. \code{splitMono()} will be modified soon to be applicable here. 
 #' 
-#' The method works by first spl
+#' The method is an original contribution. It works by first splitting the counts of \code{Value1} to single ages using the assumptions of \code{splitfun()}, which presently only works for \code{splitUniform()}. \code{Value1} is then rescaled such that were it re-grouped to match the age classes of \code{Value2} they would be identical. If \code{recursive = FALSE}, the single-age rescaled \code{Value1} data are returned regrouped to their original ages. If \code{recursive = TRUE}, the process is repeated until \code{Value1} is rescaled such that it could be split and regrouped to \code{Value2} using the same process a single time with no need for further rescaling. If age groups in \code{Value1} are very irregular, \code{recursive = TRUE} can induce noise (see example). If the age groups of \code{Value1} nest cleanly within the age groups of \code{Value2} then recursion is unnecessary. This is the case, for example, whenever \code{Value1} is in single ages and \code{Value2} is in grouped ages, which is likely the most common usage scenario.
+#' @param Value1 numeric vector. A vector of demographic counts for population 1.
+#' @param AgeInt1 integer vector. Age interval widths for population 1.
+#' @param Value2 numeric vector. A vector of demographic counts for population 2.
+#' @param AgeInt2 integer vector. Age interval widths for population 2.
+#' @param splitfun function to use for splitting \code{pop1}. Presently on \code{splitUniform()} works.
+#' @param recursive logical. Shall we repeat the split/regroup/rescale process until stable? See details. Default \code{FALSE}.
+#' @param tol numeric. Default 1e-3. The numerical tolerance for the residual. Used to detect stability if \code{recursive = TRUE}.
+#' @export
+#' 
 #' @examples
 #' # just to make a point about arbitrary integer age widths in both pop1 and pop2
 #' # note if pop1 is in single ages and pop2 is in groups things work much cleaner.
@@ -616,7 +625,7 @@ rescaleAgeGroups <- function(
 		AgeInt2, 
 		splitfun = splitUniform, 
 		recursive = FALSE,
-		res = 1e-3){
+		tol = 1e-3){
 	N1          <- length(Value1)
 	# ages must cover same span
 	stopifnot(sum(AgeInt1) == sum(AgeInt2))
@@ -655,7 +664,7 @@ rescaleAgeGroups <- function(
 	# check for recursion
 	newN        <- splitfun(out, AgeInt = AgeInt1)
 	check       <- groupAges(newN, AgeS, AgeN = AgeN2)
-	if (max(abs(check-pop2)) < res | !recursive){
+	if (max(abs(check-pop2)) < tol | !recursive){
 		return(out)
 	} else {
 		rescaleAgeGroups(
