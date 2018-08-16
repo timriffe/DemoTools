@@ -1,9 +1,14 @@
 
 # Author: tim
 ###############################################################################
-
+# TODO: 1) splitMono() should be flexible wrt AgeInt, perhaps taking an AgeInt arg.
+# follow same detection protocol as in splitUniform to produce intermediate pieces 
+# needed. Be sure to extend over final interval if OAG = FALSE.
 
 splitUniform <- function(Counts, AgeInt, Age, OAG = TRUE, OAvalue = 1){
+	if (missing(Age) & missing(AgeInt)){
+		Age <- names2age(Counts)
+	}
 	if (missing(AgeInt)){
 		# give 1 to final interval to preserve
 		AgeInt <- age2int(Age, OAG = OAG, OAvalue = OAvalue)
@@ -16,6 +21,7 @@ splitUniform <- function(Counts, AgeInt, Age, OAG = TRUE, OAvalue = 1){
 	names(out) <- min(Age):(min(Age) + length(out) - 1)
 	out
 }
+
 
 
 # we want splitMono() to emulate this behavior
@@ -44,8 +50,11 @@ splitMono <- function(Value, Age, OAG = FALSE){
 	names(single.out) <- min(Age):max(Age)
 	single.out
 }
-splitMono(Value)
-splitUniform(Value)
+splitMono(Value, OAG = FALSE)      # OAG = TRUE implies identical behavior,
+splitUniform(Value, OAG = FALSE)   # OAG = FALSE splitUniform extends final age group through,
+
+# if OAG = FALSE, identical shape
+
  Value <- structure(c(88623, 90842, 93439, 96325, 99281, 102051, 104351, 
 				 106555, 109170, 112188, 113582, 112614, 108904, 102622, 95867, 
 				 80874, 60196, 37523, 17927, 5642, 1110), .Names = c("0", "5", 
