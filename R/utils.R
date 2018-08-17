@@ -227,7 +227,7 @@ ratx <- function(fx, k = 1){
 #' 
 #' @description Uniformly splits aggregate counts in age groups into single year age groups.
 #' 
-#' @param Counts numeric. Vector of counts in grouped ages.
+#' @param Value numeric. Vector of (presumably) counts in grouped ages.
 #' @param AgeInt integer or numeric. Vector of age intervals. 
 #' @param Age numeric. Vector of ages corresponding to the lower integer bound of the age range.
 #' @param OAG boolean. Argument that determines whether the final age group (assumed open ended) is kept as it is or has the same length as the rest of the age groups. Default is FALSE, i.e. use the same length for the final age group.
@@ -247,9 +247,9 @@ ratx <- function(fx, k = 1){
 #' 		9015381,10325432,9055588,5519173)
 #' Ages <- seq(0, 85, by = 5)
 #' splitUniform(MalePop, Age = Ages)
-splitUniform <- function(Counts, AgeInt, Age, OAG = TRUE, OAvalue = 1){
+splitUniform <- function(Value, AgeInt, Age, OAG = TRUE, OAvalue = 1){
 	if (missing(Age) & missing(AgeInt)){
-		Age <- names2age(Counts)
+		Age <- names2age(Value)
 	}
 	if (missing(AgeInt)){
 		# give 1 to final interval to preserve
@@ -259,7 +259,7 @@ splitUniform <- function(Counts, AgeInt, Age, OAG = TRUE, OAvalue = 1){
 		Age <- cumsum(AgeInt) - AgeInt
 	}
 	# discount for single
-	out <- rep(Counts / AgeInt, times = AgeInt)
+	out <- rep(Value / AgeInt, times = AgeInt)
 	names(out) <- min(Age):(min(Age) + length(out) - 1)
 	out
 }

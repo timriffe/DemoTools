@@ -4,10 +4,10 @@
 \alias{splitUniform}
 \title{Convert arbitrary age groupings into single years of age.}
 \usage{
-splitUniform(Counts, AgeInt, Age, OAG = TRUE, OAvalue = 1)
+splitUniform(Value, AgeInt, Age, OAG = TRUE, OAvalue = 1)
 }
 \arguments{
-\item{Counts}{numeric. Vector of counts in grouped ages.}
+\item{Value}{numeric. Vector of (presumably) counts in grouped ages.}
 
 \item{AgeInt}{integer or numeric. Vector of age intervals.}
 

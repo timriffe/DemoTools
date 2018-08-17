@@ -41,7 +41,7 @@ carrier_farrag_smth <- function(Value,
 	# these values are not used, it's just for lengths, and to make sure we 
 	# end on an even 10. Technically we could even provide data in 10-year
 	# age groups and it'd still not break.
-	Value1     <- splitUniform(Counts = Value, Age = Age, OAG = OAG)
+	Value1     <- splitUniform(Value = Value, Age = Age, OAG = OAG)
 	Value5     <- groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
 	N          <- length(Value5)
 	Age5       <- as.integer(names(Value5))
@@ -108,7 +108,7 @@ kkn_smth <- function(Value,
 	# these values are not used, it's just for lengths, and to make sure we 
 	# end on an even 10. Technically we could even provide data in 10-year
 	# age groups and it'd still not break.
-	Value1     <- splitUniform(Counts = Value, Age = Age, OAG = OAG)
+	Value1     <- splitUniform(Value = Value, Age = Age, OAG = OAG)
 	Value5     <- groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
 	N          <- length(Value5)
 	Age5       <- as.integer(names(Value5))
@@ -176,7 +176,7 @@ arriaga_smth <- function(Value,
 	# these values are not used, it's just for lengths, and to make sure we 
 	# end on an even 10. Technically we could even provide data in 10-year
 	# age groups and it'd still not break.
-	Value1     <- splitUniform(Counts = Value, Age = Age, OAG = OAG)
+	Value1     <- splitUniform(Value = Value, Age = Age, OAG = OAG)
 	Value5     <- groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
 	N          <- length(Value5)
 	Age5       <- as.integer(names(Value5))
@@ -323,7 +323,7 @@ strong_smth <- function(Value,
 	# these values are not used, it's just for lengths, and to make sure we 
 	# end on an even 10. Technically we could even provide data in 10-year
 	# age groups and it'd still not break.
-	Value1     <- splitUniform(Counts = Value, Age = Age, OAG = OAG)
+	Value1     <- splitUniform(Value = Value, Age = Age, OAG = OAG)
 	Value5     <- groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
 	N          <- length(Value5)
 	Age5       <- as.integer(names(Value5))

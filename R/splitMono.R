@@ -5,12 +5,8 @@
 #' 
 #' @details The \code{"monoH.FC"} method of \code{stats::splinefun()} is used to fit the spline because 1)
 #' it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) 
-#' it seems to be a bit less wiggly (lower average first differences of split counts). Data may be given in single or grouped ages.
-#' 
-#' @param Value numeric. Vector of counts in age groups.
-#' @param Age integer. Vector of lower bound of age groups.
-#' @param OAG logical. Whether or not to re-impute the last 
-#' element of \code{Value} as the open age group. Default \code{FALSE}.
+#' it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages.
+#' @inheritParams splitUniform
 #' @return Numeric. vector of single smooothed age counts.
 #' @importFrom stats splinefun
 #' @references 
@@ -45,34 +41,51 @@
 #' 		44015, 19172, 329149, 48004, 28574, 9200, 7003, 75195, 13140, 
 #' 		5889, 18915, 21221, 72373), .Names = 0:100)
 #'  
-#'  from_single  <- splitMono(Value, OAG = TRUE) 
-#'  # compare, had we pre-grouped ages:
-#'  Val5         <- groupAges(Value, N=5, shiftdown = 0)
-#'  from_grouped <- splitMono(Val5, OAG = TRUE)
-#'  # de facto unit test:
-#'  stopifnot(all(from_single == from_grouped))
 
-splitMono <- function(Value, Age, OAG = FALSE){
+splitMono <- function(Value, AgeInt, Age, OAG = FALSE){
+	if (missing(Age) & missing(AgeInt)){
+		Age    <- names2age(Value)
+	}
+	if (missing(AgeInt)){
+		# give 1 to final interval to preserve
+		AgeInt <- age2int(Age, OAG = OAG, OAvalue = 1)
+	}
 	if (missing(Age)){
-		Age               <- as.integer(names(Value))
+		Age    <- int2age(AgeInt)
 	}
 	
-	# this is innocuous if ages are already grouped
-	Age5       <- calcAgeN(Age, N = 5)
-	pop5       <- groupAges(Value, Age = Age, AgeN = Age5, shiftdown = 0)
+	# if age is single return as-is
+	if (is_single(Age)){
+		return(Value)
+	}
 	
-	AgePred    <- min(Age):(max(Age) + 1)
-	y          <- c(0, cumsum(pop5))
-	x          <- c(0, sort(unique(Age5)) + 5)
-	y1         <- splinefun(y ~ x, method = "monoH.FC")(AgePred)
-	single.out <- diff(y1)
+	# if last age Open, we preserve it
 	if (OAG){
-		single.out[length(single.out)] <- pop5[length(pop5)]
+		N       <- length(Value)
+		OAvalue <- Value[N]
+		Value   <- Value[-N]
+		Age     <- Age[-N]
+		AgeInt  <- AgeInt[-N]
+	}
+	# if the final age is Open, then we should remove it and then
+	# stick it back on
+	
+	AgePred    <- c(min(Age), cumsum(AgeInt))
+	y          <- c(0, cumsum(Value))
+	AgeS       <- min(Age):sum(AgeInt) 
+	y1         <- splinefun(y ~ AgePred, method = "monoH.FC")(AgeS)
+	out        <- diff(y1)
+	names(out) <- AgeS[-length(AgeS)]
+	
+	# The open age group is maintained as-is.
+	if (OAG){
+		out              <- c(out, OAvalue)
+		names(out)       <- AgeS
 	}
 	
-	names(single.out) <- min(Age):max(Age)
-    single.out
+	out
 }
+
 
 #' blend the Sprague upper boundary age estimates into monotonic spline estimates
 #' 
@@ -146,13 +159,14 @@ splitMono <- function(Value, Age, OAG = FALSE){
 #' 		legend = c("sprague()","monoCloseout()", "splitMono()"))
 #' }
 
-monoCloseout <- function(popmat, pops, pivotAge = 90, splitfun = sprague, OAG = FALSE, ...){
+monoCloseout <- function(popmat, pops, pivotAge = 90, splitfun = sprague, OAG = TRUE, ...){
 	popmat <- as.matrix(popmat)
 	if (missing(pops)){
-		pops    <- splitfun(popmat, ...)
+		pops    <- splitfun(popmat, OAG = OAG, ...)
 	}
 	# get the spline population split
 	AgeIn   <- as.integer(rownames(popmat))
+	# this does not smooth single ages, it only splits to single
 	popmono <- apply(popmat, 2, splitMono, OAG = OAG, Age = AgeIn)
 	
 	# some age pars

@@ -64,5 +64,5 @@ library(DependenciesGraphs)
 
 library(DemoTools) # The package we want to explore
 # before tinkering with an older function, note which functions depend on it
-deps <- funDependencies("package:DemoTools","splitMono")
+deps <- funDependencies("package:DemoTools","splitUniform")
 plot(deps)

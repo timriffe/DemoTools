@@ -4,15 +4,16 @@
 \alias{splitMono}
 \title{Split age groups using a monotonic spline.}
 \usage{
-splitMono(Value, Age, OAG = FALSE)
+splitMono(Value, AgeInt, Age, OAG = FALSE)
 }
 \arguments{
-\item{Value}{numeric. Vector of counts in age groups.}
+\item{Value}{numeric. Vector of (presumably) counts in grouped ages.}
 
-\item{Age}{integer. Vector of lower bound of age groups.}
+\item{AgeInt}{integer or numeric. Vector of age intervals.}
 
-\item{OAG}{logical. Whether or not to re-impute the last 
-element of \code{Value} as the open age group. Default \code{FALSE}.}
+\item{Age}{numeric. Vector of ages corresponding to the lower integer bound of the age range.}
+
+\item{OAG}{boolean. Argument that determines whether the final age group (assumed open ended) is kept as it is or has the same length as the rest of the age groups. Default is FALSE, i.e. use the same length for the final age group.}
 }
 \value{
 Numeric. vector of single smooothed age counts.
@@ -24,7 +25,7 @@ differences split back single-age estimates of \code{Value}. Optionally keep the
 \details{
 The \code{"monoH.FC"} method of \code{stats::splinefun()} is used to fit the spline because 1)
 it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) 
-it seems to be a bit less wiggly (lower average first differences of split counts). Data may be given in single or grouped ages.
+it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages.
 }
 \examples{
 Value <- structure(c(88623, 90842, 93439, 96325, 99281, 102051, 104351, 
@@ -55,12 +56,6 @@ Value <- structure(c(9544406, 7471790, 11590109, 11881844, 11872503, 12968350,
 		44015, 19172, 329149, 48004, 28574, 9200, 7003, 75195, 13140, 
 		5889, 18915, 21221, 72373), .Names = 0:100)
  
- from_single  <- splitMono(Value, OAG = TRUE) 
- # compare, had we pre-grouped ages:
- Val5         <- groupAges(Value, N=5, shiftdown = 0)
- from_grouped <- splitMono(Val5, OAG = TRUE)
- # de facto unit test:
- stopifnot(all(from_single == from_grouped))
 }
 \references{
 \insertRef{fritsch1980monotone}{DemoTools}
