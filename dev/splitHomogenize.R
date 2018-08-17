@@ -140,3 +140,108 @@ popmat <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933,
 						"10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", 
 						"65", "70", "75", "80", "85", "90", "95", "100"), c("1950", "1951", 
 						"1952", "1953", "1954")))
+
+
+set.seed(3)
+AgeIntRandom <- sample(1:5, size = 15,replace = TRUE)
+AgeInt5      <- rep(5, 9)
+original     <- runif(45, min = 0, max = 100)
+pop1         <- groupAges(original, 0:45, AgeN = int2ageN(AgeIntRandom, FALSE))
+pop2         <- groupAges(original, 0:45, AgeN = int2ageN(AgeInt5, FALSE))
+# inflate (in this case) pop2
+perturb      <- runif(length(pop2), min = 1.05, max = 1.2)
+
+pop2         <- pop2 * perturb
+
+# a recursively constrained solution
+(pop1resc <- rescaleAgeGroups(Value1 = pop1, 
+					AgeInt1 = AgeIntRandom,
+					Value2 = pop2, 
+					AgeInt2 = AgeInt5, 
+					splitfun = splitUniform, 
+					recursive = TRUE))
+# a single pass adjustment (no recursion)
+(pop1resc1 <- rescaleAgeGroups(Value1 = pop1, 
+					AgeInt1 = AgeIntRandom,
+					Value2 = pop2, 
+					AgeInt2 = AgeInt5, 
+					splitfun = splitUniform, 
+					recursive = FALSE))
+(pop1rescm <- rescaleAgeGroups(Value1 = pop1, 
+					AgeInt1 = AgeIntRandom,
+					Value2 = pop2, 
+					AgeInt2 = AgeInt5, 
+					splitfun = splitMono, 
+					recursive = TRUE))
+# a single pass adjustment (no recursion)
+(pop1resc1m <- rescaleAgeGroups(Value1 = pop1, 
+					AgeInt1 = AgeIntRandom,
+					Value2 = pop2, 
+					AgeInt2 = AgeInt5, 
+					splitfun = splitMono, 
+					recursive = FALSE))
+
+
+
+## Not run:
+
+
+# show before / after
+plot(NULL,xlim=c(0,45),ylim=c(0,2),main = "Different (but integer) intervals",
+		xlab = "Age", ylab = "", axes = FALSE)
+x1 <- c(0,cumsum(AgeIntRandom))
+rect(x1[-length(x1)],1,x1[-1],2,col = gray(.8), border = "white")
+x2 <- c(0,cumsum(AgeInt5))
+rect(x2[-length(x2)],0,x2[-1],1,col = "palegreen1", border = "white")
+text(23,1.5,"Original (arbitrary grouping)",font = 2, cex=1.5)
+text(23,.5,"Standard to rescale to (arbitrary grouping)",font = 2, cex=1.5)
+axis(1)
+
+# adjustment factors:
+plot(int2age(AgeInt5), perturb, ylim = c(0, 2))
+points(int2age(AgeIntRandom), pop1resc / pop1, pch = 16)
+# non-recursive is less disruptive for uniform
+points(int2age(AgeIntRandom), pop1resc1 / pop1, pch = 16, col = "blue")
+
+# show before / after under uniform (in pop1) assumption.
+plot(NULL, xlim = c(0, 45), ylim = c(0, 150), main = "Uniform constraint")
+lines(0:44, splitUniform(pop1, AgeInt = AgeIntRandom, OAG = FALSE), col = "red")
+lines(0:44, splitUniform(pop2, AgeInt = AgeInt5, OAG = FALSE), col = "blue")
+lines(0:44, splitUniform(pop1resc, AgeInt = AgeIntRandom, OAG = FALSE), 
+		col = "orange", lty = 2, lwd = 2)
+lines(0:44, splitUniform(pop1resc1, AgeInt = AgeIntRandom, OAG = FALSE), 
+		col = "magenta", lty = 2, lwd = 2)
+legend("topright",
+		lty = c(1, 1, 2, 2),
+		col = c("red", "blue", "orange", "magenta"),
+		lwd = c(1, 1, 2, 2),
+		legend = c("Original N1", "Prior N2",
+				"Rescaled N1 recursive", "Rescaled N1 1 pass"))
+## End(Not run)
+
+plot(NULL, xlim = c(0, 45), ylim = c(0, 150), main = "Uniform constraint")
+lines(0:44, splitUniform(pop1, AgeInt = AgeIntRandom, OAG = FALSE), col = "red")
+lines(0:44, splitUniform(pop2, AgeInt = AgeInt5, OAG = FALSE), col = "blue")
+
+lines(0:44, splitUniform(pop1resc, AgeInt = AgeIntRandom, OAG = FALSE), 
+		col = "orange", lty = 2, lwd = 2)
+lines(0:44, splitUniform(pop1resc1, AgeInt = AgeIntRandom, OAG = FALSE), 
+		col = "magenta", lty = 2, lwd = 2)
+
+
+#legend("topright",
+#		lty = c(1, 1, 2, 2),
+#		col = c("red", "blue", "orange", "magenta"),
+#		lwd = c(1, 1, 2, 2),
+#		legend = c("Original N1", "Prior N2",
+#				"Rescaled N1 recursive", "Rescaled N1 1 pass"))
+
+
+plot(NULL, xlim = c(0, 45), ylim = c(0, 150), main = "Uniform constraint")
+lines(0:44, splitMono(pop1, AgeInt = AgeIntRandom, OAG = FALSE), col = "red")
+lines(0:44, splitMono(pop2, AgeInt = AgeInt5, OAG = FALSE), col = "blue")
+
+lines(0:44, splitMono(pop1rescm, AgeInt = AgeIntRandom, OAG = FALSE), 
+		col = "orange", lty = 2, lwd = 2)
+lines(0:44, splitMono(pop1resc1m, AgeInt = AgeIntRandom, OAG = FALSE), 
+		col = "magenta", lty = 2, lwd = 2)
