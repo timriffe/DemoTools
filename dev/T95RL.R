@@ -1,94 +1,159 @@
+# Author: Juan Galeano
+# TR: TODO: if abridged data give, group to 5. Remove ns arg. make util for ns stuff.
+# handle OAG with care.
 
-# Author: Juan Galeano & Tim Riffe
+# This is rather obtuse, going to do a fresh implementation.
 ###############################################################################
 
-# this is here to preserve the old version / compare
-T9R5L_old <- function(Value, Age, ns = 0){
+#' Feeney'S formula on 9 years to correct for heaping on multiples of 5.
+
+#' @description  Fenney's technique for correcting age distributions for heaping on multiples of five.
+
+#' @param Value numeric. A vector of demographic counts in single age groups.
+#' @param Age numeric or character. A vector with ages in single years.
+#' @param ns numeric. Cases of unknown (not-stated) age. By default this is equal to 0.
+#' @param maxit integer. Maximum number of iterations.
+
+#' @details Value is assumed to be in single ages. The last element of Value is assumed to be the open age group, and it is assumed that this age is evenly divisible by 5.
+
+#' @return a dataframe with 4 columns: 
+#' \itemize{
+#'   \item Age 
+#'   \item Age Interval character 5, except open age group and unstated ages.
+#'   \item recorded numeric original data grouped to 5-year ages.
+#'   \item corrected numeric adjusted data in 5-year age groups.
+#' } 
+#' 
+#' @export
+#' @references 
+#' \insertRef{feeney1979}{DemoTools}
+
+#' @examples 
+#' # data from feeney1979, Table 1, page 12: Population of Indonesia, 22 provinces, 
+#' # by single year of age: Census of 24 September 1971.
+#'  Pop <- c(2337,3873,3882,3952,4056,3685,3687,3683,3611,3175,
+#'          3457,2379,3023,2375,2316,2586,2014,2123,2584,1475,
+#'          3006,1299,1236,1052,992,3550,1334,1314,1337,942,
+#'          3951,1128,1108,727,610,3919,1221,868,979,637,
+#'          3409,887,687,533,313,2488,677,426,524,333,
+#'          2259,551,363,290,226,1153,379,217,223,152,
+#'          1500,319,175,143,89,670,149,96,97,69,
+#'          696,170,60,38,23,745)
+#'  Ages <- 0:75
+#'  result <- T9R5L(Pop, Ages, ns = 15)
+#' 
+#'  \dontrun{
+#'  plot(Ages, Pop, type= 'l')
+#'  segments(result$Age,
+#' 		 result$recorded/5,
+#' 		 result$Age+5,
+#' 		 result$recorded/5,
+#' 		 col = "blue")
+#'  segments(result$Age,
+#' 		 result$corrected/5,
+#' 		 result$Age+5,
+#' 		 result$corrected/5,
+#' 		 col = "red")
+#'  legend("topright",col=c("black","blue","red"),
+#'    lty=c(1,1,1),
+#'    legend=c("recorded 1","recorded 5","corrected 5"))
+#' }
+#' 
+#'  # some checks 
+#' tab2_answer <- c(18004,17351,14018,10927,8837,8145,7823,7029,
+#' 		5748,4326,3289,2415,1794,1197,982,741,0)
+#'  
+#'  # make sure sums match
+#'  stopifnot(abs(sum(result$corrected,na.rm=TRUE)-
+#'  sum(result$recorded,na.rm=TRUE))<1e-8)
+#' 
+#'  # compare results with original Feeney table
+#'  difference <- round(T9R5L(Pop, Ages, ns = 15, maxit = 100)$corrected) - tab2_answer
+#' # apaprently the open age group is handled differently?
+#'  stopifnot(max(abs(difference[1:16])) <= 2)
+
+T9R5L <- function(Value, Age, ns = 0, maxit = 100, OAG = TRUE){
 	
-	# Get Px and Pxsum (Px+)  
-	PxPxsum<- function(x){
-		
-		Px    <- x[seq(1, length(x), 5)]
-		A2    <- Px[ -length(Px)]
-		sum04 <- as.numeric(tapply( x, (seq_along(x)-1) %/% 5, sum))
-		sum04 <- sum04[-length(sum04)]
-		Pxsum <- sum04 - A2
-		aj1   <- list(A2, Pxsum, Px)
-		aj1
-	}
-	
-	inicio<-PxPxsum(Value) # create a list with the three elements 
-	sumPxPxsum<-inicio[[1]]+inicio[[2]]
-	Px<-inicio[[3]]
-	
-	#B<-inicio[[2]]
-	#vector2<-c(1:(length(B)-1))  
-	
-	#for (i in c(1:(length(B)-1))) {
-	#  vector2[i] <- (B[i]+B[i+1])
-	#  vector2
-	#}
-	#vector2
-	
-	#calculate correction factor (CF) and P'x (Pxp) and P'x+ (Pxsump)
-	
-	f_AJUSTE <- function(A,B){
-		
-		CF<-8/9*((A+c(1,zoo::rollapply(B, 2, sum)))/c(1,zoo::rollapply(B, 2, sum)))
-		CF[1]<-1
-		Pxp<-c(A-(CF-1)*c(1,zoo::rollapply(B, 2, sum)))
-		Pxsump<-(c(zoo::rollapply(CF, 2, sum),(CF[length(CF)]+1))-1)*B
-		
-		FACTORC <- CF
-		POB1 <- Pxp
-		POB2 <- Pxsump
-		
-		aj <- list(FACTORC,POB1,POB2)
+	# internal function used iteratively
+	f_adjust <- function(A,B){
+		N       <- length(B)
+		Bup     <- c(1, shift.vector(B, -1, fill = 0) + B)[1:N]
+		FC      <- (8 / 9) * ((A + Bup) / Bup)
+		FC[1]   <- 1
+		POB1    <- c(A - (FC - 1) * Bup)
+		POB2    <- (c(c(shift.vector(FC, -1, fill = 0) + FC)[-N],
+							(FC[N] + 1)) - 1 ) * B
+		# return a list of 3 components	
+		aj       <- list(FC, POB1, POB2)
 		aj
 	}
 	
-	# Iterate 
-	Pxp    <- inicio[[1]]
+	# new checks
+	if (missing(Age)){
+		Age <- names2age(Value)
+	}
+	stopifnot(is_single(Age))
 	
-	Pxsump <- inicio[[2]]
+	N            <- length(Value)
+	a5           <- calcAgeN(Age, N = 5)
+	OAG          <- Value[N]
 	
-
-	# TR?????????????????????
-	for (i in 1:100) {
-		
-		ajuste <- f_AJUSTE(Pxp,Pxsump)
-		Pxp    <- ajuste[[2]] 
-		Pxsump <- ajuste[[3]] 
-		
-		#i <- i + 1
+	# take each single age divisible by 5
+	Px     <- Value[Age %% 5 == 0]
+	P5     <- groupAges(Value, AgeN = a5)
+	
+	# TODO: clean starting here.
+	if (OAG){
+		# assuming final value is open age group
+		Pxp    <- Px[ -length(Px)]
+		P5     <- c(tapply(Value, a5, sum))
+		# assuming final value is open age group
+		P5     <- P5[-length(P5)]
+	}
+	# pop in 5 yr age groups excluding single ages divisible by 5
+	Px4    <- P5 - Pxp
+	
+	n      <- length(P5)
+	
+	# adjustment loop
+	for (i in 1:maxit) {
+		adjust <- f_adjust(A = Pxp, B = Px4)
+		Pxp    <- adjust[[2]] 
+		Px4    <- adjust[[3]] 
+		if (all(abs(adjust[[1]]) < 1e-8)){
+			break
+		}
 	}
 	
-	finalc <- ajuste[[1]] 
-	finalA <- ajuste[[2]]
+	G      <- (Pxp * .6)[c(2:(n - 1))]
+	H      <- (Pxp * .4)[c(3:n)]
+	I      <- G + H #f(x+2.5)
 	
-	result <- list(finalc,finalA,Pxsump)
+	# corrected, but unknowns still need to be redistributed
+	Pxp5   <- c(P5[1], I * 5, P5[n], OAG) 
 	
-	df1 <-result[[2]]
+	# redistribute unknown ages
+	Px5    <- Pxp5 * (sum(Value) + ns) / sum(Pxp5)
 	
-	G<-(df1*.6)[c(2:(length(df1)-1))]
-	H<-(df1*.4)[c(3:length(df1))]
-	I<-G+H #f(x+2.5)
+	# get lower bound to age groups
+	a      <- 0:(N - 1)
+	lower  <- a[a %% 5 == 0]
 	
-	Pxp5 <-c((inicio[[1]][1]+inicio[[2]][1]),I*5,utils::tail(sumPxPxsum,1),utils::tail(Px,1)) #5Pxp
-	
-	Px5<-c(Pxp5*(sum(sumPxPxsum)+utils::tail(Px,1)+ns)/sum(Pxp5))
-	
-	finalresult<-data.frame(Age_group=c(paste(seq(from = 0, to = length(Age), by = 5),
-							seq(from = 4, to = length(Age)+4, by = 5), sep="-"),
-					"Not Stated"),
-			recorded=c(sumPxPxsum,utils::tail(Px,1),ns),
-			corrected=c(Px5,NA))
-	# TR: commented out this line because a not defined, broke code
-	#finalresult$Age_group<-paste(as.character(a$Age_group))
-	
-	# TR: I commented this out because it was throwing NAMESPACE errors due to head and tail,
-	# so maybe there's a more parismonious way to do this operation
-	#finalresult[as.numeric(rownames(head(tail(finalresult[1],2),1))),1]<-paste(substr(finalresult[as.numeric(rownames(head(tail(finalresult[1],2),1))),1],1,2),"+",sep="")
-	finalresult
+	# return data.frame of before/after in 5-year age groups.
+	names(Px5) <- Age
+	Px5
 }
 
+Pop <- c(2337,3873,3882,3952,4056,3685,3687,3683,3611,3175,
+		3457,2379,3023,2375,2316,2586,2014,2123,2584,1475,
+		3006,1299,1236,1052,992,3550,1334,1314,1337,942,
+		3951,1128,1108,727,610,3919,1221,868,979,637,
+		3409,887,687,533,313,2488,677,426,524,333,
+		2259,551,363,290,226,1153,379,217,223,152,
+		1500,319,175,143,89,670,149,96,97,69,
+		696,170,60,38,23,745)
+Ages <- c(0:75)
+result <- T9R5L(Pop, Ages, ns = 15)
+sum(result[,3])
+sum(result[,4],na.rm=TRUE)
+sum(Pop) + 15
