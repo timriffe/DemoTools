@@ -67,6 +67,9 @@ library(DemoTools)
 
 # interpolation
 ?interp
+
+# adjustment
+?rescaleAgeGroups
 ```
 Note, at the moment the Sprague family of functions is being updated, and things may not work as expected until changes are complete. Please stand by.
 
