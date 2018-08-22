@@ -65,7 +65,7 @@
 #' M0_4 <- 5/1000
 #' P0_4 <- 4e6
 #' # function usage straightforward, also vectorized.
-#' D0   <- M04_2_D04(D0_4, M0_4, Sex = "m")
+#' D0   <- M04_2_D0(D0_4, M0_4, Sex = "m")
 #' # deaths in ages 1-4 are a separate step.
 #' D1_4 <- D0_4 - D0
 #' 
@@ -87,7 +87,7 @@
 #' segments(1, M1_4, 5, M1_4)
 #' text(1, c(M0, M1_4, M0_4), c("M0", "M1_4", "M0_4"), pos = 3)
 #' }
-M04_2_D04 <- function(D04, M04, P04, Sex = c("m","f")[1]){
+M04_2_D0 <- function(D04, M04, P04, Sex = c("m","f")[1]){
 	if (missing(M04)){
 		M5 <- D04 / P04
 	} else {
@@ -193,7 +193,7 @@ M04_2_D04 <- function(D04, M04, P04, Sex = c("m","f")[1]){
 #' D0_4 <- 2e4
 #' P0_4 <- 4e6
 #' # function usage straightforward, also vectorized.
-#' D0   <- M04_2_D04(D0_4, M0_4, Sex = "m")
+#' D0   <- M04_2_D0(D0_4, M0_4, Sex = "m")
 #' # deaths in ages 1-4 are a separate step.
 #' P0   <- D0 / M0
 #' P1_4 <- P0_4 - P0
