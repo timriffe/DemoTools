@@ -38,6 +38,7 @@ similar after the oscillatory split in such situations.
 \examples{
 # code currently breaking, needs to be revisited and updates completed, sorry
 \dontrun{
+
 Value <- structure(c(9544406, 7471790, 11590109, 11881844, 11872503, 12968350, 
 		 11993151, 10033918, 14312222, 8111523, 15311047, 6861510, 13305117, 
 		 7454575, 9015381, 10325432, 9055588, 5519173, 12546779, 4784102, 

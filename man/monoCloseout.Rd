@@ -4,8 +4,8 @@
 \alias{monoCloseout}
 \title{blend the Sprague upper boundary age estimates into monotonic spline estimates}
 \usage{
-monoCloseout(popmat, pops, pivotAge = 90, splitfun = sprague,
-  OAG = TRUE, ...)
+monoCloseout(popmat, pops, pivotAge = 90, splitfun = sprague, OAG = TRUE,
+  ...)
 }
 \arguments{
 \item{popmat}{a numeric matrix of population counts in 5-year age groups, with integer-labeled 

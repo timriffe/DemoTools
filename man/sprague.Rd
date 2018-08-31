@@ -4,8 +4,7 @@
 \alias{sprague}
 \title{The basic Sprague age-splitting method.}
 \usage{
-sprague(popmat, Age = as.integer(rownames(as.matrix(popmat))),
-  OAG = TRUE)
+sprague(popmat, Age = as.integer(rownames(as.matrix(popmat))), OAG = TRUE)
 }
 \arguments{
 \item{popmat}{numeric. A matrix of population counts in 5-year age groups with integer-labeled 
@@ -69,6 +68,18 @@ Age         <- 0:100
 # notice how this particular case produces a negative value in the last age
 # before OAG:
 pops <- sprague(popmat = Value, Age = Age, OAG = TRUE)
+
+\dontrun{
+yrs <- as.character(1950:1954)
+matplot(0:100,p1, type = 'l', col = 5:9,lty = 1,xlab = 'Age',ylab = 'Counts',
+main= 'Ungrouped counts')
+legend('topright',
+title = 'Year',
+lty=1,
+col=5:9,
+legend = yrs
+)
+}
 }
 \references{
 \insertRef{sprague1880explanation}{DemoTools}
