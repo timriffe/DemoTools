@@ -1,7 +1,7 @@
 # Author: Tim Riffe, based on earlier version from Juan Galeano
 ###############################################################################
 
-#' objective function to minimize Feeney's zigzag method residual
+#' Objective function to minimize Feeney's zigzag method residual
 #' @description This function is auxiliary to \code{zigzag()}, see \code{?zigzag} for a description.
 #' @details This function is not intended to be used at the top level, but just in case, make sure that \code{ageMax = ageMin + 10 * length(p)}. Age groups \code{ >= ageMin} AND \code{ <= ageMin} must be in 5-year age groups. This function does no checks.
 #' @param Value numeric vector of (presumably) counts in 5-year age groups. 

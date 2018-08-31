@@ -2,7 +2,7 @@
 % Please edit documentation in R/ZIGZAG.R
 \name{zigzag_min}
 \alias{zigzag_min}
-\title{objective function to minimize Feeney's zigzag method residual}
+\title{Objective function to minimize Feeney's zigzag method residual}
 \usage{
 zigzag_min(Value, Age, ageMin = 40, ageMax = 80, p)
 }

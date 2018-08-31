@@ -40,7 +40,11 @@
 #' 		1715697, 127486, 150782, 52332, 48664, 456387, 46978, 34448, 
 #' 		44015, 19172, 329149, 48004, 28574, 9200, 7003, 75195, 13140, 
 #' 		5889, 18915, 21221, 72373), .Names = 0:100)
-#'  
+#' 		
+#' 		\dontrun{
+#' 	ages <- seq(0,100,5)
+#'  plot(splitMono(Value),xlab = 'Age', ylab = 'Counts', type = 'l',main = 'Ungrouped counts')
+#' 		}
 
 splitMono <- function(Value, AgeInt, Age, OAG = FALSE){
 	if (missing(Age) & missing(AgeInt)){

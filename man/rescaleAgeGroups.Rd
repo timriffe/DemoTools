@@ -4,9 +4,8 @@
 \alias{rescaleAgeGroups}
 \title{rescale counts in age groups to match counts in different age groups}
 \usage{
-rescaleAgeGroups(Value1, AgeInt1, Value2, AgeInt2,
-  splitfun = c(splitUniform, splitMono)[1], recursive = FALSE,
-  tol = 0.001)
+rescaleAgeGroups(Value1, AgeInt1, Value2, AgeInt2, splitfun = c(splitUniform,
+  splitMono)[1], recursive = FALSE, tol = 0.001)
 }
 \arguments{
 \item{Value1}{numeric vector. A vector of demographic counts for population 1.}

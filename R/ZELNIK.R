@@ -38,6 +38,7 @@
 #' lines(as.integer(names(z1)),z1,col = "blue",lwd=2)
 #' lines(as.integer(names(z2)),z2,col = "red",lwd = 2)
 #' }
+#' \dontshow{
 #' # here some units tests:
 #' # a function required to make original table work
 #' perturb <- function(x, pert = 0, pos = 45){
@@ -80,6 +81,7 @@
 #' d2 <- round(zelnik(perturb(Pop,-40,45),2,Age)) - q2_answer
 #' stopifnot(all(d1[!is.na(d1)] == 0))
 #' stopifnot(all(d2[!is.na(d2)] == 0))
+#' }
 
 zelnik <- function(Value, q, Age){
   # edited/rewritten by TR 21-10-2017
