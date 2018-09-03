@@ -4,8 +4,8 @@
 \alias{beers}
 \title{The ordinary modified Beers splitting methods}
 \usage{
-beers(popmat, Age = as.integer(rownames(as.matrix(popmat))), OAG = TRUE,
-  method = "mod", johnson = FALSE)
+beers(popmat, Age = as.integer(rownames(as.matrix(popmat))),
+  OAG = TRUE, method = "mod", johnson = FALSE)
 }
 \arguments{
 \item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 

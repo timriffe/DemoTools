@@ -4,8 +4,8 @@
 \alias{groupAges}
 \title{Group single ages into equal age groups of arbitrary width}
 \usage{
-groupAges(Value, Age = 1:length(Value) - 1, N = 5, shiftdown = 0, AgeN,
-  OAnew = max(Age))
+groupAges(Value, Age = 1:length(Value) - 1, N = 5, shiftdown = 0,
+  AgeN, OAnew = max(Age))
 }
 \arguments{
 \item{Value}{numeric. Vector of single age counts.}

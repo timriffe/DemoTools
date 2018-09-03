@@ -1,16 +1,12 @@
-#' DemoTools: Standardize, Evaluate, and Adjust Demographic Data
-#' 
+
+# DemoTools: Standardize, Evaluate, and Adjust Demographic Data
+# "_PACKAGE" imports the details from DESCRIPTION
+
 #' @import demogR Rdpack
-#' @author \itemize{
-#' \item {Tim Riffe}
-#' \item {Jose Manuel Aburto}
-#' \item {Sean Fennell}
-#' \item {Marius D. Pascariu}
-#' }
-#' 
-#' Maintainer: Tim Riffe  <tim.riffe@@gmail.com>
+#' @importFrom MortalityLaws MortalityLaw
+#' @importFrom stats coef predict
 #' @name DemoTools-package
 #' @docType package
-NULL
+"_PACKAGE"
 
 # examples forthcoming

@@ -4,7 +4,8 @@
 \alias{grabill}
 \title{The basic Grabill age-splitting method}
 \usage{
-grabill(popmat, Age = as.integer(rownames(as.matrix(popmat))), OAG = TRUE)
+grabill(popmat, Age = as.integer(rownames(as.matrix(popmat))),
+  OAG = TRUE)
 }
 \arguments{
 \item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 

@@ -6,3 +6,13 @@
 *.Rhistory
 /inst/REFERENCES.bib.bak
 .Rproj.user
+*.Rproj
+
+# History files
+.Rhistory
+.Rapp.history
+.DS_Store
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
