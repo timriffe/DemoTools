@@ -2,18 +2,34 @@
 % Please edit documentation in R/DemoTools-package.R
 \docType{package}
 \name{DemoTools-package}
+\alias{DemoTools}
 \alias{DemoTools-package}
 \title{DemoTools: Standardize, Evaluate, and Adjust Demographic Data}
 \description{
-DemoTools: Standardize, Evaluate, and Adjust Demographic Data
+A collection of classic demographic methods used to evaluate, adjust, and standardize demographic data.
 }
-\author{
+\seealso{
+Useful links:
 \itemize{
-\item {Tim Riffe}
-\item {Jose Manuel Aburto}
-\item {Sean Fennell}
-\item {Marius D. Pascariu}
+  \item Report bugs at \url{https://github.com/timriffe/DemoTools/issues}
 }
 
-Maintainer: Tim Riffe  <tim.riffe@gmail.com>
+}
+\author{
+\strong{Maintainer}: Tim Riffe \email{tim.riffe@gmail.com}
+
+Authors:
+\itemize{
+  \item Sean Fennell
+  \item Jose Manuel Aburto
+}
+
+Other contributors:
+\itemize{
+  \item Juan Galeano [contributor]
+  \item Marius D. Pascariu [contributor]
+  \item Derek Burk [contributor]
+  \item Greg Freedman Ellis [contributor]
+}
+
 }
