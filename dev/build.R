@@ -5,7 +5,6 @@ me <- system("whoami",TRUE)
 if (me == "tim"){
 	setwd("/home/tim/git/DemoTools")
 }
-# add in your own statement like this if you like
 
 
 shhh <- function(expr){
@@ -16,6 +15,7 @@ shhh <- function(expr){
 
 library(devtools)
 library(TimUtils)
+
 #install_github("hadley/devtools")
 #install_github("timriffe/TimUtils/TimUtils")
 # do this whenever new functions are added to /R, or whenever roxygen is updated
@@ -66,3 +66,12 @@ library(DemoTools) # The package we want to explore
 # before tinkering with an older function, note which functions depend on it
 deps <- funDependencies("package:DemoTools","agesmth")
 plot(deps)
+
+
+# for setting options
+#candidates <- c( Sys.getenv("R_PROFILE"),
+#		file.path(Sys.getenv("R_HOME"), "etc", "Rprofile.site"),
+#		Sys.getenv("R_PROFILE_USER"),
+#		file.path(getwd(), ".Rprofile") )
+#
+#Filter(file.exists, candidates)
