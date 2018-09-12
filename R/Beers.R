@@ -270,14 +270,6 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 #' 		         OAG = TRUE,
 #' 			     method = "ord", 
 #' 			     johnson = TRUE)
-#' # copied from spreadsheet output, a de facto unit test, 
-#' output <- c(184499,158163,143895,135416,130151,
-#'             126153,122028,117182,111566,105733,
-#' 			101088,96719,92551)
-#' # allow for rounding differences, so maximum absolute 
-#' # difference of 1
-#' stopifnot(max(abs(round(johnson)[1:length(output)] - output)) == 1)
-
 beers <- function(
 		popmat, 
 		Age = as.integer(rownames(as.matrix(popmat))), 

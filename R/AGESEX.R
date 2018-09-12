@@ -15,12 +15,12 @@
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
 
 #' @details Age groups must be of equal intervals. Five year age groups are assumed.
-#'  It is also assumed that the final age group is open, unless \code{ageMax < max(Age)}. 
+#'  It is also assumed that the final age group is open, unless \code{ageMax < max(Age)}.
 #'  Setting \code{OAG = FALSE} will override this and potentially include \code{max(Age)} in calculations.
 #'  The method argument determines the weighting of numerators and denominators, where the UN method puts
-#' twice the numerator over the sum of the adjacent ages classes, Zelnich does thrice the 
-#' numerator over the sum of the whole range from the next lowest to the next highest age, and 
-#' Ramachandran does four times the numerator over the same sum, but with the central age 
+#' twice the numerator over the sum of the adjacent ages classes, Zelnich does thrice the
+#' numerator over the sum of the whole range from the next lowest to the next highest age, and
+#' Ramachandran does four times the numerator over the same sum, but with the central age
 #' double-counted in the numerator.
 
 #' @return The value of the index.
@@ -42,10 +42,7 @@
 #' ageRatioScore(Females, Age, ageMax = 75)  # 3.66 matches PAS
 #' ageRatioScore(Females, Age, ageMax = 75, method = "Ramachandran") # 1.8
 #' ageRatioScore(Females, Age, ageMax = 75, method = "Zelnick")      # 2.4
-#' 
-#' # de facto unit test:
-#' stopifnot(round(ageRatioScore(Males, Age, ageMax = 75) ,3) == 3.907)
-#' stopifnot(round(ageRatioScore(Females, Age, ageMax = 75) ,3) == 3.655)
+
 
 ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "UN", OAG = TRUE){
 	stopifnot(length(Value) == length(Age))
@@ -115,9 +112,7 @@ ageRatioScore <- function(Value, Age, ageMin = 0, ageMax = max(Age), method = "U
 #' 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 #' Age     <- seq(0, 75, by = 5)
 #' sexRatioScore(Males, Females, Age)  # 2.2, matches PAS
-#' # de facto unit test
-#' stopifnot(round(sexRatioScore(Males, Females, Age),3) == 2.249)
-#' stopifnot(round(sexRatioScore(Males, Females, Age, ageMax = 70),3) == 2.249)
+
 
 sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), OAG = TRUE){
 	stopifnot(length(Males) == length(Age) & length(Males) == length(Females))
@@ -183,9 +178,6 @@ sexRatioScore <- function(Males, Females, Age, ageMin = 0, ageMax = max(Age), OA
 #' ageSexAccuracy(Males, Females, Age, method = "Ramachandran")
 #' # Das Gupta not a comparable magnitude, FYI.
 #' ageSexAccuracy(Males, Females, Age, method = "Das Gupta")
-#' 
-#' # de facto unit test:
-#' stopifnot(round(ageSexAccuracy(Males, Females, Age),3) == 14.308)
 ageSexAccuracy <- function(
 		Males, 
 		Females, 
