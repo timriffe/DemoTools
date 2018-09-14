@@ -1,7 +1,7 @@
 
 # Author: tim
 ###############################################################################
-context("IRDID")
+context("test-irdid")
 
 # Table 7.20 in Siegel and Swanson (2004). Make sure cited in IRDID.R
 # under @references tag (using \insertRef{bibtextag}{DemoTools}

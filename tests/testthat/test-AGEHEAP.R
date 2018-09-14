@@ -1,10 +1,9 @@
 
 # Author: ilya
 ###############################################################################
-context("AGEHEAP")
+context("test-ageheap")
 
-
-
+# PASEX spreadsheet SINGAGE
 
 test_that("Whipple replicates SINGAGE males", {
     
