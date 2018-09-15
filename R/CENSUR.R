@@ -55,10 +55,6 @@
 #'  date1 = date1960, 
 #'  date2 = date1970, 
 #'  exprior = ex1)) #.44
-#' \dontshow{
-#' # de facto unit test, from CENSUR~1.XLS
-#' stopifnot(abs(0.444659710063221 - s10) < 1e-12)
-#' }
 #' 
 #' # reproduces CENSUR~3.XLS
 #' # this method called under the hood when censuses are a clean 5 years apart
@@ -69,10 +65,6 @@
 #' 		date1 = date1965,
 #' 		date2 = date1970,
 #' 		exprior = ex2)) #.40
-#' \dontshow{
-#' # de facto unit test, from CENSUR~3.XLS
-#' stopifnot(abs(0.396434724201574- s5) < 1e-12)
-#' }
 #' 
 #' # reproduces CENSUR~2.XLS (if indeed censuses are oddly spaced)
 #' # this method called under the hood when censuses are not spaced 
@@ -84,11 +76,7 @@
 #' 		date1 = date1960fake,
 #' 		date2 = date1970,
 #' 		exprior = ex1)) # 1.067818
-#' \dontshow{
-#' # de facto unit test, from CENSUR~2.XLS
-#' stopifnot(abs(1.06781792562135 - sn) < 1e-12)
-#' }
-
+#' 		
 # result matches CENSUR~2 exactly if you change the
 # decimal dates used in the spreadsheet to the following
 # print(dec.date(date1960fake),digits=15) # date1

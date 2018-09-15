@@ -47,9 +47,6 @@
 #'  (w0 <- Whipple(Value, Age, 25, 60, digit = 0))
 #'  (w5 <- Whipple(Value, Age, 25, 60, digit = 5)) 
 #'  
-#'  # de facto unit test:
-#'  stopifnot(round(w05,2) == 2.34)
-#'  
 #'  # Whipple types
 #'  Whipple(Value, Age, 25, 60, digit = 3) 
 Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
