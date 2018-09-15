@@ -52,9 +52,6 @@ ageSexAccuracy(Males, Females, Age, method = "Zelnick")
 ageSexAccuracy(Males, Females, Age, method = "Ramachandran")
 # Das Gupta not a comparable magnitude, FYI.
 ageSexAccuracy(Males, Females, Age, method = "Das Gupta")
-
-# de facto unit test:
-stopifnot(round(ageSexAccuracy(Males, Females, Age),3) == 14.308)
 }
 \references{
 \insertRef{accuracyun1952}{DemoTools}

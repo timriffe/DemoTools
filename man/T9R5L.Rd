@@ -60,19 +60,6 @@ Value is assumed to be in single ages. The last element of Value is assumed to b
    lty=c(1,1,1),
    legend=c("recorded 1","recorded 5","corrected 5"))
 }
-
- # some checks 
-tab2_answer <- c(18004,17351,14018,10927,8837,8145,7823,7029,
-		5748,4326,3289,2415,1794,1197,982,741,0)
- 
- # make sure sums match
- stopifnot(abs(sum(result$corrected,na.rm=TRUE)-
- sum(result$recorded,na.rm=TRUE))<1e-8)
-
- # compare results with original Feeney table
- difference <- round(T9R5L(Pop, Ages, ns = 15, maxit = 100)$corrected) - tab2_answer
-# apaprently the open age group is handled differently?
- stopifnot(max(abs(difference[1:16])) <= 2)
 }
 \references{
 \insertRef{feeney1979}{DemoTools}

@@ -52,9 +52,6 @@ they are 0 and 5. Otherwise just one digit at a time.
  (w0 <- Whipple(Value, Age, 25, 60, digit = 0))
  (w5 <- Whipple(Value, Age, 25, 60, digit = 5)) 
  
- # de facto unit test:
- stopifnot(round(w05,2) == 2.34)
- 
  # Whipple types
  Whipple(Value, Age, 25, 60, digit = 3) 
 }

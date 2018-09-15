@@ -40,9 +40,6 @@ Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 Age     <- seq(0, 75, by = 5)
 sexRatioScore(Males, Females, Age)  # 2.2, matches PAS
-# de facto unit test
-stopifnot(round(sexRatioScore(Males, Females, Age),3) == 2.249)
-stopifnot(round(sexRatioScore(Males, Females, Age, ageMax = 70),3) == 2.249)
 }
 \references{
 \insertRef{accuracyun1952}{DemoTools}

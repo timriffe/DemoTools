@@ -82,17 +82,6 @@ PASLT <- LTabr(Deaths = Deaths,
 		IMR = .1,
 		region = "n",
 		Sex = "m")
-# de facto unit test. The unsmoothed output from PAS
-# spreadsheet (allow for rounding error in last decimal)
-excheck <- c(56.31,61.53,58.35,53.63, 
-		48.81,44.21,39.83,35.52,
-		31.43,27.22,24.09,20.52,
-		18.12,14.51,12.42,9.45,7.85, 
-		6.09,4.95,4.28,3.85,3.33)
-# final ex values are different because lifetable
-# closeout is via lifetable extention rather than mx inverse.
-ind <- 1:20
-stopifnot(abs(round(PASLT$ex[ind],2) - excheck[ind])== 0)
 
 # examples based on UN 1982 (p. 34)
 Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
@@ -117,11 +106,11 @@ UNLT2 <- LTabr(nMx = Mx,
 		axmethod = "un",
 		Sex = "m", 
 		mod = TRUE)
-# de facto unit test:
-stopifnot(abs(round(UNLT1$ex,2) - round(excheckUN,2)) <= .01)
+		
 #  \dontrun{
 # 	 plot(UNLT2$ex - UNLT1$ex)
 #  }
+
 # a Mortpak unit test:
 # data from  p. 82 United Nations (1988) Mortpak - ...
 MPnMx <- c(0.12846,0.02477,0.00603,0.0034,
@@ -163,13 +152,6 @@ MP_UNLT60 <- LTabr(
 		Sex = "f",
 		mod = FALSE,
 		OAnew = 60)
-# matches published results closely
-stopifnot(max(abs(MP_UNLT100$ex[1:length(MPexcheck)] - MPexcheck)) < .002)
-stopifnot(max(abs(MP_UNLT80$ex - MPexcheck)) < .002)
-
-# identical results irrespective of max age
-stopifnot(abs(MP_UNLT60$ex - MP_UNLT80$ex[1:14]) < 1e-12)
-stopifnot(abs(MP_UNLT80$ex - MP_UNLT100$ex[1:18]) < 1e-12)
 }
 \references{
 \insertRef{greville1977short}{DemoTools}
