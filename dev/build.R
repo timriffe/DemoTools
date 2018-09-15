@@ -59,6 +59,8 @@ versionIncrement(
 
 # -----------------------------------------
 # visualize function dependencies in DemoTools
+#install.packages("yaml")
+#install.packages("visNetwork")
 #devtools::install_github("datastorm-open/DependenciesGraphs")
 library(DependenciesGraphs)
 
