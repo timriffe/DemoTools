@@ -11,7 +11,7 @@
 #' @param pop2 numeric. Vector of counts from population 2.
 #' 
 #' @details Input populations are assumed to be ordered in the same way prior to calling the function. 
-#' It is only checked  that the vectors are of the same length. The input arguments could indeed be popualtions structured on multiple
+#' It is only checked  that the vectors are of the same length. The input arguments could indeed be populations structured on multiple
 #' variables (more than just age), as long as they are ordered in the same way. It is advised to lower 
 #' the open age group for this method because each age has the same weight. Ages where one population 
 #' has a zero count and the other does not are thrown out.
@@ -52,7 +52,7 @@ IRD <- function(pop1, pop2){
 #' This is a simple measure of distribution overlap on the absolute scale.
 #' 
 #' @details Input populations are assumed to be ordered in the same way prior to calling the function. 
-#' It is only checked  that the vectors are of the same length. The input arguments could indeed be popualtions structured on multiple
+#' It is only checked  that the vectors are of the same length. The input arguments could indeed be populations structured on multiple
 #' variables (more than just age), as long as they are ordered in the same way.
 #' 
 #' @param pop1 numeric. Vector of counts from population 1.

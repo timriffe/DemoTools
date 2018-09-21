@@ -13,7 +13,7 @@ mav_smth(Value, Age, OAG = TRUE, n = 3)
 
 \item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
 
-\item{n}{integer. The width of the moving avarage. Default 3 intervals (x-5 to x+9).}
+\item{n}{integer. The width of the moving average. Default 3 intervals (x-5 to x+9).}
 }
 \value{
 numeric vector of smoothed counts in 5-year age groups.

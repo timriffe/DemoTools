@@ -335,7 +335,7 @@ ageSexAccuracyDasGupta <- function(Males, Females, Age, ageMin = 0, ageMax = max
 #' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts.
 #' @param Agei integer. The age on which the index is centered.
 #' 
-#' @details The index looks down two ages and up two ages, so the data must accomodate that range.
+#' @details The index looks down two ages and up two ages, so the data must accommodate that range.
 #' @return The value of the index.
 #' 
 #' @references 
@@ -366,7 +366,7 @@ AHI <- function(Value, Age, Agei = 90){
 
 #' Calculate Jdanov's old-age heaping index
 #' 
-#' @description This is a slightly more flexible implementation of Jdanov's fomula,
+#' @description This is a slightly more flexible implementation of Jdanov's formula,
 #' with defaults set to match his parameters. The numerator is the sum of 
 #' (death counts) in ages 95, 100, and 105. The denominator consists in the sum of the 5-year age groups centered around each of the numerator ages.
 #' It probably only makes sense to use this with the default values, however. Used with a single age

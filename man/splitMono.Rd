@@ -16,7 +16,7 @@ splitMono(Value, AgeInt, Age, OAG = FALSE)
 \item{OAG}{boolean. Argument that determines whether the final age group (assumed open ended) is kept as it is or has the same length as the rest of the age groups. Default is FALSE, i.e. use the same length for the final age group.}
 }
 \value{
-Numeric. vector of single smooothed age counts.
+Numeric. vector of single smoothed age counts.
 }
 \description{
 Take the cumulative sum of \code{Value} and then run a monotonic spline through it. The first 

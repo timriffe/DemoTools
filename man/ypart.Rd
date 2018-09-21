@@ -8,7 +8,7 @@ ypart(Year, Month, Day, detect.mid.year = TRUE,
   detect.start.end = TRUE)
 }
 \arguments{
-\item{Year}{string or itneger. 4-digit year.}
+\item{Year}{string or integer. 4-digit year.}
 
 \item{Month}{string or integer. Month digits, 1 or 2 characters.}
 

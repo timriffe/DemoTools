@@ -22,7 +22,7 @@ This is a simple measure of distribution overlap on the absolute scale.
 }
 \details{
 Input populations are assumed to be ordered in the same way prior to calling the function. 
-It is only checked  that the vectors are of the same length. The input arguments could indeed be popualtions structured on multiple
+It is only checked  that the vectors are of the same length. The input arguments could indeed be populations structured on multiple
 variables (more than just age), as long as they are ordered in the same way.
 }
 \examples{

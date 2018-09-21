@@ -25,7 +25,7 @@ axUN(nMx, nqx, lx, IMR = NA, AgeInt, Sex = "m", region = "w",
 
 \item{tol}{numeric. The tolerance for the qx-based iterative method. Default \code{.Machine$double.eps}.}
 
-\item{maxit}{integer. The maximum number of iterations for the qx-based iterative method. Ddefault 1000.}
+\item{maxit}{integer. The maximum number of iterations for the qx-based iterative method. Default 1000.}
 
 \item{mod}{logical.  Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.}
 

@@ -20,7 +20,7 @@ The value of the index.
 This age heaping index is used for particular old ages, such as 90, 95, 100, 105, and so forth.
 }
 \details{
-The index looks down two ages and up two ages, so the data must accomodate that range.
+The index looks down two ages and up two ages, so the data must accommodate that range.
 }
 \examples{
 Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,

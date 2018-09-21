@@ -143,7 +143,7 @@ sprague <- function(
 #' 
 #' @details The \code{popmat} matrix is really just a placeholder in this case. This function is 
 #' a utility called by the Sprague family of functions, where it is most convenient to just pass
-#' in the same matrix being used in those calculationss to determine the layout of the coefficient matrix.
+#' in the same matrix being used in those calculations to determine the layout of the coefficient matrix.
 #' 
 #' @export
 #' 
@@ -271,7 +271,7 @@ spragueExpand <- function(popmat, OAG = TRUE){
 #' @param pivotAge integer. Age to start blending in closeout values.
 #' @param ... optional arguments passed to \code{splitfun()}.
 #' 
-#' @return Nmeric vector of smoothed counts.
+#' @return Numeric vector of smoothed counts.
 #' @references 
 #' \insertRef{booth2015demographic}{DemoTools}
 #' @export

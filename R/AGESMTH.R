@@ -284,7 +284,7 @@ united_nations_smth <- function(Value,
 #' @details The open age group is aggregated down to be evenly divisible by 10. 
 #' This method accounts for the youngest and oldest age groups. Age classes must be cleanly 
 #' groupable to 5-year age groups. All age classes are returned, but the strongest adjustment
-#' ocurrs in ages bounded by \code{ageMin} and \code{ageMax}. To be clear \code{ageMax} refers to 
+#' occurs in ages bounded by \code{ageMin} and \code{ageMax}. To be clear \code{ageMax} refers to 
 #' the lower bound of the highest age class, inclusive. So, if you want a ceiling of 70 (default), specify 65.
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
@@ -442,7 +442,7 @@ zigzag_smth <- function(Value,
 #' @param Value numeric vector of (presumably) counts in 5-year age groups. 
 #' @param Age integer vector of age group lower bounds.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
-#' @param n integer. The width of the moving avarage. Default 3 intervals (x-5 to x+9).
+#' @param n integer. The width of the moving average. Default 3 intervals (x-5 to x+9).
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @details This function calls \code{mav()}, which itself relies on the more general \code{ma()}. We lose the lowest and highest ages with this method, unless \code{n=1}, in which case data is returned in the original 5-year age groups.
 #' @examples
@@ -504,7 +504,7 @@ mav_smth <- function(Value,
 #' designed to give some flexibility in case you're not sure 
 #' 
 #' In accordance with the description of these methods in Arriaga (1994), it is advised to 
-#' compare the resutls from a variety of methods. 
+#' compare the results from a variety of methods. 
 #' 
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age integer vector of ages corresponding to the lower integer bound of the counts.
@@ -512,7 +512,7 @@ mav_smth <- function(Value,
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
 #' @param ageMin integer. The lowest age included included in intermediate adjustment. Default 10. Only relevant for Strong method.
 #' @param ageMax integer. The highest age class included in intermediate adjustment. Default 65. Only relevant for Strong method.
-#' @param n integer. The width of the moving avarage. Default 3 intervals (x-5 to x+9). Only relevant for moving average method.
+#' @param n integer. The width of the moving average. Default 3 intervals (x-5 to x+9). Only relevant for moving average method.
 #' @param young.tail \code{NA} or character. Method to use for ages 0-9. See details. Default \code{"original"}.
 #' @param old.tail \code{NA} or character. Method to use for the final age groups. See details. Default \code{"original"}.
 #' 

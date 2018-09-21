@@ -7,7 +7,7 @@
 #' it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) 
 #' it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages.
 #' @inheritParams splitUniform
-#' @return Numeric. vector of single smooothed age counts.
+#' @return Numeric. vector of single smoothed age counts.
 #' @importFrom stats splinefun
 #' @references 
 #' \insertRef{fritsch1980monotone}{DemoTools}

@@ -23,7 +23,7 @@ splitOscillate(Value, Age = 1:length(Value) - 1, OAG = TRUE,
 \item{...}{optional arguments passed to \code{splitfun()}.}
 }
 \value{
-Nmeric vector of smoothed counts.
+Numeric vector of smoothed counts.
 }
 \description{
 Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits.

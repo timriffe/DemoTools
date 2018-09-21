@@ -47,7 +47,7 @@ rlog <- function(x, base = exp(1)){
 #' This is a centered moving average of arbitrary width. 
 #' 
 #' @param x numeric. Vector to produce a moving average of.
-#' @param n integer. The width of the moving avarage. Default 5 time steps.
+#' @param n integer. The width of the moving average. Default 5 time steps.
 #' 
 #' @return Numeric vector of same length as \code{x}.
 #'
@@ -114,7 +114,7 @@ is_LeapYear <- function (Year){      # CB: mostly good algorithm from wikipedia
 #' 
 #' @description The fraction returned by this is used e.g. for intercensal estimates.
 #' 
-#' @param Year string or itneger. 4-digit year.
+#' @param Year string or integer. 4-digit year.
 #' @param Month string or integer. Month digits, 1 or 2 characters.
 #' @param Day string or integer. Day of month digits, 1 or 2 characters.
 #' @param detect.mid.year logical. If \code{TRUE}, June 30 or July 1 will always return .5.
@@ -287,7 +287,7 @@ getModelLifeTable <- function(ModelName, Sex){
 
 # function for average adjacent values excluding index value
 #' calculate average of vector elements adjacent to and excluding the index element
-#' @description Calculate average of vector elements adjacent to and exlcuding the index element. 
+#' @description Calculate average of vector elements adjacent to and excluding the index element. 
 #' For example, the second element of the result is the average of the first and third elements of the
 #' input vector \code{x}. Used by \code{zigzag()}, and possibly useful elsewhere.
 #' @details Tails are given a value of \code{NA}.
@@ -305,7 +305,7 @@ avg_adj <- function(x){
 
 #' convert strings to concatenation of lower case alphabet
 #' @description all characters are converteusd to lower case, and all non-alphabet characters are removed. 
-#' This is usefull for reducing checks on names of user-specified strings, like \code{method} arguments.
+#' This is useful for reducing checks on names of user-specified strings, like \code{method} arguments.
 #' For example, \code{"Carrier-Farrag"}, \code{"Carrier Farrag"}, or \code{"carrier_farrag"} all get 
 #' converted to \code{"carrierfarrag"}.
 #' @param string character string
