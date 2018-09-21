@@ -13,7 +13,7 @@ avg_adj(x)
 numeric vector the same length as \code{x}.
 }
 \description{
-Calculate average of vector elements adjacent to and exlcuding the index element. 
+Calculate average of vector elements adjacent to and excluding the index element. 
 For example, the second element of the result is the average of the first and third elements of the
 input vector \code{x}. Used by \code{zigzag()}, and possibly useful elsewhere.
 }

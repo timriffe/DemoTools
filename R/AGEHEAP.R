@@ -19,7 +19,7 @@
 #' 
 #' @details \code{ageMin} and \code{ageMax} refer to the bounds of the numerator, where \code{ageMax} is inclusive. 
 #' The denominator looks 7 ages lower and 2 ages higher, so these ages must be available. You can get 
-#' arbitrary W(i) indicies by specifying other digits. Note you can only do pairs of digits
+#' arbitrary W(i) indices by specifying other digits. Note you can only do pairs of digits
 #' they are 0 and 5. Otherwise just one digit at a time. 
 #' @return The value of the index.
 #' @references 

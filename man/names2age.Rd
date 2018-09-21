@@ -13,10 +13,10 @@ names2age(...)
 integer vector of ages (presumably).
 }
 \description{
-Often as a shorthand we pull lower age bounds from the names of a vector. This modularizes that action, and allows for giving several vectors to check for names.
+Often as a shorthand we pull lower age bounds from the names of a vector. This modulates that action, and allows for giving several vectors to check for names.
 }
 \details{
-If more than one vector is given, names are pulled from the first available named vector. All vectors must be of the same length. If no names are avaialable on any vector, then \code{NA}s are returned. This clearly won't work if the names on the vector are of something else.
+If more than one vector is given, names are pulled from the first available named vector. All vectors must be of the same length. If no names are available on any vector, then \code{NA}s are returned. This clearly won't work if the names on the vector are of something else.
 }
 \examples{
 # create some vectors

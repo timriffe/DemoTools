@@ -17,7 +17,7 @@ WI(Value, Age, Ages = seq(95, 105, by = 5))
 The value of the index.
 }
 \description{
-This is a slightly more flexible implementation of Jdanov's fomula,
+This is a slightly more flexible implementation of Jdanov's formula,
 with defaults set to match his parameters. The numerator is the sum of 
 (death counts) in ages 95, 100, and 105. The denominator consists in the sum of the 5-year age groups centered around each of the numerator ages.
 It probably only makes sense to use this with the default values, however. Used with a single age

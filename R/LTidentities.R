@@ -49,7 +49,7 @@ qxmx2ax <- function(nqx, nMx, AgeInt){
 
 #' Derive nqx from nMx and nax.
 #' @description This is the standard identity to derive nqx from nax and nMx.
-#' This is a more full-service wrapper of \code{mx2qx()}, with closeoput options and optional age 0 
+#' This is a more full-service wrapper of \code{mx2qx()}, with closeout options and optional age 0 
 #' treatment.
 #' 
 #' @param nMx numeric. Vector of age-specific death rates.

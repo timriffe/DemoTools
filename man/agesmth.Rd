@@ -22,7 +22,7 @@ agesmth(Value, Age, method = c("Carrier-Farrag", "KKN", "Arriaga",
 
 \item{ageMax}{integer. The highest age class included in intermediate adjustment. Default 65. Only relevant for Strong method.}
 
-\item{n}{integer. The width of the moving avarage. Default 3 intervals (x-5 to x+9). Only relevant for moving average method.}
+\item{n}{integer. The width of the moving average. Default 3 intervals (x-5 to x+9). Only relevant for moving average method.}
 
 \item{young.tail}{\code{NA} or character. Method to use for ages 0-9. See details. Default \code{"original"}.}
 
@@ -55,7 +55,7 @@ Method names are simplified using \code{simplify.text} and checked against a set
 designed to give some flexibility in case you're not sure 
 
 In accordance with the description of these methods in Arriaga (1994), it is advised to 
-compare the resutls from a variety of methods.
+compare the results from a variety of methods.
 }
 \examples{
 MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 

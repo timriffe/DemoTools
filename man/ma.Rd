@@ -9,7 +9,7 @@ ma(x, n = 5)
 \arguments{
 \item{x}{numeric. Vector to produce a moving average of.}
 
-\item{n}{integer. The width of the moving avarage. Default 5 time steps.}
+\item{n}{integer. The width of the moving average. Default 5 time steps.}
 }
 \value{
 Numeric vector of same length as \code{x}.

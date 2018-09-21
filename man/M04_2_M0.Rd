@@ -19,7 +19,7 @@ M04_2_M0(M04, D04, P04, Sex = c("m", "f")[1])
 Estimated deaths in age 0
 }
 \description{
-Given the log crude death rate for ages 0-5, \eqn{log(M(0,5)} there is a strong 2-slope linear relationship with the log of the infant death rate. With this method th euser supplies the under 5 death rate and the infant death rate is returned. This method could be invoked if either population or (exclusive or) deaths are tabulated for infants, or if only the under 5 mortality rate is available
+Given the log crude death rate for ages 0-5, \eqn{log(M(0,5)} there is a strong 2-slope linear relationship with the log of the infant death rate. With this method the user supplies the under 5 death rate and the infant death rate is returned. This method could be invoked if either population or (exclusive or) deaths are tabulated for infants, or if only the under 5 mortality rate is available
 }
 \details{
 This is an elsewhere-undocumented relationship derived from the whole of the HMD. We used the \code{segmented} package to fit a 2-slope linear model. This can (and should) be reproduced using data from a more diverse collection, and even as-is the data should be subset to only those observations where deaths and populations were not split using HMD methods. You can reproduce the analysis given a data set in the format shown (but not executed) in the examples and following the code steps shown there.

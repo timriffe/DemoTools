@@ -20,7 +20,7 @@ or closed age group, as indicated by the \code{OAG} argument.
 \details{
 The \code{popmat} matrix is really just a placeholder in this case. This function is 
 a utility called by the Sprague family of functions, where it is most convenient to just pass
-in the same matrix being used in those calculationss to determine the layout of the coefficient matrix.
+in the same matrix being used in those calculations to determine the layout of the coefficient matrix.
 }
 \examples{
 p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 

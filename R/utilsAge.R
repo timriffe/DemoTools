@@ -152,7 +152,7 @@ calcAgeAbr <- function(Age){
 #' @param OAG logical. Whether or not the final age group open. Default \code{FALSE}. 
 #' @param OAvalue numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.
 #' 
-#' @details If based soley on the length of a vector, this will give erroneous results if ages 
+#' @details If based solely on the length of a vector, this will give erroneous results if ages 
 #' are anything other than standard abridged ages groups. If the final age group is open, the 
 #' interval width is defined as \code{NA}. \code{Inf} or \code{-1} would have 
 #' also been a good choice, but we went with \code{NA}.
@@ -380,8 +380,8 @@ is_abridged <- function(Age){
 }
 
 #' detect ages from names of vector(s)
-#' @description Often as a shorthand we pull lower age bounds from the names of a vector. This modularizes that action, and allows for giving several vectors to check for names.
-#' @details If more than one vector is given, names are pulled from the first available named vector. All vectors must be of the same length. If no names are avaialable on any vector, then \code{NA}s are returned. This clearly won't work if the names on the vector are of something else.
+#' @description Often as a shorthand we pull lower age bounds from the names of a vector. This modulates that action, and allows for giving several vectors to check for names.
+#' @details If more than one vector is given, names are pulled from the first available named vector. All vectors must be of the same length. If no names are available on any vector, then \code{NA}s are returned. This clearly won't work if the names on the vector are of something else.
 #' @param ... one or more vectors of any class, which has/have a names attribute.
 #' @return integer vector of ages (presumably).
 #' @export 

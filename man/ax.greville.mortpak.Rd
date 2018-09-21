@@ -37,7 +37,7 @@ for ages 5-9 and 10-14, and the Greville formula thereafter. In the original sou
 these are referred to as separation factors.
 }
 \details{
-a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. By default the lifetbale is closed out using the Mortpak extrapolation. Otherwise the final a(x) value is closed out as if the final M(x) value were constant thereafter, which is a common lifetable closeout choice. Age groups must be standard abridged. No check on age groups is done.
+a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. By default the lifetable is closed out using the Mortpak extrapolation. Otherwise the final a(x) value is closed out as if the final M(x) value were constant thereafter, which is a common lifetable closeout choice. Age groups must be standard abridged. No check on age groups is done.
 
 There are different vectors one can specify for this method: ultimately it's either \code{nMx} or \code{nqx}, and the \code{nax} results will differ potentially quite a lot depending which you have on hand.
 }
