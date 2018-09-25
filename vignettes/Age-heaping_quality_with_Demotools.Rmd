@@ -1,0 +1,23 @@
+---
+title: "Age-heaping quality with Demotools"
+author: "Jose Manuel Aburto"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Age-heaping quality with Demotools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteDepends{Demotools}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  tidy = FALSE,
+  comment = "#>",
+  fig.width = 6, fig.height = 6
+)
+```
+
+How to use `Demotools` to evaluate age-heaping quality.
