@@ -86,10 +86,6 @@ calcAgeN <- function(Age, N = 5, shiftdown = 0){
 #' age1 <- seq(0,100,by=5)
 #' (ageN1 <- age2ageN(age1, OAG = FALSE))
 #' (ageN2 <- age2ageN(age1, OAG = TRUE))
-#' \dontshow{
-#' stopifnot(length(ageN1) == 105)
-#' stopifnot(length(ageN2) == 101)
-#' }
 age2ageN <- function(Age, OAG = FALSE){
 	rep(Age, times = age2int(Age, OAG = OAG, OAvalue = 1))
 }
@@ -105,11 +101,6 @@ age2ageN <- function(Age, OAG = FALSE){
 #' int5 <- rep(5,21)
 #' (ageN1 <- int2ageN(int5, OAG = FALSE))
 #' (ageN2 <- int2ageN(int5, OAG = TRUE))
-#' \dontshow{
-#' stopifnot(length(ageN1) == 105)
-#' stopifnot(length(ageN2) == 101)
-#' }
-
 int2ageN <- function(AgeInt, OAG){
 	if (OAG){
 		AgeInt[length(AgeInt)] <- 1
@@ -196,7 +187,7 @@ inferAgeIntAbr <- function(Age, vec, OAG = FALSE, OAvalue = NA){
 #' @export 
 #' @examples 
 #' maxA2abridged(80)
-#' stopifnot(all(maxA2abridged(100) == maxA2abridged(102)))
+#' all(maxA2abridged(100) == maxA2abridged(102))
 maxA2abridged <- function(ageMax = 80){
 	sort(unique(calcAgeAbr(0:ageMax)))
 }
@@ -482,17 +473,6 @@ names2age <- function(...){
 #' 					recursive = FALSE))
 #' pop1resc / pop1
 #' perturb
-#' 
-#' 
-#' \dontshow{
-#' 	newN        <- splitUniform(pop1resc, AgeInt = AgeIntRandom)
-#'  AgeS        <- names2age(newN)
-#'  AgeN2       <- rep(int2age(AgeInt5), times = AgeInt5)
-#' 	check       <- groupAges(newN, AgeS, AgeN = AgeN2)
-#' 	stopifnot(all(abs(check - pop2) < 1e-3))
-#' # and the non-recursive one:
-#' 	stopifnot(sum(pop2)==sum(pop1resc1) & sum(pop1resc1) == sum(pop1resc))
-#' }
 #' 
 #' \dontrun{
 #' 	
