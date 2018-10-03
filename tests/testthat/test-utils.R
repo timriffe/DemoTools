@@ -5,7 +5,6 @@ context("test-utils")
 test_that("shift.vector works", {
     vec <- 1:5
     expect_length(shift.vector(vec), 5)
-    expect_length(shift.vector(vec, shift = 2), 7)
     expect_type(shift.vector(vec, shift = 2, fill = "new"), "character")
     expect_type(shift.vector(vec, shift = 2, fill = .1), "double")
 })
