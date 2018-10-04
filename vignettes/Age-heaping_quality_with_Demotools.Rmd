@@ -7,7 +7,6 @@ vignette: >
   %\VignetteIndexEntry{Age-heaping quality with Demotools}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  %\VignetteDepends{Demotools}
 ---
 
 
