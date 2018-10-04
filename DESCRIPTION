@@ -18,7 +18,9 @@ LazyLoad: yes
 RoxygenNote: 6.1.0
 Suggests: 
   covr,
-  testthat
+  testthat,
+  knitr, 
+  rmarkdown
 RdMacros: Rdpack
 Imports: 
   demogR,
@@ -26,3 +28,4 @@ Imports:
   Rdpack
 BugReports: https://github.com/timriffe/DemoTools/issues
 Encoding: UTF-8
+VignetteBuilder: knitr
