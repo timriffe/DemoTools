@@ -20,5 +20,5 @@ If the highest age group is not evenly divisible by 5 then age classes only go u
 }
 \examples{
 maxA2abridged(80)
-stopifnot(all(maxA2abridged(100) == maxA2abridged(102)))
+all(maxA2abridged(100) == maxA2abridged(102))
 }

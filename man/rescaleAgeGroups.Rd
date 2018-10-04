@@ -64,17 +64,6 @@ pop2         <- pop2 * perturb
 pop1resc / pop1
 perturb
 
-
-\dontshow{
-	newN        <- splitUniform(pop1resc, AgeInt = AgeIntRandom)
- AgeS        <- names2age(newN)
- AgeN2       <- rep(int2age(AgeInt5), times = AgeInt5)
-	check       <- groupAges(newN, AgeS, AgeN = AgeN2)
-	stopifnot(all(abs(check - pop2) < 1e-3))
-# and the non-recursive one:
-	stopifnot(sum(pop2)==sum(pop1resc1) & sum(pop1resc1) == sum(pop1resc))
-}
-
 \dontrun{
 	
 # show before / after
