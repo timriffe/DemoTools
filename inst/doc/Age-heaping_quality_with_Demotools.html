@@ -1,170 +1,178 @@
 <!DOCTYPE html>
-<html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title></title>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
 
-<script type="text/javascript">
-window.onload = function() {
-  var imgs = document.getElementsByTagName('img'), i, img;
-  for (i = 0; i < imgs.length; i++) {
-    img = imgs[i];
-    // center an image if it is the only element of its parent
-    if (img.parentElement.childElementCount === 1)
-      img.parentElement.style.textAlign = 'center';
-  }
-};
-</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Jose Manuel Aburto, Ilya Kashnitsky, Marius Pascariu, Tim Riffe" />
+
+<meta name="date" content="2018-10-08" />
+
+<title>Age-heaping indices with Demotools</title>
 
 
 
-
-
+<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-body, td {
-   font-family: sans-serif;
-   background-color: white;
-   font-size: 13px;
-}
-
-body {
-  max-width: 800px;
-  margin: auto;
-  padding: 1em;
-  line-height: 20px;
-}
-
-tt, code, pre {
-   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
-}
-
-h1 {
-   font-size:2.2em;
-}
-
-h2 {
-   font-size:1.8em;
-}
-
-h3 {
-   font-size:1.4em;
-}
-
-h4 {
-   font-size:1.0em;
-}
-
-h5 {
-   font-size:0.9em;
-}
-
-h6 {
-   font-size:0.8em;
-}
-
-a:visited {
-   color: rgb(50%, 0%, 50%);
-}
-
-pre, img {
-  max-width: 100%;
-}
-pre {
-  overflow-x: auto;
-}
-pre code {
-   display: block; padding: 0.5em;
-}
-
-code {
-  font-size: 92%;
-  border: 1px solid #ccc;
-}
-
-code[class] {
-  background-color: #F8F8F8;
-}
-
-table, td, th {
-  border: none;
-}
-
-blockquote {
-   color:#666666;
-   margin:0;
-   padding-left: 1em;
-   border-left: 0.5em #EEE solid;
-}
-
-hr {
-   height: 0px;
-   border-bottom: none;
-   border-top-width: thin;
-   border-top-style: dotted;
-   border-top-color: #999999;
-}
-
-@media print {
-   * {
-      background: transparent !important;
-      color: black !important;
-      filter:none !important;
-      -ms-filter: none !important;
-   }
-
-   body {
-      font-size:12pt;
-      max-width:100%;
-   }
-
-   a, a:visited {
-      text-decoration: underline;
-   }
-
-   hr {
-      visibility: hidden;
-      page-break-before: always;
-   }
-
-   pre, blockquote {
-      padding-right: 1em;
-      page-break-inside: avoid;
-   }
-
-   tr, img {
-      page-break-inside: avoid;
-   }
-
-   img {
-      max-width: 100% !important;
-   }
-
-   @page :left {
-      margin: 15mm 20mm 15mm 10mm;
-   }
-
-   @page :right {
-      margin: 15mm 10mm 15mm 20mm;
-   }
-
-   p, h2, h3 {
-      orphans: 3; widows: 3;
-   }
-
-   h2, h3 {
-      page-break-after: avoid;
-   }
-}
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 
 
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
 </head>
 
 <body>
-<p>How to use <code>Demotools</code> to evaluate age-heaping quality.</p>
+
+
+
+
+<h1 class="title toc-ignore">Age-heaping indices with Demotools</h1>
+<h4 class="author"><em>Jose Manuel Aburto, Ilya Kashnitsky, Marius Pascariu, Tim Riffe</em></h4>
+<h4 class="date"><em>2018-10-08</em></h4>
+
+
+
+<div id="how-to-use-demotools-to-get-age-heaping-indices" class="section level2">
+<h2>How to use <code>DemoTools</code> to get age-heaping indices</h2>
+<p>Consider a vector with population counts with age heaping.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DemoTools)
+
+Value &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">80626</span>,<span class="dv">95823</span>,<span class="dv">104315</span>,<span class="dv">115813</span>,<span class="dv">100796</span>,<span class="dv">105086</span>,<span class="dv">97266</span>,<span class="dv">116328</span>,
+        <span class="dv">75984</span>,<span class="dv">89982</span>,<span class="dv">95525</span>,<span class="dv">56973</span>,<span class="dv">78767</span>,<span class="dv">65672</span>,<span class="dv">53438</span>,<span class="dv">85014</span>,
+        <span class="dv">47600</span>,<span class="dv">64363</span>,<span class="dv">42195</span>,<span class="dv">42262</span>,<span class="dv">73221</span>,<span class="dv">30080</span>,<span class="dv">34391</span>,<span class="dv">29072</span>,
+        <span class="dv">20531</span>,<span class="dv">66171</span>,<span class="dv">24029</span>,<span class="dv">44227</span>,<span class="dv">24128</span>,<span class="dv">23599</span>,<span class="dv">82088</span>,<span class="dv">16454</span>,
+        <span class="dv">22628</span>,<span class="dv">17108</span>,<span class="dv">12531</span>,<span class="dv">57325</span>,<span class="dv">17220</span>,<span class="dv">28425</span>,<span class="dv">16206</span>,<span class="dv">17532</span>,
+        <span class="dv">65976</span>,<span class="dv">11593</span>,<span class="dv">15828</span>,<span class="dv">13541</span>,<span class="dv">8133</span>,<span class="dv">44696</span>,<span class="dv">11165</span>,<span class="dv">18543</span>,
+        <span class="dv">12614</span>,<span class="dv">12041</span>,<span class="dv">55798</span>,<span class="dv">9324</span>,<span class="dv">10772</span>,<span class="dv">10453</span>,<span class="dv">6773</span>,<span class="dv">28358</span>,
+        <span class="dv">9916</span>,<span class="dv">13348</span>,<span class="dv">8039</span>,<span class="dv">7583</span>,<span class="dv">42470</span>,<span class="dv">5288</span>,<span class="dv">5317</span>,<span class="dv">6582</span>,
+        <span class="dv">3361</span>,<span class="dv">17949</span>,<span class="dv">3650</span>,<span class="dv">5873</span>,<span class="dv">3279</span>,<span class="dv">3336</span>,<span class="dv">27368</span>,<span class="dv">1965</span>,
+        <span class="dv">2495</span>,<span class="dv">2319</span>,<span class="dv">1335</span>,<span class="dv">12022</span>,<span class="dv">1401</span>,<span class="dv">1668</span>,<span class="dv">1360</span>,<span class="dv">1185</span>,
+        <span class="dv">9167</span>,<span class="dv">424</span>,<span class="dv">568</span>,<span class="dv">462</span>,<span class="dv">282</span>,<span class="dv">6206</span>,<span class="dv">343</span>,<span class="dv">409</span>,<span class="dv">333</span>,<span class="dv">291</span>,<span class="dv">4137</span>,
+        <span class="dv">133</span>,<span class="dv">169</span>,<span class="dv">157</span>,<span class="dv">89</span>,<span class="dv">2068</span>,<span class="dv">68</span>,<span class="dv">81</span>,<span class="dv">66</span>,<span class="dv">57</span>)
+
+  Age &lt;-<span class="st"> </span><span class="dv">0</span>:<span class="dv">99</span>
+  
+<span class="kw">plot</span>(Age,Value, <span class="dt">type =</span> <span class="st">'l'</span>)  </code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Several indices of age-heaping exist. <code>DemoTools</code> implements Whipple <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>, Myer <span class="citation">(Myers 1954)</span>, Bachi <span class="citation">(Bachi 1951)</span>, Coale-Li <span class="citation">(Coale and Li 1991)</span>, Noumbissi <span class="citation">(Noumbissi 1992)</span>, and Spoorenberg’s <span class="citation">(Spoorenberg and Dutreuilh 2007)</span> age-heaping indices.</p>
+</div>
+<div id="examples" class="section level2">
+<h2>Examples</h2>
+<div id="whipples" class="section level3">
+<h3>Whipple’s</h3>
+<p>This index is a summary measure of age heaping on ages ending usually in the digits 0 or 5 used to determine variability in the quality of age reporting between regions or countries and its evolution over time.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Whipple &lt;-<span class="st">  </span><span class="kw">Whipple</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">5</span>, <span class="dt">ageMax =</span> <span class="dv">90</span>, <span class="dt">digit =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>))
+Whipple
+<span class="co">#&gt; [1] 1.73107</span></code></pre></div>
+</div>
+<div id="myers" class="section level3">
+<h3>Myer’s</h3>
+<p>This index measures preferences for each of the ten possible digits as a blended index. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits 0 to 9 should represent 10 percent of the total population.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Myers &lt;-<span class="st"> </span><span class="kw">Myers</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">10</span>, <span class="dt">ageMax =</span> <span class="dv">90</span>) 
+Myers
+<span class="co">#&gt; [1] 23.73002</span></code></pre></div>
+</div>
+<div id="bachis" class="section level3">
+<h3>Bachi’s</h3>
+<p>This index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers’, it equals the sum of the positive deviations from 10 percent.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Bachi &lt;-<span class="st"> </span><span class="kw">Bachi</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">10</span>, <span class="dt">ageMax =</span> <span class="dv">90</span>)</code></pre></div>
+</div>
+<div id="coale-lis" class="section level3">
+<h3>Coale-Li’s</h3>
+<p>This index calculates a two-stage 5-term moving average as a reference pattern, then take ratios with respect to this. Ratios for a given terminal digit can then be averaged to produce an index.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CoaleLi &lt;-<span class="st"> </span><span class="kw">CoaleLi</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">60</span>, <span class="dt">ageMax =</span> <span class="kw">max</span>(Age), <span class="dt">terms =</span> <span class="dv">5</span>, <span class="dt">digit =</span> <span class="dv">0</span>)
+CoaleLi
+<span class="co">#&gt; [1] 3.52405</span></code></pre></div>
+</div>
+<div id="noumbissis" class="section level3">
+<h3>Noumbissi’s</h3>
+<p>This method improves on Whipple’s method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators consisting in 5-year age groups centered on the terminal digit of age in question.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Noumbissi &lt;-<span class="st"> </span><span class="kw">Noumbissi</span>(Value, Age, <span class="dt">digit =</span> <span class="dv">0</span>) 
+Noumbissi
+<span class="co">#&gt; [1] 2.324269</span></code></pre></div>
+</div>
+<div id="spoorenbergs" class="section level3">
+<h3>Spoorenberg’s</h3>
+<p>Using the digit-specific modified Whipple’s index, this index summarizes all age preference and avoidance effects by taking the sum of the absolute differences between digit-specific Whipple’s index and 1 (counting all differences as positive).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Spoorenberg &lt;-<span class="st"> </span><span class="kw">Spoorenberg</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">20</span>, <span class="dt">ageMax =</span> <span class="dv">64</span>)
+Spoorenberg
+<span class="co">#&gt; [1] 5.066123</span></code></pre></div>
+</div>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-bachi1951tendency">
+<p>Bachi, Roberto. 1951. “The Tendency to Round Off Age Returns: Measurement and Correction.” <em>Bulletin of the International Statistical Institute</em> 33 (4): 195–222.</p>
+</div>
+<div id="ref-coale1991effect">
+<p>Coale, Ansley J, and Shaomin Li. 1991. “The Effect of Age Misreporting in China on the Calculation of Mortality Rates at Very High Ages.” <em>Demography</em> 28 (2). Springer: 293–301.</p>
+</div>
+<div id="ref-myers1954accuracy">
+<p>Myers, Robert J. 1954. “Accuracy of Age Reporting in the 1950 United States Census.” <em>Journal of the American Statistical Association</em> 49 (268). Taylor &amp; Francis: 826–31.</p>
+</div>
+<div id="ref-noumbissi1992indice">
+<p>Noumbissi, Amadou. 1992. “L’indice de Whipple Modifié: Une Application Aux Données Du Cameroun, de La Suède et de La Belgique.” <em>Population (French Edition)</em>. JSTOR, 1038–41.</p>
+</div>
+<div id="ref-spoorenberg2007quality">
+<p>Spoorenberg, Thomas, and Catriona Dutreuilh. 2007. “Quality of Age Reporting: Extension and Application of the Modified Whipple’s Index.” <em>Population</em> 62 (4). INED: 729–41.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 </body>
-
 </html>
