@@ -3,12 +3,12 @@
 [![Build Status](https://travis-ci.org/timriffe/DemoTools.svg?branch=master)](https://travis-ci.org/timriffe/DemoTools)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/timriffe/DemoTools?branch=master&svg=true)](https://ci.appveyor.com/project/timriffe/DemoTools)
 [![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) 
-[![](https://img.shields.io/badge/devel%20version-0.10.01-yellow.svg)](https://github.com/timriffe/DemoTools)
+[![](https://img.shields.io/badge/devel%20version-0.10.03-yellow.svg)](https://github.com/timriffe/DemoTools)
 [![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
 # Tools for the evaluation, adjustment, and standardization of demographic data
-Date: 2018-09-15
+Date: 2018-10-04
  
 This repository contains simple functions in a package format, and is in active development. This project is commissioned by the [UN Population Division](http://www.un.org/en/development/desa/population/) and financed by the [Bill and Melinda Gates Foundation](https://www.gatesfoundation.org/) as part of the [Making Family Planning Count](http://www.un.org/en/development/desa/population/projects/making-family-planning-count/index.shtml) project. Work is also done in collaboration with Sean Fennell, and [Jose Manuel Aburto](http://findresearcher.sdu.dk/portal/en/persons/jose-manuel-aburto(34dcae96-a13a-4c4d-a941-985152180869).html), with minor contributions from [several more](https://github.com/timriffe/DemoTools/graphs/contributors)(thank you!). This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License ([CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)). 
 

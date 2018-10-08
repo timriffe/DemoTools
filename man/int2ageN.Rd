@@ -24,8 +24,4 @@ If {OAG = TRUE} then the last value is given just once, irrespective of the fina
 int5 <- rep(5,21)
 (ageN1 <- int2ageN(int5, OAG = FALSE))
 (ageN2 <- int2ageN(int5, OAG = TRUE))
-\dontshow{
-stopifnot(length(ageN1) == 105)
-stopifnot(length(ageN2) == 101)
-}
 }

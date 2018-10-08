@@ -19,8 +19,12 @@ library(TimUtils)
 #install.packages("roxygen2")
 #install_github("hadley/devtools")
 #install_github("timriffe/TimUtils/TimUtils")
+
 # do this whenever new functions are added to /R, or whenever roxygen is updated
 devtools::document()
+# do this whenever the vignette text is updated
+devtools::build_vignettes()
+
 versionIncrement(
 		major = FALSE,       # only for releases
 		mid = FALSE,         # major functionality added
