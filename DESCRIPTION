@@ -19,8 +19,8 @@ RoxygenNote: 6.1.0
 Suggests:
   covr,
   testthat,
-  knitr, 
-  rmarkdown
+    knitr,
+    rmarkdown
 RdMacros: Rdpack
 Imports:
   demogR,
