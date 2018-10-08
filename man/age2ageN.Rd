@@ -24,8 +24,4 @@ If {OAG = TRUE} then the last value is not repeated, otherwise the final age int
 age1 <- seq(0,100,by=5)
 (ageN1 <- age2ageN(age1, OAG = FALSE))
 (ageN2 <- age2ageN(age1, OAG = TRUE))
-\dontshow{
-stopifnot(length(ageN1) == 105)
-stopifnot(length(ageN2) == 101)
-}
 }
