@@ -20,12 +20,17 @@ Suggests:
   covr,
   testthat,
 <<<<<<< HEAD
+<<<<<<< HEAD
     knitr,
     rmarkdown
 =======
   knitr, 
   rmarkdown
 >>>>>>> 40b576079bfd0e47b1e2794108393649ac181148
+=======
+  knitr, 
+  rmarkdown
+>>>>>>> 4fcfe1630ad5b873ec6e57d650e0999fbcdacd44
 RdMacros: Rdpack
 Imports:
   demogR,
