@@ -16,13 +16,16 @@ Description: A collection of classic demographic methods used to evaluate, adjus
 License: file LICENSE
 LazyLoad: yes
 RoxygenNote: 6.1.0
-Suggests: 
+Suggests:
   covr,
-  testthat
+  testthat,
+    knitr,
+    rmarkdown
 RdMacros: Rdpack
-Imports: 
+Imports:
   demogR,
   MortalityLaws (>= 1.6.0),
   Rdpack
 BugReports: https://github.com/timriffe/DemoTools/issues
 Encoding: UTF-8
+VignetteBuilder: knitr

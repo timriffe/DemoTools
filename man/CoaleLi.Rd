@@ -8,13 +8,13 @@ CoaleLi(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5,
   digit = 0)
 }
 \arguments{
-\item{Value}{numeric. A vector of demographic rates or counts by single age.}
+\item{Value}{numeric. A vector of demographic counts by single age.}
 
 \item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{integer. The lowest age included in calculations. Default 20.}
+\item{ageMin}{integer. The lowest age included in calculations. Default 25.}
 
-\item{ageMax}{integer. The upper age bound used for calculations. Default \code{max(Age)}.}
+\item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
 
 \item{terms}{integer. Length of the (centered) moving average be. Default 5.}
 

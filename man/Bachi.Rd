@@ -11,9 +11,9 @@ Bachi(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE)
 
 \item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{integer. The lowest age included in calculations. Default 30.}
+\item{ageMin}{integer. The lowest age included in calculations. Default 25.}
 
-\item{ageMax}{integer. The upper age bound used for calculations. Default 79.}
+\item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
 
 \item{pasex}{logical. Whether or not reproduce the specific age weightings in the PASEX spreadsheet. Default \code{FALSE}.}
 }

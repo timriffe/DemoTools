@@ -144,10 +144,7 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
 #' and 10 is the expected value for each digit.
 #' Two Implementations: one following the PASEX spreadsheet SINGAGE (\code{pasex = TRUE}), with ages hard-coded, and another with flexible upper and lower age bounds, but that does not match the PASEX implementation.
 
-#' @param Value numeric. A vector of demographic counts by single age.
-#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
-#' @param ageMin integer. The lowest age included in calculations. Default 30.
-#' @param ageMax integer. The upper age bound used for calculations. Default 79.
+#' @inheritParams Whipple
 #' @param pasex logical. Whether or not reproduce the specific age weightings in the PASEX spreadsheet. Default \code{FALSE}.
 #' 
 #' @details \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
@@ -250,10 +247,7 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 #' an index. This procedure was used in that paper for ages 65-100 for mortality rates. 
 #' It is probably better suited to rates than counts, but that is not a hard rule.
 #' 
-#' @param Value numeric. A vector of demographic rates or counts by single age.
-#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
-#' @param ageMin integer. The lowest age included in calculations. Default 20.
-#' @param ageMax integer. The upper age bound used for calculations. Default \code{max(Age)}.
+#' @inheritParams Whipple
 #' @param terms integer. Length of the (centered) moving average be. Default 5.
 #' @param digit integer. Any digit 0-9. Default 0.
 
