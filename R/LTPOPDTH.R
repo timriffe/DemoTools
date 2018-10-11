@@ -153,12 +153,17 @@ LTabr <- function(
 		IMR = NA,
 		mod = TRUE,
 		OAnew = max(Age),
-		extrapLaw = c("Kannisto", "Gompertz", "Gamma-Gompertz", "Makeham", "Beard",
-                   "Makeham-Beard", "Quadratic")[1]){
+		extrapLaw = c( "Makeham","Kannisto", "Gompertz", "Gamma-Gompertz", "Beard",
+                   "Makeham-Beard", "Quadratic")[1],
+		extrapFrom = max(Age)){
 	# this is a hard rule for now. May be relaxed if the 
 	# ABACUS code is relaxed. For now mostly unmodified.
-	stopifnot(OAnew <= 100)
-	
+	#stopifnot(OAnew <= 100)
+	# now overwriting raw nMx is allowed by lowering this
+	# arbitrary lower bound to accept the fitted model. Really
+	# this functionality is intended for extrapolation and not
+	# model overwriting of rates.
+	stopifnot(extrapFrom <= max(Age) & (extrapFrom > 50))
 	# need to make it possible to start w (D,E), M, q or l...
 	
 	# 1) if lx given but not qx:
@@ -217,7 +222,7 @@ LTabr <- function(
 	# TR: begin new chunk 28 Feb, 2018 to allow extention 
 	# and at a minimum give a better ex and ax estimate 
 	# in open age group. But only if OA <= 100.
-# TR: Oct 11, consider ability to overwrite mx using the 
+# TR: Oct 11, 2018: consider ability to overwrite mx using the 
 # extrapolation law invoked. Ask PG if desired. Deprecate
 # abacus code, too hard to maintain. Variety of laws now avail
 # no guarantee of monotonicity in old age however. Consider extrapolating
@@ -225,16 +230,27 @@ LTabr <- function(
 # closeout ex and ax, but wouldn't affect the other columns.
 	OA     <- max(Age)
 	if (OA <= OAnew){
-		x_extr <- seq(max(Age), OAnew,by=5)
+		x_fit  <- Age[Age >= 40]
+		x_extr <- seq(extrapFrom, OAnew + 10, by = 5)
 		Mxnew <- extra_mortality(
 				x = Age, 
 				mx = nMx, 
+				x_fit = x_fit,
 				x_extr = x_extr,
 				law = extrapLaw)
-		nMx <- Mxnew$values
-		Age <- names2age(nMx)
+#		str(Mxnew$fitted.model$fitted.values)
+#		plot(Mxnew$fitted.model$fitted.values,xlim=c(0,25))
+#		lines(nMx)
+#	lines(Mxnew$values)
+#		?extra_mortality
+		nMxext <- Mxnew$values
+		Age2   <- names2age(nMxext)
+		# for now, no overwriting of earlier mx
+	    # sum(Age <= extrapFrom)
+		nMxext[Age2 <= extrapFrom] <- nMx[Age <= extrapFrom]
+		nMx    <- nMxext
 		# i.e. open age may or may not be treated as such as of here
-		AgeInt <- age2int(Age,OAG=TRUE,OAvalue=max(AgeInt))
+		AgeInt <- age2int(Age2,OAG=TRUE,OAvalue=max(AgeInt))
 		# redo ax for extended ages
 		nAx <- mxorqx2ax(
 				nMx = nMx, 
@@ -277,14 +293,26 @@ LTabr <- function(
 	#	nqx    <- ABACUS[, "qx"]
 	#	nAx    <- ABACUS[, "ax"]
 	#}
-	# end extention chunk added Feb 28, 2018
-	# following code as before
-	
+	# TR: the lifetable is the shortest part of this code!
 	lx  <- qx2lx(nqx, radix = radix)
 	ndx <- lx2dx(lx)
 	nLx <- lxdxax2Lx(lx = lx, ndx = ndx, nax = nAx, AgeInt = AgeInt)
 	Tx  <- Lx2Tx(nLx)
 	ex  <- Tx / lx
+	
+	# TR: now cut down due to closeout method (added 11 Oct 2018)
+	ind <- Age2 <= OAnew
+	Age <- Age2[ind]
+	AgeInt <- AgeInt[ind]
+	nAx <- nAx[ind]
+	nMx <- nMx[ind]
+	nqx <- nqx[ind]
+	nqx[length(nqx)] <- 1
+	lx  <- lx[ind]
+	ndx <- lx2dx(lx)
+	nLx <- nLx[ind]
+	Tx  <- Tx[ind]
+	ex  <- ex[ind]
 	
 	# output is an unrounded, unsmoothed lifetable
 	out <- data.frame(
