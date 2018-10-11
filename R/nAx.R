@@ -580,3 +580,75 @@ aomegaMORTPAK <- function(mx_or_qx,qind=FALSE){
 	OUT[nrow(OUT),"ax"]
 }
 
+# need new function to take care of a(x) given either nmx or nqx, to remove some of the ugly decision
+# making from LTabr().
+
+#' wrapper to invoke PAS or UN ax methods given qx or mx
+#' @description Given either mx or qx, call either the \code{axUN()} or \code{axPAS()} functions.
+#' @inheritParams LTabr DemoTools
+#' @return nax average contribution to exposure of those dying in the interval.
+#' @references
+#' \insertRef{greville1977short}{DemoTools}
+#' \insertRef{un1982model}{DemoTools}
+#' \insertRef{arriaga1994population}{DemoTools}
+#' \insertRef{mortpak1988}{DemoTools}
+#' \insertRef{united1983manual}{DemoTools}
+#' \insertRef{PAS}{DemoTools}
+#' @export
+
+mxorqx2ax <- function(nMx,nqx,axmethod = c("pas","un")[1],AgeInt,IMR=NA,Sex,region,OAG=TRUE,mod=TRUE){
+	
+	if (axmethod == "pas"){
+		# what if only qx was given?
+		if (missing(nMx)){
+			fakenMx <- nqx
+			nAx       <- axPAS(
+					nMx = fakenMx, 
+					AgeInt = AgeInt, 
+					IMR = nqx[1], 
+					Sex = Sex, 
+					region = region,
+					OAG = OAG)
+			
+		} else {
+			# if nMx avail, then Open age group
+			# closed according to convention.
+			nAx       <- axPAS(
+					nMx = nMx, 
+					AgeInt = AgeInt, 
+					IMR = IMR, 
+					Sex = Sex, 
+					region = region,
+					OAG = TRUE)
+		}	
+	}
+	if (axmethod == "un"){
+		# UN method just CD west for now, so no region arg
+		# no sense calling Abacus here because it gets called later if necessary
+		if (missing(nMx)){
+			#fakenMx   <- nqx
+			nAx       <- axUN(
+					nqx = nqx, 
+					AgeInt = AgeInt, 
+					IMR = nqx[1], 
+					Sex = Sex, 
+					region = region,
+					mod = mod,
+					closeout = "")
+			
+		} else {
+			nAx       <- axUN(
+					nMx = nMx, 
+					AgeInt = AgeInt, 
+					IMR = IMR, 
+					Sex = Sex, 
+					region = region,
+					mod = mod,
+					closeout = "")
+		}	
+		
+	}
+	nAx
+}
+
+

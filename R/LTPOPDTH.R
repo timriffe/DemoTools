@@ -152,7 +152,9 @@ LTabr <- function(
 		region = "w",
 		IMR = NA,
 		mod = TRUE,
-		OAnew = max(Age)){
+		OAnew = max(Age),
+		extrapLaw = c("Kannisto", "Gompertz", "Gamma-Gompertz", "Makeham", "Beard",
+                   "Makeham-Beard", "Quadratic")[1]){
 	# this is a hard rule for now. May be relaxed if the 
 	# ABACUS code is relaxed. For now mostly unmodified.
 	stopifnot(OAnew <= 100)
@@ -180,59 +182,29 @@ LTabr <- function(
 	axmethod      <- tolower(axmethod)
 	Sex           <- tolower(Sex)
 	region        <- tolower(region)
-	
+	extrapLaw     <- tolower(extrapLaw)
 	# take care of ax first, two ways presently
-	if (axmethod == "pas"){
-		# what if only qx was given?
-		if (missing(nMx)){
-			fakenMx <- nqx
-			nAx       <- axPAS(
-					nMx = fakenMx, 
-					AgeInt = AgeInt, 
-					IMR = nqx[1], 
-					Sex = Sex, 
-					region = region,
-					OAG = TRUE)
-			
-		} else {
-			# if nMx avail, then Open age group
-			# closed according to convention.
-			nAx       <- axPAS(
-					nMx = nMx, 
-					AgeInt = AgeInt, 
-					IMR = IMR, 
-					Sex = Sex, 
-					region = region,
-					OAG = TRUE)
-		}	
+	if (missing(nMx)){
+		nAx <- mxorqx2ax(
+				nqx = nqx, 
+				axmethod = axmethod,
+				AgeInt = AgeInt,
+				Sex = Sex,
+				region = region, 
+				OAG = TRUE, 
+				mod = TRUE)
+	} else {
+		nAx <- mxorqx2ax(
+				nMx = nMx, 
+				axmethod = axmethod,
+				AgeInt = AgeInt,
+				Sex = Sex,
+				region = region, 
+				OAG = TRUE, 
+				mod = TRUE)
 	}
-	if (axmethod == "un"){
-		# UN method just CD west for now, so no region arg
-		# no sense calling Abacus here because it gets called later if necessary
-		if (missing(nMx)){
-			#fakenMx   <- nqx
-			nAx       <- axUN(
-					nqx = nqx, 
-					AgeInt = AgeInt, 
-					IMR = nqx[1], 
-					Sex = Sex, 
-					region = region,
-					mod = mod,
-					closeout = "")
-			
-		} else {
-			nAx       <- axUN(
-					nMx = nMx, 
-					AgeInt = AgeInt, 
-					IMR = IMR, 
-					Sex = Sex, 
-					region = region,
-					mod = mod,
-					closeout = "")
-		}	
-		
-	}
-	# as of here we have nAx either way. And we have either mx or qx.
+
+#	# as of here we have nAx either way. And we have either mx or qx.
 	
 	if (missing(nqx)){
 		nqx <- mxax2qx(nMx = nMx, nax = nAx, AgeInt = AgeInt, closeout = TRUE, IMR = IMR)
@@ -240,34 +212,71 @@ LTabr <- function(
 	if (missing(nMx)){
 		nMx <- qxax2mx(nqx = nqx, nax = nAx, AgeInt = AgeInt)
 	}
-	# now we have all three, [mx,ax,qx] guaranteed
+	# now we have all three, [mx,ax,qx] guaranteed.
 	
 	# TR: begin new chunk 28 Feb, 2018 to allow extention 
 	# and at a minimum give a better ex and ax estimate 
-	# in open age group. But only if OA <= 100
+	# in open age group. But only if OA <= 100.
+# TR: Oct 11, consider ability to overwrite mx using the 
+# extrapolation law invoked. Ask PG if desired. Deprecate
+# abacus code, too hard to maintain. Variety of laws now avail
+# no guarantee of monotonicity in old age however. Consider extrapolating
+# to OAnew + 10 and then truncating lifetable, which would give a better
+# closeout ex and ax, but wouldn't affect the other columns.
 	OA     <- max(Age)
-	if (OA <= 100){
+	if (OA <= OAnew){
+		x_extr <- seq(max(Age), OAnew,by=5)
+		Mxnew <- extra_mortality(
+				x = Age, 
+				mx = nMx, 
+				x_extr = x_extr,
+				law = extrapLaw)
+		nMx <- Mxnew$values
+		Age <- names2age(nMx)
+		# i.e. open age may or may not be treated as such as of here
+		AgeInt <- age2int(Age,OAG=TRUE,OAvalue=max(AgeInt))
+		# redo ax for extended ages
+		nAx <- mxorqx2ax(
+				nMx = nMx, 
+				axmethod = axmethod,
+				AgeInt = AgeInt,
+				Sex = Sex,
+				region = region, 
+				OAG = TRUE, 
+				mod = TRUE)
+		nqx <- mxax2qx(
+				nMx = nMx, 
+				nax = nAx, 
+				AgeInt = AgeInt, 
+				closeout = TRUE, 
+				IMR = IMR)
 		
-		# TR this_single line can be swapped out as needed later.
-		ABACUS <- AbacusLIFTB_wrap(Mx = nMx, OAnew = OAnew, Sex = Sex)
-		
-		# get age elements
-		Agea   <- as.integer(rownames(ABACUS))
-		AgeInt <- inferAgeIntAbr(Age = Agea)
-		OAC    <- min(c(OA,OAnew))
-		ind    <- Age < OAC
-		inda   <- Agea < OAC
-		
-		# impute previous values
-		ABACUS[inda, "Mx"] <- nMx[ind]
-		ABACUS[inda, "qx"] <- nqx[ind]
-		ABACUS[inda, "ax"] <- nAx[ind]
-		
-		# and extract full (simpler operation)
-		nMx    <- ABACUS[, "Mx"]
-		nqx    <- ABACUS[, "qx"]
-		nAx    <- ABACUS[, "ax"]
 	}
+	
+	# TR: note abacus was overwriting any previous nqx/nax it would seem,
+    # since only mx is given, yet all columns returned. hmm.
+	#if (OA <= 100){
+		
+	#	# TR this_single line can be swapped out as needed later.
+	#	ABACUS <- AbacusLIFTB_wrap(Mx = nMx, OAnew = OAnew, Sex = Sex)
+		
+	#	# get age elements
+	#	Agea   <- as.integer(rownames(ABACUS))
+	#	AgeInt <- inferAgeIntAbr(Age = Agea)
+	#	OAC    <- min(c(OA,OAnew))
+	#	ind    <- Age < OAC
+	#	inda   <- Agea < OAC
+	#	
+	#	# impute previous values
+	#	ABACUS[inda, "Mx"] <- nMx[ind]
+	#	ABACUS[inda, "qx"] <- nqx[ind]
+	#	ABACUS[inda, "ax"] <- nAx[ind]
+	#	
+	#	# and extract full (simpler operation)
+	#	nMx    <- ABACUS[, "Mx"]
+	#	nqx    <- ABACUS[, "qx"]
+	#	nAx    <- ABACUS[, "ax"]
+	#}
 	# end extention chunk added Feb 28, 2018
 	# following code as before
 	
@@ -279,7 +288,7 @@ LTabr <- function(
 	
 	# output is an unrounded, unsmoothed lifetable
 	out <- data.frame(
-			Age = Agea,
+			Age = Age,
 			AgeInt = AgeInt,
 			nMx = nMx,
 			nAx = nAx,

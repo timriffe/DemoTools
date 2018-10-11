@@ -566,7 +566,14 @@ AbacusLIFTB_wrap <- function(Mx, qx, mx_ind = TRUE, OAnew = 100, Sex = "m"){
 	AgeI            <- maxA2abridged(OAnew) + 1
 	ARRAY           <- ARRAY[AgeI, ]
 	if (sum(ARRAY == 0) / length(ARRAY) > .9){
-		warning(OUT$ErrorCode)
+		ErrorMessages <- c("NFIN out of range of 65 to 100 (must be multiple of 5)",
+				"NTYPE is not 1 or 2",
+				"NTYPE is not 1 or 2",
+				"NSEX is not 1 or 2",
+				"Input q(x) or m(x) is outside the range of 0 and 1",
+				"Input q(x) or m(x) is outside the range of 0 and 1",
+				"Warning - mortality rates not increasing monotonically at older ages")
+		warning(ErrorMessages[OUT$ErrorCode])
 	}
 	colnames(ARRAY) <- c("Mx","qx","lx","dx","Lx","Sx","Tx","ex","ax")
 	rownames(ARRAY) <- AgeI - 1
