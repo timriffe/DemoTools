@@ -6,4 +6,6 @@
 library(magrittr)
 library(devtools)
 library(testthat)
+# rebuild the latest version of DemoTools
+install_github("timriffe/DemoTools")
 library(DemoTools)

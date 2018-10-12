@@ -15,6 +15,7 @@ Authors@R: c(
 Description: A collection of classic demographic methods used to evaluate, adjust, and standardize demographic data.
 License: file LICENSE
 LazyLoad: yes
+LazyData: true
 RoxygenNote: 6.1.0
 Suggests:
   covr,
