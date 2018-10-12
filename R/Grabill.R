@@ -135,10 +135,10 @@ grabillExpand <- function(popmat, OAG = TRUE){
 #' }
 #' 
 #' # also works for single ages:
-#' popmat <- structure(pop1m_ind, .Dimnames = list(0:100, NULL))
-#' grab1 <- grabill(popmat)
+#' names(pop1m_ind) <- 0:100
+#' grab1 <- grabill(pop1m_ind)
 #' \dontrun{
-#' plot(0:100, c(popmat))
+#' plot(0:100, pop1m_ind)
 #' lines(0:100, c(grab1))
 #' }
 grabill <- function(
