@@ -2,11 +2,6 @@
 ###############################################################################
 context("test-grabill")
 
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
-})
-
-
 test_that("grabillExpand works",{
     p5 <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933,
                       23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941,
@@ -28,7 +23,7 @@ test_that("grabillExpand works",{
 
 
 test_that("grabill works",{
-    popmat <- structure(pop1m_ind, .Dimnames = list(0:100, NULL))
+    popmat <- matrix(pop1m_ind, dimnames = list(0:100, NULL))
     expect_equal(as.vector(head(grabill(popmat), 2)), 
                  c(9350426.61, 10050060.85), 
                  tolerance = 1e-2)
