@@ -7,7 +7,7 @@
 # logic of data objects naming --------------------------------------------
 # First 3 letters -- typo of data, ususally pop or dth
 # Then index of age grouping: 1, 5 or A (abridged)
-# One letter index of sex: b, f, or m
+# One letter index of sex: f or m (no index -- both sex)
 # _ followed by arbitrary indicator of the specific data
 
 # Source to be copied to R/data.R description
@@ -15,7 +15,6 @@
 
 # India males population 1991
 # Source:
-
 pop1m_ind <- c(
     9544406, 7471790, 11590109, 11881844, 11872503, 12968350, 11993151, 10033918,
     14312222, 8111523, 15311047, 6861510, 13305117, 7454575, 9015381, 10325432,
@@ -32,3 +31,25 @@ pop1m_ind <- c(
 )
 
 devtools::use_data(pop1m_ind, overwrite = T)
+
+
+
+# Population array 5 year age groups 1950-1954
+# Source: 
+pop5_mat <- structure(
+    c(54170, 44775, 42142, 38464, 34406, 30386, 26933,
+      23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941,
+      326, 80, 17, 0, 57424, 44475, 41752, 39628, 34757, 30605, 27183,
+      23792, 20724, 17056, 14059, 10585, 8103, 5306, 3367, 2040, 963,
+      315, 80, 16, 1, 60272, 44780, 41804, 40229, 35155, 30978, 27456,
+      24097, 20873, 17546, 13990, 11146, 7841, 5738, 3184, 2062, 961,
+      311, 80, 15, 1, 62727, 45681, 42101, 40474, 35599, 31439, 27758,
+      24396, 21055, 17958, 14046, 11589, 7731, 6060, 3086, 2083, 949,
+      312, 79, 14, 1, 64816, 47137, 42508, 40532, 36083, 31940, 28092,
+      24693, 21274, 18299, 14223, 11906, 7785, 6255, 3090, 2084, 938,
+      316, 80, 14, 2),
+    .Dim = c(21L, 5L),
+    .Dimnames = list(seq(0,100,by=5), 1950:1954)
+)
+
+devtools::use_data(pop5_mat, overwrite = T)

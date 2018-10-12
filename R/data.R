@@ -34,3 +34,14 @@
 "pop1m_ind"
 
 
+#' Matrix of population over 5 years
+#'
+#' Matrix of population over 5 years, 5 year age groups, some population 1950-1954
+#'
+#' @format
+#'   A matrix of 21 rows and 5 columns 
+#'   
+#' @source
+#'   The data comes from
+#'   \url{https://URL}
+"pop5_mat"
