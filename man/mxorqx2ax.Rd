@@ -22,6 +22,8 @@ mxorqx2ax(nMx, nqx, axmethod = c("pas", "un")[1], AgeInt, IMR = NA,
 
 \item{region}{character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.}
 
+\item{OAG}{logical. Whether or not the last element of \code{nMx} is the open age group Default \code{TRUE}.}
+
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Patrick Gerland's modification for ages 5-14. Default \code{TRUE}.}
 }
 \value{

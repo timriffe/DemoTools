@@ -586,6 +586,7 @@ aomegaMORTPAK <- function(mx_or_qx,qind=FALSE){
 #' wrapper to invoke PAS or UN ax methods given qx or mx
 #' @description Given either mx or qx, call either the \code{axUN()} or \code{axPAS()} functions.
 #' @inheritParams LTabr
+#' @param OAG logical. Whether or not the last element of \code{nMx} is the open age group Default \code{TRUE}.
 #' @return nax average contribution to exposure of those dying in the interval.
 #' @references
 #' \insertRef{greville1977short}{DemoTools}

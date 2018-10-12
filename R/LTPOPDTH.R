@@ -271,6 +271,7 @@ LTabr <- function(
 				AgeInt = AgeInt, 
 				closeout = TRUE, 
 				IMR = IMR)
+		Age <- Age2
 		
 	}
 	
@@ -306,8 +307,8 @@ LTabr <- function(
 	ex  <- Tx / lx
 	
 	# TR: now cut down due to closeout method (added 11 Oct 2018)
-	ind <- Age2 <= OAnew
-	Age <- Age2[ind]
+	ind <- Age <= OAnew
+	Age <- Age[ind]
 	AgeInt <- AgeInt[ind]
 	nAx <- nAx[ind]
 	nMx <- nMx[ind]
