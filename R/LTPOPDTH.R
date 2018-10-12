@@ -6,7 +6,7 @@
 #' @description Given vectors for Deaths and Exposures, or Mx, or qx, or lx, calculate a full abridged lifetable.
 #' 
 #' @details The main variations here are in the treatment of nAx. In all cases, the lifetable is extended and closed out 
-#' using the method of Mortpak (Abacus version). 
+#' using one from a selection of methods implemented in the \code{MortalityLaws} package. 
 #' For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 100 in the present implementation.
 #' The ax method beyond and including the original open age group in the data follows the Mortpak (UN) method only.
 #' 
@@ -23,8 +23,12 @@
 #' @param region character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.
 #' @param IMR numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.
 #' @param mod logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Patrick Gerland's modification for ages 5-14. Default \code{TRUE}.
-#' @param OAnew integer. Desired open age group (5-year ages only). Default \code{max(Age)}.
-#' @export
+#' @param OAnew integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.
+#' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto","Makeham", "Gompertz", "Gamma-Gompertz", "Beard",
+#'                    "Makeham-Beard", "Quadratic"}. Default \code{"Kannisto"}. See details.
+#' @param extrapFrom integer. Age from which to impute extrapolated mortality.
+#' @param extrapFit integer vector. Ages to include in model fitting. Defaults to all ages \code{>=60}.
+#' @export 
 #' @return Lifetable in data.frame with columns
 #' \itemize{
 #'   \item{Age}{integer. Lower bound of abridged age class},
@@ -153,9 +157,10 @@ LTabr <- function(
 		IMR = NA,
 		mod = TRUE,
 		OAnew = max(Age),
-		extrapLaw = c( "Makeham","Kannisto", "Gompertz", "Gamma-Gompertz", "Beard",
+		extrapLaw = c("Kannisto", "Makeham", "Gompertz", "Gamma-Gompertz", "Beard",
                    "Makeham-Beard", "Quadratic")[1],
-		extrapFrom = max(Age)){
+		extrapFrom = max(Age),
+		extrapFit = Age[Age >= 60]){
 	# this is a hard rule for now. May be relaxed if the 
 	# ABACUS code is relaxed. For now mostly unmodified.
 	#stopifnot(OAnew <= 100)
@@ -230,12 +235,12 @@ LTabr <- function(
 # closeout ex and ax, but wouldn't affect the other columns.
 	OA     <- max(Age)
 	if (OA <= OAnew){
-		x_fit  <- Age[Age >= 40]
+		#x_fit  <- Age[Age >= 60]
 		x_extr <- seq(extrapFrom, OAnew + 10, by = 5)
 		Mxnew <- extra_mortality(
 				x = Age, 
 				mx = nMx, 
-				x_fit = x_fit,
+				x_fit = extrapFit,
 				x_extr = x_extr,
 				law = extrapLaw)
 #		str(Mxnew$fitted.model$fitted.values)
@@ -251,7 +256,7 @@ LTabr <- function(
 		nMx    <- nMxext
 		# i.e. open age may or may not be treated as such as of here
 		AgeInt <- age2int(Age2,OAG=TRUE,OAvalue=max(AgeInt))
-		# redo ax for extended ages
+		# redo ax and qx for extended ages
 		nAx <- mxorqx2ax(
 				nMx = nMx, 
 				axmethod = axmethod,

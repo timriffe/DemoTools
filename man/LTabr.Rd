@@ -6,7 +6,9 @@
 \usage{
 LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = inferAgeIntAbr(Age =
   Age), radix = 1e+05, axmethod = "pas", Sex = "m", region = "w",
-  IMR = NA, mod = TRUE, OAnew = max(Age))
+  IMR = NA, mod = TRUE, OAnew = max(Age), extrapLaw = c("Kannisto",
+  "Makeham", "Gompertz", "Gamma-Gompertz", "Beard", "Makeham-Beard",
+  "Quadratic")[1], extrapFrom = max(Age), extrapFit = Age[Age >= 60])
 }
 \arguments{
 \item{Deaths}{numeric. Vector of death counts in abridged age classes.}
@@ -35,7 +37,14 @@ LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = inferAgeIntAbr(Age =
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Patrick Gerland's modification for ages 5-14. Default \code{TRUE}.}
 
-\item{OAnew}{integer. Desired open age group (5-year ages only). Default \code{max(Age)}.}
+\item{OAnew}{integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.}
+
+\item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto","Makeham", "Gompertz", "Gamma-Gompertz", "Beard",
+"Makeham-Beard", "Quadratic"}. Default \code{"Kannisto"}. See details.}
+
+\item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
+
+\item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>=60}.}
 }
 \value{
 Lifetable in data.frame with columns
@@ -57,7 +66,7 @@ Given vectors for Deaths and Exposures, or Mx, or qx, or lx, calculate a full ab
 }
 \details{
 The main variations here are in the treatment of nAx. In all cases, the lifetable is extended and closed out 
-using the method of Mortpak (Abacus version). 
+using one from a selection of methods implemented in the \code{MortalityLaws} package. 
 For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 100 in the present implementation.
 The ax method beyond and including the original open age group in the data follows the Mortpak (UN) method only.
 }
