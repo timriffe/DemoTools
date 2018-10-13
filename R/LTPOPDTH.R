@@ -1,4 +1,6 @@
-
+# TODO: introducing new OAG argument, but not being handled well by UN ax method.
+# when FALSE it appears to still be doing an abacus extrapolation which goes haywire
+# with patrick's qx test case.
 # Author: tim
 ###############################################################################
 
@@ -156,6 +158,7 @@ LTabr <- function(
 		region = "w",
 		IMR = NA,
 		mod = TRUE,
+		OAG = TRUE,
 		OAnew = max(Age),
 		extrapLaw = c("Kannisto", "Makeham", "Gompertz", "Gamma-Gompertz", "Beard",
                    "Makeham-Beard", "Quadratic")[1],
@@ -201,7 +204,7 @@ LTabr <- function(
 				AgeInt = AgeInt,
 				Sex = Sex,
 				region = region, 
-				OAG = TRUE, 
+				OAG = OAG, 
 				mod = mod,
 				IMR = IMR)
 	} else {
@@ -211,7 +214,7 @@ LTabr <- function(
 				AgeInt = AgeInt,
 				Sex = Sex,
 				region = region, 
-				OAG = TRUE, 
+				OAG = OAG, 
 				mod = mod,
 				IMR = IMR)
 	}
@@ -253,6 +256,7 @@ LTabr <- function(
 		nMxext[Age2 <= extrapFrom] <- nMx[Age <= extrapFrom]
 		nMx    <- nMxext
 		# i.e. open age may or may not be treated as such as of here
+	    # if extrapolating from now on OAG is true.
 		AgeInt <- age2int(Age2,OAG=TRUE,OAvalue=max(AgeInt))
 		# redo ax and qx for extended ages
 		nAx <- mxorqx2ax(
@@ -272,31 +276,7 @@ LTabr <- function(
 		Age <- Age2
 		
 	}
-	
-	# TR: note abacus was overwriting any previous nqx/nax it would seem,
-    # since only mx is given, yet all columns returned. hmm.
-	#if (OA <= 100){
-		
-	#	# TR this_single line can be swapped out as needed later.
-	#	ABACUS <- AbacusLIFTB_wrap(Mx = nMx, OAnew = OAnew, Sex = Sex)
-		
-	#	# get age elements
-	#	Agea   <- as.integer(rownames(ABACUS))
-	#	AgeInt <- inferAgeIntAbr(Age = Agea)
-	#	OAC    <- min(c(OA,OAnew))
-	#	ind    <- Age < OAC
-	#	inda   <- Agea < OAC
-	#	
-	#	# impute previous values
-	#	ABACUS[inda, "Mx"] <- nMx[ind]
-	#	ABACUS[inda, "qx"] <- nqx[ind]
-	#	ABACUS[inda, "ax"] <- nAx[ind]
-	#	
-	#	# and extract full (simpler operation)
-	#	nMx    <- ABACUS[, "Mx"]
-	#	nqx    <- ABACUS[, "qx"]
-	#	nAx    <- ABACUS[, "ax"]
-	#}
+
 	# TR: the lifetable is the shortest part of this code!
 	lx  <- qx2lx(nqx, radix = radix)
 	ndx <- lx2dx(lx)
