@@ -6,9 +6,10 @@
 \usage{
 LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = inferAgeIntAbr(Age =
   Age), radix = 1e+05, axmethod = "pas", Sex = "m", region = "w",
-  IMR = NA, mod = TRUE, OAnew = max(Age), extrapLaw = c("Kannisto",
-  "Makeham", "Gompertz", "Gamma-Gompertz", "Beard", "Makeham-Beard",
-  "Quadratic")[1], extrapFrom = max(Age), extrapFit = Age[Age >= 60])
+  IMR = NA, mod = TRUE, OAG = TRUE, OAnew = max(Age),
+  extrapLaw = c("Kannisto", "Makeham", "Gompertz", "Gamma-Gompertz",
+  "Beard", "Makeham-Beard", "Quadratic")[1], extrapFrom = max(Age),
+  extrapFit = Age[Age >= 60])
 }
 \arguments{
 \item{Deaths}{numeric. Vector of death counts in abridged age classes.}
@@ -36,6 +37,8 @@ LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = inferAgeIntAbr(Age =
 \item{IMR}{numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.}
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Patrick Gerland's modification for ages 5-14. Default \code{TRUE}.}
+
+\item{OAG}{logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.}
 
 \item{OAnew}{integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.}
 

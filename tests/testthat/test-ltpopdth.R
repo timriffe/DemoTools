@@ -90,7 +90,12 @@ test_that("LTabr works on UN 1982 (p. 34) example", {
 
 # Mortpak example --------------------------------------------------------
 
-# TR Oct 12: changes to LTabr() break these and I need to figure out why.
+# TR Oct 13: I've been tinkering with these, and for now we no longer
+# have the option of reproducing these results. This is because we have 
+# an internally consistent closeout procedure that does not include
+# the ABACUS method as an option. It wins us consistency, though.
+# IFF I revitalize the Mortpak closeout method then it'll come back
+# in via args and be tested, but for now can't do that.
 test_that("LTabr works on Mortpak example (United Nations 1988, p. 82)", {
     
     MPnMx <- c(0.12846, 0.02477, 0.00603, 0.0034,
@@ -150,11 +155,14 @@ test_that("LTabr works on Mortpak example (United Nations 1988, p. 82)", {
 #        tolerance = .002
 #    )
     
-    expect_equal(
-        MP_UNLT80$ex,
-        MPexcheck,
-        tolerance = .002
-    )
+# TR Oct 13 2018: now removed this one as we no longer have a comparable case!
+# new procedure is to extrapolate to a very high age ALWAYS using
+# MotalityLaws, then truncate to OAnew, 
+ #   expect_equal(
+ #       MP_UNLT80$ex,
+ #       MPexcheck,
+ #       tolerance = .002
+ #   )
     
     # identical results irrespective of max age
     expect_equal(
@@ -163,12 +171,11 @@ test_that("LTabr works on Mortpak example (United Nations 1988, p. 82)", {
         tolerance = 1e-12
     )
     
-	# TR: same thing: e(x) is sensitive to closeout, so if we change
-# the extrapolation method it should ne different. I suggest instead
-# testing l(x) [or maybe L(x), but maybe closeout affects it too]
-#    expect_equal(
-#        MP_UNLT80$ex,
-#        MP_UNLT100$ex[1:length(MP_UNLT80$ex)],
-#        tolerance = 1e-12
-#    )
+	# TR: as of now closeout is always the same and there
+    # is no way to turn it off.
+    expect_equal(
+        MP_UNLT80$ex,
+        MP_UNLT100$ex[1:length(MP_UNLT80$ex)],
+        tolerance = 1e-12
+    )
 })

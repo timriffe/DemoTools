@@ -26,6 +26,7 @@
 #' @param IMR numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.
 #' @param mod logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Patrick Gerland's modification for ages 5-14. Default \code{TRUE}.
 #' @param OAnew integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.
+#' @param OAG logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto","Makeham", "Gompertz", "Gamma-Gompertz", "Beard",
 #'                    "Makeham-Beard", "Quadratic"}. Default \code{"Kannisto"}. See details.
 #' @param extrapFrom integer. Age from which to impute extrapolated mortality.
@@ -172,6 +173,7 @@ LTabr <- function(
 	# this functionality is intended for extrapolation and not
 	# model overwriting of rates.
 	stopifnot(extrapFrom <= max(Age) & (extrapFrom > 50))
+	stopifnot(OAnew <= 110)
 	# need to make it possible to start w (D,E), M, q or l...
 	
 	# 1) if lx given but not qx:
@@ -228,58 +230,53 @@ LTabr <- function(
 		nMx <- qxax2mx(nqx = nqx, nax = nAx, AgeInt = AgeInt)
 	}
 	# now we have all three, [mx,ax,qx] guaranteed.
-	
-	# TR: begin new chunk 28 Feb, 2018 to allow extention 
-	# and at a minimum give a better ex and ax estimate 
-	# in open age group. But only if OA <= 100.
-# TR: Oct 11, 2018: consider ability to overwrite mx using the 
-# extrapolation law invoked. Ask PG if desired. Deprecate
-# abacus code, too hard to maintain. Variety of laws now avail
-# no guarantee of monotonicity in old age however. Consider extrapolating
-# to OAnew + 10 and then truncating lifetable, which would give a better
-# closeout ex and ax, but wouldn't affect the other columns.
 
-# TR: 13 Oct 2018. NOTE switch to always extrapolate to 120 no matter what,
+# --------------------------------
+# begin extrapolation:
+
+# TR: Oct 11, 2018: Deprecate abacus code, too hard to maintain. Variety of laws now avail
+# no guarantee of monotonicity in old age however.
+
+# TR: 13 Oct 2018. NOTE switch to always extrapolate to 130 no matter what,
 # then truncate to OAnew in all cases. This will ensure more robust closeouts
-# and an e(x) that doesn't depend on OAnew.
+# and an e(x) that doesn't depend on OAnew. 130 used in same way by HMD by the way.
 	OA     <- max(Age)
-	if (OA < OAnew){
-		#x_fit  <- Age[Age >= 60]
-		x_extr <- seq(extrapFrom, OAnew + 10, by = 5)
-		Mxnew <- extra_mortality(
-				x = Age, 
-				mx = nMx, 
-				x_fit = extrapFit,
-				x_extr = x_extr,
-				law = extrapLaw)
-
-		nMxext <- Mxnew$values
-		Age2   <- names2age(nMxext)
-		# for now, no overwriting of earlier mx
-	    # sum(Age <= extrapFrom)
-		nMxext[Age2 <= extrapFrom] <- nMx[Age <= extrapFrom]
-		nMx    <- nMxext
-		# i.e. open age may or may not be treated as such as of here
-	    # if extrapolating from now on OAG is true.
-		AgeInt <- age2int(Age2,OAG=TRUE,OAvalue=max(AgeInt))
-		# redo ax and qx for extended ages
-		nAx <- mxorqx2ax(
-				nMx = nMx, 
-				axmethod = axmethod,
-				AgeInt = AgeInt,
-				Sex = Sex,
-				region = region, 
-				OAG = TRUE, 
-				mod = mod)
-		nqx <- mxax2qx(
-				nMx = nMx, 
-				nax = nAx, 
-				AgeInt = AgeInt, 
-				closeout = TRUE, 
-				IMR = IMR)
-		Age <- Age2
-		
-	}
+	#if (OA < OAnew){
+	#x_fit  <- Age[Age >= 60]
+    # TR: changed here:
+	x_extr <- seq(extrapFrom, 130, by = 5)
+	Mxnew <- extra_mortality(
+			x = Age, 
+			mx = nMx, 
+			x_fit = extrapFit,
+			x_extr = x_extr,
+			law = extrapLaw)
+	
+	nMxext        <- Mxnew$values
+	Age2          <- names2age(nMxext)
+	keepi         <- Age2 <= extrapFrom
+	nMxext[keepi] <- nMx[Age <= extrapFrom]
+	nMx           <- nMxext
+	AgeInt        <- age2int(Age2,OAG=TRUE,OAvalue=max(AgeInt))
+	# redo ax and qx for extended ages
+	nAx <- mxorqx2ax(
+			nMx = nMx, 
+			axmethod = axmethod,
+			AgeInt = AgeInt,
+			Sex = Sex,
+			region = region, 
+			OAG = TRUE, 
+			mod = mod)
+	nqx <- mxax2qx(
+			nMx = nMx, 
+			nax = nAx, 
+			AgeInt = AgeInt, 
+			closeout = TRUE, 
+			IMR = IMR)
+	Age <- Age2
+	
+# end extrapolation
+# ---------------------------------
 
 	# TR: the lifetable is the shortest part of this code!
 	lx  <- qx2lx(nqx, radix = radix)
