@@ -202,7 +202,7 @@ LTabr <- function(
 				Sex = Sex,
 				region = region, 
 				OAG = TRUE, 
-				mod = TRUE,
+				mod = mod,
 				IMR = IMR)
 	} else {
 		nAx <- mxorqx2ax(
@@ -212,7 +212,7 @@ LTabr <- function(
 				Sex = Sex,
 				region = region, 
 				OAG = TRUE, 
-				mod = TRUE,
+				mod = mod,
 				IMR = IMR)
 	}
 
@@ -236,7 +236,7 @@ LTabr <- function(
 # to OAnew + 10 and then truncating lifetable, which would give a better
 # closeout ex and ax, but wouldn't affect the other columns.
 	OA     <- max(Age)
-	if (OA <= OAnew){
+	if (OA < OAnew){
 		#x_fit  <- Age[Age >= 60]
 		x_extr <- seq(extrapFrom, OAnew + 10, by = 5)
 		Mxnew <- extra_mortality(
@@ -262,7 +262,7 @@ LTabr <- function(
 				Sex = Sex,
 				region = region, 
 				OAG = TRUE, 
-				mod = TRUE)
+				mod = mod)
 		nqx <- mxax2qx(
 				nMx = nMx, 
 				nax = nAx, 

@@ -91,7 +91,7 @@ test_that("LTabr works on UN 1982 (p. 34) example", {
 # Mortpak example --------------------------------------------------------
 
 # TR Oct 12: changes to LTabr() break these and I need to figure out why.
-test_that("LTabr works on Mortpak exapmle (United Nations 1988, p. 82)", {
+test_that("LTabr works on Mortpak example (United Nations 1988, p. 82)", {
     
     MPnMx <- c(0.12846, 0.02477, 0.00603, 0.0034,
                0.00417, 0.00513, 0.00581, 0.00645, 0.00725,
@@ -118,7 +118,7 @@ test_that("LTabr works on Mortpak exapmle (United Nations 1988, p. 82)", {
     MP_UNLT80 <- LTabr(
         nMx = MPnMx,
         Age = c(0, 1, seq(5, 80, by = 5)),
-        AgeInt = inferAgeIntAbr(vec = MPnMx),
+        AgeInt = age2int(Age),
         axmethod = "un",
         Sex = "f",
         mod = FALSE,
@@ -139,11 +139,16 @@ test_that("LTabr works on Mortpak exapmle (United Nations 1988, p. 82)", {
     # tests
     
     # matches published results closely
-    expect_equal(
-        MP_UNLT100$ex[1:length(MPexcheck)],
-        MPexcheck,
-        tolerance = .002
-    )
+# TR: Oct 13 removed this test, although keep an eye on it.
+# the mortpak extrpolation has been removed and replaced with 
+# MortalityLaws extrapolation, which is more flexible. Some things
+# still under consideration, but for now this indeed shouldn't be
+# the same (which is odd I know).
+#    expect_equal(
+#        MP_UNLT100$ex[1:length(MPexcheck)],
+#        MPexcheck,
+#        tolerance = .002
+#    )
     
     expect_equal(
         MP_UNLT80$ex,
@@ -158,9 +163,12 @@ test_that("LTabr works on Mortpak exapmle (United Nations 1988, p. 82)", {
         tolerance = 1e-12
     )
     
-    expect_equal(
-        MP_UNLT80$ex,
-        MP_UNLT100$ex[1:length(MP_UNLT80$ex)],
-        tolerance = 1e-12
-    )
+	# TR: same thing: e(x) is sensitive to closeout, so if we change
+# the extrapolation method it should ne different. I suggest instead
+# testing l(x) [or maybe L(x), but maybe closeout affects it too]
+#    expect_equal(
+#        MP_UNLT80$ex,
+#        MP_UNLT100$ex[1:length(MP_UNLT80$ex)],
+#        tolerance = 1e-12
+#    )
 })
