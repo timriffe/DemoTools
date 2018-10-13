@@ -26,20 +26,7 @@
 #' splitMono(Value, OAG = TRUE)
 #' 
 #' # Also accepts single ages:
-#' Value <- structure(c(9544406, 7471790, 11590109, 11881844, 11872503, 12968350, 
-#' 		11993151, 10033918, 14312222, 8111523, 15311047, 6861510, 13305117, 
-#' 		7454575, 9015381, 10325432, 9055588, 5519173, 12546779, 4784102, 
-#' 		13365429, 4630254, 9595545, 4727963, 5195032, 15061479, 5467392, 
-#' 		4011539, 8033850, 1972327, 17396266, 1647397, 6539557, 2233521, 
-#' 		2101024, 16768198, 3211834, 1923169, 4472854, 1182245, 15874081, 
-#' 		1017752, 3673865, 1247304, 1029243, 12619050, 1499847, 1250321, 
-#' 		2862148, 723195, 12396632, 733501, 2186678, 777379, 810700, 7298270, 
-#' 		1116032, 650402, 1465209, 411834, 9478824, 429296, 1190060, 446290, 
-#' 		362767, 4998209, 388753, 334629, 593906, 178133, 4560342, 179460, 
-#' 		481230, 159087, 155831, 1606147, 166763, 93569, 182238, 53567, 
-#' 		1715697, 127486, 150782, 52332, 48664, 456387, 46978, 34448, 
-#' 		44015, 19172, 329149, 48004, 28574, 9200, 7003, 75195, 13140, 
-#' 		5889, 18915, 21221, 72373), .Names = 0:100)
+#' Value <- structure(pop1m_ind, .Names = 0:100)
 #' 		
 #' 		\dontrun{
 #' 	ages <- seq(0,100,5)
@@ -121,35 +108,21 @@ splitMono <- function(Value, AgeInt, Age, OAG = FALSE){
 #' @export 
 #' 
 #' @examples
-#'  popmat <- structure(c(54170, 44775, 42142, 38464, 34406, 30386, 26933, 
-#' 23481, 20602, 16489, 14248, 9928, 8490, 4801, 3599, 2048, 941, 
-#' 326, 80, 17, 0, 57424, 44475, 41752, 39628, 34757, 30605, 27183, 
-#' 23792, 20724, 17056, 14059, 10585, 8103, 5306, 3367, 2040, 963, 
-#' 315, 80, 16, 1, 60272, 44780, 41804, 40229, 35155, 30978, 27456, 
-#' 24097, 20873, 17546, 13990, 11146, 7841, 5738, 3184, 2062, 961, 
-#' 311, 80, 15, 1, 62727, 45681, 42101, 40474, 35599, 31439, 27758, 
-#' 24396, 21055, 17958, 14046, 11589, 7731, 6060, 3086, 2083, 949, 
-#' 312, 79, 14, 1, 64816, 47137, 42508, 40532, 36083, 31940, 28092, 
-#' 24693, 21274, 18299, 14223, 11906, 7785, 6255, 3090, 2084, 938, 
-#' 316, 80, 14, 2), .Dim = c(21L, 5L), .Dimnames = list(c("0", "5", 
-#' "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", 
-#' "65", "70", "75", "80", "85", "90", "95", "100"), c("1950", "1951", 
-#' "1952", "1953", "1954")))
 #' 
-#' closed.out <- monoCloseout(popmat)
-#' colSums(closed.out) - colSums(popmat)
-#' monoCloseout(popmat, pivotAge = 85)
+#' closed.out <- monoCloseout(pop5_mat)
+#' colSums(closed.out) - colSums(pop5_mat)
+#' monoCloseout(pop5_mat, pivotAge = 85)
 #' # giving a different single-age split to close out this way:
-#' popg <- grabill(popmat)
-#' grabill.closed.out <- monoCloseout(popmat, popg)
+#' popg <- grabill(pop5_mat)
+#' grabill.closed.out <- monoCloseout(pop5_mat, popg)
 #' # totals not necessarily preserved if mixed w Grabill
 #' # I wouldn't recommend a rescale of the total, since the 
 #' # only part we mess with here is the old age section. Ergo,
 #' # one may wish to instead rescale results colSums() of 
 #' # popg at age pivotAge and higher.
-#' colSums(grabill.closed.out) - colSums(popmat)
+#' colSums(grabill.closed.out) - colSums(pop5_mat)
 #' # also works on an age-labelled vector of data
-#' popvec <- popmat[,1]
+#' popvec <- pop5_mat[,1]
 #' closed.vec <- monoCloseout(popvec)
 #' # let's compare this one with sprague()
 #' simple.vec <- sprague(popvec)
