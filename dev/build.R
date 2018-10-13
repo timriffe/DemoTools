@@ -35,6 +35,7 @@ versionIncrement(
 # run this to get access to already-written functions
 shhh(load_all())
 
+
 # do this whenever major changes happen
 devtools::check()
 #build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
