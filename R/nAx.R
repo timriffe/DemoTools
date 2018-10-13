@@ -417,6 +417,8 @@ ax.greville.mortpak <- function(
 	
 	aomega         <- max(c(1 / nMx[N], .97))
 	aomega         <- ifelse(qind, max(aomega, .8 * ax[N - 1]), aomega)
+	
+	# TODO: write aomegaMortalityLaws
 	if (closeout == "mortpak" & sum(AgeInt) < 100){
 		N      <- length(nMx)
 		aomega <- aomegaMORTPAK(mx_or_qx = nMx, qind = FALSE)
@@ -533,7 +535,7 @@ axUN <- function(
 		for (i in 1:maxit) {
 			mxi   <- qxax2mx(nqx = nqx, nax = axi, AgeInt = AgeInt)
 			axi   <- ax.greville.mortpak(nMx = mxi, IMR = nqx[1], Sex = Sex, region = region, mod = mod)
-			qxnew <- mxax2qx(nMx = mxi, nax = axi, AgeInt = AgeInt)
+			qxnew <- mxax2qx(nMx = mxi, nax = axi, AgeInt = AgeInt, IMR = IMR)
 			smsq  <- sum((qxnew - nqx)^2)
 			if (smsq < tol){
 				break
@@ -606,7 +608,10 @@ mxorqx2ax <- function(nMx,
 		region,
 		OAG = TRUE,
 		mod = TRUE){
-	
+	N <- length(AgeInt)
+	if (is.na(AgeInt[N]) | is.infinite(AgeInt[N])){
+		AgeInt[N] <- AgeInt[N-1]
+	}
 	if (axmethod == "pas"){
 		# what if only qx was given?
 		if (missing(nMx)){

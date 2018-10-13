@@ -202,7 +202,8 @@ LTabr <- function(
 				Sex = Sex,
 				region = region, 
 				OAG = TRUE, 
-				mod = TRUE)
+				mod = TRUE,
+				IMR = IMR)
 	} else {
 		nAx <- mxorqx2ax(
 				nMx = nMx, 
@@ -211,7 +212,8 @@ LTabr <- function(
 				Sex = Sex,
 				region = region, 
 				OAG = TRUE, 
-				mod = TRUE)
+				mod = TRUE,
+				IMR = IMR)
 	}
 
 #	# as of here we have nAx either way. And we have either mx or qx.
@@ -243,11 +245,7 @@ LTabr <- function(
 				x_fit = extrapFit,
 				x_extr = x_extr,
 				law = extrapLaw)
-#		str(Mxnew$fitted.model$fitted.values)
-#		plot(Mxnew$fitted.model$fitted.values,xlim=c(0,25))
-#		lines(nMx)
-#	lines(Mxnew$values)
-#		?extra_mortality
+
 		nMxext <- Mxnew$values
 		Age2   <- names2age(nMxext)
 		# for now, no overwriting of earlier mx
