@@ -238,6 +238,10 @@ LTabr <- function(
 # no guarantee of monotonicity in old age however. Consider extrapolating
 # to OAnew + 10 and then truncating lifetable, which would give a better
 # closeout ex and ax, but wouldn't affect the other columns.
+
+# TR: 13 Oct 2018. NOTE switch to always extrapolate to 120 no matter what,
+# then truncate to OAnew in all cases. This will ensure more robust closeouts
+# and an e(x) that doesn't depend on OAnew.
 	OA     <- max(Age)
 	if (OA < OAnew){
 		#x_fit  <- Age[Age >= 60]

@@ -285,6 +285,9 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 #' # same (qx comes from lx)
 #' ax.greville.mortpak(nMx = nMx, lx = lx, Sex = 'f',region = 'w')
 
+# TODO: when nqx specified, iteration can send mx in wrong direction in OA, which messes
+# up aomega. And when mortpak closeout invoked it's based on a low mx value in last age.
+# need a fresh start maybe?
 ax.greville.mortpak <- function(
 		nMx, 
 		nqx, 
@@ -529,13 +532,13 @@ axUN <- function(
 #		that an iterative procedure is used to find the nmx and nqx
 #		values consistent with the given nqx and with the Greville
 #		expression. 
-		axi <- ax.greville.mortpak(nqx = nqx, IMR = nqx[1], Sex = Sex, region = region, mod = mod)
+		axi <- ax.greville.mortpak(nqx = nqx, IMR = nqx[1], Sex = Sex, region = region, mod = mod, closeout = "")
 		
-		mxi <- qxax2mx(nqx = nqx, nax = axi, AgeInt = AgeInt)
+		#mxi <- qxax2mx(nqx = nqx, nax = axi, AgeInt = AgeInt)
 		for (i in 1:maxit) {
 			mxi   <- qxax2mx(nqx = nqx, nax = axi, AgeInt = AgeInt)
-			axi   <- ax.greville.mortpak(nMx = mxi, IMR = nqx[1], Sex = Sex, region = region, mod = mod)
-			qxnew <- mxax2qx(nMx = mxi, nax = axi, AgeInt = AgeInt, IMR = IMR)
+			axi   <- ax.greville.mortpak(nMx = mxi, IMR = nqx[1], Sex = Sex, region = region, mod = mod, closeout = "mortpak")
+			qxnew <- mxax2qx(nMx = mxi, nax = axi, AgeInt = AgeInt, IMR = IMR, closeout=FALSE)
 			smsq  <- sum((qxnew - nqx)^2)
 			if (smsq < tol){
 				break
