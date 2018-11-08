@@ -29,9 +29,7 @@
 #' lines(as.integer(names(CFmales)),CFmales)
 #' }
 #' @references
-#' Carrier, Norman H., and A. M. Farrag. "The reduction of errors 
-#' in census populations for statistically underdeveloped countries." 
-#' Population Studies 12.3 (1959): 240-285.
+#' \insertRef{carrier1959reduction}{DemoTools}
 
 # plz add PASEX citation, and add above to bibtex
 
@@ -96,9 +94,7 @@ carrier_farrag_smth <- function(Value,
 #' lines(as.integer(names(KKNmales)),KKNmales)
 #' }
 #' @references
-#' Carrier, Norman H., and A. M. Farrag. "The reduction of errors 
-#' in census populations for statistically underdeveloped countries." 
-#' Population Studies 12.3 (1959): 240-285.
+#' \insertRef{carrier1959reduction}{DemoTools}
 # plz add PASEX citation, and add above to bibtex
 
 kkn_smth <- function(Value, 
@@ -247,9 +243,7 @@ arriaga_smth <- function(Value,
 #' lines(as.integer(names(un_result)),un_result)
 #' }
 #' @references
-#' Carrier, Norman H., and A. M. Farrag. "The reduction of errors 
-#' in census populations for statistically underdeveloped countries." 
-#' Population Studies 12.3 (1959): 240-285.
+#' \insertRef{carrier1959reduction}{DemoTools}
 # plz add Demgen 1994 and PASEX. I can't download above citation while 
 # on vacation. plz check if this method is discussed there as well.
 united_nations_smth <- function(Value, 
@@ -308,9 +302,7 @@ united_nations_smth <- function(Value,
 #' lines(as.integer(names(strong_result)),strong_result)
 #' }
 #' @references
-#' Carrier, Norman H., and A. M. Farrag. "The reduction of errors 
-#' in census populations for statistically underdeveloped countries." 
-#' Population Studies 12.3 (1959): 240-285.
+#' \insertRef{carrier1959reduction}{DemoTools}
 # plz add Demgen 1994 and PASEX. I can't download above citation while 
 # on vacation. plz check if this method is discussed there as well.
 

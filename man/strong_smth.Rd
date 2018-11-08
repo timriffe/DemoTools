@@ -46,7 +46,5 @@ lines(as.integer(names(strong_result)),strong_result)
 }
 }
 \references{
-Carrier, Norman H., and A. M. Farrag. "The reduction of errors 
-in census populations for statistically underdeveloped countries." 
-Population Studies 12.3 (1959): 240-285.
+\insertRef{carrier1959reduction}{DemoTools}
 }
