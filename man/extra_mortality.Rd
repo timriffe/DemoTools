@@ -5,9 +5,9 @@
 \title{Extrapolate old-age human mortality curve using mortality laws}
 \usage{
 extra_mortality(mx, x, x_fit = x, x_extr, law = c("kannisto",
-  "gompertz", "ggompertz", "makeham", "beard", "makehambeard",
-  "quadratic"), opt.method = c("LF2", "LF1", "LF3", "LF4", "LF5", "LF6",
-  "poissonL", "binomialL"), ...)
+  "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
+  "beard_makeham", "quadratic"), opt.method = c("LF2", "LF1", "LF3",
+  "LF4", "LF5", "LF6", "poissonL", "binomialL"), ...)
 }
 \arguments{
 \item{mx}{Vector or matrix of age specific death-rates.}
@@ -61,12 +61,13 @@ names(mx) <- x
 x_fit  = c(80, 85, 90, 95, 100)
 x_extr = 90:110
 f1 <- extra_mortality(mx, x, x_fit, x_extr, law = "kannisto")
-f2 <- extra_mortality(mx, x, x_fit, x_extr, law = "gompertz")
-f3 <- extra_mortality(mx, x, x_fit, x_extr, law = "ggompertz")
-f4 <- extra_mortality(mx, x, x_fit, x_extr, law = "makeham")
-f5 <- extra_mortality(mx, x, x_fit, x_extr, law = "beard")
-f6 <- extra_mortality(mx, x, x_fit, x_extr, law = "makehambeard")
-f7 <- extra_mortality(mx, x, x_fit, x_extr, law = "quadratic")
+f2 <- extra_mortality(mx, x, x_fit, x_extr, law = "kannisto_makeham")
+f3 <- extra_mortality(mx, x, x_fit, x_extr, law = "gompertz")
+f4 <- extra_mortality(mx, x, x_fit, x_extr, law = "ggompertz")
+f5 <- extra_mortality(mx, x, x_fit, x_extr, law = "makeham")
+f6 <- extra_mortality(mx, x, x_fit, x_extr, law = "beard")
+f7 <- extra_mortality(mx, x, x_fit, x_extr, law = "beard_makeham")
+f8 <- extra_mortality(mx, x, x_fit, x_extr, law = "quadratic")
 
 # Plot the results
 par(mfrow = c(1, 2))
@@ -79,23 +80,24 @@ lines(x_extr, f4$values[paste(x_extr)], lty = 4, col = 5, lwd = 2)
 lines(x_extr, f5$values[paste(x_extr)], lty = 5, col = 6, lwd = 2)
 lines(x_extr, f6$values[paste(x_extr)], lty = 6, col = 7, lwd = 2)
 lines(x_extr, f7$values[paste(x_extr)], lty = 7, col = 8, lwd = 2)
+lines(x_extr, f8$values[paste(x_extr)], lty = 8, col = 9, lwd = 2)
 
 legend("topleft", bty = "n",
        legend = c("Obs. Values", "Obs. Values used in fitting",
-                  "Kannisto", "Gompertz", "Gamma-Gompertz", "Makeham", "Beard",
-                  "Makeham-Beard", "Quadratic"),
-       lty = c(NA, NA, 1:7), pch = c(16, 16, rep(NA, 7)),
-       col = c(1, 4, 2:8), lwd = 2, pt.cex = 2)
+                  "Kannisto", "Kannisto-Makeham", "Gompertz", "Gamma-Gompertz",
+                  "Makeham", "Beard", "Beard-Makeham", "Quadratic"),
+       lty = c(NA, NA, 1:8), pch = c(16, 16, rep(NA, 8)),
+       col = c(1, 4, 2:9), lwd = 2, pt.cex = 2)
 
 
 # ----------------------------------------------
 # Example 2 - 1-year age data
 
 # Age-specific death rates
-mx1 <- c(.0070, .0082, .0091, .0096, .0108, .0122, .0141, .0150, .0165, .0186, .0205, 
-         .0229, .0259, .0294, .0334, .0379, .0426, .0482, .0550, .0628, .0716, .0806, 
-         .0897, .1003, .1149, .1264, .1558, .1563, .1812, .2084, .2298, .2536, .2813, 
-         .3143, .3352, .3651, .4128)
+mx1 <- c(.0070, .0082, .0091, .0096, .0108, .0122, .0141, .0150, .0165, .0186, 
+         .0205, .0229, .0259, .0294, .0334, .0379, .0426, .0482, .0550, .0628, 
+         .0716, .0806, .0897, .1003, .1149, .1264, .1558, .1563, .1812, .2084, 
+         .2298, .2536, .2813, .3143, .3352, .3651, .4128)
 # Vector of ages
 x1 <- 65:101
 names(mx1) <- x1
@@ -104,12 +106,13 @@ names(mx1) <- x1
 x_fit = 80:95
 x_extr = 80:125
 g1 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "kannisto")
-g2 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "gompertz")
-g3 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "ggompertz")
-g4 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "makeham")
-g5 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "beard")
-g6 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "makehambeard")
-g7 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "quadratic")
+g2 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "kannisto_makeham")
+g3 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "gompertz")
+g4 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "ggompertz")
+g5 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "makeham")
+g6 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "beard")
+g7 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "beard_makeham")
+g8 <- extra_mortality(mx1, x1, x_fit, x_extr, law = "quadratic")
 
 # Plot
 plot(x1, mx1, log = "y", ylim = c(0.001, 5),
@@ -122,13 +125,14 @@ lines(x_extr, g4$values[paste(x_extr)], lty = 4, col = 5, lwd = 2)
 lines(x_extr, g5$values[paste(x_extr)], lty = 5, col = 6, lwd = 2)
 lines(x_extr, g6$values[paste(x_extr)], lty = 6, col = 7, lwd = 2)
 lines(x_extr, g7$values[paste(x_extr)], lty = 7, col = 8, lwd = 2)
+lines(x_extr, g8$values[paste(x_extr)], lty = 8, col = 9, lwd = 2)
 
 legend("topleft", bty = "n",
        legend = c("Obs. Values", "Obs. Values used in fitting",
-                  "Kannisto", "Gompertz", "Gamma-Gompertz", "Makeham", "Beard",
-                  "Makeham-Beard", "Quadratic"),
-       lty = c(NA, NA, 1:7), pch = c(16, 16, rep(NA, 7)),
-       col = c(1, 4, 2:8), lwd = 2, pt.cex = 2)
+                  "Kannisto", "Kannisto-Makeham", "Gompertz", "Gamma-Gompertz", 
+                  "Makeham", "Beard", "Beard-Makeham", "Quadratic"),
+       lty = c(NA, NA, 1:8), pch = c(16, 16, rep(NA, 8)),
+       col = c(1, 4, 2:9), lwd = 2, pt.cex = 2)
 
 # ----------------------------------------------
 # Example 3 - Extrapolate mortality for multiple years at once
