@@ -85,3 +85,29 @@
 #'   \url{http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/}
 "dth5_zigzag"
 
+
+
+#' Abridged population from PAS AGEINT -- earlier
+#'
+#' Abridged population from PAS AGEINT -- earlier, 1980
+#'
+#' @format
+#'   A numeric vector of length 18  
+#'   
+#' @source
+#'   The data comes from
+#'   \url{http://}
+"popA_earlier"
+
+
+#' Abridged population from PAS AGEINT -- later
+#'
+#' Abridged population from PAS AGEINT -- later, 1990
+#'
+#' @format
+#'   A numeric vector of length 18  
+#'   
+#' @source
+#'   The data comes from
+#'   \url{http://}
+"popA_later"
