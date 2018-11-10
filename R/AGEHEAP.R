@@ -28,27 +28,16 @@
 #' \insertRef{PAS}{DemoTools}
 #' @export 
 #' @examples 
-#'  Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
-#'  		75984,89982,95525,56973,78767,65672,53438,85014,
-#'  		47600,64363,42195,42262,73221,30080,34391,29072,
-#'  		20531,66171,24029,44227,24128,23599,82088,16454,
-#'  		22628,17108,12531,57325,17220,28425,16206,17532,
-#'  		65976,11593,15828,13541,8133,44696,11165,18543,
-#'  		12614,12041,55798,9324,10772,10453,6773,28358,
-#'  		9916,13348,8039,7583,42470,5288,5317,6582,
-#'  		3361,17949,3650,5873,3279,3336,27368,1965,
-#'  		2495,2319,1335,12022,1401,1668,1360,1185,
-#'  		9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 #'  Age <- 0:99
 #'  
-#'  (w05 <- Whipple(Value, Age, 25, 60, digit = c(0,5))) # 2.34,replicates SINGAGE males
+#'  (w05 <- Whipple(pop1m_pasex, Age, 25, 60, digit = c(0,5))) # 2.34,replicates SINGAGE males
 #'  
 #'  # implements formula from Roger et al. (1981, p. 148)
-#'  (w0 <- Whipple(Value, Age, 25, 60, digit = 0))
-#'  (w5 <- Whipple(Value, Age, 25, 60, digit = 5)) 
+#'  (w0 <- Whipple(pop1m_pasex, Age, 25, 60, digit = 0))
+#'  (w5 <- Whipple(pop1m_pasex, Age, 25, 60, digit = 5)) 
 #'  
 #'  # Whipple types
-#'  Whipple(Value, Age, 25, 60, digit = 3) 
+#'  Whipple(pop1m_pasex, Age, 25, 60, digit = 3) 
 Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 	
 	stopifnot(is_single(Age))
@@ -85,21 +74,10 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 #' \insertRef{PAS}{DemoTools}
 #' @export 
 #' @examples
-#' Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
-#' 		75984,89982,95525,56973,78767,65672,53438,85014,
-#' 		47600,64363,42195,42262,73221,30080,34391,29072,
-#' 		20531,66171,24029,44227,24128,23599,82088,16454,
-#' 		22628,17108,12531,57325,17220,28425,16206,17532,
-#' 		65976,11593,15828,13541,8133,44696,11165,18543,
-#' 		12614,12041,55798,9324,10772,10453,6773,28358,
-#' 		9916,13348,8039,7583,42470,5288,5317,6582,
-#' 		3361,17949,3650,5873,3279,3336,27368,1965,
-#' 		2495,2319,1335,12022,1401,1668,1360,1185,
-#' 		9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 #' Age <- 0:99
-#' Myers(Value, Age, 10, 90) 
+#' Myers(pop1m_pasex, Age, 10, 90) 
 #' 
-#' Myers(Value, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
+#' Myers(pop1m_pasex, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
 
 Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
 	stopifnot(is_single(Age))
@@ -156,21 +134,10 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
 #' \insertRef{shryock1973methods}{DemoTools}
 #' @export 
 #' @examples
-#' Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
-#' 		75984,89982,95525,56973,78767,65672,53438,85014,
-#' 		47600,64363,42195,42262,73221,30080,34391,29072,
-#' 		20531,66171,24029,44227,24128,23599,82088,16454,
-#' 		22628,17108,12531,57325,17220,28425,16206,17532,
-#' 		65976,11593,15828,13541,8133,44696,11165,18543,
-#' 		12614,12041,55798,9324,10772,10453,6773,28358,
-#' 		9916,13348,8039,7583,42470,5288,5317,6582,
-#' 		3361,17949,3650,5873,3279,3336,27368,1965,
-#' 		2495,2319,1335,12022,1401,1668,1360,1185,
-#' 		9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 #' Age <- 0:99
 #' 
-#' Bachi(Value, Age, ageMin = 20, ageMax = 79, pasex = TRUE) # reproduces PASEX SINGAGE
-#' Bachi(Value, Age, ageMin = 20, ageMax = 79) # default simpler
+#' Bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79, pasex = TRUE) # reproduces PASEX SINGAGE
+#' Bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79) # default simpler
 
 Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 	stopifnot(length(Age) == length(Value))
@@ -263,20 +230,9 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 #' \insertRef{coale1991effect}{DemoTools}
 #' @export
 #' @examples 
-#' Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
-#'75984,89982,95525,56973,78767,65672,53438,85014,
-#'47600,64363,42195,42262,73221,30080,34391,29072,
-#'20531,66171,24029,44227,24128,23599,82088,16454,
-#'22628,17108,12531,57325,17220,28425,16206,17532,
-#'65976,11593,15828,13541,8133,44696,11165,18543,
-#'12614,12041,55798,9324,10772,10453,6773,28358,
-#'9916,13348,8039,7583,42470,5288,5317,6582,
-#'3361,17949,3650,5873,3279,3336,27368,1965,
-#'2495,2319,1335,12022,1401,1668,1360,1185,
-#'9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 #' Age <- 0:99
-#' CoaleLi(Value, Age, 65, 95, 5, 0) # 3.7
-#' CoaleLi(Value, Age, 65, 95, 5, 5) # 3.5 almost just as high
+#' CoaleLi(pop1m_pasex, Age, 65, 95, 5, 0) # 3.7
+#' CoaleLi(pop1m_pasex, Age, 65, 95, 5, 5) # 3.5 almost just as high
 
 CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0){
 	stopifnot(is_single(Age))
@@ -321,28 +277,17 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 #' \insertRef{spoorenberg2007quality}{DemoTools}
 #' @export
 #' @examples
-#' Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
-#' 75984,89982,95525,56973,78767,65672,53438,85014,
-#' 47600,64363,42195,42262,73221,30080,34391,29072,
-#' 20531,66171,24029,44227,24128,23599,82088,16454,
-#' 22628,17108,12531,57325,17220,28425,16206,17532,
-#' 65976,11593,15828,13541,8133,44696,11165,18543,
-#' 12614,12041,55798,9324,10772,10453,6773,28358,
-#' 9916,13348,8039,7583,42470,5288,5317,6582,
-#' 361,17949,3650,5873,3279,3336,27368,1965,
-#' 2495,2319,1335,12022,1401,1668,1360,1185,
-#' 9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 #' Age <- 0:99
-#' Noumbissi(Value, Age, digit = 0) # 2.32
-#' Noumbissi(Value, Age, digit = 1) # 0.55
-#' Noumbissi(Value, Age, digit = 2) # 0.73
-#' Noumbissi(Value, Age, digit = 3) # 0.76
-#' Noumbissi(Value, Age, digit = 4) # 0.49
-#' Noumbissi(Value, Age, digit = 5) # 2.08
-#' Noumbissi(Value, Age, digit = 6) # 0.66
-#' Noumbissi(Value, Age, digit = 7) # 1.08  7 looks good!
-#' Noumbissi(Value, Age, digit = 8) # 0.57
-#' Noumbissi(Value, Age, digit = 9) # 0.59
+#' Noumbissi(pop1m_pasex, Age, digit = 0) # 2.32
+#' Noumbissi(pop1m_pasex, Age, digit = 1) # 0.55
+#' Noumbissi(pop1m_pasex, Age, digit = 2) # 0.73
+#' Noumbissi(pop1m_pasex, Age, digit = 3) # 0.76
+#' Noumbissi(pop1m_pasex, Age, digit = 4) # 0.49
+#' Noumbissi(pop1m_pasex, Age, digit = 5) # 2.08
+#' Noumbissi(pop1m_pasex, Age, digit = 6) # 0.66
+#' Noumbissi(pop1m_pasex, Age, digit = 7) # 1.08  7 looks good!
+#' Noumbissi(pop1m_pasex, Age, digit = 8) # 0.57
+#' Noumbissi(pop1m_pasex, Age, digit = 9) # 0.59
 
 Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 64, digit = 0){
 	stopifnot(is_single(Age))
@@ -377,19 +322,8 @@ Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 64, digit = 0){
 #' \insertRef{spoorenberg2007quality}{DemoTools}
 #' @export 
 #' @examples
-#' Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
-#' 75984,89982,95525,56973,78767,65672,53438,85014,
-#' 47600,64363,42195,42262,73221,30080,34391,29072,
-#' 20531,66171,24029,44227,24128,23599,82088,16454,
-#' 22628,17108,12531,57325,17220,28425,16206,17532,
-#' 65976,11593,15828,13541,8133,44696,11165,18543,
-#' 12614,12041,55798,9324,10772,10453,6773,28358,
-#' 9916,13348,8039,7583,42470,5288,5317,6582,
-#' 361,17949,3650,5873,3279,3336,27368,1965,
-#' 2495,2319,1335,12022,1401,1668,1360,1185,
-#' 9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 #' Age <- 0:99
-#' Spoorenberg(Value, Age)
+#' Spoorenberg(pop1m_pasex, Age)
 
 Spoorenberg <- function(Value, Age, ageMin = 20, ageMax = 64){
 	stopifnot(length(Age) == length(Value))

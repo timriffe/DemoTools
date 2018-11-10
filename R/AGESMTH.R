@@ -546,31 +546,20 @@ mav_smth <- function(Value,
 #'			legend = c("orig 5","Carrier-Farrag","Arriaga","Strong","KKN","UN"))
 #'}
 #' # an extreme case:
-#'  Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
-#'  		75984,89982,95525,56973,78767,65672,53438,85014,
-#'  		47600,64363,42195,42262,73221,30080,34391,29072,
-#'  		20531,66171,24029,44227,24128,23599,82088,16454,
-#'  		22628,17108,12531,57325,17220,28425,16206,17532,
-#'  		65976,11593,15828,13541,8133,44696,11165,18543,
-#'  		12614,12041,55798,9324,10772,10453,6773,28358,
-#'  		9916,13348,8039,7583,42470,5288,5317,6582,
-#'  		3361,17949,3650,5873,3279,3336,27368,1965,
-#'  		2495,2319,1335,12022,1401,1668,1360,1185,
-#'  		9167,424,568,462,282,6206,343,409,333,291,4137,133,169,157,89,2068,68,81,66,57)
 #'  Age <- 0:99
 #'  
-#'  V5 <- groupAges(Value, Age=Age)
+#'  V5 <- groupAges(pop1m_pasex, Age=Age)
 #'  Age5 <- as.integer(names(V5))
-#'  cf2 <- agesmth(Value = Value, 
+#'  cf2 <- agesmth(Value = pop1m_pasex, 
 #'		  Age = Age, 
 #'		  method = "Carrier-Farrag", 
 #'		  OAG = TRUE)
-#'  st2 <- agesmth(Value = Value, 
+#'  st2 <- agesmth(Value = pop1m_pasex, 
 #'		  Age = Age, 
 #'		  method = "Strong", 
 #'		  OAG = TRUE)
 #'  \dontrun{
-#'  plot(Age,Value,pch=16)
+#'  plot(Age,pop1m_pasex,pch=16)
 #'  lines(Age,splitUniform(V5,Age=Age5,OAG=FALSE), lty=2, lwd = 2)
 #'  lines(Age,splitUniform(cf2,Age=Age5,OAG=FALSE),col="blue")
 #'  lines(Age,splitUniform(st2,Age=Age5,OAG=FALSE),col="red")

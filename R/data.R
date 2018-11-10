@@ -58,3 +58,16 @@
 #'   The data comes from
 #'   \url{https://URL}
 "pop5m_pasex"
+
+
+#' Male population by 1 year age groups
+#'
+#' Male population by 1 year age groups from PASEX SINGAGE
+#'
+#' @format
+#'   A numeric vector of length 100  
+#'   
+#' @source
+#'   The data comes from
+#'   \url{https://URL}
+"pop1m_pasex"
