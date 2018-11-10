@@ -5,7 +5,7 @@
 
 
 # logic of data objects naming --------------------------------------------
-# First 3 letters -- typo of data, ususally pop or dth
+# First 3 letters -- type of data, ususally pop or dth
 # Then index of age grouping: 1, 5 or A (abridged)
 # One letter index of sex: f or m (no index -- both sex)
 # _ followed by arbitrary indicator of the specific data
@@ -53,3 +53,12 @@ pop5_mat <- structure(
 )
 
 devtools::use_data(pop5_mat, overwrite = T)
+
+
+# Male population by 5 year age groups from PASEX AGESMTH
+pop5m_pasex <- c(
+  642367, 515520, 357831, 275542, 268336, 278601, 242515, 198231,
+  165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729
+)
+
+devtools::use_data(pop5m_pasex, overwrite = T)

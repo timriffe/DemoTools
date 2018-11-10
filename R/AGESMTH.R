@@ -14,18 +14,16 @@
 #' @export
 #' @examples
 #' # from PASEX AGESMTH
-#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-#' 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
 #' Ages         <- seq(0, 80, by = 5)
 #' KKNtest <- c(NA,NA,354871,278502,285508,261429,236513 ,
 #' 		204233,162138,126555,90094,65988,54803,41041,NA,NA,NA)
 #' 
-#' CFmales <- carrier_farrag_smth(MalePop, Ages, TRUE)
+#' CFmales <- carrier_farrag_smth(pop5m_pasex, Ages, TRUE)
 #' CFtest <- c(NA,NA,346290,287083,285855,261082,237937,
 #' 202809,162973,125720,88730,67352,55187,40657,NA,NA,NA)
 #' all(round(CFmales) - CFtest == 0, na.rm = TRUE)
 #' \dontrun{
-#' plot(Ages, MalePop)
+#' plot(Ages, pop5m_pasex)
 #' lines(as.integer(names(CFmales)),CFmales)
 #' }
 #' @references
@@ -80,17 +78,14 @@ carrier_farrag_smth <- function(Value,
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @export
 #' @examples
-#' # from PASEX AGESMTH
-#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-#' 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
 #' Ages         <- seq(0, 80, by = 5)
 #' KKNtest <- c(NA,NA,354871,278502,285508,261429,236513 ,
 #' 		204233,162138,126555,90094,65988,54803,41041,NA,NA,NA)
 #' 
-#' KKNmales <- kkn_smth(MalePop, Ages, TRUE)
+#' KKNmales <- kkn_smth(pop5m_pasex, Ages, TRUE)
 #' all(round(KKNmales) - KKNtest == 0, na.rm = TRUE)
 #' \dontrun{
-#' plot(Ages, MalePop)
+#' plot(Ages, pop5m_pasex)
 #' lines(as.integer(names(KKNmales)),KKNmales)
 #' }
 #' @references
@@ -146,17 +141,14 @@ kkn_smth <- function(Value,
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @export
 #' @examples
-#' # from PASEX AGESMTH
-#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-#' 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
 #' Ages         <- seq(0, 80, by = 5)
-#' AMales       <- arriaga_smth(Value = MalePop, Age = Ages, OAG = TRUE)
+#' AMales       <- arriaga_smth(Value = pop5m_pasex, Age = Ages, OAG = TRUE)
 #' # PAS spreadsheet result:
 #' Atest        <- c(662761, 495126, 345744, 287629, 285919, 261018, 237469, 203277, 
 #' 161733, 126960, 88586, 67496, 54587, 41257, 28790, 17189, 34729) 
 #' all(round(AMales) - Atest == 0, na.rm = TRUE)
 #' \dontrun{
-#' plot(Ages, MalePop)
+#' plot(Ages, pop5m_pasex)
 #' lines(as.integer(names(AMales)),AMales)
 #' }
 #' @references 
@@ -230,16 +222,13 @@ arriaga_smth <- function(Value,
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @export
 #' @examples
-#' # from PASEX AGESMTH
-#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-#' 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
 #' Ages         <- seq(0, 80, by = 5)
 #' un_test <- c(NA,NA,364491,279123,268724,272228,243638,200923,162752,126304,
 #' 		91662,67432,54677,38833,NA,NA,NA)
-#' un_result <- united_nations_smth(MalePop, Ages, TRUE)
+#' un_result <- united_nations_smth(pop5m_pasex, Ages, TRUE)
 #' all(round(un_result) - un_test == 0, na.rm = TRUE)
 #' \dontrun{
-#' plot(Ages, MalePop)
+#' plot(Ages, pop5m_pasex)
 #' lines(as.integer(names(un_result)),un_result)
 #' }
 #' @references
@@ -288,17 +277,14 @@ united_nations_smth <- function(Value,
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @export
 #' @examples
-#' # from PASEX AGESMTH
-#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-#' 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
 #' Ages         <- seq(0, 80, by = 5)
 #' strongtest <- c(646617,511270,386889,317345,273736,240058,218645,188297, 
 #' 		153931, 124347,93254,71858,53594,39721,27887,18092,34729 ) 
-#' strong_result <- strong_smth(MalePop,Ages,TRUE)
+#' strong_result <- strong_smth(pop5m_pasex,Ages,TRUE)
 #' # differences due to intermediate rounding in spreadsheet (bad practice IMO)
 #' all(abs(strong_result - strongtest) < 1, na.rm = TRUE)
 #' \dontrun{
-#' plot(Ages, MalePop)
+#' plot(Ages, pop5m_pasex)
 #' lines(as.integer(names(strong_result)),strong_result)
 #' }
 #' @references
@@ -512,12 +498,10 @@ mav_smth <- function(Value,
 #' @export
 #' 
 #' @examples
-#' MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-#' 		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
 #' Ages         <- seq(0, 80, by = 5)
 #'
 #' # names a bit flexible:
-#' cf <- agesmth(Value = MalePop, 
+#' cf <- agesmth(Value = pop5m_pasex, 
 #'		Age = Ages, 
 #'		method = "Carrier-Farrag", 
 #'		OAG = TRUE)
@@ -525,30 +509,30 @@ mav_smth <- function(Value,
 #'# "cf" also works
 #'
 #'# no need to specify tails for Arriaga or Strong
-#'arr <- agesmth(Value = MalePop, 
+#'arr <- agesmth(Value = pop5m_pasex, 
 #'		Age = Ages, 
 #'		method = "Arriaga", 
 #'		OAG = TRUE)
-#'strong <- agesmth(Value = MalePop, 
+#'strong <- agesmth(Value = pop5m_pasex, 
 #'		Age = Ages, 
 #'		method = "Strong", 
 #'		OAG = TRUE)
 #'# other methods:
-#'un <- agesmth(Value = MalePop, 
+#'un <- agesmth(Value = pop5m_pasex, 
 #'		Age = Ages, 
 #'		method = "United Nations", 
 #'		OAG = TRUE)
-#'kkn <- agesmth(Value = MalePop, 
+#'kkn <- agesmth(Value = pop5m_pasex, 
 #'		Age = Ages, 
 #'		method = "Karup-King-Newton", 
 #'		OAG = TRUE)
 #' # zigzag, not plotted.
-#' zz <- agesmth(MalePop,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 70)
+#' zz <- agesmth(pop5m_pasex,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 70)
 #' # mav, not plotted.
-#' ma3 <- agesmth(MalePop,Ages,OAG=TRUE,method="MAV",n=3)
+#' ma3 <- agesmth(pop5m_pasex,Ages,OAG=TRUE,method="MAV",n=3)
 #' 
 #'\dontrun{
-#'	plot(Ages,MalePop,pch=16)
+#'	plot(Ages,pop5m_pasex,pch=16)
 #'	lines(Ages, cf)
 #'	lines(Ages, arr, col = "red")
 #'	lines(Ages, strong, col = "#FF000080", lwd = 3)
