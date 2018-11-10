@@ -15,19 +15,17 @@
 #' @references
 #' Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/
 #' @examples
-#' Value <- c(13331,4151,1746,1585,3859,8354,11146,12076,
-#'		12216,12016,12473,11513,12899,11413,12710,11516,11408,6733,4031,2069)
 #'Age <- c(0,1,seq(5,90,by=5))
-#'zigzag_min(Value,Age,ageMin=40,ageMax = 80,p=rep(.05,4))
+#'zigzag_min(dth5_zigzag,Age,ageMin=40,ageMax = 80,p=rep(.05,4))
 #'# it's used like this in zigzag()
 #'(p <- optim(
 #'			rep(.05,4), 
 #'			zigzag_min, 
-#'			Value = Value, 
+#'			Value = dth5_zigzag, 
 #'			Age = Age, 
 #'			ageMin = 40, 
 #'			ageMax = 80)$par)
-#' Smoothed <- zigzag_p(Value,Age,40,80,p)
+#' Smoothed <- zigzag_p(dth5_zigzag,Age,40,80,p)
 #' # de facto unit test:
 #' # check result using results frozen in Feeney spreadsheet
 #' # after fixing probable cell range 'error'
@@ -75,19 +73,17 @@ zigzag_min <- function(Value, Age, ageMin = 40, ageMax = 80, p){
 #' @references
 #' Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/
 #' @examples
-#' Value <- c(13331,4151,1746,1585,3859,8354,11146,12076,
-#'		12216,12016,12473,11513,12899,11413,12710,11516,11408,6733,4031,2069)
 #'Age <- c(0,1,seq(5,90,by=5))
-#'zigzag_min(Value,Age,ageMin=40,ageMax = 80,p=rep(.05,4))
+#'zigzag_min(dth5_zigzag,Age,ageMin=40,ageMax = 80,p=rep(.05,4))
 #'# it's used like this in zigzag()
 #'(p <- optim(
 #'			rep(.05,4), 
 #'			zigzag_min, 
-#'			Value = Value, 
+#'			Value = dth5_zigzag, 
 #'			Age = Age, 
 #'			ageMin = 40, 
 #'			ageMax = 80)$par)
-#' Smoothed <- zigzag_p(Value,Age,40,80,p)
+#' Smoothed <- zigzag_p(dth5_zigzag,Age,40,80,p)
 
 zigzag_p <- function(
 		Value, 
@@ -141,15 +137,13 @@ zigzag_p <- function(
 #' @references
 #' Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/
 #' @examples
-#'  Value <- c(13331,4151,1746,1585,3859,8354,11146,12076,
-#' 		12216,12016,12473,11513,12899,11413,12710,11516,11408,6733,4031,2069)
 #' Age <- c(0,1,seq(5,90,by=5))
 #' # defaults
-#' zz1 <- zigzag(Value, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
+#' zz1 <- zigzag(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
 #' # shift age range up by 5
-#' zz2 <- zigzag(Value, Age, OAG = TRUE, ageMin = 45, ageMax = 85)
+#' zz2 <- zigzag(dth5_zigzag, Age, OAG = TRUE, ageMin = 45, ageMax = 85)
 #' \dontrun{
-#' plot(Age, Value,pch = 16)
+#' plot(Age, dth5_zigzag,pch = 16)
 #' lines(Age,zz1,col="red",lty=1)
 #' lines(Age,zz2,col="blue",lty=1)
 #' # even smoother:

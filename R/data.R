@@ -71,3 +71,17 @@
 #'   The data comes from
 #'   \url{https://URL}
 "pop1m_pasex"
+
+
+#' Deaths by 5 year age groups
+#'
+#' Deaths by 5 year age groups in South Africa 1997, from Feeney Zigzag 2013
+#'
+#' @format
+#'   A numeric vector of length 20  
+#'   
+#' @source
+#'   The data comes from
+#'   \url{http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/}
+"dth5_zigzag"
+

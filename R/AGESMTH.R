@@ -383,13 +383,11 @@ strong_smth <- function(Value,
 #' @references
 #' Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/
 #' @examples
-#' Value <- c(13331,4151,1746,1585,3859,8354,11146,12076,
-#' 		12216,12016,12473,11513,12899,11413,12710,11516,11408,6733,4031,2069)
 #' Age <- c(0,1,seq(5,90,by=5))
 #' # defaults
-#' zz <- zigzag_smth(Value, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
+#' zz <- zigzag_smth(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
 #' \dontrun{
-#' plot(Age, Value)
+#' plot(Age, dth5_zigzag)
 #' lines(as.integer(names(zz)),zz)
 #' }
 zigzag_smth <- function(Value, 
@@ -424,15 +422,13 @@ zigzag_smth <- function(Value,
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @details This function calls \code{mav()}, which itself relies on the more general \code{ma()}. We lose the lowest and highest ages with this method, unless \code{n=1}, in which case data is returned in the original 5-year age groups.
 #' @examples
-#' Value <- c(13331,4151,1746,1585,3859,8354,11146,12076,
-#' 		12216,12016,12473,11513,12899,11413,12710,11516,11408,6733,4031,2069)
 #' Age <- c(0,1,seq(5,90,by=5))
 #' # defaults
-#' ns   <- sapply(1:5,mav_smth,Value=Value,Age=Age,OAG=TRUE)
+#' ns   <- sapply(1:5,mav_smth,Value=dth5_zigzag,Age=Age,OAG=TRUE)
 #' cols <- paste0(gray(seq(.8,0,length=5)),"A0")
 #' lwds <- seq(4,1,length=5)
 #' \dontrun{
-#' plot(Age, Value,pch=16)
+#' plot(Age, dth5_zigzag,pch=16)
 #' matplot(as.integer(rownames(ns)),ns,type='l',
 #' 		col = cols,
 #' 		lty = 1,

@@ -6,10 +6,6 @@ context("test-zigzag")
 
 test_that("zigzag works",{
     
-    Value <- c(13331, 4151, 1746, 1585, 3859, 8354, 11146, 12076,
-               12216, 12016, 12473, 11513, 12899, 11413, 12710, 
-               11516, 11408, 6733, 4031, 2069)
-    
     Age <- c(0, 1, seq(5, 90, by = 5))
 
     # check result using results frozen in Feeney spreadsheet
@@ -21,7 +17,7 @@ test_that("zigzag works",{
 
     
     expect_equal(
-        zigzag_min(Value, Age, 40,80,p.feeney),
+        zigzag_min(dth5_zigzag, Age, 40,80,p.feeney),
         ans,
         tolerance = 1e-6
     )
