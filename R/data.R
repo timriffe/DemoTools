@@ -3,7 +3,7 @@
 ################################################################################
 
 
-#' #' Example data [this is the short explanation to appera in the list of fucntions]
+#' #' Example data [this is the short explanation to appear in the list of fucntions]
 #' #'
 #' #' Some more explanation of the data [this will appear on the help page]
 #' #'
@@ -45,3 +45,16 @@
 #'   The data comes from
 #'   \url{https://URL}
 "pop5_mat"
+
+
+#' Male population by 5 year age groups
+#'
+#' Male population by 5 year age groups from PASEX AGESMTH
+#'
+#' @format
+#'   A numeric vector of length 17  
+#'   
+#' @source
+#'   The data comes from
+#'   \url{https://URL}
+"pop5m_pasex"
