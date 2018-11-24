@@ -28,7 +28,7 @@ plot(Age,Value, type = 'l')
   
 
 ## ------------------------------------------------------------------------
-Whipple <-  Whipple(Value, Age, ageMin = 5, ageMax = 90, digit = c(0,5))
+Whipple <-  Whipple(Value, Age, ageMin = 23, ageMax = 62, digit = c(0,5))
 Whipple
 
 ## ------------------------------------------------------------------------
