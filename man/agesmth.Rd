@@ -133,7 +133,7 @@ legend("topright",
  
 # it might make sense to do this level of smoothing as intermediate step
 # in Sprague-like situation. Compare:
-spr1 <- sprague(Value, Age=Age,OAG=FALSE)
+spr1 <- sprague(pop1m_pasex, Age=Age,OAG=FALSE)
 spr2 <- sprague(cf2, Age=Age5,OAG=FALSE)
 spr3 <- sprague(st2, Age=Age5,OAG=FALSE)
 \dontrun{

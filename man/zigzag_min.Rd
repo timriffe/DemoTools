@@ -44,7 +44,7 @@ Smoothed <- zigzag_p(dth5_zigzag,Age,40,80,p)
 p.feeney <- c(0.0235802695087692,0.0724286618207911,
 		      0.0242327829742267,0.0883411499065237)
 ans      <- 106.1147411629
-stopifnot(abs(zigzag_min(Value, Age, 40,80,p.feeney) - ans) < 1e-6)
+stopifnot(abs(zigzag_min(dth5_zigzag, Age, 40,80,p.feeney) - ans) < 1e-6)
 }
 \references{
 Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/

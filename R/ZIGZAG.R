@@ -32,7 +32,7 @@
 #' p.feeney <- c(0.0235802695087692,0.0724286618207911,
 #' 		      0.0242327829742267,0.0883411499065237)
 #' ans      <- 106.1147411629
-#' stopifnot(abs(zigzag_min(Value, Age, 40,80,p.feeney) - ans) < 1e-6)
+#' stopifnot(abs(zigzag_min(dth5_zigzag, Age, 40,80,p.feeney) - ans) < 1e-6)
 zigzag_min <- function(Value, Age, ageMin = 40, ageMax = 80, p){
 	
 	# first, we need an odd number of age groups to smooth over.
