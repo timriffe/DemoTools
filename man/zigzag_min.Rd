@@ -27,19 +27,17 @@ This function is auxiliary to \code{zigzag()}, see \code{?zigzag} for a descript
 This function is not intended to be used at the top level, but just in case, make sure that \code{ageMax = ageMin + 10 * length(p)}. Age groups \code{ >= ageMin} AND \code{ <= ageMin} must be in 5-year age groups. This function does no checks.
 }
 \examples{
-Value <- c(13331,4151,1746,1585,3859,8354,11146,12076,
-	12216,12016,12473,11513,12899,11413,12710,11516,11408,6733,4031,2069)
 Age <- c(0,1,seq(5,90,by=5))
-zigzag_min(Value,Age,ageMin=40,ageMax = 80,p=rep(.05,4))
+zigzag_min(dth5_zigzag,Age,ageMin=40,ageMax = 80,p=rep(.05,4))
 # it's used like this in zigzag()
 (p <- optim(
 		rep(.05,4), 
 		zigzag_min, 
-		Value = Value, 
+		Value = dth5_zigzag, 
 		Age = Age, 
 		ageMin = 40, 
 		ageMax = 80)$par)
-Smoothed <- zigzag_p(Value,Age,40,80,p)
+Smoothed <- zigzag_p(dth5_zigzag,Age,40,80,p)
 # de facto unit test:
 # check result using results frozen in Feeney spreadsheet
 # after fixing probable cell range 'error'

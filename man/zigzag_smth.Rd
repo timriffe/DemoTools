@@ -28,13 +28,11 @@ If age heaping is much worse on 0's than on 5's then even counts in 5-year age b
 This function calls \code{zigzag()}, but prepares data in a way consistent with other methods called by \code{agesmth()}. It is probably preferable to call \code{zigzag()} from the top level, or else call this method from \code{agesmth()} for more control over tail imputations.
 }
 \examples{
-Value <- c(13331,4151,1746,1585,3859,8354,11146,12076,
-		12216,12016,12473,11513,12899,11413,12710,11516,11408,6733,4031,2069)
 Age <- c(0,1,seq(5,90,by=5))
 # defaults
-zz <- zigzag_smth(Value, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
+zz <- zigzag_smth(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
 \dontrun{
-plot(Age, Value)
+plot(Age, dth5_zigzag)
 lines(as.integer(names(zz)),zz)
 }
 }

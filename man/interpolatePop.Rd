@@ -34,26 +34,22 @@ Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguou
 or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
 }
 \examples{
-EarlyPop      <- c(100958, 466275, 624134, 559559, 446736, 370653, 301862, 249409,
- 247473, 223014, 172260, 149338, 127242, 105715, 79614, 53660, 31021, 34596)
-LaterPop    <- c(201916, 932550, 1248268, 1119118, 893472, 741306, 603724, 498818, 
-494946, 446028, 344520, 298676, 254484, 211430, 159228, 107320, 62042, 69192)
 # YYYY-MM-DD dates as character
 EarlyDate       <- "1980-04-07"
 LaterDate       <- "1990-10-06"
 DesiredDate     <- "1985-07-01"
 
-interpolatePop(EarlyPop, LaterPop, EarlyDate, LaterDate, DesiredDate)
-interpolatePop(EarlyPop, LaterPop, EarlyDate, LaterDate, DesiredDate, method = "exponential")
+interpolatePop(popA_earlier, popA_later, EarlyDate, LaterDate, DesiredDate)
+interpolatePop(popA_earlier, popA_later, EarlyDate, LaterDate, DesiredDate, method = "exponential")
 \dontrun{
-plot(EarlyPop, t ='l', col='red',
+plot(popA_earlier, t ='l', col='red',
     ylim = c(400,1220000), 
     ylab = 'The counts', xlab = 'Age groups')
 
-lines(interpolatePop(EarlyPop, LaterPop, EarlyDate, LaterDate, DesiredDate),
+lines(interpolatePop(popA_earlier, popA_later, EarlyDate, LaterDate, DesiredDate),
      t = 'l', col='black')
 
-lines(LaterPop,
+lines(popA_later,
      t = 'l', col='blue')
 
 legend(12,1000000, 

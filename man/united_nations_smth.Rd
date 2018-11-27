@@ -24,16 +24,13 @@ The open age group is aggregated down to be evenly divisible by 10.
 This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups.
 }
 \examples{
-# from PASEX AGESMTH
-MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
 Ages         <- seq(0, 80, by = 5)
 un_test <- c(NA,NA,364491,279123,268724,272228,243638,200923,162752,126304,
 		91662,67432,54677,38833,NA,NA,NA)
-un_result <- united_nations_smth(MalePop, Ages, TRUE)
+un_result <- united_nations_smth(pop5m_pasex, Ages, TRUE)
 all(round(un_result) - un_test == 0, na.rm = TRUE)
 \dontrun{
-plot(Ages, MalePop)
+plot(Ages, pop5m_pasex)
 lines(as.integer(names(un_result)),un_result)
 }
 }

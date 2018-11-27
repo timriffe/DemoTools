@@ -28,15 +28,13 @@ If age heaping is much worse on 0's than on 5's then even counts in 5-year age b
 Determining the degree to redistribute population counts is an optimization problem, so this function has two auxiliary functions, \code{p_zigzag()}, which redistributes counts according to a set of specified proportions \code{p}, and \code{zigzag_min()} which is the function minimized to determine the optimal vector of \code{p}. If data is not in 5-year age groups then it is grouped as necessary (unless abridged, in which case grouping is preserved). Only ages \code{>= ageMin} and \code{<= ageMax} will be adjusted. \code{ageMax} is inclusive and interpreted as the lower bound of the highest age group to include. The number of 5-year age groups adjusted must be odd, and \code{ageMax} may be reduced internally without warning in order to force this condition. The open age group is excluded from adjustment. This function also has a wrapper \code{zigzag_smth()}, called by \code{agesmth()}.
 }
 \examples{
- Value <- c(13331,4151,1746,1585,3859,8354,11146,12076,
-		12216,12016,12473,11513,12899,11413,12710,11516,11408,6733,4031,2069)
 Age <- c(0,1,seq(5,90,by=5))
 # defaults
-zz1 <- zigzag(Value, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
+zz1 <- zigzag(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
 # shift age range up by 5
-zz2 <- zigzag(Value, Age, OAG = TRUE, ageMin = 45, ageMax = 85)
+zz2 <- zigzag(dth5_zigzag, Age, OAG = TRUE, ageMin = 45, ageMax = 85)
 \dontrun{
-plot(Age, Value,pch = 16)
+plot(Age, dth5_zigzag,pch = 16)
 lines(Age,zz1,col="red",lty=1)
 lines(Age,zz2,col="blue",lty=1)
 # even smoother:

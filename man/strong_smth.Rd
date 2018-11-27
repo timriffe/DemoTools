@@ -31,17 +31,14 @@ occurs in ages bounded by \code{ageMin} and \code{ageMax}. To be clear \code{age
 the lower bound of the highest age class, inclusive. So, if you want a ceiling of 70 (default), specify 65.
 }
 \examples{
-# from PASEX AGESMTH
-MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
 Ages         <- seq(0, 80, by = 5)
 strongtest <- c(646617,511270,386889,317345,273736,240058,218645,188297, 
 		153931, 124347,93254,71858,53594,39721,27887,18092,34729 ) 
-strong_result <- strong_smth(MalePop,Ages,TRUE)
+strong_result <- strong_smth(pop5m_pasex,Ages,TRUE)
 # differences due to intermediate rounding in spreadsheet (bad practice IMO)
 all(abs(strong_result - strongtest) < 1, na.rm = TRUE)
 \dontrun{
-plot(Ages, MalePop)
+plot(Ages, pop5m_pasex)
 lines(as.integer(names(strong_result)),strong_result)
 }
 }

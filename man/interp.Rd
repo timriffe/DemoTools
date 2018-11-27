@@ -75,19 +75,15 @@ interp(popmat, datesIn, datesOut, "power", rule = 2)
 
 # ----------------------------------------------------------
 # standard example data, taken from AGEINT PAS spreadsheet.
-p1    <- c(100958, 466275, 624134, 559559, 446736, 370653, 301862, 249409,
-  247473, 223014, 172260, 149338, 127242, 105715, 79614, 53660, 31021, 34596)
-p2    <- c(201916, 932550, 1248268, 1119118, 893472, 741306, 603724, 498818, 
- 494946, 446028, 344520, 298676, 254484, 211430, 159228, 107320, 62042, 69192)
 
  # YYYY-MM-DD dates as character
  d1              <- "1980-04-07"
  d2              <- "1990-10-06"
  dout            <- "1985-07-01"
  
- (p_lin <- interp(cbind(p1,p2),c(d1,d2),dout,method = "linear"))
- (p_exp <- interp(cbind(p1,p2),c(d1,d2),dout,method = "exponential"))
- (p_pow <- interp(cbind(p1,p2),c(d1,d2),dout,method = "power"))
+ (p_lin <- interp(cbind(popA_earlier,popA_later),c(d1,d2),dout,method = "linear"))
+ (p_exp <- interp(cbind(popA_earlier,popA_later),c(d1,d2),dout,method = "exponential"))
+ (p_pow <- interp(cbind(popA_earlier,popA_later),c(d1,d2),dout,method = "power"))
  
  \dontshow{
  print(dec.date(d1),digits=18)
@@ -111,13 +107,13 @@ stopifnot(all(abs(lincheck - p_lin)<1e-6))
 }
 \dontrun{
 age <- c(0,1,seq(5,80,by=5))
-plot(age, p2, type = 'l', lwd = 2, main = "Interpolation options")
-lines(age, p1, lwd = 2, lty = "8282")
+plot(age, popA_later, type = 'l', lwd = 2, main = "Interpolation options")
+lines(age, popA_earlier, lwd = 2, lty = "8282")
 lines(age, p_lin,col = "blue")
 lines(age, p_pow,col = gray(.4))
 lines(age, p_exp,col = "red")
-text(30, p1[8], d1, pos = 1, cex = 1)
-text(20, p2[6], d2, pos = 4, cex = 1)
+text(30, popA_earlier[8], d1, pos = 1, cex = 1)
+text(20, popA_later[6], d2, pos = 4, cex = 1)
 legend("topright", lty = 1, col = c("blue", gray(.4), "red"),
 		legend = c("linear", "power 2", "exponential"), 
 		title = paste0("Interpolated 1985-07-01"))

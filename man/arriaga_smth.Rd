@@ -24,17 +24,14 @@ The open age group is aggregated down to be evenly divisible by 10.
 This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups.
 }
 \examples{
-# from PASEX AGESMTH
-MalePop      <- c(642367, 515520, 357831, 275542, 268336, 278601, 242515, 
-		198231, 165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729)
 Ages         <- seq(0, 80, by = 5)
-AMales       <- arriaga_smth(Value = MalePop, Age = Ages, OAG = TRUE)
+AMales       <- arriaga_smth(Value = pop5m_pasex, Age = Ages, OAG = TRUE)
 # PAS spreadsheet result:
 Atest        <- c(662761, 495126, 345744, 287629, 285919, 261018, 237469, 203277, 
 161733, 126960, 88586, 67496, 54587, 41257, 28790, 17189, 34729) 
 all(round(AMales) - Atest == 0, na.rm = TRUE)
 \dontrun{
-plot(Ages, MalePop)
+plot(Ages, pop5m_pasex)
 lines(as.integer(names(AMales)),AMales)
 }
 }
