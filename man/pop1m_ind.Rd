@@ -21,8 +21,9 @@
 Indian male population 1991}
 \format{A numeric vector of length 101}
 \source{
-The data comes from
-  \url{https://URL}
+REGISTRAR GENERAL & CENSUS COMMISSIONER, INDIA, 1976, 
+  Census of India 1971, Series 1, India, Social and Cultural Tables, 
+  Part II-C(ii), New Delhi
 }
 \usage{
 pop1m_ind
