@@ -20,9 +20,17 @@ fitted values and residuals are computed for all ages in \code{x}.}
 
 \item{x_extr}{Ages for which to extrapolate the death-rates.}
 
-\item{law}{The name of the mortality law/model to be used. e.g. 
-\code{gompertz}, \code{makeham}, ... To investigate all the possible options, 
-see \code{\link{availableLaws}} function.}
+\item{law}{The name of the mortality law/model to be used. 
+The following options are available: \itemize{
+  \item{\code{"kannisto"}} -- The Kannisto model;
+  \item{\code{"kannisto_makeham"}} -- The Kannisto-Makeham model;
+  \item{\code{"gompertz"}} -- The Gompertz model;
+  \item{\code{"ggompertz"}} -- The Gamma-Gompertz model;
+  \item{\code{"makeham"}} -- The Makeham model;
+  \item{\code{"beard"}} -- The Beard model;
+  \item{\code{"beard_makeham"}} -- The Beard-Makeham model;
+  \item{\code{"quadratic"}} -- The Quadratic model.
+  }}
 
 \item{opt.method}{How would you like to find the parameters? Specify the 
 function to be optimize. Available options: the Poisson likelihood function 
