@@ -25,32 +25,21 @@ knitr::opts_chunk$set(
 
 ## How to use `DemoTools` to get age-heaping indices
 
-The age distribution of a population can be affected by reporting errors: 1) misstatements of age, 2) incomplete enumeration at particular ages, and 3) failure to report ages [@accuracyun1952]. There exist several reasons for age misstatement. In this vignette we focus on indices to measure the quality of data affected by age misstatement. For example, ages for women are commonly reported less accurately than those of men due to women's desire to appear younger than they are [@accuracyun1952]. Men, on the other hand, may misrepresent their age to avoid taxation or military services in some populations [@accuracyun1952]. In addition to these reasons, some errors are induced by how the census takes place. For instance, in many countries the census is taken by leaving the questionnaire to be filled by a family member who might have to report other family members' age, in other countries the census information is collected by enumerators in interviews in which case the information depends on who is answering the interview, among other reasons [@accuracyun1952].
+The age distribution of a population can be affected by various kinds of reporting errors: 1) misstatements of age, 2) incomplete enumeration at particular ages, and 3) failure to report ages [@accuracyun1952]. These errors can have different sources. For example, ages of older women are often understated [@accuracyun1952]. Men, on the other hand, may misrepresent their age to avoid taxation or military services in some populations [@accuracyun1952]. In addition to these reasons, some errors are induced by how the census takes place. For instance, in many countries the census is taken by leaving the questionnaire to be filled by a family member who might have to report other family members' age, in other countries the census information is collected by enumerators in interviews in which case the information depends on who is answering the interview, among other reasons [@accuracyun1952]. In this vignette we focus on indices to measure the quality of data affected by age misstatement. 
 
-Consider the population from country x by single age
+Consider the 1991 male census population of India.
 ```{r}
 library(DemoTools)
 
-Value <- c(80626,95823,104315,115813,100796,105086,97266,116328,
-  		75984,89982,95525,56973,78767,65672,53438,85014,
-  		47600,64363,42195,42262,73221,30080,34391,29072,
-  		20531,66171,24029,44227,24128,23599,82088,16454,
-  		22628,17108,12531,57325,17220,28425,16206,17532,
-  		65976,11593,15828,13541,8133,44696,11165,18543,
-  		12614,12041,55798,9324,10772,10453,6773,28358,
-  		9916,13348,8039,7583,42470,5288,5317,6582,
-  		3361,17949,3650,5873,3279,3336,27368,1965,
-  		2495,2319,1335,12022,1401,1668,1360,1185,
-  		9167,424,568,462,282,6206,343,409,333,291,4137,
-  		133,169,157,89,2068,68,81,66,57)
-
-  Age <- 0:99
+# 'pop1m_ind' available as package data
+Value <- pop1m_ind
+Age   <- 0:(length(Value)-1)
   
-plot(Age,Value, type = 'l')  
+plot(Age, Value, type = 'l')  
   
 ```
 
-The figure above has some clear irregularities on age-reporting. For example, there is a consistent clustering around ages ending in zero and five. In principle, a post-enumeration survey or a sample interview should give more information on the reasons why these irregularities appear in the data [@siegel2004methods]. However, not every country has the resources to conduct a survey or post-enumeration process. Therefore, various arithmetic techniques have been developed for measuring heaping on individual ages or terminal digits, but they do not correct them [@booth2015demographic]. The simplest way to analyze age-heaping is by assuming that the true numbers are *rectangularly* distributed over some age range that includes centered the age being examined [@siegel2004methods].
+The figure above has some clear irregularities on age-reporting. For example, there is a consistent clustering around ages ending in zero and five. In principle, a post-enumeration survey or a sample interview should give more information on the reasons why these irregularities appear in the data [@siegel2004methods]. However, not every country has the resources to conduct a survey or post-enumeration process. Therefore, various arithmetic techniques have been developed for measuring heaping on individual ages or terminal digits. These measure the degree of bias, but they do not correct it [@booth2015demographic]. The simplest way to analyze age-heaping is by assuming that the true numbers are *rectangularly* distributed over some age range that includes centered the age being examined [@siegel2004methods].
 
 ### Whipple's Index
 Using this assumption over a 5-year range, Whipple's index measures heaping usually in numbers ending in zero or five. This index is a summary measure that determines variability in the quality of age reporting between regions or countries and its evolution over time. This index is usually determined between ages 23 and 62 inclusive since the linearity assumption is not plausible in low ages (0-22 years) and in high ages (63 years and above). The original formula is given by
