@@ -1,4 +1,8 @@
-# Marius D. Pascariu --- Fri Nov  9 11:49:41 2018 ------------------------------
+# --------------------------------------------------- #
+# Author: Marius D. Pascariu
+# License: CC-BY-NC 4.0
+# Last update: Wed Nov 28 11:17:51 2018
+# --------------------------------------------------- #
 
 #' Extrapolate old-age human mortality curve using mortality laws
 #' 
@@ -7,7 +11,18 @@
 #' @param x_fit Ages to be considered in estimating the mortality model parameters.
 #' \code{x_fit} can be a subset of \code{x}. However, after the model is identifies
 #' fitted values and residuals are computed for all ages in \code{x}.
-#' @param x_extr Ages for which to extrapolate the death-rates. 
+#' @param x_extr Ages for which to extrapolate the death-rates.
+#' @param law The name of the mortality law/model to be used. 
+#' The following options are available: \itemize{
+#'   \item{\code{"kannisto"}} -- The Kannisto model;
+#'   \item{\code{"kannisto_makeham"}} -- The Kannisto-Makeham model;
+#'   \item{\code{"gompertz"}} -- The Gompertz model;
+#'   \item{\code{"ggompertz"}} -- The Gamma-Gompertz model;
+#'   \item{\code{"makeham"}} -- The Makeham model;
+#'   \item{\code{"beard"}} -- The Beard model;
+#'   \item{\code{"beard_makeham"}} -- The Beard-Makeham model;
+#'   \item{\code{"quadratic"}} -- The Quadratic model.
+#'   }
 #' @param ... Other arguments to be passed on to the 
 #' \code{\link[MortalityLaws]{MortalityLaw}} function.
 #' @seealso 
@@ -70,9 +85,9 @@
 #' # Example 2 - 1-year age data
 #' 
 #' # Age-specific death rates
-#' mx1 <- c(.0070, .0082, .0091, .0096, .0108, .0122, .0141, .0150, .0165, .0186, 
-#'          .0205, .0229, .0259, .0294, .0334, .0379, .0426, .0482, .0550, .0628, 
-#'          .0716, .0806, .0897, .1003, .1149, .1264, .1558, .1563, .1812, .2084, 
+#' mx1 <- c(.0070, .0082, .0091, .0096, .0108, .0122, .0141, .0150, .0165, .0186,
+#'          .0205, .0229, .0259, .0294, .0334, .0379, .0426, .0482, .0550, .0628,
+#'          .0716, .0806, .0897, .1003, .1149, .1264, .1558, .1563, .1812, .2084,
 #'          .2298, .2536, .2813, .3143, .3352, .3651, .4128)
 #' # Vector of ages
 #' x1 <- 65:101
@@ -123,7 +138,10 @@
 #' coef(F1)
 #' @author Marius D. Pascariu <rpascariu@@outlook.com>
 #' @export 
-extra_mortality <- function(mx, x, x_fit = x, x_extr,
+extra_mortality <- function(mx, 
+                            x, 
+                            x_fit = x, 
+                            x_extr,
                             law = c("kannisto",
                                     "kannisto_makeham",
                                     "gompertz", 
@@ -132,17 +150,23 @@ extra_mortality <- function(mx, x, x_fit = x, x_extr,
                                     "beard", 
                                     "beard_makeham", 
                                     "quadratic"), 
-                            opt.method = c("LF2", "LF1", "LF3", "LF4", "LF5", 
-                                           "LF6", "poissonL", "binomialL"), ...){
+                            opt.method = c("LF2", "LF1", "LF3", 
+                                           "LF4", "LF5", "LF6", 
+                                           "poissonL", "binomialL"), 
+                            ...){
   # Save the input
   input <- as.list(environment())
   
   # Fit the mortality model
-  M <- MortalityLaw(x = x, mx = mx, 
+  M <- MortalityLaw(x = x, 
+                    mx = mx, 
                     fit.this.x = x_fit, 
                     law = match.arg(law), 
-                    opt.method = match.arg(opt.method), ...)
-  pv <- predict(M, x = x_extr)
+                    opt.method = match.arg(opt.method), 
+                    ...)
+  
+  pv <- predict(object = M, 
+                x = x_extr)
   
   # which ages are not to be replaced with fitted values?
   L  <- !(x %in% x_extr)  
@@ -158,7 +182,9 @@ extra_mortality <- function(mx, x, x_fit = x, x_extr,
   }
   
   # Exit
-  out <- list(input = input, call = match.call(), fitted.model = M, 
+  out <- list(input = input, 
+              call = match.call(), 
+              fitted.model = M, 
               values = values)
   out <- structure(class = "extra_mortality", out)
   return(out)
