@@ -224,7 +224,7 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 	# TR 1-12-2018 if midpoint ax > 1 then we should adjust something.
 	# we can prevent downstream breakage by reducing ax. Saves us from
 	# having to fix qx
-	impliedqx <- qxmx2ax(nMx = nMx, nax = ax, AgeInt = AgeInt)
+	impliedqx <- mx2qx(nMx = nMx, nax = ax, AgeInt = AgeInt)
 	ind <- impliedqx > 1
 	if (sum(ind) > 0){
 		for (i in which(ind)){

@@ -31,9 +31,10 @@ qxax2mx <- function(nqx, nax, AgeInt = inferAgeIntAbr(vec = nqx)) {
 #' @export
 mx2qx <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
 	qx <- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
-	if (any(qx > 1)){
+	ind <- qx > 1 | is.na(qx)
+	if (sum(ind) > 0){
 		cat("at least 1 q(x) > 1, imputed as 1")
-		qx[qx > 1] <- 1
+		qx[ind] <- 1
 	}
 	qx
 }
@@ -79,9 +80,10 @@ mxax2qx <- function(nMx, nax, AgeInt, closeout = TRUE, IMR){
 	if (!missing(IMR) & !is.na(IMR)){
 		qx[1] <- IMR
 	}
-	if (any(qx > 1)){
+	ind <- qx > 1
+	if (sum(ind) > 0){
 		cat("at least 1 q(x) > 1, imputed as 1")
-		qx[qx > 1] <- 1
+		qx[ind] <- 1
 	}
 	qx
 }
@@ -155,7 +157,7 @@ Lx2Tx <- function(Lx){
 #' adjust ax estimate so that qx less than or equal to 1
 #' @description Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages.
 #' @details nMx equal to 2 will imply nqx of 1 by this formula. Implied nqx greater than 1 after this procedure are returned as 1.
-#' @inheritparams DemoTools mxax2qx
+#' @inheritParams mxax2qx
 #' @export 
 #' @examples 
 #' # implies a qx > 1
