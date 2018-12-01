@@ -29,7 +29,7 @@ This is just a rule of thumb. This procedure is as found in the PAS spreadsheet 
 \details{
 If sex is given as both, \code{"b"}, then female 
 values are taken for a(0) and 4a1, per the PAS spreadsheet. If IMR is not given, the M(0) is used to estimate a(x) for ages < 5. 
-This function is not vectorized. a(x) closeout assumes constant mortality hazard in the open age group.
+This function is not vectorized. a(x) closeout assumes constant mortality hazard in the open age group. One safeguard is different from PAS: If assuming the interval midpoint implies a qx greater than 1, then we derive a(x) for the interval by assuming midpoint a(x) for each single age within the interval along with a constant death rate.
 }
 \examples{
 Exposures <- c(100958,466275,624134,559559,446736,370653,301862,249409,

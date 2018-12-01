@@ -178,7 +178,7 @@ geta1_4CD <- function(M0, IMR = NA, Sex = "m", region = "w"){
 #' 
 #' @details If sex is given as both, \code{"b"}, then female 
 #' values are taken for a(0) and 4a1, per the PAS spreadsheet. If IMR is not given, the M(0) is used to estimate a(x) for ages < 5. 
-#' This function is not vectorized. a(x) closeout assumes constant mortality hazard in the open age group.
+#' This function is not vectorized. a(x) closeout assumes constant mortality hazard in the open age group. One safeguard is different from PAS: If assuming the interval midpoint implies a qx greater than 1, then we derive a(x) for the interval by assuming midpoint a(x) for each single age within the interval along with a constant death rate.
 #' 
 #' @param nMx numeric. Event exposure mortality rates.
 #' @param AgeInt integer. Vector of age interval widths.
@@ -207,8 +207,7 @@ geta1_4CD <- function(M0, IMR = NA, Sex = "m", region = "w"){
 #' axPAS(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = TRUE)
 #' 
 #' 
-# Markus: see if the model lifetables in refs/UN_1982... follow this rule of thumb for age 0.
-# You may need to try giving q0 as IMR, or else M0 as M0 to the function, not sure.
+
 axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 	# sex can be "m", "f", or "b"
 	# region can be "n","e","s","w",or
@@ -221,6 +220,19 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 	ax[1]  <- geta0CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
 	ax[2]  <- geta1_4CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
 	ax[N]  <- ifelse(OAG, 1 / nMx[N], ax[N])
+	
+	# TR 1-12-2018 if midpoint ax > 1 then we should adjust something.
+	# we can prevent downstream breakage by reducing ax. Saves us from
+	# having to fix qx
+	impliedqx <- qxmx2ax(nMx = nMx, nax = ax, AgeInt = AgeInt)
+	ind <- impliedqx > 1
+	if (sum(ind) > 0){
+		for (i in which(ind)){
+			qxnew <- mxax2qx_Backstop(nMx = nMx[i], nax = ax[i], AgeInt = AgeInt[i])
+			ax[i] <- qxmx2ax(nqx = qxnew, nMx = nMx[i], AgeInt = AgeInt[i])
+		}
+	}
+	
 	ax
 }
 

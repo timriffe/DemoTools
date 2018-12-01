@@ -152,4 +152,38 @@ Lx2Tx <- function(Lx){
 	rev(cumsum(rev(Lx)))
 }
 
+#' adjust ax estimate so that qx less than or equal to 1
+#' @description Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages.
+#' @details nMx equal to 2 will imply nqx of 1 by this formula. Implied nqx greater than 1 after this procedure are returned as 1.
+#' @inheritparams DemoTools mxax2qx
+#' @export 
+#' @examples 
+#' # implies a qx > 1
+#' mx     <- .65
+#' AgeInt <- 5
+#' ax     <- 2.5
+#' # this is a problematic case
+#' (mx2qx(mx, ax, AgeInt))
+#' # here a workable value
+#' (mxax2qx_Backstop(mx, ax, AgeInt))
+#' #' # still less than 1
+#' mxax2qx_Backstop(1.99, ax, AgeInt) < 1
+#' # unity
+#' (mxax2qx_Backstop(2, ax, AgeInt))
+#' # qx imputed as 1
+#' (mxax2qx_Backstop(2.1, ax, AgeInt))
+
+mxax2qx_Backstop <- function(nMx, nax, AgeInt){
+	# sometime assuming mid interval nAx causes the world
+	# to turn upside down. 
+	qx <- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
+	# let's assume flat hazard inside interval
+	if (qx > 1){
+		qx <- 1-prod(rep(1-mx2qx(nMx,.5,1),ceiling(AgeInt)))
+	}
+	if (qx > 1){
+		qx <- 1
+	}
+	qx
+}
 
