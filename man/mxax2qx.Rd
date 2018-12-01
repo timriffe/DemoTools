@@ -25,6 +25,9 @@ This is the standard identity to derive nqx from nax and nMx.
 This is a more full-service wrapper of \code{mx2qx()}, with closeout options and optional age 0 
 treatment.
 }
+\details{
+qx values calculated as greater than 1 are imputed with 1.
+}
 \references{
 \insertRef{preston2000demography}{DemoTools}
 }

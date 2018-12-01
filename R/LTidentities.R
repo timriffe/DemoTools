@@ -21,7 +21,7 @@ qxax2mx <- function(nqx, nax, AgeInt = inferAgeIntAbr(vec = nqx)) {
 
 #' Derive nqx from nMx and nax.
 #' @description This is the standard identity to derive nqx from nax and nMx.
-#' 
+#' @details qx values calculated as greater than 1 are imputed with 1.
 #' @param nMx numeric. Vector of age-specific death rates.
 #' @param nax numeric. Vector of average time spent in interval by those dying in interval.
 #' @param AgeInt integer. Vector of age class widths.
@@ -30,7 +30,12 @@ qxax2mx <- function(nqx, nax, AgeInt = inferAgeIntAbr(vec = nqx)) {
 #' @return nqx vector of age specific death probabilities derived via identity.
 #' @export
 mx2qx <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
-	(AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
+	qx <- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
+	if (any(qx > 1)){
+		cat("at least 1 q(x) > 1, imputed as 1")
+		qx[qx > 1] <- 1
+	}
+	qx
 }
 
 #' Derive nax from nqx and nMx.
@@ -51,6 +56,7 @@ qxmx2ax <- function(nqx, nMx, AgeInt){
 #' @description This is the standard identity to derive nqx from nax and nMx.
 #' This is a more full-service wrapper of \code{mx2qx()}, with closeout options and optional age 0 
 #' treatment.
+#' @details qx values calculated as greater than 1 are imputed with 1.
 #' 
 #' @param nMx numeric. Vector of age-specific death rates.
 #' @param nax numeric. Vector of average time spent in interval by those dying in interval.
@@ -72,6 +78,10 @@ mxax2qx <- function(nMx, nax, AgeInt, closeout = TRUE, IMR){
 	}
 	if (!missing(IMR) & !is.na(IMR)){
 		qx[1] <- IMR
+	}
+	if (any(qx > 1)){
+		cat("at least 1 q(x) > 1, imputed as 1")
+		qx[qx > 1] <- 1
 	}
 	qx
 }

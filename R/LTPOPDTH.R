@@ -200,6 +200,9 @@ LTabr <- function(
 	extrapLaw     <- tolower(extrapLaw)
 	# take care of ax first, two ways presently
 	if (missing(nMx)){
+		# TR: expedient hack
+		nqx[nqx > 1] <- 1
+		
 		nAx <- mxorqx2ax(
 				nqx = nqx, 
 				axmethod = axmethod,

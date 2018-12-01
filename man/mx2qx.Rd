@@ -19,6 +19,9 @@ nqx vector of age specific death probabilities derived via identity.
 \description{
 This is the standard identity to derive nqx from nax and nMx.
 }
+\details{
+qx values calculated as greater than 1 are imputed with 1.
+}
 \references{
 \insertRef{preston2000demography}{DemoTools}
 }
