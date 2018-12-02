@@ -251,3 +251,4 @@ M04_2_M0 <- function(M04, D04, P04, Sex = c("m","f")[1]){
 	# back to rate
 	exp(lm0)
 }
+

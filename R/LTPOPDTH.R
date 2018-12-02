@@ -27,8 +27,7 @@
 #' @param mod logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Patrick Gerland's modification for ages 5-14. Default \code{TRUE}.
 #' @param OAnew integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.
 #' @param OAG logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.
-#' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto","Makeham", "Gompertz", "Gamma-Gompertz", "Beard",
-#'                    "Makeham-Beard", "Quadratic"}. Default \code{"Kannisto"}. See details.
+#' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.
 #' @param extrapFrom integer. Age from which to impute extrapolated mortality.
 #' @param extrapFit integer vector. Ages to include in model fitting. Defaults to all ages \code{>=60}.
 #' @export 
@@ -144,7 +143,6 @@
 #' 		mod = FALSE,
 #' 		OAnew = 60)
 
-
 LTabr <- function(
 		Deaths, 
 		Exposures, 
@@ -161,8 +159,8 @@ LTabr <- function(
 		mod = TRUE,
 		OAG = TRUE,
 		OAnew = max(Age),
-		extrapLaw = c("Kannisto", "Makeham", "Gompertz", "Gamma-Gompertz", "Beard",
-                   "Makeham-Beard", "Quadratic")[1],
+		extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",
+				"Beard_Makeham", "Quadratic")[1],
 		extrapFrom = max(Age),
 		extrapFit = Age[Age >= 60]){
 	# this is a hard rule for now. May be relaxed if the 

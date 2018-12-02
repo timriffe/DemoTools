@@ -7,9 +7,9 @@
 LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = inferAgeIntAbr(Age =
   Age), radix = 1e+05, axmethod = "pas", Sex = "m", region = "w",
   IMR = NA, mod = TRUE, OAG = TRUE, OAnew = max(Age),
-  extrapLaw = c("Kannisto", "Makeham", "Gompertz", "Gamma-Gompertz",
-  "Beard", "Makeham-Beard", "Quadratic")[1], extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60])
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz",
+  "GGompertz", "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapFrom = max(Age), extrapFit = Age[Age >= 60])
 }
 \arguments{
 \item{Deaths}{numeric. Vector of death counts in abridged age classes.}
@@ -42,8 +42,7 @@ LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = inferAgeIntAbr(Age =
 
 \item{OAnew}{integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.}
 
-\item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto","Makeham", "Gompertz", "Gamma-Gompertz", "Beard",
-"Makeham-Beard", "Quadratic"}. Default \code{"Kannisto"}. See details.}
+\item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.}
 
 \item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
 
