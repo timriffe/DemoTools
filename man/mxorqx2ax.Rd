@@ -4,8 +4,11 @@
 \alias{mxorqx2ax}
 \title{wrapper to invoke PAS or UN ax methods given qx or mx}
 \usage{
-mxorqx2ax(nMx, nqx, axmethod = c("pas", "un")[1], AgeInt, IMR = NA,
-  Sex, region, OAG = TRUE, mod = TRUE)
+mxorqx2ax(nMx, nqx, axmethod = c("pas", "un")[1], Age, AgeInt,
+  IMR = NA, Sex, region, OAG = TRUE, mod = TRUE,
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz",
+  "GGompertz", "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapFrom = max(Age), extrapFit = Age[Age >= 60], ...)
 }
 \arguments{
 \item{nMx}{numeric. Vector of mortality rates in abridged age classes.}
@@ -13,6 +16,8 @@ mxorqx2ax(nMx, nqx, axmethod = c("pas", "un")[1], AgeInt, IMR = NA,
 \item{nqx}{numeric. Vector of conditional death probabilities in abridged age classes.}
 
 \item{axmethod}{character. Either \code{"pas"} or \code{"un"}.}
+
+\item{Age}{integer. A vector of ages of the lower integer bound of the age classes.}
 
 \item{AgeInt}{integer. Vector of age class widths. Ddefault \code{inferAgeIntAbr(Age = Age)}.}
 
@@ -25,6 +30,15 @@ mxorqx2ax(nMx, nqx, axmethod = c("pas", "un")[1], AgeInt, IMR = NA,
 \item{OAG}{logical. Whether or not the last element of \code{nMx} is the open age group Default \code{TRUE}.}
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Patrick Gerland's modification for ages 5-14. Default \code{TRUE}.}
+
+\item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.}
+
+\item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
+
+\item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>=60}.}
+
+\item{...}{Other arguments to be passed on to the 
+\code{\link[MortalityLaws]{MortalityLaw}} function.}
 }
 \value{
 nax average contribution to exposure of those dying in the interval.

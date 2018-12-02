@@ -1,6 +1,3 @@
-# TODO: introducing new OAG argument, but not being handled well by UN ax method.
-# when FALSE it appears to still be doing an abacus extrapolation which goes haywire
-# with patrick's qx test case.
 # Author: tim
 ###############################################################################
 
@@ -17,7 +14,6 @@
 #' @param nMx numeric. Vector of mortality rates in abridged age classes.
 #' @param nqx numeric. Vector of conditional death probabilities in abridged age classes.
 #' @param lx numeric. Vector of lifetable survivorship at abridged ages.
-#' @param Age integer. A vector of ages of the lower integer bound of the age classes.
 #' @param AgeInt integer. Vector of age class widths. Ddefault \code{inferAgeIntAbr(Age = Age)}.
 #' @param radix numeric. Lifetable radix, \ifelse{html}{\out{l<sub>0}}{\eqn{l_0}}. Default 100000.
 #' @param axmethod character. Either \code{"pas"} or \code{"un"}. 
@@ -28,8 +24,7 @@
 #' @param OAnew integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.
 #' @param OAG logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.
-#' @param extrapFrom integer. Age from which to impute extrapolated mortality.
-#' @param extrapFit integer vector. Ages to include in model fitting. Defaults to all ages \code{>=60}.
+#' @inheritParams aomegaMortalityLaws
 #' @export 
 #' @return Lifetable in data.frame with columns
 #' \itemize{
@@ -107,7 +102,8 @@
 #' 		0.00417,0.00513,0.00581,0.00645,0.00725,
 #' 		0.00813,0.00913,0.01199,0.01647,
 #' 		0.0256,0.04047,0.06624,0.10638,0.19611)
-#' 
+#' Age <- c(0,1,seq(5,80,by=5))
+#' AgeInt <- age2int(Age,OAvalue = 5)
 #' MPexcheck <- c(49.997,55.675,57.245,53.921,
 #' 		49.803,45.799,41.922,38.084,34.249,
 #' 		30.420,26.578,22.701,18.945,
@@ -116,8 +112,8 @@
 #' # First with lifetable extention to 100
 #' MP_UNLT100 <- LTabr(
 #' 		nMx = MPnMx,
-#' 		Age = c(0,1,seq(5,80,by=5)),
-#' 		AgeInt = inferAgeIntAbr(vec = MPnMx),
+#' 		Age = Age,
+#' 		AgeInt = AgeInt,
 #' 		axmethod = "un",
 #' 		Sex = "f",
 #' 		mod = FALSE,
@@ -126,8 +122,8 @@
 #' # lifetable to original open age group
 #' MP_UNLT80 <- LTabr(
 #' 		nMx = MPnMx,
-#' 		Age = c(0,1,seq(5,80,by=5)),
-#' 		AgeInt = inferAgeIntAbr(vec = MPnMx),
+#' 		Age = Age,
+#' 		AgeInt = AgeInt,
 #' 		axmethod = "un",
 #' 		Sex = "f",
 #' 		mod = FALSE,
@@ -136,8 +132,8 @@
 #' # same, but truncated at 60
 #' MP_UNLT60 <- LTabr(
 #' 		nMx = MPnMx,
-#' 		Age = c(0,1,seq(5,80,by=5)),
-#' 		AgeInt = inferAgeIntAbr(vec = MPnMx),
+#' 		Age = Age,
+#' 		AgeInt = AgeInt,
 #' 		axmethod = "un",
 #' 		Sex = "f",
 #' 		mod = FALSE,
@@ -150,7 +146,7 @@ LTabr <- function(
 		nqx,
 		lx,
 		Age,
-		AgeInt = inferAgeIntAbr(Age = Age), 
+		AgeInt = age2int(Age = Age, OAvalue = 5), 
 		radix = 1e5,
 		axmethod = "pas", 
 		Sex = "m", 
@@ -162,7 +158,8 @@ LTabr <- function(
 		extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",
 				"Beard_Makeham", "Quadratic")[1],
 		extrapFrom = max(Age),
-		extrapFit = Age[Age >= 60]){
+		extrapFit = Age[Age >= 60],
+		...){
 	# this is a hard rule for now. May be relaxed if the 
 	# ABACUS code is relaxed. For now mostly unmodified.
 	#stopifnot(OAnew <= 100)
@@ -204,6 +201,7 @@ LTabr <- function(
 		nAx <- mxorqx2ax(
 				nqx = nqx, 
 				axmethod = axmethod,
+				Age = Age,
 				AgeInt = AgeInt,
 				Sex = Sex,
 				region = region, 
@@ -214,6 +212,7 @@ LTabr <- function(
 		nAx <- mxorqx2ax(
 				nMx = nMx, 
 				axmethod = axmethod,
+				Age = Age,
 				AgeInt = AgeInt,
 				Sex = Sex,
 				region = region, 
@@ -251,18 +250,20 @@ LTabr <- function(
 			mx = nMx, 
 			x_fit = extrapFit,
 			x_extr = x_extr,
-			law = extrapLaw)
-	
+			law = extrapLaw,
+			...)
+
 	nMxext        <- Mxnew$values
 	Age2          <- names2age(nMxext)
-	keepi         <- Age2 <= extrapFrom
-	nMxext[keepi] <- nMx[Age <= extrapFrom]
+	keepi         <- Age2 < extrapFrom
+	nMxext[keepi] <- nMx[Age < extrapFrom]
 	nMx           <- nMxext
-	AgeInt        <- age2int(Age2,OAG=TRUE,OAvalue=max(AgeInt))
+	AgeInt        <- age2int(Age2,OAG=TRUE,OAvalue=max(AgeInt,na.rm=TRUE))
 	# redo ax and qx for extended ages
 	nAx <- mxorqx2ax(
 			nMx = nMx, 
 			axmethod = axmethod,
+			Age = Age2,
 			AgeInt = AgeInt,
 			Sex = Sex,
 			region = region, 
@@ -298,6 +299,7 @@ LTabr <- function(
 	ndx <- lx2dx(lx)
 	nLx <- nLx[ind]
 	Tx  <- Tx[ind]
+	nLx[length(nLx)] <- Tx[length(Tx)]
 	ex  <- ex[ind]
 	
 	# output is an unrounded, unsmoothed lifetable

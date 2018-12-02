@@ -4,9 +4,11 @@
 \alias{axUN}
 \title{UN a(x) estimates from either M(x), q(x), or both}
 \usage{
-axUN(nMx, nqx, lx, IMR = NA, AgeInt, Sex = "m", region = "w",
+axUN(nMx, nqx, lx, IMR = NA, Age, AgeInt, Sex = "m", region = "w",
   tol = .Machine$double.eps, maxit = 1000, mod = TRUE,
-  closeout = "mortpak")
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz",
+  "GGompertz", "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapFrom = max(Age), extrapFit = Age[Age >= 60], ...)
 }
 \arguments{
 \item{nMx}{numeric. Event exposure mortality rates.}
@@ -16,6 +18,8 @@ axUN(nMx, nqx, lx, IMR = NA, AgeInt, Sex = "m", region = "w",
 \item{lx}{numeric. Vector of lifetable survivorship in standard abridged age groups.}
 
 \item{IMR}{numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.}
+
+\item{Age}{integer. A vector of ages of the lower integer bound of the age classes.}
 
 \item{AgeInt}{integer. Vector of age interval widths.}
 
@@ -29,7 +33,14 @@ axUN(nMx, nqx, lx, IMR = NA, AgeInt, Sex = "m", region = "w",
 
 \item{mod}{logical.  Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.}
 
-\item{closeout}{character. Default \code{"mortpak"}.}
+\item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.}
+
+\item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
+
+\item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>=60}.}
+
+\item{...}{Other arguments to be passed on to the 
+\code{\link[MortalityLaws]{MortalityLaw}} function.}
 }
 \value{
 nax average contribution to exposure of those dying in the interval.
@@ -40,12 +51,7 @@ for ages 5-9 and 10-14, and the Greville formula for higher ages. In the origina
 these are referred to as separation factors.
 }
 \details{
-a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. If the main 
-input is \code{nMx}, and if \code{IMR} is not given, we first approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the Coale-Demeny approach
-before applying the formula.
-The final a(x) value is closed out by default as the Mortpak Abacus estimate (based on extrapolation of nMx). If the closeout argument is anything other than \code{"mortpak"}, 
-then life expectancy in the open age group is taken as the reciprocal of the final M(x). For nMx inputs 
-this method is rather direct, but for {\ifelse{html}{\out{q<sub>X</sub>}}{\eqn{q_X}}} or l(x) inputs it is iterative. Age groups must be standard abridged.
+a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. If the main input is \code{nMx}, and if \code{IMR} is not given, we first approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the Coale-Demeny approach before applying the formula. The final a(x) value is closed out using the \code{aomegaMortalityLaws()} method (reciprocal and Mortpak methods are deprecated). For nMx inputs this method is rather direct, but for {\ifelse{html}{\out{q<sub>X</sub>}}{\eqn{q_X}}} or l(x) inputs it is iterative. Age groups must be standard abridged.
 No check on age groups are done.
 }
 \examples{
@@ -58,21 +64,25 @@ ax <- c(0.330,1.352,2.500,2.500,2.633,2.586,2.528,2.528,
 		2.526,2.529,2.531,2.538,2.542,2.543,2.520,2.461,2.386,2.295,4.211)
 
 AgeInt     <- inferAgeIntAbr(vec = Mx)
-
+Age <- int2age(AgeInt)
 nAx1       <- axUN(nMx = Mx, 
+                   Age = Age,
 		              AgeInt = AgeInt, 
 		              Sex = "m",
 				  region = "w",
 		              mod = FALSE)
 nAx2       <- axUN(nMx = Mx, 
+                   Age = Age,
 		              AgeInt = AgeInt, 
 		              Sex = "m",
 				  region = "w",
 		              mod = TRUE)
 # this is acceptable...
-round(nAx2,3) - ax # only different in ages 5-9 and 10-14
+round(nAx2,3) - ax # only different in ages 5-9 and 10-14, and open age
+# ignore open age, which is treated differently
+N <- length(ax)
 # default unit test...
-stopifnot(all(round(nAx1,3) - ax == 0)) # spot on
+stopifnot(all(round(nAx1[-N],3) - ax[-N] == 0)) # spot on
 }
 \references{
 \insertRef{greville1977short}{DemoTools}

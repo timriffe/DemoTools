@@ -251,14 +251,15 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
 #' @param mod logical. Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.
-#' @param closeout character. Default \code{"mortpak"}.
+#' @inheritParams aomegaMortalityLaws
 #' 
 #' 
-#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. By default the lifetable is closed out using the Mortpak extrapolation. Otherwise the final a(x) value is closed out as if the final M(x) value were constant thereafter, which is a common lifetable closeout choice. Age groups must be standard abridged. No check on age groups is done.
+#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. The final a(x) value is closed out using the \code{aomegaMortalityLaws()} method (reciprocal and Mortpak methods are deprecated). Age groups must be standard abridged. No check on age groups is done.
 #' 
 #' There are different vectors one can specify for this method: ultimately it's either \code{nMx} or \code{nqx}, and the \code{nax} results will differ potentially quite a lot depending which you have on hand.
 
-#' 
+#' @seealso 
+#' \code{\link[DemoTools]{aomegaMortalityLaws}}
 #' @references
 #' \insertRef{greville1977short}{DemoTools}
 #' \insertRef{un1982model}{DemoTools}
@@ -281,39 +282,49 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 #' 63704,59843,54828,48253,39861,30079,19951,9033)
 #' 
 #' Age <- c(0,1,seq(5,85,by=5))
+#' AgeInt <- age2int(Age, OAvalue = 5)
 #' # two quite different results depending whether you start with mx or qx
-#' ax.greville.mortpak(nMx = nMx, Sex = 'f',region = 'w')
-#' ax.greville.mortpak(nqx = nqx, Sex = 'f',region = 'w')
+#' ax.greville.mortpak(nMx = nMx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
+#' ax.greville.mortpak(nqx = nqx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 #' # same, qx comes from lx
-#' ax.greville.mortpak(lx = lx, Sex = 'f',region = 'w')
+#' ax.greville.mortpak(lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 #' # both qx and lx given, but lx not used for anything = same
-#' ax.greville.mortpak(nqx = nqx, lx = lx, Sex = 'f',region = 'w')
+#' ax.greville.mortpak(nqx = nqx, lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 #' 
 #' # if both qx and mx given, then same as qxmx2ax identity,
 #' # except young ages follow Coale-Demeny, and greville uses
-#' # mortpak closeout.
-#' ax.greville.mortpak(nMx = nMx, nqx = nqx, Sex = 'f',region = 'w')-
+#' # MortalityLaws closeout.
+#' ax.greville.mortpak(nMx = nMx, nqx = nqx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')-
 #' 		qxmx2ax(nqx,nMx,age2int(Age,TRUE,5))
 #' # same (qx comes from lx)
-#' ax.greville.mortpak(nMx = nMx, lx = lx, Sex = 'f',region = 'w')
+#' ax.greville.mortpak(nMx = nMx, lx = lx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')
 
-# TODO: when nqx specified, iteration can send mx in wrong direction in OA, which messes
-# up aomega. And when mortpak closeout invoked it's based on a low mx value in last age.
-# need a fresh start maybe?
 ax.greville.mortpak <- function(
 		nMx, 
 		nqx, 
 		lx, 
 		Age,
-		AgeInt,
+		AgeInt = age2int(Age, OAvalue = 5),
 		IMR = NA, 
 		Sex = "m", 
 		region = "w", 
 		mod = TRUE,
-		closeout = "mortpak"){
+		law = c("kannisto",
+				"kannisto_makeham",
+				"gompertz", 
+				"ggompertz", 
+				"makeham", 
+				"beard", 
+				"beard_makeham", 
+				"quadratic")[1],
+		extrapFrom = max(Age),
+		extrapFit = Age[Age >= 60],
+		...
+		){
 
 	Sex     <- tolower(Sex)
 	region  <- tolower(region)
+	law     <- tolower(law)
 	DBL_MIN <- .Machine$double.xmin
 		
 	# sort out arguments:
@@ -343,37 +354,10 @@ ax.greville.mortpak <- function(
 		qind   <- TRUE
 	}
 
-	# in this block we make sure to get both Age
-	# and AgeInt, in case not supplied.
-	
-	# 1) get Age from names if avail?
-	# in any case we have nMx by now
-	if (missing(Age)){
-		.age    <- names2age(nMx) 
-		# only assign to Age if valid 
-		if (!all(is.na(.age))){
-			Age <- .age
-		} # otherwise nothing happens to Age
-	}
-	
-	# best to get AgeInt from Age if not given
-	if (missing(AgeInt) & !missing(Age)){
-		stopifnot(is_abridged(Age))
-		AgeInt  <-  age2int(Age = Age, OAG = TRUE, OAvalue = 5)
-	}
 
-	# otherwise assume abridged and get from length
-	if (missing(AgeInt) & missing(Age)){
-		AgeInt  <- inferAgeIntAbr(vec = nMx)
-	}
-	
-	# and vice versa, duh
-	if (missing(Age) & !missing(AgeInt)){
-		Age     <- int2age(AgeInt)
-	}
-	
 	# some setup 
 	N           <- length(nMx)
+	
 	# if both mx and qx given at start then we get ax by identity
     # this is a fallback, always preferred, and not part of the greville
     # method per se. Greville is an either-or method.
@@ -429,17 +413,19 @@ ax.greville.mortpak <- function(
 	}
 	
 	# closeout
-	
-	aomega         <- max(c(1 / nMx[N], .97))
-	aomega         <- ifelse(qind, max(aomega, .8 * ax[N - 1]), aomega)
-	
-	# TODO: write aomegaMortalityLaws
-	if (closeout == "mortpak" & sum(AgeInt) < 100){
-		N      <- length(nMx)
-		aomega <- aomegaMORTPAK(mx_or_qx = nMx, qind = FALSE)
-	} # otherwise other rules of thumb followed
-	ax[N]          <- aomega
-	
+	if (max(Age) < 130){
+		aomega         <- aomegaMortalityLaws(
+				mx = nMx, 
+				Age = Age, 
+				law = law, 
+				extrapFrom = extrapFrom,
+				extrapFit = extrapFit,
+				...)
+		
+		ax[N]          <- aomega
+	} else {
+		ax[N]          <- 1 / nMx[N]
+	}
 	# 
 	ax
 }
@@ -450,12 +436,7 @@ ax.greville.mortpak <- function(
 #' for ages 5-9 and 10-14, and the Greville formula for higher ages. In the original sources 
 #' these are referred to as separation factors.
 #' 
-#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. If the main 
-#' input is \code{nMx}, and if \code{IMR} is not given, we first approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the Coale-Demeny approach
-#' before applying the formula.
-#' The final a(x) value is closed out by default as the Mortpak Abacus estimate (based on extrapolation of nMx). If the closeout argument is anything other than \code{"mortpak"}, 
-#' then life expectancy in the open age group is taken as the reciprocal of the final M(x). For nMx inputs 
-#' this method is rather direct, but for {\ifelse{html}{\out{q<sub>X</sub>}}{\eqn{q_X}}} or l(x) inputs it is iterative. Age groups must be standard abridged.
+#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. If the main input is \code{nMx}, and if \code{IMR} is not given, we first approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the Coale-Demeny approach before applying the formula. The final a(x) value is closed out using the \code{aomegaMortalityLaws()} method (reciprocal and Mortpak methods are deprecated). For nMx inputs this method is rather direct, but for {\ifelse{html}{\out{q<sub>X</sub>}}{\eqn{q_X}}} or l(x) inputs it is iterative. Age groups must be standard abridged.
 #' No check on age groups are done.
 #' 
 #' @param nMx numeric. Event exposure mortality rates.
@@ -468,7 +449,8 @@ ax.greville.mortpak <- function(
 #' @param tol numeric. The tolerance for the qx-based iterative method. Default \code{.Machine$double.eps}.
 #' @param maxit integer. The maximum number of iterations for the qx-based iterative method. Default 1000.
 #' @param mod logical.  Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.
-#' @param closeout character. Default \code{"mortpak"}.
+#' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.
+#' @inheritParams aomegaMortalityLaws
 #' 
 #' @return nax average contribution to exposure of those dying in the interval.
 #' @export
@@ -489,38 +471,47 @@ ax.greville.mortpak <- function(
 #' 		2.526,2.529,2.531,2.538,2.542,2.543,2.520,2.461,2.386,2.295,4.211)
 #' 
 #' AgeInt     <- inferAgeIntAbr(vec = Mx)
-#' 
+#' Age <- int2age(AgeInt)
 #' nAx1       <- axUN(nMx = Mx, 
+#'                    Age = Age,
 #' 		              AgeInt = AgeInt, 
 #' 		              Sex = "m",
 #'					  region = "w",
 #' 		              mod = FALSE)
 #' nAx2       <- axUN(nMx = Mx, 
+#'                    Age = Age,
 #' 		              AgeInt = AgeInt, 
 #' 		              Sex = "m",
 #'					  region = "w",
 #' 		              mod = TRUE)
 #' # this is acceptable...
-#' round(nAx2,3) - ax # only different in ages 5-9 and 10-14
+#' round(nAx2,3) - ax # only different in ages 5-9 and 10-14, and open age
+#' # ignore open age, which is treated differently
+#' N <- length(ax)
 #' # default unit test...
-#' stopifnot(all(round(nAx1,3) - ax == 0)) # spot on
+#' stopifnot(all(round(nAx1[-N],3) - ax[-N] == 0)) # spot on
 axUN <- function(
 		nMx,
 		nqx, 
 		lx, 
 		IMR = NA, 
+		Age,
 		AgeInt, 
 		Sex = "m", 
 		region = "w", 
 		tol = .Machine$double.eps, 
 		maxit = 1e3, 
 		mod = TRUE,
-		closeout = "mortpak"){
+		extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",
+				"Beard_Makeham", "Quadratic")[1],
+		extrapFrom = max(Age),
+		extrapFit = Age[Age >= 60],
+		...){
 	stopifnot(!missing(nqx) | !missing(nMx))
 	smsq    <- 99999
 	Sex     <- tolower(Sex)
 	region  <- tolower(region)
-	
+	law     <- tolower(extrapLaw)
 	
 	if (missing(nqx) & !missing(lx)){
 		nqx <- lx2dx(lx) / lx
@@ -535,7 +526,18 @@ axUN <- function(
 #		k = 1/10 log(nmx+5/nmx-5). For ages 5 and 10, nQx = 2.5
 #		and for ages under 5, nQx values from the Coale and
 #		Demeny West region relationships are used." 
-		axi <- ax.greville.mortpak(nMx = nMx, IMR = IMR, Sex = Sex, region = region, mod = mod)
+		axi <- ax.greville.mortpak(
+				    nMx = nMx, 
+					Age = Age,
+					AgeInt = AgeInt,
+					IMR = IMR, 
+					Sex = Sex, 
+					region = region, 
+					mod = mod,
+					law = law, 
+					extrapFrom = extrapFrom,
+					extrapFit = extrapFit,
+					...)
 	}
 	if (!missing(nqx) & missing(nMx)){
 # UN (1982) p 31 
@@ -544,12 +546,34 @@ axUN <- function(
 #		that an iterative procedure is used to find the nmx and nqx
 #		values consistent with the given nqx and with the Greville
 #		expression. 
-		axi <- ax.greville.mortpak(nqx = nqx, IMR = nqx[1], Sex = Sex, region = region, mod = mod, closeout = "")
+		axi <- ax.greville.mortpak(
+				    nqx = nqx, 
+					IMR = nqx[1], 
+					Age = Age,
+					AgeInt = AgeInt,
+					Sex = Sex, 
+					region = region, 
+					mod = mod, 
+					law = law, 
+				    extrapFrom = extrapFrom,
+				    extrapFit = extrapFit,
+				    ...)
 		
 		#mxi <- qxax2mx(nqx = nqx, nax = axi, AgeInt = AgeInt)
 		for (i in 1:maxit) {
 			mxi   <- qxax2mx(nqx = nqx, nax = axi, AgeInt = AgeInt)
-			axi   <- ax.greville.mortpak(nMx = mxi, IMR = nqx[1], Sex = Sex, region = region, mod = mod, closeout = "mortpak")
+			axi   <- ax.greville.mortpak(
+					nMx = mxi, 
+					IMR = nqx[1], 
+					Age = Age,
+					AgeInt = AgeInt,
+					Sex = Sex, 
+					region = region, 
+					mod = mod, 
+					law = law, 
+					extrapFrom = extrapFrom,
+					extrapFit = extrapFit,
+					...)
 			qxnew <- mxax2qx(nMx = mxi, nax = axi, AgeInt = AgeInt, IMR = IMR, closeout=FALSE)
 			smsq  <- sum((qxnew - nqx)^2)
 			if (smsq < tol){
@@ -561,15 +585,29 @@ axUN <- function(
 	}
 	# if both given, then we have ax via identity:
 	if (!missing(nqx) & !missing(nMx)){
-		axi <- qxmx2ax(nqx = nqx, nMx = nMx, AgeInt = inferAgeIntAbr(vec = nMx))
+		axi <- qxmx2ax(nqx = nqx, nMx = nMx, AgeInt = AgeInt)
 	}
 	
-	if (closeout == "mortpak" & sum(AgeInt) < 100){
-		N      <- length(axi)
-		aomega <- aomegaMORTPAK(mx_or_qx = nMx, qind = FALSE)
+#	if (closeout == "mortpak" & sum(AgeInt) < 100){
+#		N      <- length(axi)
+#		aomega <- aomegaMORTPAK(mx_or_qx = nMx, qind = FALSE)
+#		axi[N] <- aomega
+#	}
+#	
+# closeout
+    N    <- length(axi)
+    if (max(Age) <= 125){
+		aomega         <- aomegaMortalityLaws(
+				mx = nMx, 
+				Age = Age, 
+				law = law, 
+				extrapFrom = extrapFrom,
+				extrapFit = extrapFit,
+				...)
 		axi[N] <- aomega
+	} else {
+		axi[N] <- 1 / nMx[N]
 	}
-	
 	
 	
 	# if mx, qx, or both are given, then by now we have ax
@@ -608,6 +646,8 @@ aomegaMORTPAK <- function(mx_or_qx,qind=FALSE){
 #' @param extrapFrom integer. Age from which to impute extrapolated mortality.
 #' @param extrapFit integer vector. Ages to include in model fitting. Defaults to all ages \code{>=60}.
 #' @return life expectancy in the open age group
+#' @seealso 
+#' \code{\link[DemoTools]{extra_mortality}}
 #' @export
 #' @examples
 #' nMx <- c(0.12846,0.02477,0.00603,0.0034,
@@ -679,12 +719,18 @@ aomegaMortalityLaws <- function(
 mxorqx2ax <- function(nMx,
 		nqx,
 		axmethod = c("pas","un")[1],
+		Age,
 		AgeInt,
 		IMR = NA,
 		Sex,
 		region,
 		OAG = TRUE,
-		mod = TRUE){
+		mod = TRUE,
+		extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",
+				"Beard_Makeham", "Quadratic")[1],
+		extrapFrom = max(Age),
+		extrapFit = Age[Age >= 60],
+		...){
 	N <- length(AgeInt)
 	if (is.na(AgeInt[N]) | is.infinite(AgeInt[N])){
 		AgeInt[N] <- AgeInt[N-1]
@@ -720,22 +766,30 @@ mxorqx2ax <- function(nMx,
 			#fakenMx   <- nqx
 			nAx       <- axUN(
 					nqx = nqx, 
+					Age = Age,
 					AgeInt = AgeInt, 
 					IMR = nqx[1], 
 					Sex = Sex, 
 					region = region,
 					mod = mod,
-					closeout = "")
+					extrapLaw = extrapLaw,
+					extrapFrom = extrapFrom,
+					extrapFit = extrapFit,
+					...)
 			
 		} else {
 			nAx       <- axUN(
 					nMx = nMx, 
+					Age = Age,
 					AgeInt = AgeInt, 
 					IMR = IMR, 
 					Sex = Sex, 
 					region = region,
 					mod = mod,
-					closeout = "")
+					extrapLaw = extrapLaw,
+					extrapFrom = extrapFrom,
+					extrapFit = extrapFit,
+					...)
 		}	
 		
 	}

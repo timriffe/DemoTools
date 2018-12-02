@@ -1,4 +1,7 @@
 # Author: ilya
+
+# TR: TODO 1) make sure no negatives produced in value columns
+# 2) also qx in range 0-1
 ###############################################################################
 context("test-ltpopdth")
 
@@ -38,7 +41,8 @@ test_that("LTabr works on PAS example", {
     
     # final ex values are different because lifetable
     # closeout is via lifetable extention rather than mx inverse.
-    ind <- 1:20
+	# TR: closeout no longer comparable, only check first 19 diffs
+    ind <- 1:19
     
     # test
     expect_equal(
@@ -60,28 +64,32 @@ test_that("LTabr works on UN 1982 (p. 34) example", {
     excheckUN <- c(35.000, 42.901, 47.190, 44.438, 40.523, 36.868, 
                    33.691, 30.567, 27.500, 24.485, 21.504, 18.599,
                    15.758, 13.080, 10.584, 8.466, 6.729, 5.312, 4.211)
-    
-    AgeInt <- inferAgeIntAbr(vec = Mx)
+    Age    <- c(0,1,seq(5,85,by=5))
+    AgeInt <- age2int(Age, OAvalue = 5)
     
     # generate two variants: with and without PG's variants for ages 5-14
     UNLT1 <- LTabr(nMx = Mx,
-                   Age = c(0,1,seq(5,85,by=5)),
+                   Age = Age,
                    AgeInt = AgeInt,
                    axmethod = "un",
                    Sex = "m",
                    mod = FALSE)
     
     UNLT2 <- LTabr(nMx = Mx,
-                   Age = c(0,1,seq(5,85,by=5)),
+                   Age = Age,
                    AgeInt = AgeInt,
                    axmethod = "un",
                    Sex = "m",
                    mod = TRUE)
     
+	# TR 2 Dec 2018: LTabr closeout is permanently
+	# changed, influencing all ages, especially old ages.
+	# results should be close in young ages
+	ind <- 1:14
     # test
     expect_equal(
-        UNLT1$ex,
-        excheckUN,
+        UNLT1$ex[ind],
+        excheckUN[ind],
         tolerance = .02
     )
 })

@@ -59,3 +59,6 @@ aomegaMortalityLaws(nMx,Age,extrapLaw="Beard")
 aomegaMortalityLaws(nMx,Age,"Beard_Makeham")
 aomegaMortalityLaws(nMx,Age,"Quadratic")
 }
+\seealso{
+\code{\link[DemoTools]{extra_mortality}}
+}

@@ -4,12 +4,13 @@
 \alias{LTabr}
 \title{Calculate an abridged-age lifetable.}
 \usage{
-LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = inferAgeIntAbr(Age =
-  Age), radix = 1e+05, axmethod = "pas", Sex = "m", region = "w",
-  IMR = NA, mod = TRUE, OAG = TRUE, OAnew = max(Age),
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz",
-  "GGompertz", "Beard", "Beard_Makeham", "Quadratic")[1],
-  extrapFrom = max(Age), extrapFit = Age[Age >= 60])
+LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = age2int(Age = Age,
+  OAvalue = 5), radix = 1e+05, axmethod = "pas", Sex = "m",
+  region = "w", IMR = NA, mod = TRUE, OAG = TRUE,
+  OAnew = max(Age), extrapLaw = c("Kannisto", "Kannisto_Makeham",
+  "Makeham", "Gompertz", "GGompertz", "Beard", "Beard_Makeham",
+  "Quadratic")[1], extrapFrom = max(Age), extrapFit = Age[Age >= 60],
+  ...)
 }
 \arguments{
 \item{Deaths}{numeric. Vector of death counts in abridged age classes.}
@@ -47,6 +48,9 @@ LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = inferAgeIntAbr(Age =
 \item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
 
 \item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>=60}.}
+
+\item{...}{Other arguments to be passed on to the 
+\code{\link[MortalityLaws]{MortalityLaw}} function.}
 }
 \value{
 Lifetable in data.frame with columns
@@ -128,7 +132,8 @@ MPnMx <- c(0.12846,0.02477,0.00603,0.0034,
 		0.00417,0.00513,0.00581,0.00645,0.00725,
 		0.00813,0.00913,0.01199,0.01647,
 		0.0256,0.04047,0.06624,0.10638,0.19611)
-
+Age <- c(0,1,seq(5,80,by=5))
+AgeInt <- age2int(Age,OAvalue = 5)
 MPexcheck <- c(49.997,55.675,57.245,53.921,
 		49.803,45.799,41.922,38.084,34.249,
 		30.420,26.578,22.701,18.945,
@@ -137,8 +142,8 @@ MPexcheck <- c(49.997,55.675,57.245,53.921,
 # First with lifetable extention to 100
 MP_UNLT100 <- LTabr(
 		nMx = MPnMx,
-		Age = c(0,1,seq(5,80,by=5)),
-		AgeInt = inferAgeIntAbr(vec = MPnMx),
+		Age = Age,
+		AgeInt = AgeInt,
 		axmethod = "un",
 		Sex = "f",
 		mod = FALSE,
@@ -147,8 +152,8 @@ MP_UNLT100 <- LTabr(
 # lifetable to original open age group
 MP_UNLT80 <- LTabr(
 		nMx = MPnMx,
-		Age = c(0,1,seq(5,80,by=5)),
-		AgeInt = inferAgeIntAbr(vec = MPnMx),
+		Age = Age,
+		AgeInt = AgeInt,
 		axmethod = "un",
 		Sex = "f",
 		mod = FALSE,
@@ -157,8 +162,8 @@ MP_UNLT80 <- LTabr(
 # same, but truncated at 60
 MP_UNLT60 <- LTabr(
 		nMx = MPnMx,
-		Age = c(0,1,seq(5,80,by=5)),
-		AgeInt = inferAgeIntAbr(vec = MPnMx),
+		Age = Age,
+		AgeInt = AgeInt,
 		axmethod = "un",
 		Sex = "f",
 		mod = FALSE,
