@@ -41,6 +41,10 @@ plot(Age, Value, type = 'l')
 
 The figure above has some clear irregularities on age-reporting. For example, there is a consistent clustering around ages ending in zero and five. In principle, a post-enumeration survey or a sample interview should give more information on the reasons why these irregularities appear in the data [@siegel2004methods]. However, not every country has the resources to conduct a survey or post-enumeration process. Therefore, various arithmetic techniques have been developed for measuring heaping on individual ages or terminal digits. These measure the degree of bias, but they do not correct it [@booth2015demographic]. The simplest way to analyze age-heaping is by assuming that the true numbers are *rectangularly* distributed over some age range that includes centered the age being examined [@siegel2004methods].
 
+Several indices of age-heaping exist. `DemoTools` implements Whipple [@spoorenberg2007quality], Myer , Bachi [@bachi1951tendency], Coale-Li [@coale1991effect], Noumbissi [@noumbissi1992indice], and Spoorenberg's [@spoorenberg2007quality] age-heaping indices.
+
+
+
 ### Whipple's Index
 Using this assumption over a 5-year range, Whipple's index measures heaping usually in numbers ending in zero or five. This index is a summary measure that determines variability in the quality of age reporting between regions or countries and its evolution over time. This index is usually determined between ages 23 and 62 inclusive since the linearity assumption is not plausible in low ages (0-22 years) and in high ages (63 years and above). The original formula is given by
 
@@ -60,12 +64,10 @@ Whipple
 
 The result varies from 1, which means no concentration around numbers ending in zero or five, to a maximum of 5. The selection of calculating the index for ayes 23-62 is arbitrary but has been found to be suitable for practical purposes [@united1955manual]. Whipple's index is effective and very easy to compute. However, it only measures digit-preference for two digits (0 and 5 in our case).
 
-Several indices of age-heaping exist. `DemoTools` implements Whipple [@spoorenberg2007quality], Myer , Bachi [@bachi1951tendency], Coale-Li [@coale1991effect], Noumbissi [@noumbissi1992indice], and Spoorenberg's [@spoorenberg2007quality] age-heaping indices.
-
 
 
 ### Myers 
- As an alternative, Myers (1940) developed a 'blended' index to measure preferene or avoidance of all 10 digits [@myers1954accuracy]. The method determines the proportion that the population ending in a given digit is of the total population 10 times, by varying the particular starting age for any 10-year age group. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits 0 to 9 should represent 10 percent of the total population. The method involves 5 main steps  [@siegel2004methods]:
+ As an alternative, Myers (1940) developed a 'blended' index to measure preference or avoidance of all 10 digits [@myers1954accuracy]. The method determines the proportion that the population ending in a given digit is of the total population 10 times, by varying the particular starting age for any 10-year age group. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits 0 to 9 should represent 10 percent of the total population. The method involves 5 main steps  [@siegel2004methods]:
  
  1. Sum the populations ending in each digit over the whole range, starting with the lower limit of the range (e.g., $10, 20, 30,\dots ,80$; $11, 21, 31,\dots , 81$).
 
@@ -83,33 +85,32 @@ Myers <- Myers(Value, Age, ageMin = 10, ageMax = 90)
 Myers
 
 ```
-Myers index, 23.73 in this case, expresses the extent of concentration on or avoidance of a particular digit [@myers1954accuracy].The theoretical range of Myers
+Myers index, 31.94 in this case, expresses the extent of concentration on or avoidance of a particular digit [@myers1954accuracy].The theoretical range of Myers
 index is 0, representing no heaping, to 90, which would result if all ages were reported at a single digit [@siegel2004methods].
 
 
 ### Bachi's
 
-This index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers', it equals the sum of the positive deviations from 10 percent.
+With the previous formulas, Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers', it equals the sum of the positive deviations from 10 percent [@bachi1951tendency]. It has a theoretical range from 0 to 90, AND 10% is the expected value for each digit. Therefore, the results of Bachi's method is similar to those obtained by Myers' index.
 
 ```{r}
 Bachi <- Bachi(Value, Age, ageMin = 10, ageMax = 90)
-```
-
-### Coale-Li's 
-
-This index calculates a two-stage 5-term moving average as a reference pattern, then
-take ratios with respect to this. Ratios for a given terminal digit can then be averaged to produce
-an index.
-
-```{r}
-CoaleLi <- CoaleLi(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0)
-CoaleLi
+Bachi
 ```
 
 
 ### Noumbissi's
 
-This method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators  consisting in 5-year age groups centered on the terminal digit of age in question.
+This method, based on the underlying principles and assumptions of the original Whipple's index,improves by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators  consisting in 5-year age groups centered on the terminal digit of age in question [@noumbissi1992indice]. It returns to a more reasonable assumption of linearity over an age range of five years rather than ten. It is based once more on the underlying principles and assumptions of the original Whipple's index and introduces the following formulas to measure age heaping:
+
+\begin{align}
+\label{eq:Noumbussi}
+W_0 =5\frac{P_{30}+P_{40}+P_{50}+P_{60}}{_5P_{28}+\, _5P_{38}+\, _5P_{48}+\, _5P_{58}} \\
+W_5 =5\frac{P_{25}+P_{35}+P_{45}+P_{55}}{_5P_{23}+\, _5P_{33}+\, _5P_{43}+\, _5P_{53}} \\
+\end{align}
+
+where $P_x$ is the population completed age $x$ and $_5P_x$ the population of the age range $(x,x+4)$. From these, age heaping can then be calculated for all ten digits (0-9) [@spoorenberg2007quality]. If there is no digit preference or avoidance, this "digit-specific modified Whipple's index" is equal to 1. An index above or below 1 indicates preference for or avoidance of the digit in question, respectively.
+
 
 ```{r}
 Noumbissi <- Noumbissi(Value, Age, digit = 0) 
@@ -119,11 +120,31 @@ Noumbissi
 
 ### Spoorenberg's
 
-Using the digit-specific modified Whipple's index, this index summarizes all age preference and avoidance effects by taking the sum of the absolute differences between digit-specific Whipple's index and 1 (counting all differences as positive).
+Using the digit-specific modified Whipple's index, this index summarizes all age preference and avoidance effects by taking the sum of the absolute differences between digit-specific Whipple's index and 1 (counting all differences as positive) [@spoorenberg2007quality]. The total modified Whipple's index ($W_{tot}$) is written as follows:
+
+\begin{equation}
+W_{tot} = \sum_{i=0}^9(|W_i - 1|)
+\end{equation}
+
 
 ```{r}
 Spoorenberg <- Spoorenberg(Value, Age, ageMin = 20, ageMax = 64)
 Spoorenberg
+```
+
+The value of the index is zero if no preference is observed. In the case that all reported ages end in 0 or 5, the index reaches its maximum value of 16.
+
+### Coale-Li's 
+
+Coale and Li developed a method focusing on age misstatement at older ages because these are particularly subject to error. This error often leads to an overstatement of people (and deaths) increasing with age [@coale1991effect]. For example, the effect on mortality rates at old ages is understatement and it increases with age.
+
+The index is based on  the deviation of the number at each age from a smooth sequence by taking the ratio of the number at each age to a two-stage moving average (the five-term average of a five-term average). With no heaping, the mean index at ages divisible by 10 from 40 to 90 would be about 1.0 [@coale1991effect]. 
+
+In the case of enumerated Indian males in 1991 the index in 3.8, which indicates extensive errors in reported ages.
+
+```{r}
+CoaleLi_index <- CoaleLi(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0)
+CoaleLi_index
 ```
 
 
