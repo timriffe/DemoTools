@@ -1,3 +1,4 @@
+doc
 Meta
 
 /.settings/
@@ -13,4 +14,6 @@ Meta
 .Rapp.history
 .DS_Store
 # produced vignettes
-
+inst/doc/Age-heaping_quality_with_Demotools.html
+inst/doc/Age-heaping_quality_with_Demotools.R
+inst/doc/Age-heaping_quality_with_Demotools.Rmd
