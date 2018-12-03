@@ -1,5 +1,4 @@
 Meta
-doc
 
 /.settings/
 /.project
@@ -14,6 +13,4 @@ doc
 .Rapp.history
 .DS_Store
 # produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-inst/doc
+
