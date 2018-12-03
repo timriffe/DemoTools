@@ -1,3 +1,5 @@
+^Meta$
+^doc$
 ^.project*
 ^.gitignore*
 dev
