@@ -294,13 +294,23 @@ LTabr <- function(
 	nAx <- nAx[ind]
 	nMx <- nMx[ind]
 	nqx <- nqx[ind]
-	nqx[length(nqx)] <- 1
+	
+	
 	lx  <- lx[ind]
+	# recalc dx from chopped lx
 	ndx <- lx2dx(lx)
 	nLx <- nLx[ind]
 	Tx  <- Tx[ind]
-	nLx[length(nLx)] <- Tx[length(Tx)]
 	ex  <- ex[ind]
+	
+	# some closeout considerations
+    N      <- length(nqx)
+	nqx[N] <- 1
+	nLx[N] <- Tx[N]
+	nAx[N] <- ex[N]
+	
+	# Q? should we close out mx
+    # with ndx[N] / nLx[N], i.e. a constant?
 	
 	# output is an unrounded, unsmoothed lifetable
 	out <- data.frame(
