@@ -167,7 +167,7 @@ LTabr <- function(
 	# arbitrary lower bound to accept the fitted model. Really
 	# this functionality is intended for extrapolation and not
 	# model overwriting of rates.
-	stopifnot(extrapFrom <= max(Age) & (extrapFrom > 50))
+	stopifnot(extrapFrom <= max(Age))
 	stopifnot(OAnew <= 110)
 	# need to make it possible to start w (D,E), M, q or l...
 	
