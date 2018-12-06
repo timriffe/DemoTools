@@ -1,210 +1,328 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="pandoc" />
+<title>How to use <code>DemoTools</code> to get age-heaping indices</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
 
-<meta name="author" content="Jose Manuel Aburto, Ilya Kashnitsky, Marius Pascariu, Tim Riffe" />
-
-<meta name="date" content="2018-12-05" />
-
-<title>Age-heaping indices with DemoTools</title>
-
-
-
-
-
-<style type="text/css">code{white-space: pre;}</style>
+<!-- Styles for R syntax highlighter -->
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
 </style>
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
-
 </head>
 
 <body>
-
-
-
-
-<h1 class="title toc-ignore">Age-heaping indices with DemoTools</h1>
-<h4 class="author"><em>Jose Manuel Aburto, Ilya Kashnitsky, Marius Pascariu, Tim Riffe</em></h4>
-<h4 class="date"><em>2018-12-05</em></h4>
-
-
-
-<div id="how-to-use-demotools-to-get-age-heaping-indices" class="section level2">
 <h2>How to use <code>DemoTools</code> to get age-heaping indices</h2>
-<p>The age distribution of a population can be affected by various kinds of reporting errors: 1) misstatements of age, 2) incomplete enumeration at particular ages, and 3) failure to report ages <span class="citation">(United Nations 1952)</span>. These errors can have different sources. For example, ages of older women are often understated <span class="citation">(United Nations 1952)</span>. Men, on the other hand, may misrepresent their age to avoid taxation or military services in some populations <span class="citation">(United Nations 1952)</span>. In addition to these reasons, some errors are induced by how the census takes place. For instance, in many countries the census is taken by leaving the questionnaire to be filled by a family member who might have to report other family members’ age, in other countries the census information is collected by enumerators in interviews in which case the information depends on who is answering the interview, among other reasons <span class="citation">(United Nations 1952)</span>. In this vignette we focus on indices to measure the quality of data affected by age misstatement.</p>
-<p>Consider the 1991 male census population of India.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DemoTools)
 
-<span class="co"># 'pop1m_ind' available as package data</span>
-Value &lt;-<span class="st"> </span>pop1m_ind
-Age   &lt;-<span class="st"> </span><span class="dv">0</span>:(<span class="kw">length</span>(Value)-<span class="dv">1</span>)
-  
-<span class="kw">plot</span>(Age, Value, <span class="dt">type =</span> <span class="st">'l'</span>)  </code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
-<p>The figure above has some clear irregularities on age-reporting. For example, there is a consistent clustering around ages ending in zero and five. In principle, a post-enumeration survey or a sample interview should give more information on the reasons why these irregularities appear in the data <span class="citation">(Siegel Jacob and Swanson David 2004)</span>. However, not every country has the resources to conduct a survey or post-enumeration process. Therefore, various arithmetic techniques have been developed for measuring heaping on individual ages or terminal digits. These measure the degree of bias, but they do not correct it <span class="citation">(Booth and Gerland 2015)</span>. The simplest way to analyze age-heaping is by assuming that the true numbers are <em>rectangularly</em> distributed over some age range that includes centered the age being examined <span class="citation">(Siegel Jacob and Swanson David 2004)</span>.</p>
-<p>Several indices of age-heaping exist. <code>DemoTools</code> implements Whipple <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>, Myer , Bachi <span class="citation">(Bachi 1951)</span>, Coale-Li <span class="citation">(Coale and Li 1991)</span>, Noumbissi <span class="citation">(Noumbissi 1992)</span>, and Spoorenberg’s <span class="citation">(Spoorenberg and Dutreuilh 2007)</span> age-heaping indices.</p>
-<div id="whipples-index" class="section level3">
-<h3>Whipple’s Index</h3>
-<p>Using this assumption over a 5-year range, Whipple’s index measures heaping usually in numbers ending in zero or five. This index is a summary measure that determines variability in the quality of age reporting between regions or countries and its evolution over time. This index is usually determined between ages 23 and 62 inclusive since the linearity assumption is not plausible in low ages (0-22 years) and in high ages (63 years and above). The original formula is given by</p>
-<span class="math display">\[\begin{equation}
+<p>The age distribution of a population can be affected by various kinds of reporting errors: 1) misstatements of age, 2) incomplete enumeration at particular ages, and 3) failure to report ages [@accuracyun1952]. These errors can have different sources. For example, ages of older women are often understated [@accuracyun1952]. Men, on the other hand, may misrepresent their age to avoid taxation or military services in some populations [@accuracyun1952]. In addition to these reasons, some errors are induced by how the census takes place. For instance, in many countries the census is taken by leaving the questionnaire to be filled by a family member who might have to report other family members&#39; age, in other countries the census information is collected by enumerators in interviews in which case the information depends on who is answering the interview, among other reasons [@accuracyun1952]. In this vignette we focus on indices to measure the quality of data affected by age misstatement. </p>
+
+<p>Consider the 1991 male census population of India.</p>
+
+<pre><code class="r">library(DemoTools)
+
+# &#39;pop1m_ind&#39; available as package data
+Value &lt;- pop1m_ind
+Age   &lt;- 0:(length(Value)-1)
+
+plot(Age, Value, type = &#39;l&#39;)  
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAADAFBMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYHBwcICAgJCQkKCgoLCwsMDAwNDQ0ODg4PDw8QEBARERESEhITExMUFBQVFRUWFhYXFxcYGBgZGRkaGhobGxscHBwdHR0eHh4fHx8gICAhISEiIiIjIyMkJCQlJSUmJiYnJycoKCgpKSkqKiorKyssLCwtLS0uLi4vLy8wMDAxMTEyMjIzMzM0NDQ1NTU2NjY3Nzc4ODg5OTk6Ojo7Ozs8PDw9PT0+Pj4/Pz9AQEBBQUFCQkJDQ0NERERFRUVGRkZHR0dISEhJSUlKSkpLS0tMTExNTU1OTk5PT09QUFBRUVFSUlJTU1NUVFRVVVVWVlZXV1dYWFhZWVlaWlpbW1tcXFxdXV1eXl5fX19gYGBhYWFiYmJjY2NkZGRlZWVmZmZnZ2doaGhpaWlqampra2tsbGxtbW1ubm5vb29wcHBxcXFycnJzc3N0dHR1dXV2dnZ3d3d4eHh5eXl6enp7e3t8fHx9fX1+fn5/f3+AgICBgYGCgoKDg4OEhISFhYWGhoaHh4eIiIiJiYmKioqLi4uMjIyNjY2Ojo6Pj4+QkJCRkZGSkpKTk5OUlJSVlZWWlpaXl5eYmJiZmZmampqbm5ucnJydnZ2enp6fn5+goKChoaGioqKjo6OkpKSlpaWmpqanp6eoqKipqamqqqqrq6usrKytra2urq6vr6+wsLCxsbGysrKzs7O0tLS1tbW2tra3t7e4uLi5ubm6urq7u7u8vLy9vb2+vr6/v7/AwMDBwcHCwsLDw8PExMTFxcXGxsbHx8fIyMjJycnKysrLy8vMzMzNzc3Ozs7Pz8/Q0NDR0dHS0tLT09PU1NTV1dXW1tbX19fY2NjZ2dna2trb29vc3Nzd3d3e3t7f39/g4ODh4eHi4uLj4+Pk5OTl5eXm5ubn5+fo6Ojp6enq6urr6+vs7Ozt7e3u7u7v7+/w8PDx8fHy8vLz8/P09PT19fX29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7////isF19AAAACXBIWXMAAAsSAAALEgHS3X78AAAgAElEQVR4nO19B5wV1fX/S9QY2z8m+ksxMSRGU0yUmGjszMDSkQ5LlypKL6IgIEiT3ossHQSkSgd16b0JAiJIEREWBJcmHXb3/uecc+ft3HOH5bE7u6/N1487y5m67/tm5t5TvicgfMQlAuG+AB/hgU98nMInPk7hEx+n8ImPU/jExyl84uMUPvFxCp/4OIVPfJzCJz5O4RMfp/CJj1P4xMcpfOLjFD7xcQqf+DiFT3ycwic+TuETH6fwiY9T+MTHKXzi4xQ+8XEKn/g4hU98nMInPk7hEx+n8ImPU/jExyl84uMUPvFxCp/4OIVPfJzCJz5O4RMfp/CJj1P4xMcpfOLjFD7xcQqf+DiFT3ycwic+TuETH6fwiY9T+MTHKXzi4xQ+8XEKn/g4hU98nMInPk7hEx+n8ImPU/jExyl84uMUPvFxCp/4OEUOiE8dleQjcjHhWm4RP716uP82H1ngxQO5Rvzw7O/rI9dR3yc+PuETH6fwiY9T+MTHKXzi4xQ+8XEKn/g4hU98nMInPk7hEx+n8ImPU8Q08ePDfQERjJgm/sVwX0AEI6aJfzrcFxDBiGni/50e7iuIXMQ08U9knWUS14hp4h+/HO4riFzENPF/uxDuK4hcxDTxfzkX7iuIXMQ08X86Fe4riFzENPEPnwz3FUQuYpr4h46H+woiFzFN/K+PhvsKIhcxTfyDhzWTP86XiGni7z+omZp/GYbriETENPH37dNMb2wLw3VEImKa+Lv3aKYGm8NwHZGImCb+Z/pzve6GMFxHJCKmib9th2Z6dU0YriMSEdPE/0R/oVdfkfeXEZGIZeLTAls0W5WlYbiQSEQsE381sFGzVfwkDBcSiYhl4i8F1mq2cgvDcCGRiFgm/nxglWYrPS8MFxKJiGXizwaWa7YSs8NwIZGIWCY+NZCs2YpOD8OFRCJimfgTAX0klzA1DBcSicgx8Wsv3mBF+Ik/Flik2YxJYbiQSESOib/zn/qcCRF+4o8E9JHcS+PCcCGRiJwTn1yzxl63FeEn/lDgY8323OgwXEgkIufE7xFrny409jttRfiJPxCYqdme+SAMFxKJ8IJ4kb6+zSMP8RXhJ/7rwDTN9p9hmulA1h9BjMIT4i1kfMFXhJ/4r26fotmeHKSZxsblaz/HxA9IvcGK8BO/6259CP/PfpopaVReXEykwYt5fPo5t6rU8BO//f7xmu1vvTTTiLh87eeY+MudHrs9cNujna/wFeEnfuuv9SH8oz0001D9tR8HyDHxtYqsTL12al35enxF+Inf9PBIzfbnLpppoP7ajwPkmPhfHMPFxQf5ivATv/5R/RIe7qSZ+vXPi4uJNOSY+Pw0Jv74Kb4i/MSvfnyIZnuovWbq1ScvLibSkGPit/zu8cT6iU88tJWvCD/xK/49ULP9uq1m6vF+XlxMpCHno/rryUm9kpKva/bwE7/0WX3u9sCbmqlrt7y4mEiDR2HZ3bop/MR/+nJvzfbLFpqp83t5cTGRBo+Iz6ebskf819q0MPtYnKDP3R5sopk6vOvdKaMHkUZ8I831m33ML9FVs/32Dc3U7h3vThk98IL4xPz578ifn1uzR3w9D2vb5pTrrNl+30AztXnbu1NGDyLtjq+hZ0RnG7OqdNRs+epqplb6eC8OEGnEV9ITY7ON6bW0h3jGo7W0zZrr4704QKSN6ktnu9JlvWaZWl97iF9/vJq2WeOm2T1lNMMT4tOOZzj+lboV0S1bfpGi87OzF+AFzTKpkfYQv/JUorbZ642ye8pohgfEpyTcc/+hZzNVR5a1RTxTLDvXY8zKzl4W0v+jmca31B7iF56voG3W4LVsnjKq4QHxRZtczpfeqRA3t6ySnet5Lrt571ee0Exj2moP8XNmGW2zOlpgMR7gAfF3nbHGdqfv5ubsEf/UxOzsZeH83zVT0rvaQ/xUsVLaZrVezeYpoxoeEP/kAov4Zf/k5uwR/3h2059PP6KZhndtyE0ny+gvoGo1snnKqIYHxK98oOJ9tR9cws3ZI94lhB4aTjysmYb0rs9NxysnaJslVs3mKaMaXozqUyd0G31Ms2aP+If1SGpoOPpbzTRwYB1uOlLD1DarWCmbp4xqeDOPP3lGt2WP+F/rAbXQcOgBzdRvRE1u+ra2TnzZ8tk8ZVQjx8S/8p048txP7yiYwldkj/hfZDc4vu//aaZeYzRvzYH6OvGv6AP9OIAXBRWJdS5ee1u7bbJH/M/1nLjQsPsuzdTjQ81b83VDnfjiJbN5yqiGF8Q/sleIM9oNl03i22VnLwtf3K6Zuk6vyE1fNdKJL5ItT1O0I+fEL79eepEQq7XauWwRf+2B1tnYC7AloFV1dJ5Tjpt2NtOJL1Q4m6eMauSY+CJ/vPP+v4sV9w/gK7JF/Pl82Y2YrA9c5aaOi0pz0/aWOvFGwWyeMqrhwaj+2oG1YuMKzZwt4lP/9Xo29gKsCmhS9O8kl+CmrW/qxJu6KQ7glQbO0QXccmvEH16Gi5Tn9USJ0LA0cJqb3lqtvb03tvWJJ3hF/Mx7uOXWiF/UARffFMmu/3RJ4AQ3td6kuenWtfeJJ+Se6tWtET+dQud7K1TO5unmB7QGNC22a5Su6uQTT4gU4sdR2vOO2mWzebrZgUPc1HSXRunyLj7xhEghfijFUzY31cZjIWJaQOtD0ugrjdLk7j7xhBwTv8cGX3FrxL9P7/Y17+jRs9Aw6eda3t9r+wxuWtLTJ56QY+JLBO7+PYKvuDXiO5CTbWm37LIw9lfbuaneQYObFvb1iSfk/FHfQC9KQtwa8S0pM2ZRn+yyMPJhrRSj9rfaweYO8Ikn5Jz4pX3d7bdGfAN6xH88OLssDP3bOm6qeUQ72OwhPvGESBncVXsRFx+NzC4LA55ayU1Vj2kHmzHcJ54QKcSXfgYXE8Zll4XeL2ga5ZVPaAebOrKQFsvxiXdBnhFf6CVcJE3JLgvdi2hS1RVOGdz04ZiiWizHJ94FeUa8YeBi6KzsstC53FxuKnvW4KYJ40tc4jafeBfkNfH9FmSXhfbVNcXiUue1g42ZVPpHbvOJd0FeE9/js+yy8FYDrQan+GXtYElTy2tBPJ94F+Q18Z1WZZeFls21Gpwi17SDDZ9e6Qdu84l3QV4T33Zjdllo0m4MNxVK1w42ZHbV49zmE++CvCL+ekLha7jT9oS07J2uYdcR3GQIjdKBc2seYaaMgj7xOvKK+DNlX8FBV6Ov9FF3aKjbbzA3GdZ/DH0X1P6Wma4V0af2cYAIIf5o9Uon6XLKnA1h80O6m7jmCE3N0NTv+F5LtD/4cvEi10K8ylhChBD/dUN6BNc8Ql8AoavQOrFVT8msMqEnN7kQ3+Ozhrxz0vlSxbP5kIlqRAjxn7dugHkUlU7WoAwqXd/CifW6lkGFGZqoncs7vsvyxjxsf7bsK+dDv9CYQYQQv+rdpjthWeZc3W/QoFe7O7FSq4YUpRdqApUuxHda1XwHM52qUDaUt0usIUKIX9SrDYbTi11p+DUafpXl5p/pEkbFV2jFV6YomMFMHda2/pyZTiRWvFFbnVhGhBA/Y1jH1bAsmNF0FyzT7shy84V6ZXPCJq34yhSF+bCt7ca3eL7GsWqJWmJ2HCBCiB83odtnsDQF3ZEXAroOugNzdCUbc2czzSSKX2amNlve4Xp4R2pW01UdYh8RQvzQmX1R4M4U7TbA8lQgywHX9CKaydyjyRMbohQvq2q5/d3VzHSoTi29TWbsI6zEJwQ1ynstGYbBNVO8uwqWKQHNpe7EZJc8mgOa4I1pjRWZqdnO91Yw04H6dQ7d9EpjD+Ek/tqdm+xfO64Zjc0BTdENE2kOBrK8C8fqMpbmYU21zBRaKK7x7m48UWdvw5t8BrGJcBL/1S+D7cFabpuMOmem6L0YV+nlEU6MfFozmcc03RNTSG9QJhru7cnFcnc31nw68YBwEj+tWVA8/rV9s9BXZ4iBc2C5LcCn2wqGaOr4wkzV5C8MUeV7Zqp/oO9CZtrZTPPpxAPCSXyHFcFXdbWUhdgEzBDDZ8ByfWDTjfYC9PuHZjLPaRpGhqjOCynrHBrAM7S2tWq282ZXGoMIJ/FlUxPszMcy55ai3JUpRk+G5YqfrMpqz55/0UzmJa3qzhSvHmammkeGzGamLW1abrvZlcYgwkn8y6Kl3a0uIW0NFsibYgI2MFzy/7LUre/yR81kXtekbEwh/b+ZqHZsxHRm2ti2zRbtaFl6EWICYST+fAkxye7gbYgtUCB/rbCYigO+uX/Ucmad6KDLWLqE4kzRYD8zVT4xiveUX9uh7Ua+51etsjp7TCCMxG94S+y2w6uG+BJK8C6UErOGwr+n5f/IdR8ZrX1Ld+W7Ev86H69XODWW95Rf1am91gdnq96rKtYQRuKTJok0myxD7Af/y6kKYj62+J1gjHfd5xl57Pu1Na7EN/6SmcqenTiOmZZ36aSNJzZqzqCYQxiJb7Ij03dniKNQIG/NxT/BjiYjy2kZdIi/0aLx/2lrdOIzCopmfFJY6sLkUcz0WY8uWgOktbVvcu3RjzASX9givbkcUBviB5iGH6pj3YDw78G1Nd08hJRRbKBV46claMRbAwZtvF788rQPmGlJr+6f8aOtrK6fOuucoKhDGIkvYP0vR3fXE+D1LsTe162xFhh6tdS7gwLupcWrj/Fh9+XiGvGXiwltvF74Oo0hHFjQt5emtZ+sx/vF864XFLUIH/FH4K6So7uzZeGWFWJHc7H5LTB0ec+94etPKfm62lMX2YofS2vEW18lbbxeMGMOF8SfO1Bz5oklerw//b+uFxS1CB/xiyE5Uo7ujlYXyNvmNmJ7SzC0H9TGbZ/rASK84ktcIN8aFnLiz5UR7blYgmnd4Mw0a4jmzBMLNC1UcfVJ178iahE+4nvjfVYIc2S+bkjEr+kgdjcGQ+sJrpq2FwJEeOliPPryfRWN+NPlhRZ8N61XOjNNH64588THxfVTP+76V0Qtwkd8TXSnNkfJos9bEfHLuor9GLhpPNd1QnVKylcWq8id8EdqasT/UElowXdTfNadmaYmUXjAiRm6oPXZv7pdUPQifMQb+HMCVrytfpeIX9xbUFi9/ipXadMUGaYv+Cr3xX5TVyP+eBWhBd9Nsfw9Zpo0ZqRWZztVT/RIzTrvN+oQNuKvkdrRLmwNt7gXET9nkDiOPaFq7NA7Qlr4JkCXa8pc3ExYLwtO1tEaQgu+m/gdUzB+wpgP+Xkmvqid+nu9y1VUI2zE7yav6HUUi585jJ4A1iT7FDJe8VvXfiF7Al/h0miyi635solGvPXs6MPlUUyxjneYHvPh+An8POOe1U595HduFxS9CBvxH0lHCszmxfjxdMdPHCfOvwKGUue0lqWALwKkYmi04tnx1mSgMJvbW0///rxFsSk28Q7TI6d+qBVYJ+mFPId0Z2FUIyzEb+41fGIVOeAuCDNzyLQ0rOWoyeJKUbAWvma47bhJ5mcY2gTdmv7zOtt9DcSgOWwzU3zO0++Hz5iaxM8zXJ+77f+l2wVFL8JB/I8vfDJ7YpKkqQoktfdaLLD4YehM8LAL1wpnwOoAfV2Mjnyetq694HW2e14XQ3lvalN80ZyZhsyersUFBusZPnvudf1bohbhIL6h01PWEh7aMN+GAvl+8+mRfyPik+9cikuj61K2ZmVnUZFlZFuv/RHT2GYmhX+dGDB3luaG7/eYduqdP3e7oOhFGIifo7T67QOv4VbbhKh8Uogen0riTXfiFz5IozWz12K2Jrm74AUxO5qLJJ51YUI4QEXfhXO1tqa9/qSdepve3iyqkffEn3pJKW+ZDC/Y16zZGdSzdFqZ9R0/+xF6aRv957E1i3trCXbbWgkt68KUDiIHei7RvLii2x+0U28O8ALM6EbeE197mfLPZeBQqZ4CGdYC66eyIn5qfsqYM4ZyUbt5A7Q/ZXMbMWE828yEyK+K7smaF1d0/o126nWB2NLNyHPiN7OCF4zPwbgMCuThkZ8V8eNfolvYSOLOtllDxRusV8KGtkKbqJng21XRZflnWgi4g96heHUgtnQz8pz4aWwIfRYCYSB1BfXLUNog3/GF3NSvRpYkJs1x3Ofy0UjB0+PXdhDaRM0UWsFNp1XLuvDztNU7FC8LaJKYUY08J34Mf+2CBwfIhhla/f3BO76k1j/QwuAq+LW5nqAlUE0aK1pvVU2rOgltomaKk7zNVft1q7RGxm/ep536U72vXVQjz4kf9DEz2MRDAhQoIMHv6QWFq0xFn9dwAH6xxIxhbI01jKMC60xYN7I2UTMhWKui7UZK+nGihe6tWaj3tYtq5Dnx3XiCm5lGZMMcHqZ08PulEqIGFyIEdG3dGxZny2p5NCM/0oLvn3UX2kTNFFql1ZtbN2giKo1/rZ16biDF5YKiF3lOfDuuSFH5OLlrh80QWM8OxJ8up9dCADp0Rmmrk5UX9WZrhs4SXdXpAqRcLODad6a4yKM/Lbdv0bJ9Gj6sjTBmBXg5VnQjz4lvyisUW2wj4uHlX+yyxY01Xz5WVd8O0KZ/R1gcrZHcja2xJvY8BruwL8zuFaQXEleLsj2b7dym1c3U+yvXUBHTAgddLih6kefE1+EpFD0XUaIljNcKpgsBLSQO1RZttKZSFpqPwtjaoTor+Xis12LRj/U1tqb2n76vmq4WoXM50Wj3Du6+F7We1JRYJv80tqro85x4Tatg4mh678JAzLCWIDe45w0picLQcBqmYu5tuJ5H1bstFYNZ6tzswWIpezBARS0P2zf8mtL8nKj2LE/mFOPv4VU50Y08J17TD/2sq0iBTGsokDcElLcJsb0Fuu011F6ECTu7mm59k63ptEp8wCIy1sh/RWfVBMF+Tny9A5r7XlQ2+ddTjH7gC5cLil7kmPi1PMPdxg2IN7jhy0bi69es5dKuRAoIym9sK/q7lctWXY05mJ+31rTN3lkveAbVRyPF6o6q6Uw5nfja32rue1G+uKaA9sEftnJTVCPHxN/5T63ImBAq8afKCRxdrW1PpECwZmVnPaIKKP8FOlw3tNvDb9I2WwQvh5w8WvA3AsilcOJrHtHc9+KV8toQfshjG7gpqpFz4pNr1nAd9oRKfEYBSoDc2ppIgSv65H0xbrzLziW/wdqmVe8e5CrGLb7Q/LPWF4HnWZ1I1Imvevy7Wvw8xatrQ/gBT6xxuaDoRc6J3yPWPl1orK5OFirx4mUqcviyMZHS6Csh5vYP5uQpSEgtB4ulXbVQS+PdYiarihs7UfChQEp1nfjKJ1O0EsnC9bXvcp9nVrhcUPTCC+JF+vo2jzzEV4RMfIF0pOxAPSLFunfF9OFijlu5rHkRhW4W9/qeVzW+tg+mbwpGTZH1WJmAe5sTX+HUCa1E0myiDeHfL6DV1EY1PCHeQoY25nUnPr2gZqp4EpJsg/VzEKWbOFbWyTOYNAufO0DzuNc5pHlrrFE+HwN+U1cnvsw5XSjNbKn1JO9SjCf9RDdyTPyAG2l+uxNP2dMKmn6BcqapFehx0GEtdBoVmosGIDOyZgy7wFWMaxyF7CsF1lF3N1JNMH7nxJe6cKacdh5dD6lTWZ6qHd3wYh6ffs6tm4878VQoo6DHEsygu1ASyuSFeG+5NYSeJTa95bK3JH7yqKtcxTjxBEwFFAz6GIsxnYAZOye+2BX9y2hqGteifRUeVoxu5Jj4y50euz1w26Odr/AV7sTrc2YxbhzG1dIKAffWy/QTayS1UOzQVMhFsOfE+PEZ/I1R/jRkWCvoP09wYWNIseXEF77uopCnldmKt+pwnbToRo6Jr1VkZeq1U+vKa11i3Inf1lIzfdKd6mIMcQre3OBy77pU7HvNZW9JvPUmMNiaV85LSYVM9FmkJdiBV54TXzBDi9sIs8sybmrViGfsRjdyTPwvyMd18UG+wp147kuzsKMJlUAa9B4Al3uHNeI7ve1MkPihMzXii10RX7RQTT0/EXyG/nlrnXgTYnbc9r7mMG7WSmthGtXIMfH5yV/28VN8hTvxi7UmYeJkheqY42CIb2tbiw8+EuLNLVDdrkPmYFoPcU5foXTBYy3dkwWfocNDge9p6CZh9tHUURq9M9blgqIXOSZ+y+8eT6yf+MRDmifbnfgZXHsIXHfUBsqgsdhY685qukuc17uPBInvucTlvtVeDtYo8Xt2DZBrExLxujpKg64juSmqkfNR/fXkpF5Jybr4qzvxbp7Yl6mfrEHT7g9HC0i/0eLmAsd/yJE1BHAhnr/QrQEan6Gv6ej2qHchXiu6E3X68DS/6IZHYVkXxXd34ofwSggLLxu4MATmQE0fLkTN79xcfOJiCeLIotSFvqNMRKP9OsFn6DDjC4n4DzRF1ZpDBukXFMXwiPh8usmd+J6appwQZZ/AhYEBOlDFwKRLw169MpiScbocWdtu1L4WJkVgnLC2OsfUq5Z1DZF4XSSj6mitd21UI6+J7+AS43qDShQNgZUNi/oIUfqcg/jOne3fjlfB0gsouHGhj7tx22zRMishFYtXargSP4Er3oqKH2qFVlENL4hPzJ//jvxasxB34ltoTnDrlf1PXBS5ClI4AvIoob+zYa+uGjyQNeovAXkfTXa53fHcjdtym7hSTDWBO7/oVdXmSvwUXrAhys7i+Z3Rjby+4+u7ZE2P/h8uSv+I2fJQ1wJMGPZqM/ibNeovC8lwr33tRvwV5odptkPw5gXzrcd1SZYy5Eo8DDRUlFrYWb/yKEZeE1/luG5bRA6Uyiewrg6yZpzEZximHQqwRv3YDrTOIbdHPQ/8Nd4tMthmMH7gvegMnfiMgh8P5hdZbJlWbxPVyOtRvdb70cI2Km6pdXgi+EggecIQmcSnVKtl50FZo37sClk9RVM6MoXGH3QpYCZQMOa96Ayd+GtF5msjuULr27r8OdELT4hPO+4UDTg8A1FKC3YCTBd5gdPYgEq8tg8bEcFk3hCUYw9Y9W5QpnBNB1EPrrfSSXrXO48rNP4a7NdM8EipzBJoXR71l0roJfOmltgb3fCA+JSEe+4/9GxmktqmXoiXXJXqtNdpJprtwLi8HTq1RaySJs+0Sx+XdhWN4NlS5iy969lx2bGhcygzwZiNK6a4EP9jaa1SR5g8FBDl8ID4ok0u50vvpAU63B/1xo2P89YmlKWzs2TKnyJzm007bb2iRb0FpsZY3wmX+5bzB28FZoJ3SU1WjelC/KkKPLZvbaOXXUQ1PCD+rjPW2O703dx8y8S/uwpjYuCAAyaqy+rUMmcv25OyjweJt0HozprM12Aqxi7EwwGYadxEehCwPTnxJxL1ymmTJ3VEOTwg/skFFvHL/snNt0x89087rxQClQuAiXryygpk7vTRB1QLba1mHeVw3sb4g/6izASDCF6G60J8SnVN/1KYWkZ3dMMD4lc+UPG+2g9qrlhX4jOMGx+n3zwsoT5blkQOZaIriN2WkCWME8YJFLgzoOJN2ReTaBh/oHvHTOCC5y3JXIg//KqmfynMw1r2fVTDi1F96oRuo7WSI3fiL2pZTpkYNh0zcS6WFPhsf5PyHffXo0pqQNIU0RuE7gwM3DqBZZeMv3JnNBOMHnnmtAvxB+prJVpu3aqjGnmcbHmCK9A4MGYitomzntrWTQ8t5dG6qKcQI2SsbMgsajZtEdVaVTHG+Cvjr/SPmgl0WFqwRHAX4ve+/hVLz7W20cRzoht5nGz5TR0Xo8TkUfT6NQWWS8imYINnCZEsZan6LhDYGtYQss3QMVu/AJO2GH/gm2Um0EVkX5m0QjrxXzbZp+WEmloqf3Qj75ItcTS207XVDGHWEHTLWTR8C1p4/SiPvclO2bBK4HcBRbNM0siyftquHUyuY/wVu6KZQL/+bbVBOWRacq/SFy30OkrzR70iIJqRd8mWBvxYr+kMZWJhn8TvYWlSCtZwSmcudilzSPjuKjFpDG5BgzzR2lY2xSE3Yxm8uswEaiksZR6GhQnM/7vlTa02T5iX9AZF0YxQiVe9sg6EnGyJHQm0VkAOLO1K7jiTcurHTszcrQCd/O2NpFxn0UlNAt+wBS5R26CQOtSA+5gR322p4OJYcCMXY++pDe14sp5wa1Puhrb7QtkqAhAa8dwr60DIyZbYkWB2FvlLa9sXx1e27CJB/cQvovOmOnnbrHEZRm5NelsL8aotWboLXiGMPxefDnSlek/tJAvZWTxSu6ajSzldVt7mTDTkrTMiFaERfwOvLCLUZMtECMhO1LqAZGJra7plTbEK6uU/xu/IDnTXdiF5+jf2UGWkian1FirZ0VOUVnhFVSwyhEY83O2skyxQXJqplS5/T1PDC5X4utEinxAa8TfwyjpwdAG3cOKxw9zwLOqQvmxMH63sDbcEM/BnIv3TKC+i7jcomAIUkBJ9STtLH58RLOBqCI14eL+zTrLwUOeR2s+6a2p4oRJfQ6u9ilCERvwNvLIOzLyHWzjxPeAD783bQjlwoJ6BSxMTZaRwUQ8sTt5OgmTVU7ASB2ZgpGJs2iW16FtPVEVHXR71MKLvq35FoeaiEuttsbj3NV6UmV4oNOITeeuMSEVoxN/AK5slOPFjxwsUp7ohjlY3cGkKVKrdiIkPdfD6LtCIukIq3tqXi5MqnhD/s2PkK94TWtxNyd8iwBx+oNqgCCaCVb5XN5vXXyvKtGZ9IRFf7tY+pPAhxFG9u1c2S3DiwQUntLZhDqRWMHBpksw8dQ0yKSf2ZfxZ6jxqXMALmFSM/2U72FByngVuXIgHrx2rlYAoMA/1zR6ssWw9+0MivhRvnRGpyDudu60w/nqNd4h04EJJA5emGA1Z7XsxDEqMiyKYlVHkGkod/GCNx0jF+NHacl/IyeaBG5dHPXj4mRwe1G3zpibWnJGzbH3ZQiK+iFaCE6EIjfhnCW5b7LHBV3Dij0KQo1oWEtBphQxcFkrDTByMhp2RFRGNMCZjCqx4T6mGORkWHrf95yhTzcIvQFRB1fsATSxGqeXOINBc5zYAACAASURBVJxWl01Up4zSWE7V25S7wtRKcCIUoRG/YcOG9TMMrekyoETg7t8j+ApOPDaTLX2Wb+aAYeCi+CVUpcV4zhb5Eu+Mk2+DXslQVEu6J8/YqfTQo1Qw4RogiuVkQt+bcWq5M2glvMa8LhPHaSy7tCl3xYvRUkx9C4/6U1rNBKIBb+QmoQVpwAdX0K3hiA2TPtqyZ3Gqjb5xuyEB6VwaVCcFZbHUVaKAPQZDjTvmhYejMZ8OjAImquXOoJXAu9mMmaSxfLRGaMQ/MzqUrSIAt0D8F3q/DsBSrXkXwZV4I6uTSeIr/YBeVXSR2nXqo7GhiUGONrhJUbPyalH7eKhqCbJJDsA65pODl/kUVQcRUi5YcB+6HnCWradMSMTn17pWRihCf8f/93ZdxSQraMQXvXQT4l+iyujqKW+hZDlsa7+26c43KaYCbjpMdj5TziYDixzBIesA7M+qJ2D4zvrUgFYCD9EPnamxbI0BQyL+8WipqQ35Hb9hw55b67inEf/qoZsQ/wy5y+ocon5SsK1df0Gqd9ZHD2XzG9+m7HuRUt0mA4fqPVRnLKbqqj45mLCzPjUQL2Qhepjqc5b3vBEa8Y/e4PkXcchD2fK3Nt6E+H9TqkPDr21NnMzp2Lp2DgvIG6CK8f769vohoFXPusXDOuaTg3+yPjVwsLfUwQE49zjLu5qGRnw+N13GSEQoxOe3cUtH1oiHAZqR1R7/oz2a7qJ5tSEyt/8Sk9qlSwaqqTEAv6O5vR4z8geq+iWwNfPJQRreQvWehAx6rmr3/icay9tbhkb8794LZasIQCjEb7dxS0fWiJ8yUitoVVGAmlC2/pyc7obIVEAiDSzpkoHwDWZKbGhnyPUYeRmmzjedyfkSEIZbosovQdSnIyvad5FasYYCbtVfGh6MltLKW3jUp2kqEVlCI35pF5QtvTGKkHpR241lpBhSpvr0GQiTYjmsZZ3fX1Ba3vIuReV0DTIseO9o4K6W6pODQT5TPgWthM4r1AvptFIj3hoK8DpNV/zCTZAzEhEa8fter1KlSpE/3dKRNeJ3N6JkuhuiDCXkdVpFs29DZCqRI+eY/GSSFVMfF/S1B28Y/Bk/QTkccMdaH4Eowgr1YQwB/m4spNZ+nUb86nf1pipuuP/Wpj7hQ4jTudrtCk38z63JN2vEnyovX9U3QiLd392SZVw+wxFCNaz/z5SlXyA3B+Uvpg+3wyv4lp6sOk/gKKxsBoRUsCtCJiAEzOUM396kEb+8i5au4Yr/i5YKu9CIvzP1yoti7fO3dGSN+AxThlpvhFdJjLb3YvrUi192eFYMIR/vBhbUCFQxHj/edrai2rQ6Q0dRBFY2AybWrgS0EniWgDW9Y/l74tMeWrqGG9L/4KbEGokIjfiHVotnT57IKgNHh55Xb1D+zA3RkNLnB8wl4suddiRTGUKGbax1oyYLqrIaPt12zzffYf1QZSxQKK+xqtgAB2aSt/De6M8UyZvt1JRyFvXWCnTdcOVvtW++UUQgNOKH/+ybHv993kVyMAu4Ee/adiKI5qRGMGwGEV/tmGP2B79hlYMpR++wTd8F1tsYAf1MrFe+82goTcxai8NOrCwOtBIGqbkZcDSu3DGvf5aRRRvn/6O1OYlQhEJ883XpJy6lTRuiNeHLEjrxZc5+qIlJOfE2uVZGTTZwWfegg/gi1h24C8JBJjwSaCm6LLPFMvBdrvaVxDpKl4Ad6ysJWglDmeqi9QIpy8KIs4doUXs3nHrZTYI3EhEK8fUe+EOrDbfmrxVuxDfc+8FUty1tdKKUygnjDFw23u1IcobSV5zcWeMzfCUDh+029JcJL7W/FTgAcwDbD7ypZn3DTkzgAIJ1vFVh3W+0NDzrwVAvhOay3xcve/ONIgIhPeqvr2j28B/bbM6hr96aHvfNsr1HD8q9njqSHvWttzpkZyBXAjsRlLgo8DaHbZrvGCm/SeioWaNIoqOcaVu1KR7sxPpKQnie5WZA8l5Vps41eRRP8HHFdxWzKAeOKITqwMnY8s4fcjiPF8OndV7utqWN/uQhmjWEiO+w1hFPAWFEvKPLnaFJO03WJsk8fRx4qXMGfFzYYwAJ2Il1rQCthLEse8JivRbrp2bNJPTOVDoOvhpSvU0EIFTivx9h3pWl202DTvyswa4tooOYsxIX8/sT8d2WDsjMXOy4SjpbE09YT3hhO2RnSQ8PTrXUYRtK27J6KdgJRfEzAVoJvEel9ZxniZsQ920eQnPZPa+H5NGPAIRE/MmRhX5WdHxWWVMu0Ilf+84bX4Ww4yddKKm97wKcpBH6LICuYwKFrVvDixs+4HJnFktZMpz3BdUM9sH9D5l5PEQPO7F6SMjvY54fkNTiWaEjP+LjBVfsbBZLxBe+/YWh32e5mRt04g/Urak3pNSxrA1lWA6dWSbzuzZyinTQWBfcFOZo8AEXvWo3KUMnb7DhbHeYnmFchzljYSfWB2vwx0LramnN5ZgDAAb+bW/QRNeJra1jifieh7JzZJ34SyXKheD8EmsaUu7smEmODxG4mQTZco12kzvOEMAjKtwLqYYYlCdqB6muWOLOnLFwQNbzBJw3M1kPAutrxJNyBs7VYnhu2NAulojPHlwUMQoUvhbCjpuqkszQlCTHhwjp1Ch8ac3M8f1LIVp7boZbBlsPNR0v5CCut56bwZQtIHuDK9daU0b+XO+zUIvhuWFVJ594N+KNUHbcXor83bM7O0aTazpIP8vbm6jwhYi3lSvw4w4+xGvDOwHVFfqp80fY7Ee1eQG0uZvXX/DN+HPd2iyorJoFlnbziXch3nwplB13v0yDtMVVHKN00EpAFq1xemXI0yC9C7srBX7cQX9PRRgFon4Rc8bCZqy9IIwCFvURfDOX3AxWZuuKxb184l2Ir/R4KDvu/ze9uJf/25Gx+k1t+cK2GIAEKsypMIKtavHjDha1F4N5H8rtsEI52Iy1F4Rx/yesJ5qpTQfAd9BPqwTXMW+AT7wL8U2zKrQO4vAjlL60/m5HDl2q9WZG4cveiylZHmRTjGCvQPy4gyo1L8JYH1uIj1Dr8WEz1l4QVJS4ZLGpySeAJ2hQCM1lZw31iXchvvtzoex4/EHiYXvAMbKGfsNtwXEzcA7lQFU+iaFZ+TnjItix7EmQSUB/b5IaHDCDP4KAFA6WlANb9GZZJ9bQYphrCZmKqUk+8S7EjwnJn5l6J4VX9wac1RAGNpnBe9iAf1sjPJCtcBIfpPTPEIBDkQzWTcqFeKi7Ykk5mRo7mWj9OU/pc8WEcT7xLsQvDCl09WOA/LDf3u+0GoK06u26tjrfYLm0QWtV4h+CAf06yLQZP145tAvx4AZcpyblwBaYqO9Asx1i7KSbX/voyT7xLsRvdWsUrOFKgKL2JxQFNUNQXHTSGGKu4dfi8Ks3IP7PkNOJt/GHithShgvx4KnhWtXWFiNYpLbRV7za0hXDpydkVRYaQchT4i+EJBCTEaBb65JCh2E93UHqxBYtaLoLXbQGrVWIT/sXTPLwxT1VqZC8nuDYSgLS+njXEVM6ixx4bR+vtnTFoI9DysWNAOQp8SHiDrdRVKHrlBwxZyAxZ710HU3BFeLPFAQfzVIYIqr5l9SGTiUeSqR51xFTe0eAt3BGCM1l+yzkTa4iFZFI/D1uOjLlTlN+8+LexFzbjZh4IZMiFeKPVIbwHiZi2WFbAomYqcRDnu4uprBr6gG7mkek8F7W6PFZxdSbbxUJiETi7//UxVjrW4FlM9aNjMy9uxpSnu2mRArxe143hBRLmaOQRR4elXhI7eEi5dYW01jArupxobck0xWZ31vBex1FKiKR+N+4aaI13UnFa6s7EnNdl6IAUnWsqJA6s5LSzW3gFyi0YmRRfEYlHlIoeed5E5MrFVivmcVaS7L/aDr9HdaGkpIZCYhE4v/gFvhuv5YYs0bguOy1GEdbDbCiQvrfJaXL34Nf8GYnjSQb1GtAJR4iPrzdjKnHbcqd0fx7QjyuDeTe2sxb3kQqIpH4R9xynHouphG8Xa/cfx6qolHcXHrpJaXz+8GW+HpXM64pfKcSD4XULBsLtlC/MZibQVKbTvxFSy9oub1RKElGEYBIJP7ve12M1sTagKX1Pkbmhs4Ug2fbpe0yuUJSOiUJtsRGtUuVuxQ6m3HiYapA9iDAm4+KiQ4Uu8KSeAG/197njXfzDI5IRSQS/+S3LsbJo4j4A/VJbjRpiui5xG5YIBsFSUqTpsCWOO1WvfB0Z6vEQ1IQy8aC+N1y5r5PSHMp/HvgG255bV+bLa5/U8QhEol/2qXjNAzTDFh+V5Nm4+MnYJp1P5z6Habyayld0G8ecIuJWqoXnt7lKvEwR2R9hmDWx29vU3fzCHGv9liv/S1L6I5YRCLxL7jVaq3sRMSfSKQUGusJADfXB6gkKXPli1Bm13vLgVusll/X3nkMahapEg8xXpaNBU2wNrAeKqbu5hHi9m3cUj0FY8dRgEgk3rzsYtzWkog/U44SbWYMw0xYcqDveQO3kap2bTZD4BYDcxsVty/N11XiwQPE2hLACVy8uF9yJce0gHZ3V/qBB/IjFZFI/BS3Wq399Yj4iyXojTx3IHaJJc0MmVEvKx3f+ArS7LG6aovCH3noVOIhqHKhlGKC3gUuXty9vLnshYBWGFT2bJ8sFPkjCZFIvCtOVqJBXVoCvdCt+RZoJNG0S9bQyErHmkcqnRRiOHj8tyvKJPQvVcQIvgZXijktOMjnvaNNfbYvUgMaySUuMTn8iEXUEH+lqKTH2I/NAJO7YfkMTa7lgFu6S8uegco3jKirrULp+a0GToF41mAKUnd572gzOILMREqABe0hBXR4CHk6kYCoIV4YtpdmN76pV3UShSwGN6G+hRyDv0rzwITr4M9D1Tv1xqW4uypsDMSzfhTwzTpYVz27SU1MFBwMaFXfJsp1RAOiiHg56TK34+t3/TvIGY24ZGW8dJeaKISBwklqTTSN8VWxC4P2cAKGisHiDAlTm/RZ36p7tdQMU0wYH+LfE2ZEEfGy2tEkERvrsQ10fYN3pvTMSnepgRqlvSBdcr/SI5Zm9WrE3CUpB94PzKcDW2jNZbf9fji/SDOkdI1IQBQRv58m6yZ2nAJ2DCGVsGyZUllda2B1dA8I7uL34qztsCc/XoVTzsO6EG/NHHmFHWzBSnCsh87jmqSPqdXhRSqih3hzF72vTfKm7nmdCqKwokKG3WXBm4Gkd10m5BP7oM0YiVqqXcpciIdHylmWF2o60vZtLH+ROfRhs7lZ6jtFDqKH+NIrWuHSJAlza3IFdKVhecQMeua2ozaPBiZHowsNB2S77BIKqphRUyUMPKZyJlDCY1N72EJrLrukZCdmsTZb3JvbIhPRQ3yNGeRFNRdgcoX1xs+8WadQXi51tbtSFBtaYvUbNgfe+D95iIVYI6eqnBjBgwQBbU9YoZWs0VQxpzrLzoVN9Kh9ZCJ6iG80vDMuzdlY1Px9It2BBvyQQ2mSQUitKMZOkLc/vqqX2yV78/AxrKqcuDzqQRadFVq5Ev9R4+bMYm2ySnsKRCaih/i279EYzST9itPlaV5vwA+ZDE31rIdqo9ot9jfBkfjCfPIQ9JVRc2RciMc5AmPZFMFU7iAmvMOduNZmTDE1YhE9xHdvQtlQCeNw9nyh1DGccRnwQ9ZGkjTprqaYEIv9Rs7BuG7GA/IQNBRQe065EI9vBNWUUVDoxI/spYlxmy7B28hE9BA/NJEmSiUHYz3ctSIH0HduwI/BVMhKdU8b2mFeJKbCYEL1hJ/LQ3yELenVnlMuxOPAXDVhk2H+qB80MpFfpMmFMyMW0UP8xIKU6l7ufby9MwruzIy1ydJ1Cs5/1h3zZ5oAv+jfHxGQLQY+xCOoyVEuxKO8nmrCbE5OfO9pLl3mZYQ44uEN8SddRI28Jv7jf1FlVWJ7ur1NctOjrE7PT9A0BrewnvPQWgql1a7BALDf7VI9i8aAqryNC/GYU6+a8JXBie+6hHdaSUvg+okRixwTv9fccfjZ2+54WRMy85r4Zb+muFet5tSE0FzeGRZYUYHOGpltBWWVEH9FKXt8N3f5rdSdpnpXVd7GwGMpZ8IHg2o6VUHo7/j26/hXwXowcCd/pCLHxD/b6kq5ZpevvKVpuHpN/ObbSSCjfj3KcTEpFI9i4lLAkt7hI6bh85Y0h4Gadk9ItUKqcFez4lzueKybU02otcNpbr2VW6yJBnfyRypyTPy934tHrfnR2Xv5Cq+J/zpAz/PGlSmrzZyByTc4OZMuO6qU670II+ooaI1kNU+QuXE0+O+kFOq4EI+TQ9WECdic5iZfcktqRXo2RAFyTHyR/hmvJVk327/5Cq+JPx5YQcctQV3izAn4YMfAjHxtk4PGuv3htqN2NUBNg2pS0XYISiF1WeY8rAvxWBuvmjAxm9Nc/wC3HKumh3IiFDkm/ugzfy/zU9N4QMs79Jr4iwEi/O2XKXPdHIFjeLzZZViOqttabcO2RSQ8DtRUay4FbagjodKJ1E0rAb8fqgmHbJzmGke55fCrPI0rYuHBqP6LSX2HztXlALwmXtxOHWDffYpYNimlvgu4aWUgnupmGuzDT59ayAA1ZbvLDhQ06+vl1DVKc9FKCHbAyAQmdHCaK/3ALfsbaL7eSIUX07n0c1rVqMgF4n9FevHdHiXPm9EVlSZR9VB6YclPDre6aYfdgZoio8bTEYhyRe3STSuhzyLNhPm5nOZXznML5G9zW4Qix8Rf7vTY7YHbHu18ha/wnPg/Ebu9f0stQox38O2CL2QayEk/OeRgmtABB/6BwRVby4Ie8oraJWklqM3GMIVD5Q/zczmlha9zCyRlxwvxtYqsTL12al15nnvsPfFPkqtg4L1HcGm2wEZD0ITODrGTlnXBDPz0KbXOgC3tynYa1imth9AzY5fgCMdmKn94ZN5c1hRc6Qg2ixfif0Gf+cUH+QrPiX+RMmdG/JS0803qJYB3s2wJR1UQBv1PKkQYVVslK+g64URQaT1EiXSqYhF6BQoqLGNFFW8ua9qlO0GAblq8EJ+f2np8/BRf4Tnxr1CLzzEB8g8XroJ3PobSylG1HSVTG/Q/3cX4qLd7lnRYCz8VQSvKrctsbAjA0mv1IYD528VZaZfJ0veoJ3m8EL/ld48n1k984iGtb4fnxMtRxKQApUeXLIafOmbgyYxpSseUoXN6b+M/7OIn8vOMm+A46HG8SrXLHEbySyg3M55F/XrAsVmXcogPxQ3x4npyUq+kZL3FtufES0wP0L1Y7lm8AbFIQt6eFzAd0hD46RMBSLwtfEC163bnKgStUu/cVuDoU5OwgVGtuaypfXqgfx43xCN266bcIn7OT+jtW5kSqrD9pP1CfllIl4yT+LRCdsosMqqKHlJjczXxFgP26ncBUyh5c1lT60gGckzxRXw+3ZRbxC/+GS1rPIoLrHWyP2wzTU7QCqVlEn/+FTs/ljrNTneWQVAlpJp4iyk6VZT2S6iFxJXMTK2BCaT4+MTnEvFLZTio7h9xgS9p+8OueVgm1pa8IIOoJkbW6HfZWmq2swMNKZ3VPOI8A7qD7M70BNynFlMyM+VoMROTR8UV8Yn589+RPz+35hbxq39Jy4Z/woWSItHRmq9hRlaF1Mw7/lBtm3jqJj/PWfLwFSbMQKV9Jmof0kwojVpXbS6bUdDOAwgCVDjiiHiRp3f8pt/Qsim940GYOOg6HTdOTuarH80k3prkyfX10fe30NmBhrQS1E8Bb3Y1FxcT91kTwsvFBFdBgCa1PvG5RPz2h2nZ+mlaGkIMt7uTr+ogp9zWnxUkfnMb+46nu/gTp/Yd+XzUfsH4elf16tA/yJoQWkPGIWrLG2xbWSSUFmvhR/SN6r/6Cy3bFqClITJetOfcR6rJDrTWcDtI/MrONvFUQ6No31E2tEop6hDTQNAGZvOx5rLWYIIXw0NcT63Cjlh4Qnzacad/c1cSIuGVHFxWFjjwD1q+KwPfhlgdFBNON2TbSGu4HSR+SS9qRGkPyxWFStJKUFnG8E6rz50mFNRprY7hrZngJFYgD/0Ny3HNrhMnRATCA+JTEu65/9CzmQOfPTMQpXIpFeW7J2nZVZarG6Jq5v36spQ56yCVb2GGP2uI7e2l6boiYUddSVpud54BPfDQqyYTw7DXoaqx+3VDu1gziO7JgrriOTGKKaBHBjwgvmiTy/nSO2n5B7n1qD8h3+29ZJ8T84ijfLnUOaqq6JYsiS98HTx1lI0jnTKKhB1pJahylKiBr87UUNKITd52NNeUzCGdT50Hwr4h6NznPTwg/q4z1tju9N3cnFvEn3mBlgOkA97o7JAgavYFRdP7LpDEF7sCj2k5RCeXPClqSJBWgppxjS8GVagQdVVYc1nrLYGeXAcgvMM7z4vuWhV9JMAD4p9cYBG/TOslmFvEX5TzpaFSiS7hv45hdP85lD09dKYk3npsWyMuWTxDUZZtrRxHo6rm9sq9jHuqDchBNpc3l7UeFrxv2Ztb+AwBDt4hhL8qz+EB8SsfqHhf7Qe1xqu5RXz6SFomybLUMs665Dn9oVEYyloS8aV/hBevJJbC7ooEGmkluGRcq51k8WvQU/0brdtdeXgISvrk/nvRoqWIQHgxqk+d0G203pAjt4i3MV7Oyvo436k7mtCjdvJoSXy50/AIkG3kaYqtSKBRP+EuikQl7ql2ksUHP2suu6Afk9Gjsq1WXOC2Aet/ERmIomRLhsn9XYwXigtQtYSRPBFvzcmtIftgGgZQEE/RLqROFKoALe6pdpLFcR1rLmvNG3lPE/g01emAhWpcHy8iEEXJlgxbNCFZwMv0PF/YRxJf5Xt46comkWRSpEk/xoiN+lzHzVSFSpzJseayH47WCuUgjMMbkIuy5W72p4QDUZRsGRKMdKRtaVfJcvUUCL1No/ZzZFIakVACbt+FzmPgZmonWVRZGKkKWVrjCK55CNPGLvwLWbiIdpUnpmmmvEYUJVuGhJqHkbZ17SXLtb4T5U/ZcRkyKY1ISFdlwFznMXCzcROdJizVYc1lh83U6qXA2fv+J+ySTD1ss7GBZsprRFGyZUjouBI/5s9bS5brHBLFLtteWjIdlxd2Ht711FhQbSGMmykJWuTMnzhOOVX/+SSU4QC0u2BDQFfil1UL6Y/JTURRsmVIGD8GP+bdjaUwMYXpKOFeEm+LVu6HRC0Mu7EXOm720UinCSfnTK0URoSMU8jDHcwlrV2Inx/+ysroS7bMGqs64Md8sN41SreyGDPtdAtJ0xk52NoITn96fKtvb9xsptKcFOeI01XPPKTfM04hs/cD/v52IX5q+AvsvNLAOcofcGEi/kgifqYp1S6TB996RptBLWpi4LwMG6IKGo3hsI1JELjZ3IFOEwZ0WXNZmLcxTuGfY3ibeRfiR/9PM+U1vCJ+5j3cEh7iM55CQaLT5aUmabOdEIyXwtPEgGxLKSbeL+w+8eOdqfa0mZKnQwFdFpKBAZ8L8TxU60b8IM3BneeIHtWrEPFPdJdcLCHbGrTcDsRfIZUiYsAekQ24LUOIoZhDo5KFm6k9KtErxJrLNtzrSvxHrB3x1aKy47UDPf4U4l+Te/BI9cqlYViYiC+FrQkyCsqb/M2tdkmVsGmy+1G0f+BHGW9VU+1ps2VdnCbMrmCxOCjRdSGetyM+XZ4XYgjxjjb5zXPkmPhXvhNHnvvpHQVT+IowEd+E6uRM6Vt5exMWWBhkFM7F608fsYvlp49wHgLXr1ICbxjXU9tWYmqeC/E8Rn+kRo0jgqH5L0P5U3IVOSb+zj0isc7Fa2/z9g3hIn5AZ1wYUn3qnfVYYGHgP1TiK1b9UojeqJUwy3mXkkiGqkmL9ZKs+yRE912Ip3hfJvY2fF3rlVv/T2nclNfwgvhHrD/szP/jK8JE/FLystj1ch1X/wD9CQ38h0p8obbrpAiCOoQnkYzNbZxHTYDpKus+CV+GBHUaC0de1lW9oG2ttHidqPrMj6H9NbmHnBO//HrpRUKsfoivCBPxEqZsFtZ5Bf5ikFE4FwakRlJJxALn45mme2rHOtxF7V6IsT5WQAub8a60azpqYRvxyitu7XPzFDmXO/vjnff/Xay4X+vIEWbiZf+wbkvReUNiFox4cNtQhpUyXicHj9pQFHdh3SfBJlscOk286fQn7/fk3ntRqN5+bspreDCqv3Zgrdi4QjOHmXgZKn//060w2iuJye4K8RkGaNZ2wLtR6RZPLl21cRnuwprLgk0tukOTktklIPCrOXGFGf4u8zE3j5cwpIp078Wr4dFLidUK8edKL+llayUo72UaFqpixLiL+l1Am1pohaZdTRWT+HCM6hfE7cLfbDxWiS+4k27PfguwYqpuUNg2uPimLgzcUf0CJUyCIP+u2lAUdzmg5hyATdW+RxNvTjpyqhrvwe1oTBlOxCrxxTdSw4CBc9HD3hRLZRTit7wJj24qmMFWdnbpE/UwVBuK4i6suSzY3lQS8jEw9A1rTjpg3jwtScwY/DE35TVilfhyy+hVO2QW1KyLdqBnZItOEvFLekLrShJDxYlaKelgo9GBmlyDu7DmsmDroAzY0WWg5HkISMpeqjWmMvWnf14jVomvNo8yn0dMx8JGzKa0nfRE/IejYd7WGJOhMU36GdmrhrJw1YaiuMsJtRMJ2NRUe5wPsK2sUQSb/0NpN3fo5z1ilfi6U+jTTpo6EJ6q6JK3w3JE/KCPwZlLXjUciT8i717qKnNeqfnEXU6p3kmw9VWi0fiUOMNyK5vv4EnY4lyZBcyvm/eIVeIbjaL6lTEf4jhqNDxabS6J+HdXg1uHhuXI9S/ke5dU8S4rDUVxFzXDDp8fikomPeV5j8r6Bw7yRNRj1ZZ3EWFGrBLfegAV2IyfgH4zaEQX7BdLxDfaDcSTVgIM867/RMorUOU0eext4C6XlC4c+DUarbyroT+ClodX9fj3/JPY99omrUdlXiNWiX+n+1pBgwAAFo9JREFUO91Tk8ZiZjQOrFMr0joiPvF7IJ60EmCGfvI+GYFf296xlXDsolKKMYAPlRJoHBbaUV8bZc5pvQu2t/iysQgzYpX4Lu3IGTclCcXLMLpuD7uI0sLXoSyWtCmhzfyep6XLTU7qdeJVSrGdvZqZR649FrFLuK4+PATMHpXc/rAgVonv3Yzc79NHoEgZPlqPyaRmYsZA9Upy6cEzem0NWRYjZ1868aoJXXsL+jpN5K3VQ7U89+qT93l7+rxHrBI/pB5RMmtoRYij4KPVLniiiI2Bz3nUu8E187vK4dwSCqjfjHi8vdXe0fTmvjnxs4eoQ8dwIFaJH5VI4cI5g1CN+FBtIcdeFkpiLNVAhyu2rUPXzIRxUk1J3sVOtjKCD4lM4OB/jVL7jg5ATrOhEz9prGbKc8Qq8ZNKUlLN/P5YIosjsf2ycKkFDPdg1tVhrQyow9u/3zxJ/BzKynBSI4d1hvMM62AMqLYQRo3rEIgfMc0nPrcww6Dqh0V98CO+DFk1dnRtOLSvAvXiPotECdRKgPF++7WS+JnUyMRJjZzIKWzheFGN1FJm7s0f9X0X+sTnFuY/TSGxT3pmPqVtRYRkuDHhSZ00RWolgLft9T3FSS5vKu3ppEZOyBS2UNBaDd7SS8Lljmc9TTqv8InPLST/g2bYyd0MXMJPu8P3dxBs+dSa7k0bIdsZgDOm0omaJFIsyyWd1EjHveE8A0b91IgMFdurnMKzpgRrztZms098bmHNw5R0ueI9A5fw086NyYB/wH1tjd9pLTzKE65LTUNZIO2kRnoADOcZ8MFg+4QIVIavcgotR1mCFsil+sTnErb8ikrYVr1r4BJ+BhNn4WUOXvZ170gCrhYFY3fKjhhFkgg2NZBHKwOyhvMMWHZ1XnHMfzjGuSMBZoqvMr3zV78VRTUFkTxGrBK/606ib117A5fwMxgerXxciPeW4+yeWEorBMRLEQxqPRzkr/LRYAqG4TzDBzBEvK445ehZoRK/53UuiIz6CbyNUZ4jVonfH6Bq5Y0tSPLWEPY020KHVZSTY72hM5NyDDGbqmFlbqTN31Obg7I5CqXUt1AxjcRut2r3QhhEqsKZmJFPMYIwIlaJPxqggOmWetTWGySRgpl1HyYJUfUYzuWDxF8qJlbTF6P/fGki/HJ+cCJoOM9AgkkK8aRiXkx5ioMGoqqSiTvxh0CeI1aJTw1QdH1bZRp3g+M2mEu70XrZw0s2w7S5NMXR6uIropeqqmxKzwfGBKfrhvMM7y13bEWgr8wrSpUMOIB7O9sY03HeZA+BPEesEn8hQPftzqKU9ArtRoLZ82dLSxLNzDt+RzNy7wVF72RfyS8f6R4spVBYxraEqomkL9XXN5TlDVPSNXAn/hDIc8Qq8WkB6hqy+3kqhWqyy1kvU0ASb2Te8cs7i3QKu763Aheyr+Siqs2CnlmFZaqIU0xUj1VVKY+aOJbrLuC5+ywU4UWsEi/uoLqlvf+itApQKMxMdCt0TSMe7kz6hyx1K01P7BEDEoPzAaVEkrpaKMRjU1o2bgNJHC5rbwSnDuFDzBJ/H+W/7s9HagZdlgajLxYafH0J46IF04OPepjLGfg7FdfYfSXbri4YLIRUmsvWc9ZoEEj9XP1IoQBflVXBnZh0Wt4jZon/9QpcfPMrCs/2nwexeXtl3/lHcMxX5myQ+PeXSKF6e/Ilu09WS3k52M1EqY2l3B2FeMzyon6FQUBPcqaoAF7cWUw3I88Rs8Q/jI9dcfgOCrlAZWym7sXc/l+g377W4SDxbTZZNzlmZciCRtkwuGC6RXwyPTaUdjOUwqH0nKJ6HbXBTVvr+bFJVTdPrYCNcsKLmCX+r1SWeDRArluop8kUKNzbcClO7ZruNMhgYnVdQ7xXpeA8SNwIePwXvmIPCys5m8tSt6nSzrkbJemrfUfhy7BbTa0EPyCvos9zxCzxT1K3ke8D1Bpu7gCnttW1wtNwvNVxjUEGU5Q5YxdESeUS+mSuFhY1Dtu6Nkpz2QRUM1EaDVNXEprnBW0HmWyy9T1opBdT5zlilvj/0Zv6ZICcJ8tqpztnVQWGo0e3z8Lgox5i5gPQC1uPPpLX8fb/prZotUXGW9XxuqmbqFpebXdR5Tivw8NgEa+pzXPELPEFqKPYqQB5StIHFdk/OrM9YKm3sOVM0pQg8RCxoyx5GUujCugVnUSvhfZ8DO7o7fOFvQvgtX2OcyZiB2q1mw348S6UVC4Nhoop4e5eELPEF6Uh1rmA7Rv9unDhj4JrW72E34tpIwz6NxG/BFOn5KiOetFNHCsmjLV18KC57AiZzSGJV0ZyNANUHbSF0rQai4V9M6t6woaYJb4sdSG8EAh2I0zrl+kfH/lzfEQved++4zE5A1VT7HkcSSZ0XSqW9ED3m8CqK9HGjsCbjq0kaLo3YJ7zOozMbW1Avobd0j5siFniq9AQ7XLgkNva5QHMhlrfzqB/m9iN/FtMvC9PvnYao9XfJ7Y1t1sUQDF9hf/KQxCZ5KyTIO1S1TNvZG5rY+xEzZT3iFnia9Mfdi3g2tk1hfoj7n5dPoRNaxAHCrjwu5yh0Rit6BWRUkUkkaw5OGgMO9xOzPVwtjGiZkdJiga6kbmtDWyL4BOfS0gh7cj0wHm3tRkkH320snzimvSUxwRrmRpJERfDeioXshsZgMPftPOoiLn+9lgv06SGZIzMFTaweYlPfC7jp26t0YSgWdj5BFnKZH6KIVskvjA545AeLKF52W481n6t+KGS3WyImFN6W5BpslJBa2SusIHuAp/4XMZ9Wa3MeFoO1cwp6NlF4iUl2JkK+9cUsPvMdF4pNraV/j8pqDPW2bOI9lRicVR8pWZj4XzBJz6XoUmtKvg3qdqLhIE4IsOSCkkJqqdshDLIwldkc9FuyWJK0kbSNJDFNUqfGtpzjlMYlzZTlU8bwNy/oPuTKM8Q88T/Lcu1T1BGnijaHt/oNeANIInHwTm2pat+pDvFeC3+e3x2kiqcT5PUjaJOT3sqQVjK6klURpjVwFFQ6oK4KXJTBTHmiX86y7VPSWdqyQbormkJWTWSeGxQhHL2rbbIBuJ9F8iuVsLWv5S9aSVojaKPSonZamvxMtDNnLx8WeOfIXw5souYJ75PlmtNok+ULoOjPSypkMTj3B1bU/daKOXsBs2BkR+tx8JrJoZKa2TwnkD9r1QBTEzkoTwOB3jbeQv37dZtXiHmic8aZWvSstxzeHNhSYUkHnNk8OYcP5ZSa+Dpb9gBOZlxva6942imbiKp87c3Ok9qwA81am8NBvJrF3c6sFizeYY4J/7V2rSs9DgusKRCEo/+eQN+W/K+DLGPnAq1VqiSaSfekjaaBO2ptDhYheJbar9ZPGg7JXhrPRruZSW11il+M4KbvEOcE99MljlXoTHgKkiPkMRvLZshOdrWojkl5YyZ9PVrtsSZHNzbORYnMkcHiqw9pXCobUfxoN0VTUwhFgS0l/78im25yTvEOfEdZVi8xhO4oKYGcl339wV68EVKVRI+tZ7+UB5Buhd0Kwd7ko98Pbinkm9DslgjlO6TBvwYqPQxFmLw37Qx/LBBVW/5DwoZcU58n0a0fJU4OwmTL5v4jHLJpD1/rRC2lrUm7aOGT7c1lGRfOjuuXvPFYPR1v7NVNGXTqjm1BvwYNVkoaNFE0zVuuz4XvTxxTvwoKTNbl4posKQi+Gmff3EQ6SAVkEPw6cNbb7X5lVrkp6Qj4HkzDYutBUu0Go7580pOLdVtqK3uhHhlfmd+cVWPF7jVvyd0xDnx02TLoQbUyAR9tpm32Re/pLKHArUoMDN7MIZsDfhdOmYvUnLN4SoN9tpaubacHoJUjpWcWtpsHmviY3yrquELcO4Vyb0q+jgnfolUrXpDls5XXKx40RdRLKdwJUrKmdffgAVWRcrMTemynzxs6HRbMEURL6TSSqV7IfWvZyL2GWaa1mHaFLnYsyjOid8p77smUqHy7AtbXMIn1Z+nXNrFvXBdC/Dy2Ql8tPUbO1a3F9+TYAp0tU1/Tu5KM3hFFY06nGxQR+wpVdVaXIFJOl2XityCF8Snn3MLOEQF8Taa25nXR58+qBPf6o9UTvVZC/TwYhk8dSOWAT3xUvrZV0jdluIy234iy2maoM9OdkYi7MBxBetZtKa9KHFRPevhV+2Ur9xAjom/3Omx2wO3PdpZextFFfGtg5OrL/+nE9/rDkrKWV4Cb1MUOusry10rgqs1tTRE7WWrO5BH6V+WxPJEHfTE2mKqiHXYvJS1rpk4RjbLyMSajmLluyK3kGPiaxVZmXrt1LryXIw/uohvuzb468oG2trxlKEn1vwFh+KYE287YJLBkTOvF9Rf2QKK1jen9A452qdYTGoFx9GoKTXrYNJ5heinJGlixPeQNuDzDDkm/hdUXXJRa4wdVcSfy7LJ7+IA1UdvuA3ZvgoCp3bf0IwXLwvRxvredF62Uz69TXH9JfEiHbEURuIVzWKK119Uc+2teYMSxxcYBL7OBc+9Q46Jz0++iY+f4iuiivissf0ntNwSoBAavAyCgkbDxliGa0LM7Wf77U2xvrVovgl/l/kWztcHlW2wXHtru51qI0uUyTG8+hM05Jj4Lb97PLF+4hMPbeUrYoj4Y7fTcvsddOcXveyIrv1YQPwIj4BDtWw5NVN0XyDmkWfPsE2ZGDlVM+EY8YLS+YRSNQqp3ao9RM5H9deTk3olJesXGEPEX6NkbLHrEVo23PvtopeCtVMNNy+D2E5GgdVyKGaK4mfEGaLRsE2Z6D9PM1FiN/PTwQa1mDSid/Cnc6Hgz7TYK5OxRz9Xq/fi4KhgR533UHYlYYlMyjCvGtZPA+c5hjQ5DkZ52yrxuyCwY6ofI2zQcbXIJfjTuVAgG86dHOi6tsj/cLbXtLd0zJqrYaTfbgX8bkiTY3OZlaEQPw/qsGso4jngB2JdrryEP53LOT6iqqrRlWQPWbMLJOUmo/SBIU2OzcmnoxKPXRE7rXCa0MOTrHUn9Qr+dC7nuEozu81/kho7ZmGYw12CYbvsaRLUywIZa/LpqCIqzSDTY4Lip1sEbqJ9ulPBI/jTOc9w6XbZLvxFCrcUPWdX42G/K8Dm+1OCgiqKoE4peFmsVhrc4OD/crHculp/OucdHpfpFs9Tck5Pa/Quk/CliMoPL89pFazNI/kMCRzQH1M+sfaYkZNrqRj+dM47VJUjsQI0bN/QOJiELepjfDVxtSh4xm5U0nCvRb4srE034CfW6AdBIiu8q8lKr+TOPQrLuiSAxx/xvWUBZSfSQUxrbozZIlO7sE39kPeFmN7dHu+1/lwsrPbyWfz9COVuKBN5EleqouijiiuPKK+DHMAj4vPppvgj/jp3+J/t/w/ZPHhxyapjFpWx5ulpL1wyyPTu6h+fTl1CqV+rSPys9FnHzvSQb6tk5ItR/Z9XtLGzD5/4XEX6Vfu3UzNa4KDug2EGGXotbjbdGumhFPJ4Gh202ObYk0aIquZt2rMXxvfm53j/nexcmRfEJ+bPf0d+rRDEJ94Vl597iX4Z1hrcQt8mgLvuXZLmGuwQUZH9rZTaPDG1q7j2P6egroV9hUuvFbcO/47Pa/R4gZbjf4WJfN0hVid9dgscd/N6uo+VfuMZL562vh0jlcNllPjy+HPZKK70ic9rnKHJnthMQ8ErzzVs2PAv5KXfn3/GFWuD3v8r851sZSbOl0pZ/9EU6euZDyOGi88qQ4lJ1mhvtjOzK0T4o/pw44etW7faJBzq/J/mLZ6dcG1noaTedmpXzfZJnf8zCb8ZBXGI39UprpT6PHgF6iy55dN6Qnzaca3gzyc+e0hfthg+y+s9f+WsrD7T+YUevXq9RY/908/PTN64deuq5OTdF0U9VN0698LEpV+ds7c+P6VCoXYbFUq+HFyW1eF5QHxKwj33H3o2s9x7Uy/ESyWz2MfHzXBUnRueWZacnCydN8uHvNe8ceO2PXs0eaWgHAJ8Neid2iWeNwvVst4blUsmpaavafFshcoNG9Yvn5BQuHDhAvWnHGfH94D4ok0u50vvlFkO8G0yoo1XrgYfIeP6sYMHD9oxgNOnDh48dO5Gm3pA/F1nrLHd6bu5efpwt419RAg8IP7JBRbxy/7JzT7xEQ0PiF/5QMX7aj+ojSt94iMaXozqUyd0G31Ms/rERzRyL9nSJz6ikXvJlj7xEY3cS7b0iY9o5F6ypU98RCP3ki194iMauZds6RMf0ci9ZEuf+IiGVxo4Rxdwi098RMMr4mfewy2fPvZfBT+/2zvc9TMPD/ZzL6/sZ3d5eLA7PDzW3feqdDyW4g3xN4eXpQE7m3l4sPHjPTwYF6XOETytpri1g+XAc5ezE2cNn/jcPlgOPHc5O3HW8InP7YPlwHOXsxNnDZ/43D5YDjx3OTtx1vCJz+2D5cBzl7MTZw2f+Nw+WA48dxxFbunEWWN3i5tvEzImTfLwYC287B/k5Ud2iwfLgeeOw1MFbi8Pdt1LSbGI/Stv8WAezuN9RBN84uMUPvFxCp/4OIVPfJzCJz5O4RMfp/CJj1N4RvzWp+6v7Yk/Yu7f7ja/8u54eyCBxJuDpRS779m9Xh1sZL67jD3eHKwE9EWSBwr5eF4Rf/2hsSmFO3lwoOP3LTzX8V+eHS/t+ds8u7hn+h1vZXp0sP13LD3epKAXB1vaILAn+CeGfjyviF/6DyFWPubBgea8JMTVn5z26ngDK9/m1cV98fcMcWWHRwc7dt/GH9tU9OJgfZvcvSf4J4Z+PK+IT0oUIvX2UBJ1boIfTwix6s8ZHh3vwN8O3ubVxU0q+9pjFQ579ZeOCPzkgVRvDvb7PcE/MfTjeUV8r/pCXAvcUJ7hVpAx9/fzPTpeesGFP9zm1cX1/enIfU2f8+hgex7acKltaW8OBsTLA4V+PC/v+FO3eXDHi9Ty/93i1fGSaogfbvPqYENNIS7f9oM3B+tjMXTlzrOeHMy+460DhX48r4hPfkKIdX/x4EBX/tM+zbPjVbnvgV8GHtjgzcHmWsRfveO0NwfrWRe+RWc8ORgQLw8U+vG8G9XPvVShswcHmpb/kIU0b46XeuTIjp8eueLNwS49MO3c2y979JfuvH/V2VYFvDnY7/cEP//Qj+fZPH7zkw/U8WLe/XYA8INnx4NHvUcHW/PkvcUPe3Ww6X+9t9R33hwMiLcPFPLxfM9dnMInPk7hEx+n8ImPU/jExyl84uMUPvFxCp/4OIVPfJzCJz5O4RMfp/CJj1P4xMcpfOLjFD7xcQqf+DiFT3ycwic+TuETH6fwiY9T+MRn/PWBa+G+hjDAJ/7z3/7lk3BfQxjgE9+mTYc61mJcvnwT8gmxKv/dxfTeijGIuCc+/Q87dv3iitjxf5uPvphPpP5q3unGCeG+prxA3BO/+t9CPD5PtH9LiLn5xISKQly+x4sSwEhH3BPf6Oe/+c2d1UXtYUJszye63ZcvX777j4f7ovIA8U78tQdXHj++4p6Lbd8WYkE+Mbq29fA/lBHuq8oDxDvxS/5ssZyRb+aWX289XjCfSHlwxZnOz4b7ovIC8U587dbws0VFMfy3j330LyEW/+Ougln37YoRxDvxNr7dKcTmQuG+ijyETzxh1WMpVyv3CfdV5CF84iW6/vq3Nc6H+yLyED7xcQqf+DiFT3ycwic+TuETH6fwiY9T+MTHKXzi4xQ+8XEKn/g4hU98nMInPk7hEx+n8ImPU/jExyl84uMU/x8xF3f2lyNrigAAAABJRU5ErkJggg==" alt="plot of chunk unnamed-chunk-1"/></p>
+
+<p>The figure above has some clear irregularities on age-reporting. For example, there is a consistent clustering around ages ending in zero and five. In principle, a post-enumeration survey or a sample interview should give more information on the reasons why these irregularities appear in the data [@siegel2004methods]. However, not every country has the resources to conduct a survey or post-enumeration process. Therefore, various arithmetic techniques have been developed for measuring heaping on individual ages or terminal digits. These measure the degree of bias, but they do not correct it [@booth2015demographic]. The simplest way to analyze age-heaping is by assuming that the true numbers are <em>rectangularly</em> distributed over some age range that includes centered the age being examined [@siegel2004methods].</p>
+
+<p>Several indices of age-heaping exist. <code>DemoTools</code> implements Whipple [@spoorenberg2007quality], Myer , Bachi [@bachi1951tendency], Coale-Li [@coale1991effect], Noumbissi [@noumbissi1992indice], and Spoorenberg&#39;s [@spoorenberg2007quality] age-heaping indices.</p>
+
+<h3>Whipple&#39;s Index</h3>
+
+<p>Using this assumption over a 5-year range, Whipple&#39;s index measures heaping usually in numbers ending in zero or five. This index is a summary measure that determines variability in the quality of age reporting between regions or countries and its evolution over time. This index is usually determined between ages 23 and 62 inclusive since the linearity assumption is not plausible in low ages (0-22 years) and in high ages (63 years and above). The original formula is given by</p>
+
+<p>\begin{equation}
 \label{eq:Whipple}
-W=5\frac{P_{25}+P_{30}+P_{35}+\dots+P_{60}}{P_{23}+P_{24}+\dots+P_{61}+P_{62}},
-\end{equation}\]</span>
-<p>where <span class="math inline">\(P_x\)</span> is the population of age <span class="math inline">\(x\)</span> in completed years <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>.</p>
-<p>For example, the Whipple’s index using <code>DemoTools</code> between ages 23 and 62 for country x is given by</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Whipple &lt;-<span class="st">  </span><span class="kw">Whipple</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">23</span>, <span class="dt">ageMax =</span> <span class="dv">62</span>, <span class="dt">digit =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>))
+W=5\frac{P<em>{25}+P</em>{30}+P<em>{35}+\dots+P</em>{60}}{P<em>{23}+P</em>{24}+\dots+P<em>{61}+P</em>{62}},
+\end{equation}</p>
+
+<p>where \(P_x\) is the population of age \(x\) in completed years [@spoorenberg2007quality].</p>
+
+<p>For example, the Whipple&#39;s index using <code>DemoTools</code> between ages 23 and 62 for country x is given by</p>
+
+<pre><code class="r">Whipple &lt;-  Whipple(Value, Age, ageMin = 23, ageMax = 62, digit = c(0,5))
 Whipple
-<span class="co">#&gt; [1] 2.703107</span></code></pre></div>
-<p>The result varies from 1, which means no concentration around numbers ending in zero or five, to a maximum of 5. The selection of calculating the index for ayes 23-62 is arbitrary but has been found to be suitable for practical purposes <span class="citation">(United Nations 1955)</span>. Whipple’s index is effective and very easy to compute. However, it only measures digit-preference for two digits (0 and 5 in our case).</p>
-</div>
-<div id="myers" class="section level3">
+#&gt; [1] 2.703107
+</code></pre>
+
+<p>The result varies from 1, which means no concentration around numbers ending in zero or five, to a maximum of 5. The selection of calculating the index for ayes 23-62 is arbitrary but has been found to be suitable for practical purposes [@united1955manual]. Whipple&#39;s index is effective and very easy to compute. However, it only measures digit-preference for two digits (0 and 5 in our case).</p>
+
 <h3>Myers</h3>
-<p>As an alternative, Myers (1940) developed a ‘blended’ index to measure preference or avoidance of all 10 digits <span class="citation">(Myers 1954)</span>. The method determines the proportion that the population ending in a given digit is of the total population 10 times, by varying the particular starting age for any 10-year age group. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits 0 to 9 should represent 10 percent of the total population. The method involves 5 main steps <span class="citation">(Siegel Jacob and Swanson David 2004)</span>:</p>
-<ol style="list-style-type: decimal">
-<li><p>Sum the populations ending in each digit over the whole range, starting with the lower limit of the range (e.g., <span class="math inline">\(10, 20, 30,\dots ,80\)</span>; <span class="math inline">\(11, 21, 31,\dots , 81\)</span>).</p></li>
-<li><p>Ascertain the sum excluding the first population in each group in step 1 (e.g., <span class="math inline">\(20, 30, 40, \dots,80\)</span>; <span class="math inline">\(21, 31, 41,\dots, 81\)</span>).</p></li>
+
+<p>As an alternative, Myers (1940) developed a &#39;blended&#39; index to measure preference or avoidance of all 10 digits [@myers1954accuracy]. The method determines the proportion that the population ending in a given digit is of the total population 10 times, by varying the particular starting age for any 10-year age group. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits 0 to 9 should represent 10 percent of the total population. The method involves 5 main steps  [@siegel2004methods]:</p>
+
+<ol>
+<li><p>Sum the populations ending in each digit over the whole range, starting with the lower limit of the range (e.g., \(10, 20, 30,\dots ,80\); \(11, 21, 31,\dots , 81\)).</p></li>
+<li><p>Ascertain the sum excluding the first population in each group in step 1 (e.g., \(20, 30, 40, \dots,80\); \(21, 31, 41,\dots, 81\)).</p></li>
 <li><p>Weight the sums in steps 1 and 2 and add the results to obtain a blended population (e.g., weights 1 and 9 for the 0 digit; weights 2 and 8 for the 1 digit).</p></li>
 <li><p>Convert the distribution in step 3 into percentages.</p></li>
-<li><p>Take the deviation of each percentage in step 4</p></li>
+<li><p>Take the deviation of each percentage in step 4</p>
+
+<p>For example, the Myers index for country x using <code>DemoTools</code> is given by</p></li>
 </ol>
-<p>For example, the Myers index for country x using <code>DemoTools</code> is given by</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Myers &lt;-<span class="st"> </span><span class="kw">Myers</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">10</span>, <span class="dt">ageMax =</span> <span class="dv">90</span>) 
+
+<pre><code class="r">Myers &lt;- Myers(Value, Age, ageMin = 10, ageMax = 90) 
 Myers
-<span class="co">#&gt; [1] 31.94281</span></code></pre></div>
-<p>Myers index, 31.94 in this case, expresses the extent of concentration on or avoidance of a particular digit <span class="citation">(Myers 1954)</span>.The theoretical range of Myers index is 0, representing no heaping, to 90, which would result if all ages were reported at a single digit <span class="citation">(Siegel Jacob and Swanson David 2004)</span>.</p>
-</div>
-<div id="bachis" class="section level3">
-<h3>Bachi’s</h3>
-<p>With the previous formulas, Bachi’s index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers’, it equals the sum of the positive deviations from 10 percent <span class="citation">(Bachi 1951)</span>. It has a theoretical range from 0 to 90, AND 10% is the expected value for each digit. Therefore, the results of Bachi’s method is similar to those obtained by Myers’ index.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Bachi &lt;-<span class="st"> </span><span class="kw">Bachi</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">10</span>, <span class="dt">ageMax =</span> <span class="dv">90</span>)
+#&gt; [1] 31.94281
+</code></pre>
+
+<p>Myers index, 31.94 in this case, expresses the extent of concentration on or avoidance of a particular digit [@myers1954accuracy].The theoretical range of Myers
+index is 0, representing no heaping, to 90, which would result if all ages were reported at a single digit [@siegel2004methods].</p>
+
+<h3>Bachi&#39;s</h3>
+
+<p>With the previous formulas, Bachi&#39;s index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers&#39;, it equals the sum of the positive deviations from 10 percent [@bachi1951tendency]. It has a theoretical range from 0 to 90, AND 10% is the expected value for each digit. Therefore, the results of Bachi&#39;s method is similar to those obtained by Myers&#39; index.</p>
+
+<pre><code class="r">Bachi &lt;- Bachi(Value, Age, ageMin = 10, ageMax = 90)
 Bachi
-<span class="co">#&gt; [1] 28.68346</span></code></pre></div>
-</div>
-<div id="noumbissis" class="section level3">
-<h3>Noumbissi’s</h3>
-<p>This method, based on the underlying principles and assumptions of the original Whipple’s index,improves by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators consisting in 5-year age groups centered on the terminal digit of age in question <span class="citation">(Noumbissi 1992)</span>. It returns to a more reasonable assumption of linearity over an age range of five years rather than ten. It is based once more on the underlying principles and assumptions of the original Whipple’s index and introduces the following formulas to measure age heaping:</p>
-<span class="math display">\[\begin{align}
+#&gt; [1] 28.68346
+</code></pre>
+
+<h3>Noumbissi&#39;s</h3>
+
+<p>This method, based on the underlying principles and assumptions of the original Whipple&#39;s index,improves by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators  consisting in 5-year age groups centered on the terminal digit of age in question [@noumbissi1992indice]. It returns to a more reasonable assumption of linearity over an age range of five years rather than ten. It is based once more on the underlying principles and assumptions of the original Whipple&#39;s index and introduces the following formulas to measure age heaping:</p>
+
+<p>\begin{align}
 \label{eq:Noumbussi}
-W_0 =5\frac{P_{30}+P_{40}+P_{50}+P_{60}}{_5P_{28}+\, _5P_{38}+\, _5P_{48}+\, _5P_{58}} \\
-W_5 =5\frac{P_{25}+P_{35}+P_{45}+P_{55}}{_5P_{23}+\, _5P_{33}+\, _5P_{43}+\, _5P_{53}} \\
-\end{align}\]</span>
-<p>where <span class="math inline">\(P_x\)</span> is the population completed age <span class="math inline">\(x\)</span> and <span class="math inline">\(_5P_x\)</span> the population of the age range <span class="math inline">\((x,x+4)\)</span>. From these, age heaping can then be calculated for all ten digits (0-9) <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>. If there is no digit preference or avoidance, this “digit-specific modified Whipple’s index” is equal to 1. An index above or below 1 indicates preference for or avoidance of the digit in question, respectively.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Noumbissi &lt;-<span class="st"> </span><span class="kw">Noumbissi</span>(Value, Age, <span class="dt">digit =</span> <span class="dv">0</span>) 
+W<em>0 =5\frac{P</em>{30}+P<em>{40}+P</em>{50}+P<em>{60}}{_5P</em>{28}+\, <em>5P</em>{38}+\, <em>5P</em>{48}+\, <em>5P</em>{58}} \
+W<em>5 =5\frac{P</em>{25}+P<em>{35}+P</em>{45}+P<em>{55}}{_5P</em>{23}+\, <em>5P</em>{33}+\, <em>5P</em>{43}+\, <em>5P</em>{53}} \
+\end{align}</p>
+
+<p>where \(P_x\) is the population completed age \(x\) and \(_5P_x\) the population of the age range \((x,x+4)\). From these, age heaping can then be calculated for all ten digits (0-9) [@spoorenberg2007quality]. If there is no digit preference or avoidance, this &ldquo;digit-specific modified Whipple&#39;s index&rdquo; is equal to 1. An index above or below 1 indicates preference for or avoidance of the digit in question, respectively.</p>
+
+<pre><code class="r">Noumbissi &lt;- Noumbissi(Value, Age, digit = 0) 
 Noumbissi
-<span class="co">#&gt; [1] 2.471373</span></code></pre></div>
-</div>
-<div id="spoorenbergs" class="section level3">
-<h3>Spoorenberg’s</h3>
-<p>Using the digit-specific modified Whipple’s index, this index summarizes all age preference and avoidance effects by taking the sum of the absolute differences between digit-specific Whipple’s index and 1 (counting all differences as positive) <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>. The total modified Whipple’s index (<span class="math inline">\(W_{tot}\)</span>) is written as follows:</p>
-<span class="math display">\[\begin{equation}
-W_{tot} = \sum_{i=0}^9(|W_i - 1|)
-\end{equation}\]</span>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Spoorenberg &lt;-<span class="st"> </span><span class="kw">Spoorenberg</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">20</span>, <span class="dt">ageMax =</span> <span class="dv">64</span>)
+#&gt; [1] 2.471373
+</code></pre>
+
+<h3>Spoorenberg&#39;s</h3>
+
+<p>Using the digit-specific modified Whipple&#39;s index, this index summarizes all age preference and avoidance effects by taking the sum of the absolute differences between digit-specific Whipple&#39;s index and 1 (counting all differences as positive) [@spoorenberg2007quality]. The total modified Whipple&#39;s index (\(W_{tot}\)) is written as follows:</p>
+
+<p>\begin{equation}
+W<em>{tot} = \sum</em>{i=0}<sup>9(|W_i</sup> - 1|)
+\end{equation}</p>
+
+<pre><code class="r">Spoorenberg &lt;- Spoorenberg(Value, Age, ageMin = 20, ageMax = 64)
 Spoorenberg
-<span class="co">#&gt; [1] 7.044377</span></code></pre></div>
+#&gt; [1] 7.044377
+</code></pre>
+
 <p>The value of the index is zero if no preference is observed. In the case that all reported ages end in 0 or 5, the index reaches its maximum value of 16.</p>
-</div>
-<div id="coale-lis" class="section level3">
-<h3>Coale-Li’s</h3>
-<p>Coale and Li developed a method focusing on age misstatement at older ages because these are particularly subject to error. This error often leads to an overstatement of people (and deaths) increasing with age <span class="citation">(Coale and Li 1991)</span>. For example, the effect on mortality rates at old ages is understatement and it increases with age.</p>
-<p>The index is based on the deviation of the number at each age from a smooth sequence by taking the ratio of the number at each age to a two-stage moving average (the five-term average of a five-term average). With no heaping, the mean index at ages divisible by 10 from 40 to 90 would be about 1.0 <span class="citation">(Coale and Li 1991)</span>.</p>
+
+<h3>Coale-Li&#39;s</h3>
+
+<p>Coale and Li developed a method focusing on age misstatement at older ages because these are particularly subject to error. This error often leads to an overstatement of people (and deaths) increasing with age [@coale1991effect]. For example, the effect on mortality rates at old ages is understatement and it increases with age.</p>
+
+<p>The index is based on  the deviation of the number at each age from a smooth sequence by taking the ratio of the number at each age to a two-stage moving average (the five-term average of a five-term average). With no heaping, the mean index at ages divisible by 10 from 40 to 90 would be about 1.0 [@coale1991effect]. </p>
+
 <p>In the case of enumerated Indian males in 1991 the index in 3.8, which indicates extensive errors in reported ages.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CoaleLi_index &lt;-<span class="st"> </span><span class="kw">CoaleLi</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">60</span>, <span class="dt">ageMax =</span> <span class="kw">max</span>(Age), <span class="dt">terms =</span> <span class="dv">5</span>, <span class="dt">digit =</span> <span class="dv">0</span>)
+
+<pre><code class="r">CoaleLi_index &lt;- CoaleLi(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0)
 CoaleLi_index
-<span class="co">#&gt; [1] 3.82955</span></code></pre></div>
-</div>
-</div>
-<div id="references" class="section level2 unnumbered">
-<h2>References</h2>
-<div id="refs" class="references">
-<div id="ref-bachi1951tendency">
-<p>Bachi, Roberto. 1951. “The Tendency to Round Off Age Returns: Measurement and Correction.” <em>Bulletin of the International Statistical Institute</em> 33 (4): 195–222.</p>
-</div>
-<div id="ref-booth2015demographic">
-<p>Booth, Heather, and Patrick Gerland. 2015. “Demographic Techniques: Data Adjustment and Correction.” Elsevier.</p>
-</div>
-<div id="ref-coale1991effect">
-<p>Coale, Ansley J, and Shaomin Li. 1991. “The Effect of Age Misreporting in China on the Calculation of Mortality Rates at Very High Ages.” <em>Demography</em> 28 (2). Springer: 293–301.</p>
-</div>
-<div id="ref-myers1954accuracy">
-<p>Myers, Robert J. 1954. “Accuracy of Age Reporting in the 1950 United States Census.” <em>Journal of the American Statistical Association</em> 49 (268). Taylor &amp; Francis: 826–31.</p>
-</div>
-<div id="ref-noumbissi1992indice">
-<p>Noumbissi, Amadou. 1992. “L’indice de Whipple Modifié: Une Application Aux Données Du Cameroun, de La Suède et de La Belgique.” <em>Population (French Edition)</em>. JSTOR, 1038–41.</p>
-</div>
-<div id="ref-siegel2004methods">
-<p>Siegel Jacob, S, and A Swanson David, eds. 2004. <em>The Methods and Materials of Demography</em>. 2nd ed. San Diego, USA: Elsevier Academic Press, California, USA.</p>
-</div>
-<div id="ref-spoorenberg2007quality">
-<p>Spoorenberg, Thomas, and Catriona Dutreuilh. 2007. “Quality of Age Reporting: Extension and Application of the Modified Whipple’s Index.” <em>Population</em> 62 (4). INED: 729–41.</p>
-</div>
-<div id="ref-accuracyun1952">
-<p>United Nations. 1952. “Accuracy Tests for Census Age Distributions Tabulated in Five-Year and Ten-Year Groups.” <em>Population Bulletin</em>, no. 2: 59–79.</p>
-</div>
-<div id="ref-united1955manual">
-<p>———. 1955. <em>Manual Ii: Methods of Appraisal of Quality of Basic Data for Population Estimates</em>. 23. New York: United Nations Department of International Economic; Social Affairs.</p>
-</div>
-</div>
-</div>
+#&gt; [1] 3.82955
+</code></pre>
 
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
+<p>##References</p>
 
 </body>
+
 </html>
