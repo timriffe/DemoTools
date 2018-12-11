@@ -1,0 +1,54 @@
+---
+title: "Smoothing with DemoTools"
+author: "Jose Manuel Aburto, Ilya Kashnitsky, Marius Pascariu, Tim Riffe"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{amssymb}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## How to use `DemoTools` to smooth population counts
+
+Smoothing, grouping or graduation of data over age is traditionally intended to have plausible/corrected estimates of population counts from census data. This procedures help to derive figures that are corrected primarly for net error by fitting different curves to the original 5 or 10-year totals, modifying the original counts [@siegel2004methods]. Several methods have been developed for this aim and the major graduation methods are included in `DemoTools`. Including the Carrier-Farrag [@carrier1959reduction], Arriaga [@arriaga1994population], Karup-King-Newton, United Stations [@united1955manual], Spencer [@spencer1987improvements] and Zelnik methods. Below we briefly give an overview of the method and apply them to the male Indian population in 1991.
+
+```{r}
+library(DemoTools)
+
+# 'pop1m_ind' available as package data
+Value <- pop1m_ind
+Age   <- 0:(length(Value)-1)
+  
+plot(Age, Value, type = 'l')  
+  
+```
+
+### Carrier-Farrag
+
+### Arriaga
+
+### Karup-King-Newton
+
+### United Nations
+
+### Strong
+
+### Zigzag
+
+
+
+##References
+
