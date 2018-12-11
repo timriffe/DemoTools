@@ -166,10 +166,7 @@ LTabr <- function(
 		IMR = NA,
 		mod = TRUE,
 		OAnew = max(Age)){
-	# this is a hard rule for now. May be relaxed if the 
-	# ABACUS code is relaxed. For now mostly unmodified.
-	stopifnot(OAnew <= 100)
-	
+		
 	# need to make it possible to start w (D,E), M, q or l...
 	
 	# 1) if lx given but not qx:
@@ -226,6 +223,7 @@ LTabr <- function(
 			#fakenMx   <- nqx
 			nAx       <- axUN(
 					nqx = nqx, 
+					Age = Age,
 					AgeInt = AgeInt, 
 					IMR = nqx[1], 
 					Sex = Sex, 
@@ -236,6 +234,7 @@ LTabr <- function(
 		} else {
 			nAx       <- axUN(
 					nMx = nMx, 
+					Age = Age,
 					AgeInt = AgeInt, 
 					IMR = IMR, 
 					Sex = Sex, 

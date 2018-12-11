@@ -258,24 +258,29 @@ LTabr <- function(
 	keepi         <- Age2 < extrapFrom
 	nMxext[keepi] <- nMx[Age < extrapFrom]
 	nMx           <- nMxext
-	AgeInt        <- age2int(Age2,OAG=TRUE,OAvalue=max(AgeInt,na.rm=TRUE))
+	Age           <- Age2
+	AgeInt        <- age2int(Age,OAG=TRUE,OAvalue=max(AgeInt,na.rm=TRUE))
 	# redo ax and qx for extended ages
 	nAx <- mxorqx2ax(
 			nMx = nMx, 
 			axmethod = axmethod,
-			Age = Age2,
+			Age = Age,
 			AgeInt = AgeInt,
 			Sex = Sex,
 			region = region, 
 			OAG = TRUE, 
-			mod = mod)
+			mod = mod,
+			IMR = IMR)
+	
+	
+	
 	nqx <- mxax2qx(
 			nMx = nMx, 
 			nax = nAx, 
 			AgeInt = AgeInt, 
 			closeout = TRUE, 
 			IMR = IMR)
-	Age <- Age2
+
 	
 # end extrapolation
 # ---------------------------------

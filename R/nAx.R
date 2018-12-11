@@ -88,7 +88,12 @@ geta0CD <- function(M0, IMR = NA, Sex = "m", region = "w"){
 		# formula from PAS LTPOPDTH
 		a   <- M0 * Beta
 		b   <- 1 + M0 * (1 - Alpha)
-		IMR <- (b - sqrt(b^2 - 4 * a * M0)) / (2 * a)		
+		SQRTmiddle <- b^2 - 4 * a * M0
+		if (SQRTmiddle <= 0){
+			IMR <- .2 # just to trigger constant...
+		} else {
+			IMR <- (b - sqrt(SQRTmiddle)) / (2 * a)
+		}
 	}
 	ifelse(IMR > .1, Age0Const[region, Sex], {Alpha + Beta * IMR})
 }
@@ -580,8 +585,9 @@ axUN <- function(
 				break
 			}
 		}
-		# no need for approximate a0 and 4a1 values:
-		
+		# no need for approximate a0 and 4a1 values
+        # one last time for nMx
+        nMx <- qxax2mx(nqx = nqx, nax = axi, AgeInt = AgeInt)
 	}
 	# if both given, then we have ax via identity:
 	if (!missing(nqx) & !missing(nMx)){
