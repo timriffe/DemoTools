@@ -35,15 +35,18 @@ library(DemoTools)
 ?CoaleLi
 ?Noumbissi
 ?Spoorenberg
+?AHI (Kannisto's old-age heaping index)
+?WI (Jdanov's old-age heaping index)
 
 # other age-structure quality measures:
 ?ageRatioScore  # methods including "UN", "Zelnick", "Ramachandran"
 ?sexRatioScore
 ?ageSexAccuracy # methods including "UN", "Zelnick", "Ramachandran", and "Das Gupta"
-?AHI
-?WI
-?IRD
-?ID
+
+
+# Comparison methods
+?IRD (index of relative difference)
+?ID (index of dissimilarity)
 ?survRatioError
 
 # graduation methods
@@ -63,20 +66,20 @@ library(DemoTools)
 
 # various lifetable evaluation and calculation functions
 ?ADM # and ?RDM, implementing PAS LIFIT
-?LTabr # with options to replicate PAS and Mortpak
+?LTabr # with fine control over a(x) assumptions, extrapolation, and open age groups
 
 # interpolation
-?interp
+?interp (arithmetic, logarithmic, power)
 
 # adjustment
-?rescaleAgeGroups
+?rescaleAgeGroups (including for cases of different age groupings)
 ```
-Note, at the moment the Sprague family of functions is being updated, and things may not work as expected until changes are complete. Please stand by.
+Note, at the moment the Sprague family of functions can return negatives at the extremes, and a solution is being sought. Please stand by.
 
 These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 97 documented functions, with more in development. 
 
-Presently all functions are in first drafts, but the aim is to end up with a set of robust generic functions around which wrappers can be easily built for various institutional data production needs. As-is, these functions may also be useful for DIY demographers. This set of methods is a cherry-pick from legacy methods collections, including PAS, DAPPS, MPCDA, MortPack, IREDA, UN Manual X, G. Feeney Spreadsheets, formulas found in Siegel and Swanson or Shyrock and Siegel, and various (apparent) first-implementations from formulas in papers, or ad hoc DIY approximations from old pros. 
+Presently all functions are in a testing phase, but the aim is to end up with a set of robust generic functions around which wrappers can be easily built for various institutional data production needs. As-is, these functions may also be useful for DIY demographers. This set of methods is a cherry-pick from legacy methods collections, including PAS, DAPPS, MPCDA, MortPack, IREDA, UN Manual X, G. Feeney Spreadsheets, formulas found in Siegel and Swanson or Shyrock and Siegel, and various (apparent) first-implementations from formulas in papers, or ad hoc DIY approximations from old pros. 
 
 ## about those icons 
-Every time this repository is updated the entire code base is rebuilt on a server somewhere, and undergoes a series of checks. This happens on a Linux machine and on a Windows machine. Any warnings or errors in these builds will yield a red fail tag, and successes are green passes. Code coverage indicates what percentage of lines of code undergo formal unit testing of some kind. We've not yet set up units tests, but when we start to do so, the aim will be to push this percentage as high as possible. For now, such testing is happening on an ad hoc basis inside the examples sections of functions.
+Every time this repository is updated the entire code base is rebuilt on a server somewhere, and undergoes a series of checks. This happens on a Linux machine and on a Windows machine. Any warnings or errors in these builds will yield a red fail tag, and successes are green passes. Code coverage indicates what percentage of lines of code undergo formal unit testing of some kind.
 
