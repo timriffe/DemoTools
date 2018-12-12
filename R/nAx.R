@@ -256,6 +256,7 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE){
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
 #' @param mod logical. Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.
+#' @param closeout logical. Whether or not to estimate open age a(x) via extrapolation. Default \code{TRUE}.
 #' @inheritParams aomegaMortalityLaws
 #' 
 #' 
@@ -314,6 +315,7 @@ ax.greville.mortpak <- function(
 		Sex = "m", 
 		region = "w", 
 		mod = TRUE,
+		closeout = TRUE,
 		law = c("kannisto",
 				"kannisto_makeham",
 				"gompertz", 
@@ -418,7 +420,7 @@ ax.greville.mortpak <- function(
 	}
 	
 	# closeout
-	if (max(Age) < 130){
+	if (max(Age) < 130 & closeout){
 		aomega         <- aomegaMortalityLaws(
 				mx = nMx, 
 				Age = Age, 
@@ -575,9 +577,7 @@ axUN <- function(
 					Sex = Sex, 
 					region = region, 
 					mod = mod, 
-					law = law, 
-					extrapFrom = extrapFrom,
-					extrapFit = extrapFit,
+					closeout = FALSE, # no need to redo extrap in here
 					...)
 			qxnew <- mxax2qx(nMx = mxi, nax = axi, AgeInt = AgeInt, IMR = IMR, closeout=FALSE)
 			smsq  <- sum((qxnew - nqx)^2)

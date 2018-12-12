@@ -3,21 +3,21 @@
 ################################################################################
 
 
-#' #' Example data [this is the short explanation to appear in the list of fucntions]
-#' #'
-#' #' Some more explanation of the data [this will appear on the help page]
-#' #'
-#' #' @format
-#' #'   A data frame with X rows and Y variables:
-#' #'   \describe{
-#' #'     \item{rank}{Rank of the country in a given year.}
-#' #'     \item{country}{Country.}
-#' #'   }
-#' #'
-#' #' @source
-#' #'   The data comes from
-#' #'   \url{https://URL}
-#' "data_object"
+# #' #' Example data [this is the short explanation to appear in the list of functions]
+# #' #'
+# #' #' Some more explanation of the data [this will appear on the help page]
+# #' #'
+# #' #' @format
+# #' #'   A data frame with X rows and Y variables:
+# #' #'   \describe{
+# #' #'     \item{rank}{Rank of the country in a given year.}
+# #' #'     \item{country}{Country.}
+# #' #'   }
+# #' #'
+# #' #' @source
+# #' #'   The data comes from
+# #' #'   \url{https://URL}
+# #' "data_object"
 
 
 

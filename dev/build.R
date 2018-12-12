@@ -37,7 +37,8 @@ shhh(load_all())
 
 
 # do this whenever major changes happen
-devtools::check()
+devtools::check(force_suggests=TRUE,manual=TRUE)
+
 #build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
 #?devtools::build
 #devtools::use_testthat("/home/tim/git/DemoTools")

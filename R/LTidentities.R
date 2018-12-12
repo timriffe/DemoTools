@@ -33,7 +33,7 @@ mx2qx <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
 	qx <- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
 	ind <- qx > 1 | is.na(qx)
 	if (sum(ind) > 0){
-		cat("at least 1 q(x) > 1, imputed as 1")
+		#cat("at least 1 q(x) > 1, imputed as 1")
 		qx[ind] <- 1
 	}
 	qx
@@ -82,7 +82,7 @@ mxax2qx <- function(nMx, nax, AgeInt, closeout = TRUE, IMR){
 	}
 	ind <- qx > 1
 	if (sum(ind) > 0){
-		cat("at least 1 q(x) > 1, imputed as 1")
+		#cat("at least 1 q(x) > 1, imputed as 1")
 		qx[ind] <- 1
 	}
 	qx

@@ -6,8 +6,8 @@
 \usage{
 ax.greville.mortpak(nMx, nqx, lx, Age, AgeInt = age2int(Age, OAvalue =
   5), IMR = NA, Sex = "m", region = "w", mod = TRUE,
-  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz",
-  "makeham", "beard", "beard_makeham", "quadratic")[1],
+  closeout = TRUE, law = c("kannisto", "kannisto_makeham", "gompertz",
+  "ggompertz", "makeham", "beard", "beard_makeham", "quadratic")[1],
   extrapFrom = max(Age), extrapFit = Age[Age >= 60], ...)
 }
 \arguments{
@@ -28,6 +28,8 @@ ax.greville.mortpak(nMx, nqx, lx, Age, AgeInt = age2int(Age, OAvalue =
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 
 \item{mod}{logical. Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.}
+
+\item{closeout}{logical. Whether or not to estimate open age a(x) via extrapolation. Default \code{TRUE}.}
 
 \item{law}{The name of the mortality law/model to be used. 
 The following options are available: \itemize{
