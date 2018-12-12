@@ -74,7 +74,7 @@ library(DemoTools)
 # adjustment
 ?rescaleAgeGroups (including for cases of different age groupings)
 ```
-Note, at the moment the Sprague family of functions can return negatives at the extremes, and a solution is being sought. Please stand by.
+Note, at the moment the Sprague family of functions can return negatives in the oldest ages, and a solution is being sought. Please stand by.
 
 These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 97 documented functions, with more in development. 
 
