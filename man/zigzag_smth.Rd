@@ -30,7 +30,7 @@ This function calls \code{zigzag()}, but prepares data in a way consistent with 
 \examples{
 Age <- c(0,1,seq(5,90,by=5))
 # defaults
-zz <- zigzag_smth(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
+zz <- zigzag_smth(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 90)
 \dontrun{
 plot(Age, dth5_zigzag)
 lines(as.integer(names(zz)),zz)

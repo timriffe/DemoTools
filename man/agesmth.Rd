@@ -87,7 +87,7 @@ kkn <- agesmth(Value = pop5m_pasex,
 	method = "Karup-King-Newton", 
 	OAG = TRUE)
 # zigzag, not plotted.
-zz <- agesmth(pop5m_pasex,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 70)
+zz <- agesmth(pop5m_pasex,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 80)
 # mav, not plotted.
 ma3 <- agesmth(pop5m_pasex,Ages,OAG=TRUE,method="MAV",n=3)
 

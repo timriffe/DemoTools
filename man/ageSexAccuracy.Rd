@@ -46,8 +46,8 @@ Females <- c(4544000,4042000,3735000,3647000,3309000,2793000,2353000,2112000,
 		1691000,1409000,1241000,887000,697000,525000,348000,366000)
 Age     <- seq(0, 75, by = 5)
 ageSexAccuracy(Males, Females, Age)    # 14.3, matches PAS
-ageSexAccuracy(Males, Females, Age, ageMax = 65)
-ageSexAccuracy(Males, Females, Age, ageMax = 65, adjust = FALSE)
+ageSexAccuracy(Males, Females, Age, ageMax = 75)
+ageSexAccuracy(Males, Females, Age, ageMax = 75, adjust = FALSE)
 ageSexAccuracy(Males, Females, Age, method = "Zelnick")
 ageSexAccuracy(Males, Females, Age, method = "Ramachandran")
 # Das Gupta not a comparable magnitude, FYI.
