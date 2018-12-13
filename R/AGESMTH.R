@@ -385,7 +385,7 @@ strong_smth <- function(Value,
 #' @examples
 #' Age <- c(0,1,seq(5,90,by=5))
 #' # defaults
-#' zz <- zigzag_smth(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
+#' zz <- zigzag_smth(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 90)
 #' \dontrun{
 #' plot(Age, dth5_zigzag)
 #' lines(as.integer(names(zz)),zz)
@@ -523,7 +523,7 @@ mav_smth <- function(Value,
 #'		method = "Karup-King-Newton", 
 #'		OAG = TRUE)
 #' # zigzag, not plotted.
-#' zz <- agesmth(pop5m_pasex,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 70)
+#' zz <- agesmth(pop5m_pasex,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 80)
 #' # mav, not plotted.
 #' ma3 <- agesmth(pop5m_pasex,Ages,OAG=TRUE,method="MAV",n=3)
 #' 

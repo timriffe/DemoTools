@@ -23,7 +23,6 @@
 #' they are 0 and 5. Otherwise just one digit at a time. 
 #' @return The value of the index.
 #' @references 
-#' \insertRef{spoorenberg2007quality}{DemoTools}
 #' \insertRef{GDA1981IREDA}{DemoTools}
 #' \insertRef{PAS}{DemoTools}
 #' @export 
@@ -75,7 +74,7 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 #' @export 
 #' @examples
 #' Age <- 0:99
-#' Myers(pop1m_pasex, Age, 10, 90) 
+#' Myers(pop1m_pasex, Age, 10, 89) 
 #' 
 #' Myers(pop1m_pasex, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
 
@@ -316,7 +315,7 @@ Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 64, digit = 0){
 #' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
 #'  Denominators are always 5-year age groups centered on the digit in question,
 #' and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval. 
-#' If you want ages 20 to 64, then give \code{ageMin = 20} and \code{ageMax = 84}, not 65. 
+#' If you want ages 20 to 64, then give \code{ageMin = 20} and \code{ageMax = 64}, not 65. 
 #' @return The value of the index.
 #' @references 
 #' \insertRef{spoorenberg2007quality}{DemoTools}
