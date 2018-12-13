@@ -25,22 +25,113 @@ knitr::opts_chunk$set(
 
 Smoothing, grouping or graduation of data over age is traditionally intended to have plausible/corrected estimates of population counts from census data. This procedures help to derive figures that are corrected primarly for net error by fitting different curves to the original 5 or 10-year totals, modifying the original counts [@siegel2004methods]. Several methods have been developed for this aim and the major graduation methods are included in `DemoTools`. Including the Carrier-Farrag [@carrier1959reduction], Arriaga [@arriaga1994population], Karup-King-Newton, United Stations [@united1955manual], Spencer [@spencer1987improvements] and Zelnik methods. Below we briefly give an overview of the method and apply them to the male Indian population in 1991.
 
-```{r}
+```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
 library(DemoTools)
 
 # 'pop1m_ind' available as package data
 Value <- pop1m_ind
 Age   <- 0:(length(Value)-1)
   
-plot(Age, Value, type = 'l')  
+plot(Age, Value/sum(Value), type = 'l',
+     ylab = 'Porportion of population',
+     xlab = 'Single age',
+     main = 'Unsmoothed population') 
+
   
 ```
 
 ### Carrier-Farrag
 
+This method considers the ratio, $K$, of the population in one quinary age-group to the next one [@carrier1959reduction]. If $v_0$ is a denary age-group, and $v_{-2}$ and $v_2$ are the preceding and succeeding age-groups, respectively, and if $K^4 = v_{-2}/v_2$. Then, the older quinary group $v_1$ can be estimated by $v_0/(1+K)$. This equation connects the population in two ten-year age groups separated by an interval of ten years. Therefore the value $K$ can be seen as the middle point between the two ten-year age groups. To run this method in `DemoTools` the function `afesmth` is used with the option 'Carrier-Farrag'. The figure below  shows the smoothed population by five-year age groups.
+
+```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
+cf <- agesmth(Value = Value, 
+	Age = Age, 
+	method = "Carrier-Farrag", 
+	OAG = TRUE)
+
+plot(seq(0,100,5),cf/sum(cf), type= 'l',
+     ylab = 'Porportion of population',
+     xlab = 'Age-group',main = 'Smoothed population with Carrier-Farrag',xaxt='n')
+axis(1, labels = paste0(seq(0,100,5),'-',seq(4,104,5)), at =seq(0,100,5))
+  
+```
+
 ### Arriaga
 
-### Karup-King-Newton
+Similarly to the previous method, when the 10-year age group to be separates is the central group of three, the following formulas are used in this method [@arriaga1968new]:
+
+\begin{equation*}
+_{5}P_{x+5} = \frac{-_{10}P_{x-10}+11 _{10}P_{x+10}+2 _{10}P_{x+10}}{24}
+\end{equation*}
+and
+\begin{equation*}
+_{5}P_{x} = _{10}P_{x} - _{5}P_{x+5}
+\end{equation*}
+
+Where: $_{5}P_{x+5}$ is the population between ages $x+5$ and $x+9$; $_{10}P_{x}$ is the population between ages $x$ and $x+9$; and $_{5}P_{x}$ is the population between ages $x+$ and $x+4$. When the 10-year age group to be separated is an extreme age group (the youngest or the oldest), the formulas are different. For the youngest age
+group, the following formulas are used:
+
+
+\begin{equation*}
+_{5}P_{x+5} = \frac{8 _{10}P_{x}+ 5 _{10}P_{x+10} - _{10}P_{x+20}}{24}
+\end{equation*}
+and
+\begin{equation*}
+_{5}P_{x} = _{10}P_{x} - _{5}P_{x+5}
+\end{equation*}
+
+and for the last age group the coefficients are reversed:
+
+\begin{equation*}
+_{5}P_{x} = \frac{ -_{10}P_{x-20}+ 5 _{10}P_{x-10}+ 8 _{10}P_{x}}{24}.
+\end{equation*}
+
+To perform this model the option 'Arriaga' must be chosen in the 'agesmth' function.
+
+
+```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
+cf <- agesmth(Value = Value, 
+	Age = Age, 
+	method = "Arriaga", 
+	OAG = TRUE)
+
+plot(seq(0,100,5),cf/sum(cf), type= 'l',
+     ylab = 'Porportion of population',
+     xlab = 'Age-group',main = 'Smoothed population with Arriaga',xaxt='n')
+axis(1, labels = paste0(seq(0,100,5),'-',seq(4,104,5)), at =seq(0,100,5))
+  
+```
+
+### Karup-King-Newton 
+
+Following the same logic, the KKN method uses the following formulas:
+
+
+\begin{equation*}
+_{5}P_{x} = \frac{1}{2} _{10}P_{x} + \frac{1}{16} \big( _{10}P_{x-10} - _{10}P_{x+10} \big)
+\end{equation*}
+and
+\begin{equation*}
+_{5}P_{x+5} = _{10}P_{x} - _{5}P_{x}.
+\end{equation*}
+
+To implement this smoothing process select the `Karup-King-Newton` inthe `agesmth` function.
+
+```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
+cf <- agesmth(Value = Value, 
+	Age = Age, 
+	method = "Karup-King-Newton", 
+	OAG = TRUE)
+
+plot(seq(0,100,5),cf/sum(cf), type= 'l',
+     ylab = 'Porportion of population',
+     xlab = 'Age-group',main = 'Smoothed population with Karup-King-Newton ',xaxt='n')
+axis(1, labels = paste0(seq(0,100,5),'-',seq(4,104,5)), at =seq(0,100,5))
+  
+```
+
+
 
 ### United Nations
 

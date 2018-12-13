@@ -45,7 +45,6 @@ they are 0 and 5. Otherwise just one digit at a time.
  Whipple(pop1m_pasex, Age, 25, 60, digit = 3) 
 }
 \references{
-\insertRef{spoorenberg2007quality}{DemoTools}
 \insertRef{GDA1981IREDA}{DemoTools}
 \insertRef{PAS}{DemoTools}
 }

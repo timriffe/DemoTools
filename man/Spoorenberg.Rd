@@ -27,7 +27,7 @@ differences as positive).
 \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
  Denominators are always 5-year age groups centered on the digit in question,
 and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval. 
-If you want ages 20 to 64, then give \code{ageMin = 20} and \code{ageMax = 84}, not 65.
+If you want ages 20 to 64, then give \code{ageMin = 20} and \code{ageMax = 64}, not 65.
 }
 \examples{
 Age <- 0:99

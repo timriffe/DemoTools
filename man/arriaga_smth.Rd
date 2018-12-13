@@ -36,7 +36,6 @@ lines(as.integer(names(AMales)),AMales)
 }
 }
 \references{
-Arriaga, Eduardo, 1968. New Life Tables for Latin American Populations in the
-Nineteenth and Twentieth Centuries, Population Monograph Series, no. 3,
-appendix 3, page 295. University of California, Berkeley.
+\insertRef{arriaga1994population}{DemoTools}
+\insertRef{arriaga1968new}{DemoTools}
 }
