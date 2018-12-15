@@ -337,3 +337,92 @@ Spoorenberg <- function(Value, Age, ageMin = 20, ageMax = 64){
 	Wtot <- sum(abs(1 - Wi))
 	return(Wtot)
 }
+
+
+#' Kannisto's age heaping index
+#' 
+#' @description This age heaping index is used for particular old ages, such as 90, 95, 100, 105, and so forth.
+#' 
+#' @param Value numeric. A vector of demographic counts or rates by single age.
+#' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param Agei integer. The age on which the index is centered.
+#' @param pow either \code{"exp"} (default) or a power such as 2. See details
+#' 
+#' @details The index looks down two ages and up two ages, so the data must accommodate that range. The denominator is a mean of the counts in the sourrounding 5 single ages. The kind of mean can be controlled with the \code{pow} argument. By default, this takes the antilog of the arithmetic mean of the natural log of the five denominator counts. That will fail if one of the counts is equal to 0. In such cases, another power, such as 2 or 10 or 100 may be used, which is more robust to 0s. The higher the power, the closer the result will resemble the default output. If \code{pow=="exp"} but a 0 is detected among the denominator ages, then \code{pow} is assigned a value of 1000. \code{pow=1} would imply an arithmetic mean in the denominator.
+#' @return The value of the index.
+#' 
+#' @references 
+#' \insertRef{kannisto1999assessing}{DemoTools}
+#' @export
+#' 
+#' @examples
+#'Age <- 0:99
+#' KannistoHeap(pop1m_pasex, Age, 90)
+#' KannistoHeap(pop1m_pasex, Age, 95)
+#' KannistoHeap(pop1m_pasex, Age, 95, pow = 2) # geometric mean in denom
+#' KannistoHeap(pop1m_pasex, Age, 95, pow = 1000) # similar, but robust to 0s
+#' KannistoHeap(pop1m_pasex, Age, 95, pow = 1) # arithmetic mean in denom
+#' pop1m_pasex[Age==95] / mean(pop1m_pasex[Age >= 93 & Age <= 97])
+KannistoHeap <- function(Value, Age, Agei = 90,pow="exp"){
+	stopifnot(length(Agei) == 1)
+	stopifnot(is_single(Age))
+	denomi <- Age %in% ((Agei - 2):(Agei + 2))
+	if (any(Value[denomi] == 0)){
+		pow <- 1000
+	}
+	if (pow == "exp"){
+		denom  <- exp(mean(log(Value[denomi])))
+	} else {
+		denom  <- mean((Value[denomi])^(1/pow))^pow
+	}
+	Value[Age == Agei] / denom
+}
+
+
+#' Calculate Jdanov's old-age heaping index
+#' 
+#' @description This is a slightly more flexible implementation of Jdanov's formula,
+#' with defaults set to match his parameters. The numerator is the sum of 
+#' (death counts) in ages 95, 100, and 105. The denominator consists in the sum of the 5-year age groups centered around each of the numerator ages.
+#' It probably only makes sense to use this with the default values, however. Used with a single age
+#' in the numerator, it is almost the same as \code{Noumbissi()}, except here we pick out particular ages,
+#' whereas Noumbissi picks out terminal digits.
+#' 
+#' @param Value numeric. A vector of demographic counts by single age.
+#' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts.
+#' @param Agei integer. A vector of ages to put in the numerator, default \code{c(95,100,105)}.
+#' 
+#' @return The value of the index.
+#' @references 
+#' \insertRef{jdanov2008beyond}{DemoTools}
+#' @export
+#' @examples
+#'Value <-c(8904, 592, 354, 299, 292, 249, 222, 216, 181, 169, 151, 167, 
+#'		170, 196, 249, 290, 425, 574, 671, 724, 675, 754, 738, 695, 597, 
+#'		498, 522, 479, 482, 478, 558, 582, 620, 606, 676, 768, 862, 952, 
+#'		1078, 1215, 1215, 1357, 1470, 1605, 1723, 1782, 1922, 2066, 2364, 
+#'		2561, 2476, 1674, 1664, 1616, 1808, 3080, 3871, 4166, 4374, 4707, 
+#'		5324, 5678, 6256, 6382, 6823, 7061, 7344, 8149, 8439, 8308, 8482, 
+#'		8413, 8157, 7945, 7503, 7164, 7289, 7016, 6753, 6906, 6797, 6624, 
+#'		6416, 5811, 5359, 4824, 4277, 3728, 3136, 2524, 2109, 1657, 1235, 
+#'		924, 667, 465, 287, 189, 125, 99, 80, 24, 10, 7, 3, 1, 0, 1, 
+#'		1, 0, 0)
+#'Age <- 0:110
+#'Jdanov(Value, Age, Agei = c(95,100,105))
+
+Jdanov <- function(Value, Age, Agei = seq(95,105,by=5)){
+	stopifnot(is_single(Age))
+	numi   <- Agei %in% Age
+	
+	# this way of doing the denom makes it possible to 
+	# have duplicate values in the denom, for the case that
+	# the numerator ages are closer together than 5. Innocuous otherwise
+	denom <- sum(Value[shift.vector(numi, -2)]) +
+			sum(Value[shift.vector(numi, -1)]) +
+			sum(Value[numi]) +
+			sum(Value[shift.vector(numi, 1)]) +
+			sum(Value[shift.vector(numi, 2)]) 
+	
+	500 * sum(Value[numi]) / denom
+	
+}

@@ -11,7 +11,7 @@ library(DemoTools)
 Value <- pop1m_ind
 Age   <- 0:(length(Value)-1)
   
-plot(Age, Value, type = 'l')  
+plot(Age, Value, type = 'o')  
   
 
 ## ------------------------------------------------------------------------
