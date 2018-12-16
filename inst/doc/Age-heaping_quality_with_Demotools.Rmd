@@ -107,7 +107,7 @@ W_0 =5\frac{P_{30}+P_{40}+P_{50}+P_{60}}{_5P_{28}+\, _5P_{38}+\, _5P_{48}+\, _5P
 W_5 =5\frac{P_{25}+P_{35}+P_{45}+P_{55}}{_5P_{23}+\, _5P_{33}+\, _5P_{43}+\, _5P_{53}} \\
 \end{align}
 
-where $P_x$ is the population completed age $x$ and $_5P_x$ the population of the age range $(x,x+4)$. From these, age heaping can then be calculated for all ten digits (0-9) [@spoorenberg2007quality]. If there is no digit preference or avoidance, this "digit-specific modified Whipple's index" is equal to 1. An index above or below 1 indicates preference for or avoidance of the digit in question, respectively.
+where $P_x$ is the population having completed age $x$ and $_5P_x$ the population of the age range $(x,x+4)$. From these, age heaping can then be calculated for all ten digits (0-9) [@spoorenberg2007quality]. If there is no digit preference or avoidance, this "digit-specific modified Whipple's index" is equal to 1. An index above or below 1 indicates preference for or avoidance of the digit in question, respectively.
 
 
 ```{r}
@@ -118,7 +118,7 @@ Noumbissi
 
 ### Spoorenberg
 
-Using the digit-specific modified Whipple's index, this index summarizes all age preference and avoidance effects by taking the sum of the absolute differences between digit-specific Whipple's index and 1 (counting all differences as positive) [@spoorenberg2007quality]. The total modified Whipple's index ($W_{tot}$) is written as follows:
+Using the digit-specific modified Whipple's index, this index summarizes all age preference and avoidance effects by taking the sum of the absolute differences between digit-specific Whipple index and 1 (counting all differences as positive) [@spoorenberg2007quality]. The total modified Whipple's index ($W_{tot}$) is written as follows:
 
 \begin{equation}
 W_{tot} = \sum_{i=0}^9(|W_i - 1|)
@@ -134,9 +134,9 @@ The value of the index is zero if no preference is observed. In the case that al
 
 ### Coale-Li
 
-Coale and Li developed a method focusing on age misstatement at older ages because these are particularly subject to error. This error often leads to an overstatement of people (and deaths) increasing with age [@coale1991effect]. For example, the effect on mortality rates at old ages is understatement and it increases with age.
+Coale and Li developed a method focusing on age misstatement at older ages because these are particularly subject to error. This error often leads to an overstatement of people (and deaths) increasing with age [@coale1991effect]. This can lead to understatement of mortality rates in older ages, and this tendency increases with age.
 
-The index is based on  the deviation of the number at each age from a smooth sequence by taking the ratio of the number at each age to a two-stage moving average (the five-term average of a five-term average). With no heaping, the mean index at ages divisible by 10 from 40 to 90 would be about 1.0 [@coale1991effect]. 
+The index is based on the deviation of the number at each age from a smooth sequence by taking the ratio of the number at each age to a two-stage moving average (the five-term average of a five-term average). With no heaping, the mean index at ages divisible by 10 from 40 to 90 would be about 1.0 [@coale1991effect]. 
 
 In the case of enumerated Indian males in 1991 the index in 3.8, which indicates extensive errors in reported ages.
 
@@ -146,5 +146,11 @@ CoaleLi_index
 ```
 
 ### Kannisto
+
+The Kannisto index og age heaping can be calculated using the `KannistoHeap()` function. This index is calculated for a single age rather than for a terminal digit. It is calculated as the ratio of the count in the selected age to a mean of the
+
+
+
+### Jdanov
 
 ##References
