@@ -19,7 +19,7 @@ mxorqx2ax(nMx, nqx, axmethod = c("pas", "un")[1], Age, AgeInt,
 
 \item{Age}{integer. A vector of ages of the lower integer bound of the age classes.}
 
-\item{AgeInt}{integer. Vector of age class widths. Ddefault \code{inferAgeIntAbr(Age = Age)}.}
+\item{AgeInt}{integer. Vector of age class widths. Default \code{inferAgeIntAbr(Age = Age)}.}
 
 \item{IMR}{numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.}
 
@@ -29,7 +29,7 @@ mxorqx2ax(nMx, nqx, axmethod = c("pas", "un")[1], Age, AgeInt,
 
 \item{OAG}{logical. Whether or not the last element of \code{nMx} is the open age group Default \code{TRUE}.}
 
-\item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Patrick Gerland's modification for ages 5-14. Default \code{TRUE}.}
+\item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
 
 \item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.}
 

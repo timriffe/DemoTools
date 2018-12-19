@@ -4,23 +4,20 @@
 #' Calculate an abridged-age lifetable.
 #' @description Given vectors for Deaths and Exposures, or Mx, or qx, or lx, calculate a full abridged lifetable.
 #' 
-#' @details The main variations here are in the treatment of nAx. In all cases, the lifetable is extended and closed out 
-#' using one from a selection of methods implemented in the \code{MortalityLaws} package. 
-#' For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 100 in the present implementation.
-#' The ax method beyond and including the original open age group in the data follows the Mortpak (UN) method only.
+#' @details The main variations here are in the treatment of \code{nAx}. In all cases, the lifetable is extended and closed out using one from a selection of mortality age extrapolation methods implemented in the \code{MortalityLaws} package. For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 110 in the present implementation. By default, the extrapolation model is fit to ages 60 and higher, but you can control this using the \code{extrapFit} argument (give the vector of ages, which must be a subset of \code{Age}). By default extrapolated values are used starting with the input open age, but you can lower this age using the \code{extrapFrom} argument.
 #' 
 #' @param Deaths numeric. Vector of death counts in abridged age classes.
 #' @param Exposures numeric. Vector of population exposures in abridged age classes.
 #' @param nMx numeric. Vector of mortality rates in abridged age classes.
 #' @param nqx numeric. Vector of conditional death probabilities in abridged age classes.
 #' @param lx numeric. Vector of lifetable survivorship at abridged ages.
-#' @param AgeInt integer. Vector of age class widths. Ddefault \code{inferAgeIntAbr(Age = Age)}.
+#' @param AgeInt integer. Vector of age class widths. Default \code{inferAgeIntAbr(Age = Age)}.
 #' @param radix numeric. Lifetable radix, \ifelse{html}{\out{l<sub>0}}{\eqn{l_0}}. Default 100000.
 #' @param axmethod character. Either \code{"pas"} or \code{"un"}. 
 #' @param Sex character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}.   
 #' @param region character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.
 #' @param IMR numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.
-#' @param mod logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Patrick Gerland's modification for ages 5-14. Default \code{TRUE}.
+#' @param mod logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.
 #' @param OAnew integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.
 #' @param OAG logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.

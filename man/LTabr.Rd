@@ -25,7 +25,7 @@ LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = age2int(Age = Age,
 
 \item{Age}{integer. A vector of ages of the lower integer bound of the age classes.}
 
-\item{AgeInt}{integer. Vector of age class widths. Ddefault \code{inferAgeIntAbr(Age = Age)}.}
+\item{AgeInt}{integer. Vector of age class widths. Default \code{inferAgeIntAbr(Age = Age)}.}
 
 \item{radix}{numeric. Lifetable radix, \ifelse{html}{\out{l<sub>0}}{\eqn{l_0}}. Default 100000.}
 
@@ -37,7 +37,7 @@ LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = age2int(Age = Age,
 
 \item{IMR}{numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.}
 
-\item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Patrick Gerland's modification for ages 5-14. Default \code{TRUE}.}
+\item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
 
 \item{OAG}{logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.}
 
@@ -71,10 +71,7 @@ Lifetable in data.frame with columns
 Given vectors for Deaths and Exposures, or Mx, or qx, or lx, calculate a full abridged lifetable.
 }
 \details{
-The main variations here are in the treatment of nAx. In all cases, the lifetable is extended and closed out 
-using one from a selection of methods implemented in the \code{MortalityLaws} package. 
-For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 100 in the present implementation.
-The ax method beyond and including the original open age group in the data follows the Mortpak (UN) method only.
+The main variations here are in the treatment of \code{nAx}. In all cases, the lifetable is extended and closed out using one from a selection of mortality age extrapolation methods implemented in the \code{MortalityLaws} package. For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 110 in the present implementation. By default, the extrapolation model is fit to ages 60 and higher, but you can control this using the \code{extrapFit} argument (give the vector of ages, which must be a subset of \code{Age}). By default extrapolated values are used starting with the input open age, but you can lower this age using the \code{extrapFrom} argument.
 }
 \examples{
 # trial code from PAS LTPOPDTH, North, Males, IMR = .1
