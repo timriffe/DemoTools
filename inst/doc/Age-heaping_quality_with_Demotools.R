@@ -39,3 +39,11 @@ Spoorenberg
 CoaleLi_index <- CoaleLi(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0)
 CoaleLi_index
 
+## ------------------------------------------------------------------------
+Kannisto <- KannistoHeap(Value = Value, Age = Age, Agei = 90)
+Kannisto
+
+## ------------------------------------------------------------------------
+J <- Jdanov(Value, Age, Agei = c(95,100,105))
+J
+
