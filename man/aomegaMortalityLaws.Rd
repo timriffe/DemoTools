@@ -6,7 +6,7 @@
 \usage{
 aomegaMortalityLaws(mx, Age, law = c("kannisto", "kannisto_makeham",
   "gompertz", "ggompertz", "makeham", "beard", "beard_makeham",
-  "quadratic")[1], extrapFrom = max(Age), extrapFit = Age[Age >= 60],
+  "quadratic")[1], extrapFrom = max(Age), extrapFit = Age[Age >= 40],
   ...)
 }
 \arguments{
