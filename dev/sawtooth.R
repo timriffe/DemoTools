@@ -167,18 +167,65 @@ zero_pref_sawtooth <- function(Value, Age, ageMin = 40, ageMax = max(Age[Age %% 
 	# mean of 0s divided by mean of 5s, that simple.
 	1 / ratx(rowMeans(m05, na.rm = TRUE))
 }
-Value <- h4
-Age <- 0:99
-rough_fives <- function(Value, Age, ageMin, ageMax){
+
+
+#' evaluate roughness of data in 5-year age groups
+#' @description For a given age-structured vector of counts, how rough is data after grouping to 5-year age bins? Data may require smoothing even if there is no detectable sawtooth pattern. It is best to use the value in this method together with visual evidence to gauage whether use of \code{agesmth()} is recommended.
+#' @details First we group data to 5-year age bins. Then we take first differences (d1) of these within the evaluated age range. Then we smooth first differences (d1s) using a generic smoother (\code{ogive()}). Roughness is defined as the mean of the absolute differences between \code{mean(abs(d1 - d1s) / abs(d1s))}. Higher values indicate rougher data, and may suggest more aggressive smoothing. Just eyeballing, one could consider smoothing if the returned value is greater than ca 0.2, and values greater than 0.5 already highly recommend it (pending visual verification).
+#' @exmport
+#' @inheritParams zero_pref_sawtooth
+#' @param ageMin integer evenly divisible by 5. Lower bound of evaluated age range, default 20.
+#'
+#' @examples 
+#' Age <- 0:99
+#' smoothed <- sprague(
+#' 		agesmth(pop1m_pasex, 
+#' 				Age, 
+#' 				method = "Strong", 
+#' 				OAG = FALSE, 
+#' 				young.tail = "Arriaga"),
+#' 		OAG = FALSE)
+#' # not very rough, no need to smooth more
+#' five_year_roughness(smoothed, Age)
+#'  # quite rough, even after grouping to 5-year ages
+#' five_year_roughness(pop1m_pasex, Age)
+#' # heaped, but no 0>5 preference
+#' h1 <- heapify(smoothed, Age, p0 = 1, p5 = 1)
+#' # heaping progressively worse
+#' h2 <- heapify(smoothed, Age, p0 = 1.2, p5 = 1.2)
+#' h3 <- heapify(smoothed, Age, p0 = 1.5, p5 = 1.5)
+#' h4 <- heapify(smoothed, Age, p0 = 2, p5 = 2)
+#' h5 <- heapify(smoothed, Age, p0 = 2.5, p5 = 2)
+#'\dontrun{
+#'	cols <- RColorBrewer::brewer.pal(7,"Reds")[3:7]
+#'    A5 <- seq(0,95,by=5)
+#' 	plot(A5, groupAges(smoothed), type='l',xlim=c(20,80),ylim=c(0,3e5))
+#'	lines(A5, groupAges(h1),col=cols[1])
+#' 	lines(A5, groupAges(h2),col=cols[2])
+#' 	lines(A5, groupAges(h3),col=cols[3])
+#'	lines(A5, groupAges(h4),col=cols[4])
+#'	lines(A5, groupAges(h5),col=cols[5])
+#'}
+#'five_year_roughness(smoothed, Age)
+#'five_year_roughness(h1, Age)
+#'five_year_roughness(h2, Age)
+#'five_year_roughness(h3, Age)
+#'five_year_roughness(h4, Age)
+#'five_year_roughness(h5, Age)
+#' 
+
+five_year_roughness <- function(Value, Age, ageMin = 20, ageMax = max(Age[Age %% 5 == 0])){
 	# rather than stopifnot() check, just make it work.
-	ageMin <- ageMin - ageMin %% 10
+	ageMin <- ageMin - ageMin %% 5
 	# group to 5-year ages if not already.
 	VH5    <- groupAges(Value, Age, 5)
 	A5     <- names2age(VH5)
-	# elementwise matched to avg of adjacent values
-	adj2   <- avg_adj(VH5)
 	# evalauated age range
 	ai     <- A5 >= ageMin & A5 <= ageMax
 	
+	d1     <- diff(VH5[ai]) 
+	# compare with something smooth
+	d1s    <- ogive(Value = d1, Age = A5[ai][-1], OAG = FALSE)
 	
+	mean(abs(d1 - d1s) / abs(d1s))
 }
