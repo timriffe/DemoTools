@@ -497,6 +497,8 @@ heapify <- function(Value, Age, p0=2, p5=p0, ageMin = 25, ageMax = max(Age[Age %
 #' @return \code{FALSE} if sawtooth pattern is not detected, numeric otherwise.
 #' @references
 #' \insertRef{feeney1979}{DemoTools}
+#' Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/
+
 #' @examples
 #' smoothed <- sprague(
 #' 		agesmth(pop1m_pasex, 

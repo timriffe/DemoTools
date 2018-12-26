@@ -59,4 +59,5 @@ zero_pref_sawtooth(h4, Age,ageMin=35)
 }
 \references{
 \insertRef{feeney1979}{DemoTools}
+Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/
 }
