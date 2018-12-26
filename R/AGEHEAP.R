@@ -500,6 +500,7 @@ heapify <- function(Value, Age, p0=2, p5=p0, ageMin = 25, ageMax = max(Age[Age %
 #' Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/
 
 #' @examples
+#' Age <- 0:99
 #' smoothed <- sprague(
 #' 		agesmth(pop1m_pasex, 
 #' 				Age, 

@@ -26,6 +26,7 @@ Ages ending in 0 (0s) often have higher apparent heaping than ages ending in 5 (
 Data is grouped to 5-year age bins. The ratio of each value to the average of its neighboring values is calculated. If 0s have stronger attraction than 5s then we expect these ratios to be >1 for 0s and <1 for 5s. Ratios are compared within each 10-year age group in the evaluated age range. If in the evaluated range there are at most two exceptions to this rule (0s>5s), then the ratio of the mean of these ratios is returned, and it is recommended to use a smoother method. Higher values suggest use of a more aggressive method. This approach is only slightly different from that of Feeney, as implemented in the \code{zigzag()} functions. This is not a general measure of roughness, but rather an indicator of this particular pattern of age attraction.
 }
 \examples{
+Age <- 0:99
 smoothed <- sprague(
 		agesmth(pop1m_pasex, 
 				Age, 
