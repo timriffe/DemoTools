@@ -412,7 +412,7 @@ KannistoHeap <- function(Value, Age, Agei = 90,pow="exp"){
 
 Jdanov <- function(Value, Age, Agei = seq(95,105,by=5)){
 	stopifnot(is_single(Age))
-	numi   <- Agei %in% Age
+	numi   <- Age %in% Agei
 	
 	# this way of doing the denom makes it possible to 
 	# have duplicate values in the denom, for the case that
