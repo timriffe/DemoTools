@@ -566,7 +566,7 @@ zero_pref_sawtooth <- function(Value, Age, ageMin = 40, ageMax = max(Age[Age %% 
 #' evaluate roughness of data in 5-year age groups
 #' @description For a given age-structured vector of counts, how rough is data after grouping to 5-year age bins? Data may require smoothing even if there is no detectable sawtooth pattern. It is best to use the value in this method together with visual evidence to gauage whether use of \code{agesmth()} is recommended.
 #' @details First we group data to 5-year age bins. Then we take first differences (d1) of these within the evaluated age range. Then we smooth first differences (d1s) using a generic smoother (\code{ogive()}). Roughness is defined as the mean of the absolute differences between \code{mean(abs(d1 - d1s) / abs(d1s))}. Higher values indicate rougher data, and may suggest more aggressive smoothing. Just eyeballing, one could consider smoothing if the returned value is greater than ca 0.2, and values greater than 0.5 already highly recommend it (pending visual verification).
-#' @exmport
+#' @export
 #' @inheritParams zero_pref_sawtooth
 #' @param ageMin integer evenly divisible by 5. Lower bound of evaluated age range, default 20.
 #'
@@ -591,8 +591,9 @@ zero_pref_sawtooth <- function(Value, Age, ageMin = 40, ageMax = max(Age[Age %% 
 #' h4 <- heapify(smoothed, Age, p0 = 2, p5 = 2)
 #' h5 <- heapify(smoothed, Age, p0 = 2.5, p5 = 2)
 #'\dontrun{
-#'	cols <- RColorBrewer::brewer.pal(7,"Reds")[3:7]
-#'    A5 <- seq(0,95,by=5)
+#'	#cols <- RColorBrewer::brewer.pal(7,"Reds")[3:7]
+#'  cols <-  c("#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#99000D")
+#'  A5 <- seq(0,95,by=5)
 #' 	plot(A5, groupAges(smoothed), type='l',xlim=c(20,80),ylim=c(0,3e5))
 #'	lines(A5, groupAges(h1),col=cols[1])
 #' 	lines(A5, groupAges(h2),col=cols[2])
@@ -618,8 +619,8 @@ five_year_roughness <- function(Value, Age, ageMin = 20, ageMax = max(Age[Age %%
 	ai     <- A5 >= ageMin & A5 <= ageMax
 	
 	d1     <- diff(VH5[ai]) 
-	# compare with something smooth
-	d1s    <- ogive(Value = d1, Age = A5[ai][-1], OAG = FALSE)
+	# compare with something smooth, loess by default.
+	d1s    <- agesmth1(Value = d1, Age = A5[ai][-1], OAG = FALSE)
 	
 	mean(abs(d1 - d1s) / abs(d1s))
 }

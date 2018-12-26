@@ -17,10 +17,10 @@
 #' \dontrun{
 #' Age <- 0:99
 #' plot(Age,pop1m_pasex)
-#' lines(Age, ogive_loess(pop1m_pasex, Age, FALSE))
+#' lines(Age, loess_smth1(pop1m_pasex, Age, FALSE))
 #' }
 #' @seealso \code{\link[stats]{loess}}
-ogive_loess <- function(Value, Age, OAG = TRUE, ...){
+loess_smth1 <- function(Value, Age, OAG = TRUE, ...){
 	scale      <- sum(Value, na.rm = TRUE)
 	N          <- length(Value)
 	stopifnot(N == length(Age))
@@ -74,16 +74,21 @@ ogive_loess <- function(Value, Age, OAG = TRUE, ...){
 #' @examples 
 #' \dontrun{
 #' Age <- 0:99
+#' cols <- RColorBrewer::brewer.pal(7,"Reds")[3:7]
 #' plot(Age,pop1m_pasex)
-#' lines(Age, ogive_poly(pop1m_pasex, Age, OAG = FALSE))
-#' lines(Age, ogive_poly(pop1m_pasex, Age, degree = 3, OAG = FALSE), col = "red")
-#' 
+#' lines(Age, ogive_poly(pop1m_pasex, Age, OAG = FALSE),col=cols[1])
+#' lines(Age, ogive_poly(pop1m_pasex, Age, degree = 3, OAG = FALSE), col = cols[2])
+#' lines(Age, ogive_poly(pop1m_pasex, Age, degree = 3, trans = "log", OAG = FALSE), col = cols[3])
+#' lines(Age, ogive_poly(pop1m_pasex, Age, degree = 3, 
+#'       trans = "power", pow = 2, OAG = FALSE), col = cols[4])
+#' lines(Age, ogive_poly(pop1m_pasex, Age, degree = 4, 
+#'       trans = "power", pow = 3, OAG = FALSE), col = cols[5])
 #' }
 #' @seealso \code{\link[stats]{lm}}
 #' @importFrom stats lm
 
 
-ogive_poly <- function(Value, Age, degree = 2, trans, pow = 2, OAG = TRUE, ...){
+poly_smth1 <- function(Value, Age, degree = 2, trans, pow = 2, OAG = TRUE, ...){
 	scale     <- sum(Value, na.rm = TRUE)
 	N         <- length(Value)
 	stopifnot(N == length(Age))
@@ -131,7 +136,7 @@ ogive_poly <- function(Value, Age, degree = 2, trans, pow = 2, OAG = TRUE, ...){
 	# stick elements into ad hoc data.frame
 	dataf     <- data.frame(Value. = value, age = age, w = w)
 	# fit linear model
-	fit       <- lm(expr, weight = w, data = dataf, ...)
+	fit       <- lm(expr, weights = w, data = dataf, ...)
 	# get predicted values
 	out       <- predict(fit)
 	
@@ -162,15 +167,38 @@ ogive_poly <- function(Value, Age, degree = 2, trans, pow = 2, OAG = TRUE, ...){
 }
 
 
-# same args as above:
-
-ogive <- function(Value, Age, method = "loess", OAG = TRUE, degree = 2, trans, ...){
+#' a generic age smoother
+#' @description One dimensional smoothing over age (or time) using either loess (\code{"loess"} or polynomial \code{"poly"} regression. Results of loess may at times be similar to a two-step \code{agesmth()} method followed by graduation (e.g. \code{beers()} or \code{sprague()}, but local totals are not not constrained for any of the \code{agesmth1()} methods at this time. Total counts are constrained to the original total in all cases.
+#' @details loess smoothness may be tweaked by specifying an optional \code{"span"} argument. Polynomial fitting can be tweaked by changing the degree and by either log or power transforming. The open age group can be kept as-is if desired by specifying \code{OAG = TRUE}.  May be used on any age groups, including irregularly spaced, single age, or 5-year age groups. Predictions are only returned for the original age groups.
+#' @seealso \code{\link[stats]{lm}}, \code{\link[stats]{loess}} \code{\link{poly_smth1}}, \code{\link{loess_smth1}} 
+#' @inheritParams poly_smth1
+#' @param method character, either \code{"loess"} or \code{"poly"}
+#' @export 
+#' @examples
+#' Age <- 0:99
+#'  #cols <- RColorBrewer::brewer.pal(7,"Reds")[3:7]
+#'  cols <-  c("#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#99000D")
+#' \dontrun{
+#'  plot(Age,pop1m_pasex)
+#'  lines(Age, agesmth1(pop1m_pasex, Age, method="poly", OAG = FALSE),col=cols[1])
+#'  lines(Age, agesmth1(pop1m_pasex, Age, method="poly", degree = 3, OAG = FALSE), col = cols[2])
+#'  lines(Age, agesmth1(pop1m_pasex, Age, method="poly", degree = 3, 
+#'        trans = "log", OAG = FALSE), col = cols[3])
+#'  lines(Age, agesmth1(pop1m_pasex, Age, method="poly", degree = 3, 
+#'        trans = "power", pow = 2, OAG = FALSE), col = cols[4])
+#'  lines(Age, agesmth1(pop1m_pasex, Age, method="poly", degree = 4, 
+#'        trans = "power", pow = 3, OAG = FALSE), col = cols[5])
+#'  lines(Age, agesmth1(pop1m_pasex, Age, method="loess", OAG = FALSE), col = "royalblue")
+#'  lines(Age, agesmth1(pop1m_pasex, Age, method="loess", span = 1, OAG = FALSE), col = "blue")
+#' }
+ 
+agesmth1 <- function(Value, Age, method = "loess", OAG = TRUE, degree = 2, trans, pow = 2, ...){
 	
 	if (method == "loess"){
-		out <- ogive_loess(Value = Value, Age = Age, OAG = OAG, ...)
+		out <- loess_smth1(Value = Value, Age = Age, OAG = OAG, ...)
 	}
 	if (method == "poly"){
-		out <- ogive_poly(Value = Value, Age = Age, degree = degree, trans = trans, OAG = OAG, ...)
+		out <- poly_smth1(Value = Value, Age = Age, degree = degree, trans = trans, pow = pow, OAG = OAG, ...)
 	}
 	out
 }
