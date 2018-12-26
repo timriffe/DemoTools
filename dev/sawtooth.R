@@ -167,5 +167,18 @@ zero_pref_sawtooth <- function(Value, Age, ageMin = 40, ageMax = max(Age[Age %% 
 	# mean of 0s divided by mean of 5s, that simple.
 	1 / ratx(rowMeans(m05, na.rm = TRUE))
 }
-
-
+Value <- h4
+Age <- 0:99
+rough_fives <- function(Value, Age, ageMin, ageMax){
+	# rather than stopifnot() check, just make it work.
+	ageMin <- ageMin - ageMin %% 10
+	# group to 5-year ages if not already.
+	VH5    <- groupAges(Value, Age, 5)
+	A5     <- names2age(VH5)
+	# elementwise matched to avg of adjacent values
+	adj2   <- avg_adj(VH5)
+	# evalauated age range
+	ai     <- A5 >= ageMin & A5 <= ageMax
+	
+	
+}

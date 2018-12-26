@@ -546,7 +546,7 @@ zero_pref_sawtooth <- function(Value, Age, ageMin = 40, ageMax = max(Age[Age %% 
 	# matrix of ratios, 0s in row 1, 5s in row 2
 	m05    <- suppressWarnings(matrix((VH5 / adj2)[ai], nrow = 2))
 	# ensure no recycled values used
-	if (sum(ai) %% 2 != 0){
+	if (sum(ai) %% 2 != 0 | any(is.na(m05))){
 		m05    <- m05[, -ncol(m05)]	
 	}
 	
