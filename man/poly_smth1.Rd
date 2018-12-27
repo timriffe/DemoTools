@@ -2,7 +2,7 @@
 % Please edit documentation in R/OGIVE.R
 \name{poly_smth1}
 \alias{poly_smth1}
-\title{fit a polynomial to demographic data}
+\title{Fit a polynomial to demographic data}
 \usage{
 poly_smth1(Value, Age, degree = 2, trans, pow = 2, OAG = TRUE, ...)
 }
@@ -22,7 +22,8 @@ poly_smth1(Value, Age, degree = 2, trans, pow = 2, OAG = TRUE, ...)
 \item{...}{optional arguments passed to \code{stats::lm()}}
 }
 \description{
-smooth data over age, preserving the open age group if necessary. This is a wrapper to \code{stats::lm()} but using standard demographic arguments.
+Smooth data over age fitting linear models, preserving the open age group if necessary. 
+This is a wrapper to \code{stats::lm()} but using standard demographic arguments.
 }
 \details{
 The total sum of \code{Value} is preserved in the output. One can control smoothness by adjusting the degree of the polynomial (higher degree more wiggly). See \code{\link[stats]{lm}} for more details. One may wish to log transform the data before fitting the polynomial, in which case \code{trans} should be specified as \code{"log"}. \code{"power"} is also an option in which case the data is transformed by \code{Value^(1/pow)} before fitting, and then the prediction is back-transformed (negative values not allowed)-- This is friendlier in the case of 0s. For the log transformation, 0s have no weight.
@@ -32,12 +33,12 @@ The total sum of \code{Value} is preserved in the output. One can control smooth
 Age <- 0:99
 cols <- RColorBrewer::brewer.pal(7,"Reds")[3:7]
 plot(Age,pop1m_pasex)
-lines(Age, ogive_poly(pop1m_pasex, Age, OAG = FALSE),col=cols[1])
-lines(Age, ogive_poly(pop1m_pasex, Age, degree = 3, OAG = FALSE), col = cols[2])
-lines(Age, ogive_poly(pop1m_pasex, Age, degree = 3, trans = "log", OAG = FALSE), col = cols[3])
-lines(Age, ogive_poly(pop1m_pasex, Age, degree = 3, 
+lines(Age, poly_smth1(pop1m_pasex, Age, OAG = FALSE),col=cols[1])
+lines(Age, poly_smth1(pop1m_pasex, Age, degree = 3, OAG = FALSE), col = cols[2])
+lines(Age, poly_smth1(pop1m_pasex, Age, degree = 3, trans = "log", OAG = FALSE), col = cols[3])
+lines(Age, poly_smth1(pop1m_pasex, Age, degree = 3, 
       trans = "power", pow = 2, OAG = FALSE), col = cols[4])
-lines(Age, ogive_poly(pop1m_pasex, Age, degree = 4, 
+lines(Age, poly_smth1(pop1m_pasex, Age, degree = 4, 
       trans = "power", pow = 3, OAG = FALSE), col = cols[5])
 }
 }

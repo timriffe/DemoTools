@@ -2,7 +2,7 @@
 % Please edit documentation in R/AGEHEAP.R
 \name{heapify}
 \alias{heapify}
-\title{induce heaping on terminal digits 0 and 5}
+\title{Induce heaping on terminal digits 0 and 5}
 \usage{
 heapify(Value, Age, p0 = 2, p5 = p0, ageMin = 25,
   ageMax = max(Age[Age\%\%5 == 0]))
@@ -24,10 +24,17 @@ heapify(Value, Age, p0 = 2, p5 = p0, ageMin = 25,
 Value numeric vector perturbed to look like age heaping as happened.
 }
 \description{
-For single age count data, perturb the data in such a way as to induce heaping on ages ending in 0 and 5. This is a common phenomenon that several age heaping evaluation methods are designed to test for. In order to estimate how these methods respond to different degrees of heaping in a systematic way, a function such as this may be useful. The way this works is purely a guess, and no checks are in place, so use with caution.
+For single age count data, perturb the data in such a way as to induce heaping on ages ending in 0 and 5. 
+This is a common phenomenon that several age heaping evaluation methods are designed to test for. 
+In order to estimate how these methods respond to different degrees of heaping in a systematic way, a function such as
+ this may be useful. The way this works is purely a guess, and no checks are in place, so use with caution.
 }
 \details{
-We use pascal weights, \code{c(1,4,6,4,1)} scaled to argument \code{p5} and \code{c(1,6,15,20,15,6,1)} scaled to argument \code{p0} to shift individuals from surrounding ages to ages endings in 5 and 0, respectively. This assumes that ages closer to digits 0 or 5 are more likely to be declared as 0 or 5, that this bias is symmetrical, and that such rounding can come from farther away ages for terminal digit 0 than for 5. The user can also make heaping scale differently for 0s and 5s, but there is no control over the shape of bias.
+We use pascal weights, \code{c(1,4,6,4,1)} scaled to argument \code{p5} and \code{c(1,6,15,20,15,6,1)} 
+scaled to argument \code{p0} to shift individuals from surrounding ages to ages endings in 5 and 0, respectively.
+ This assumes that ages closer to digits 0 or 5 are more likely to be declared as 0 or 5, that this bias is symmetrical,
+  and that such rounding can come from farther away ages for terminal digit 0 than for 5. 
+  The user can also make heaping scale differently for 0s and 5s, but there is no control over the shape of bias.
 }
 \examples{
 # example to show what we're talking about.

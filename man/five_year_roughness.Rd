@@ -2,7 +2,7 @@
 % Please edit documentation in R/AGEHEAP.R
 \name{five_year_roughness}
 \alias{five_year_roughness}
-\title{evaluate roughness of data in 5-year age groups}
+\title{Evaluate roughness of data in 5-year age groups}
 \usage{
 five_year_roughness(Value, Age, ageMin = 20, ageMax = max(Age[Age\%\%5
   == 0]))
@@ -17,10 +17,17 @@ five_year_roughness(Value, Age, ageMin = 20, ageMax = max(Age[Age\%\%5
 \item{ageMax}{integer evently divisibly by 5. Upper bound of evaluated age range, defaults to highest age evenly divisible by 10.}
 }
 \description{
-For a given age-structured vector of counts, how rough is data after grouping to 5-year age bins? Data may require smoothing even if there is no detectable sawtooth pattern. It is best to use the value in this method together with visual evidence to gauage whether use of \code{agesmth()} is recommended.
+For a given age-structured vector of counts, how rough is data after grouping to 5-year age bins?
+ Data may require smoothing even if there is no detectable sawtooth pattern. It is best to use the value in this 
+ method together with visual evidence to gauage whether use of \code{agesmth()} is recommended.
 }
 \details{
-First we group data to 5-year age bins. Then we take first differences (d1) of these within the evaluated age range. Then we smooth first differences (d1s) using a generic smoother (\code{ogive()}). Roughness is defined as the mean of the absolute differences between \code{mean(abs(d1 - d1s) / abs(d1s))}. Higher values indicate rougher data, and may suggest more aggressive smoothing. Just eyeballing, one could consider smoothing if the returned value is greater than ca 0.2, and values greater than 0.5 already highly recommend it (pending visual verification).
+First we group data to 5-year age bins. Then we take first differences (d1) of these within the evaluated
+ age range. Then we smooth first differences (d1s) using a generic smoother (\code{ogive()}).
+  Roughness is defined as the mean of the absolute differences between \code{mean(abs(d1 - d1s) / abs(d1s))}. 
+  Higher values indicate rougher data, and may suggest more aggressive smoothing. Just eyeballing, one could consider
+   smoothing if the returned value is greater than ca 0.2, and values greater than 0.5 already highly recommend
+    it (pending visual verification).
 }
 \examples{
 Age <- 0:99
