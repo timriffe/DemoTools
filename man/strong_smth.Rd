@@ -28,7 +28,7 @@ The open age group is aggregated down to be evenly divisible by 10.
 This method accounts for the youngest and oldest age groups. Age classes must be cleanly 
 groupable to 5-year age groups. All age classes are returned, but the strongest adjustment
 occurs in ages bounded by \code{ageMin} and \code{ageMax}. To be clear \code{ageMax} refers to 
-the lower bound of the highest age class, inclusive. So, if you want a ceiling of 70 (default), specify 65.
+the lower bound of the highest age class, inclusive. So, if you want a ceiling of 70 (default), specify 65. Counts are not constrained within this range, but the youngest 10-year age group and penultimate 10-year age group are perturbed but constrained to their original totals. The oldest 10-year age group is unaffected.
 }
 \examples{
 Ages         <- seq(0, 80, by = 5)

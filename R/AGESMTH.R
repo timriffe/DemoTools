@@ -133,7 +133,7 @@ kkn_smth <- function(Value,
 #' E. Arriaga's method of population count smoothing
 #' @description Smooth population counts in 5-year age groups.
 #' @details The open age group is aggregated down to be evenly divisible by 10. 
-#' This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups.
+#' This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups. 10-year age groups are constrained to sum to their original totals.
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
@@ -212,7 +212,7 @@ arriaga_smth <- function(Value,
 #' The old United Nations method of population count smoothing
 #' @description Smooth population counts in 5-year age groups.
 #' @details The open age group is aggregated down to be evenly divisible by 10. 
-#' This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups.
+#' This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups. Counts are not constrained in 10-year age groups, except 10-year young and old tails, which are unaffected.
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
@@ -266,7 +266,7 @@ united_nations_smth <- function(Value,
 #' This method accounts for the youngest and oldest age groups. Age classes must be cleanly 
 #' groupable to 5-year age groups. All age classes are returned, but the strongest adjustment
 #' occurs in ages bounded by \code{ageMin} and \code{ageMax}. To be clear \code{ageMax} refers to 
-#' the lower bound of the highest age class, inclusive. So, if you want a ceiling of 70 (default), specify 65.
+#' the lower bound of the highest age class, inclusive. So, if you want a ceiling of 70 (default), specify 65. Counts are not constrained within this range, but the youngest 10-year age group and penultimate 10-year age group are perturbed but constrained to their original totals. The oldest 10-year age group is unaffected.
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
@@ -369,7 +369,7 @@ strong_smth <- function(Value,
 
 
 #' G. Feeney's method of smoothing counts in 5-year age groups.
-#' @description If age heaping is much worse on 0's than on 5's then even counts in 5-year age bins can preserve a sawtooth pattern. Most graduation techniques translate the zig-zag/sawtooth pattern to a wave pattern. It is not typically desired. This method redistributes counts 'from' every second 5-year age group in a specified range 'to' the adjacent age groups. How much to redistribute depends on a detection of roughness in the 5-year binned data, which follows the formulas recommended by Feeney. 
+#' @description If age heaping is much worse on 0's than on 5's then even counts in 5-year age bins can preserve a sawtooth pattern. Most graduation techniques translate the zig-zag/sawtooth pattern to a wave pattern. It is not typically desired. This method redistributes counts 'from' every second 5-year age group in a specified range 'to' the adjacent age groups. How much to redistribute depends on a detection of roughness in the 5-year binned data, which follows the formulas recommended by Feeney. This method does not alter the total population count, counts in the youngest 10 ages, nor in old ages. 10-year age groups in the middle age range are not constrained.
 #' @details This function calls \code{zigzag()}, but prepares data in a way consistent with other methods called by \code{agesmth()}. It is probably preferable to call \code{zigzag()} from the top level, or else call this method from \code{agesmth()} for more control over tail imputations.
 #' @param Value numeric vector of (presumably) counts in 5-year age groups. 
 #' @param Age integer vector of age group lower bounds.
@@ -418,7 +418,7 @@ zigzag_smth <- function(Value,
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
 #' @param n integer. The width of the moving average. Default 3 intervals (x-5 to x+9).
 #' @return numeric vector of smoothed counts in 5-year age groups.
-#' @details This function calls \code{mav()}, which itself relies on the more general \code{ma()}. We lose the lowest and highest ages with this method, unless \code{n=1}, in which case data is returned in the original 5-year age groups.
+#' @details This function calls \code{mav()}, which itself relies on the more general \code{ma()}. We lose the lowest and highest ages with this method, unless \code{n=1}, in which case data is returned in the original 5-year age groups. The total population count is not constrained to sum to the orignal total.
 #' @examples
 #' Age <- c(0,1,seq(5,90,by=5))
 #' # defaults

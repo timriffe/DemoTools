@@ -64,6 +64,11 @@ Whipple(h3,Age) # 2.8 %
 (Whipple(h1,Age) >= 1.25 | Myers(h1,Age) >= 5) &
 		( five_year_roughness(h1,Age) >= .2 | zero_pref_sawtooth(h1,Age) > 0 )
 
+# agesmth(strongly)-sprague if:
+(Whipple(h4,Age) >= 1.25 | Myers(h4,Age) >= 5) &
+		( five_year_roughness(h4,Age) >= .5 | zero_pref_sawtooth(h4,Age) > 1 )
+
+
 # which ones constrained?
 A5 <- seq(0,95,by=5)
 # CF is 10-year constrained- no tails
@@ -74,6 +79,7 @@ groupAges(agesmth(h1,Age,method="KKN"),Age=A5,N=10) - groupAges(h1,Age,N=10)
 groupAges(agesmth(h1,Age,method="Arriaga"),Age=A5,N=10) - groupAges(h1,Age,N=10)
 # UN is not constrained, even in total
 sum(agesmth(h1,Age,method="United Nations")) - sum(h1)
+groupAges(agesmth(h1,Age,method="United Nations"),Age=A5,N=5) - groupAges(h1,Age,N=5)
 # Strong is not constrained, except in the 10-year young tails. old tail unchanged.
 # penultimate 10-year age group is constrained.
 sum(agesmth(h1,Age,method="Strong")) - sum(h1)
@@ -86,9 +92,7 @@ agesmth(h1,Age,method="Zigzag") - groupAges(h1,Age,N=5)
 groupAges(agesmth(h1,Age,method="Zigzag"),Age=A5,N=10) - groupAges(h1,Age,N=10)
 plot(A5,agesmth(h4,Age,method="Zigzag",ageMax=90) )
 
-# agesmth(strongly)-sprague if:
-(Whipple(h4,Age) >= 1.25 | Myers(h4,Age) >= 5) &
-		( five_year_roughness(h4,Age) >= .5 | zero_pref_sawtooth(h4,Age) > 1 )
+sum(agesmth(h1,Age,method="mav")) - sum(h1)
 
 
 

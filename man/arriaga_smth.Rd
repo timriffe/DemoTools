@@ -21,7 +21,7 @@ Smooth population counts in 5-year age groups.
 }
 \details{
 The open age group is aggregated down to be evenly divisible by 10. 
-This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups.
+This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups. 10-year age groups are constrained to sum to their original totals.
 }
 \examples{
 Ages         <- seq(0, 80, by = 5)
