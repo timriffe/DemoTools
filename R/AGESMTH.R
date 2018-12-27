@@ -6,7 +6,7 @@
 #' @description Smooth population counts in 5-year age groups.
 #' @details This method does not account for ages < 10 nor for the 10 year age 
 #' interval prior to the open age group. These are returned imputed with \code{NA}.
-#' Age classes must be cleanly groupable to 5-year age groups.
+#' Age classes must be cleanly groupable to 5-year age groups. Smoothed counts are constrained to sum to original totals in 10-year age groups.
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
@@ -28,8 +28,7 @@
 #' }
 #' @references
 #' \insertRef{carrier1959reduction}{DemoTools}
-
-# plz add PASEX citation, and add above to bibtex
+#' \insertRef{PAS}{DemoTools}
 
 carrier_farrag_smth <- function(Value, 
 		Age, 
@@ -71,7 +70,7 @@ carrier_farrag_smth <- function(Value,
 #' @description Smooth population counts in 5-year age groups.
 #' @details This method does not account for ages < 10 nor for the 10 year age 
 #' interval prior to the open age group. These are returned imputed with \code{NA}.
-#' Age classes must be cleanly groupable to 5-year age groups.
+#' Age classes must be cleanly groupable to 5-year age groups. Smoothed counts are constrained to sum to original totals in 10-year age groups.
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}. 
