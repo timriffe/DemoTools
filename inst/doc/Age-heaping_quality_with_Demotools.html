@@ -22,46 +22,254 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 </head>
 
@@ -80,28 +288,28 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>How to use <code>DemoTools</code> to get age-heaping indices</h2>
 <p>The observed age distribution of a population can be affected by various kinds of reporting errors: 1) misstatements of age, 2) incomplete enumeration at particular ages, and 3) failure to report ages <span class="citation">(United Nations 1952)</span>. These errors can have different sources. For example, ages of older women are often understated <span class="citation">(United Nations 1952)</span>. Men, on the other hand, may misrepresent their age to avoid taxation or military services in some populations <span class="citation">(United Nations 1952)</span>. In addition to these reasons, some errors are induced by how the census takes place. For instance, in many countries the census is taken by leaving the questionnaire to be filled by a family member who might have to report other family members’ age, in other countries the census information is collected by enumerators in interviews in which case the quality of declared ages depends on who is answering the interview, among other reasons <span class="citation">(United Nations 1952)</span>. In this vignette we focus on indices to measure the quality of data affected by age misstatement.</p>
 <p>Consider the 1991 male census population of India.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DemoTools)
-
-<span class="co"># 'pop1m_ind' available as package data</span>
-Value &lt;-<span class="st"> </span>pop1m_ind
-Age   &lt;-<span class="st"> </span><span class="dv">0</span>:(<span class="kw">length</span>(Value)-<span class="dv">1</span>)
-  
-<span class="kw">plot</span>(Age, Value, <span class="dt">type =</span> <span class="st">'o'</span>)  </code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(DemoTools)</a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co"># &#39;pop1m_ind&#39; available as package data</span></a>
+<a class="sourceLine" id="cb1-4" title="4">Value &lt;-<span class="st"> </span>pop1m_ind</a>
+<a class="sourceLine" id="cb1-5" title="5">Age   &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>(<span class="kw">length</span>(Value)<span class="op">-</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb1-6" title="6">  </a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="kw">plot</span>(Age, Value, <span class="dt">type =</span> <span class="st">&#39;o&#39;</span>)  </a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
 <p>The figure above has some clear age irregularities. For example, there is a consistent clustering around ages ending in zero and five. In principle, a post-enumeration survey or a sample interview should give more information on the reasons why these irregularities appear in the data <span class="citation">(Siegel Jacob and Swanson David 2004)</span>. However, not every country has the resources to conduct a survey or post-enumeration process. Therefore, various arithmetic techniques have been developed for measuring heaping on individual ages, terminal digits, and age ranges. These estimate the degree of bias, but they do not correct it <span class="citation">(Booth and Gerland 2015)</span>. The simplest way to analyze age-heaping is by assuming that the true numbers are <em>rectangularly</em> distributed over some age range that includes centered the age in question <span class="citation">(Siegel Jacob and Swanson David 2004)</span>.</p>
 <p>Several indices of age-heaping exist. <code>DemoTools</code> implements Whipple <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>, Myer , Bachi <span class="citation">(Bachi 1951)</span>, Coale-Li <span class="citation">(Coale and Li 1991)</span>, Noumbissi <span class="citation">(Noumbissi 1992)</span>, Spoorenberg <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>, Jdanov <span class="citation">(Jdanov 2008)</span>, and Kannisto <span class="citation">(Kannisto 1999)</span> age-heaping indices.</p>
 <div id="whipple-index" class="section level3">
 <h3>Whipple Index</h3>
 <p>Using this assumption over a 5-year range, Whipple’s index measures heaping usually in numbers ending in zero or five. This index is a summary measure that determines variability in the quality of age reporting between regions or countries and its evolution over time. This index is usually determined between ages 23 and 62 (inclusive) since the uniformity assumption is not plausible in low ages (0-22 years) and in high ages (63 years and above). The original formula is given by</p>
-<span class="math display">\[\begin{equation}
+<p><span class="math display">\[\begin{equation}
 \label{eq:Whipple}
 W=5\frac{P_{25}+P_{30}+P_{35}+\dots+P_{60}}{P_{23}+P_{24}+\dots+P_{61}+P_{62}},
-\end{equation}\]</span>
+\end{equation}\]</span></p>
 <p>where <span class="math inline">\(P_x\)</span> is the population of age <span class="math inline">\(x\)</span> in completed years <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>.</p>
 <p>For example, the Whipple’s index using <code>DemoTools</code> between ages 23 and 62 for country x is given by</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Whipple &lt;-<span class="st">  </span><span class="kw">Whipple</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">23</span>, <span class="dt">ageMax =</span> <span class="dv">62</span>, <span class="dt">digit =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>))
-Whipple
-<span class="co">#&gt; [1] 2.703107</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">Whipple &lt;-<span class="st">  </span><span class="kw">Whipple</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">23</span>, <span class="dt">ageMax =</span> <span class="dv">62</span>, <span class="dt">digit =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb2-2" title="2">Whipple</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; [1] 2.703107</span></a></code></pre></div>
 <p>The result varies from 1, which means no concentration around numbers ending in zero or five, to a maximum of 5. The selection of calculating the index for ayes 23-62 is arbitrary but has been found to be suitable for practical purposes <span class="citation">(United Nations 1955)</span>. Whipple’s index is effective and very easy to compute. However, it only measures digit-preference for two digits (0 and 5 in our case).</p>
 </div>
 <div id="myers" class="section level3">
@@ -115,40 +323,40 @@ Whipple
 <li><p>Take half the sum of the absolute deviations of each percentage in step 4</p></li>
 </ol>
 <p>For example, the Myers index for country x using <code>DemoTools</code> is given by</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Myers &lt;-<span class="st"> </span><span class="kw">Myers</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">10</span>, <span class="dt">ageMax =</span> <span class="dv">90</span>) 
-Myers
-<span class="co">#&gt; [1] 31.94281</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">Myers &lt;-<span class="st"> </span><span class="kw">Myers</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">10</span>, <span class="dt">ageMax =</span> <span class="dv">90</span>) </a>
+<a class="sourceLine" id="cb3-2" title="2">Myers</a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; [1] 31.94281</span></a></code></pre></div>
 <p>Myers index, 31.94 in this case, expresses the extent of concentration on or avoidance of a particular digit <span class="citation">(Myers 1954)</span>.The theoretical range of Myers index is 0, representing no heaping, to 90, which would result if all ages were reported at a single digit <span class="citation">(Siegel Jacob and Swanson David 2004)</span>.</p>
 </div>
 <div id="bachi" class="section level3">
 <h3>Bachi</h3>
 <p>With the previous formulas, Bachi’s index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers’, it equals the sum of the positive deviations from 10 percent <span class="citation">(Bachi 1951)</span>. It has a theoretical range from 0 to 90, AND 10% is the expected value for each digit. Therefore, the results of Bachi’s method is similar to those obtained by Myers’ index.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Bachi &lt;-<span class="st"> </span><span class="kw">Bachi</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">10</span>, <span class="dt">ageMax =</span> <span class="dv">90</span>)
-Bachi
-<span class="co">#&gt; [1] 28.68346</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">Bachi &lt;-<span class="st"> </span><span class="kw">Bachi</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">10</span>, <span class="dt">ageMax =</span> <span class="dv">90</span>)</a>
+<a class="sourceLine" id="cb4-2" title="2">Bachi</a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; [1] 28.68346</span></a></code></pre></div>
 </div>
 <div id="noumbissi" class="section level3">
 <h3>Noumbissi</h3>
 <p>This method, based on the underlying principles and assumptions of the original Whipple’s index,improves by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators consisting in 5-year age groups centered on the terminal digit of age in question <span class="citation">(Noumbissi 1992)</span>. It returns to a more reasonable assumption of linearity over an age range of five years rather than ten. It is based once more on the underlying principles and assumptions of the original Whipple’s index and introduces the following formulas to measure age heaping:</p>
-<span class="math display">\[\begin{align}
+<p><span class="math display">\[\begin{align}
 \label{eq:Noumbussi}
 W_0 =5\frac{P_{30}+P_{40}+P_{50}+P_{60}}{_5P_{28}+\, _5P_{38}+\, _5P_{48}+\, _5P_{58}} \\
 W_5 =5\frac{P_{25}+P_{35}+P_{45}+P_{55}}{_5P_{23}+\, _5P_{33}+\, _5P_{43}+\, _5P_{53}} \\
-\end{align}\]</span>
+\end{align}\]</span></p>
 <p>where <span class="math inline">\(P_x\)</span> is the population having completed age <span class="math inline">\(x\)</span> and <span class="math inline">\(_5P_x\)</span> the population of the age range <span class="math inline">\((x,x+4)\)</span>. From these, age heaping can then be calculated for all ten digits (0-9) <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>. If there is no digit preference or avoidance, this “digit-specific modified Whipple’s index” is equal to 1. An index above or below 1 indicates preference for or avoidance of the digit in question, respectively.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Noumbissi &lt;-<span class="st"> </span><span class="kw">Noumbissi</span>(Value, Age, <span class="dt">digit =</span> <span class="dv">0</span>) 
-Noumbissi
-<span class="co">#&gt; [1] 2.471373</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">Noumbissi &lt;-<span class="st"> </span><span class="kw">Noumbissi</span>(Value, Age, <span class="dt">digit =</span> <span class="dv">0</span>) </a>
+<a class="sourceLine" id="cb5-2" title="2">Noumbissi</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">#&gt; [1] 2.471373</span></a></code></pre></div>
 </div>
 <div id="spoorenberg" class="section level3">
 <h3>Spoorenberg</h3>
 <p>Using the digit-specific modified Whipple’s index, this index summarizes all age preference and avoidance effects by taking the sum of the absolute differences between digit-specific Whipple index and 1 (counting all differences as positive) <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>. The total modified Whipple’s index (<span class="math inline">\(W_{tot}\)</span>) is written as follows:</p>
-<span class="math display">\[\begin{equation}
+<p><span class="math display">\[\begin{equation}
 W_{tot} = \sum_{i=0}^9(|W_i - 1|)
-\end{equation}\]</span>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Spoorenberg &lt;-<span class="st"> </span><span class="kw">Spoorenberg</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">20</span>, <span class="dt">ageMax =</span> <span class="dv">64</span>)
-Spoorenberg
-<span class="co">#&gt; [1] 7.044377</span></code></pre></div>
+\end{equation}\]</span></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">Spoorenberg &lt;-<span class="st"> </span><span class="kw">Spoorenberg</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">20</span>, <span class="dt">ageMax =</span> <span class="dv">64</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2">Spoorenberg</a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; [1] 7.044377</span></a></code></pre></div>
 <p>The value of the index is zero if no preference is observed. In the case that all reported ages end in 0 or 5, the index reaches its maximum value of 16.</p>
 </div>
 <div id="coale-li" class="section level3">
@@ -156,48 +364,44 @@ Spoorenberg
 <p>Coale and Li developed a method focusing on age misstatement at older ages because these are particularly subject to error. This error often leads to an overstatement of people (and deaths) increasing with age <span class="citation">(Coale and Li 1991)</span>. This can lead to understatement of mortality rates in older ages, and this tendency increases with age.</p>
 <p>The index is based on the deviation of the number at each age from a smooth sequence by taking the ratio of the number at each age to a two-stage moving average (the five-term average of a five-term average). With no heaping, the mean index at ages divisible by 10 from 40 to 90 would be about 1.0 <span class="citation">(Coale and Li 1991)</span>.</p>
 <p>In the case of enumerated Indian males in 1991 the index in 3.8, which indicates extensive errors in reported ages.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">CoaleLi_index &lt;-<span class="st"> </span><span class="kw">CoaleLi</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">60</span>, <span class="dt">ageMax =</span> <span class="kw">max</span>(Age), <span class="dt">terms =</span> <span class="dv">5</span>, <span class="dt">digit =</span> <span class="dv">0</span>)
-CoaleLi_index
-<span class="co">#&gt; [1] 3.82955</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">CoaleLi_index &lt;-<span class="st"> </span><span class="kw">CoaleLi</span>(Value, Age, <span class="dt">ageMin =</span> <span class="dv">60</span>, <span class="dt">ageMax =</span> <span class="kw">max</span>(Age), <span class="dt">terms =</span> <span class="dv">5</span>, <span class="dt">digit =</span> <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb7-2" title="2">CoaleLi_index</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; [1] 3.82955</span></a></code></pre></div>
 </div>
 <div id="kannisto" class="section level3">
 <h3>Kannisto</h3>
 <p>Kannisto <span class="citation">(Kannisto 1999)</span> developed a method to assess the quality of data at older ages. Among old persons, mostly two kinds of age error are found to occur: rounding and overstatement. The Kannisto index measures heaping at ages older than 80 by comparing recorded deaths to deaths expected on the basis of numbers at adjacent ages:</p>
-<span class="math display">\[\begin{equation}
+<p><span class="math display">\[\begin{equation}
 H_x = \frac{D_x}{\hat{D}_x}.
-\end{equation}\]</span>
+\end{equation}\]</span></p>
 <p>where <span class="math inline">\(\hat{D}_x\)</span> is the exponential of</p>
-<span class="math display">\[\begin{equation}
+<p><span class="math display">\[\begin{equation}
 \frac{1}{5}\sum_{y = x-2}^{x+2}\ln D_y.
-\end{equation}\]</span>
+\end{equation}\]</span></p>
 <p>This indicator has the advantage that its significance is easily measurable. Absence of heaping does not result in an indicator close to unity but higher due to the well-known bend of the mortality curve in logarithmic scale. It can me implemented using the <code>KannistoHeap()</code> function. This index is calculated for a single age rather than for a terminal digit.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Kannisto &lt;-<span class="st"> </span><span class="kw">KannistoHeap</span>(<span class="dt">Value =</span> Value, <span class="dt">Age =</span> Age, <span class="dt">Agei =</span> <span class="dv">90</span>)
-Kannisto
-<span class="co">#&gt; [1] 6.327188</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">Kannisto &lt;-<span class="st"> </span><span class="kw">KannistoHeap</span>(<span class="dt">Value =</span> Value, <span class="dt">Age =</span> Age, <span class="dt">Agei =</span> <span class="dv">90</span>)</a>
+<a class="sourceLine" id="cb8-2" title="2">Kannisto</a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; [1] 6.327188</span></a></code></pre></div>
 </div>
 <div id="jdanov" class="section level3">
 <h3>Jdanov</h3>
-Similarly, Jdanov and colleagues <span class="citation">(Jdanov 2008)</span> developed a modified version of the index proposed by Wang et al (1997) to assess death data at old ages. It is given by
-<span class="math display">\[\begin{equation}
+<p>Similarly, Jdanov and colleagues <span class="citation">(Jdanov 2008)</span> developed a modified version of the index proposed by Wang et al (1997) to assess death data at old ages. It is given by <span class="math display">\[\begin{equation}
 WI = \frac{D_{95}+D{100}+D{105}}{\sum_{i = 93}^{107}D_i}
-\end{equation}\]</span>
+\end{equation}\]</span></p>
 <p>where <span class="math inline">\(D_i\)</span> is number of deaths at age <span class="math inline">\(i\)</span>. Any deviations from the ‘golden-standard’ Sweden represent age-heaping issues. It can be implemented with the function <code>Jdanov</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">J &lt;-<span class="st"> </span><span class="kw">Jdanov</span>(Value, Age, <span class="dt">Agei =</span> <span class="kw">c</span>(<span class="dv">95</span>,<span class="dv">100</span>,<span class="dv">105</span>))
-J
-<span class="co">#&gt; [1] 330.9649</span></code></pre></div>
-</div>
-</div>
-<div id="references" class="section level2 unnumbered">
-<h2>References</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">J &lt;-<span class="st"> </span><span class="kw">Jdanov</span>(Value, Age, <span class="dt">Agei =</span> <span class="kw">c</span>(<span class="dv">95</span>,<span class="dv">100</span>,<span class="dv">105</span>))</a>
+<a class="sourceLine" id="cb9-2" title="2">J</a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt; [1] 330.9649</span></a></code></pre></div>
+<p>##References</p>
 <div id="refs" class="references">
 <div id="ref-bachi1951tendency">
 <p>Bachi, Roberto. 1951. “The Tendency to Round Off Age Returns: Measurement and Correction.” <em>Bulletin of the International Statistical Institute</em> 33 (4): 195–222.</p>
 </div>
 <div id="ref-booth2015demographic">
-<p>Booth, Heather, and Patrick Gerland. 2015. “Demographic Techniques: Data Adjustment and Correction.” Elsevier.</p>
+<p>Booth, Heather, and Patrick Gerland. 2015. “Demographic Techniques: Data Adjustment and Correction.”</p>
 </div>
 <div id="ref-coale1991effect">
-<p>Coale, Ansley J, and Shaomin Li. 1991. “The Effect of Age Misreporting in China on the Calculation of Mortality Rates at Very High Ages.” <em>Demography</em> 28 (2). Springer: 293–301.</p>
+<p>Coale, Ansley J, and Shaomin Li. 1991. “The Effect of Age Misreporting in China on the Calculation of Mortality Rates at Very High Ages.” <em>Demography</em> 28 (2): 293–301.</p>
 </div>
 <div id="ref-jdanov2008beyond">
 <p>Jdanov, Dmitri. 2008. “Beyond the Kannisto-Thatcher Database on Old Age Mortality: An Assessment of Data Quality at Advanced Ages.” <em>MPIDR Working Paper WP-2008-013</em>.</p>
@@ -206,22 +410,23 @@ J
 <p>Kannisto, Väinö. 1999. “Assessing the Information on Age at Death of Old Persons in National Vital Statistics.” <em>Validation of Exceptional Longevity”, Odense Monographs on Population Aging</em> 6: 235–49.</p>
 </div>
 <div id="ref-myers1954accuracy">
-<p>Myers, Robert J. 1954. “Accuracy of Age Reporting in the 1950 United States Census.” <em>Journal of the American Statistical Association</em> 49 (268). Taylor &amp; Francis: 826–31.</p>
+<p>Myers, Robert J. 1954. “Accuracy of Age Reporting in the 1950 United States Census.” <em>Journal of the American Statistical Association</em> 49 (268): 826–31.</p>
 </div>
 <div id="ref-noumbissi1992indice">
-<p>Noumbissi, Amadou. 1992. “L’indice de Whipple Modifié: Une Application Aux Données Du Cameroun, de La Suède et de La Belgique.” <em>Population (French Edition)</em>. JSTOR, 1038–41.</p>
+<p>Noumbissi, Amadou. 1992. “L’indice de Whipple Modifié: Une Application Aux Données Du Cameroun, de La Suède et de La Belgique.” <em>Population (French Edition)</em>, 1038–41.</p>
 </div>
 <div id="ref-siegel2004methods">
 <p>Siegel Jacob, S, and A Swanson David, eds. 2004. <em>The Methods and Materials of Demography</em>. 2nd ed. San Diego, USA: Elsevier Academic Press, California, USA.</p>
 </div>
 <div id="ref-spoorenberg2007quality">
-<p>Spoorenberg, Thomas, and Catriona Dutreuilh. 2007. “Quality of Age Reporting: Extension and Application of the Modified Whipple’s Index.” <em>Population</em> 62 (4). INED: 729–41.</p>
+<p>Spoorenberg, Thomas, and Catriona Dutreuilh. 2007. “Quality of Age Reporting: Extension and Application of the Modified Whipple’s Index.” <em>Population</em> 62 (4): 729–41.</p>
 </div>
 <div id="ref-accuracyun1952">
 <p>United Nations. 1952. “Accuracy Tests for Census Age Distributions Tabulated in Five-Year and Ten-Year Groups.” <em>Population Bulletin</em>, no. 2: 59–79.</p>
 </div>
 <div id="ref-united1955manual">
 <p>———. 1955. <em>Manual Ii: Methods of Appraisal of Quality of Basic Data for Population Estimates</em>. 23. New York: United Nations Department of International Economic; Social Affairs.</p>
+</div>
 </div>
 </div>
 </div>
