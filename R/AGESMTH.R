@@ -231,8 +231,9 @@ arriaga_smth <- function(Value,
 #' }
 #' @references
 #' \insertRef{carrier1959reduction}{DemoTools}
-# plz add Demgen 1994 and PASEX. I can't download above citation while 
-# on vacation. plz check if this method is discussed there as well.
+#' \insertRef{arriaga1994population}{DemoTools}
+
+
 united_nations_smth <- function(Value, 
 		Age, 
 		OAG = TRUE){

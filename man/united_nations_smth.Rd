@@ -36,4 +36,5 @@ lines(as.integer(names(un_result)),un_result)
 }
 \references{
 \insertRef{carrier1959reduction}{DemoTools}
+\insertRef{arriaga1994population}{DemoTools}
 }
