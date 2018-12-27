@@ -22,7 +22,7 @@ Smooth population counts in 5-year age groups.
 \details{
 This method does not account for ages < 10 nor for the 10 year age 
 interval prior to the open age group. These are returned imputed with \code{NA}.
-Age classes must be cleanly groupable to 5-year age groups.
+Age classes must be cleanly groupable to 5-year age groups. Smoothed counts are constrained to sum to original totals in 10-year age groups.
 }
 \examples{
 # from PASEX AGESMTH
@@ -41,4 +41,5 @@ lines(as.integer(names(CFmales)),CFmales)
 }
 \references{
 \insertRef{carrier1959reduction}{DemoTools}
+\insertRef{PAS}{DemoTools}
 }
