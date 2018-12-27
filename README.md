@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/timriffe/DemoTools.svg?branch=master)](https://travis-ci.org/timriffe/DemoTools)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/timriffe/DemoTools?branch=master&svg=true)](https://ci.appveyor.com/project/timriffe/DemoTools)
 [![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) 
-[![](https://img.shields.io/badge/devel%20version-0.15.000-yellow.svg)](https://github.com/timriffe/DemoTools)
+[![](https://img.shields.io/badge/devel%20version-0.15.01-yellow.svg)](https://github.com/timriffe/DemoTools)
 [![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
@@ -35,8 +35,13 @@ library(DemoTools)
 ?CoaleLi
 ?Noumbissi
 ?Spoorenberg
-?KannistoHeap (Kannisto's old-age heaping index)
+?KannistoHeap #(Kannisto's old-age heaping index)
 ?Jdanov (Jdanov's old-age heaping index)
+?heapify  # induce heaping, to test evaluation functions
+
+# test if 5-year smoothing recommended:
+?zero_pref_sawtooth # is heaping much worse on 0s than on 5s?
+?five_year_roughness # measure of total roughness 
 
 # other age-structure quality measures:
 ?ageRatioScore  # methods including "UN", "Zelnick", "Ramachandran"
@@ -74,12 +79,12 @@ library(DemoTools)
 # interpolation
 ?interp (arithmetic, logarithmic, power)
 
-# adjustment
+# redistribution
+?OPAG_simple # increase population open age, redistributing using a supplied standard.
 ?rescaleAgeGroups (including for cases of different age groupings)
 ```
-Note, at the moment the Sprague family of functions can return negatives in the oldest ages, and a solution is being sought. Please stand by.
 
-These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 112 documented functions, with more in development. 
+These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 113 documented functions, with more in development. 
 
 Presently all functions are in a testing phase, but the aim is to end up with a set of robust generic functions around which wrappers can be easily built for various institutional data production needs. As-is, these functions may also be useful for DIY demographers. This set of methods is a cherry-pick from legacy methods collections, including PAS, DAPPS, MPCDA, MortPack, IREDA, UN Manual X, G. Feeney Spreadsheets, formulas found in Siegel and Swanson or Shyrock and Siegel, and various (apparent) first-implementations from formulas in papers, or ad hoc DIY approximations from old pros. 
 
