@@ -41,7 +41,7 @@ loess_smth1 <- function(Value, Age, OAG = TRUE, ...){
 	out        <- fit$fitted
 	
 	# negatives not allowed!
-	out[out < 0] <- 0
+	#out[out < 0] <- 0
 	# enforce sums
 	out        <- rescale.vector(out,  scale) 
 	
@@ -154,7 +154,7 @@ poly_smth1 <- function(Value, Age, degree = 2, trans, pow = 2, OAG = TRUE, ...){
 	# -------------------------
 	# closing steps
     # negatives not allowed!
-    out[out < 0] <- 0
+    #out[out < 0] <- 0
 	# enforce sums
 	out        <- rescale.vector(out,  scale) 
 	

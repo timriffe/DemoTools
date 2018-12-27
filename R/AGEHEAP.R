@@ -96,7 +96,7 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
 	stopifnot(ageMax <= max(Age))
 	
 	# select out ages, place into matrix for summing over digits
-	ind     <- Age >= ageMin & Age < ageMax
+	ind     <- Age >= ageMin & Age < AgeMax
 	# a row corresponds to a digit
 	VA      <- matrix(Value[ind], nrow = period, dimnames = list(0:(period-1), NULL))
 	
