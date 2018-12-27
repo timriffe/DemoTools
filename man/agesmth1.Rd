@@ -2,7 +2,7 @@
 % Please edit documentation in R/OGIVE.R
 \name{agesmth1}
 \alias{agesmth1}
-\title{a generic age smoother}
+\title{Generic smoother over age or time}
 \usage{
 agesmth1(Value, Age, method = "loess", OAG = TRUE, degree = 2, trans,
   pow = 2, ...)
@@ -12,7 +12,7 @@ agesmth1(Value, Age, method = "loess", OAG = TRUE, degree = 2, trans,
 
 \item{Age}{integer vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{method}{character, either \code{"loess"} or \code{"poly"}}
+\item{method}{character, either \code{"loess"} or \code{"poly"}.}
 
 \item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
 
@@ -25,10 +25,20 @@ agesmth1(Value, Age, method = "loess", OAG = TRUE, degree = 2, trans,
 \item{...}{optional arguments passed to \code{stats::lm()}}
 }
 \description{
-One dimensional smoothing over age (or time) using either loess (\code{"loess"} or polynomial \code{"poly"} regression. Results of loess may at times be similar to a two-step \code{agesmth()} method followed by graduation (e.g. \code{beers()} or \code{sprague()}, but local totals are not not constrained for any of the \code{agesmth1()} methods at this time. Total counts are constrained to the original total in all cases.
+One dimensional smoothing over age (or time) using either loess (\code{"loess"} or polynomial \code{"poly"} regression.
+ Results of loess may at times be similar to a two-step \code{agesmth()} method followed by graduation (e.g. \code{beers()} or \code{sprague()}, 
+ but local totals are not not constrained for any of the \code{agesmth1()} methods at this time. Total counts are 
+ constrained to the original total in all cases.
 }
 \details{
-loess smoothness may be tweaked by specifying an optional \code{"span"} argument. Polynomial fitting can be tweaked by changing the degree and by either log or power transforming. The open age group can be kept as-is if desired by specifying \code{OAG = TRUE}.  May be used on any age groups, including irregularly spaced, single age, or 5-year age groups. Predictions are only returned for the original age groups.
+LOESS (locally weighted smoothing) helps to smooth data over age, preserving the open age group if necessary.
+ It is a popular tool to create a smooth line through a timeplot or scatter plot.
+ Loess smoothness may be tweaked by specifying an optional \code{"span"} argument. 
+Polynomial  fitting is used to mooth data over age or time fitting linear models. 
+It can be tweaked by changing the degree and by either log or power transforming. 
+The open age group can be kept as-is if desired by specifying \code{OAG = TRUE}.  
+May be used on any age groups, including irregularly spaced, single age, or 5-year age groups. 
+Predictions are only returned for the original age groups.
 }
 \examples{
 Age <- 0:99
