@@ -186,22 +186,26 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 		w2[Age %in% c(24,74),10]      <- .5
 	} else {
 		# cheap way to make upper bound inclusive
-		ageMax       <- ageMax + 1
+	
+	    Diff    <- ageMax - ageMin + 1
+	    AgeMax  <- ageMin + Diff - Diff %% period 
+		if (AgeMax > max(Age)){
+			AgeMax <- AgeMax - 10
+		}
+
 		markers      <- row(w1) - col(w1)
-		w1[markers %% 10 == 0 & markers >= ageMin & markers < ageMax]   <- 1
-		w2[markers == ageMin - 5 | markers == ageMax - 5] <- .5
-		w2[markers > ageMin - 5 & markers < ageMax - 5]   <- 1
+		w1[markers %% 10 == 0 & markers >= ageMin & markers < AgeMax]   <- 1
+		w2[markers == ageMin - 5 | markers == AgeMax - 5] <- .5
+		w2[markers > ageMin - 5 & markers < AgeMax - 5]   <- 1
 	}
 	
 	numerators   <- colSums(Value * w1)
 	denominators <- colSums(Value * w2)
 	
 	ratio   <- 100 * numerators / denominators
-	if (pasex){
-		ratioeq <- ratio - 10
-	} else {
-		ratioeq <- ratio - (100/9)
-	}
+
+	ratioeq <- ratio - (sum(w2)/sum(w1))
+	
 	
 	sum(abs(ratioeq))  / 2
 }
