@@ -344,6 +344,7 @@ Spoorenberg <- function(Value, Age, ageMin = 20, ageMax = 64){
 			Age = Age, 
 			ageMin = ageMin, 
 			ageMax = ageMax)
+	Wi[is.nan(Wi)] <- 0
 	Wtot <- sum(abs(1 - Wi))
 	return(Wtot)
 }
