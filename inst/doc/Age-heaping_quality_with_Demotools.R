@@ -1,49 +1,48 @@
 ## ----setup, include = FALSE----------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width = 6, 
+  fig.height = 6,
+  fig.align = "center"
 )
+
 
 ## ------------------------------------------------------------------------
 library(DemoTools)
 
 # 'pop1m_ind' available as package data
-Value <- pop1m_ind
-Age   <- 0:(length(Value)-1)
+Age   <- 0:(length(pop1m_ind)-1)
+ 
+plot(Age, pop1m_ind, type = 'o')  
   
-plot(Age, Value, type = 'o')  
-  
 
 ## ------------------------------------------------------------------------
-Whipple <-  Whipple(Value, Age, ageMin = 23, ageMax = 62, digit = c(0,5))
-Whipple
+Wi <-  Whipple(pop1m_ind, Age, ageMin = 25, ageMax = 60, digit = c(0, 5))
+Wi
 
 ## ------------------------------------------------------------------------
-Myers <- Myers(Value, Age, ageMin = 10, ageMax = 90) 
-Myers
+Mi <- Myers(pop1m_ind, Age, ageMin = 20, ageMax = 90) 
+Mi
 
 
 ## ------------------------------------------------------------------------
-Bachi <- Bachi(Value, Age, ageMin = 10, ageMax = 90)
-Bachi
+Bi <- Bachi(pop1m_ind, Age, ageMin = 20, ageMax = 90)
+Bi
 
 ## ------------------------------------------------------------------------
-Noumbissi <- Noumbissi(Value, Age, digit = 0) 
-Noumbissi
+Ni <- Noumbissi(pop1m_ind, Age, digit = 0) 
+Ni
 
 ## ------------------------------------------------------------------------
-Spoorenberg <- Spoorenberg(Value, Age, ageMin = 20, ageMax = 64)
-Spoorenberg
+Si <- Spoorenberg(pop1m_ind, Age, ageMin = 20, ageMax = 64)
+Si
 
 ## ------------------------------------------------------------------------
-CoaleLi_index <- CoaleLi(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0)
-CoaleLi_index
+CLi <- CoaleLi(pop1m_ind, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0)
+CLi
 
 ## ------------------------------------------------------------------------
-Kannisto <- KannistoHeap(Value = Value, Age = Age, Agei = 90)
-Kannisto
-
-## ------------------------------------------------------------------------
-J <- Jdanov(Value, Age, Agei = c(95,100,105))
-J
+Ji <- Jdanov(pop1m_ind, Age, Agei = c(95,100,105))
+Ji
 

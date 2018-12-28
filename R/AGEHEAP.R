@@ -389,6 +389,27 @@ KannistoHeap <- function(Value, Age, Agei = 90,pow="exp"){
 	Value[Age == Agei] / denom
 }
 
+# removed from vignette until this is further investigated.
+#### Kannisto
+#Note, this does not resemble what is implemented!! add to TODO, I may have hastily implemented the
+#Kannisto [@kannisto1999assessing] developed a method to assess the quality of death count data at older ages. Among old persons, mostly two kinds of age error are found to occur: rounding and overstatement. The Kannisto index measures heaping at ages older than 80 by comparing recorded deaths to deaths expected on the basis of numbers at adjacent ages:
+#		
+#		\begin{equation}
+#H_x = \frac{D_x}{\hat{D}_x}.
+#\end{equation}
+#
+#where $\hat{D}_x$ is the exponential of 
+#
+#\begin{equation}
+#\frac{1}{5}\sum_{y = x-2}^{x+2}\ln D_y.
+#\end{equation}
+#
+#This indicator has the advantage that its significance is easily measurable. Absence of heaping does not result #in an indicator close to unity but higher due to the well-known bend of the mortality curve in logarithmic #scale. It can me implemented using the `KannistoHeap()` function. This index is calculated for a single age #rather than for a terminal digit. 
+#
+#```{r}
+#		Ki <- KannistoHeap(Value = dth5_zigzag, Age = Age, Agei = 90)
+#		Ki
+#		```
 
 #' Calculate Jdanov's old-age heaping index
 #' 

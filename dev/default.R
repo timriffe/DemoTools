@@ -198,3 +198,30 @@ legend("topright",
 
 five_year_roughness(pop5m_pasex,Ages) # 5
 zero_pref_sawtooth(pop5m_pasex,Ages)  # 1.6
+
+
+
+ Myers(rep(c(rep(0,9),1),10),Age=0:99)
+ Myers(rep(1,100),Age=0:99)
+ Bachi(rep(1,100), Age=0:99, ageMin = 10, ageMax = 89)
+ Bachi(rep(c(rep(0,9),1),10), Age=0:99, ageMin = 10, ageMax = 90)
+ Noumbissi(rep(1,100),0:99,ageMin=20,ageMax=80,digit=0)
+ Noumbissi(rep(c(rep(0,9),1),10),0:99,ageMin=20,ageMax=80,digit=9)
+ Spoorenberg(rep(c(rep(0,9),1),10),0:99,ageMin=20,ageMax=80)
+ Spoorenberg(rep(1,100),0:99,ageMin=20,ageMax=80)
+ Whipple(rep(c(rep(0,9),1),10), Age=0:99, ageMin = 20, ageMax = 70,digit=9)
+CoaleLi(pop1m_ind, 0:100, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0)
+CoaleLi(rep(1,100), 0:99, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0)
+CoaleLi(rep(c(rep(0,9),1),10), 0:99, ageMin = 60, ageMax = max(Age), terms = 5, digit = 5)
+KannistoHeap(Value = pop1m_pasex, Age = 0:99, Agei = 90)
+KannistoHeap(Value = pop1m_ind, Age = 0:100, Agei = 90)
+
+ 
+ Myers(pop1m_pasex,0:99,ageMin=20,ageMax=80)
+ Bachi(pop1m_pasex,0:99,ageMin=20,ageMax=80)
+ 
+ Noumbissi(pop1m_pasex,0:99,ageMin=20,ageMax=80,digit=0)
+ Whipple(pop1m_pasex,0:99,ageMin=20,ageMax=80,digit=0)
+ CoaleLi(pop1m_ind, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0)
+ 
+ 
