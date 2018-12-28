@@ -223,5 +223,10 @@ KannistoHeap(Value = pop1m_ind, Age = 0:100, Agei = 90)
  Noumbissi(pop1m_pasex,0:99,ageMin=20,ageMax=80,digit=0)
  Whipple(pop1m_pasex,0:99,ageMin=20,ageMax=80,digit=0)
  CoaleLi(pop1m_ind, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0)
+ P5 <- groupAges(pop1m_ind,0:100)
+ A5 <- seq(0,100,by=5)
+ zero_pref_sawtooth(pop1m_ind, Age = 0:100, ageMin = 40, ageMax = 90)
+ 
+ five_year_roughness(agesmth(pop1m_ind, Age = 0:100,method="Strong"), Age = A5, ageMin = 40, ageMax = 80)
  
  

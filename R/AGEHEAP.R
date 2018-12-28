@@ -582,7 +582,7 @@ heapify <- function(Value, Age, p0=2, p5=p0, ageMin = 25, ageMax = max(Age[Age %
 #' zero_pref_sawtooth(h3, Age)
 #' zero_pref_sawtooth(h4, Age,ageMin=35)
 
-zero_pref_sawtooth <- function(Value, Age, ageMin = 40, ageMax = max(Age[Age %% 5 == 0])){
+zero_pref_sawtooth <- function(Value, Age, ageMin = 40, ageMax = max(Age[Age %% 5 == 0])-10){
 	
 	# rather than stopifnot() check, just make it work.
 	ageMin <- ageMin - ageMin %% 10
