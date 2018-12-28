@@ -4,7 +4,8 @@
 \alias{heapify}
 \title{Induce heaping on terminal digits 0 and 5}
 \usage{
-heapify(Value, Age, p0 = 2, p5 = p0, ageMin = 25,
+heapify(Value, Age, p0 = 2, p5 = p0, pdf0 = c(1, 6, 15, 20, 15, 6,
+  1), pdf5 = c(c(1, 4, 6, 4, 1)), ageMin = 25,
   ageMax = max(Age[Age\%\%5 == 0]))
 }
 \arguments{
@@ -15,6 +16,10 @@ heapify(Value, Age, p0 = 2, p5 = p0, ageMin = 25,
 \item{p0}{total size of bias to round to 0s. Default 2.}
 
 \item{p5}{total size of bias to round to 5s. Defaults to \code{p0}.}
+
+\item{pdf0}{numeric vector of length 7 giving the pdf to apply around 0s.}
+
+\item{pdf5}{numeric vector of length 5 giving the pdf to apply around 5s.}
 
 \item{ageMin}{integer ending in 0 or 5. The lowest age to be heaped upon, default 25.}
 

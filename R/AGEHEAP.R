@@ -474,6 +474,8 @@ Jdanov <- function(Value, Age, Agei = seq(95,105,by=5)){
 #' @inheritParams Bachi
 #' @param p0 total size of bias to round to 0s. Default 2.
 #' @param p5 total size of bias to round to 5s. Defaults to \code{p0}.
+#' @param pdf0 numeric vector of length 7 giving the pdf to apply around 0s.
+#' @param pdf5 numeric vector of length 5 giving the pdf to apply around 5s.
 #' @param ageMin integer ending in 0 or 5. The lowest age to be heaped upon, default 25.
 #' @param ageMax integer ending in 0 or 5. The highest age to be heaped upon, defaults to highest age evenly divisible by 10.
 #' @return Value numeric vector perturbed to look like age heaping as happened.
@@ -495,12 +497,14 @@ Jdanov <- function(Value, Age, Agei = seq(95,105,by=5)){
 #' points(Age,heapify(smoothed,Age=0:99,1.8,1.1,ageMin=20),pch="x")
 #' 
 
-heapify <- function(Value, Age, p0=2, p5=p0, ageMin = 25, ageMax = max(Age[Age %% 5 == 0])){
+heapify <- function(Value, Age, p0=2, p5=p0, 
+		pdf0 = c(1,6,15,20,15,6,1), 
+		pdf5 = c(c(1,4,6,4,1)), ageMin = 25, ageMax = max(Age[Age %% 5 == 0])){
 	# pascal weights
 	# x3,x4,x5,x6,x7
-	fivepdf <- rescale.vector(c(1,4,6,4,1)) 
+	fivepdf <- rescale.vector(pdf5) 
 	#x7,x8,x9,x0,x1,x2,x3 
-	tenpdf  <- rescale.vector(c(1,6,15,20,15,6,1)) * p0
+	tenpdf  <- rescale.vector(pdf0) * p0
 	
 	# center ages:
 	

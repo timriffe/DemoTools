@@ -5,7 +5,7 @@
 \title{Detect if heaping is worse on terminal digits 0s than on 5s}
 \usage{
 zero_pref_sawtooth(Value, Age, ageMin = 40, ageMax = max(Age[Age\%\%5
-  == 0]))
+  == 0]) - 10)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}
