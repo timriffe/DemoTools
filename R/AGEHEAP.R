@@ -502,7 +502,7 @@ heapify <- function(Value, Age, p0=2, p5=p0,
 		pdf5 = c(c(1,4,6,4,1)), ageMin = 25, ageMax = max(Age[Age %% 5 == 0])){
 	# pascal weights
 	# x3,x4,x5,x6,x7
-	fivepdf <- rescale.vector(pdf5) 
+	fivepdf <- rescale.vector(pdf5) * p5
 	#x7,x8,x9,x0,x1,x2,x3 
 	tenpdf  <- rescale.vector(pdf0) * p0
 	
