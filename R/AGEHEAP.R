@@ -188,7 +188,7 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 		# cheap way to make upper bound inclusive
 	
 	    Diff    <- ageMax - ageMin + 1
-	    AgeMax  <- ageMin + Diff - Diff %% period 
+	    AgeMax  <- ageMin + Diff - Diff %% 10 
 		if (AgeMax > max(Age)){
 			AgeMax <- AgeMax - 10
 		}
