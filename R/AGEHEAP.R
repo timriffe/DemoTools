@@ -197,7 +197,12 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 	denominators <- colSums(Value * w2)
 	
 	ratio   <- 100 * numerators / denominators
-	ratioeq <- ratio - 10
+	if (pasex){
+		ratioeq <- ratio - 10
+	} else {
+		ratioeq <- ratio - (100/9)
+	}
+	
 	sum(abs(ratioeq))  / 2
 }
 
