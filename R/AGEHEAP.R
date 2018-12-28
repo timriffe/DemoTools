@@ -17,8 +17,8 @@
 #' @param digit integer. Any digit between 0 and 9. Default \code{c(0,5)}. Otherwise it needs to be a single digit.
 #'  
 #' 
-#' @details \code{ageMin} and \code{ageMax} refer to the bounds of the numerator, where \code{ageMax} is inclusive. 
-#' The denominator looks 7 ages lower and 2 ages higher, so these ages must be available. You can get 
+#' @details \code{ageMin} and \code{ageMax} refer to the bounds of the digits evaluated, which end up in the numerator. \code{ageMax} is inclusive. 
+#' The denominator looks 7 ages lower and 2 ages higher than this range, so these ages must be available. You can get 
 #' arbitrary W(i) indices by specifying other digits. Note you can only do pairs of digits
 #' they are 0 and 5. Otherwise just one digit at a time. 
 #' @return The value of the index.
@@ -103,7 +103,7 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
 	
 	# sum staggered, once without the youngest group but with the oldest one (tab2)
 	# and once with the youngest and without the oldest
-	tab1    <- rowSums(VA) # differs from other implementations, but matches PASEX
+	tab1    <- rowSums(VA[, - ncol(VA)]) # differs from other implementations, but matches PASEX
 	
 	tab2    <- rowSums(VA[, - 1])
 	
