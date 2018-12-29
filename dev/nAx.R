@@ -456,24 +456,5 @@ axUN <- function(
 	axi
 }
 
-#' just get closeout Mx
-#' 
-#' @description Get the Abacus Mortpak estimate of life expectancy in the open age group.
-#' @details Since the Mortpak lifetable just goes to age 100, it only makes sense to call this function if your data have a lower open age group. If your data go to 100 or higher, there is no apparent advantage to closing out with this function. Specify the entire nMx schedule, in standard abridged ages.
-#' @details The estimate will be the same for males and females
-#' @param mx_or_qx numeric vector of mortality rates or probabilities in standard abridged age classes
-#' @param qind logical. Default \code{FALSE} (implying Mx used). \code{TRUE} means qx was given.
-#' @export
-#' @references 
-#' \insertRef{mortpak1988}{DemoTools}
 
-aomegaMORTPAK <- function(mx_or_qx,qind=FALSE){
-	OA  <- length(mx_or_qx) * 5 - 10
-	if (qind){
-		OUT <- AbacusLIFTB_wrap(qx = mx_or_qx, mx_ind = FALSE, OAnew = OA, Sex = "m")
-	} else {
-		OUT <- AbacusLIFTB_wrap(Mx = mx_or_qx, OAnew = OA, Sex = "m")
-	}
-	OUT[nrow(OUT),"ax"]
-}
 
