@@ -97,7 +97,7 @@ plan_pop_adjustment <- function(assessment){
 			the_plan  <- "as-is"
 			need_plan <- FALSE
 		}
-		if (any(assessment[c("Whipple","Myers")] == "light") &
+		if (any(assessment[c("Whipple","Myers")] %in% c("light","moderate")) &
 				assessment["Sawtooth"] == "negligible" &
 				assessment["Roughness"] == "light"){
 			the_plan  <- "sprague"
