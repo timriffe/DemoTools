@@ -1,7 +1,14 @@
 
 # Author: tim
 ###############################################################################
-
+# TODO:
+# 1) preserve metadata
+# 2) include statistic of how different input and output distributions are
+# * within age groups of input data???
+# uniform in groups AND on oroginal scale.
+# 3) make metadata come from second function- more detail and including difference statistic
+# make text structured to work with https://github.com/rkrug/plantuml/blob/master/README.md
+# ----------------
 
 # testing for default processing.
 
@@ -84,6 +91,8 @@ assess_pop <- function(Pop, Age, ageMin = 30, ageMax = min(c(70,max(Age[Age%%10 
 
 	c(Whipple = w_level, Myers = m_level, Roughness = r_level, Sawtooth = s_level)
 }
+
+
 
 # assessment coming from assess_pop()
 plan_pop_adjustment <- function(assessment){
@@ -195,6 +204,8 @@ adjust_pop_with_plan <- function(Pop, Age, plan, OAG = TRUE){
 }
 }
 
+#plan_pop_adjustment(assess_pop(h3,Age))
+
 adjust_pop <- function(Pop, Age, OAG = TRUE, 
 		ageMin = 30, ageMax = min(c(70, max(Age[Age%%10 == 0]) - 10))){
 	assessment <- assess_pop(Pop, Age, ageMin = ageMin, ageMax = ageMax)
@@ -204,6 +215,8 @@ adjust_pop <- function(Pop, Age, OAG = TRUE,
 	}
 	adjust_pop_with_plan(Pop = Pop, Age = Age, plan = plan, OAG = OAG)
 }
+
+
 
 
 plot(Age,h1,pch=1,cex=.7)
