@@ -1,5 +1,4 @@
 # Author: Juan Galeano
-# TR: TODO: if abridged data give, group to 5. Remove ns arg. make util for ns stuff.
 # handle OAG with care.
 ###############################################################################
 
@@ -9,18 +8,12 @@
  
 #' @param Value numeric. A vector of demographic counts in single age groups.
 #' @param Age numeric or character. A vector with ages in single years.
-#' @param ns numeric. Cases of unknown (not-stated) age. By default this is equal to 0.
 #' @param maxit integer. Maximum number of iterations.
+#' @param OAG logical. Is the final age group open? Default \code{FALSE}.
 
-#' @details Value is assumed to be in single ages. The last element of Value is assumed to be the open age group, and it is assumed that this age is evenly divisible by 5.
+#' @details \code{Value} can be given in single or 5-year age groups.
 
-#' @return a dataframe with 4 columns: 
-#' \itemize{
-#'   \item Age 
-#'   \item Age Interval character 5, except open age group and unstated ages.
-#'   \item recorded numeric original data grouped to 5-year ages.
-#'   \item corrected numeric adjusted data in 5-year age groups.
-#' } 
+#' @return a vector of adjusted counts in 5-year age groups
 #' 
 #' @export
 #' @references 
@@ -38,88 +31,94 @@
 #'          1500,319,175,143,89,670,149,96,97,69,
 #'          696,170,60,38,23,745)
 #'  Ages <- c(0:75)
-#'  result <- T9R5L(Pop, Ages, ns = 15)
-#' 
+#'  result <- T9R5L(Pop, Ages, OAG = TRUE)
+#'  A5 <- names2age(result)
+#'  V5 <- groupAges(Pop,Ages)
 #'  \dontrun{
 #'  plot(Ages, Pop, type= 'l')
-#'  segments(result$Age,
-#' 		 result$recorded/5,
-#' 		 result$Age+5,
-#' 		 result$recorded/5,
-#' 		 col = "blue")
-#'  segments(result$Age,
-#' 		 result$corrected/5,
-#' 		 result$Age+5,
-#' 		 result$corrected/5,
+#'  segments(A5,
+#'		  result/5,
+#'		  A5+5,
+#'		 result/5,
 #' 		 col = "red")
+#' segments(A5,
+#'		 V5/5,
+#'		 A5+5,
+#'		 V5/5,
+#'		 col = "blue")
 #'  legend("topright",col=c("black","blue","red"),
 #'    lty=c(1,1,1),
 #'    legend=c("recorded 1","recorded 5","corrected 5"))
 #' }
 
-T9R5L <- function(Value, Age, ns = 0, maxit = 100){
-  
+T9R5L <- function(Value, Age, maxit = 200, OAG = FALSE){
+	
+	# ages need to be single to use this method.
+	stopifnot(is_single(Age))
+	TOT <- sum(Value, na.rm=TRUE)
+	
+	# handle OAG with care
+	if (OAG){
+		NN         <- length(Value)
+		OAvalue    <- Value[NN]
+		OA         <- Age[NN]
+		Value      <- Value[-NN]
+		Age        <- Age[-NN]
+	
+	}
+	
+    V5  <- groupAges(Value, Age, N = 5)
+    A5  <- names2age(V5)
+    i5  <- Age %% 5 == 0   
+	
+	# TR: is this length-vulnerable?
+	V50 <- Value[i5] 
+	V54 <- V5 - V50 
+	
+	
+	# need N anyway
+	N       <- length(V5)
 	# internal function used iteratively
-	f_adjust <- function(A,B){
-		N       <- length(B)
-		Bup     <- c(1, shift.vector(B, -1, fill = 0) + B)[1:N]
-		FC      <- (8 / 9) * ((A + Bup) / Bup)
+	f_adjust <- function(v5,v4){
+		
+		N       <- length(v4)
+		Bup     <- c(1, shift.vector(v4, -1, fill = 0) + v4)[1:N]
+		FC      <- (8 / 9) * ((v5 + Bup) / Bup)
 		FC[1]   <- 1
-		POB1    <- c(A - (FC - 1) * Bup)
+		POB1    <- c(v5 - (FC - 1) * Bup)
 		POB2    <- (c(c(shift.vector(FC, -1, fill = 0) + FC)[-N],
-							(FC[N] + 1)) - 1 ) * B
+							(FC[N] + 1)) - 1 ) * v4
 		# return a list of 3 components	
 		aj       <- list(FC, POB1, POB2)
 		aj
 	}
 	
-	N            <- length(Value)
-	ages_implied <- seq_along(Value) - 1
-	last_age     <- ages_implied[N]
-	a5           <- ages_implied - ages_implied %% 5
-    OAG          <- Value[N]
-	
-	# TR: no function requried for this stuff
-	Px     <- Value[seq(1, N, 5)]
-	# assuming final value is open age group
-	Pxp    <- Px[ -length(Px)]
-	P5     <- c(tapply(Value, a5, sum))
-	# assuming final value is open age group
-	P5     <- P5[-length(P5)]
-	# i.e. the value of pop in age groups excluding single ages divisible by 5
-	Px4    <- P5 - Pxp
-	
-	n      <- length(P5)
 
   # adjustment loop
   for (i in 1:maxit) {
-	adjust <- f_adjust(A = Pxp, B = Px4)
-    Pxp    <- adjust[[2]] 
-	Px4    <- adjust[[3]] 
+	adjust   <- f_adjust(v5 = V50, v4 = V54)
+	V50      <- adjust[[2]] 
+	V54      <- adjust[[3]] 
 	if (all(abs(adjust[[1]]) < 1e-8)){
 		break
 	}
   }
   
-  G      <- (Pxp * .6)[c(2:(n - 1))]
-  H      <- (Pxp * .4)[c(3:n)]
+  G      <- (V50 * .6)[c(2:(N - 1))]
+  H      <- (V50 * .4)[c(3:N)]
   I      <- G + H #f(x+2.5)
   
   # corrected, but unknowns still need to be redistributed
-  Pxp5   <- c(P5[1], I * 5, P5[n], OAG) 
-	 
-  # redistribute unknown ages
-  Px5    <- Pxp5 * (sum(Value) + ns) / sum(Pxp5)
-  
-  # get lower bound to age groups
-  a      <- 0:(N - 1)
-  lower  <- a[a %% 5 == 0]
-  
-  # return data.frame of before/after in 5-year age groups.
-  out    <- data.frame(Age = c(lower,
-									NA),
-						  AgeInterval = c(rep(5, length(lower)-1),"+","NA"),
-                          recorded = c(P5, OAG, ns),
-                          corrected = c(Px5, NA))
+  #I5    <- rescale.vector(I * 5,sum(V5[2:(N-1)]))
+  I5    <- I * 5
+  out   <- c(V5[1], I5, V5[N]) 
+
+  if (OAG){
+	  A5  <- c(A5, OA)
+	  out <- c(out,OAvalue)
+  }
+  names(out) <- A5
+  # rescale to sum, inclusing open age group and boudned tails
+  out <- rescale.vector(out, TOT)
   out
 }

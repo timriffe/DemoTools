@@ -4,31 +4,25 @@
 \alias{T9R5L}
 \title{Feeney'S formula on 9 years to correct for heaping on multiples of 5.}
 \usage{
-T9R5L(Value, Age, ns = 0, maxit = 100)
+T9R5L(Value, Age, maxit = 200, OAG = FALSE)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in single age groups.}
 
 \item{Age}{numeric or character. A vector with ages in single years.}
 
-\item{ns}{numeric. Cases of unknown (not-stated) age. By default this is equal to 0.}
-
 \item{maxit}{integer. Maximum number of iterations.}
+
+\item{OAG}{logical. Is the final age group open? Default \code{FALSE}.}
 }
 \value{
-a dataframe with 4 columns: 
-\itemize{
-  \item Age 
-  \item Age Interval character 5, except open age group and unstated ages.
-  \item recorded numeric original data grouped to 5-year ages.
-  \item corrected numeric adjusted data in 5-year age groups.
-}
+a vector of adjusted counts in 5-year age groups
 }
 \description{
 Fenney's technique for correcting age distributions for heaping on multiples of five.
 }
 \details{
-Value is assumed to be in single ages. The last element of Value is assumed to be the open age group, and it is assumed that this age is evenly divisible by 5.
+\code{Value} can be given in single or 5-year age groups.
 }
 \examples{
 # data from feeney1979, Table 1, page 12: Population of Indonesia, 22 provinces, 
@@ -42,20 +36,21 @@ Value is assumed to be in single ages. The last element of Value is assumed to b
          1500,319,175,143,89,670,149,96,97,69,
          696,170,60,38,23,745)
  Ages <- c(0:75)
- result <- T9R5L(Pop, Ages, ns = 15)
-
+ result <- T9R5L(Pop, Ages, OAG = TRUE)
+ A5 <- names2age(result)
+ V5 <- groupAges(Pop,Ages)
  \dontrun{
  plot(Ages, Pop, type= 'l')
- segments(result$Age,
-		 result$recorded/5,
-		 result$Age+5,
-		 result$recorded/5,
-		 col = "blue")
- segments(result$Age,
-		 result$corrected/5,
-		 result$Age+5,
-		 result$corrected/5,
+ segments(A5,
+	  result/5,
+	  A5+5,
+	 result/5,
 		 col = "red")
+segments(A5,
+	 V5/5,
+	 A5+5,
+	 V5/5,
+	 col = "blue")
  legend("topright",col=c("black","blue","red"),
    lty=c(1,1,1),
    legend=c("recorded 1","recorded 5","corrected 5"))

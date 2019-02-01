@@ -18,15 +18,16 @@ test_that("T9R5L works", {
     
     Ages <- c(0:75)
     
-    result <- T9R5L(Pop, Ages, ns = 15, maxit = 100)
-    
+    result <- T9R5L(Pop, Ages, maxit = 200, OAG = TRUE)
+	# inlcude original unstated age (15)
+	result <- rescale.vector(result,sum(result)+15)
     tab2_answer <- c(18004, 17351, 14018, 10927, 8837, 8145, 7823, 7029,
-                     5748, 4326, 3289, 2415, 1794, 1197, 982, 741, 0)
+                     5748, 4326, 3289, 2415, 1794, 1197, 982, 741)
+	names(tab2_answer) <- seq(0,75,5)
+
     
-    
-    expect_equal(
-        result$corrected[1:16],
-        tab2_answer[1:16],
-        tolerance = 2
-    )
+    testthat:::expect_equal(
+        result,
+        tab2_answer,
+        tolerance = .001) # TR: this on relative scale??
 })
