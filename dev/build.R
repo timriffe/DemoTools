@@ -18,7 +18,7 @@ library(TimUtils)
 #install.packages("backports")
 #install.packages("roxygen2")
 #install_github("hadley/devtools")
-#install_github("timriffe/TimUtils/TimUtils")
+#install_github("timriffe/TimUtils/TimfUtils")
 
 # do this whenever new functions are added to /R, or whenever roxygen is updated
 devtools::document()
