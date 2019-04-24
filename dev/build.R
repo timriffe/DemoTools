@@ -80,7 +80,7 @@ library(DependenciesGraphs)
 
 library(DemoTools) # The package we want to explore
 # before tinkering with an older function, note which functions depend on it
-deps <- funDependencies("package:DemoTools","aomegaMORTPAK")
+deps <- funDependencies("package:DemoTools","is_single")
 plot(deps)
 
 

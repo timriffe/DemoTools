@@ -132,7 +132,7 @@ test_that("rescaleAgeGroups works",{
     # just to make a point about arbitrary integer age widths in both pop1 and pop2
     # note if pop1 is in single ages and pop2 is in groups things work much cleaner.
     set.seed(3)
-    AgeIntRandom <- sample(1:5, size = 15,replace = TRUE)
+	AgeIntRandom <- c(1L, 5L, 2L, 2L, 4L, 4L, 1L, 2L, 3L, 4L, 3L, 3L, 3L, 3L, 5L)
     AgeInt5      <- rep(5, 9)
     original     <- runif(45, min = 0, max = 100)
     pop1         <- groupAges(original, 0:45, AgeN = int2ageN(AgeIntRandom, FALSE))
