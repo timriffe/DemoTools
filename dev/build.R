@@ -59,11 +59,18 @@ length(dir("/home/tim/git/DemoTools/man"))
 # mid-level increment (if a new top-level function is added)
 versionIncrement(
 		major = FALSE,        # only for releases
-		mid = TRUE,    # major functionality added
+		mid = TRUE,           # major functionality added
 		minor = FALSE,        # whenever documentation renewed, any patch, tweak, or fix
 		maxdigits = c(2,2,3), # maybe 4 required?
 		README = TRUE)  
 
+# top level increment
+versionIncrement(
+		major = TRUE,         # only for releases
+		mid = FALSE,          # major functionality added
+		minor = FALSE,        # whenever documentation renewed, any patch, tweak, or fix
+		maxdigits = c(2,2,3), # maybe 4 required?
+		README = TRUE)  
 # -----------------------------------------
 # visualize function dependencies in DemoTools
 #install.packages("yaml")
