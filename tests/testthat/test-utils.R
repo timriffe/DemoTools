@@ -11,8 +11,9 @@ test_that("shift.vector works", {
 
 
 test_that("ma works",{
-    set.seed(911)
-    pop <- sample.int(10, 5, replace = T)
+#    set.seed(911)
+#    pop <- sample.int(10, 5, replace = T)
+	pop <- c(4L, 2L, 10L, 9L, 7L)
     expect_equal(head(ma(pop, 2), 2), c(3, 6))
     expect_length(na.omit(ma(pop, 2)), 4)
     expect_length(na.omit(ma(pop, 3)), 3)
@@ -20,8 +21,11 @@ test_that("ma works",{
 
 
 test_that("rescale.vector works",{
-    set.seed(911)
-    x <- runif(10)
+#    set.seed(911)
+#    x  <- runif(10)
+	x <- c(0.332722748862579, 0.198283284204081, 0.966023832326755, 0.877137508476153, 
+			0.643525721738115, 0.928011350799352, 0.952458682702854, 0.609626697609201, 
+			0.682392382994294, 0.629744249628857)
     xx <- rescale.vector(x, 100)
     expect_equal(sum(xx), 100)
     # check if proportionality is preserved
