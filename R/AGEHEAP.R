@@ -39,7 +39,7 @@
 #'  Whipple(pop1m_pasex, Age, 25, 60, digit = 3) 
 Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 	
-	stopifnot(is_single(Age))
+	
 	stopifnot(length(digit) == 1 || (all(c(0, 5) %in% digit) & length(digit == 2)))
 	stopifnot(length(Value) == length(Age))
 	
@@ -49,6 +49,9 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 	# of counts in denom. This per the French formulas.
 	# TR: sufficient to check length here, since hard check done above
 	denominatorind <- Age >= (numa[1] - ifelse(length(digit) == 2,2,7)) & Age <= (numa[2] + 2)
+	
+	# move check here- don't care about non-single ages outside this group
+	stopifnot(is_single(Age[denominatorind]))
 	
 	whip           <- ifelse(length(digit) == 2,5,10) * sum(Value[numeratorind]) / sum(Value[denominatorind])
 	
@@ -80,7 +83,7 @@ Whipple <- function(Value, Age, ageMin = 25, ageMax = 65, digit = c(0,5)){
 #' Myers(pop1m_pasex, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
 
 Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
-	stopifnot(is_single(Age))
+	
 	# hard code period to 10 for digits
 	period  <- 10
 	
@@ -96,8 +99,11 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
 	# may as well be certain here
 	stopifnot(ageMax <= max(Age))
 	
-	# select out ages, place into matrix for summing over digits
 	ind     <- Age >= ageMin & Age < AgeMax
+	
+	stopifnot(is_single(Age[Age >= ageMin & Age <= AgeMax]))
+	stopifnot(sum(ind) %% period == 0)
+	# select out ages, place into matrix for summing over digits
 	# a row corresponds to a digit
 	VA      <- matrix(Value[ind], nrow = period, dimnames = list(0:(period-1), NULL))
 	
@@ -141,7 +147,7 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
 
 Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 	stopifnot(length(Age) == length(Value))
-	stopifnot(is_single(Age))
+	stopifnot(is_single(Age[Age >= (ageMin - 5) & Age <= ageMax]))
 	# make a matrix for numerators
 	w1           <- matrix(0, nrow = length(Age), ncol = 10)
 	w2           <- matrix(0, nrow = length(Age), ncol = 10)
@@ -244,7 +250,7 @@ Bachi <- function(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE){
 #' CoaleLi(pop1m_pasex, Age, 65, 95, 5, 5) # 3.5 almost just as high
 
 CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0){
-	stopifnot(is_single(Age))
+	
 	stopifnot(length(Age) == length(Value))
 	reference <- ma(ma(Value, n = terms), n = terms)
 	
@@ -257,6 +263,7 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 #	maxAge    <- minAge + agerange
 	
 	ind       <- Age >= ageMin & Age <= ageMax
+	stopifnot(is_single(Age[ind]))
 	
 	ages      <- max(c(min(Age),ageMin)):min(c(ageMax, max(Age)))
 	avgRatios <- tapply(ratio[ind], ages %% 10, mean, na.rm = TRUE)
@@ -299,7 +306,7 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 #' Noumbissi(pop1m_pasex, Age, digit = 9) # 0.59
 
 Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 64, digit = 0){
-	stopifnot(is_single(Age))
+	stopifnot(is_single(Age[Age >= (ageMin - 2) & Age <= (ageMax+2)]))
 	stopifnot(length(Age) == length(Value))
 	stopifnot(length(digit) == 1)
 	
@@ -309,6 +316,7 @@ Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 64, digit = 0){
 			numi |
 			shift.vector(numi,1) |
 			shift.vector(numi,2)
+	
 	5 * sum(Value[numi]) / sum(Value[denomi])
 }
 
@@ -336,7 +344,7 @@ Noumbissi <- function(Value, Age, ageMin = 20, ageMax = 64, digit = 0){
 
 Spoorenberg <- function(Value, Age, ageMin = 20, ageMax = 64){
 	stopifnot(length(Age) == length(Value))
-	stopifnot(is_single(Age))
+	stopifnot(is_single(Age[Age >= (ageMin - 2) & Age <= (ageMax+2)]))
 	digits <- 0:9
 	Wi   <- sapply(digits, 
 			Noumbissi, 
@@ -375,9 +383,11 @@ Spoorenberg <- function(Value, Age, ageMin = 20, ageMax = 64){
 #' KannistoHeap(pop1m_pasex, Age, 95, pow = 1) # arithmetic mean in denom
 #' pop1m_pasex[Age==95] / mean(pop1m_pasex[Age >= 93 & Age <= 97])
 KannistoHeap <- function(Value, Age, Agei = 90,pow="exp"){
+	
 	stopifnot(length(Agei) == 1)
-	stopifnot(is_single(Age))
+	stopifnot(is_single(Age[Age >= (Agei - 2) & Age <= (Agei+2)]))
 	denomi <- Age %in% ((Agei - 2):(Agei + 2))
+
 	if (any(Value[denomi] == 0)){
 		pow <- 1000
 	}
@@ -443,7 +453,7 @@ KannistoHeap <- function(Value, Age, Agei = 90,pow="exp"){
 #'Jdanov(Value, Age, Agei = c(95,100,105))
 
 Jdanov <- function(Value, Age, Agei = seq(95,105,by=5)){
-	stopifnot(is_single(Age))
+	stopifnot(is_single(Age[Age >= (min(Agei) - 2) & Age <= (max(Agei) + 2)]))
 	numi   <- Age %in% Agei
 	
 	# this way of doing the denom makes it possible to 
