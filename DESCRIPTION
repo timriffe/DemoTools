@@ -5,7 +5,7 @@ Version: 01.00.05
 Date: 2019-04-24
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
-          email = "tim.riffe@gmail.com"),
+          email = "tim.riffe@gmail.com", comment = c(ORCID = "0000-0002-2673-4622")),
    person("Sean", "Fennell", role = "aut"),
    person("Jose Manuel", "Aburto", role = "aut"),
    person("Juan", "Galeano", role = "ctb"),
