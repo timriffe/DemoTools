@@ -264,6 +264,7 @@ CoaleLi <- function(Value, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit
 	
 	ind       <- Age >= ageMin & Age <= ageMax
 	stopifnot(is_single(Age[ind]))
+	stopifnot(sum(ind)>=10)
 	
 	ages      <- max(c(min(Age),ageMin)):min(c(ageMax, max(Age)))
 	avgRatios <- tapply(ratio[ind], ages %% 10, mean, na.rm = TRUE)
