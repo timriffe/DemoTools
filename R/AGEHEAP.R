@@ -109,9 +109,9 @@ Myers <- function(Value, Age, ageMin = 10, ageMax = 89){
 	
 	# sum staggered, once without the youngest group but with the oldest one (tab2)
 	# and once with the youngest and without the oldest
-	tab1    <- rowSums(VA[, - ncol(VA)]) # differs from other implementations, but matches PASEX
+	tab1    <- rowSums(VA[, - ncol(VA), drop = FALSE]) # differs from other implementations, but matches PASEX
 	
-	tab2    <- rowSums(VA[, - 1])
+	tab2    <- rowSums(VA[, - 1, drop = FALSE])
 	
 	# weighted tabulation
 	TAB     <- tab1 * 1:period + tab2 * c(period:1 - 1)
