@@ -16,7 +16,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Tim Riffe \email{tim.riffe@gmail.com}
+\strong{Maintainer}: Tim Riffe \email{tim.riffe@gmail.com} (0000-0002-2673-4622)
 
 Authors:
 \itemize{

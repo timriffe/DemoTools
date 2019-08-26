@@ -558,7 +558,7 @@ heapify <- function(Value, Age, p0=2, p5=p0,
 #' @inheritParams heapify
 #' @param ageMin integer evenly divisible by 10. Lower bound of evaluated age range, default 40.
 #' @param ageMax integer evently divisibly by 5. Upper bound of evaluated age range, defaults to highest age evenly divisible by 10.
-#' @return \code{FALSE} if sawtooth pattern is not detected, numeric otherwise.
+#' @return numeric, ratio of 0s to 5s. If > 1 then the pattern is present.
 #' @references
 #' \insertRef{feeney1979}{DemoTools}
 #' Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/
@@ -615,13 +615,13 @@ zero_pref_sawtooth <- function(Value, Age, ageMin = 40, ageMax = max(Age[Age %% 
 	}
 	
 	# need rather consistent x0 > x5 pattern
-	if (sum(diff(sign(log(m05))) == -2) < (ncol(m05) - 2)){
+	#if (sum(diff(sign(log(m05))) == -2) < (ncol(m05) - 2)){
 		# i.e. it could be very rough still, but not necessarily
 		# a regular sawtooth pattern. Possibly a visual assessment needed,
 		# since could be real pattern, or other pattern of roughness that also
 		# requires smoothing.
-		return(FALSE)
-	}
+	#	return(FALSE)
+	#}
 	
 	# mean of 0s divided by mean of 5s, that simple.
 	1 / ratx(rowMeans(m05, na.rm = TRUE))

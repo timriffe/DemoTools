@@ -32,10 +32,10 @@ The following options are available: \itemize{
   \item{\code{"quadratic"}} -- The Quadratic model.
   }}
 
-\item{opt.method}{How would you like to find the parameters? Specify the 
-function to be optimize. Available options: the Poisson likelihood function 
-\code{poissonL}; the Binomial likelihood function -\code{binomialL}; and 
-6 other loss functions. For more details, check the \code{\link{availableLF}} 
+\item{opt.method}{How would you like to find the parameters? Specify the
+function to be optimize. Available options: the Poisson likelihood function
+\code{poissonL}; the Binomial likelihood function -\code{binomialL}; and
+6 other loss functions. For more details, check the \code{\link{availableLF}}
 function.}
 
 \item{...}{Other arguments to be passed on to the 

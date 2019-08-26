@@ -17,7 +17,7 @@ zero_pref_sawtooth(Value, Age, ageMin = 40, ageMax = max(Age[Age\%\%5
 \item{ageMax}{integer evently divisibly by 5. Upper bound of evaluated age range, defaults to highest age evenly divisible by 10.}
 }
 \value{
-\code{FALSE} if sawtooth pattern is not detected, numeric otherwise.
+numeric, ratio of 0s to 5s. If > 1 then the pattern is present.
 }
 \description{
 Ages ending in 0 often have higher apparent heaping than ages ending in 5. 
