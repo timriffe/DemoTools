@@ -205,6 +205,12 @@ maxA2abridged <- function(ageMax = 80){
 #' AgeInt <- c(1,4,rep(5,17))
 #' int2age(AgeInt)
 int2age <- function(AgeInt, ageMin = 0){
+  n <- length(AgeInt)
+  # if final AgeInt is NA, then assume it's OAG,
+  # count as zero for this calc
+  if (is.na(AgeInt[n])){
+    AgeInt[n] <- 0
+  }
 	cumsum(AgeInt) - AgeInt + ageMin
 }
 
@@ -327,6 +333,107 @@ groupOAG <- function(Value, Age, OAnew){
 is_single <- function(Age){
 	all(diff(sort(Age)) == 1)
 }
+
+
+#' is \code{Age} sorted sequentially?
+#' 
+#' @description Check if \code{Age} is sorted sequentially.
+#' @details This does not check for redundancy.
+#' @inheritParams is_age_coherent
+#' @export
+#' @return logical. Is the \code{Age} vector sorted sequentially?
+is_age_sequential <- function(Age){
+  all(Age == sort(Age))
+}
+
+#' check for redundant age specification
+#' 
+#' @description Ages are considered redundant if values for the lower age bound are repeated. This might occur if there is an extra open age group below the final open age group. For example we have single ages 0 to 84, with an open age group of 85+, but the data also contain an open age group of 70+, leading to age 70 appearing twice. 
+#' @inheritParams is_age_coherent
+#' @return logical. Are there repeated values in the \code{Age} vector?
+#' @export
+#' @examples 
+#' AgeRed    <- c(0:100,70)
+#' # it doesn't matter if Age is sequential for this check
+#' is_age_redundant(AgeRed)
+is_age_redundant <- function(Age){
+  any(table(Age)>1)
+}
+
+#' check for coherence within Age and between Age and AgeInt
+#' 
+#' @description A few checks are carried out to test if \code{Age} is internally consistent, that \code{OAG} is consistent with \code{AgeInt}, and that \code{Age} and \code{AgeInt} are consistent with one another. For \code{Age} to be internally consistent, we cannot have redundant values, and values must be sequential. 
+#' @details If \code{OAG} is \code{TRUE} then \code{AgeInt} must be coded as \code{NA}. If \code{Age} is not sorted then we sort both \code{Age} and \code{AgeInt}, assuming that they are in matched order. This isn't incoherence per se, but a message is returned to the console.
+#' 
+#' @param Age integer vector of single ages (lower bound)
+#' @param AgeInt integer vector. Age interval widths
+#' @param OAG logical (default \code{TRUE}). Is the final age group open?
+#' @return logical. \code{TRUE} if the arguments are considered consistent.
+#' @eport
+#' @examples 
+#' Age    <- 0:99
+#' AgeInt <- rep(1, 100)
+#' # closed, sequential, non-redundant ages, any easy yes:
+#' is_age_coherent(Age = Age, AgeInt = AgeInt, OAG = FALSE)     # TRUE
+#' 
+#' # incorrectly coded OAG
+#' is_age_coherent(Age = Age, AgeInt = AgeInt, OAG = TRUE)      # FALSE   
+#' 
+#' # correctly coded OAG
+#' AgeInt[100] <- NA
+#' is_age_coherent(Age = Age, AgeInt = AgeInt, OAG = TRUE)      # TRUE
+#' 
+#' # correct unordered, but this isn't incoherence per se.
+#' # watch out though!
+#' aaoo <- order(sample(Age, 100, replace = FALSE))
+#' is_age_coherent(Age[aaoo], AgeInt = AgeInt[aaoo], OAG = TRUE) # TRUE
+#' 
+#' # check redundancy
+#' AgeRed    <- c(0:100,70)
+#' AgeInt    <- c(rep(1, 100), NA, NA)
+#' ao        <- order(AgeRed)
+#' AgeRed    <- AgeRed[ao]
+#' AgeIntRed <- AgeInt[ao]
+#' is_age_coherent(AgeRed, AgeInt, TRUE)  # FALSE
+is_age_coherent <- function(Age, AgeInt, OAG = TRUE){
+  n       <- length(Age)
+  stopifnot(length(AgeInt) == n)
+  
+  if (!is_age_sequential(Age)){
+    cat("Age isn't sorted. Sorting Age and AgeInt\nunder strong assumption that they are in matched order.\n")
+    ao     <- order(Age)
+    Age    <- Age[ao]
+    AgeInt <- AgeInt[ao]
+  }
+  
+  # check redundancy (case of more than one open age)
+  if (is_age_redundant(Age)){
+    cat("At least one age repeated, ergo Age is incoherent\n")
+    return(FALSE)
+  }
+  
+  # is Age implied by AgeInt same?
+  Age2    <- int2age(AgeInt, ageMin = min(Age))
+  
+  # better to compare 0s than NAs in next check
+  if (OAG){
+    if (!is.na(AgeInt[n])){
+      cat("The AgeInt value for OAG should be NA, but it is", AgeInt[n],"\n")
+      return(FALSE)
+    }
+    AgeInt[n] <- 0
+  }
+  # is AgeInt implied by Age same?
+  AgeInt2 <- age2int(Age, OAG = OAG, OAvalue = 0)
+  
+  # is everything coherent?
+  out     <- all(Age == Age2) & all(AgeInt == AgeInt2)
+  if (!out){
+    cat("Age and AgeInt don't appear to imply one another\n")
+  }
+  out
+}
+
 
 #' Detect if a vector of lower age bounds is plausibly of abridged ages.
 #' @description A logical utility that checks if a given vector is of the lower bounds of abridged age groups or not.
