@@ -309,57 +309,6 @@ groupOAG <- function(Value, Age, OAnew){
 }
 
 
-#' Logical checking of whether age classes appear single.
-#' 
-#' @description Check whether a vector of ages consists in single ages. This
-#' makes sense sometimes when age intervals are not explicitly given.
-#' 
-#' @param Age integer. Vector of age classes.
-#' 
-#' @return logical. \code{TRUE} if detected as single ages, \code{FALSE} otherwise.
-#' 
-#' @details In cases where ages are indeed single, but repeated, this will still return \code{FALSE}. 
-#' Therefore make sure that the age vector given refers to a single year of a single population.
-#' @export
-#' @examples
-#' Age <- 0:99
-#' Age2 <- c(0:10,0:10)
-#' Age3 <- seq(0,80,by=5)
-#' Age4 <- seq(0,10,by=.5)
-#' is_single(Age)  # TRUE
-#' is_single(Age2) # FALSE repeated, can't tell.
-#' is_single(Age3) # FALSE not single ages
-#' is_single(Age4) # FALSE not single ages
-is_single <- function(Age){
-	all(diff(sort(Age)) == 1)
-}
-
-
-#' is \code{Age} sorted sequentially?
-#' 
-#' @description Check if \code{Age} is sorted sequentially.
-#' @details This does not check for redundancy.
-#' @inheritParams is_age_coherent
-#' @export
-#' @return logical. Is the \code{Age} vector sorted sequentially?
-is_age_sequential <- function(Age){
-  all(Age == sort(Age))
-}
-
-#' check for redundant age specification
-#' 
-#' @description Ages are considered redundant if values for the lower age bound are repeated. This might occur if there is an extra open age group below the final open age group. For example we have single ages 0 to 84, with an open age group of 85+, but the data also contain an open age group of 70+, leading to age 70 appearing twice. 
-#' @inheritParams is_age_coherent
-#' @return logical. Are there repeated values in the \code{Age} vector?
-#' @export
-#' @examples 
-#' AgeRed    <- c(0:100,70)
-#' # it doesn't matter if Age is sequential for this check
-#' is_age_redundant(AgeRed)
-is_age_redundant <- function(Age){
-  any(table(Age)>1)
-}
-
 #' check for coherence within Age and between Age and AgeInt
 #' 
 #' @description A few checks are carried out to test if \code{Age} is internally consistent, that \code{OAG} is consistent with \code{AgeInt}, and that \code{Age} and \code{AgeInt} are consistent with one another. For \code{Age} to be internally consistent, we cannot have redundant values, and values must be sequential. 
@@ -369,7 +318,7 @@ is_age_redundant <- function(Age){
 #' @param AgeInt integer vector. Age interval widths
 #' @param OAG logical (default \code{TRUE}). Is the final age group open?
 #' @return logical. \code{TRUE} if the arguments are considered consistent.
-#' @eport
+#' @export
 #' @examples 
 #' Age    <- 0:99
 #' AgeInt <- rep(1, 100)
@@ -434,6 +383,58 @@ is_age_coherent <- function(Age, AgeInt, OAG = TRUE){
   out
 }
 
+
+
+#' Logical checking of whether age classes appear single.
+#' 
+#' @description Check whether a vector of ages consists in single ages. This
+#' makes sense sometimes when age intervals are not explicitly given.
+#' 
+#' @param Age integer. Vector of age classes.
+#' 
+#' @return logical. \code{TRUE} if detected as single ages, \code{FALSE} otherwise.
+#' 
+#' @details In cases where ages are indeed single, but repeated, this will still return \code{FALSE}. 
+#' Therefore make sure that the age vector given refers to a single year of a single population.
+#' @export
+#' @examples
+#' Age <- 0:99
+#' Age2 <- c(0:10,0:10)
+#' Age3 <- seq(0,80,by=5)
+#' Age4 <- seq(0,10,by=.5)
+#' is_single(Age)  # TRUE
+#' is_single(Age2) # FALSE repeated, can't tell.
+#' is_single(Age3) # FALSE not single ages
+#' is_single(Age4) # FALSE not single ages
+is_single <- function(Age){
+	all(diff(sort(Age)) == 1)
+}
+
+
+#' is \code{Age} sorted sequentially?
+#' 
+#' @description Check if \code{Age} is sorted sequentially.
+#' @details This does not check for redundancy.
+#' @inheritParams is_age_coherent
+#' @export
+#' @return logical. Is the \code{Age} vector sorted sequentially?
+is_age_sequential <- function(Age){
+  all(Age == sort(Age))
+}
+
+#' check for redundant age specification
+#' 
+#' @description Ages are considered redundant if values for the lower age bound are repeated. This might occur if there is an extra open age group below the final open age group. For example we have single ages 0 to 84, with an open age group of 85+, but the data also contain an open age group of 70+, leading to age 70 appearing twice. 
+#' @inheritParams is_age_coherent
+#' @return logical. Are there repeated values in the \code{Age} vector?
+#' @export
+#' @examples 
+#' AgeRed    <- c(0:100,70)
+#' # it doesn't matter if Age is sequential for this check
+#' is_age_redundant(AgeRed)
+is_age_redundant <- function(Age){
+  any(table(Age)>1)
+}
 
 #' Detect if a vector of lower age bounds is plausibly of abridged ages.
 #' @description A logical utility that checks if a given vector is of the lower bounds of abridged age groups or not.
