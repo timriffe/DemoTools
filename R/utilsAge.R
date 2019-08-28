@@ -349,7 +349,7 @@ is_age_coherent <- function(Age, AgeInt, OAG = TRUE){
   stopifnot(length(AgeInt) == n)
   
   if (!is_age_sequential(Age)){
-    cat("Age isn't sorted. Sorting Age and AgeInt\nunder strong assumption that they are in matched order.\n")
+    message("Age isn't sorted. Sorting Age and AgeInt\nunder strong assumption that they are in matched order.\n")
     ao     <- order(Age)
     Age    <- Age[ao]
     AgeInt <- AgeInt[ao]
@@ -357,7 +357,7 @@ is_age_coherent <- function(Age, AgeInt, OAG = TRUE){
   
   # check redundancy (case of more than one open age)
   if (is_age_redundant(Age)){
-    cat("At least one age repeated, ergo Age is incoherent\n")
+    message("At least one age repeated, ergo Age is incoherent")
     return(FALSE)
   }
   
@@ -367,7 +367,7 @@ is_age_coherent <- function(Age, AgeInt, OAG = TRUE){
   # better to compare 0s than NAs in next check
   if (OAG){
     if (!is.na(AgeInt[n])){
-      cat("The AgeInt value for OAG should be NA, but it is", AgeInt[n],"\n")
+      message("The AgeInt value for OAG should be NA, but it is", AgeInt[n])
       return(FALSE)
     }
     AgeInt[n] <- 0
@@ -378,7 +378,7 @@ is_age_coherent <- function(Age, AgeInt, OAG = TRUE){
   # is everything coherent?
   out     <- all(Age == Age2) & all(AgeInt == AgeInt2)
   if (!out){
-    cat("Age and AgeInt don't appear to imply one another\n")
+    message("Age and AgeInt don't appear to imply one another")
   }
   out
 }

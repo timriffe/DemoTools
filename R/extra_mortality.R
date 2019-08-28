@@ -198,10 +198,10 @@ extra_mortality <- function(mx,
 #' @export
 print.extra_mortality <- function(x, ...) {
   info <- as.matrix(x$fitted.model$info$model.info[, c(2, 3)])
-  cat(paste(info, collapse = " model: "))
-  cat("\nAges in input:", paste(range(x$input$x), collapse = " - "))
-  cat("\nAges in fit  :", paste(range(x$input$x_fit), collapse = " - "))
-  cat("\nAges in extrapolation:", paste(range(x$input$x_extr), collapse = " - "))
+  message(paste(info, collapse = " model: "))
+  message("\nAges in input:", paste(range(x$input$x), collapse = " - "))
+  message("\nAges in fit  :", paste(range(x$input$x_fit), collapse = " - "))
+  message("\nAges in extrapolation:", paste(range(x$input$x_extr), collapse = " - "))
 }
 
 
