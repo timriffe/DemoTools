@@ -4,19 +4,22 @@
 \alias{is_age_redundant}
 \title{check for redundant age specification}
 \usage{
-is_age_redundant(Age)
+is_age_redundant(Age, AgeInt)
 }
 \arguments{
 \item{Age}{integer vector of single ages (lower bound)}
+
+\item{AgeInt}{integer vector. Age interval widths}
 }
 \value{
 logical. Are there repeated values in the \code{Age} vector?
 }
 \description{
-Ages are considered redundant if values for the lower age bound are repeated. This might occur if there is an extra open age group below the final open age group. For example we have single ages 0 to 84, with an open age group of 85+, but the data also contain an open age group of 70+, leading to age 70 appearing twice.
+Ages are considered redundant if values for the underlying single ages are repeated. This might occur if there is an extra open age group below the final open age group. For example we have single ages 0 to 84, with an open age group of 85+, but the data also contain an open age group of 70+, leading to age 70 appearing twice. This will also detect
 }
 \examples{
-AgeRed    <- c(0:100,70)
+Age    <- c(0:100,70)
+AgeInt <- c(rep(1,100),NA,NA)
 # it doesn't matter if Age is sequential for this check
-is_age_redundant(AgeRed)
+is_age_redundant(Age, AgeInt)
 }
