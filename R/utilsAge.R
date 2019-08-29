@@ -356,7 +356,7 @@ is_age_coherent <- function(Age, AgeInt, OAG = TRUE){
   }
   
   # check redundancy (case of more than one open age)
-  if (is_age_redundant(Age)){
+  if (is_age_redundant(Age, AgeInt)){
     message("At least one age repeated, ergo Age is incoherent")
     return(FALSE)
   }
