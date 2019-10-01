@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: REFERENCES.bib
 vignette: >
-  %\VignetteIndexEntry{Smoothing with DemoTools}
+  %\VignetteIndexEntry{Graduation with DemoTools}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 header-includes:
