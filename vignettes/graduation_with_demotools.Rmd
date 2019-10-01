@@ -1,0 +1,58 @@
+---
+title: "Graduation with DemoTools"
+author: "Jose Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{Smoothing with DemoTools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{amssymb}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+An outline to be filled in. This is pending a wrapper function `graduate()` being written.
+
+## How to use `DemoTools` to graduate counts in grouped ages
+
+### What is graduation?
+
+### How is this different from smoothing?
+
+### Why graduate?
+
+## Read in data
+(let's use package data for this)
+
+## Graduation basic usage
+
+## Methods choices
+
+### Sprague
+
+### Beers
+
+### Montone spline
+
+### Uniform
+
+### Using a standard
+Here the idea is to do the same thing by using `rescaleAgeGroups()` and a standard single age structure. One rescales the standard age structure to match the grouped age data in bins. YMMV.
+
+## Graduation as a light smoother
+light heaping can be grouped and then graduated, holding counts constrained.
+
+## Graduation as a lifetable step
+We could do abridged tables, which have their own consequential a(x) assumptions, or we could graduate to single ages and make a simpler lifetables. In this case the a(x) assumption is partly outsourced to the graduation and partly simplified by assuming midpoints (usually).
+
+## References
