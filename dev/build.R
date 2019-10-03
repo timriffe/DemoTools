@@ -1,11 +1,6 @@
 
 # Author: tim
 ###############################################################################
-#me <- system("whoami",TRUE)
-# if (me == "tim"){
-# 	setwd("/home/tim/git/DemoTools")
-# }
-
 
 shhh <- function(expr){
 	capture.output(x <- suppressPackageStartupMessages(

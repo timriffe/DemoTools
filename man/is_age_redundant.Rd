@@ -17,6 +17,9 @@ logical. Are there repeated values in the \code{Age} vector?
 \description{
 Ages are considered redundant if values for the underlying single ages are repeated. This might occur if there is an extra open age group below the final open age group. For example we have single ages 0 to 84, with an open age group of 85+, but the data also contain an open age group of 70+, leading to age 70 appearing twice. This will also detect
 }
+\details{
+Missing \code{AgeInt} are conservatively imputed with 20, which will most often trigger \code{FALSE} and thereby flag for further inspection.
+}
 \examples{
 Age    <- c(0:100,70)
 AgeInt <- c(rep(1,100),NA,NA)
