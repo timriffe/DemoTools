@@ -228,8 +228,9 @@ LTabr <- function(
   }
   # now we have all three, [mx,ax,qx] guaranteed.
   
+  OA     <- max(Age)
   # TR: save for later, in case OAG preserved
-  if (OAG & OAnew == max(Age)){
+  if (OAG & OAnew == OA){
     momega <- nMx[length(nMx)]
   }
   # --------------------------------
@@ -241,7 +242,6 @@ LTabr <- function(
   # TR: 13 Oct 2018. NOTE switch to always extrapolate to 130 no matter what,
   # then truncate to OAnew in all cases. This will ensure more robust closeouts
   # and an e(x) that doesn't depend on OAnew. 130 used in same way by HMD by the way.
-  OA     <- max(Age)
   x_extr <- seq(extrapFrom, 130, by = 5)
   Mxnew  <- extra_mortality(
     x = Age, 
@@ -312,7 +312,7 @@ LTabr <- function(
   # TR: https://github.com/timriffe/DemoTools/issues/83 
   # (Added 3 Oct 2019)
   if (OAG){
-    if (OAnew == max(Age)){
+    if (OAnew == OA){
       nMx[N] <- momega
     } else {
       # Otherwise inner coherence
