@@ -7,6 +7,8 @@
 Lxlx2Sx(nLx, lx, AgeInt, N = c(5, 1))
 }
 \arguments{
+\item{nLx}{numeric vector of lifetable exposure.}
+
 \item{lx}{numeric. Vector of lifetable survivorship at abridged ages.}
 
 \item{AgeInt}{integer. Vector of age class widths. Default \code{inferAgeIntAbr(Age = Age)}.}
