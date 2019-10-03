@@ -1,0 +1,28 @@
+---
+title: "DemoTools: A case study"
+author: "Jose Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{Smoothing with DemoTools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{amssymb}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Intro
+Here the idea is use API to read in death count and pop count data, evaluate them, adjust them, get to single ages, and make a single age lifetable. Or Abrdiged lifetable. Or both and compare. Show different closeout options too.
+
+##
+
