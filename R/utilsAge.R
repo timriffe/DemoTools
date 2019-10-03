@@ -269,8 +269,6 @@ age2int <- function(Age, OAG = TRUE, OAvalue = NA){
 #'  groupAges(pop1m_ind, N = 5, shiftdown = 3)
 #'  groupAges(pop1m_ind, N = 5, shiftdown = 4)
 #'  groupAges(pop1m_ind, N = 5, OAnew = 80) 
- 
-
 
 groupAges <- function(Value, 
 		Age = 1:length(Value) - 1, 
