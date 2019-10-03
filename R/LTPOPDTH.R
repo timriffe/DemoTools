@@ -4,7 +4,7 @@
 #' Calculate an abridged-age lifetable.
 #' @description Given vectors for Deaths and Exposures, or Mx, or qx, or lx, calculate a full abridged lifetable.
 #' 
-#' @details The main variations here are in the treatment of \code{nAx}. In all cases, the lifetable is extended and closed out using one from a selection of mortality age extrapolation methods implemented in the \code{MortalityLaws} package rather than the common practice of taking the inverse of the final \code{nMx} value (if it's an open interval). For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 110 in the present implementation. By default, the extrapolation model is fit to ages 60 and higher, but you can control this using the \code{extrapFit} argument (give the vector of ages, which must be a subset of \code{Age}). By default extrapolated values are used starting with the input open age, but you can lower this age using the \code{extrapFrom} argument.
+#' @details The main variations here are in the treatment of \code{nAx}. In all cases, the lifetable is extended and closed out using one from a selection of mortality age extrapolation methods implemented in the \code{MortalityLaws} package rather than the common practice of taking the inverse of the final \code{nMx} value (if it's an open interval). For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 110 in the present implementation. By default, the extrapolation model is fit to ages 60 and higher, but you can control this using the \code{extrapFit} argument (give the vector of ages, which must be a subset of \code{Age}). By default extrapolated values are used starting with the input open age, but you can lower this age using the \code{extrapFrom} argument. The \code{Sx} output column (survivor ratios) is aligned with the other columns in all 5-year age groups, but note the first two values have a slightly different age-interval interpretation: In Age 0, the interpretation is survival from birth until interval 0-4. In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align. This column is required for population projections.
 #' 
 #' @param Deaths numeric. Vector of death counts in abridged age classes.
 #' @param Exposures numeric. Vector of population exposures in abridged age classes.
@@ -33,6 +33,7 @@
 #'   \item{lx}{numeric. Lifetable survivorship} 
 #'   \item{ndx}{numeric. Lifetable deaths distribution.} 
 #'   \item{nLx}{numeric. Lifetable exposure.} 
+#'   \item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
 #'   \item{Tx}{numeric. Lifetable total years left to live above age x.} 
 #'   \item{ex}{numeric. Age-specific remaining life expectancy.}
 #' }
@@ -157,14 +158,13 @@ LTabr <- function(
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...){
-  # this is a hard rule for now. May be relaxed if the 
-  # ABACUS code is relaxed. For now mostly unmodified.
-  #stopifnot(OAnew <= 100)
+
   # now overwriting raw nMx is allowed by lowering this
   # arbitrary lower bound to accept the fitted model. Really
   # this functionality is intended for extrapolation and not
   # model overwriting of rates.
   stopifnot(extrapFrom <= max(Age))
+  # TR: should we really be this strict?
   stopifnot(OAnew <= 110)
   # need to make it possible to start w (D,E), M, q or l...
   
@@ -177,19 +177,12 @@ LTabr <- function(
     stopifnot((!missing(Deaths)) & (!missing(Exposures)))
     nMx       <- Deaths / Exposures
   }
-  
-  # TR: what is this for?
-  #	if (missing(Deaths)){
-  #		Deaths    <- NULL
-  #	}
-  #	if (missing(Exposures)){
-  #		Exposures <- NULL
-  #	}
-  
+
   axmethod      <- tolower(axmethod)
   Sex           <- tolower(Sex)
   region        <- tolower(region)
   extrapLaw     <- tolower(extrapLaw)
+ 
   # take care of ax first, two ways presently
   if (missing(nMx)){
     # TR: expedient hack
@@ -322,6 +315,7 @@ LTabr <- function(
     nMx[N]   <-  lx[N] / Tx[N]
   }
   
+  Sx <- Lxlx2Sx(nLx, lx, AgeInt, N = 5)
   # output is an unrounded, unsmoothed lifetable
   out <- data.frame(
     Age = Age,
@@ -332,6 +326,7 @@ LTabr <- function(
     lx = lx,
     ndx = ndx,
     nLx = nLx,
+    Sx = Sx,
     Tx = Tx,
     ex = ex)
   return(out)
