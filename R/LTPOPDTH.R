@@ -297,11 +297,11 @@ LTabr <- function(
   ex  <- ex[ind]
   
   # some closeout considerations
-  N      <- length(nqx)
-  nqx[N] <- 1
-  nLx[N] <- Tx[N]
-  nAx[N] <- ex[N]
-  
+  N          <- length(nqx)
+  nqx[N]     <- 1
+  nLx[N]     <- Tx[N]
+  nAx[N]     <- ex[N]
+  AgeInt[N]  <- NA
   # TR: https://github.com/timriffe/DemoTools/issues/83 
   # (Added 3 Oct 2019)
   if (OAG){
