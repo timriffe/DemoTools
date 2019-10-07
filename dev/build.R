@@ -45,7 +45,7 @@ install_github("timriffe/DemoTools")
 #use_coverage(pkg = "/home/tim/git/DemoTools", type = c("codecov", "coveralls"))
 
 # to update statement in README.md: approximates nr functions avail
-length(dir("/home/tim/git/DemoTools/man"))
+length(dir(here::here("man")))
 
 #library(badger)
 #badge_devel("timriffe/DemoTools", "yellow")
