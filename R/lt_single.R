@@ -72,10 +72,10 @@ lt_single_simple <- function(nMx,
   nAx           <- rep(.5, N)
   nAx[1]        <- geta0CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
   
-  # get qx:
-  qx            <- mxax2qx_Backstop(nMx = nMx, nax = nAx, AgeInt = AgeInt)
+  # get 
+  qx            <- mx2qx(nMx = nMx, nax = nAx, AgeInt = AgeInt)
   
-  lx            <- qx2lx(nqx, radix = radix)
+  lx            <- qx2lx(qx, radix = radix)
   ndx           <- lx2dx(lx)
   nLx           <- lxdxax2Lx(lx = lx, ndx = ndx, nax = nAx, AgeInt = AgeInt)
   Tx            <- Lx2Tx(nLx)
@@ -87,7 +87,7 @@ lt_single_simple <- function(nMx,
   AgeInt        <- AgeInt[ind]
   nAx           <- nAx[ind]
   nMx           <- nMx[ind]
-  nqx           <- nqx[ind]
+  qx           <- qx[ind]
   
   lx            <- lx[ind]
   
@@ -100,8 +100,8 @@ lt_single_simple <- function(nMx,
   Sx            <- Lxlx2Sx(nLx, lx, AgeInt = AgeInt, N = 1) 
   
   # some closeout considerations
-  N             <- length(nqx)
-  nqx[N]        <- 1
+  N             <- length(qx)
+  qx[N]        <- 1
   nLx[N]        <- Tx[N]
   nAx[N]        <- ex[N]
   AgeInt[N]     <- NA
@@ -124,7 +124,7 @@ lt_single_simple <- function(nMx,
     AgeInt = AgeInt,
     nMx = nMx,
     nAx = nAx,
-    nqx = nqx,
+    nqx = qx,
     lx = lx,
     ndx = ndx,
     nLx = nLx,

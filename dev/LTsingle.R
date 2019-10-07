@@ -70,12 +70,12 @@ lt_single_simple <- function(nMx,
   # Now all vectors may end up being longer
   x_extr <- seq(extrapFrom, 130, by = 1)
   Mxnew  <- extra_mortality(
-              x = Age, 
-              mx = nMx, 
-              x_fit = extrapFit,
-              x_extr = x_extr,
-              law = extrapLaw,
-              ...)
+    x = Age, 
+    mx = nMx, 
+    x_fit = extrapFit,
+    x_extr = x_extr,
+    law = extrapLaw,
+    ...)
   
   nMxext        <- Mxnew$values
   Age2          <- names2age(nMxext)
@@ -88,15 +88,15 @@ lt_single_simple <- function(nMx,
   Age           <- Age2
   N             <- length(Age)
   AgeInt        <- rep(1, N)
- 
+  
   # get ax:
   nAx           <- rep(.5, N)
   nAx[1]        <- geta0CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
   
-  # get qx:
-  qx            <- mxax2qx_Backstop(nMx = nMx, nax = nAx, AgeInt = AgeInt)
- 
-  lx            <- qx2lx(nqx, radix = radix)
+  # get 
+  qx            <- mx2qx(nMx = nMx, nax = nAx, AgeInt = AgeInt)
+  
+  lx            <- qx2lx(qx, radix = radix)
   ndx           <- lx2dx(lx)
   nLx           <- lxdxax2Lx(lx = lx, ndx = ndx, nax = nAx, AgeInt = AgeInt)
   Tx            <- Lx2Tx(nLx)
@@ -108,7 +108,7 @@ lt_single_simple <- function(nMx,
   AgeInt        <- AgeInt[ind]
   nAx           <- nAx[ind]
   nMx           <- nMx[ind]
-  nqx           <- nqx[ind]
+  qx           <- qx[ind]
   
   lx            <- lx[ind]
   
@@ -119,10 +119,10 @@ lt_single_simple <- function(nMx,
   ex            <- ex[ind]
   
   Sx            <- Lxlx2Sx(nLx, lx, AgeInt = AgeInt, N = 1) 
-
+  
   # some closeout considerations
-  N             <- length(nqx)
-  nqx[N]        <- 1
+  N             <- length(qx)
+  qx[N]        <- 1
   nLx[N]        <- Tx[N]
   nAx[N]        <- ex[N]
   AgeInt[N]     <- NA
@@ -138,21 +138,28 @@ lt_single_simple <- function(nMx,
   } else {
     nMx[N]      <-  lx[N] / Tx[N]
   }
-
+  
   # output is an unrounded, unsmoothed lifetable
   out <- data.frame(
-           Age = Age,
-           AgeInt = AgeInt,
-           nMx = nMx,
-           nAx = nAx,
-           nqx = nqx,
-           lx = lx,
-           ndx = ndx,
-           nLx = nLx,
-           Sx = Sx,
-           Tx = Tx,
-           ex = ex)
+    Age = Age,
+    AgeInt = AgeInt,
+    nMx = nMx,
+    nAx = nAx,
+    nqx = qx,
+    lx = lx,
+    ndx = ndx,
+    nLx = nLx,
+    Sx = Sx,
+    Tx = Tx,
+    ex = ex)
   return(out)
 }
 
 
+# 
+# library(HMDHFDplus)
+# library(tidyverse)
+# mx <- readHMDweb("USA","mltper_1x1",us,pw) %>% 
+#   filter(Year == 2000) %>% 
+#   pull(mx)
+# lt_single_simple(nMx = mx)
