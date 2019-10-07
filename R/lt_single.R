@@ -73,7 +73,7 @@ lt_single_simple <- function(nMx,
   nAx[1]        <- geta0CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
   
   # get qx:
-  qx            <- mxax2qx_Backstop(nMx = nMx, nAx = nAx, AgeInt = AgeInt)
+  qx            <- mxax2qx_Backstop(nMx = nMx, nax = nAx, AgeInt = AgeInt)
   
   lx            <- qx2lx(nqx, radix = radix)
   ndx           <- lx2dx(lx)
