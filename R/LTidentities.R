@@ -201,7 +201,7 @@ Lxlx2Sx <- function(nLx, lx, AgeInt, N = c(5,1)){
   n  <- length(nLx)
   stopifnot(length(lx) == n)
   # either we're in 1 or 5 year age groups
-  N  <- match.arg(N)
+  stopifnot(length(N) == 1 & N %in% c(5,1))
   ## compute Sx (missing from the LTbr computation
   Sx <- rep(NA, n)
   # first age group is survival from births to the second age group		

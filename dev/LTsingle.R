@@ -119,7 +119,7 @@ lt_single_simple <- function(nMx,
   ex            <- ex[ind]
   
   Sx            <- Lxlx2Sx(nLx, lx, AgeInt = AgeInt, N = 1) 
-  
+
   # some closeout considerations
   N             <- length(nqx)
   nqx[N]        <- 1
