@@ -96,36 +96,36 @@
 #' 
 #' # a Mortpak unit test:
 #' # data from  p. 82 United Nations (1988) Mortpak - ...
-#' MPnMx <- c(0.12846,0.02477,0.00603,0.0034,
-#' 		0.00417,0.00513,0.00581,0.00645,0.00725,
-#' 		0.00813,0.00913,0.01199,0.01647,
-#' 		0.0256,0.04047,0.06624,0.10638,0.19611)
-#' Age <- c(0,1,seq(5,80,by=5))
-#' AgeInt <- age2int(Age,OAvalue = 5)
-#' MPexcheck <- c(49.997,55.675,57.245,53.921,
-#' 		49.803,45.799,41.922,38.084,34.249,
-#' 		30.420,26.578,22.701,18.945,
-#' 		15.349,12.095,9.240,6.903,5.099)
-#' 
-#' # First with lifetable extention to 100
-#' MP_UNLT100 <- LTabr(
-#' 		nMx = MPnMx,
-#' 		Age = Age,
-#' 		AgeInt = AgeInt,
-#' 		axmethod = "un",
-#' 		Sex = "f",
-#' 		mod = FALSE,
-#' 		OAnew = 100)
-#' 
-#' # lifetable to original open age group
-#' MP_UNLT80 <- LTabr(
-#' 		nMx = MPnMx,
-#' 		Age = Age,
-#' 		AgeInt = AgeInt,
-#' 		axmethod = "un",
-#' 		Sex = "f",
-#' 		mod = FALSE,
-#' 		OAnew = 80)
+#'  MPnMx <- c(0.12846,0.02477,0.00603,0.0034,
+#'  		0.00417,0.00513,0.00581,0.00645,0.00725,
+#'  		0.00813,0.00913,0.01199,0.01647,
+#'  		0.0256,0.04047,0.06624,0.10638,0.19611)
+#'  Age <- c(0,1,seq(5,80,by=5))
+#'  AgeInt <- age2int(Age,OAvalue = 5)
+#'  MPexcheck <- c(49.997,55.675,57.245,53.921,
+#'  		49.803,45.799,41.922,38.084,34.249,
+#'  		30.420,26.578,22.701,18.945,
+#'  		15.349,12.095,9.240,6.903,5.099)
+#'  
+#'  # First with lifetable extention to 100
+#'  MP_UNLT100 <- LTabr(
+#'  		nMx = MPnMx,
+#'  		Age = Age,
+#'  		AgeInt = AgeInt,
+#'  		axmethod = "un",
+#'  		Sex = "f",
+#'  		mod = FALSE,
+#'  		OAnew = 100)
+#' #' 
+#' #' # lifetable to original open age group
+#'  MP_UNLT80 <- LTabr(
+#'  		nMx = MPnMx,
+#'  		Age = Age,
+#'  		AgeInt = AgeInt,
+#'  		axmethod = "un",
+#'  		Sex = "f",
+#'  		mod = FALSE,
+#'  		OAnew = 80)
 #' 
 #' # same, but truncated at 60
 #' MP_UNLT60 <- LTabr(
