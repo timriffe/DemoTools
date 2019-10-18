@@ -1,8 +1,8 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.01.04
-Date: 2019-10-07
+Version: 01.01.06
+Date: 2019-10-18
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
           email = "tim.riffe@gmail.com", comment = c(ORCID = "0000-0002-2673-4622")),
@@ -23,7 +23,9 @@ Suggests:
   covr,
   testthat,
   knitr,
-  rmarkdown
+  rmarkdown,
+  tidyverse,
+  magrittr
 RdMacros: Rdpack
 Imports:
   demogR,

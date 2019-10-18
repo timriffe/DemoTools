@@ -13,8 +13,10 @@ lt_test_all_positive_plus_qx_lt_1 <- function(LT) {
     # check positive values
     expect_equal(
         LT %>% 
-            select(-Age) %>% 
-            is_weakly_less_than(0) %>% 
+          # TR: open age AgeInt is NA, not handled well with logicals
+            select(-c(Age,AgeInt)) %>% 
+          # TR: rm is_weakly_less_than() since final 0 is valid sometimes.
+            is_less_than(0) %>% #
             sum,
         0
     )
