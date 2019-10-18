@@ -2,8 +2,32 @@
 
 # TR: TODO 1) make sure no negatives produced in value columns
 # 2) also qx in range 0-1
+# IK: done
 ###############################################################################
 context("test-ltpopdth")
+
+
+# testing function --------------------------------------------------------
+
+lt_test_all_positive_plus_qx_lt_1 <- function(LT) {
+    # check positive values
+    expect_equal(
+        LT %>% 
+            select(-Age) %>% 
+            is_weakly_less_than(0) %>% 
+            sum,
+        0
+    )
+    
+    # check qx less than 1
+    expect_equal(
+        LT %>% 
+            select(nqx) %>% 
+            is_greater_than(1) %>% 
+            sum,
+        0
+    )
+}
 
 
 # PAS LTPOPDTH ------------------------------------------------------------
@@ -50,6 +74,10 @@ test_that("LTabr works on PAS example", {
         excheck[ind],
         tolerance = .01
     )
+    
+    # positive, qx =< 1
+    PASLT %>% lt_test_all_positive_plus_qx_lt_1()
+
 })
 
 
@@ -92,6 +120,11 @@ test_that("LTabr works on UN 1982 (p. 34) example", {
         excheckUN[ind],
         tolerance = .02
     )
+    
+    # positive, qx =< 1
+    UNLT1 %>% lt_test_all_positive_plus_qx_lt_1()
+    UNLT2 %>% lt_test_all_positive_plus_qx_lt_1()
+
 })
 
 
@@ -186,4 +219,9 @@ test_that("LTabr works on Mortpak example (United Nations 1988, p. 82)", {
         MP_UNLT100$ex[1:length(MP_UNLT80$ex)],
         tolerance = 1e-12
     )
+    
+    # positive, qx =< 1
+    MP_UNLT100 %>% lt_test_all_positive_plus_qx_lt_1()
+    MP_UNLT80 %>% lt_test_all_positive_plus_qx_lt_1()
+    MP_UNLT60 %>% lt_test_all_positive_plus_qx_lt_1()
 })
