@@ -1,6 +1,6 @@
 ---
 title: "Graduation with DemoTools"
-author: "Jose Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe"
+author: "José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: REFERENCES.bib
@@ -17,32 +17,65 @@ header-includes:
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width = 6, 
+  fig.height = 6,
+  fig.align = "center"
 )
+
 ```
 
-An outline to be filled in. This is pending a wrapper function `graduate()` being written.
+This is pending a wrapper function `graduate()` being written.
 
 ## How to use `DemoTools` to graduate counts in grouped ages
 
 ### What is graduation?
+Graduation is a practice used to derive figures for _n_-year age groups, for example 5-year age groups from census data, that are corrected for net reporting error [@siegel2004methods]. Essentially, these methods fit different curves to the original  _n_-year and redistribute them into single-year values. These techniques are designed so that the sum of the interpolated single-year values is consistent with the total for the groups as a whole. Among the major graduation methods are the Sprague [@sprague1880explanation] and Beers [@beers1945modified] osculatory methods, monotone spline and the uniform distributions. All of these implemented in `DemoTools`.
 
 ### How is this different from smoothing?
+The selection of the interpolation formula to be used depends mostly on the desired balance between smoothness and closeness of fit to the data. In general, an improvement
+in smoothness can only be made at the expense of closeness of fit. The analyst must judge, according to his or her experience, the relative importance that should be given to each of the two opposing considerations. 
+
 
 ### Why graduate?
+One of the main purposes of graduation is to refine the detail of available data in published statistics or surveys. This allows to estimate numbers of persons in single years of age from data originally in 5-year age groups. In practice, graduation of mortality curves has been very important to estimate reliable life tables, but also in fertility studies graduation is useful for the analysis of data from populations where demographic recors are defective [@brass1960graduation].
+
 
 ## Read in data
-(let's use package data for this)
+```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
+library(DemoTools)
+
+# 'pop1m_ind' available as package data
+Value <- pop1m_ind
+Age   <- 0:(length(Value)-1)
+  
+plot(Age, Value/sum(Value), type = 'l',
+     ylab = 'Proportion of population',
+     xlab = 'Single age',
+     main = 'Unsmoothed population') 
+  
+```
 
 ## Graduation basic usage
 
 ## Methods choices
 
 ### Sprague
+@sprague1880explanation suggested the fifth-difference method based on one equation that depends on two polynomials of the fourth degree forced to have a common ordinate, tangent and radius of curvature at $Y_{n+2}$ and at $Y_{n+3}$:
+
+\begin{equation*}
+y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
+\frac{(x+2)(x+1)}{2!}\Delta y^2_n +
+\frac{(x+2)(x+1)x}{3!}\Delta y^3_n +
+\frac{(x+2)(x+1)(x-1)x}{4!}\Delta y^4_n +
+\frac{x^3(x-1)(5x-7)}{4!}\Delta y^5_n 
+\end{equation*}
+
+There are six observations $Y_{n},Y_{n+1},Y_{n+2},Y_{n+3},Y_{n+4}$ and $Y_{n+5}$ involved in the leading differences, $\Delta y_{n},\dots,\Delta^5 y_n $. 
 
 ### Beers
 
-### Montone spline
+### Monotone spline
 
 ### Uniform
 
