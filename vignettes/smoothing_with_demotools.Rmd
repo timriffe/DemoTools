@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 ## How to use `DemoTools` to smooth population counts
 
-Smoothing, grouping or graduation of data over age is traditionally intended to have plausible/corrected estimates of population counts from census data. This procedures help to derive figures that are corrected primarly for net error by fitting different curves to the original 5 or 10-year totals, modifying the original counts [@siegel2004methods]. Several methods have been developed for this aim and the major graduation methods are included in `DemoTools`. Including the Carrier-Farrag [@carrier1959reduction], Arriaga [@arriaga1994population], Karup-King-Newton, United Stations [@united1955manual], Spencer [@spencer1987improvements] and Zelnik methods. Below we briefly give an overview of the method and apply them to the male Indian population in 1991.
+Smoothing data over age is traditionally intended to have plausible/corrected estimates of population counts from census data. Smoothing procedures help to derive figures that are corrected primarly for net error by fitting different curves to the original 5 or 10-year totals, modifying the original counts [@siegel2004methods]. Several methods have been developed for this aim and the major smoothing methods are included in `DemoTools`. Including the Carrier-Farrag [@carrier1959reduction], Arriaga [@arriaga1994population], Karup-King-Newton, United Stations [@united1955manual], Spencer [@spencer1987improvements] and Zelnik methods. Below we briefly give an overview of the method and apply them to the male Indian population in 1991.
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
 library(DemoTools)
