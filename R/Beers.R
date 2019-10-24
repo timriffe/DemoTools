@@ -44,11 +44,6 @@ beersExpand <- function(popmat, OAG = FALSE, method = "Mod"){
 	
 	popmat <- as.matrix(popmat)
 	
-	# figure out ages and years
-	Age5   <- as.integer(rownames(popmat))
-	Age1   <- min(Age5):max(Age5)
-	yrs    <- as.integer(colnames(popmat))
-	
 	# nr 5-year age groups
 	m      <- nrow(popmat)
 	# nr rows in coef mat.
@@ -242,7 +237,7 @@ beers <- function(
 
 	# this is innocuous if ages are already grouped
 	pop5              <- apply(popmat, 2, groupAges, Age = Age, N = 5, shiftdown = 0)
-	
+
 	# generate coefficient matrix
 	bm                <- beersExpand(pop5, OAG = OAG, method = method)
 	
@@ -257,7 +252,8 @@ beers <- function(
 		pop1 <- johnsonAdjust(Age0 = Age0, pop5 = pop5, pop1 = pop1)
 	}
 	
-	zero              <- min(as.integer(rownames(popmat)))
+	# TR will this fail if Age starts with 1?
+	zero              <- min(Age)
 	ages              <- zero:(nrow(bm) - 1 + zero)
 	dimnames(pop1)    <- list(ages, colnames(popmat))
 	pop1
