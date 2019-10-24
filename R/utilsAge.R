@@ -517,16 +517,18 @@ names2age <- function(...){
 	}
 	# which have names
 	TF <- unlist(lapply(XL,function(x){
-				!is.null(names(x))
+	      name_fun <- ifelse(is.null(dim(x)), names,function(y){dimnames(y)[[1]]})
+				!is.null(name_fun(x))
 			}))
 	
 	if (any(TF)){
 		# takes names from first available
-		x   <- XL[[which(TF)[1]]]
-		Age <- as.integer(names(x))
+		x        <- XL[[which(TF)[1]]]
+		name_fun <- ifelse(is.null(dim(x)), names,function(y){dimnames(y)[[1]]})
+		Age      <- as.integer(name_fun(x))
 	} else {
-		x   <- XL[[1]]
-		Age <- rep(NA, length(x))
+		x        <- XL[[1]]
+		Age      <- rep(NA, length(x))
 	}
 	Age
 }
