@@ -1,8 +1,8 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.01.08
-Date: 2019-10-24
+Version: 01.02.000
+Date: 2019-10-25
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
           email = "tim.riffe@gmail.com", comment = c(ORCID = "0000-0002-2673-4622")),
@@ -29,6 +29,7 @@ Suggests:
 RdMacros: Rdpack
 Imports:
   demogR,
+  ungroup,
   MortalityLaws (>= 1.7.0),
   Rdpack
 BugReports: https://github.com/timriffe/DemoTools/issues

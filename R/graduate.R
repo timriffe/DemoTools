@@ -49,7 +49,7 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...){
 #' 
 #' Some methods are constrained, others not, and others are optionally constrained. If this is required, then this function can be followed up with \code{rescaleAgeGroups()}, which may have the effect of breaking continuity in smooth results. This is inconsequential for downstream demography, but if this aesthetic side effect is undesired, then try one of the constrained methods: \code{"sprague"}, \code{"mono"}, \code{"pclm"} (with \code{control = list(lambda = 1/1e7) specified} or similar).
 #' 
-#' Beers may either be ordinary \code{"beers(ord)"} or modified \code{"beers(mod)}, and either can pass on the optional argument \code{johnson = TRUE} if desired (this has a different distribution pattern for young ages, \code{FALSE} by default). If \code{method = "beers"} is given, then \code{"beers(ord)"} is used.
+#' Beers may either be ordinary \code{"beers(ord)"} or modified \code{"beers(mod)"}, and either can pass on the optional argument \code{johnson = TRUE} if desired (this has a different distribution pattern for young ages, \code{FALSE} by default). If \code{method = "beers"} is given, then \code{"beers(ord)"} is used.
 #' 
 #' This wrapper standardizes some inconsistencies in how open ages are dealt with. For example, with the \code{"pclm"} method, the last age group can be redistributed over a specified interval implied by increase \code{OAnew} beyond the range of \code{Age}. To get this same behavior from \code{"mono"}, or \code{"uniform"} specify \code{OAG = FALSE} along with an appropriately high \code{OAnew} (or integer final value of \code{AgeInt}.
 #' 
@@ -59,8 +59,8 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...){
 #' @param Age integer vector, lower bounds of age groups
 #' @param AgeInt integer vector, age interval widths
 #' @param OAG logical, default = \code{TRUE} is the final age group open?
-#' @param OAGnew integer, optional new open age, higher than \code{max(Age)}. See details.
-#' @param method
+#' @param OAnew integer, optional new open age, higher than \code{max(Age)}. See details.
+#' @param method character, either \code{"sprague"}, \code{"beers(ord)")}, \code{"beers(mod)")}, \code{"mono")}, \code{"uniform")}, or \code{"pclm"}
 #' @param keep0 logical. Default \code{FALSE}. If available, should the value in the infant age group be maintained, and ages 1-4 constrained?
 #' @param ... extra arguments passed to \code{beers()} or \code{graduate_pclm()}
 #' @seealso \code{\link{sprague}}, \code{\link{beers}}, \code{\link{splitUniform}}, \code{\link{splitMono}}, \code{\link{graduate_pclm}}
@@ -120,14 +120,20 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...){
 #'            OAnew = 110, offset = Exposures[-1], 
 #'            method = "pclm", control = list(lambda = 1e7))
 #' 
-#' 
-#' plot(Age, Deaths / Exposures, type = 's', log = 'y', 
-#' main = "Underlying d'ata have differential heaping on 0s and 5s")
+#' \dontrun{
+#' plot(Age,
+#'      Deaths / Exposures, 
+#'      type = 's', log = 'y', 
+#'      main = "Underlying data have differential heaping on 0s and 5s")
 #' lines(1:110, mx)
 #' lines(1:110, mx_sm, col = "blue")
-#' legend("bottomright", col = c("black","blue"), lty = c(1, 1),
-#'   legend=c("lambda optimized (almost constrained)", 
-#'   "higher lambda = smoother"))
+#' legend("bottomright", 
+#'        col = c("black","blue"),
+#'        lty = c(1, 1),
+#'        legend = c("lambda optimized (almost constrained)", 
+#'                   "higher lambda = smoother")
+#'        )
+#'   }
 
 graduate <- function(
   Value, 
@@ -186,12 +192,12 @@ graduate <- function(
   if (method == "uniform"){
     OAvalue <- OAnew - max(Age) + 1
     out <- splitUniform(
-             Value = Value, 
-             Age = Age, 
-             AgeInt = AgeInt, 
-             OAG = OAG,
-             OAvalue = OAvalue) # OAvalue only if OAG and
-                                # extrapolation desired?
+      Value = Value, 
+      Age = Age, 
+      AgeInt = AgeInt, 
+      OAG = OAG,
+      OAvalue = OAvalue) # OAvalue only if OAG and
+    # extrapolation desired?
   }
   
   # Mono respects irregular intervals
@@ -224,6 +230,7 @@ graduate <- function(
   
   out
 }
+
 
 
 
