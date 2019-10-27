@@ -35,4 +35,3 @@ Imports:
 BugReports: https://github.com/timriffe/DemoTools/issues
 Encoding: UTF-8
 VignetteBuilder: knitr
-Remotes: mpascariu/ungroup
