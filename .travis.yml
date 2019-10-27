@@ -11,3 +11,7 @@ r:
   - oldrel
   - release
   - devel
+  
+r_binary_packages:
+  - rgl
+  
