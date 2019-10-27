@@ -159,6 +159,9 @@ LTabr <- function(
   extrapFit = Age[Age >= 60],
   ...){
 
+  # ages must be abridged.
+  stopifnot(is_abridged(Age))
+  
   # now overwriting raw nMx is allowed by lowering this
   # arbitrary lower bound to accept the fitted model. Really
   # this functionality is intended for extrapolation and not
