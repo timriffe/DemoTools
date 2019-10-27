@@ -61,17 +61,13 @@ library(DemoTools)
 ?survRatioError
 
 # graduation methods
-?sprague
-?beers # methods including "ord" and "mod", as well as johnson option for young ages
-?grabill
-?splitMono
-?monoCloseout
-?splitOscillate # accepting e.g. spragueSimple, beersSimple as split methods
+?graduate # methods include "sprague", "beers(ord)", "beers(mod)", "mono","uniform", and "pclm"
 
 # various smoothing methods
 
 # * for 5-year age groups
 ?agesmth # including Carrier-Farrag, Arriaga, Karup-King-Newton, United Nations, Strong, Zigzag, and MAV methods
+
 # * for single ages
 ?agesmth1 # including loess and polynomial
 ?spencer
@@ -90,7 +86,7 @@ library(DemoTools)
 ?rescaleAgeGroups (including for cases of different age groupings)
 ```
 
-These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 118 documented functions, with more in development. 
+These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 121 documented functions, with more in development. 
 
 Presently all functions are in a testing phase, but the aim is to end up with a set of robust generic functions around which wrappers can be easily built for various institutional data production needs. As-is, these functions may also be useful for DIY demographers. This set of methods is a cherry-pick from legacy methods collections, including PAS, DAPPS, MPCDA, MortPack, IREDA, UN Manual X, G. Feeney Spreadsheets, formulas found in Siegel and Swanson or Shyrock and Siegel, and various (apparent) first-implementations from formulas in papers, or ad hoc DIY approximations from old pros. 
 
