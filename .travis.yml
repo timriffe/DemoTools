@@ -15,6 +15,7 @@ r:
 r_binary_packages:
   - rgl
   - RcppEigen 
+  - tinytex
   
 env:
   - RGL_USE_NULL=TRUE
