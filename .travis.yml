@@ -18,6 +18,7 @@ r_binary_packages:
   - tinytex
   - rmarkdown
   - rgl
+  - xml2
   
 env:
   - RGL_USE_NULL=TRUE
