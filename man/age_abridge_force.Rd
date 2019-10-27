@@ -6,6 +6,13 @@
 \usage{
 age_abridge_force(Value, AgeInt, Age)
 }
+\arguments{
+\item{Value}{numeric. Vector of (presumably) counts in grouped ages.}
+
+\item{AgeInt}{integer or numeric. Vector of age intervals.}
+
+\item{Age}{numeric. Vector of ages corresponding to the lower integer bound of the age range.}
+}
 \description{
 This is a robustness utility, in place to avoid annoying hang-ups in \code{LTAbr()}. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling \code{LTAbr()}
 }
