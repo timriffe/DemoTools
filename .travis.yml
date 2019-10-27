@@ -14,7 +14,7 @@ r:
   
 r_binary_packages:
   - rgl
-  - RcppEigen (>= 0.3.2.8.1)
+  - RcppEigen 
   
 env:
   - RGL_USE_NULL=TRUE
