@@ -34,7 +34,7 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...){
     stopifnot(o1 | o5)
   }
   
-  A        <- ungroup::pclm(x = Age, y = Value, nlast = nlast, ...)
+  A        <- pclm(x = Age, y = Value, nlast = nlast, ...)
   B        <- A$fitted
   names(B) <- min(Age):OAnew
   B
