@@ -13,9 +13,10 @@ r:
   - devel
   
 r_binary_packages:
-  - rgl
   - RcppEigen
   - tinytex
+  - rmarkdown
+  - rgl
   
 env:
   - RGL_USE_NULL=TRUE
