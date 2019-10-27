@@ -13,6 +13,7 @@ r:
   - devel
   
 r_binary_packages:
+  - lubridate
   - RcppEigen
   - tinytex
   - rmarkdown
