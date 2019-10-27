@@ -15,3 +15,6 @@ r:
 r_binary_packages:
   - rgl
   
+env:
+  - RGL_USE_NULL=TRUE
+  
