@@ -683,6 +683,32 @@ rescaleAgeGroups <- function(
 	}
 }
 
+#' force a (count) vector to abridged ages
+#' @description This is a robustness utility, in place to avoid annoying hang-ups in \code{LTAbr()}. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling \code{LTAbr()}
+#' @details This should be able to group up and group down as needed. \code{splitMono()} is used below the hood. \code{pclm()} or \code{splitUniform()} out to be flexible enough to do the same.
+#' @inheritParams LTAbr
+#' @seealso splitMono, LTAbr
+#' @export
+#' @examples
+#' V1        <- pop1m_ind
+#' Age       <- c(0,1,3,seq(5,100,5))
+#' AgeInt    <- c(1,2,2,rep(5,19),1)
+#' Value     <- tapply(V1,rep(Age,times=AgeInt), sum)
+#' 
+#' is_abridged(Age)
+#' age_abridge_force(Value, AgeInt, Age)
+age_abridge_force <- function(Value, AgeInt, Age){
+  v1     <- splitMono(
+    Value, 
+    AgeInt,
+    Age = Age)
+  a1     <- min(Age):(length(v1)-1)
+  AgeAbr <- calcAgeAbr(a1)
+  vabr   <- tapply(v1, AgeAbr, sum)
+  vabr
+}
+
+
 # deprecated functions
 
 # TR: deprecated July 20, 2018
@@ -772,3 +798,7 @@ rescaleAgeGroups <- function(
 #	
 #	return(output)
 #}
+
+
+
+
