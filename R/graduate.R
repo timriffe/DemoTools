@@ -41,7 +41,7 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...){
 }
 
 
-#' graduate grouped data
+#' Graduate grouped data
 #' 
 #' @description A wrapper function for several graduation methods, primarily for count data (\code{"sprague"}, \code{"beers(ord)"}, \code{"beers(mod)"}, \code{"mono"} (Monotonic spline), \code{"uniform"}, \code{"pclm"}), but also with one (\code{"pclm"}) with an option for graduating rates if both event counts and population at risk are available.
 #' 
