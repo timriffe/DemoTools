@@ -74,13 +74,13 @@ There are six observations $Y_{n},Y_{n+1},Y_{n+2},Y_{n+3},Y_{n+4}$ and $Y_{n+5}$
 beers.ordinary <- graduate(Value, Age, method = "beers(ord)")
 beers.modified <- graduate(Value, Age, method = "beers(mod)")
 
-single.age  <- as.integer(rownames(sprague))
+single.age  <- names2age(beers.ordinary)
 plot(single.age, beers.ordinary, type = 'l',
      ylab = 'Population',
      xlab = 'Age',
      main = 'Graduation with Beers methods')
-lines(beers.modified)
-
+lines(single.age,beers.modified, col = "red")
+legend("topright",lty=1,col=c(1,2),legend=c("ordinary (5-yr constrained)","modified (smoother)"))
 #check the totals
 sum(beers.ordinary)
 sum(beers.modified)
@@ -92,7 +92,6 @@ Following a similar idea, Beers interpolated two overlapping curves minimizing t
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
 sprague <- graduate(Value, Age, method = "sprague")
-single.age  <- as.integer(rownames(sprague))
 plot(single.age, sprague, type = 'l',
      ylab = 'Population',
      xlab = 'Age',

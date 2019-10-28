@@ -2,7 +2,7 @@
 % Please edit documentation in R/graduate.R
 \name{graduate}
 \alias{graduate}
-\title{graduate grouped data}
+\title{Graduate grouped data}
 \usage{
 graduate(Value, Age, AgeInt = age2int(Age), OAG = TRUE,
   OAnew = max(Age), method = c("sprague", "beers(ord)", "beers(mod)",
