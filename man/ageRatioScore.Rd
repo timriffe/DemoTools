@@ -24,8 +24,8 @@ ageRatioScore(Value, Age, ageMin = 0, ageMax = max(Age),
 The value of the index.
 }
 \description{
-A single ratio is defined as the 100 times twice the size of an age group 
-to its neighboring two age groups. Under uniformity these would all be 100. The average 
+A single ratio is defined as the 100 times twice the size of an age group
+to its neighboring two age groups. Under uniformity these would all be 100. The average
 absolute deviation from 100 defines this index. This comes from the PAS spreadsheet called AGESEX
 }
 \details{

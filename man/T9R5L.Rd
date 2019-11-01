@@ -25,9 +25,9 @@ Fenney's technique for correcting age distributions for heaping on multiples of 
 \code{Value} can be given in single or 5-year age groups.
 }
 \examples{
-# data from feeney1979, Table 1, page 12: Population of Indonesia, 22 provinces, 
+# data from feeney1979, Table 1, page 12: Population of Indonesia, 22 provinces,
 # by single year of age: Census of 24 September 1971.
- Pop <- c(2337,3873,3882,3952,4056,3685,3687,3683,3611,3175,
+ Pop        <- c(2337,3873,3882,3952,4056,3685,3687,3683,3611,3175,
          3457,2379,3023,2375,2316,2586,2014,2123,2584,1475,
          3006,1299,1236,1052,992,3550,1334,1314,1337,942,
          3951,1128,1108,727,610,3919,1221,868,979,637,
@@ -35,10 +35,10 @@ Fenney's technique for correcting age distributions for heaping on multiples of 
          2259,551,363,290,226,1153,379,217,223,152,
          1500,319,175,143,89,670,149,96,97,69,
          696,170,60,38,23,745)
- Ages <- c(0:75)
- result <- T9R5L(Pop, Ages, OAG = TRUE)
- A5 <- names2age(result)
- V5 <- groupAges(Pop,Ages)
+ Ages       <- c(0:75)
+ result     <- T9R5L(Pop, Ages, OAG = TRUE)
+ A5         <- names2age(result)
+ V5         <- groupAges(Pop,Ages)
  \dontrun{
  plot(Ages, Pop, type= 'l')
  segments(A5,

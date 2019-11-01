@@ -62,7 +62,7 @@ graduate(Value, Age, method = "uniform")
 
 graduate(Value, Age, method = "pclm")
 graduate(Value, Age, method = "pclm", keep0=TRUE)
-# pclm can also graduate rates if both 
+# pclm can also graduate rates if both
 # numerators and denominators are on hand:
 Exposures <- c(100958,466275,624134,559559,446736,370653,301862,249409,
                247473,223014,172260,149338,127242,105715,79614,53660,
@@ -76,27 +76,27 @@ AgeInt <- c(diff(Age), NA)
 
 # exclude infants for better fit.
 mx    <- graduate(
-           Value = Deaths[-1], Age = Age[-1], 
-           AgeInt = AgeInt[-1], OAG = TRUE, 
+           Value = Deaths[-1], Age = Age[-1],
+           AgeInt = AgeInt[-1], OAG = TRUE,
            OAnew = 110, offset = Exposures[-1],
            method = "pclm")
 mx_sm <- graduate(
-           Value = Deaths[-1], Age = Age[-1], 
-           AgeInt = AgeInt[-1], OAG = TRUE, 
-           OAnew = 110, offset = Exposures[-1], 
+           Value = Deaths[-1], Age = Age[-1],
+           AgeInt = AgeInt[-1], OAG = TRUE,
+           OAnew = 110, offset = Exposures[-1],
            method = "pclm", control = list(lambda = 1e7))
 
 \dontrun{
 plot(Age,
-     Deaths / Exposures, 
-     type = 's', log = 'y', 
+     Deaths / Exposures,
+     type = 's', log = 'y',
      main = "Underlying data have differential heaping on 0s and 5s")
 lines(1:110, mx)
 lines(1:110, mx_sm, col = "blue")
-legend("bottomright", 
+legend("bottomright",
        col = c("black","blue"),
        lty = c(1, 1),
-       legend = c("lambda optimized (almost constrained)", 
+       legend = c("lambda optimized (almost constrained)",
                   "higher lambda = smoother")
        )
   }

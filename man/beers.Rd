@@ -8,8 +8,7 @@ beers(popmat, Age = as.integer(rownames(as.matrix(popmat))),
   OAG = TRUE, method = "mod", johnson = FALSE)
 }
 \arguments{
-\item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 
-margins (age in rows and year in columns).}
+\item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled margins (age in rows and year in columns).}
 
 \item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.}
 
@@ -20,15 +19,14 @@ margins (age in rows and year in columns).}
 \item{johnson}{logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default \code{FALSE}.}
 }
 \value{
-An age-period matrix of split population counts with the same number of 
+An age-period matrix of split population counts with the same number of
 columns as \code{popmat}, and single ages in rows.
 }
 \description{
-This method offers both ordinary and modified Beers splitting, 
-with an optional \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} adjustment \code{johnson} for ages under 10.
+This method offers both ordinary and modified Beers splitting, with an optional \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} adjustment \code{johnson} for ages under 10.
 }
 \details{
-Ages should refer to lower age bounds. The rows of \code{popmat} must be labelled with ages unless \code{Age} is given separately. There must be at least six 5-year age groups (including the open group, 5 otherwise). One year of data will work as well, as long as it is given as or coercible to a single-column matrix. If you want the \code{johnson} adjustment then \code{popmat} must contain a single-year estimate of the population count in age 0. That means popmat must come either as standard abridged or single age data.  
+Ages should refer to lower age bounds. The rows of \code{popmat} must be labelled with ages unless \code{Age} is given separately. There must be at least six 5-year age groups (including the open group, 5 otherwise). One year of data will work as well, as long as it is given as or coercible to a single-column matrix. If you want the \code{johnson} adjustment then \code{popmat} must contain a single-year estimate of the population count in age 0. That means popmat must come either as standard abridged or single age data.
 
 If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend to single ages covering the entire 5-year age group.
 }
@@ -38,11 +36,11 @@ head(p5) # this is the entire matrix
 p1 <- beers(p5, OAG = FALSE)
 head(p1)
 # note some negatives in high ages
-tail(p1) 
-colSums(p1) - colSums(p5) 
+tail(p1)
+colSums(p1) - colSums(p5)
 
 # another case, starting with single ages
-# note beers() groups ages. 
+# note beers() groups ages.
 Value        <- pop1m_ind
 Age          <- 0:100
 names(Value) <- Age
@@ -53,14 +51,14 @@ plot(Age,Value,
 ylab = 'The counts', xlab = 'Age groups')
 lines(Age, ord1, t='l', col='blue')
 lines(Age, mod1, t = 'l', col ='red', lty =2)
-legend(80,15000000, 
+legend(80,15000000,
       legend = c('Ordinary',
                  'Modified'),
       col=c('blue', 'red'),
       lty = c(1,2))
 }
 
-# notice this negative value. Yuck! 
+# notice this negative value. Yuck!
 tail(mod1)
 # this replaces ages 90+, guaranteed no negatives.
 monoCloseout(Value, pops = mod1, OAG = TRUE)
@@ -75,9 +73,9 @@ dim(M)      <- c(length(M),1)
 rownames(M) <- c(0,1,seq(5,80,by=5))
 Age0        <- 184499
 johnson     <- beers(
-		         popmat = M, 
+		         popmat = M,
 		         OAG = TRUE,
-			     method = "ord", 
+			     method = "ord",
 			     johnson = TRUE)
 }
 \references{

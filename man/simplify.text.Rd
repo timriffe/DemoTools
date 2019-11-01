@@ -13,10 +13,7 @@ simplify.text(string)
 character string
 }
 \description{
-all characters are converteusd to lower case, and all non-alphabet characters are removed. 
-This is useful for reducing checks on names of user-specified strings, like \code{method} arguments.
-For example, \code{"Carrier-Farrag"}, \code{"Carrier Farrag"}, or \code{"carrier_farrag"} all get 
-converted to \code{"carrierfarrag"}.
+all characters are converteusd to lower case, and all non-alphabet characters are removed. This is useful for reducing checks on names of user-specified strings, like \code{method} arguments. For example, \code{"Carrier-Farrag"}, \code{"Carrier Farrag"}, or \code{"carrier_farrag"} all get converted to \code{"carrierfarrag"}.
 }
 \examples{
 simplify.text(c("carrier_farrag","CarrierFarrag","Carrier-Farrag"))

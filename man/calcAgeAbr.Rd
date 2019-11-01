@@ -17,7 +17,7 @@ Assign single ages to 5-year abridged age groups. That means that age 0 is kept 
 ages 1-4 are grouped together as abridged age 1, and thereafter 5-year age groups are used.
 }
 \details{
-In the case that the single \code{Age} vector starts at some age higher than 4, 
+In the case that the single \code{Age} vector starts at some age higher than 4,
 this is just the same as \code{calcAgeN(Age,5,0)}.
 }
 \examples{

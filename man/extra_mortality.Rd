@@ -20,7 +20,7 @@ fitted values and residuals are computed for all ages in \code{x}.}
 
 \item{x_extr}{Ages for which to extrapolate the death-rates.}
 
-\item{law}{The name of the mortality law/model to be used. 
+\item{law}{The name of the mortality law/model to be used.
 The following options are available: \itemize{
   \item{\code{"kannisto"}} -- The Kannisto model;
   \item{\code{"kannisto_makeham"}} -- The Kannisto-Makeham model;
@@ -38,18 +38,15 @@ function to be optimize. Available options: the Poisson likelihood function
 6 other loss functions. For more details, check the \code{\link{availableLF}}
 function.}
 
-\item{...}{Other arguments to be passed on to the 
+\item{...}{Other arguments to be passed on to the
 \code{\link[MortalityLaws]{MortalityLaw}} function.}
 }
 \value{
 An object of class \code{extra_mortality} with the following components:
  \item{input}{List with arguments provided in input. Saved for convenience.}
- \item{call}{An unevaluated function call, that is, an unevaluated expression 
- which consists of the named function applied to the given arguments.}
- \item{fitted.model}{An object of class \code{\link[MortalityLaws]{MortalityLaw}}.
- Here one can find fitted values, residuals, goodness of fit measures etc.}
- \item{values}{A vector or matrix containing the complete mortality data, that is
- the modified input data following the extrapolation procedure.}
+ \item{call}{An unevaluated function call, that is, an unevaluated expressionwhich consists of the named function applied to the given arguments.}
+ \item{fitted.model}{An object of class \code{\link[MortalityLaws]{MortalityLaw}}. Here one can find fitted values, residuals, goodness of fit measures etc.}
+ \item{values}{A vector or matrix containing the complete mortality data, that is the modified input data following the extrapolation procedure.}
 }
 \description{
 Extrapolate old-age human mortality curve using mortality laws
@@ -58,8 +55,8 @@ Extrapolate old-age human mortality curve using mortality laws
 # Example 1 - abridged data
 
 # Age-specific death rates
-mx <- c(.0859, .0034, .0009, .0007, .0016, .0029, .0036, .0054, 
-        .0053, .0146, .0127, .0269, .0170, .0433, .0371, .0784, 
+mx <- c(.0859, .0034, .0009, .0007, .0016, .0029, .0036, .0054,
+        .0053, .0146, .0127, .0269, .0170, .0433, .0371, .0784,
         .0930, .1399, .1875, .2250, .2500, .3000)
 # Vector of ages
 x <- c(0, 1, seq(5, 100, by = 5))
@@ -137,7 +134,7 @@ lines(x_extr, g8$values[paste(x_extr)], lty = 8, col = 9, lwd = 2)
 
 legend("topleft", bty = "n",
        legend = c("Obs. Values", "Obs. Values used in fitting",
-                  "Kannisto", "Kannisto-Makeham", "Gompertz", "Gamma-Gompertz", 
+                  "Kannisto", "Kannisto-Makeham", "Gompertz", "Gamma-Gompertz",
                   "Makeham", "Beard", "Beard-Makeham", "Quadratic"),
        lty = c(NA, NA, 1:8), pch = c(16, 16, rep(NA, 8)),
        col = c(1, 4, 2:9), lwd = 2, pt.cex = 2)

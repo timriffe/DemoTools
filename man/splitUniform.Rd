@@ -24,13 +24,10 @@ Numeric vector of counts for single year age groups.
 Uniformly splits aggregate counts in age groups into single year age groups.
 }
 \details{
-Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. 
-If \code{AgeInt} is given, its final value is used as the interval for the final age group. 
-If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. 
-To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, *or* give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}.
+Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If \code{AgeInt} is given, its final value is used as the interval for the final age group. If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, *or* give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}.
 }
 \examples{
-MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,            
+MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,
 		11993151,10033918,14312222,8111523,15311047,6861510,13305117,7454575,
 		9015381,10325432,9055588,5519173)
 Ages <- seq(0, 85, by = 5)

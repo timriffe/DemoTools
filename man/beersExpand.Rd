@@ -15,11 +15,11 @@ beersExpand(popmat, OAG = FALSE, method = "Mod")
 }
 \description{
 The resulting coefficient matrix is based on the number of rows in \code{popmat}
-which must be in 5-year age groups (not abridged). The final row may be an open 
+which must be in 5-year age groups (not abridged). The final row may be an open
 or closed age group, as indicated by the \code{OAG} argument.
 }
 \details{
-The \code{popmat} matrix is really just a placeholder in this case. This function is 
+The \code{popmat} matrix is really just a placeholder in this case. This function is
 a utility called by the Beers family of functions, where it is most convenient to just pass
 in the same matrix being used in those calculations to determine the layout of the coefficient matrix.
 }

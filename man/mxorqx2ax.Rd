@@ -35,9 +35,9 @@ mxorqx2ax(nMx, nqx, axmethod = c("pas", "un")[1], Age, AgeInt,
 
 \item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
 
-\item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>=60}.}
+\item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>          =60}.}
 
-\item{...}{Other arguments to be passed on to the 
+\item{...}{Other arguments to be passed on to the
 \code{\link[MortalityLaws]{MortalityLaw}} function.}
 }
 \value{

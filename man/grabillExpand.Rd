@@ -12,18 +12,10 @@ grabillExpand(popmat, OAG = TRUE)
 \item{OAG}{logical. Whether or not the final age group open. Default \code{TRUE}.}
 }
 \description{
-The resulting coefficient matrix is based on the number of rows in \code{popmat}
-where we assume that each row of data is a 5-year age group and the final row is an open age group
-to be preserved as such.
+The resulting coefficient matrix is based on the number of rows in \code{popmat} where we assume that each row of data is a 5-year age group and the final row is an open age group to be preserved as such.
 }
 \details{
-The \code{popmat} matrix is really just a placeholder in this case. This function is 
-a utility called by the Grabill family of functions, where it is most convenient to just pass
-in the same matrix being used in those calculations to determine the layout of the coefficient matrix.
-Note that these coefficients do not constrain population counts to their year totals. This function 
-is called by \code{grabill()}, which ensures matching marginals by 1) blending boundary ages 
-into the Sprague estimated population, and 2) a second constraint on the middle age groups to enforce
-matching sums.
+The \code{popmat} matrix is really just a placeholder in this case. This function is a utility called by the Grabill family of functions, where it is most convenient to just pass in the same matrix being used in those calculations to determine the layout of the coefficient matrix. Note that these coefficients do not constrain population counts to their year totals. This function is called by \code{grabill()}, which ensures matching marginals by 1) blending boundary ages into the Sprague estimated population, and 2) a second constraint on the middle age groups to enforce matching sums.
 }
 \examples{
 grabillExpand(pop5_mat, OAG = TRUE)

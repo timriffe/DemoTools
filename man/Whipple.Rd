@@ -21,28 +21,28 @@ Whipple(Value, Age, ageMin = 25, ageMax = 65, digit = c(0, 5))
 The value of the index.
 }
 \description{
-Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking. 
+Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking.
 Whipple's index is a summary measure of age heaping on ages ending usually in the digits 0 or 5 used to determine variability in the
 quality of age reporting between regions or countries and its evolution over time. It assumes a
 linear distribution of ages in each five-year age range. Digits refer to terminal age digits. For example, 9, 19, 29, etc are all of digit 9.
 }
 \details{
-\code{ageMin} and \code{ageMax} refer to the bounds of the digits evaluated, which end up in the numerator. \code{ageMax} is inclusive. 
-The denominator looks 7 ages lower and 2 ages higher than this range, so these ages must be available. You can get 
+\code{ageMin} and \code{ageMax} refer to the bounds of the digits evaluated, which end up in the numerator. \code{ageMax} is inclusive.
+The denominator looks 7 ages lower and 2 ages higher than this range, so these ages must be available. You can get
 arbitrary W(i) indices by specifying other digits. Note you can only do pairs of digits
 they are 0 and 5. Otherwise just one digit at a time.
 }
 \examples{
  Age <- 0:99
- 
+
  (w05 <- Whipple(pop1m_pasex, Age, 25, 60, digit = c(0,5))) # 2.34,replicates SINGAGE males
- 
+
  # implements formula from Roger et al. (1981, p. 148)
  (w0 <- Whipple(pop1m_pasex, Age, 25, 60, digit = 0))
- (w5 <- Whipple(pop1m_pasex, Age, 25, 60, digit = 5)) 
- 
+ (w5 <- Whipple(pop1m_pasex, Age, 25, 60, digit = 5))
+
  # Whipple types
- Whipple(pop1m_pasex, Age, 25, 60, digit = 3) 
+ Whipple(pop1m_pasex, Age, 25, 60, digit = 3)
 }
 \references{
 \insertRef{GDA1981IREDA}{DemoTools}

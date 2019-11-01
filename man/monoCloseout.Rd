@@ -8,17 +8,17 @@ monoCloseout(popmat, pops, pivotAge = 90, splitfun = sprague,
   OAG = TRUE, ...)
 }
 \arguments{
-\item{popmat}{a numeric matrix of population counts in 5-year age groups, with integer-labeled 
+\item{popmat}{a numeric matrix of population counts in 5-year age groups, with integer-labeled
 margins (age in rows and year in columns).}
 
 \item{pops}{optional numeric matrix of single age population counts derived from \code{popmat}.}
 
 \item{pivotAge}{integer (default 90). Age at which to switch to spline-based estimates.}
 
-\item{splitfun}{optional. The function used to create pops. Default \code{sprague}. 
+\item{splitfun}{optional. The function used to create pops. Default \code{sprague}.
 Could also be \code{grabill}, \code{beersModSimple}, or any other function that similarly transforms.}
 
-\item{OAG}{logical (default \code{FALSE}). Would we like to re-impute the last 
+\item{OAG}{logical (default \code{FALSE}). Would we like to re-impute the last
 element of \code{Value} as the open age group?}
 
 \item{...}{arguments to be optionally passed to \code{splitfun()}.}
@@ -27,42 +27,33 @@ element of \code{Value} as the open age group?}
 numeric matrix of age by year estimates of single-age counts.
 }
 \description{
-A simple monotonic spline on the cumulative sum of population counts
-may return more convincing single age count estimates than the Sprague or other splitting methods.
-This function blends the given single age population estimates starting at \code{pivotAge}.
+A simple monotonic spline on the cumulative sum of population counts may return more convincing single age count estimates than the Sprague or other splitting methods. This function blends the given single age population estimates starting at \code{pivotAge}.
 }
 \details{
-The \code{pivotAge} must be at least 10 years below the maximum age detected from 
-\code{rownames(popmat)}, but not lower than 75. In the exact \code{pivotAge}, we may either take
-the Sprague estimates or the spline estimates, depending on which is larger, then the single-age estimates
-for this 5-year age group are rescaled to sum to the original total in \code{popmat}. Higher ages are taken from
-the spline-based age splits. The spline results are derive from the \code{"monoH.FC"} method of \code{splinefun()} 
-on the cumulative sum of the original age grouped data. One could use this function to perform the same
-closeout to Grabill estimates, if these are given via the \code{pops} argument. See examples. Note
-that the Grabill split method mixed with this closeout will not necessarily preserve the annual totals,
-and this function performs to rescaling. The open age group is preserved (and must be included in \code{popmat}).
+The \code{pivotAge} must be at least 10 years below the maximum age detected from
+\code{rownames(popmat)}, but not lower than 75. In the exact \code{pivotAge}, we may either take the Sprague estimates or the spline estimates, depending on which is larger, then the single-age estimates for this 5-year age group are rescaled to sum to the original total in \code{popmat}. Higher ages are taken from the spline-based age splits. The spline results are derive from the \code{"monoH.FC"} method of \code{splinefun()} on the cumulative sum of the original age grouped data. One could use this function to perform the same closeout to Grabill estimates, if these are given via the \code{pops} argument. See examples. Note that the Grabill split method mixed with this closeout will not necessarily preserve the annual totals, and this function performs to rescaling. The open age group is preserved (and must be included in \code{popmat}).
 }
 \examples{
 
-closed.out <- monoCloseout(pop5_mat)
+closed.out           <- monoCloseout(pop5_mat)
 colSums(closed.out) - colSums(pop5_mat)
 monoCloseout(pop5_mat, pivotAge = 85)
 # giving a different single-age split to close out this way:
-popg <- grabill(pop5_mat)
-grabill.closed.out <- monoCloseout(pop5_mat, popg)
+popg                 <- grabill(pop5_mat)
+grabill.closed.out   <- monoCloseout(pop5_mat, popg)
 # totals not necessarily preserved if mixed w Grabill
-# I wouldn't recommend a rescale of the total, since the 
+# I wouldn't recommend a rescale of the total, since the
 # only part we mess with here is the old age section. Ergo,
-# one may wish to instead rescale results colSums() of 
+# one may wish to instead rescale results colSums() of
 # popg at age pivotAge and higher.
 colSums(grabill.closed.out) - colSums(pop5_mat)
 # also works on an age-labelled vector of data
-popvec <- pop5_mat[,1]
-closed.vec <- monoCloseout(popvec)
+popvec               <- pop5_mat[,1]
+closed.vec           <- monoCloseout(popvec)
 # let's compare this one with sprague()
-simple.vec <- sprague(popvec)
+simple.vec           <- sprague(popvec)
 # and with a simple monotonic spline
-mono.vec <- splitMono(popvec)
+mono.vec             <- splitMono(popvec)
 \dontrun{
 plot(85:100,simple.vec[86:101], type = 'l', main = "In this case sprague() is the smoothest")
 lines(85:100,closed.vec[86:101], col = "red", lwd = 2)

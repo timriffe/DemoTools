@@ -27,12 +27,12 @@ The value of the index.
 This implementation is based largely on the sparse verbal description given in
 Coale and Li (1991): calculate a two-stage 5-term moving average as a reference pattern, then
 take ratios with respect to this. Ratios for a given terminal digit can then be averaged to produce
-an index. This procedure was used in that paper for ages 65-100 for mortality rates. 
+an index. This procedure was used in that paper for ages 65-100 for mortality rates.
 It is probably better suited to rates than counts, but that is not a hard rule.
 }
 \details{
-\code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1. 
-It is therefore recommended for single digits, or else \code{c(0,5)}. 
+\code{digit} could also be a vector of digits, but the more digits one includes (excepting 0 and 5) the closer the index will get to 1.
+It is therefore recommended for single digits, or else \code{c(0,5)}.
 \code{ageMax} is an inclusive upper bound, treated as interval.
  If you want ages 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. By default all available ages greater than or equal to \code{ageMin} are used.
 }

@@ -32,59 +32,59 @@ agesmth(Value, Age, method = c("Carrier-Farrag", "KKN", "Arriaga",
 numeric vector of smoothed counts in 5-year age groups.
 }
 \description{
-Smooth population counts in 5-year age groups using the Carrier-Farrag, 
-Karup-King-Newton, Arriaga, United Nations, Stong, or Zigzag methods. Allows for imputation 
-of values in the youngest and oldest age groups for the Carrier-Farrag, Karup-King-Newton, 
+Smooth population counts in 5-year age groups using the Carrier-Farrag,
+Karup-King-Newton, Arriaga, United Nations, Stong, or Zigzag methods. Allows for imputation
+of values in the youngest and oldest age groups for the Carrier-Farrag, Karup-King-Newton,
 and United Nations methods.
 }
 \details{
-The Carrier-Farrag, Karup-King-Newton, and Arriaga methods do not modify the totals 
-in each 10-year age group, whereas the United Nations, Strong, Zigzag, and moving average (MAV) methods do. The age intervals 
-of input data could be any integer structure (single, abridged, 5-year, other), but 
+The Carrier-Farrag, Karup-King-Newton, and Arriaga methods do not modify the totals
+in each 10-year age group, whereas the United Nations, Strong, Zigzag, and moving average (MAV) methods do. The age intervals
+of input data could be any integer structure (single, abridged, 5-year, other), but
 output is always in 5-year age groups. All methods except the United Nations and MAV methods
-operate based on 10-year age group totals, excluding the open age group. 
+operate based on 10-year age group totals, excluding the open age group.
 
-The Carrier-Farrag, Karup-King-Newton, and United Nations methods do not produce estimates 
+The Carrier-Farrag, Karup-King-Newton, and United Nations methods do not produce estimates
 for the first and final 10-year age groups. By default, these are imputed with the original 5-year age group totals, but
 you can also specify to impute with \code{NA}, or the results of the Arriaga or
-Strong methods. If the terminal digit of the open age group is 5, then the terminal 10-year 
-age group shifts down, so imputations may affect more ages in this case. Imputation can follow 
-different methods for young and old ages. 
+Strong methods. If the terminal digit of the open age group is 5, then the terminal 10-year
+age group shifts down, so imputations may affect more ages in this case. Imputation can follow
+different methods for young and old ages.
 
-Method names are simplified using \code{simplify.text} and checked against a set of plausible matches 
-designed to give some flexibility in case you're not sure 
+Method names are simplified using \code{simplify.text} and checked against a set of plausible matches
+designed to give some flexibility in case you're not sure
 
-In accordance with the description of these methods in Arriaga (1994), it is advised to 
+In accordance with the description of these methods in Arriaga (1994), it is advised to
 compare the results from a variety of methods.
 }
 \examples{
 Ages         <- seq(0, 80, by = 5)
 
 # names a bit flexible:
-cf <- agesmth(Value = pop5m_pasex, 
-	Age = Ages, 
-	method = "Carrier-Farrag", 
+cf <- agesmth(Value = pop5m_pasex,
+	Age = Ages,
+	method = "Carrier-Farrag",
 	OAG = TRUE)
 # old.tail be default same as young.tail
 # "cf" also works
 
 # no need to specify tails for Arriaga or Strong
-arr <- agesmth(Value = pop5m_pasex, 
-	Age = Ages, 
-	method = "Arriaga", 
+arr <- agesmth(Value = pop5m_pasex,
+	Age = Ages,
+	method = "Arriaga",
 	OAG = TRUE)
-strong <- agesmth(Value = pop5m_pasex, 
-	Age = Ages, 
-	method = "Strong", 
+strong <- agesmth(Value = pop5m_pasex,
+	Age = Ages,
+	method = "Strong",
 	OAG = TRUE)
 # other methods:
-un <- agesmth(Value = pop5m_pasex, 
-	Age = Ages, 
-	method = "United Nations", 
+un <- agesmth(Value = pop5m_pasex,
+	Age = Ages,
+	method = "United Nations",
 	OAG = TRUE)
-kkn <- agesmth(Value = pop5m_pasex, 
-	Age = Ages, 
-	method = "Karup-King-Newton", 
+kkn <- agesmth(Value = pop5m_pasex,
+	Age = Ages,
+	method = "Karup-King-Newton",
 	OAG = TRUE)
 # zigzag, not plotted.
 zz <- agesmth(pop5m_pasex,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 80)
@@ -107,16 +107,16 @@ legend("topright",
 }
 # an extreme case:
  Age <- 0:99
- 
+
  V5 <- groupAges(pop1m_pasex, Age=Age)
  Age5 <- as.integer(names(V5))
- cf2 <- agesmth(Value = pop1m_pasex, 
-	  Age = Age, 
-	  method = "Carrier-Farrag", 
+ cf2 <- agesmth(Value = pop1m_pasex,
+	  Age = Age,
+	  method = "Carrier-Farrag",
 	  OAG = TRUE)
- st2 <- agesmth(Value = pop1m_pasex, 
-	  Age = Age, 
-	  method = "Strong", 
+ st2 <- agesmth(Value = pop1m_pasex,
+	  Age = Age,
+	  method = "Strong",
 	  OAG = TRUE)
  \dontrun{
  plot(Age,pop1m_pasex,pch=16)
@@ -130,7 +130,7 @@ legend("topright",
 	  lwd=c(NA,2,1,1),
 	  legend=c("orig single","orig 5","Carrier-Farrag","Strong"))
 }
- 
+
 # it might make sense to do this level of smoothing as intermediate step
 # in Sprague-like situation. Compare:
 spr1 <- sprague(pop1m_pasex, Age=Age,OAG=FALSE)

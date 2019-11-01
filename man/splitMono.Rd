@@ -19,19 +19,16 @@ splitMono(Value, AgeInt, Age, OAG = FALSE)
 Numeric. vector of single smoothed age counts.
 }
 \description{
-Take the cumulative sum of \code{Value} and then run a monotonic spline through it. The first 
-differences split back single-age estimates of \code{Value}. Optionally keep the open age group untouched.
+Take the cumulative sum of \code{Value} and then run a monotonic spline through it. The first differences split back single-age estimates of \code{Value}. Optionally keep the open age group untouched.
 }
 \details{
-The \code{"monoH.FC"} method of \code{stats::splinefun()} is used to fit the spline because 1)
-it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) 
-it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages.
+The \code{"monoH.FC"} method of \code{stats::splinefun()} is used to fit the spline because 1) it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages.
 }
 \examples{
-Value <- structure(c(88623, 90842, 93439, 96325, 99281, 102051, 104351, 
-			 106555, 109170, 112188, 113582, 112614, 108904, 102622, 95867, 
-			 80874, 60196, 37523, 17927, 5642, 1110), .Names = c("0", "5", 
-			 "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", 
+Value                <- structure(c(88623, 90842, 93439, 96325, 99281, 102051, 104351,
+			 106555, 109170, 112188, 113582, 112614, 108904, 102622, 95867,
+			 80874, 60196, 37523, 17927, 5642, 1110), .Names = c("0", "5",
+			 "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60",
 			 "65", "70", "75", "80", "85", "90", "95", "100"))
 
 # overwrite open age group with a single age estimate for that age
@@ -41,10 +38,10 @@ splitMono(Value)
 splitMono(Value, OAG = TRUE)
 
 # Also accepts single ages:
-Value <- structure(pop1m_ind, .Names = 0:100)
-		
+Value                <- structure(pop1m_ind, .Names = 0:100)
+
 		\dontrun{
-	ages <- seq(0,100,5)
+	ages                <- seq(0,100,5)
  plot(splitMono(Value),xlab = 'Age', ylab = 'Counts', type = 'l',main = 'Ungrouped counts')
 		}
 }

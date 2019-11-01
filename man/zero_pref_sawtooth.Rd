@@ -20,29 +20,29 @@ zero_pref_sawtooth(Value, Age, ageMin = 40, ageMax = max(Age[Age\%\%5
 numeric, ratio of 0s to 5s. If > 1 then the pattern is present.
 }
 \description{
-Ages ending in 0 often have higher apparent heaping than ages ending in 5. 
-In this case, data in 5-year age bins might show a sawtooth pattern. 
+Ages ending in 0 often have higher apparent heaping than ages ending in 5.
+In this case, data in 5-year age bins might show a sawtooth pattern.
 If heaping ocurrs in roughly the same amount on 0s and 5s, then it may be sufficient to group data into 5-year
- age groups and then graduate back to single ages. However, if heaping is worse on 0s, then this procedure tends 
- to produce a wavy pattern in count data, with 10-year periodicity. In this case it is recommended to use one of 
+ age groups and then graduate back to single ages. However, if heaping is worse on 0s, then this procedure tends
+ to produce a wavy pattern in count data, with 10-year periodicity. In this case it is recommended to use one of
  the methods of \code{agesmth()} as an intermediate step before graduation.
 }
 \details{
-Data is grouped to 5-year age bins. The ratio of each value to the average of its neighboring values 
+Data is grouped to 5-year age bins. The ratio of each value to the average of its neighboring values
 is calculated. If 0s have stronger attraction than 5s then we expect these ratios to be >1 for 0s and <1 for 5s.
  Ratios are compared within each 10-year age group in the evaluated age range. If in the evaluated range there are
- at most two exceptions to this rule (0s>5s), then the ratio of the mean of these ratios is returned, and it is 
- recommended to use a smoother method. Higher values suggest use of a more aggressive method. 
- This approach is only slightly different from that of Feeney, as implemented in the \code{zigzag()} functions. 
+ at most two exceptions to this rule (0s>5s), then the ratio of the mean of these ratios is returned, and it is
+ recommended to use a smoother method. Higher values suggest use of a more aggressive method.
+ This approach is only slightly different from that of Feeney, as implemented in the \code{zigzag()} functions.
  This is not a general measure of roughness, but rather an indicator of this particular pattern of age attraction.
 }
 \examples{
 Age <- 0:99
 smoothed <- sprague(
-		agesmth(pop1m_pasex, 
-				Age, 
-				method = "Strong", 
-				OAG = FALSE, 
+		agesmth(pop1m_pasex,
+				Age,
+				method = "Strong",
+				OAG = FALSE,
 				young.tail = "Arriaga"),
 		OAG = FALSE)
 # not saw-tooth jagged

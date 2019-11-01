@@ -22,7 +22,7 @@ refits to the ordinary Beers single age results, remaining constrained to the
 original 5-year age groups and smoothly blending into ages greater than 10.
 }
 \details{
-This has not been tested using \code{pop1} as generated from other methods, such as 
+This has not been tested using \code{pop1} as generated from other methods, such as
 the Beers modified, Sprague, or Grabill methods. Called internally by \code{beers()}.
 }
 \references{

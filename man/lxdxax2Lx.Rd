@@ -19,8 +19,8 @@ lxdxax2Lx(lx, ndx, nax, AgeInt)
 nLx numeric vector of lifetable exposure.
 }
 \description{
-This is a common approximation of lifetable exposure: 
-All persons surviving to the end of the interval time the interval width, plus all those that died 
+This is a common approximation of lifetable exposure:
+All persons surviving to the end of the interval time the interval width, plus all those that died
 in the interval multiplied by their average time spent in the interval.
 }
 \details{

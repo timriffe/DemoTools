@@ -8,28 +8,23 @@ grabill(popmat, Age = as.integer(rownames(as.matrix(popmat))),
   OAG = TRUE)
 }
 \arguments{
-\item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled 
-margins (age in rows and year in columns).}
+\item{popmat}{numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled margins (age in rows and year in columns).}
 
 \item{Age}{integer. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.}
 
 \item{OAG}{logical. Whether or not the final age group open. Default \code{TRUE}.}
 }
 \value{
-An age-period matrix of split population counts with the same number of 
-columns as \code{popmat}, and single ages in rows.
+An age-period matrix of split population counts with the same number of columns as \code{popmat}, and single ages in rows.
 }
 \description{
 This method uses Grabill's redistribution of middle ages and blends into
-Sprague estimated single-age population counts for the first and final ten ages. Open age groups
-are preserved, as are annual totals.
+Sprague estimated single-age population counts for the first and final ten ages. Open age groups are preserved, as are annual totals.
 }
 \details{
-Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will 
-work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages.
+Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages.
 
-If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next 
-highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend
+If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend
 to single ages covering the entire 5-year age group.
 }
 \examples{
@@ -37,16 +32,16 @@ p5 <- pop5_mat
 head(p5) # this is the entire matrix
 p1g <- grabill(p5)
 head(p1g); tail(p1g)
-colSums(p1g) - colSums(p5) 
+colSums(p1g) - colSums(p5)
 p1s <- sprague(p5)
 \dontrun{
 plot(seq(0,100,by=5),p5[,1]/5,type = "s", col = "gray", xlab = "Age", ylab = "Count")
 lines(0:100, p1g[,1], col = "red", lwd = 2)
 lines(0:100, p1s[,1], col = "blue", lty = 2, lwd =2)
-legend("topright", 
-	lty = c(1,1,2), 
-	col = c("gray","red","blue"), 
-	lwd = c(1,2,1), 
+legend("topright",
+	lty = c(1,1,2),
+	col = c("gray","red","blue"),
+	lwd = c(1,2,1),
 	legend = c("grouped","Grabill", "Sprague"))
 }
 

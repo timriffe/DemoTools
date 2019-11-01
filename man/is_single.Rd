@@ -17,7 +17,7 @@ Check whether a vector of ages consists in single ages. This
 makes sense sometimes when age intervals are not explicitly given.
 }
 \details{
-In cases where ages are indeed single, but repeated, this will still return \code{FALSE}. 
+In cases where ages are indeed single, but repeated, this will still return \code{FALSE}.
 Therefore make sure that the age vector given refers to a single year of a single population.
 }
 \examples{

@@ -7,24 +7,19 @@
 spragueExpand(popmat, OAG = TRUE)
 }
 \arguments{
-\item{popmat}{numeric. A matrix of population counts in 5-year age groups with integer-labeled 
-margins (age in rows and year in columns).}
+\item{popmat}{numeric. A matrix of population counts in 5-year age groups with integer-labeled margins (age in rows and year in columns).}
 
 \item{OAG}{logical. Whether or not the final age group open. Default \code{TRUE}.}
 }
 \description{
-The resulting coefficient matrix is based on the number of rows in \code{popmat}
-where is assumed that each row of data is a 5-year age group. The final row may be an open 
-or closed age group, as indicated by the \code{OAG} argument.
+The resulting coefficient matrix is based on the number of rows in \code{popmat} where is assumed that each row of data is a 5-year age group. The final row may be an open or closed age group, as indicated by the \code{OAG} argument.
 }
 \details{
-The \code{popmat} matrix is really just a placeholder in this case. This function is 
-a utility called by the Sprague family of functions, where it is most convenient to just pass
-in the same matrix being used in those calculations to determine the layout of the coefficient matrix.
+The \code{popmat} matrix is really just a placeholder in this case. This function is a utility called by the Sprague family of functions, where it is most convenient to just pass in the same matrix being used in those calculations to determine the layout of the coefficient matrix.
 }
 \examples{
-coefsOA     <- spragueExpand(pop5_mat, TRUE)
-coefsclosed <- spragueExpand(pop5_mat, FALSE)
+coefsOA                       <- spragueExpand(pop5_mat, TRUE)
+coefsclosed                   <- spragueExpand(pop5_mat, FALSE)
 dim(coefsOA)
 dim(coefsclosed)
 }

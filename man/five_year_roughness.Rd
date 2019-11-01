@@ -18,13 +18,13 @@ five_year_roughness(Value, Age, ageMin = 20, ageMax = max(Age[Age\%\%5
 }
 \description{
 For a given age-structured vector of counts, how rough is data after grouping to 5-year age bins?
- Data may require smoothing even if there is no detectable sawtooth pattern. It is best to use the value in this 
+ Data may require smoothing even if there is no detectable sawtooth pattern. It is best to use the value in this
  method together with visual evidence to gauage whether use of \code{agesmth()} is recommended.
 }
 \details{
 First we group data to 5-year age bins. Then we take first differences (d1) of these within the evaluated
  age range. Then we smooth first differences (d1s) using a generic smoother (\code{ogive()}).
-  Roughness is defined as the mean of the absolute differences between \code{mean(abs(d1 - d1s) / abs(d1s))}. 
+  Roughness is defined as the mean of the absolute differences between \code{mean(abs(d1 - d1s) / abs(d1s))}.
   Higher values indicate rougher data, and may suggest more aggressive smoothing. Just eyeballing, one could consider
    smoothing if the returned value is greater than ca 0.2, and values greater than 0.5 already highly recommend
     it (pending visual verification).
@@ -32,10 +32,10 @@ First we group data to 5-year age bins. Then we take first differences (d1) of t
 \examples{
 Age <- 0:99
 smoothed <- sprague(
-		agesmth(pop1m_pasex, 
-				Age, 
-				method = "Strong", 
-				OAG = FALSE, 
+		agesmth(pop1m_pasex,
+				Age,
+				method = "Strong",
+				OAG = FALSE,
 				young.tail = "Arriaga"),
 		OAG = FALSE)
 # not very rough, no need to smooth more

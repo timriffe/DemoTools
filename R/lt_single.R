@@ -8,31 +8,39 @@
 #' \itemize{
 #'   \item{Age}{integer. Lower bound of abridged age class},
 #'   \item{AgeInt}{integer. Age class widths.}
-#'   \item{nMx}{numeric. Age-specific central death rates.} 
-#'   \item{nAx}{numeric. Average time spent in interval by those deceased in interval. } 
-#'   \item{nqx}{numeric. Age-specific conditional death probabilities.} 
-#'   \item{lx}{numeric. Lifetable survivorship} 
-#'   \item{ndx}{numeric. Lifetable deaths distribution.} 
-#'   \item{nLx}{numeric. Lifetable exposure.} 
+#'   \item{nMx}{numeric. Age-specific central death rates.}
+#'   \item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
+#'   \item{nqx}{numeric. Age-specific conditional death probabilities.}
+#'   \item{lx}{numeric. Lifetable survivorship}
+#'   \item{ndx}{numeric. Lifetable deaths distribution.}
+#'   \item{nLx}{numeric. Lifetable exposure.}
 #'   \item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
-#'   \item{Tx}{numeric. Lifetable total years left to live above age x.} 
+#'   \item{Tx}{numeric. Lifetable total years left to live above age x.}
 #'   \item{ex}{numeric. Age-specific remaining life expectancy.}
 #' }
 #' @export
 lt_single_simple <- function(nMx,
                              Age = 1:length(nMx) - 1,
                              radix = 1e5,
-                             Sex = "m", 
+                             Sex = "m",
                              region = "w",
                              IMR = NA,
                              mod = TRUE,
                              OAG = TRUE,
                              OAnew = max(Age),
-                             extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",
-                                           "Beard_Makeham", "Quadratic")[1],
+                             extrapLaw = c(
+                               "Kannisto",
+                               "Kannisto_Makeham",
+                               "Makeham",
+                               "Gompertz",
+                               "GGompertz",
+                               "Beard",
+                               "Beard_Makeham",
+                               "Quadratic"
+                             )[1],
                              extrapFrom = max(Age),
                              extrapFit = Age[Age >= 60],
-                             ...){
+                             ...) {
   stopifnot(extrapFrom <= max(Age))
   
   Sex           <- tolower(Sex)
@@ -42,19 +50,20 @@ lt_single_simple <- function(nMx,
   # setup Open Age handling
   OA            <- max(Age)
   # TR: save for later, in case OAG preserved
-  if (OAG & OAnew == OA){
+  if (OAG & OAnew == OA) {
     momega <- nMx[length(nMx)]
   }
   # --------------------------
   # Now all vectors may end up being longer
   x_extr <- seq(extrapFrom, 130, by = 1)
   Mxnew  <- extra_mortality(
-    x = Age, 
-    mx = nMx, 
+    x = Age,
+    mx = nMx,
     x_fit = extrapFit,
     x_extr = x_extr,
     law = extrapLaw,
-    ...)
+    ...
+  )
   
   nMxext        <- Mxnew$values
   Age2          <- names2age(nMxext)
@@ -70,14 +79,28 @@ lt_single_simple <- function(nMx,
   
   # get ax:
   nAx           <- rep(.5, N)
-  nAx[1]        <- geta0CD(M0 = nMx[1], IMR = IMR, Sex = Sex, region = region)
+  nAx[1]        <-
+    geta0CD(
+      M0 = nMx[1],
+      IMR = IMR,
+      Sex = Sex,
+      region = region
+    )
   
-  # get 
-  qx            <- mx2qx(nMx = nMx, nax = nAx, AgeInt = AgeInt)
+  # get
+  qx            <- mx2qx(nMx = nMx,
+                         nax = nAx,
+                         AgeInt = AgeInt)
   
   lx            <- qx2lx(qx, radix = radix)
   ndx           <- lx2dx(lx)
-  nLx           <- lxdxax2Lx(lx = lx, ndx = ndx, nax = nAx, AgeInt = AgeInt)
+  nLx           <-
+    lxdxax2Lx(
+      lx = lx,
+      ndx = ndx,
+      nax = nAx,
+      AgeInt = AgeInt
+    )
   Tx            <- Lx2Tx(nLx)
   ex            <- Tx / lx
   
@@ -87,27 +110,27 @@ lt_single_simple <- function(nMx,
   AgeInt        <- AgeInt[ind]
   nAx           <- nAx[ind]
   nMx           <- nMx[ind]
-  qx           <- qx[ind]
+  qx            <- qx[ind]
   
   lx            <- lx[ind]
   
-  # recalc dx from chopped lx 
+  # recalc dx from chopped lx
   ndx           <- lx2dx(lx)
   nLx           <- nLx[ind]
   Tx            <- Tx[ind]
   ex            <- ex[ind]
   
-  Sx            <- Lxlx2Sx(nLx, lx, AgeInt = AgeInt, N = 1) 
+  Sx            <- Lxlx2Sx(nLx, lx, AgeInt = AgeInt, N = 1)
   
   # some closeout considerations
   N             <- length(qx)
-  qx[N]        <- 1
+  qx[N]         <- 1
   nLx[N]        <- Tx[N]
   nAx[N]        <- ex[N]
   AgeInt[N]     <- NA
   
-  if (OAG){
-    if (OAnew == OA){
+  if (OAG) {
+    if (OAnew == OA) {
       # keep first estimate if it was open and if we didn't extend
       nMx[N]    <- momega
     } else {
@@ -130,8 +153,7 @@ lt_single_simple <- function(nMx,
     nLx = nLx,
     Sx = Sx,
     Tx = Tx,
-    ex = ex)
+    ex = ex
+  )
   return(out)
 }
-
-

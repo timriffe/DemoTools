@@ -14,7 +14,7 @@ aomegaMortalityLaws(mx, Age, law = c("kannisto", "kannisto_makeham",
 
 \item{Age}{integer. A vector of ages of the lower integer bound of the age classes.}
 
-\item{law}{The name of the mortality law/model to be used. 
+\item{law}{The name of the mortality law/model to be used.
 The following options are available: \itemize{
   \item{\code{"kannisto"}} -- The Kannisto model;
   \item{\code{"kannisto_makeham"}} -- The Kannisto-Makeham model;
@@ -28,9 +28,9 @@ The following options are available: \itemize{
 
 \item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
 
-\item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>=60}.}
+\item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>          =60}.}
 
-\item{...}{Other arguments to be passed on to the 
+\item{...}{Other arguments to be passed on to the
 \code{\link[MortalityLaws]{MortalityLaw}} function.}
 }
 \value{
@@ -47,7 +47,7 @@ nMx <- c(0.12846,0.02477,0.00603,0.0034,
  		0.00417,0.00513,0.00581,0.00645,0.00725,
  		0.00813,0.00913,0.01199,0.01647,
  		0.0256,0.04047,0.06624,0.10638,0.19611)
-Age <- c(0,1,seq(5,80,by=5))
+Age <- c(0,1,seq(5,80,by =5))
 
 
 aomegaMortalityLaws(nMx,Age,"Kannisto")
@@ -55,7 +55,7 @@ aomegaMortalityLaws(nMx,Age,"Kannisto_Makeham")
 aomegaMortalityLaws(nMx,Age,"Makeham")
 aomegaMortalityLaws(nMx,Age,"Gompertz")
 aomegaMortalityLaws(nMx,Age,"GGompertz")
-aomegaMortalityLaws(nMx,Age,extrapLaw="Beard")
+aomegaMortalityLaws(nMx,Age,extrapLaw ="Beard")
 aomegaMortalityLaws(nMx,Age,"Beard_Makeham")
 aomegaMortalityLaws(nMx,Age,"Quadratic")
 }

@@ -1,10 +1,11 @@
 
+
 # Author: tim
 ###############################################################################
 
 #' Shift a vector left or right.
-#' 
-#' @description Simple function to move the elements of a vector to earlier or 
+#'
+#' @description Simple function to move the elements of a vector to earlier or
 #' later positions depending on the value of \code{shift}. Auxiliary to other functions,
 #'  rather multipurpose.
 
@@ -15,47 +16,47 @@
 #' @details Nothing fancy here. This is used for example in \code{Noumbissi()} to match denominator ranges to numerator positions using logical vectors.
 #' @return The vector x, shifted left or right.
 #' @export
-shift.vector <- function(x,shift = 0, fill = FALSE){
-	n <- length(x)
-	
-	if (shift > 0){
-		x <- c(rep(fill,shift),x[-((n-shift+1):n)])
-	}
-	if (shift < 0){
-		x <- c(x[-(1:abs(shift))],rep(fill,abs(shift)))
-	}
-	x
+shift.vector <- function(x, shift = 0, fill = FALSE) {
+  n          <- length(x)
+  
+  if (shift > 0) {
+    x        <- c(rep(fill, shift), x[-((n - shift + 1):n)])
+  }
+  if (shift < 0) {
+    x        <- c(x[-(1:abs(shift))], rep(fill, abs(shift)))
+  }
+  x
 }
 
 #' Logging that does not cause jams.
 #' @description Zeros happen. Logging zeros leads to errors in downstream code.
-#' For the sake of robustness, we replace zeros with a small positive number to be 
-#' able to continue with calculations. 
+#' For the sake of robustness, we replace zeros with a small positive number to be
+#' able to continue with calculations.
 #' @details Use judiciously, since errors are good too.
 #' @param x  numeric or complex vector.
 #' @param base positive or complex number. The base with respect to which
 #'           logarithms are computed.  Defaults to \code{e=exp(1)}.
 #' @export
-rlog <- function(x, base = exp(1)){
-	x <- pmax(x, .Machine$double.xmin)
-	log(x, base = base)
+rlog <- function(x, base = exp(1)) {
+  x <- pmax(x, .Machine$double.xmin)
+  log(x, base = base)
 }
 
 #' A simple centered moving average function.
 
-#' @description This function is defined based on a code chunk found \href{https://stackoverflow.com/questions/743812/calculating-moving-average}{here}. 
-#' This is a centered moving average of arbitrary width. 
-#' 
+#' @description This function is defined based on a code chunk found \href{https://stackoverflow.com/questions/743812/calculating-moving-average}{here}.
+#' This is a centered moving average of arbitrary width.
+#'
 #' @param x numeric. Vector to produce a moving average of.
 #' @param n integer. The width of the moving average. Default 5 time steps.
-#' 
+#'
 #' @return Numeric vector of same length as \code{x}.
 #'
 #' @details \code{NA} values
 #' are used as padding on the left and right to make the returned vector of equal length.
-#' 
+#'
 #' @export
-#' @examples 
+#' @examples
 #' x  <- runif(100)
 #' xx <- cumsum(x)
 #' \dontrun{
@@ -65,55 +66,57 @@ rlog <- function(x, base = exp(1)){
 #' }
 
 
-ma <- function(x,n=5){
-	as.vector(stats::filter(x, rep(1 / n, n), sides = 2))
+ma <- function(x, n = 5) {
+  as.vector(stats::filter(x, rep(1 / n, n), sides = 2))
 }
 
 
 #' Rescale a vector proportionally to a new sum.
 
 #' @description Function used to rescale a vector to a given value. This is a frequently needed operation.
-#' 
+#'
 #' @param x numeric vector.
 #' @param scale numeric. Value the vector should sum to. Default 1.
-#' 
+#'
 #' @details For a distribution, use \code{scale = 1}. For percentages, use \code{scale = 100}, etc.
-#' 
+#'
 #' @return The vector rescaled.
-#' @examples 
+#' @examples
 #' x <- runif(10)
 #' sum(x)
 #' xx <- rescale.vector(x,100)
 #' sum(xx)
 #' @export
 
-rescale.vector <- function(x, scale = 1){
-	scale * x / sum(x, na.rm = TRUE)
+rescale.vector <- function(x, scale = 1) {
+  scale * x / sum(x, na.rm = TRUE)
 }
 
 
-#' @title Determine whether a year is a leap year. 
-#' 
+#' @title Determine whether a year is a leap year.
+#'
 #' @description In order to remove \code{lubridate} dependency, we self-detect leap years and adjust February accordingly. Code inherited from HMD.
-#' 
+#'
 #' @param Year integer. Year to query.
-#' 
+#'
 #' @return Logical value for whether the year is a leap year or not.
-#' 
+#'
 #' @export
 #' @author Carl Boe
 
-is_LeapYear <- function (Year){      # CB: mostly good algorithm from wikipedia
-	Year <- floor(Year)
-	ifelse(
-			( (Year %% 4) == 0  &  (Year %% 100) != 0   ) | ( (Year %% 400) == 0 ),
-			TRUE, FALSE )
-}
+is_LeapYear <-
+  function (Year) {
+    # CB: mostly good algorithm from wikipedia
+    Year <- floor(Year)
+    ifelse(((Year %% 4) == 0  &
+              (Year %% 100) != 0) | ((Year %% 400) == 0),
+           TRUE, FALSE)
+  }
 
 #' @title Determine the proportion of a year passed as of a particular date.
-#' 
+#'
 #' @description The fraction returned by this is used e.g. for intercensal estimates.
-#' 
+#'
 #' @param Year string or integer. 4-digit year.
 #' @param Month string or integer. Month digits, 1 or 2 characters.
 #' @param Day string or integer. Day of month digits, 1 or 2 characters.
@@ -134,135 +137,141 @@ is_LeapYear <- function (Year){      # CB: mostly good algorithm from wikipedia
 #' ypart(2002,1,1, detect.start.end = TRUE)  # assume very begining of year
 
 
-ypart <- function(Year, Month, Day, detect.mid.year = TRUE, detect.start.end = TRUE){
-	M <- c(0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334)
-	
-	if (detect.mid.year){
-		.d <- as.integer(Day)
-		.m <- as.integer(Month)
-		if ((.d == 30 & .m == 6) | (.d == 1 & .m == 7)){
-			return(.5)
-		}
-	}
-	
-	if (detect.start.end){
-		.d <- as.integer(Day)
-		.m <- as.integer(Month)
-		if (.d == 1 & .m == 1){
-			return(0)
-		}
-		if(.d == 31 & .m == 12){
-			return(1)
-		}
-	}
-	
-	monthdur    <- diff(c(M,365))
-	monthdur[2] <- monthdur[2] + is_LeapYear(Year)
-	M           <- cumsum(monthdur) - 31
-	return((M[Month] + Day) / sum(monthdur))
-	
-}
+ypart           <-
+  function(Year,
+           Month,
+           Day,
+           detect.mid.year = TRUE,
+           detect.start.end = TRUE) {
+    M           <- c(0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334)
+    
+    if (detect.mid.year) {
+      .d        <- as.integer(Day)
+      .m        <- as.integer(Month)
+      if ((.d == 30 & .m == 6) | (.d == 1 & .m == 7)) {
+        return(.5)
+      }
+    }
+    
+    if (detect.start.end) {
+      .d        <- as.integer(Day)
+      .m        <- as.integer(Month)
+      if (.d == 1 & .m == 1) {
+        return(0)
+      }
+      if (.d == 31 & .m == 12) {
+        return(1)
+      }
+    }
+    
+    monthdur    <- diff(c(M, 365))
+    monthdur[2] <- monthdur[2] + is_LeapYear(Year)
+    M           <- cumsum(monthdur) - 31
+    return((M[Month] + Day) / sum(monthdur))
+    
+  }
 
 
 #' Convert date to decimal year fraction.
-#'  
-#' @description Convert a character or date class to decimal, taking into account leap years. 
-
-#' @details This makes use of two HMD functions, \code{ypart()}, and \code{is_LeapYear()} to compute. If the date is numeric, it is returned as such. 
-#' If it is \code{"character"}, we try to coerce to \code{"Date"} class, ergo, it is best to specify a character string in an unambiguous \code{"YYYY-MM-DD"} format.
-#'  If \code{date} is given in a \code{"Date"} class it is dealt with accordingly.
-#'  
+#'
+#' @description Convert a character or date class to decimal, taking into account leap years.
+#' @details This makes use of two HMD functions, \code{ypart()}, and \code{is_LeapYear()} to compute. If the date is numeric, it is returned as such. If it is \code{"character"}, we try to coerce to \code{"Date"} class, ergo, it is best to specify a character string in an unambiguous \code{"YYYY-MM-DD"} format.  If \code{date} is given in a \code{"Date"} class it is dealt with accordingly.
+#'
 #' @param date Either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.
-#' 
+#'
 #' @return Numeric expression of the date, year plus the fraction of the year passed as of the date.
 #' @export
-dec.date <- function(date){
-	if (class(date) == "numeric"){
-		return(date)
-	}
-	if (class(date) == "character"){
-		date <- as.Date(date)
-	}
-	day 	<- as.numeric(format(date,'%d'))
-	month 	<- as.numeric(format(date,'%m'))
-	year 	<- as.numeric(format(date,'%Y'))
-	frac    <- ypart(Year = year, 
-			Month = month, 
-			Day = day,
-			detect.mid.year = TRUE,
-			detect.start.end = TRUE)
-	year + frac
+dec.date  <- function(date) {
+  if (class(date) == "numeric") {
+    return(date)
+  }
+  if (class(date) == "character") {
+    date   <- as.Date(date)
+  }
+  day 	   <- as.numeric(format(date, '%d'))
+  month 	 <- as.numeric(format(date, '%m'))
+  year 	   <- as.numeric(format(date, '%Y'))
+  frac     <- ypart(
+    Year = year,
+    Month = month,
+    Day = day,
+    detect.mid.year = TRUE,
+    detect.start.end = TRUE
+  )
+  year + frac
 }
 
 
 #' Take consecutive ratios of a vector.
-#' 
-#' @description This can be used, for example to take survival ratios. 
+#'
+#' @description This can be used, for example to take survival ratios.
 #' @details Behavior similar to \code{diff()}, in that returned vector is \code{k} elements
 #' shorter than the given vector \code{fx}.
-#' 
+#'
 #' @param fx numeric. Vector of \code{length > k}.
 #' @param k integer. The size of the lag in elements of \code{fx}.
-#' 
-#' @export 
-#' @examples 
+#'
+#' @export
+#' @examples
 #' fx <- 1:10
 #' ratx(fx)
 #' ratx(fx,-1)
 #' ratx(fx,0)
-ratx <- function(fx, k = 1){
-	k    <- as.integer(k)
-	N    <- length(fx)
-	m    <- N - abs(k)
-	if (k > 0){
-		fx <- fx[-c(1:k)] / fx[1:m]
-	}
-	if (k < 0){
-		fx <- fx[1:m] / fx[-c(1:abs(k))] 
-	}
-	fx
+ratx   <- function(fx, k = 1) {
+  k    <- as.integer(k)
+  N    <- length(fx)
+  m    <- N - abs(k)
+  if (k > 0) {
+    fx <- fx[-c(1:k)] / fx[1:m]
+  }
+  if (k < 0) {
+    fx <- fx[1:m] / fx[-c(1:abs(k))]
+  }
+  fx
 }
 
 #' Convert arbitrary age groupings into single years of age.
-#' 
+#'
 #' @description Uniformly splits aggregate counts in age groups into single year age groups.
-#' 
+#'
 #' @param Value numeric. Vector of (presumably) counts in grouped ages.
-#' @param AgeInt integer or numeric. Vector of age intervals. 
+#' @param AgeInt integer or numeric. Vector of age intervals.
 #' @param Age numeric. Vector of ages corresponding to the lower integer bound of the age range.
 #' @param OAG boolean. Argument that determines whether the final age group (assumed open ended) is kept as it is or has the same length as the rest of the age groups. Default is FALSE, i.e. use the same length for the final age group.
 #' @param OAvalue Desired width of open age group. See details.
-#' 
+#'
 #' @return Numeric vector of counts for single year age groups.
-#' 
-#' @details Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. 
-#' If \code{AgeInt} is given, its final value is used as the interval for the final age group. 
-#' If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. 
-#' To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, *or* give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}. 
-#' 
+#'
+#' @details Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If \code{AgeInt} is given, its final value is used as the interval for the final age group. If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, *or* give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}.
+#'
 #' @export
-#' @examples 
-#' MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,            
+#' @examples
+#' MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,
 #' 		11993151,10033918,14312222,8111523,15311047,6861510,13305117,7454575,
 #' 		9015381,10325432,9055588,5519173)
 #' Ages <- seq(0, 85, by = 5)
 #' splitUniform(MalePop, Age = Ages)
-splitUniform <- function(Value, AgeInt, Age, OAG = TRUE, OAvalue = 1){
-	if (missing(Age) & missing(AgeInt)){
-		Age <- names2age(Value)
-	}
-	if (missing(AgeInt)){
-		# give 1 to final interval to preserve
-		AgeInt <- age2int(Age, OAG = OAG, OAvalue = OAvalue)
-	}
-	if (missing(Age)){
-		Age <- cumsum(AgeInt) - AgeInt
-	}
-	# discount for single
-	out <- rep(Value / AgeInt, times = AgeInt)
-	names(out) <- min(Age):(min(Age) + length(out) - 1)
-	out
-}
+splitUniform <-
+  function(Value,
+           AgeInt,
+           Age,
+           OAG = TRUE,
+           OAvalue = 1) {
+    if (missing(Age) & missing(AgeInt)) {
+      Age      <- names2age(Value)
+    }
+    if (missing(AgeInt)) {
+      # give 1 to final interval to preserve
+      AgeInt   <- age2int(Age, OAG = OAG, OAvalue = OAvalue)
+    }
+    if (missing(Age)) {
+      Age      <- cumsum(AgeInt) - AgeInt
+    }
+    # discount for single
+    out        <- rep(Value / AgeInt, times = AgeInt)
+    names(out) <- min(Age):(min(Age) + length(out) - 1)
+    out
+  }
 
 
 
@@ -274,70 +283,64 @@ splitUniform <- function(Value, AgeInt, Age, OAG = TRUE, OAvalue = 1){
 #' @details More model families can easily be added.
 #' @importFrom demogR cdmltw
 #' @export
-getModelLifeTable <- function(ModelName, Sex){
-	Sex <- toupper(substr(Sex, 1, 1))
-	
-	stopifnot(Sex %in% c("M", "F"))
-	stopifnot(ModelName == "coale-demeny west")
-	
-	outputLT <- demogR::cdmltw(sex = Sex)
-	
-	return(outputLT)
+getModelLifeTable <- function(ModelName, Sex) {
+  Sex             <- toupper(substr(Sex, 1, 1))
+  
+  stopifnot(Sex %in% c("M", "F"))
+  stopifnot(ModelName == "coale-demeny west")
+  
+  outputLT        <- demogR::cdmltw(sex = Sex)
+  
+  return(outputLT)
 }
 
-# function for average adjacent values excluding index value
 #' calculate average of vector elements adjacent to and excluding the index element
-#' @description Calculate average of vector elements adjacent to and excluding the index element. 
-#' For example, the second element of the result is the average of the first and third elements of the
-#' input vector \code{x}. Used by \code{zigzag()}, and possibly useful elsewhere.
+#' @description Calculate average of vector elements adjacent to and excluding the index element. For example, the second element of the result is the average of the first and third elements of the input vector \code{x}. Used by \code{zigzag()}, and possibly useful elsewhere.
 #' @details Tails are given a value of \code{NA}.
 #' @param x numeric vector
 #' @return numeric vector the same length as \code{x}.
 #' @export
-#' @examples 
+#' @examples
 #' x <- 1:10
 #' all(avg_adj(x) == x, na.rm = TRUE)
 
-avg_adj <- function(x){
-	n <- length(x)
-	(shift.vector(x, -1, NA) + shift.vector(x, 1, NA)) / 2
+avg_adj <- function(x) {
+  n <- length(x)
+  (shift.vector(x,-1, NA) + shift.vector(x, 1, NA)) / 2
 }
 
 #' convert strings to concatenation of lower case alphabet
-#' @description all characters are converteusd to lower case, and all non-alphabet characters are removed. 
-#' This is useful for reducing checks on names of user-specified strings, like \code{method} arguments.
-#' For example, \code{"Carrier-Farrag"}, \code{"Carrier Farrag"}, or \code{"carrier_farrag"} all get 
-#' converted to \code{"carrierfarrag"}.
+#' @description all characters are converteusd to lower case, and all non-alphabet characters are removed. This is useful for reducing checks on names of user-specified strings, like \code{method} arguments. For example, \code{"Carrier-Farrag"}, \code{"Carrier Farrag"}, or \code{"carrier_farrag"} all get converted to \code{"carrierfarrag"}.
 #' @param string character string
 #' @return character string
 #' @export
-#' @examples 
+#' @examples
 #' simplify.text(c("carrier_farrag","CarrierFarrag","Carrier-Farrag"))
 
-simplify.text <- function(string){
-	lc <- tolower(string)
-#	stringr::str_replace_all(lc, "[^[:lower:]]", "")
-	gsub("[^a-z]","" , lc)
+simplify.text <- function(string) {
+  lc <- tolower(string)
+  #	stringr::str_replace_all(lc, "[^[:lower:]]", "")
+  gsub("[^a-z]", "" , lc)
 }
 
 # deprecated functions
 
 # TR: deprecated 20 July, 2018. Use splitUniform() instead
 ##' Convert arbitrary age groupings into single years of age
-##' 
+##'
 ##' @description Splits aggregate counts for a vector of age groups of a common width into single year age groups.
-##' 
+##'
 ##' @param Value numeric vector of age group counts
 ##' @param Age numeric vector of ages corresponding to the lower integer bound of the age range.
 ##' @param OAG boolean argument that determines whether the final age group (assumed open ended) is kept as it is or has the same length as the rest of the age groups. Default is FALSE, i.e. use the same length for the final age group.
-##' 
+##'
 ##' @return numeric vector of counts for single year age groups.
-##' 
+##'
 ##' @details Assumes that all age groups are equal width. (Default is 5-year age groups.) Also, assumes that the population is uniformly distributed across each age interval. If there is a split under 5 age group (0 and 1-4 age groups), use \code{groupAges()} to consolidate before using this function. The default setting is to assume that the final age group is the same width as the other age groups.
-##' 
+##'
 ##' @export
-##' @examples 
-# MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,            
+##' @examples
+# MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,
 # 11993151,10033918,14312222,8111523,15311047,6861510,13305117,7454575,
 #              9015381,10325432,9055588,5519173)
 # Ages <- seq(0,85, by=5)
@@ -347,9 +350,9 @@ simplify.text <- function(string){
 #	ageMax <- max(Age)             # the lower bound of the largest age group
 #	N      <- length(Value)        # number of age groups from the census.
 #	M      <- ageMax / (N - 1)     # length of each age group from the census.
-#	
+#
 #	ageGroupBirths   <- Value / M  # vector of the number of births in a single year for each age group assuming uniformity.
-#	
+#
 #	if (OAG){
 #		ageGroupBirths <- ageGroupBirths[0:(length(ageGroupBirths)-1)] # remove final age group
 #		singleAgeGroupBirths <- rep(ageGroupBirths, each = M) # vector of the single year births for all ages except final age group
@@ -358,9 +361,6 @@ simplify.text <- function(string){
 #	else{
 #		singleAgeGroupBirths  <- rep(ageGroupBirths, each = M)  # vector of the single year births for all ages
 #	}
-#	
+#
 #	return(singleAgeGroupBirths)
 #}
-
-
-

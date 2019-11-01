@@ -15,13 +15,10 @@ surv10(pop1, pop2)
 Survival function lx as a numeric vector with radix 1.
 }
 \description{
-This function reproduces calculations through column H of \code{CENSUR~1.XLS} by 
-Griff Feeney. Censuses are assumed to be spaced 10 years apart and population counts for both censuses in 5-year age groups. 
-The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. 
-The cumulative product of this approximates the survival function lx.
+This function reproduces calculations through column H of \code{CENSUR~1.XLS} by Griff Feeney. Censuses are assumed to be spaced 10 years apart and population counts for both censuses in 5-year age groups. The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. The cumulative product of this approximates the survival function lx.
 }
 \details{
-Checking for census spacing of 10 years must happen prior to this function. 
+Checking for census spacing of 10 years must happen prior to this function.
 Also, we assume the open age group has already been trimmed off.
 }
 \examples{

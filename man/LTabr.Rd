@@ -47,9 +47,9 @@ LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = age2int(Age = Age,
 
 \item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
 
-\item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>=60}.}
+\item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>          =60}.}
 
-\item{...}{Other arguments to be passed on to the 
+\item{...}{Other arguments to be passed on to the
 \code{\link[MortalityLaws]{MortalityLaw}} function.}
 }
 \value{
@@ -57,14 +57,14 @@ Lifetable in data.frame with columns
 \itemize{
   \item{Age}{integer. Lower bound of abridged age class},
   \item{AgeInt}{integer. Age class widths.}
-  \item{nMx}{numeric. Age-specific central death rates.} 
-  \item{nAx}{numeric. Average time spent in interval by those deceased in interval. } 
-  \item{nqx}{numeric. Age-specific conditional death probabilities.} 
-  \item{lx}{numeric. Lifetable survivorship} 
-  \item{ndx}{numeric. Lifetable deaths distribution.} 
-  \item{nLx}{numeric. Lifetable exposure.} 
+  \item{nMx}{numeric. Age-specific central death rates.}
+  \item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
+  \item{nqx}{numeric. Age-specific conditional death probabilities.}
+  \item{lx}{numeric. Lifetable survivorship}
+  \item{ndx}{numeric. Lifetable deaths distribution.}
+  \item{nLx}{numeric. Lifetable exposure.}
   \item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
-  \item{Tx}{numeric. Lifetable total years left to live above age x.} 
+  \item{Tx}{numeric. Lifetable total years left to live above age x.}
   \item{ex}{numeric. Age-specific remaining life expectancy.}
 }
 }
@@ -87,8 +87,8 @@ Deaths <- c(8674,1592,618,411,755,1098,1100,1357,
 Age    <- c(0, 1, seq(5, 100, by = 5))
 AgeInt <- c(diff(Age), NA)
 
-PASLT <- LTabr(Deaths = Deaths, 
-		Exposures = Exposures, 
+PASLT <- LTabr(Deaths = Deaths,
+		Exposures = Exposures,
 		Age = Age,
 		AgeInt =AgeInt,
 		axmethod = "pas",
@@ -111,15 +111,15 @@ UNLT1 <- LTabr(nMx = Mx,
 		Age = c(0,1,seq(5,85,by=5)),
 		AgeInt = AgeInt,
 		axmethod = "un",
-		Sex = "m", 
+		Sex = "m",
 		mod = FALSE)
 UNLT2 <- LTabr(nMx = Mx,
 		Age = c(0,1,seq(5,85,by=5)),
 		AgeInt = AgeInt,
 		axmethod = "un",
-		Sex = "m", 
+		Sex = "m",
 		mod = TRUE)
-		
+
 #  \dontrun{
 # 	 plot(UNLT2$ex - UNLT1$ex)
 #  }
@@ -136,7 +136,7 @@ UNLT2 <- LTabr(nMx = Mx,
  		49.803,45.799,41.922,38.084,34.249,
  		30.420,26.578,22.701,18.945,
  		15.349,12.095,9.240,6.903,5.099)
- 
+
  # First with lifetable extention to 100
  MP_UNLT100 <- LTabr(
  		nMx = MPnMx,
@@ -146,7 +146,7 @@ UNLT2 <- LTabr(nMx = Mx,
  		Sex = "f",
  		mod = FALSE,
  		OAnew = 100)
-#' 
+#'
 #' # lifetable to original open age group
  MP_UNLT80 <- LTabr(
  		nMx = MPnMx,

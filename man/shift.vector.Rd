@@ -17,7 +17,7 @@ shift.vector(x, shift = 0, fill = FALSE)
 The vector x, shifted left or right.
 }
 \description{
-Simple function to move the elements of a vector to earlier or 
+Simple function to move the elements of a vector to earlier or
 later positions depending on the value of \code{shift}. Auxiliary to other functions,
  rather multipurpose.
 }

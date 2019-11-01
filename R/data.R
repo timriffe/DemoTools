@@ -26,11 +26,11 @@
 #' Indian male population 1991
 #'
 #' @format
-#'   A numeric vector of length 101 
-#'   
+#'   A numeric vector of length 101
+#'
 #' @source
-#'   REGISTRAR GENERAL & CENSUS COMMISSIONER, INDIA, 1976, 
-#'   Census of India 1971, Series 1, India, Social and Cultural Tables, 
+#'   REGISTRAR GENERAL & CENSUS COMMISSIONER, INDIA, 1976,
+#'   Census of India 1971, Series 1, India, Social and Cultural Tables,
 #'   Part II-C(ii), New Delhi
 "pop1m_ind"
 
@@ -40,8 +40,8 @@
 #' Matrix of population over 5 years, 5 year age groups, some population 1950-1954
 #'
 #' @format
-#'   A matrix of 21 rows and 5 columns 
-#'   
+#'   A matrix of 21 rows and 5 columns
+#'
 #' @source
 #'   The data comes from
 #'   \url{https://URL}
@@ -53,8 +53,8 @@
 #' Male population by 5 year age groups from PASEX AGESMTH
 #'
 #' @format
-#'   A numeric vector of length 17  
-#'   
+#'   A numeric vector of length 17
+#'
 #' @source
 #'   The data comes from
 #'   \url{https://URL}
@@ -66,8 +66,8 @@
 #' Male population by 1 year age groups from PASEX SINGAGE
 #'
 #' @format
-#'   A numeric vector of length 100  
-#'   
+#'   A numeric vector of length 100
+#'
 #' @source
 #'   The data comes from
 #'   \url{https://URL}
@@ -79,8 +79,8 @@
 #' Deaths by 5 year age groups in South Africa 1997, from Feeney Zigzag 2013
 #'
 #' @format
-#'   A numeric vector of length 20  
-#'   
+#'   A numeric vector of length 20
+#'
 #' @source
 #'   The data comes from
 #'   \url{http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/}
@@ -93,8 +93,8 @@
 #' Abridged population from PAS AGEINT -- earlier, 1980
 #'
 #' @format
-#'   A numeric vector of length 18  
-#'   
+#'   A numeric vector of length 18
+#'
 #' @source
 #'   The data comes from
 #'   \url{http://}
@@ -106,8 +106,8 @@
 #' Abridged population from PAS AGEINT -- later, 1990
 #'
 #' @format
-#'   A numeric vector of length 18  
-#'   
+#'   A numeric vector of length 18
+#'
 #' @source
 #'   The data comes from
 #'   \url{http://}

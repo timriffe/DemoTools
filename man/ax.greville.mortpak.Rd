@@ -31,7 +31,7 @@ ax.greville.mortpak(nMx, nqx, lx, Age, AgeInt = age2int(Age, OAvalue =
 
 \item{closeout}{logical. Whether or not to estimate open age a(x) via extrapolation. Default \code{TRUE}.}
 
-\item{law}{The name of the mortality law/model to be used. 
+\item{law}{The name of the mortality law/model to be used.
 The following options are available: \itemize{
   \item{\code{"kannisto"}} -- The Kannisto model;
   \item{\code{"kannisto_makeham"}} -- The Kannisto-Makeham model;
@@ -45,18 +45,16 @@ The following options are available: \itemize{
 
 \item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
 
-\item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>=60}.}
+\item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>          =60}.}
 
-\item{...}{Other arguments to be passed on to the 
+\item{...}{Other arguments to be passed on to the
 \code{\link[MortalityLaws]{MortalityLaw}} function.}
 }
 \value{
 nax average contribution to exposure of those dying in the interval.
 }
 \description{
-The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 
-for ages 5-9 and 10-14, and the Greville formula thereafter. In the original sources 
-these are referred to as separation factors.
+The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 for ages 5-9 and 10-14, and the Greville formula thereafter. In the original sources these are referred to as separation factors.
 }
 \details{
 a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. The final a(x) value is closed out using the \code{aomegaMortalityLaws()} method (reciprocal and Mortpak methods are deprecated). Age groups must be standard abridged. No check on age groups is done.
@@ -76,7 +74,7 @@ nqx <- c(0.10793,0.08554,0.02025,0.01053,0.01463,0.02071,0.02515,0.02999,
 lx  <- c(100000,89207,81577,79924,79083,77925,76312,74393,72162,69631,66875,
 63704,59843,54828,48253,39861,30079,19951,9033)
 
-Age <- c(0,1,seq(5,85,by=5))
+Age <- c(0,1,seq(5,85,by = 5))
 AgeInt <- age2int(Age, OAvalue = 5)
 # two quite different results depending whether you start with mx or qx
 ax.greville.mortpak(nMx = nMx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')

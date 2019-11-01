@@ -19,20 +19,15 @@ geta1_4CD(M0, IMR = NA, Sex = "m", region = "w")
 The average age at death between ages 1-4, 4a1.
 }
 \description{
-Coale-Demeny 4a1. This is a rule of thumb. 
-In this and some other older texts, 4a1 is known as a 'separation factor'. These coefficients
-were pulled from the PAS spreadsheets \code{LTPOPDTH.XLS} and not located in the original
-Manual X.
+Coale-Demeny 4a1. This is a rule of thumb. In this and some other older texts, 4a1 is known as a 'separation factor'. These coefficients were pulled from the PAS spreadsheets \code{LTPOPDTH.XLS} and not located in the original Manual X.
 }
 \details{
-If sex is given as both, \code{"b"}, then female 
-values are taken, per the PAS spreadsheet. This function is not vectorized. 
-If \code{IMR} is not given, then \code{M0} is used in its stead.
+If sex is given as both, \code{"b"}, then female values are taken, per the PAS spreadsheet. This function is not vectorized. If \code{IMR} is not given, then \code{M0} is used in its stead.
 }
 \examples{
-m0 <- seq(.001,.2,by=.001)
+m0 <- seq(.001,.2,by =.001)
 \dontrun{
-plot(m0, sapply(m0, geta1_4CD, Sex = "m", region = "e"), ylab = "4a1", 
+plot(m0, sapply(m0, geta1_4CD, Sex = "m", region = "e"), ylab = "4a1",
 		type = 'l', ylim = c(1,2), lty = 2, col = "blue")
 lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "w"), col = "blue")
 lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "n"), col = "blue", lty = "8383",lwd=2)

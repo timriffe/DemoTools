@@ -19,14 +19,11 @@ geta0CD(M0, IMR = NA, Sex = "m", region = "w")
 The average age at death in the first year of life a(0).
 }
 \description{
-Coale-Demeny a(0) from Manual X Table 164. This is a rule of thumb. 
+Coale-Demeny a(0) from Manual X Table 164. This is a rule of thumb.
 In this and some other older texts, a(0) is known as a 'separation factor'.
 }
 \details{
-If sex is given as both, \code{"b"}, then female 
-values are taken, per the PAS spreadsheet. This function is not vectorized. 
-Formulas for North, South, and West are identical- only East is different. If \code{IMR} is not given,
-then \code{M0} is converted to q(0) using the following approximation:
+If sex is given as both, \code{"b"}, then female values are taken, per the PAS spreadsheet. This function is not vectorized. Formulas for North, South, and West are identical- only East is different. If \code{IMR} is not given, then \code{M0} is converted to q(0) using the following approximation:
 \enumerate{
 \item{Find \eqn{\alpha , \beta}.}{ Look up the appropriate slope and intercept for the given sex and region.}
 \item{calculate \eqn{a} as: }{\ifelse{html}{\out{a = M<sub>0</sub> * &beta;}}{\eqn{a = M_0 * \beta}}}
@@ -36,9 +33,9 @@ then \code{M0} is converted to q(0) using the following approximation:
 }
 }
 \examples{
-m0 <- seq(.001,.2,by=.001)
+m0 <- seq(.001, .2, by = .001)
 \dontrun{
-plot(m0, sapply(m0, geta0CD, Sex = "m", region = "e"), ylab = "a0", 
+plot(m0, sapply(m0, geta0CD, Sex = "m", region = "e"), ylab = "a0",
 		type = 'l', ylim = c(0,.36), lty = 2, col = "blue")
 lines(m0,sapply(m0, geta0CD, Sex = "m", region = "w"), col = "blue")
 lines(m0,sapply(m0, geta0CD, Sex = "f", region = "e"), lty = 2, col = "red")
@@ -50,7 +47,7 @@ text(.15, geta0CD(.15,Sex = "f", region = "w"),"females N,W,S",font=2)
 
 # compare with the Preston approximation
 # constants identical after m0 = .107
-m0 <- seq(.001,.107,by=.001)
+m0 <- seq(.001,.107,by =.001)
 a0CDm0 <- sapply(m0, geta0CD, Sex = "m", region = "w")
 a0CDpr <- 0.045 + 2.684 * m0
 plot(m0, a0CDm0, type = 'l', lty = 2, col = "red")
