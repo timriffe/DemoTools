@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 ## How to use `DemoTools` to graduate counts in grouped ages
 
 ### What is graduation?
-Graduation is a practice used to derive figures for _n_-year age groups, for example 5-year age groups from census data, that are corrected for net reporting error [@siegel2004methods]. Essentially, these methods fit different curves to the original  _n_-year and redistribute them into single-year values. These techniques are designed so that the sum of the interpolated single-year values is consistent with the total for the groups as a whole. Among the major graduation methods are the Sprague [@sprague1880explanation] and Beers [@beers1945modified] osculatory methods, monotone spline and the uniform distributions. More recently, the enalized composite link model (pclm) was proposed to ungroup coarsely aggregated data [@rizzi2015efficient]. All of these are implemented in `DemoTools`.
+Graduation is a practice used to derive figures for _n_-year age groups, for example 5-year age groups from census data, that are corrected for net reporting error [@siegel2004methods]. Essentially, these methods fit different curves to the original  _n_-year and redistribute them into single-year values. These techniques are designed so that the sum of the interpolated single-year values is consistent with the total for the groups as a whole. Among the major graduation methods are the Sprague [@sprague1880explanation] and Beers [@beers1945modified] oscilatory methods, monotone spline and the uniform distributions. More recently, the enalized composite link model (pclm) was proposed to ungroup coarsely aggregated data [@rizzi2015efficient]. All of these are implemented in `DemoTools`.
 
 ### Why graduate?
 One of the main purposes of graduation is to refine the detail of available data in published statistics or surveys. This allows to estimate numbers of persons in single years of age from data originally in 5-year age groups. In practice, graduation of mortality curves has been very important to estimate reliable life tables, but also in fertility studies graduation is useful for the analysis of data from populations where demographic records are defective [@brass1960graduation].
@@ -48,8 +48,6 @@ plot(Age, Value, type = 'p',
      ylab = 'Population',
      xlab = 'Age',
      main = 'Original 5-year age-group population')
-
-
 ```
 
 ## Graduation basic usage
@@ -57,7 +55,7 @@ plot(Age, Value, type = 'p',
 ## Methods choices
 
 ### Sprague
-@sprague1880explanation suggested the fifth-difference method based on one equation that depends on two polynomials of the fourth degree forced to have a common ordinate, tangent and radius of curvature at $Y_{n+2}$ and at $Y_{n+3}$:
+@sprague1880explanation suggested the fifth-difference method based on one equation that depends on two polynomials of fourth degree forced to have a common ordinate, tangent and radius of curvature at $Y_{n+2}$ and at $Y_{n+3}$:
 
 \begin{equation*}
 y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
@@ -67,8 +65,25 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 \frac{x^3(x-1)(5x-7)}{4!}\Delta y^5_n 
 \end{equation*}
 
-There are six observations $Y_{n},Y_{n+1},Y_{n+2},Y_{n+3},Y_{n+4}$ and $Y_{n+5}$ involved in the leading differences, $\Delta y_{n},\dots,\Delta^5 y_n $. The interpolated points fall on curves that pass through the given points, and the interpolated subdivisions add up to the data in the original groups. To implement this method in `DemoTools` we use the function `graduate` with the option for method specified as 'sprague. 
+There are six observations $Y_{n},Y_{n+1},Y_{n+2},Y_{n+3},Y_{n+4}$ and $Y_{n+5}$ involved in the leading differences, $\Delta y_{n},\dots,\Delta^5 y_n $. The interpolated points fall on curves that pass through the given points, and the interpolated subdivisions add up to the data in the original groups. To implement this method in `DemoTools` we use the function `graduate` with the option for method specified as `sprague`. 
 
+
+```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
+sprague <- graduate(Value, Age, method = "sprague")
+single.age  <- names2age(sprague)
+
+plot(single.age, sprague, type = 'l',
+     ylab = 'Population',
+     xlab = 'Age',
+     main = 'Graduation with Sprague method')
+
+#check the totals
+sum(sprague)
+sum(Value)
+```
+### Beers
+
+Following a similar idea, Beers interpolated two overlapping curves minimizing the squares of the differences within the interpolation range [@beers1945modified]. Specifically, Beers did this by minimizing fifth differences for a six-term formula, refered to as the 'Ordinary' Beers method [@beers1945six]. Subsequently, the ordinay formula was modified to relax the requirement that the given value be reproduced and yield smoother interpolated results, refered to as 'Modified' Beers method [@beers1945modified].
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
 beers.ordinary <- graduate(Value, Age, method = "beers(ord)")
@@ -86,30 +101,90 @@ sum(beers.ordinary)
 sum(beers.modified)
 sum(Value)
 ```
-### Beers
 
-Following a similar idea, Beers interpolated two overlapping curves minimizing the squares of the differences within the interpolation range [@beers1945six,@beers1945modified]. Specifically, Beers did this by minimizing fifth differences for a six-term formula, refered to as the 'Ordinary' Beers method [@beers1945six]. Subsequently, the ordinay formula was modified to relax the requirement that the given value be reproduced and yield smoother interpolated results, refered to as 'Modified' Beers method [@beers1945modified].
+### Monotone spline
+Graduation by a monotone spline is another option available in `DemoTools`. This option offers an algorithm to produce interpolants that preserve properties such as monotonicity or convexity that are present in the data [@fritsch1980monotone]. These are desirable conditions to not introduce biased details or artifacts that cannot be ascertained from the data [@hyman1983accurate]. To run this algorithm in `DemoTools` the option `mono` should be selected as follows.
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
-sprague <- graduate(Value, Age, method = "sprague")
-plot(single.age, sprague, type = 'l',
+mono.grad <- graduate(Value, Age, method = "mono")
+
+single.age  <- names2age(mono.grad)
+plot(single.age, mono.grad, type = 'l',
      ylab = 'Population',
      xlab = 'Age',
-     main = 'Graduation with Sprague method')
+     main = 'Graduation with monotone spline')
 
 #check the totals
-sum(sprague)
+sum(mono.grad)
 sum(Value)
 ```
 
-### Monotone spline
-Fritsch, F. N. and Carlson, R. E. (1980) Monotone piecewise cubic interpolation, SIAM Journal on Numerical Analysis 17, 238–246.
-Hyman, J. M. (1983) Accurate monotonicity preserving cubic interpolation. SIAM J. Sci. Stat. Comput. 4, 645–654.
+### PCLM
+The `pclm` option in `DemoTools` ungroups data assuming the counts are distributed Poisson over a smooth grid [@pascariu2018ungroup]. The grouped data can be efficiently ungrouped by using the penalized composite link model [@rizzi2015efficient]. This method is a flexible choice since the only assumption underlying the model is smoothness, which is usually met with demographic counts. For more details see @rizzi2015efficient and the `ungroup` package in R.
+
+```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
+pclm.grad <- graduate(Value, Age, method = "pclm")
+
+single.age  <- names2age(pclm.grad)
+plot(single.age, pclm.grad, type = 'l',
+     ylab = 'Population',
+     xlab = 'Age',
+     main = 'Graduation with pclm')
+
+#check the totals
+sum(pclm.grad)
+sum(Value)
+```
+
 
 ### Uniform
+With the `uniform` option graduation is performed assuming that the counts are uniformly distributed across each age interval. It is also assumed that the initial age intervals are integers rgeater than or equal to one. This option simplu splits aggregate counts in age-groups into single age groups.
+
+```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
+unif.grad <- graduate(Value, Age, method = "unif")
+
+single.age  <- names2age(unif.grad)
+plot(single.age, unif.grad, type = 'l',
+     ylab = 'Population',
+     xlab = 'Age',
+     main = 'Graduation with uniform distribution')
+
+#check the totals
+sum(unif.grad)
+sum(Value)
+```
+
+### Comparison of all methods
+```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
+plot(single.age, beers.ordinary, type = 'l',
+     ylab = 'Population',
+     xlab = 'Age',
+     main = 'Graduation with multiple methods')
+
+lines(single.age,beers.modified, col = "red")
+
+lines(single.age,sprague, col = "blue")
+
+lines(single.age,mono.grad, col = "green")
+
+lines(single.age,pclm.grad, col = "pink")
+
+lines(single.age,unif.grad, col = "magenta")
+
+legend("topright",
+       lty=1,
+       col=c('black','red','blue','green','pink','magenta'),
+       legend=c("Beers ordinary",
+                "Beers modified",'Sprague','Monotone','PCLM','Uniform'))
+#check the totals
+sum(beers.ordinary)
+sum(beers.modified)
+sum(Value)
+```
+
 
 ### Using a standard
-Here the idea is to do the same thing by using `rescaleAgeGroups()` and a standard single age structure. One rescales the standard age structure to match the grouped age data in bins. YMMV.
+The function `rescaleAgeGroups` rescales a vector of counts in some given age-groups to approximate the counts into different age grouping. This method is appealing when, for example, the user wants to rescale single ages to sum to 5-year age groups. It is particularly useful in processes of making consistent different datasets to provide the same structure of data prior to construction of a lifetable for example.
 
 ## Graduation as a light smoother
 light heaping can be grouped and then graduated, holding counts constrained.
