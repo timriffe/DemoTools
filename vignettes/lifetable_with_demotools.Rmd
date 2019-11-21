@@ -1,0 +1,51 @@
+---
+title: "The lifetable with DemoTools"
+author: "José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{Lifetable with DemoTools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{amssymb}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6, 
+  fig.height = 6,
+  fig.align = "center"
+)
+
+```
+
+## How to use `DemoTools` to construct an abridged lifetable
+
+### What is the lifetable?
+The lifetable is one of the most used tools in demographic research. It is designed to summarize the mortality profile of a population at a given point in time. In its simplest form, a lifetable is generated from age-specific death rates, and the resulting values give essential functions of mortality such as the survival function $\ell(x)$ and life expectancy $e(x)$ [@siegel2004methods]. Life expectancy is the most-used column of a lifetable. It expresses the average number of additional years that a survivor to age $x$ is expected to live beyond that age, given the current conditions of mortality [@preston2000demography]. When measured from birth, life expectancy $e(0)$ expresses the average number of years a newborn from a hypothetical cohort is expected to live if he/she were to experience the current death-rates throughout his/her lifetime. One of the main advantages of the lifetable is that it gives a summary of the mortality profile of a population free of effects introduced by the size and composition of the population, allowing easy comparison between different populations.
+
+### The column $_nA_x$
+
+The column $_nA_x$ refers to the average number of person-years lived in the interval $x$ to $x+n$ by those who died in the interval. This is a key column when calculatin period lifetables because it allows to convert from age-specific death rates $_nM_x$ to the probabiliy of dying between ages $x$ and $x+n$ denoted as $_nq_x$. There are several ways to calculate this column. `DemoTools` provides two options to calculate this column from which the user can choose, `PAS` and `UN`. The `PAS` option relies on following the rule of thumb given by Coale and Demeny for ages 0, and 1-4, and assumes interval midpoints in higher ages. This choice relies on the fact that the lower the level of mortality, the more heavily will infant deaths be concentrated at the earliest stages of infancy [@preston2000demography], and therefore the values of $_1A_0$ and  $_4A_1$ depend on the values of $_1q_0$ and $_4q_1$ [@Coale1983]. The `UN` option also relies on the Coale-Demeny rule of thumb for ages 0 and 1-4. For ages 5-9 onwards, it uses the formula developed by @greville1977short. 
+
+## Closing the lifetable
+
+A common way to close a lifetable is by ta
+
+[waiting for data to be put in the package to call directly, meanwhile using Mexico from example]
+```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
+library(DemoTools)
+# #Example witn Mexican data from UN
+ nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,0.00418,0.00509,0.00609,
+ 0.00714,0.00808,0.00971,0.0125,0.0175,0.02551,0.03809,0.05595,0.08098,
+ 0.15353,0.2557)
+```
+
+
+## References
