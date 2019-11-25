@@ -31,7 +31,8 @@ mxorqx2ax(nMx, nqx, axmethod = c("pas", "un")[1], Age, AgeInt,
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
 
-\item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.}
+\item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked? Options include
+\code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.}
 
 \item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
 
