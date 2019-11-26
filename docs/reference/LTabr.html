@@ -36,7 +36,8 @@
 
 
 <meta property="og:title" content="Calculate an abridged-age lifetable. — LTabr" />
-<meta property="og:description" content="Given vectors for Deaths and Exposures, or Mx, or qx, or lx, calculate a full abridged lifetable." />
+<meta property="og:description" content="Given vectors for Deaths and Exposures, or Mx, or qx, or lx, 
+calculate a full abridged lifetable." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.5</span>
       </span>
     </div>
 
@@ -133,7 +134,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Given vectors for Deaths and Exposures, or Mx, or qx, or lx, calculate a full abridged lifetable.</p>
+    <p>Given vectors for Deaths and Exposures, or Mx, or qx, or lx, 
+calculate a full abridged lifetable.</p>
     </div>
 
     <pre class="usage"><span class='fu'>LTabr</span>(<span class='no'>Deaths</span>, <span class='no'>Exposures</span>, <span class='no'>nMx</span>, <span class='no'>nqx</span>, <span class='no'>lx</span>, <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
@@ -209,7 +211,8 @@
     </tr>
     <tr>
       <th>extrapLaw</th>
-      <td><p>character. If extrapolating, which parametric mortality law should be invoked? Options include  <code>"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"</code>. Default <code>"Kannisto"</code>. See details.</p></td>
+      <td><p>character. If extrapolating, which parametric mortality law should be invoked? Options include
+<code>"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"</code>. Default <code>"Kannisto"</code>. See details.</p></td>
     </tr>
     <tr>
       <th>extrapFrom</th>
@@ -244,7 +247,23 @@
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The main variations here are in the treatment of <code>nAx</code>. In all cases, the lifetable is extended and closed out using one from a selection of mortality age extrapolation methods implemented in the <code>MortalityLaws</code> package rather than the common practice of taking the inverse of the final <code>nMx</code> value (if it's an open interval). For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 110 in the present implementation. By default, the extrapolation model is fit to ages 60 and higher, but you can control this using the <code>extrapFit</code> argument (give the vector of ages, which must be a subset of <code>Age</code>). By default extrapolated values are used starting with the input open age, but you can lower this age using the <code>extrapFrom</code> argument. The <code>Sx</code> output column (survivor ratios) is aligned with the other columns in all 5-year age groups, but note the first two values have a slightly different age-interval interpretation: In Age 0, the interpretation is survival from birth until interval 0-4. In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align. This column is required for population projections.</p>
+    <p>The main variations here are in the treatment of <code>nAx</code>. 
+In all cases, the lifetable is extended and closed out using one from a 
+selection of mortality age extrapolation methods implemented in the
+ <code>MortalityLaws</code> package rather than the common practice of taking 
+ the inverse of the final <code>nMx</code> value (if it's an open interval). 
+ For this, a desired open age must be specified, defaulting to the present 
+ open age group, but which can not exceed 110 in the present implementation. 
+ By default, the extrapolation model is fit to ages 60 and higher, but you 
+ can control this using the <code>extrapFit</code> argument (give the vector of ages, 
+ which must be a subset of <code>Age</code>). By default extrapolated values are used 
+ starting with the input open age, but you can lower this age using the 
+ <code>extrapFrom</code> argument. The <code>Sx</code> output column (survivor ratios) 
+ is aligned with the other columns in all 5-year age groups, but note the 
+ first two values have a slightly different age-interval interpretation: 
+ In Age 0, the interpretation is survival from birth until interval 0-4. 
+ In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align. 
+ This column is required for population projections.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Greville TN (1977).
