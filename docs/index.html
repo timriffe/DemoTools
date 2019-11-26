@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.5</span>
       </span>
     </div>
 
@@ -95,24 +95,25 @@
 <div id="tools-for-the-evaluation-adjustment-and-standardization-of-demographic-data" class="section level1">
 <h1 class="hasAnchor">
 <a href="#tools-for-the-evaluation-adjustment-and-standardization-of-demographic-data" class="anchor"></a>Tools for the evaluation, adjustment, and standardization of demographic data</h1>
-<p>Date: 2019-10-28</p>
-<p>This repository contains simple functions in a package format, and is in active development. This project is commissioned by the <a href="http://www.un.org/en/development/desa/population/">UN Population Division</a> and financed by the <a href="https://www.gatesfoundation.org/">Bill and Melinda Gates Foundation</a> as part of the <a href="http://www.un.org/en/development/desa/population/projects/making-family-planning-count/index.shtml">Making Family Planning Count</a> project. Work is also done in collaboration with Sean Fennell, and <a href="http://findresearcher.sdu.dk/portal/en/persons/jose-manuel-aburto(34dcae96-a13a-4c4d-a941-985152180869).html">Jose Manuel Aburto</a>, <a href="https://ikashnitsky.github.io/">Ilya Kashnitsky</a>, <a href="https://github.com/mpascariu">Marius Pascariu</a> with minor contributions from <a href="https://github.com/timriffe/DemoTools/graphs/contributors">several more</a> (thank you!). This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 IGO (<a href="https://creativecommons.org/licenses/by-sa/3.0/igo/">CC BY-SA 3.0 IGO</a>).</p>
+<p>Date: 2019-11-25</p>
+<p><code>DemoTools</code> is an R package that contains simple functions oftens usedn in demographic analysis. It is in active development. This project is commissioned by the <a href="http://www.un.org/en/development/desa/population/">UN Population Division</a> and financed by the <a href="https://www.gatesfoundation.org/">Bill and Melinda Gates Foundation</a> as part of the <a href="http://www.un.org/en/development/desa/population/projects/making-family-planning-count/index.shtml">Making Family Planning Count</a> project. Work is also done in collaboration with Sean Fennell, and <a href="https://github.com/jmaburto">Jose Manuel Aburto</a>, <a href="https://ikashnitsky.github.io/">Ilya Kashnitsky</a>, <a href="https://github.com/mpascariu">Marius Pascariu</a>, <a href="https://github.com/cimentadaj">Jorge Cimentada</a>, <a href="https://www.monicaalexander.com/">Monica Alexander</a>, and with minor contributions from <a href="https://github.com/timriffe/DemoTools/graphs/contributors">several more</a> (thank you!). This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 IGO (<a href="https://creativecommons.org/licenses/by-sa/3.0/igo/">CC BY-SA 3.0 IGO</a>).</p>
 <p>If you detect a bug or have a suggestion please notify us using the <a href="https://github.com/timriffe/DemoTools/issues">Issues</a> tab on github. Even better if you fix it and make a pull request! See <a href="https://github.com/timriffe/DemoTools/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a> for more tips on reporting bugs or offering patches.</p>
+<div id="getting-started" class="section level2">
+<h2 class="hasAnchor">
+<a href="#getting-started" class="anchor"></a>Getting started</h2>
+<p>If you are getting started with <code>DemoTools</code> we recommend taking a look with the tutorial articles and the examples in the package documentation.</p>
+<p>We’ll soon add a primer here, but for now you can get started by loading the package and calling up help files, which contain worknig examples to demonstrate usage and options.</p>
 <p>You can load the <code>DemoTools</code> package in R like so:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># install.packages("devtools")</span></a>
 <a class="sourceLine" id="cb1-2" title="2"></a>
 <a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(devtools)</a>
 <a class="sourceLine" id="cb1-4" title="4"><span class="kw">install_github</span>(<span class="st">"timriffe/DemoTools"</span>)</a></code></pre></div>
 <p>(if either of the first two icons at the top of this README are red, then this might not be working at the moment. You can assume we’re fixing it. If they’re green, then it’ll probably work.)</p>
+</div>
 <div id="note" class="section level2">
 <h2 class="hasAnchor">
 <a href="#note" class="anchor"></a>Note</h2>
 <p>Sometime soon there will be an overhaul of function names. We plan to switch to snake case, with method families as the first element. This is to make naming more regular and memorable, and also to activate autocomplete in RStudio or similar.</p>
-</div>
-<div id="getting-started" class="section level2">
-<h2 class="hasAnchor">
-<a href="#getting-started" class="anchor"></a>Getting started</h2>
-<p>We’ll soon add a primer here, but for now you can get started by loading the package and calling up help files, which contain worknig examples to demonstrate usage and options.</p>
 <pre><code>library(DemoTools)
 # interesting top-level functions include:
 
@@ -216,7 +217,7 @@
 <li><a href="https://travis-ci.org/timriffe/DemoTools"><img src="https://travis-ci.org/timriffe/DemoTools.svg?branch=master" alt="Build Status"></a></li>
 <li><a href="https://ci.appveyor.com/project/timriffe/DemoTools"><img src="https://ci.appveyor.com/api/projects/status/github/timriffe/DemoTools?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
 <li><a href="https://codecov.io/gh/timriffe/DemoTools"><img src="https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg" alt="codecov"></a></li>
-<li><a href="https://github.com/timriffe/DemoTools"><img src="https://img.shields.io/badge/devel%20version-01.02.04-yellow.svg"></a></li>
+<li><a href="https://github.com/timriffe/DemoTools"><img src="https://img.shields.io/badge/devel%20version-01.02.05-yellow.svg"></a></li>
 <li><a href="https://github.com/timriffe/DemoTools/issues"><img src="https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg" alt="issues"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
 </ul>
