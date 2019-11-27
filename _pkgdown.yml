@@ -1,0 +1,59 @@
+title: DemoTools
+url: https://timriffe.github.io/DemoTools/
+
+template: 
+  params:
+    bootswatch: yeti
+    
+home:
+  strip_header: false
+  title: DemoTools
+  description: Do you love demography and data? If so, you might enjoy using this package.
+  
+reference:
+  - title: "Age-heaping"
+    desc: Functions used to assess and handle age-heaping
+    contents: 
+      - '`Whipple`'
+      - '`Myers`'
+      - '`Bachi`'
+      - '`Noumbissi`'
+      - '`Spoorenberg`'
+      - '`CoaleLi`'
+      - '`Jdanov`'
+      - '`groupAges`'
+      - '`zero_pref_sawtooth`'
+      - '`five_year_roughness`'
+      - ageRatioScore
+      - sexRatioScore
+      - ageSexAccuracy
+      - IRD
+      - ID 
+      - survRatioError
+  - title: "Graduation"
+    desc: Functions to graduate demographic counts
+    contents:
+      - '`graduate`'
+      - '`groupAges`'
+      - '`rescaleAgeGroups`'
+  - title: "Smoothing"
+    desc: Functions to smooth demographic counts
+    contents:
+      - '`agesmth`'
+      - '`agesmth1`'
+      - '`united_nations_smth`'
+      - '`strong_smth`'
+      - '`zigzag_smth`'
+  - title: "Lifetable"
+    desc: Functions to construct a lifetable
+    contents:
+      - '`LTabr`'
+  - title: "Interpolation"
+    desc: Functions to interpolate counts
+    contents:
+      - '`interp`'
+      
+
+      
+
+    

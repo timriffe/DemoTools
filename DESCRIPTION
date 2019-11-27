@@ -7,9 +7,12 @@ Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
           email = "tim.riffe@gmail.com", comment = c(ORCID = "0000-0002-2673-4622")),
    person("Sean", "Fennell", role = "aut"),
-   person("Jose Manuel", "Aburto", role = "aut"),
+   person("José Manuel", "Aburto", role = "aut", comment = c(ORCID = "0000-0002-2926-6879")),
    person("Juan", "Galeano", role = "ctb"),
    person("Marius D.", "Pascariu", role = "ctb"),
+   person("Monica", "Alexander", role = "ctb"),
+   person("Jorge", "Cimentada", role = "ctb"),
+   person("Ilya", "Kashnitsky", role = "ctb"),
    person("Derek", "Burk", role = "ctb"),
    person("Greg", "Freedman Ellis", role = "ctb"))
 Description: A collection of classic demographic methods used to evaluate, adjust, and standardize demographic data.
