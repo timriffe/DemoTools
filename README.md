@@ -3,16 +3,23 @@
 [![Build Status](https://travis-ci.org/timriffe/DemoTools.svg?branch=master)](https://travis-ci.org/timriffe/DemoTools)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/timriffe/DemoTools?branch=master&svg=true)](https://ci.appveyor.com/project/timriffe/DemoTools)
 [![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) 
-[![](https://img.shields.io/badge/devel%20version-01.02.04-yellow.svg)](https://github.com/timriffe/DemoTools)
+[![](https://img.shields.io/badge/devel%20version-01.02.05-yellow.svg)](https://github.com/timriffe/DemoTools)
 [![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
 # Tools for the evaluation, adjustment, and standardization of demographic data
-Date: 2019-10-28
+Date: 2019-11-25
  
-This repository contains simple functions in a package format, and is in active development. This project is commissioned by the [UN Population Division](http://www.un.org/en/development/desa/population/) and financed by the [Bill and Melinda Gates Foundation](https://www.gatesfoundation.org/) as part of the [Making Family Planning Count](http://www.un.org/en/development/desa/population/projects/making-family-planning-count/index.shtml) project. Work is also done in collaboration with Sean Fennell, and [Jose Manuel Aburto](http://findresearcher.sdu.dk/portal/en/persons/jose-manuel-aburto(34dcae96-a13a-4c4d-a941-985152180869).html), [Ilya Kashnitsky](https://ikashnitsky.github.io/), [Marius Pascariu](https://github.com/mpascariu) with minor contributions from [several more](https://github.com/timriffe/DemoTools/graphs/contributors) (thank you!). This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 IGO ([CC BY-SA 3.0 IGO](https://creativecommons.org/licenses/by-sa/3.0/igo/)). 
+`DemoTools` is an R package that contains simple functions oftens used in demographic analysis. It is in active development. This project is commissioned by the [UN Population Division](http://www.un.org/en/development/desa/population/) and financed by the [Bill and Melinda Gates Foundation](https://www.gatesfoundation.org/) as part of the [Making Family Planning Count](http://www.un.org/en/development/desa/population/projects/making-family-planning-count/index.shtml) project. Work is also done in collaboration with Sean Fennell, and [Jose Manuel Aburto](https://github.com/jmaburto), [Ilya Kashnitsky](https://ikashnitsky.github.io/), [Marius Pascariu](https://github.com/mpascariu), [Jorge Cimentada](https://github.com/cimentadaj), [Monica Alexander](https://www.monicaalexander.com/), and with minor contributions from [several more](https://github.com/timriffe/DemoTools/graphs/contributors) (thank you!). This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 IGO ([CC BY-SA 3.0 IGO](https://creativecommons.org/licenses/by-sa/3.0/igo/)). 
 
 If you detect a bug or have a suggestion please notify us using the [Issues](https://github.com/timriffe/DemoTools/issues) tab on github. Even better if you fix it and make a pull request! See [CONTRIBUTING.md](https://github.com/timriffe/DemoTools/blob/master/CONTRIBUTING.md) for more tips on reporting bugs or offering patches. 
+
+
+## Getting started
+
+If you are getting started with `DemoTools` we recommend taking a look with the tutorial articles and the examples in the package documentation. 
+
+We'll soon add a primer here, but for now you can get started by loading the package and calling up help files, which contain worknig examples to demonstrate usage and options.
 
 You can load the ```DemoTools``` package in R like so:
 ```r
@@ -26,9 +33,6 @@ install_github("timriffe/DemoTools")
 ## Note
 Sometime soon there will be an overhaul of function names. We plan to switch to snake case, with method families as the first element. This is to make naming more regular and memorable, and also to activate autocomplete in RStudio or similar.
 
-## Getting started
-
-We'll soon add a primer here, but for now you can get started by loading the package and calling up help files, which contain worknig examples to demonstrate usage and options.
 
 ```
 library(DemoTools)
