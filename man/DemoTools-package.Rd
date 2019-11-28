@@ -20,17 +20,17 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Sean Fennell
   \item José Manuel Aburto (0000-0002-2926-6879)
+  \item Ilya Kashnitsky
+  \item Marius D. Pascariu
+  \item Monica Alexander
+  \item Sean Fennell
 }
 
 Other contributors:
 \itemize{
-  \item Juan Galeano [contributor]
-  \item Marius D. Pascariu [contributor]
-  \item Monica Alexander [contributor]
   \item Jorge Cimentada [contributor]
-  \item Ilya Kashnitsky [contributor]
+  \item Juan Galeano [contributor]
   \item Derek Burk [contributor]
   \item Greg Freedman Ellis [contributor]
 }

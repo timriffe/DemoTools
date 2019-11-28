@@ -76,7 +76,7 @@ ID(pop0,pop1) # sprague vs sprague osc
 ID(pop1,pop2) # sprague osc vs beers osc
 ID(pop2,pop3) # beers osc vs grabill
 ID(pop3,pop4) # grabill vs grabill osc
-# measre of smoothness:
+# measure of smoothness:
 mean(abs(diff(Value)))
 mean(abs(diff(pop0)))
 mean(abs(diff(pop1)))
