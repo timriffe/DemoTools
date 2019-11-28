@@ -5,13 +5,20 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Standardize, Evaluate, and Adjust Demographic Data • DemoTools</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
+<title>DemoTools • DemoTools</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Standardize, Evaluate, and Adjust Demographic Data">
-<meta property="og:description" content="A collection of classic demographic methods used to evaluate, adjust, and standardize demographic data.">
+<script src="pkgdown.js"></script><meta property="og:title" content="DemoTools">
+<meta property="og:description" content="Do you love demography and data? If so, you might enjoy using this package.">
+<meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -87,21 +94,23 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
+
+<p><a href="https://timriffe.github.io/DemoTools/"><img src="logo.png" align="left" width="100"></a></p>
 <div id="demotools" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#demotools" class="anchor"></a>DemoTools</h1></div>
-
+<p><a href="https://travis-ci.org/timriffe/DemoTools"><img src="https://travis-ci.org/timriffe/DemoTools.svg?branch=master" alt="Build Status"></a> <a href="https://ci.appveyor.com/project/timriffe/DemoTools"><img src="https://ci.appveyor.com/api/projects/status/github/timriffe/DemoTools?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a> <a href="https://codecov.io/gh/timriffe/DemoTools"><img src="https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg" alt="codecov"></a> <a href="https://github.com/timriffe/DemoTools"><img src="https://img.shields.io/badge/devel%20version-01.02.05-yellow.svg"></a> <a href="https://github.com/timriffe/DemoTools/issues"><img src="https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg" alt="issues"></a> <a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></p>
 </div>
 <div id="tools-for-the-evaluation-adjustment-and-standardization-of-demographic-data" class="section level1">
 <h1 class="hasAnchor">
 <a href="#tools-for-the-evaluation-adjustment-and-standardization-of-demographic-data" class="anchor"></a>Tools for the evaluation, adjustment, and standardization of demographic data</h1>
 <p>Date: 2019-11-25</p>
-<p><code>DemoTools</code> is an R package that contains simple functions oftens usedn in demographic analysis. It is in active development. This project is commissioned by the <a href="http://www.un.org/en/development/desa/population/">UN Population Division</a> and financed by the <a href="https://www.gatesfoundation.org/">Bill and Melinda Gates Foundation</a> as part of the <a href="http://www.un.org/en/development/desa/population/projects/making-family-planning-count/index.shtml">Making Family Planning Count</a> project. Work is also done in collaboration with Sean Fennell, and <a href="https://github.com/jmaburto">Jose Manuel Aburto</a>, <a href="https://ikashnitsky.github.io/">Ilya Kashnitsky</a>, <a href="https://github.com/mpascariu">Marius Pascariu</a>, <a href="https://github.com/cimentadaj">Jorge Cimentada</a>, <a href="https://www.monicaalexander.com/">Monica Alexander</a>, and with minor contributions from <a href="https://github.com/timriffe/DemoTools/graphs/contributors">several more</a> (thank you!). This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 IGO (<a href="https://creativecommons.org/licenses/by-sa/3.0/igo/">CC BY-SA 3.0 IGO</a>).</p>
+<p><code>DemoTools</code> is an R package that contains simple functions often used in demographic analysis. It is in active development. This project is commissioned by the <a href="http://www.un.org/en/development/desa/population/">UN Population Division</a> and financed by the <a href="https://www.gatesfoundation.org/">Bill and Melinda Gates Foundation</a> as part of the <a href="http://www.un.org/en/development/desa/population/projects/making-family-planning-count/index.shtml">Making Family Planning Count</a> project. Work is also done in collaboration with Sean Fennell, and <a href="https://github.com/jmaburto">José Manuel Aburto</a>, <a href="https://ikashnitsky.github.io/">Ilya Kashnitsky</a>, <a href="https://github.com/mpascariu">Marius Pascariu</a>, <a href="https://github.com/cimentadaj">Jorge Cimentada</a>, <a href="https://www.monicaalexander.com/">Monica Alexander</a>, and with minor contributions from <a href="https://github.com/timriffe/DemoTools/graphs/contributors">several more</a> (thank you!). This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 IGO (<a href="https://creativecommons.org/licenses/by-sa/3.0/igo/">CC BY-SA 3.0 IGO</a>).</p>
 <p>If you detect a bug or have a suggestion please notify us using the <a href="https://github.com/timriffe/DemoTools/issues">Issues</a> tab on github. Even better if you fix it and make a pull request! See <a href="https://github.com/timriffe/DemoTools/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a> for more tips on reporting bugs or offering patches.</p>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting started</h2>
-<p>If you are getting started with <code>DemoTools</code> we recommend taking a look with the tutorial articles and the examples in the package documentation.</p>
+<p>If you are getting started with <code>DemoTools</code> we recommend taking a look at the tutorial articles and the examples in the package documentation.</p>
 <p>We’ll soon add a primer here, but for now you can get started by loading the package and calling up help files, which contain worknig examples to demonstrate usage and options.</p>
 <p>You can load the <code>DemoTools</code> package in R like so:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># install.packages("devtools")</span></a>
@@ -114,59 +123,6 @@
 <h2 class="hasAnchor">
 <a href="#note" class="anchor"></a>Note</h2>
 <p>Sometime soon there will be an overhaul of function names. We plan to switch to snake case, with method families as the first element. This is to make naming more regular and memorable, and also to activate autocomplete in RStudio or similar.</p>
-<pre><code>library(DemoTools)
-# interesting top-level functions include:
-
-# for age heaping:
-?Whipple
-?Myers
-?Bachi
-?CoaleLi
-?Noumbissi
-?Spoorenberg
-?KannistoHeap #(Kannisto's old-age heaping index)
-?Jdanov (Jdanov's old-age heaping index)
-?heapify  # induce heaping, to test evaluation functions
-
-# test if 5-year smoothing recommended:
-?zero_pref_sawtooth # is heaping much worse on 0s than on 5s?
-?five_year_roughness # measure of total roughness 
-
-# other age-structure quality measures:
-?ageRatioScore  # methods including "UN", "Zelnick", "Ramachandran"
-?sexRatioScore
-?ageSexAccuracy # methods including "UN", "Zelnick", "Ramachandran", and "Das Gupta"
-
-
-# Comparison methods
-?IRD (index of relative difference)
-?ID (index of dissimilarity)
-?survRatioError
-
-# graduation methods
-?graduate # methods include "sprague", "beers(ord)", "beers(mod)", "mono","uniform", and "pclm"
-
-# various smoothing methods
-
-# * for 5-year age groups
-?agesmth # including Carrier-Farrag, Arriaga, Karup-King-Newton, United Nations, Strong, Zigzag, and MAV methods
-
-# * for single ages
-?agesmth1 # including loess and polynomial
-?spencer
-?zelnik
-
-
-# various lifetable evaluation and calculation functions
-?ADM # and ?RDM, implementing PAS LIFIT
-?LTabr # with fine control over a(x) assumptions, extrapolation, and open age groups
-
-# interpolation
-?interp (arithmetic, logarithmic, power)
-
-# redistribution
-?OPAG_simple # increase population open age, redistributing using a supplied standard.
-?rescaleAgeGroups (including for cases of different age groupings)</code></pre>
 <p>These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 121 documented functions, with more in development.</p>
 <p>Presently all functions are in a testing phase, but the aim is to end up with a set of robust generic functions around which wrappers can be easily built for various institutional data production needs. As-is, these functions may also be useful for DIY demographers. This set of methods is a cherry-pick from legacy methods collections, including PAS, DAPPS, MPCDA, MortPack, IREDA, UN Manual X, G. Feeney Spreadsheets, formulas found in Siegel and Swanson or Shyrock and Siegel, and various (apparent) first-implementations from formulas in papers, or ad hoc DIY approximations from old pros.</p>
 </div>
@@ -206,7 +162,7 @@
 <ul class="list-unstyled">
 <li>Tim Riffe <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2673-4622" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 <li>Sean Fennell <br><small class="roles"> Author </small>  </li>
-<li>Jose Manuel Aburto <br><small class="roles"> Author </small>  </li>
+<li>José Manuel Aburto <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-2926-6879" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
@@ -214,12 +170,7 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/timriffe/DemoTools"><img src="https://travis-ci.org/timriffe/DemoTools.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://ci.appveyor.com/project/timriffe/DemoTools"><img src="https://ci.appveyor.com/api/projects/status/github/timriffe/DemoTools?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
-<li><a href="https://codecov.io/gh/timriffe/DemoTools"><img src="https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg" alt="codecov"></a></li>
-<li><a href="https://github.com/timriffe/DemoTools"><img src="https://img.shields.io/badge/devel%20version-01.02.05-yellow.svg"></a></li>
-<li><a href="https://github.com/timriffe/DemoTools/issues"><img src="https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg" alt="issues"></a></li>
-<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
+<li><a href="https://timriffe.github.io/DemoTools/"><img src="logo.png" width="100"></a></li>
 </ul>
 </div>
 </div>
@@ -227,7 +178,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Tim Riffe, Sean Fennell, Jose Manuel Aburto.</p>
+  <p>Developed by Tim Riffe, Sean Fennell, José Manuel Aburto.</p>
 </div>
 
 <div class="pkgdown">
