@@ -4,14 +4,14 @@
 \alias{mig_calculate_rc}
 \title{Calculate Rogers-Castro migration age schedule}
 \usage{
-mig_calculate_rc(ages, parameters, num_parameters = 11)
+mig_calculate_rc(ages, pars, num_pars = 11)
 }
 \arguments{
 \item{ages}{numeric. A vector of ages for migration rates to be calculated.}
 
-\item{parameters}{numeric. A named list of parameters.}
+\item{pars}{numeric. A named list of parameters.}
 
-\item{num_parameters}{integer. The number of parameters in the model (7,9,11, or 13)}
+\item{num_pars}{integer. The number of parameters in the model (7,9,11, or 13)}
 }
 \description{
 Given a set of ages and parameters, calculate the a model migration age schedule based on the Rogers and Catsro formula. 
@@ -19,13 +19,16 @@ Choose between a 7,9,11 or 13 parameter model (TODO, only does 11 for now).
 }
 \details{
 In the full 13 parameter model, the migration rate at age x, \eqn{m(x)} is defined as
-\deqn{m(x) = a1*exp(-1*\alpha1*x) + a2*exp(-1*\alpha2*(x - mu2) - exp(-1*\lambda2*(x - mu2))) + a3*exp(-1*\alpha3*(x - mu3) - exp(-1*\lambda3*(x - mu3))) + a4*exp(\lambda4*x) + c}
+\deqn{m(x) = a1*exp(-1*alpha1*x) + a2*exp(-1*alpha2*(x - mu2) - exp(-1*lambda2*(x - mu2))) + a3*exp(-1*alpha3*(x - mu3) - exp(-1*lambda3*(x - mu3))) + a4*exp(lambda4*x) + c}
+
 The first, second, third and fourth pieces of the equation represent pre-labour force, working age, retirement and post retirement age patterns, respectively. Models with less parameters gradually remove terms at the older ages.
 }
 \examples{
-parameters <- list(a1= 0.09, alpha1= 0.1, a2= 0.2, alpha2= 0.1, mu2= 21, lambda2= 0.39, a3= 0.001, alpha3= 1, mu3= 67, lambda3= 0.6, c= 0.01)
+parameters <- c(a1= 0.09, alpha1= 0.1, a2= 0.2, 
+alpha2= 0.1, mu2= 21, lambda2= 0.39, a3= 0.001, 
+alpha3= 1, mu3= 67, lambda3= 0.6, c= 0.01)
 ages <- 0:75
-mx <- mig_calculate_rc(ages = ages, parameters = parameters, num_parameters = 11)
+mx <- mig_calculate_rc(ages = ages, pars = pars, num_pars = 11)
 plot(ages, mx, type = 'l')
 }
 \references{

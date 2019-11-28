@@ -2,28 +2,25 @@
 #'
 #' @description The resulting coefficient matrix is based on the number of rows in \code{popmat} where we assume that each row of data is a 5-year age group and the final row is an open age group to be preserved as such.
 #'
-#' @param popmat numeric. Matrix of age-period population counts in 5-year age groups.
-#' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
+#' @inheritParams graduate
 #'
-#' @details The \code{popmat} matrix is really just a placeholder in this case. This function is a utility called by the Grabill family of functions, where it is most convenient to just pass in the same matrix being used in those calculations to determine the layout of the coefficient matrix. Note that these coefficients do not constrain population counts to their year totals. This function is called by \code{grabill()}, which ensures matching marginals by 1) blending boundary ages into the Sprague estimated population, and 2) a second constraint on the middle age groups to enforce matching sums.
+#' @details The \code{Value} vector is really just a placeholder in this case. This function is a utility called by the Grabill family of functions, where it is most convenient to just pass in the same matrix being used in those calculations to determine the layout of the coefficient matrix. Note that these coefficients do not constrain population counts to their year totals. This function is called by \code{grabill()}, which ensures matching marginals by 1) blending boundary ages into the Sprague estimated population, and 2) a second constraint on the middle age groups to enforce matching sums.
 #'
 #' @references
 #' \insertRef{shryock1973methods}{DemoTools}
 #'
 #' @export
 #' @examples
-#' grabillExpand(pop5_mat, OAG = TRUE)
-#' grabillExpand(pop5_mat, OAG = FALSE)
-grabillExpand <- function(popmat, OAG = TRUE) {
-  popmat <- as.matrix(popmat)
-  
+#' a5 <- as.integer(rownames(pop5_mat))
+#' graduate_grabill_expand(pop5_mat[,1], Age = a5, OAG = TRUE)
+#' graduate_grabill_expand(pop5_mat[,1], Age = a5, OAG = FALSE)
+graduate_grabill_expand <- function(Value, Age, OAG = TRUE) {
   # figure out ages and years
-  Age5   <- as.integer(rownames(popmat))
+  Age5   <- Age
   Age1   <- min(Age5):max(Age5)
-  yrs    <- as.integer(colnames(popmat))
-  
+
   # nr 5-year age groups
-  m      <- nrow(popmat)
+  m      <- length(Value)
   # nr rows in coef mat.
   n      <- m * 5 - ifelse(OAG, 4, 0)
   # number of middle blocks
@@ -92,9 +89,7 @@ grabillExpand <- function(popmat, OAG = TRUE) {
 #' @description This method uses Grabill's redistribution of middle ages and blends into
 #' Sprague estimated single-age population counts for the first and final ten ages. Open age groups are preserved, as are annual totals.
 #'
-#' @param popmat numeric. Matrix of age-period population counts in 5-year age groups with integer-labeled margins (age in rows and year in columns).
-#' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts. Detected from row names of \code{popmat} if missing.
-#' @param OAG logical. Whether or not the final age group open. Default \code{TRUE}.
+#' @inheritParams graduate
 #' @details  Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages.
 #'
 #' If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend
@@ -108,16 +103,15 @@ grabillExpand <- function(popmat, OAG = TRUE) {
 #' @export
 #'
 #' @examples
-#' p5 <- pop5_mat
-#' head(p5) # this is the entire matrix
-#' p1g <- grabill(p5)
-#' head(p1g); tail(p1g)
-#' colSums(p1g) - colSums(p5)
-#' p1s <- sprague(p5)
+#' a5 <- as.integer(rownames(pop5_mat))
+#' p5 <- pop5_mat[,1]
+#' p1g <- graduate_grabill(Value = p5, Age = a5, OAG = TRUE)
+#' sum(p1g) - sum(p5)
+#' p1s <- graduate_sprague(p5, Age = a5, OAG = TRUE)
 #' \dontrun{
 #' plot(seq(0,100,by=5),p5[,1]/5,type = "s", col = "gray", xlab = "Age", ylab = "Count")
-#' lines(0:100, p1g[,1], col = "red", lwd = 2)
-#' lines(0:100, p1s[,1], col = "blue", lty = 2, lwd =2)
+#' lines(0:100, p1g, col = "red", lwd = 2)
+#' lines(0:100, p1s, col = "blue", lty = 2, lwd =2)
 #' legend("topright",
 #'		lty = c(1,1,2),
 #'		col = c("gray","red","blue"),
@@ -126,32 +120,39 @@ grabillExpand <- function(popmat, OAG = TRUE) {
 #' }
 #'
 #' # also works for single ages:
-#' names(pop1m_ind) <- 0:100
-#' grab1 <- grabill(pop1m_ind)
+#' grab1 <- graduate_grabill(Value = pop1m_ind, Age = 0:100)
 #' \dontrun{
 #' plot(0:100, pop1m_ind)
-#' lines(0:100, c(grab1))
+#' lines(0:100, grab1)
 #' }
-grabill <- function(popmat,
-                    Age = as.integer(rownames(as.matrix(popmat))),
-                    OAG = TRUE) {
-  popmat            <- as.matrix(popmat)
-  
+graduate_grabill <- function(
+  Value,
+  Age,
+  OAG = TRUE) {
+
+  punif1       <- splitUniform(
+                    Value = Value, 
+                    Age = Age, 
+                    OAG = OAG)
   # this is innocuous if ages are already grouped
-  pop5              <-
-    apply(
-      popmat,
-      2,
-      groupAges,
-      Age = Age,
-      N = 5,
-      shiftdown = 0
-    )
+  a1           <- as.integer(names(punif1))
+  pop5         <- groupAges(
+                    punif1, 
+                    Age = a1,
+                    N = 5,
+                    shiftdown = 0
+  )
+  # depending on OAG, highest age may shift down.
+  a5           <- as.integer(names(pop5))
+  punif1       <- splitUniform(
+                    pop5,
+                    Age = a5,
+                    OAG = OAG)
   
   
   # get coefficient matrices for Sprague and Grabill
-  scmg              <- grabillExpand(pop5, OAG = OAG)
-  scm               <- spragueExpand(pop5, OAG = OAG)
+  scmg              <- graduate_grabill_expand(pop5, Age = a5, OAG = OAG)
+  scm               <- graduate_sprague_expand(pop5, Age = a5, OAG = OAG)
   
   # split pop counts
   pops              <- scm %*% pop5
@@ -194,7 +195,8 @@ grabill <- function(popmat,
   # ---------------------------------------------
   # label dims and return
   AgeOut            <- min(Age):(min(Age) + nrow(popg) - 1)
-  dimnames(popg)    <- list(AgeOut, colnames(popmat))
+  dim(popg)         <- NULL
+  names(popg)       <- a1
   
   popg
 }

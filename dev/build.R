@@ -33,9 +33,9 @@ versionIncrement(
 # run this to get access to already-written functions
 shhh(load_all())
 
-
+# usethis::use_build_ignore(c("docs"))
 # do this whenever major changes happen
-devtools::check(force_suggests=TRUE,manual=FALSE)
+devtools::check(force_suggests = TRUE, manual = FALSE)
 
 #build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
 #?devtools::build

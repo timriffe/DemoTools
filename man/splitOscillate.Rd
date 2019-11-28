@@ -5,7 +5,7 @@
 \title{An oscillatory average of age splits.}
 \usage{
 splitOscillate(Value, Age = 1:length(Value) - 1, OAG = TRUE,
-  splitfun = sprague, closeout = "mono", pivotAge = 90, ...)
+  splitfun = graduate_sprague, closeout = "mono", pivotAge = 90, ...)
 }
 \arguments{
 \item{Value}{numeric. Vector of single age counts.}
@@ -36,22 +36,22 @@ similar after the oscillatory split in such situations.
 # code currently breaking, needs to be revisited and updates completed, sorry
 \dontrun{
 
-Value                         <- structure(pop1m_ind, .Names = 0:100)
+Value     <- structure(pop1m_ind, .Names = 0:100)
 #barplot(Value, main = "yup, these have heaping!")
 # this is the basic case we compare with:
-pop0                          <- sprague(groupAges(Value),  OAG = TRUE)
+pop0      <- graduate_sprague(groupAges(Value), Age = 0:100,  OAG = TRUE)
 # note: this function needs single ages to work because
 # ages are grouped into 5-year age groups in 5 different ways.
 # breaks
-#pop1                         <- splitOscillate(Value, OAG = TRUE, splitfun = sprague)
-pop2                          <- splitOscillate(Value, OAG = TRUE, splitfun = beers)
-# what's smoother, splitOscillate() or grabill()?
+#pop1     <- splitOscillate(Value, OAG = TRUE, splitfun = graduate_sprague)
+pop2      <- splitOscillate(Value, OAG = TRUE, splitfun = beers)
+# what's smoother, splitOscillate() or graduate_grabill()?
 # note, same closeout problem, can be handled by monoCloseout()
-pop3                          <- grabill(Value, OAG = TRUE)
+pop3      <- graduate_grabill(Value, OAG = TRUE)
 # and technically you could give grabill as splitfun too
-pop4                          <- splitOscillate(Value, OAG = TRUE, splitfun = grabill)
+pop4      <- splitOscillate(Value, OAG = TRUE, splitfun = graduate_grabill)
 
-Age                           <- 0:100
+Age       <- 0:100
 plot(Age, Value)
 lines(Age, pop0, col = "blue")
 # slightly smoother (also shifted though)
@@ -64,11 +64,11 @@ legend("topright",
 lty = c(1,1,2,1,2),
 lwd = c(1,1,2,1,1),
 col = c("blue","black","red","magenta","orange"),
-		legend = c("sprague()",
-                "splitOscillate(splitfun = sprague)",
+		legend = c("graduate_sprague()",
+                "splitOscillate(splitfun = graduate_sprague)",
 				   "splitOscillate(splitfun = beers)",
-				   "grabill()",
-                "splitOscillate(splitfun = grabill)"))
+				   "graduate_grabill()",
+                "splitOscillate(splitfun = graduate_grabill)"))
 
 # index of dissimilarity
 ID(Value, pop0) # original vs sprague

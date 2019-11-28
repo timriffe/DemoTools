@@ -6,7 +6,7 @@
 \usage{
 graduate(Value, Age, AgeInt = age2int(Age), OAG = TRUE,
   OAnew = max(Age), method = c("sprague", "beers(ord)", "beers(mod)",
-  "pclm", "mono", "uniform"), keep0 = FALSE, ...)
+  "grabill", "pclm", "mono", "uniform"), keep0 = FALSE, ...)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}
@@ -26,7 +26,7 @@ graduate(Value, Age, AgeInt = age2int(Age), OAG = TRUE,
 \item{...}{extra arguments passed to \code{beers()} or \code{graduate_pclm()}}
 }
 \description{
-A wrapper function for several graduation methods, primarily for count data (\code{"sprague"}, \code{"beers(ord)"}, \code{"beers(mod)"}, \code{"mono"} (Monotonic spline), \code{"uniform"}, \code{"pclm"}), but also with one (\code{"pclm"}) with an option for graduating rates if both event counts and population at risk are available.
+A wrapper function for several graduation methods, primarily for count data (\code{"sprague"}, \code{"beers(ord)"}, \code{"beers(mod)"}, \code{"grabill"}, \code{"mono"} (Monotonic spline), \code{"uniform"}, \code{"pclm"}), but also with one (\code{"pclm"}) with an option for graduating rates if both event counts and population at risk are available.
 }
 \details{
 \code{"sprague"}, \code{"beers(ord)"}, \code{"beers(mod)"} methods require original data to be in uniform five-year age groups. If they are not (for example, the infant group is separate) then they are grouped to uniform width prior to splitting. If you want to keep the original infant count in output, then specify \code{keep0 = TRUE}. In this case, it is imputed, and ages 1-4 are rescaled, which may introduce a discontinuity in results from age 4 to 5. \code{keep0 = TRUE} may also be desired along with \code{method = "pclm"}.
@@ -110,5 +110,5 @@ legend("bottomright",
 \insertRef{beers1945modified}{DemoTools}
 }
 \seealso{
-\code{\link{sprague}}, \code{\link{beers}}, \code{\link{splitUniform}}, \code{\link{splitMono}}, \code{\link{graduate_pclm}}
+\code{\link{graduate_sprague}}, \code{\link{beers}}, \code{\link{splitUniform}}, \code{\link{graduate_mono}}, \code{\link{graduate_pclm}}, \code{\link{graduate_grabill}}
 }

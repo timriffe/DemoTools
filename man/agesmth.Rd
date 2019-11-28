@@ -133,9 +133,9 @@ legend("topright",
 
 # it might make sense to do this level of smoothing as intermediate step
 # in Sprague-like situation. Compare:
-spr1 <- sprague(pop1m_pasex, Age=Age,OAG=FALSE)
-spr2 <- sprague(cf2, Age=Age5,OAG=FALSE)
-spr3 <- sprague(st2, Age=Age5,OAG=FALSE)
+spr1 <- graduate_sprague(pop1m_pasex, Age=Age,OAG=FALSE)
+spr2 <- graduate_sprague(cf2, Age=Age5,OAG=FALSE)
+spr3 <- graduate_sprague(st2, Age=Age5,OAG=FALSE)
 \dontrun{
 plot(Age,Value,pch=16, main = "Smoothing as pre-step to graduation")
 lines(Age,spr1,lty=2)

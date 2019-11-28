@@ -18,11 +18,13 @@
 #' @examples
 #' a5  <- seq(0,100,by=5)
 #' p5  <- pop5_mat[, 1]
-#' p1  <- graduate_pclm(p5, Age = a5)
-#' p1s <- sprague(p5,a5)
+#' p1  <- graduate_pclm(Value = p5, Age = a5)
+#' p1s <- graduate_sprague(Value = p5, Age = a5)
+#' \dontrun{
 #' plot(a5, p5/5, type = "s",xlim=c(40,60),ylim=c(2000,4000))
 #' lines(0:100, p1, lwd = 2, col = "red")
 #' lines(0:100, p1s, lwd = 1, col = "blue",lty="8282")
+#' }
 graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
   nlast    <- OAnew - max(Age) + 1
   a1       <- min(Age):OAnew
@@ -44,7 +46,7 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
 
 #' Graduate grouped data
 #'
-#' @description A wrapper function for several graduation methods, primarily for count data (\code{"sprague"}, \code{"beers(ord)"}, \code{"beers(mod)"}, \code{"mono"} (Monotonic spline), \code{"uniform"}, \code{"pclm"}), but also with one (\code{"pclm"}) with an option for graduating rates if both event counts and population at risk are available.
+#' @description A wrapper function for several graduation methods, primarily for count data (\code{"sprague"}, \code{"beers(ord)"}, \code{"beers(mod)"}, \code{"grabill"}, \code{"mono"} (Monotonic spline), \code{"uniform"}, \code{"pclm"}), but also with one (\code{"pclm"}) with an option for graduating rates if both event counts and population at risk are available.
 #'
 #' @details \code{"sprague"}, \code{"beers(ord)"}, \code{"beers(mod)"} methods require original data to be in uniform five-year age groups. If they are not (for example, the infant group is separate) then they are grouped to uniform width prior to splitting. If you want to keep the original infant count in output, then specify \code{keep0 = TRUE}. In this case, it is imputed, and ages 1-4 are rescaled, which may introduce a discontinuity in results from age 4 to 5. \code{keep0 = TRUE} may also be desired along with \code{method = "pclm"}.
 #'
@@ -64,7 +66,7 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
 #' @param method character, either \code{"sprague"}, \code{"beers(ord)")}, \code{"beers(mod)")}, \code{"mono")}, \code{"uniform")}, or \code{"pclm"}
 #' @param keep0 logical. Default \code{FALSE}. If available, should the value in the infant age group be maintained, and ages 1-4 constrained?
 #' @param ... extra arguments passed to \code{beers()} or \code{graduate_pclm()}
-#' @seealso \code{\link{sprague}}, \code{\link{beers}}, \code{\link{splitUniform}}, \code{\link{splitMono}}, \code{\link{graduate_pclm}}
+#' @seealso \code{\link{graduate_sprague}}, \code{\link{beers}}, \code{\link{splitUniform}}, \code{\link{graduate_mono}}, \code{\link{graduate_pclm}}, \code{\link{graduate_grabill}} 
 #' @export
 #' @references
 #' \insertRef{pascariu2018ungroup}{DemoTools}
@@ -144,6 +146,7 @@ graduate <- function(Value,
                      method = c("sprague",
                                 "beers(ord)",
                                 "beers(mod)",
+                                "grabill",
                                 "pclm",
                                 "mono",
                                 "uniform"),
@@ -169,9 +172,13 @@ graduate <- function(Value,
   
   # Sprague in strict 5-year age groups
   if (method == "sprague") {
-    out <- sprague(Value, Age = Age, OAG = OAG)
+    out <- graduate_sprague(Value, Age = Age, OAG = OAG)
   }
   
+  # Grabill in strict 5-year age groups
+  if (method == "grabill") {
+    out <- graduate_grabill(Value, Age = Age, OAG = OAG)
+  }
   # Beers in strict 5-year age groups
   if (grepl("beers", method)) {
     if (grepl("ord", method)) {
@@ -216,7 +223,7 @@ graduate <- function(Value,
   
   # Mono respects irregular intervals
   if (method == "mono") {
-    out <- splitMono(
+    out <- graduate_mono(
       Value = Value,
       Age = Age,
       AgeInt = AgeInt,
@@ -245,6 +252,8 @@ graduate <- function(Value,
       out[1]   <- V0
     }
   }
+  
+  # TR: TODO detect negatives. Have default option to re
   
   out
 }

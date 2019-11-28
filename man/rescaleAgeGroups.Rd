@@ -5,7 +5,7 @@
 \title{rescale counts in age groups to match counts in different age groups}
 \usage{
 rescaleAgeGroups(Value1, AgeInt1, Value2, AgeInt2,
-  splitfun = c(splitUniform, splitMono)[1], recursive = FALSE,
+  splitfun = c(splitUniform, graduate_mono)[1], recursive = FALSE,
   tol = 0.001)
 }
 \arguments{
@@ -29,7 +29,7 @@ This method rescales a vector of counts in arbitrary (integer) age groups to app
 \details{
 If the final age group is open, define its age interval as 1.
 
-Presently the intermediate splitting function can either be \code{splitUniform()} or \code{splitMono()}.
+Presently the intermediate splitting function can either be \code{splitUniform()} or \code{graduate_mono()}.
 
 The method is an original contribution. It works by first splitting the counts of \code{Value1} to single ages using the assumptions of \code{splitfun()}. \code{Value1} is then rescaled such that were it re-grouped to match the age classes of \code{Value2} they would be identical. If \code{recursive = FALSE}, the single-age rescaled \code{Value1} data are returned regrouped to their original ages. If \code{recursive = TRUE}, the process is repeated until \code{Value1} is rescaled such that it could be split and regrouped to \code{Value2} using the same process a single time with no need for further rescaling. If age groups in \code{Value1} are very irregular, \code{recursive = TRUE} can induce noise (see example). If the age groups of \code{Value1} nest cleanly within the age groups of \code{Value2} then recursion is unnecessary. This is the case, for example, whenever \code{Value1} is in single ages and \code{Value2} is in grouped ages, which is likely the most common usage scenario.
 }

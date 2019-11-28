@@ -24,11 +24,13 @@ The PCLM method can also be used to graduate rates using an offset if both numer
 \examples{
 a5  <- seq(0,100,by=5)
 p5  <- pop5_mat[, 1]
-p1  <- graduate_pclm(p5, Age = a5)
-p1s <- sprague(p5,a5)
+p1  <- graduate_pclm(Value = p5, Age = a5)
+p1s <- graduate_sprague(Value = p5, Age = a5)
+\dontrun{
 plot(a5, p5/5, type = "s",xlim=c(40,60),ylim=c(2000,4000))
 lines(0:100, p1, lwd = 2, col = "red")
 lines(0:100, p1s, lwd = 1, col = "blue",lty="8282")
+}
 }
 \references{
 \insertRef{pascariu2018ungroup}{DemoTools}

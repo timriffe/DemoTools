@@ -66,7 +66,7 @@ graduate_sprague <- function(Value,
                          OAG = OAG)
   # generate coefficient matrix
   scm          <- graduate_sprague_expand(
-                         Value, 
+                         Value = pop5, 
                          Age = a5,
                          OAG = OAG)
   
@@ -258,22 +258,22 @@ graduate_sprague_expand    <- function(
 #' # code currently breaking, needs to be revisited and updates completed, sorry
 #' \dontrun{
 #'
-#' Value                         <- structure(pop1m_ind, .Names = 0:100)
+#' Value     <- structure(pop1m_ind, .Names = 0:100)
 #' #barplot(Value, main = "yup, these have heaping!")
 #' # this is the basic case we compare with:
-#' pop0                          <- sprague(groupAges(Value),  OAG = TRUE)
+#' pop0      <- graduate_sprague(groupAges(Value), Age = 0:100,  OAG = TRUE)
 #' # note: this function needs single ages to work because
 #' # ages are grouped into 5-year age groups in 5 different ways.
 #' # breaks
-#' #pop1                         <- splitOscillate(Value, OAG = TRUE, splitfun = sprague)
-#' pop2                          <- splitOscillate(Value, OAG = TRUE, splitfun = beers)
-#' # what's smoother, splitOscillate() or grabill()?
+#' #pop1     <- splitOscillate(Value, OAG = TRUE, splitfun = graduate_sprague)
+#' pop2      <- splitOscillate(Value, OAG = TRUE, splitfun = beers)
+#' # what's smoother, splitOscillate() or graduate_grabill()?
 #' # note, same closeout problem, can be handled by monoCloseout()
-#' pop3                          <- grabill(Value, OAG = TRUE)
+#' pop3      <- graduate_grabill(Value, OAG = TRUE)
 #' # and technically you could give grabill as splitfun too
-#' pop4                          <- splitOscillate(Value, OAG = TRUE, splitfun = grabill)
+#' pop4      <- splitOscillate(Value, OAG = TRUE, splitfun = graduate_grabill)
 #'
-#' Age                           <- 0:100
+#' Age       <- 0:100
 #' plot(Age, Value)
 #' lines(Age, pop0, col = "blue")
 #' # slightly smoother (also shifted though)
@@ -286,11 +286,11 @@ graduate_sprague_expand    <- function(
 #' lty = c(1,1,2,1,2),
 #' lwd = c(1,1,2,1,1),
 #' col = c("blue","black","red","magenta","orange"),
-#' 		legend = c("sprague()",
-#'                 "splitOscillate(splitfun = sprague)",
+#' 		legend = c("graduate_sprague()",
+#'                 "splitOscillate(splitfun = graduate_sprague)",
 #' 				   "splitOscillate(splitfun = beers)",
-#' 				   "grabill()",
-#'                 "splitOscillate(splitfun = grabill)"))
+#' 				   "graduate_grabill()",
+#'                 "splitOscillate(splitfun = graduate_grabill)"))
 #'
 #' # index of dissimilarity
 #' ID(Value, pop0) # original vs sprague
@@ -310,7 +310,7 @@ splitOscillate <- function(
   Value,
   Age = 1:length(Value) - 1,
   OAG = TRUE,
-  splitfun = sprague,
+  splitfun = graduate_sprague,
   closeout = "mono",
   pivotAge = 90,
   ...) {
@@ -340,7 +340,9 @@ splitOscillate <- function(
     Val.i.5                      <- groupAges(Val.i, AgeN = Age.i.5)
     
     # get first run estimate
-    pop.est                      <- splitfun(Val.i.5, OAG = FALSE, ...)
+    pop.est                      <- splitfun(Val.i.5, 
+                                             Age = as.integer(names(Val.i.5)), 
+                                             OAG = FALSE, ...)
     #        a                   <- rownames(pop.est)
     #		if (closeout){
     #			a.fake                   <- (1:nrow(pop.est) - 1) * 5
@@ -368,7 +370,7 @@ splitOscillate <- function(
   }
   if (closeout == "mono") {
     p.out                        <-
-      monoCloseout(
+      graduate_mono_closeout(
         popmat = Value,
         pops = p.out,
         OAG = OAG,
