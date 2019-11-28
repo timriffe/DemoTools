@@ -1,6 +1,6 @@
 Package: DemoTools
 Type: Package
-Title: Standardize, Evaluate, and Adjust Demographic Data
+Title: Tools for aggregate demographic analysis
 Version: 01.02.06
 Date: 2019-11-28
 Authors@R: c(
