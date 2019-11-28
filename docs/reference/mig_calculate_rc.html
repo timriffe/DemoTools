@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Matrix of population over 5 years — pop5_mat • DemoTools</title>
+<title>Calculate Rogers-Castro migration age schedule — mig_calculate_rc • DemoTools</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,9 @@
 
 
 
-<meta property="og:title" content="Matrix of population over 5 years — pop5_mat" />
-<meta property="og:description" content="Matrix of population over 5 years, 5 year age groups, some population 1950-1954" />
+<meta property="og:title" content="Calculate Rogers-Castro migration age schedule — mig_calculate_rc" />
+<meta property="og:description" content="Given a set of ages and parameters, calculate the a model migration age schedule based on the Rogers and Catsro formula. 
+Choose between a 7,9,11 or 13 parameter model (TODO, only does 11 for now)." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -135,32 +136,59 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Matrix of population over 5 years</h1>
+    <h1>Calculate Rogers-Castro migration age schedule</h1>
     
-    <div class="hidden name"><code>pop5_mat.Rd</code></div>
+    <div class="hidden name"><code>mig_calculate_rc.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Matrix of population over 5 years, 5 year age groups, some population 1950-1954</p>
+    <p>Given a set of ages and parameters, calculate the a model migration age schedule based on the Rogers and Catsro formula. 
+Choose between a 7,9,11 or 13 parameter model (TODO, only does 11 for now).</p>
     </div>
 
-    <pre class="usage"><span class='no'>pop5_mat</span></pre>
+    <pre class="usage"><span class='fu'>mig_calculate_rc</span>(<span class='no'>ages</span>, <span class='no'>parameters</span>, <span class='kw'>num_parameters</span> <span class='kw'>=</span> <span class='fl'>11</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>ages</th>
+      <td><p>numeric. A vector of ages for migration rates to be calculated.</p></td>
+    </tr>
+    <tr>
+      <th>parameters</th>
+      <td><p>numeric. A named list of parameters.</p></td>
+    </tr>
+    <tr>
+      <th>num_parameters</th>
+      <td><p>integer. The number of parameters in the model (7,9,11, or 13)</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A matrix of 21 rows and 5 columns</p>
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+    <p>In the full 13 parameter model, the migration rate at age x, \(m(x)\) is defined as
+$$m(x) = a1*exp(-1*\alpha1*x) + a2*exp(-1*\alpha2*(x - mu2) - exp(-1*\lambda2*(x - mu2))) + a3*exp(-1*\alpha3*(x - mu3) - exp(-1*\lambda3*(x - mu3))) + a4*exp(\lambda4*x) + c$$
+The first, second, third and fourth pieces of the equation represent pre-labour force, working age, retirement and post retirement age patterns, respectively. Models with less parameters gradually remove terms at the older ages.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>The data comes from
-  <a href='https://URL'>https://URL</a></p>
+    <p>Rogers A, Castro LJ (1981).
+<em>Model migration schedules</em>.
+RR-81-030.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>parameters</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a1</span><span class='kw'>=</span> <span class='fl'>0.09</span>, <span class='kw'>alpha1</span><span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>a2</span><span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>alpha2</span><span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>mu2</span><span class='kw'>=</span> <span class='fl'>21</span>, <span class='kw'>lambda2</span><span class='kw'>=</span> <span class='fl'>0.39</span>, <span class='kw'>a3</span><span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>alpha3</span><span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>mu3</span><span class='kw'>=</span> <span class='fl'>67</span>, <span class='kw'>lambda3</span><span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>c</span><span class='kw'>=</span> <span class='fl'>0.01</span>)
+<span class='no'>ages</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>75</span>
+<span class='no'>mx</span> <span class='kw'>&lt;-</span> <span class='fu'>mig_calculate_rc</span>(<span class='kw'>ages</span> <span class='kw'>=</span> <span class='no'>ages</span>, <span class='kw'>parameters</span> <span class='kw'>=</span> <span class='no'>parameters</span>, <span class='kw'>num_parameters</span> <span class='kw'>=</span> <span class='fl'>11</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>ages</span>, <span class='no'>mx</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'l'</span>)</div><div class='img'><img src='mig_calculate_rc-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
-      <li><a href="#source">Source</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#details">Details</a></li>
+      <li><a href="#references">References</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
