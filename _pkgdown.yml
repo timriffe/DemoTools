@@ -52,8 +52,3 @@ reference:
     desc: Functions to interpolate counts
     contents:
       - '`interp`'
-      
-
-      
-
-    

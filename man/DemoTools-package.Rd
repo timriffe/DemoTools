@@ -21,13 +21,16 @@ Useful links:
 Authors:
 \itemize{
   \item Sean Fennell
-  \item Jose Manuel Aburto
+  \item José Manuel Aburto (0000-0002-2926-6879)
 }
 
 Other contributors:
 \itemize{
   \item Juan Galeano [contributor]
   \item Marius D. Pascariu [contributor]
+  \item Monica Alexander [contributor]
+  \item Jorge Cimentada [contributor]
+  \item Ilya Kashnitsky [contributor]
   \item Derek Burk [contributor]
   \item Greg Freedman Ellis [contributor]
 }
