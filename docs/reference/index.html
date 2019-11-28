@@ -25,8 +25,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
@@ -65,7 +65,7 @@
   <body>
     <div class="container template-reference-index">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-standard navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -76,7 +76,11 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
+<<<<<<< HEAD
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
+=======
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.6</span>
+>>>>>>> 242e182384c23d8cc0ab6a8d02d88ffe73770277
       </span>
     </div>
 
@@ -341,11 +345,611 @@
         </td>
         <td><p>Interpolate between two population age distributions.</p></td>
       </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-migration" class="hasAnchor"><a href="#section-migration" class="anchor"></a>Migration</h2>
+          <p class="section-desc"><p>Functions for migration models</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="mig_calculate_rc.html">mig_calculate_rc()</a></code> </p>
+        </td>
+        <td><p>Calculate Rogers-Castro migration age schedule</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-checking-functions" class="hasAnchor"><a href="#section-checking-functions" class="anchor"></a>Checking functions</h2>
+          <p class="section-desc"><p>Various functions to check some arguments</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="is_abridged.html">is_abridged()</a></code> </p>
+        </td>
+        <td><p>Detect if a vector of lower age bounds is plausibly of abridged ages.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="is_age_coherent.html">is_age_coherent()</a></code> </p>
+        </td>
+        <td><p>check for coherence within Age and between Age and AgeInt</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="is_age_redundant.html">is_age_redundant()</a></code> </p>
+        </td>
+        <td><p>check for redundant age specification</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="is_age_sequential.html">is_age_sequential()</a></code> </p>
+        </td>
+        <td><p>is <code>Age</code> sorted sequentially?</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="is_LeapYear.html">is_LeapYear()</a></code> </p>
+        </td>
+        <td><p>Determine whether a year is a leap year.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="is_single.html">is_single()</a></code> </p>
+        </td>
+        <td><p>Logical checking of whether age classes appear single.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-internal" class="hasAnchor"><a href="#section-internal" class="anchor"></a>Internal</h2>
+          <p class="section-desc"><p>Internal functions</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="interp.html">interp()</a></code> </p>
+        </td>
+        <td><p>Interpolate between two population age distributions.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="adjustAge.html">adjustAge()</a></code> </p>
+        </td>
+        <td><p>Proportionally adjust population or death counts by age to a given total.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ADM.html">ADM()</a></code> </p>
+        </td>
+        <td><p>Mean absolute difference in survival rates.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="age2ageN.html">age2ageN()</a></code> </p>
+        </td>
+        <td><p>repeat age lower bounds once for each single age</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="age2int.html">age2int()</a></code> </p>
+        </td>
+        <td><p>Infer age class intervals from lower age bounds.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="AGEN.html">AGEN()</a></code> </p>
+        </td>
+        <td><p>Trim two age vectors to matching N-year age groups.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ageSexAccuracyDasGupta.html">ageSexAccuracyDasGupta()</a></code> </p>
+        </td>
+        <td><p>Calculate Das Gupta's (1995) age sex accuracy index</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="age_abridge_force.html">age_abridge_force()</a></code> </p>
+        </td>
+        <td><p>force a (count) vector to abridged ages</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="aomegaMortalityLaws.html">aomegaMortalityLaws()</a></code> </p>
+        </td>
+        <td><p>Life expectancy in the open age group.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="arriaga_smth.html">arriaga_smth()</a></code> </p>
+        </td>
+        <td><p>E. Arriaga's method of population count smoothing</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="avg_adj.html">avg_adj()</a></code> </p>
+        </td>
+        <td><p>calculate average of vector elements adjacent to and excluding the index element</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ax.greville.mortpak.html">ax.greville.mortpak()</a></code> </p>
+        </td>
+        <td><p>UN version of the Greville formula for a(x) from M(x)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="axPAS.html">axPAS()</a></code> </p>
+        </td>
+        <td><p>PAS a(x) rule of thumb.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="axUN.html">axUN()</a></code> </p>
+        </td>
+        <td><p>UN a(x) estimates from either M(x), q(x), or both</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="beers.html">beers()</a></code> </p>
+        </td>
+        <td><p>The ordinary modified Beers splitting methods</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="beersExpand.html">beersExpand()</a></code> </p>
+        </td>
+        <td><p>Create the Beers ordinary or modified coefficient matrix</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="birthCohorts.html">birthCohorts()</a></code> </p>
+        </td>
+        <td><p>Create the historical birth cohorts for a census.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="calcAgeAbr.html">calcAgeAbr()</a></code> </p>
+        </td>
+        <td><p>Calculate which abridged age group single ages belong to.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="calcAgeN.html">calcAgeN()</a></code> </p>
+        </td>
+        <td><p>Calculate which large age group single ages belong to.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="carrier_farrag_smth.html">carrier_farrag_smth()</a></code> </p>
+        </td>
+        <td><p>The Carrier-Farrag method of population count smoothing</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dec.date.html">dec.date()</a></code> </p>
+        </td>
+        <td><p>Convert date to decimal year fraction.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="DemoTools-package.html">DemoTools-package</a></code> </p>
+        </td>
+        <td><p>DemoTools: Standardize, Evaluate, and Adjust Demographic Data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dth5_zigzag.html">dth5_zigzag</a></code> </p>
+        </td>
+        <td><p>Deaths by 5 year age groups</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="extra_mortality.html">extra_mortality()</a></code> </p>
+        </td>
+        <td><p>Extrapolate old-age human mortality curve using mortality laws</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="geta0CD.html">geta0CD()</a></code> </p>
+        </td>
+        <td><p>Coale-Demeny a(0) as function of m(0), region, and sex.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="geta1_4CD.html">geta1_4CD()</a></code> </p>
+        </td>
+        <td><p>Coale-Demeny 4a1 as function of M(0), region, and sex.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getModelLifeTable.html">getModelLifeTable()</a></code> </p>
+        </td>
+        <td><p>Wrapper to provide a single location to reference all model life tables.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="grabill.html">grabill()</a></code> </p>
+        </td>
+        <td><p>The basic Grabill age-splitting method</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="grabillExpand.html">grabillExpand()</a></code> </p>
+        </td>
+        <td><p>Create the Grabill coefficient matrix.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="graduate_pclm.html">graduate_pclm()</a></code> </p>
+        </td>
+        <td><p>wrapper for <code>ungroup::pclm</code> method of splitting binned counts</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="groupOAG.html">groupOAG()</a></code> </p>
+        </td>
+        <td><p>Group down to a new open age class.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="heapify.html">heapify()</a></code> </p>
+        </td>
+        <td><p>Induce heaping on terminal digits 0 and 5</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="inferAgeIntAbr.html">inferAgeIntAbr()</a></code> </p>
+        </td>
+        <td><p>Infer abridged age groups widths.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="int2age.html">int2age()</a></code> </p>
+        </td>
+        <td><p>Infer lower age bounds from age class intervals.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="int2ageN.html">int2ageN()</a></code> </p>
+        </td>
+        <td><p>repeat age lower bounds once for each single age</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="interpolatePop.html">interpolatePop()</a></code> </p>
+        </td>
+        <td><p>Interpolate between two population age distributions.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="johnsonAdjust.html">johnsonAdjust()</a></code> </p>
+        </td>
+        <td><p>Adjust ages under 10 using a modification of Beers</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="KannistoHeap.html">KannistoHeap()</a></code> </p>
+        </td>
+        <td><p>Kannisto's age heaping index</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="kkn_smth.html">kkn_smth()</a></code> </p>
+        </td>
+        <td><p>Karup-King-Newton method of population count smoothing</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="loess_smth1.html">loess_smth1()</a></code> </p>
+        </td>
+        <td><p>Wrapper to LOESS using demographic data.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lt_single_simple.html">lt_single_simple()</a></code> </p>
+        </td>
+        <td><p>calculate a single age lifetable</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lx2dx.html">lx2dx()</a></code> </p>
+        </td>
+        <td><p>Derive lifetable deaths from survivorship.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="Lx2Tx.html">Lx2Tx()</a></code> </p>
+        </td>
+        <td><p>Derive lifetable total person years left to live from exposure.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lxdxax2Lx.html">lxdxax2Lx()</a></code> </p>
+        </td>
+        <td><p>Derive lifetable exposure from lx, ndx and nax.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="Lxlx2Sx.html">Lxlx2Sx()</a></code> </p>
+        </td>
+        <td><p>calculate survivor ratios</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="M04_2_D0.html">M04_2_D0()</a></code> </p>
+        </td>
+        <td><p>rule of thumb for splitting infants from deaths under 5</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="M04_2_M0.html">M04_2_M0()</a></code> </p>
+        </td>
+        <td><p>rule of thumb for estimating infant mortality rate from under 5 mortality</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ma.html">ma()</a></code> </p>
+        </td>
+        <td><p>A simple centered moving average function.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mav.html">mav()</a></code> </p>
+        </td>
+        <td><p>Calculate the moving average (mav) over 3 or 5 years.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mav_smth.html">mav_smth()</a></code> </p>
+        </td>
+        <td><p>Smooth in 5-year age groups using a moving average</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="maxA2abridged.html">maxA2abridged()</a></code> </p>
+        </td>
+        <td><p>Determine abridged ages up to a given maximum age group.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="monoCloseout.html">monoCloseout()</a></code> </p>
+        </td>
+        <td><p>blend the Sprague upper boundary age estimates into monotonic spline estimates</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mx2qx.html">mx2qx()</a></code> </p>
+        </td>
+        <td><p>Derive nqx from nMx and nax.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mxax2qx.html">mxax2qx()</a></code> </p>
+        </td>
+        <td><p>Derive nqx from nMx and nax.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mxax2qx_Backstop.html">mxax2qx_Backstop()</a></code> </p>
+        </td>
+        <td><p>adjust ax estimate so that qx less than or equal to 1</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mxorqx2ax.html">mxorqx2ax()</a></code> </p>
+        </td>
+        <td><p>wrapper to invoke PAS or UN ax methods given qx or mx</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="names2age.html">names2age()</a></code> </p>
+        </td>
+        <td><p>detect ages from names of vector(s)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="OPAG_simple.html">OPAG_simple()</a></code> </p>
+        </td>
+        <td><p>redistripute an open age group count over higher ages proportional to an arbitrary standard</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="poly_smth1.html">poly_smth1()</a></code> </p>
+        </td>
+        <td><p>Fit a polynomial to demographic data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pop1m_ind.html">pop1m_ind</a></code> </p>
+        </td>
+        <td><p>Indian male population 1991</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pop1m_pasex.html">pop1m_pasex</a></code> </p>
+        </td>
+        <td><p>Male population by 1 year age groups</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pop5m_pasex.html">pop5m_pasex</a></code> </p>
+        </td>
+        <td><p>Male population by 5 year age groups</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pop5_mat.html">pop5_mat</a></code> </p>
+        </td>
+        <td><p>Matrix of population over 5 years</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="popA_earlier.html">popA_earlier</a></code> </p>
+        </td>
+        <td><p>Abridged population from PAS AGEINT -- earlier</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="popA_later.html">popA_later</a></code> </p>
+        </td>
+        <td><p>Abridged population from PAS AGEINT -- later</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="qx2lx.html">qx2lx()</a></code> </p>
+        </td>
+        <td><p>Derive lifetable survivorship (lx) from death probabilities.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="qxax2mx.html">qxax2mx()</a></code> </p>
+        </td>
+        <td><p>Derive nMx from nqx and nax.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="qxmx2ax.html">qxmx2ax()</a></code> </p>
+        </td>
+        <td><p>Derive nax from nqx and nMx.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ratx.html">ratx()</a></code> </p>
+        </td>
+        <td><p>Take consecutive ratios of a vector.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="RDM.html">RDM()</a></code> </p>
+        </td>
+        <td><p>Mean absolute difference in age-ratios of survival rates.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rescale.vector.html">rescale.vector()</a></code> </p>
+        </td>
+        <td><p>Rescale a vector proportionally to a new sum.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rlog.html">rlog()</a></code> </p>
+        </td>
+        <td><p>Logging that does not cause jams.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="shift.vector.html">shift.vector()</a></code> </p>
+        </td>
+        <td><p>Shift a vector left or right.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="simplify.text.html">simplify.text()</a></code> </p>
+        </td>
+        <td><p>convert strings to concatenation of lower case alphabet</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="spencer.html">spencer()</a></code> </p>
+        </td>
+        <td><p>Smoothing of an age structure by single years using Spencer's formula.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="splitMono.html">splitMono()</a></code> </p>
+        </td>
+        <td><p>Split age groups using a monotonic spline.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="splitOscillate.html">splitOscillate()</a></code> </p>
+        </td>
+        <td><p>An oscillatory average of age splits.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="splitUniform.html">splitUniform()</a></code> </p>
+        </td>
+        <td><p>Convert arbitrary age groupings into single years of age.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sprague.html">sprague()</a></code> </p>
+        </td>
+        <td><p>The basic Sprague age-splitting method.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="spragueExpand.html">spragueExpand()</a></code> </p>
+        </td>
+        <td><p>Create the Sprague coefficient matrix.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="surv10.html">surv10()</a></code> </p>
+        </td>
+        <td><p>Estimate survival curve from censuses spaced 10 years apart.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="surv5.html">surv5()</a></code> </p>
+        </td>
+        <td><p>Estimate survival curve from censuses spaced 5 years apart.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="survN.html">survN()</a></code> </p>
+        </td>
+        <td><p>Estimate survival curve from censuses spaced N years apart.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="T9R5L.html">T9R5L()</a></code> </p>
+        </td>
+        <td><p>Feeney'S formula on 9 years to correct for heaping on multiples of 5.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ypart.html">ypart()</a></code> </p>
+        </td>
+        <td><p>Determine the proportion of a year passed as of a particular date.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="zelnik.html">zelnik()</a></code> </p>
+        </td>
+        <td><p>Zelnik 11-term moving average to adjust for digit preference.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="zigzag.html">zigzag()</a></code> </p>
+        </td>
+        <td><p>G. Feeney's method of removing the zigzag from counts in 5-year age groups.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="zigzag_min.html">zigzag_min()</a></code> </p>
+        </td>
+        <td><p>Objective function to minimize Feeney's zigzag method residual</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="zigzag_p.html">zigzag_p()</a></code> </p>
+        </td>
+        <td><p>Smooth population counts using Feeney's zigzag method and smoothing parameters.</p></td>
+      </tr>
     </tbody>
     </table>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-age-heaping">Age-heaping</a></li>
@@ -353,6 +957,9 @@
       <li><a href="#section-smoothing">Smoothing</a></li>
       <li><a href="#section-lifetable">Lifetable</a></li>
       <li><a href="#section-interpolation">Interpolation</a></li>
+      <li><a href="#section-migration">Migration</a></li>
+      <li><a href="#section-checking-functions">Checking functions</a></li>
+      <li><a href="#section-internal">Internal</a></li>
     </ul>
   </div>
 </div>
@@ -364,7 +971,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

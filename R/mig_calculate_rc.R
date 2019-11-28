@@ -5,7 +5,8 @@
 
 #' Calculate Rogers-Castro migration age schedule
 
-#' @description Given a set of ages and parameters, calculate the a model migration age schedule based on the Rogers and Catsro formula. 
+#' @description Given a set of ages and parameters, calculate the migration age 
+#' schedule based on the Rogers and Catsro formula. 
 #' Choose between a 7,9,11 or 13 parameter model (TODO, only does 11 for now). 
 
 #' @param ages numeric. A vector of ages for migration rates to be calculated. 
