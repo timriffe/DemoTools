@@ -531,7 +531,7 @@ Jdanov <- function(Value, Age, Agei = seq(95, 105, by = 5)) {
 #' Age <- 0:99
 #' plot(Age,pop1m_pasex)
 #' # here it is again, smoothed:
-#' smoothed <- sprague(
+#' smoothed <- graduate_sprague(
 #' 		agesmth(pop1m_pasex,
 #' 				Age,
 #' 				method = "Strong",
@@ -606,7 +606,7 @@ heapify <- function(Value,
 
 #' @examples
 #' Age <- 0:99
-#' smoothed <- sprague(
+#' smoothed <- graduate_sprague(
 #' 		agesmth(pop1m_pasex,
 #' 				Age,
 #' 				method = "Strong",
@@ -687,7 +687,7 @@ zero_pref_sawtooth <-
 #'
 #' @examples
 #' Age <- 0:99
-#' smoothed <- sprague(
+#' smoothed <- graduate_sprague(
 #' 		agesmth(pop1m_pasex,
 #' 				Age,
 #' 				method = "Strong",

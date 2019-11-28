@@ -31,7 +31,7 @@ First we group data to 5-year age bins. Then we take first differences (d1) of t
 }
 \examples{
 Age <- 0:99
-smoothed <- sprague(
+smoothed <- graduate_sprague(
 		agesmth(pop1m_pasex,
 				Age,
 				method = "Strong",

@@ -24,7 +24,7 @@ In the full 13 parameter model, the migration rate at age x, \eqn{m(x)} is defin
 The first, second, third and fourth pieces of the equation represent pre-labour force, working age, retirement and post retirement age patterns, respectively. Models with less parameters gradually remove terms at the older ages.
 }
 \examples{
-parameters <- c(a1= 0.09, alpha1= 0.1, a2= 0.2, 
+pars <- c(a1= 0.09, alpha1= 0.1, a2= 0.2, 
 alpha2= 0.1, mu2= 21, lambda2= 0.39, a3= 0.001, 
 alpha3= 1, mu3= 67, lambda3= 0.6, c= 0.01)
 ages <- 0:75

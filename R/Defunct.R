@@ -15,3 +15,58 @@
 
 # 5) like wise, Sprague -> graduate_sprague, Beers -> graduate_beers()
 # 6) Other families: age_util_XXXX, 
+
+
+#' Renamed functions in DemoTools
+#' 
+#' These functions still work but will be removed (defunct) in the next version.
+#' 
+#' \itemize{
+#'  \item \code{\link{monoCloseout}}: This function is now called \code{\link{graduate_mono_closeout}}.
+#' }
+#' \item \code{\link{splitMono}}: This function is now called \code{\link{graduate_mono}}.
+#' }
+#' \item \code{\link{grabill}}: This function is now called \code{\link{graduate_grabill}}.
+#' }
+#' \item \code{\link{sprague}}: This function is now called \code{\link{graduate_sprague}}.
+#' }
+#' @name DemoTools-renamed
+NULL
+
+# graduate family
+
+#' @export
+#' @rdname graduate_mono_closeout
+monoCloseout <- function(...){
+  if (as.character(match.call()[[1]]) == "foo") {
+    warning("please use graduate_mono_closeout() instead of monoCloseout().", call. = FALSE)
+  }
+  graduate_mono_closeout(...)
+}
+
+#' @export
+#' @rdname graduate_mono
+splitMono <- function(...){
+  if (as.character(match.call()[[1]]) == "foo") {
+    warning("please use graduate_mono() instead of splitMono().", call. = FALSE)
+  }
+  graduate_mono(...)
+}
+
+#' @export
+#' @rdname graduate_grabill
+grabill <- function(...){
+  if (as.character(match.call()[[1]]) == "foo") {
+    warning("please use graduate_grabill() instead of grabill().", call. = FALSE)
+  }
+  graduate_grabill(...)
+}
+
+#' @export
+#' @rdname graduate_sprague
+sprague <- function(...){
+  if (as.character(match.call()[[1]]) == "foo") {
+    warning("please use graduate_sprague() instead of sprague().", call. = FALSE)
+  }
+  graduate_sprague(...)
+}

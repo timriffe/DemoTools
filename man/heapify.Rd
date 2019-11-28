@@ -47,7 +47,7 @@ scaled to argument \code{p0} to shift individuals from surrounding ages to ages 
 Age <- 0:99
 plot(Age,pop1m_pasex)
 # here it is again, smoothed:
-smoothed <- sprague(
+smoothed <- graduate_sprague(
 		agesmth(pop1m_pasex,
 				Age,
 				method = "Strong",

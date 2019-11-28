@@ -38,7 +38,7 @@ is calculated. If 0s have stronger attraction than 5s then we expect these ratio
 }
 \examples{
 Age <- 0:99
-smoothed <- sprague(
+smoothed <- graduate_sprague(
 		agesmth(pop1m_pasex,
 				Age,
 				method = "Strong",

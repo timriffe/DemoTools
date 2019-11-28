@@ -249,7 +249,7 @@ beersExpand <- function(popmat,
 #' # notice this negative value. Yuck!
 #' tail(mod1)
 #' # this replaces ages 90+, guaranteed no negatives.
-#' graduate_mono_closeout(Value, pops = mod1, OAG = TRUE)
+#' graduate_mono_closeout(Value, Age = Age, pops = mod1, OAG = TRUE)
 #' # Note: there are no kludges built into beers() to handle such cases.
 #' # these ought to be handled by wrappers as appropriate.
 #'
