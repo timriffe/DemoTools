@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -141,11 +141,11 @@
     </div>
 
     <div class="ref-description">
-    <p>Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits. This method is a bit smoother than the standard Sprague or Beers methods, but not as smooth as <code><a href='grabill.html'>grabill()</a></code>.</p>
+    <p>Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits. This method is a bit smoother than the standard Sprague or Beers methods, but not as smooth as <code>grabill()</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>splitOscillate</span>(<span class='no'>Value</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>Value</span>) - <span class='fl'>1</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='no'>sprague</span>, <span class='kw'>closeout</span> <span class='kw'>=</span> <span class='st'>"mono"</span>, <span class='kw'>pivotAge</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='no'>graduate_sprague</span>, <span class='kw'>closeout</span> <span class='kw'>=</span> <span class='st'>"mono"</span>, <span class='kw'>pivotAge</span> <span class='kw'>=</span> <span class='fl'>90</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,7 +164,7 @@
     </tr>
     <tr>
       <th>splitfun</th>
-      <td><p>function used to split at each digit grouping. Default <code><a href='sprague.html'>sprague()</a></code>.</p></td>
+      <td><p>function used to split at each digit grouping. Default <code>sprague()</code>.</p></td>
     </tr>
     <tr>
       <th>closeout</th>
@@ -185,7 +185,7 @@
     <p>Numeric vector of smoothed counts.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function works on a single vector of single-age counts, not on a matrix. Results are not constrained to any particular age group, but are constrained to the total count. Negatives, <code>NA</code>, or <code>NaN</code> values are ignored in averaging. This can happen in older ages . It is recommended to run <code><a href='monoCloseout.html'>monoCloseout()</a></code> or
+    <p>This function works on a single vector of single-age counts, not on a matrix. Results are not constrained to any particular age group, but are constrained to the total count. Negatives, <code>NA</code>, or <code>NaN</code> values are ignored in averaging. This can happen in older ages . It is recommended to run <code>monoCloseout()</code> or
 similar after the oscillatory split in such situations.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -198,22 +198,22 @@ Elsevier, Oxford.</p>
     <pre class="examples"><div class='input'><span class='co'># code currently breaking, needs to be revisited and updates completed, sorry</span>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 
-<span class='no'>Value</span>                         <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span>(<span class='no'>pop1m_ind</span>, <span class='kw'>.Names</span> <span class='kw'>=</span> <span class='fl'>0</span>:<span class='fl'>100</span>)
+<span class='no'>Value</span>     <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span>(<span class='no'>pop1m_ind</span>, <span class='kw'>.Names</span> <span class='kw'>=</span> <span class='fl'>0</span>:<span class='fl'>100</span>)
 <span class='co'>#barplot(Value, main = "yup, these have heaping!")</span>
 <span class='co'># this is the basic case we compare with:</span>
-<span class='no'>pop0</span>                          <span class='kw'>&lt;-</span> <span class='fu'><a href='sprague.html'>sprague</a></span>(<span class='fu'><a href='groupAges.html'>groupAges</a></span>(<span class='no'>Value</span>),  <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>pop0</span>      <span class='kw'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span>(<span class='fu'><a href='groupAges.html'>groupAges</a></span>(<span class='no'>Value</span>), <span class='kw'>Age</span> <span class='kw'>=</span> <span class='fl'>0</span>:<span class='fl'>100</span>,  <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='co'># note: this function needs single ages to work because</span>
 <span class='co'># ages are grouped into 5-year age groups in 5 different ways.</span>
 <span class='co'># breaks</span>
-<span class='co'>#pop1                         &lt;- splitOscillate(Value, OAG = TRUE, splitfun = sprague)</span>
-<span class='no'>pop2</span>                          <span class='kw'>&lt;-</span> <span class='fu'>splitOscillate</span>(<span class='no'>Value</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='no'>beers</span>)
-<span class='co'># what's smoother, splitOscillate() or grabill()?</span>
+<span class='co'>#pop1     &lt;- splitOscillate(Value, OAG = TRUE, splitfun = graduate_sprague)</span>
+<span class='no'>pop2</span>      <span class='kw'>&lt;-</span> <span class='fu'>splitOscillate</span>(<span class='no'>Value</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='no'>beers</span>)
+<span class='co'># what's smoother, splitOscillate() or graduate_grabill()?</span>
 <span class='co'># note, same closeout problem, can be handled by monoCloseout()</span>
-<span class='no'>pop3</span>                          <span class='kw'>&lt;-</span> <span class='fu'><a href='grabill.html'>grabill</a></span>(<span class='no'>Value</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>pop3</span>      <span class='kw'>&lt;-</span> <span class='fu'><a href='graduate_grabill.html'>graduate_grabill</a></span>(<span class='no'>Value</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='co'># and technically you could give grabill as splitfun too</span>
-<span class='no'>pop4</span>                          <span class='kw'>&lt;-</span> <span class='fu'>splitOscillate</span>(<span class='no'>Value</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='no'>grabill</span>)
+<span class='no'>pop4</span>      <span class='kw'>&lt;-</span> <span class='fu'>splitOscillate</span>(<span class='no'>Value</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='no'>graduate_grabill</span>)
 
-<span class='no'>Age</span>                           <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>100</span>
+<span class='no'>Age</span>       <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>100</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Age</span>, <span class='no'>Value</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>, <span class='no'>pop0</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)
 <span class='co'># slightly smoother (also shifted though)</span>
@@ -226,11 +226,11 @@ Elsevier, Oxford.</p>
 <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>),
 <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
 <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"blue"</span>,<span class='st'>"black"</span>,<span class='st'>"red"</span>,<span class='st'>"magenta"</span>,<span class='st'>"orange"</span>),
-                <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"sprague()"</span>,
-                <span class='st'>"splitOscillate(splitfun = sprague)"</span>,
+                <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"graduate_sprague()"</span>,
+                <span class='st'>"splitOscillate(splitfun = graduate_sprague)"</span>,
                                    <span class='st'>"splitOscillate(splitfun = beers)"</span>,
-                                   <span class='st'>"grabill()"</span>,
-                <span class='st'>"splitOscillate(splitfun = grabill)"</span>))
+                                   <span class='st'>"graduate_grabill()"</span>,
+                <span class='st'>"splitOscillate(splitfun = graduate_grabill)"</span>))
 
 <span class='co'># index of dissimilarity</span>
 <span class='fu'><a href='ID.html'>ID</a></span>(<span class='no'>Value</span>, <span class='no'>pop0</span>) <span class='co'># original vs sprague</span>
@@ -238,7 +238,7 @@ Elsevier, Oxford.</p>
 <span class='fu'><a href='ID.html'>ID</a></span>(<span class='no'>pop1</span>,<span class='no'>pop2</span>) <span class='co'># sprague osc vs beers osc</span>
 <span class='fu'><a href='ID.html'>ID</a></span>(<span class='no'>pop2</span>,<span class='no'>pop3</span>) <span class='co'># beers osc vs grabill</span>
 <span class='fu'><a href='ID.html'>ID</a></span>(<span class='no'>pop3</span>,<span class='no'>pop4</span>) <span class='co'># grabill vs grabill osc</span>
-<span class='co'># measre of smoothness:</span>
+<span class='co'># measure of smoothness:</span>
 <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span>(<span class='no'>Value</span>)))
 <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span>(<span class='no'>pop0</span>)))
 <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span>(<span class='no'>pop1</span>)))

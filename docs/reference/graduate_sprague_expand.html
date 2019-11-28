@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>adjust ax estimate so that qx less than or equal to 1 — mxax2qx_Backstop • DemoTools</title>
+<title>Create the Sprague coefficient matrix. — graduate_sprague_expand • DemoTools</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,8 @@
 
 
 
-<meta property="og:title" content="adjust ax estimate so that qx less than or equal to 1 — mxax2qx_Backstop" />
-<meta property="og:description" content="Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages." />
+<meta property="og:title" content="Create the Sprague coefficient matrix. — graduate_sprague_expand" />
+<meta property="og:description" content="The resulting coefficient matrix is based on the number of rows in popmat where is assumed that each row of data is a 5-year age group. The final row may be an open or closed age group, as indicated by the OAG argument." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -135,55 +135,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>adjust ax estimate so that qx less than or equal to 1</h1>
+    <h1>Create the Sprague coefficient matrix.</h1>
     
-    <div class="hidden name"><code>mxax2qx_Backstop.Rd</code></div>
+    <div class="hidden name"><code>graduate_sprague_expand.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages.</p>
+    <p>The resulting coefficient matrix is based on the number of rows in <code>popmat</code> where is assumed that each row of data is a 5-year age group. The final row may be an open or closed age group, as indicated by the <code>OAG</code> argument.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mxax2qx_Backstop</span>(<span class='no'>nMx</span>, <span class='no'>nax</span>, <span class='no'>AgeInt</span>)</pre>
+    <pre class="usage"><span class='fu'>graduate_sprague_expand</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>nMx</th>
-      <td><p>numeric. Vector of age-specific death rates.</p></td>
+      <th>Value</th>
+      <td><p>numeric vector, presumably counts in grouped ages</p></td>
     </tr>
     <tr>
-      <th>nax</th>
-      <td><p>numeric. Vector of average time spent in interval by those dying in interval.</p></td>
+      <th>Age</th>
+      <td><p>integer vector, lower bounds of age groups</p></td>
     </tr>
     <tr>
-      <th>AgeInt</th>
-      <td><p>integer. Vector of age class widths.</p></td>
+      <th>OAG</th>
+      <td><p>logical, default = <code>TRUE</code> is the final age group open?</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>nMx equal to 2 will imply nqx of 1 by this formula. Implied nqx greater than 1 after this procedure are returned as 1. This is not vectorized!</p>
+    <p>The <code>popmat</code> matrix is really just a placeholder in this case. This function is a utility called by the Sprague family of functions, where it is most convenient to just pass in the same matrix being used in those calculations to determine the layout of the coefficient matrix.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Sprague TB (1880).
+&#8220;Explanation of a new formula for interpolation.&#8221;
+<em>Journal of the Institute of Actuaries</em>, <b>22</b>(4), 270--285.
+
+Shryock HS, Siegel JS, Larmon EA (1973).
+<em>The methods and materials of demography</em>.
+US Bureau of the Census.
+
+Siegel Jacob S, Swanson David A (eds.) (2004).
+<em>The Methods and Materials of Demography</em>, 2 edition.
+Elsevier Academic Press, California, USA, San Diego, USA.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># implies a qx &gt; 1</span>
-<span class='no'>mx</span>     <span class='kw'>&lt;-</span> <span class='fl'>.65</span>
-<span class='no'>AgeInt</span> <span class='kw'>&lt;-</span> <span class='fl'>5</span>
-<span class='no'>ax</span>     <span class='kw'>&lt;-</span> <span class='fl'>2.5</span>
-<span class='co'># this is a problematic case</span>
-(<span class='fu'><a href='mx2qx.html'>mx2qx</a></span>(<span class='no'>mx</span>, <span class='no'>ax</span>, <span class='no'>AgeInt</span>))</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='co'># here a workable value</span>
-(<span class='fu'>mxax2qx_Backstop</span>(<span class='no'>mx</span>, <span class='no'>ax</span>, <span class='no'>AgeInt</span>))</div><div class='output co'>#&gt; [1] 0.9656885</div><div class='input'><span class='co'>#' # still less than 1</span>
-<span class='fu'>mxax2qx_Backstop</span>(<span class='fl'>1.99</span>, <span class='no'>ax</span>, <span class='no'>AgeInt</span>) <span class='kw'>&lt;</span> <span class='fl'>1</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'># unity</span>
-(<span class='fu'>mxax2qx_Backstop</span>(<span class='fl'>2</span>, <span class='no'>ax</span>, <span class='no'>AgeInt</span>))</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='co'># qx imputed as 1</span>
-(<span class='fu'>mxax2qx_Backstop</span>(<span class='fl'>2.1</span>, <span class='no'>ax</span>, <span class='no'>AgeInt</span>))</div><div class='output co'>#&gt; [1] 1</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>a5</span>           <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>pop5_mat</span>))
+<span class='no'>coefsOA</span>      <span class='kw'>&lt;-</span> <span class='fu'>graduate_sprague_expand</span>(<span class='no'>pop5_mat</span>[,<span class='fl'>1</span>], <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>coefsclosed</span>  <span class='kw'>&lt;-</span> <span class='fu'>graduate_sprague_expand</span>(<span class='no'>pop5_mat</span>[,<span class='fl'>1</span>], <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>coefsOA</span>)</div><div class='output co'>#&gt; [1] 101  21</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>coefsclosed</span>)</div><div class='output co'>#&gt; [1] 105  21</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#details">Details</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

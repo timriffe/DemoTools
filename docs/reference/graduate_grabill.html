@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PAS a(x) rule of thumb. — axPAS • DemoTools</title>
+<title>The basic Grabill age-splitting method — graduate_grabill • DemoTools</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,9 +42,9 @@
 
 
 
-<meta property="og:title" content="PAS a(x) rule of thumb. — axPAS" />
-<meta property="og:description" content="a(x) is calculated following the Coale-Demeny rules for ages 0 and 1-4, and assumes interval midpoints in higher ages.
-This is just a rule of thumb. This procedure is as found in the PAS spreadsheet LTPOPDTH.XLS." />
+<meta property="og:title" content="The basic Grabill age-splitting method — graduate_grabill" />
+<meta property="og:description" content="This method uses Grabill's redistribution of middle ages and blends into
+Sprague estimated single-age population counts for the first and final ten ages. Open age groups are preserved, as are annual totals." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -136,79 +136,71 @@ This is just a rule of thumb. This procedure is as found in the PAS spreadsheet 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>PAS a(x) rule of thumb.</h1>
+    <h1>The basic Grabill age-splitting method</h1>
     
-    <div class="hidden name"><code>axPAS.Rd</code></div>
+    <div class="hidden name"><code>graduate_grabill.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>a(x) is calculated following the Coale-Demeny rules for ages 0 and 1-4, and assumes interval midpoints in higher ages.
-This is just a rule of thumb. This procedure is as found in the PAS spreadsheet <code>LTPOPDTH.XLS</code>.</p>
+    <p>This method uses Grabill's redistribution of middle ages and blends into
+Sprague estimated single-age population counts for the first and final ten ages. Open age groups are preserved, as are annual totals.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>axPAS</span>(<span class='no'>nMx</span>, <span class='no'>AgeInt</span>, <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>, <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>graduate_grabill</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>nMx</th>
-      <td><p>numeric. Event exposure mortality rates.</p></td>
+      <th>Value</th>
+      <td><p>numeric vector, presumably counts in grouped ages</p></td>
     </tr>
     <tr>
-      <th>AgeInt</th>
-      <td><p>integer. Vector of age interval widths.</p></td>
-    </tr>
-    <tr>
-      <th>IMR</th>
-      <td><p>numeric. Optional. q<sub>0</sub>, the death probability in first year of life, in case available separately.</p></td>
-    </tr>
-    <tr>
-      <th>Sex</th>
-      <td><p>character. <code>"m"</code>, <code>"f"</code> or <code>"b"</code> for male, female, or both.</p></td>
-    </tr>
-    <tr>
-      <th>region</th>
-      <td><p>character. <code>"n"</code>, <code>"e"</code>, <code>"s"</code> or <code>"w"</code> for North, East, South, or West.</p></td>
+      <th>Age</th>
+      <td><p>integer vector, lower bounds of age groups</p></td>
     </tr>
     <tr>
       <th>OAG</th>
-      <td><p>logical. Whether or not the last element of <code>nMx</code> is the open age group Default <code>TRUE</code>.</p></td>
+      <td><p>logical, default = <code>TRUE</code> is the final age group open?</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>nax average contribution to exposure of those dying in the interval.</p>
+    <p>An age-period matrix of split population counts with the same number of columns as <code>popmat</code>, and single ages in rows.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If sex is given as both, <code>"b"</code>, then female values are taken for a(0) and 4a1, per the PAS spreadsheet. If IMR is not given, the M(0) is used to estimate a(x) for ages &lt; 5. This function is not vectorized. a(x) closeout assumes constant mortality hazard in the open age group. One safeguard is different from PAS: If assuming the interval midpoint implies a qx greater than 1, then we derive a(x) for the interval by assuming midpoint a(x) for each single age within the interval along with a constant death rate.</p>
+    <p>Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages.</p>
+<p>If the highest age does not end in a 0 or 5, and <code>OAG == TRUE</code>, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and <code>OAG == FALSE</code>, then results extend
+to single ages covering the entire 5-year age group.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>United Nations (1983).
-<em>Manual X: Indirect Techniques for Demographic Estimation</em>,  number 81.
-United Nations Department of International Economic and Social Affairs, New York.
-
-United States Census Bureau (2017).
-&#8220;Population Analysis System (PAS) Software.&#8221;
-https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
+    <p>Shryock HS, Siegel JS, Larmon EA (1973).
+<em>The methods and materials of demography</em>.
+US Bureau of the Census.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Exposures</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100958</span>,<span class='fl'>466275</span>,<span class='fl'>624134</span>,<span class='fl'>559559</span>,<span class='fl'>446736</span>,<span class='fl'>370653</span>,<span class='fl'>301862</span>,<span class='fl'>249409</span>,
-                <span class='fl'>247473</span>,<span class='fl'>223014</span>,<span class='fl'>172260</span>,<span class='fl'>149338</span>,<span class='fl'>127242</span>,<span class='fl'>105715</span>,<span class='fl'>79614</span>,<span class='fl'>53660</span>,
-                <span class='fl'>31021</span>,<span class='fl'>16805</span>,<span class='fl'>8000</span>,<span class='fl'>4000</span>,<span class='fl'>2000</span>,<span class='fl'>1000</span>)
+    <pre class="examples"><div class='input'><span class='no'>a5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>pop5_mat</span>))
+<span class='no'>p5</span> <span class='kw'>&lt;-</span> <span class='no'>pop5_mat</span>[,<span class='fl'>1</span>]
+<span class='no'>p1g</span> <span class='kw'>&lt;-</span> <span class='fu'>graduate_grabill</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>p5</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>p1g</span>) - <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>p5</span>)</div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='no'>p1s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span>(<span class='no'>p5</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>100</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>),<span class='no'>p5</span>[,<span class='fl'>1</span>]/<span class='fl'>5</span>,<span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"s"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"gray"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Age"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"Count"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>0</span>:<span class='fl'>100</span>, <span class='no'>p1g</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>0</span>:<span class='fl'>100</span>, <span class='no'>p1s</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>lwd</span> <span class='kw'>=</span><span class='fl'>2</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"topright"</span>,
+        <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>),
+        <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gray"</span>,<span class='st'>"red"</span>,<span class='st'>"blue"</span>),
+        <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>),
+        <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"grouped"</span>,<span class='st'>"Grabill"</span>, <span class='st'>"Sprague"</span>))
+}
 
-<span class='no'>Deaths</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8674</span>,<span class='fl'>1592</span>,<span class='fl'>618</span>,<span class='fl'>411</span>,<span class='fl'>755</span>,<span class='fl'>1098</span>,<span class='fl'>1100</span>,<span class='fl'>1357</span>,
-                <span class='fl'>1335</span>,<span class='fl'>3257</span>,<span class='fl'>2200</span>,<span class='fl'>4023</span>,<span class='fl'>2167</span>,<span class='fl'>4578</span>,<span class='fl'>2956</span>,<span class='fl'>4212</span>,
-                <span class='fl'>2887</span>,<span class='fl'>2351</span>,<span class='fl'>1500</span>,<span class='fl'>900</span>,<span class='fl'>500</span>,<span class='fl'>300</span>)
-<span class='co'># lower age bounds</span>
-<span class='no'>Age</span>    <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>, <span class='fl'>100</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>))
-<span class='no'>AgeInt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span>(<span class='no'>Age</span>), <span class='fl'>NA</span>)
-<span class='no'>nMx</span> <span class='kw'>&lt;-</span> <span class='no'>Deaths</span>/<span class='no'>Exposures</span>
-<span class='fu'>axPAS</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>nMx</span>,<span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,<span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'m'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'n'</span>,<span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;  [1] 0.2750276 1.6153111 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000
-#&gt;  [8] 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000
-#&gt; [15] 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000
-#&gt; [22] 3.3333333</div></pre>
+<span class='co'># also works for single ages:</span>
+<span class='no'>grab1</span> <span class='kw'>&lt;-</span> <span class='fu'>graduate_grabill</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>pop1m_ind</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='fl'>0</span>:<span class='fl'>100</span>)
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fl'>0</span>:<span class='fl'>100</span>, <span class='no'>pop1m_ind</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>0</span>:<span class='fl'>100</span>, <span class='no'>grab1</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>

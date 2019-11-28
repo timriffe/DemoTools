@@ -78,7 +78,7 @@ Choose between a 7,9,11 or 13 parameter model (TODO, only does 11 for now)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -146,7 +146,7 @@ Choose between a 7,9,11 or 13 parameter model (TODO, only does 11 for now)." />
 Choose between a 7,9,11 or 13 parameter model (TODO, only does 11 for now).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mig_calculate_rc</span>(<span class='no'>ages</span>, <span class='no'>parameters</span>, <span class='kw'>num_parameters</span> <span class='kw'>=</span> <span class='fl'>11</span>)</pre>
+    <pre class="usage"><span class='fu'>mig_calculate_rc</span>(<span class='no'>ages</span>, <span class='no'>pars</span>, <span class='kw'>num_pars</span> <span class='kw'>=</span> <span class='fl'>11</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,11 +156,11 @@ Choose between a 7,9,11 or 13 parameter model (TODO, only does 11 for now).</p>
       <td><p>numeric. A vector of ages for migration rates to be calculated.</p></td>
     </tr>
     <tr>
-      <th>parameters</th>
+      <th>pars</th>
       <td><p>numeric. A named list of parameters.</p></td>
     </tr>
     <tr>
-      <th>num_parameters</th>
+      <th>num_pars</th>
       <td><p>integer. The number of parameters in the model (7,9,11, or 13)</p></td>
     </tr>
     </table>
@@ -168,8 +168,8 @@ Choose between a 7,9,11 or 13 parameter model (TODO, only does 11 for now).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>In the full 13 parameter model, the migration rate at age x, \(m(x)\) is defined as
-$$m(x) = a1*exp(-1*\alpha1*x) + a2*exp(-1*\alpha2*(x - mu2) - exp(-1*\lambda2*(x - mu2))) + a3*exp(-1*\alpha3*(x - mu3) - exp(-1*\lambda3*(x - mu3))) + a4*exp(\lambda4*x) + c$$
-The first, second, third and fourth pieces of the equation represent pre-labour force, working age, retirement and post retirement age patterns, respectively. Models with less parameters gradually remove terms at the older ages.</p>
+$$m(x) = a1*exp(-1*alpha1*x) + a2*exp(-1*alpha2*(x - mu2) - exp(-1*lambda2*(x - mu2))) + a3*exp(-1*alpha3*(x - mu3) - exp(-1*lambda3*(x - mu3))) + a4*exp(lambda4*x) + c$$</p>
+<p>The first, second, third and fourth pieces of the equation represent pre-labour force, working age, retirement and post retirement age patterns, respectively. Models with less parameters gradually remove terms at the older ages.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Rogers A, Castro LJ (1981).
@@ -177,10 +177,11 @@ The first, second, third and fourth pieces of the equation represent pre-labour 
 RR-81-030.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>parameters</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a1</span><span class='kw'>=</span> <span class='fl'>0.09</span>, <span class='kw'>alpha1</span><span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>a2</span><span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>alpha2</span><span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>mu2</span><span class='kw'>=</span> <span class='fl'>21</span>, <span class='kw'>lambda2</span><span class='kw'>=</span> <span class='fl'>0.39</span>, <span class='kw'>a3</span><span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>alpha3</span><span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>mu3</span><span class='kw'>=</span> <span class='fl'>67</span>, <span class='kw'>lambda3</span><span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>c</span><span class='kw'>=</span> <span class='fl'>0.01</span>)
+    <pre class="examples"><div class='input'><span class='no'>parameters</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a1</span><span class='kw'>=</span> <span class='fl'>0.09</span>, <span class='kw'>alpha1</span><span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>a2</span><span class='kw'>=</span> <span class='fl'>0.2</span>,
+<span class='kw'>alpha2</span><span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>mu2</span><span class='kw'>=</span> <span class='fl'>21</span>, <span class='kw'>lambda2</span><span class='kw'>=</span> <span class='fl'>0.39</span>, <span class='kw'>a3</span><span class='kw'>=</span> <span class='fl'>0.001</span>,
+<span class='kw'>alpha3</span><span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>mu3</span><span class='kw'>=</span> <span class='fl'>67</span>, <span class='kw'>lambda3</span><span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>c</span><span class='kw'>=</span> <span class='fl'>0.01</span>)
 <span class='no'>ages</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>75</span>
-<span class='no'>mx</span> <span class='kw'>&lt;-</span> <span class='fu'>mig_calculate_rc</span>(<span class='kw'>ages</span> <span class='kw'>=</span> <span class='no'>ages</span>, <span class='kw'>parameters</span> <span class='kw'>=</span> <span class='no'>parameters</span>, <span class='kw'>num_parameters</span> <span class='kw'>=</span> <span class='fl'>11</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>ages</span>, <span class='no'>mx</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'l'</span>)</div><div class='img'><img src='mig_calculate_rc-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='no'>mx</span> <span class='kw'>&lt;-</span> <span class='fu'>mig_calculate_rc</span>(<span class='kw'>ages</span> <span class='kw'>=</span> <span class='no'>ages</span>, <span class='kw'>pars</span> <span class='kw'>=</span> <span class='no'>pars</span>, <span class='kw'>num_pars</span> <span class='kw'>=</span> <span class='fl'>11</span>)</div><div class='output co'>#&gt; <span class='error'>Error in mig_calculate_rc(ages = ages, pars = pars, num_pars = 11): object 'pars' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>ages</span>, <span class='no'>mx</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'l'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in xy.coords(x, y, xlabel, ylabel, log): object 'mx' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>

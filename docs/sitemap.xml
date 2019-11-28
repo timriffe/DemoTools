@@ -154,16 +154,28 @@
     <loc>https://timriffe.github.io/DemoTools//reference/geta1_4CD.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/grabill.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/grabillExpand.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/graduate.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/graduate_grabill.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/graduate_grabill_expand.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/graduate_mono.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/graduate_mono_closeout.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/graduate_pclm.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/graduate_sprague.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/graduate_sprague_expand.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/groupAges.html</loc>
@@ -241,9 +253,6 @@
     <loc>https://timriffe.github.io/DemoTools//reference/mig_calculate_rc.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/monoCloseout.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/mx2qx.html</loc>
   </url>
   <url>
@@ -316,19 +325,10 @@
     <loc>https://timriffe.github.io/DemoTools//reference/spencer.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/splitMono.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/splitOscillate.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/splitUniform.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/sprague.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/spragueExpand.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/strong_smth.html</loc>

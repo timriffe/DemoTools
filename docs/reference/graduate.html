@@ -43,7 +43,7 @@
 
 
 <meta property="og:title" content="Graduate grouped data — graduate" />
-<meta property="og:description" content="A wrapper function for several graduation methods, primarily for count data (&quot;sprague&quot;, &quot;beers(ord)&quot;, &quot;beers(mod)&quot;, &quot;mono&quot; (Monotonic spline), &quot;uniform&quot;, &quot;pclm&quot;), but also with one (&quot;pclm&quot;) with an option for graduating rates if both event counts and population at risk are available." />
+<meta property="og:description" content="A wrapper function for several graduation methods, primarily for count data (&quot;sprague&quot;, &quot;beers(ord)&quot;, &quot;beers(mod)&quot;, &quot;grabill&quot;, &quot;mono&quot; (Monotonic spline), &quot;uniform&quot;, &quot;pclm&quot;), but also with one (&quot;pclm&quot;) with an option for graduating rates if both event counts and population at risk are available." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -141,12 +141,12 @@
     </div>
 
     <div class="ref-description">
-    <p>A wrapper function for several graduation methods, primarily for count data (<code>"sprague"</code>, <code>"beers(ord)"</code>, <code>"beers(mod)"</code>, <code>"mono"</code> (Monotonic spline), <code>"uniform"</code>, <code>"pclm"</code>), but also with one (<code>"pclm"</code>) with an option for graduating rates if both event counts and population at risk are available.</p>
+    <p>A wrapper function for several graduation methods, primarily for count data (<code>"sprague"</code>, <code>"beers(ord)"</code>, <code>"beers(mod)"</code>, <code>"grabill"</code>, <code>"mono"</code> (Monotonic spline), <code>"uniform"</code>, <code>"pclm"</code>), but also with one (<code>"pclm"</code>) with an option for graduating rates if both event counts and population at risk are available.</p>
     </div>
 
     <pre class="usage"><span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='no'>Age</span>), <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"sprague"</span>, <span class='st'>"beers(ord)"</span>, <span class='st'>"beers(mod)"</span>,
-  <span class='st'>"pclm"</span>, <span class='st'>"mono"</span>, <span class='st'>"uniform"</span>), <span class='kw'>keep0</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+  <span class='st'>"grabill"</span>, <span class='st'>"pclm"</span>, <span class='st'>"mono"</span>, <span class='st'>"uniform"</span>), <span class='kw'>keep0</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -219,216 +219,72 @@ Beers H (1945).
 <em>Record of the American Institute of Actuaries</em>, <b>34</b>(69), 14--20.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='sprague.html'>sprague</a></code>, <code><a href='beers.html'>beers</a></code>, <code><a href='splitUniform.html'>splitUniform</a></code>, <code><a href='splitMono.html'>splitMono</a></code>, <code><a href='graduate_pclm.html'>graduate_pclm</a></code></p></div>
+    <div class='dont-index'><p><code><a href='graduate_sprague.html'>graduate_sprague</a></code>, <code><a href='beers.html'>beers</a></code>, <code><a href='splitUniform.html'>splitUniform</a></code>, <code><a href='graduate_mono.html'>graduate_mono</a></code>, <code><a href='graduate_pclm.html'>graduate_pclm</a></code>, <code><a href='graduate_grabill.html'>graduate_grabill</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>Value</span> <span class='kw'>&lt;-</span> <span class='no'>pop5_mat</span>[, <span class='fl'>1</span>]
 <span class='no'>Value</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10000</span>,<span class='fl'>44170</span>,<span class='no'>Value</span>[-<span class='fl'>1</span>])
 <span class='no'>Age</span>   <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>100</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>)))
 
-<span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sprague"</span>)</div><div class='output co'>#&gt;           [,1]
-#&gt; 0   12172.4912
-#&gt; 1   11380.4480
-#&gt; 2   10717.4480
-#&gt; 3   10171.0000
-#&gt; 4    9728.6128
-#&gt; 5    9377.7952
-#&gt; 6    9106.0560
-#&gt; 7    8900.9040
-#&gt; 8    8749.8480
-#&gt; 9    8640.3968
-#&gt; 10   8573.6144
-#&gt; 11   8550.5648
-#&gt; 12   8490.9808
-#&gt; 13   8355.2608
-#&gt; 14   8171.5792
-#&gt; 15   8008.3808
-#&gt; 16   7852.7792
-#&gt; 17   7694.2592
-#&gt; 18   7534.6752
-#&gt; 19   7373.9056
-#&gt; 20   7210.8208
-#&gt; 21   7046.6624
-#&gt; 22   6881.6064
-#&gt; 23   6715.9664
-#&gt; 24   6550.9440
-#&gt; 25   6386.5216
-#&gt; 26   6221.6160
-#&gt; 27   6065.6560
-#&gt; 28   5922.9920
-#&gt; 29   5789.2144
-#&gt; 30   5656.4784
-#&gt; 31   5527.4512
-#&gt; 32   5393.8752
-#&gt; 33   5251.2032
-#&gt; 34   5103.9920
-#&gt; 35   4958.4544
-#&gt; 36   4809.8784
-#&gt; 37   4676.3904
-#&gt; 38   4566.5184
-#&gt; 39   4469.7584
-#&gt; 40   4372.0480
-#&gt; 41   4282.1632
-#&gt; 42   4161.7152
-#&gt; 43   3992.0912
-#&gt; 44   3793.9824
-#&gt; 45   3600.3712
-#&gt; 46   3397.0752
-#&gt; 47   3237.6592
-#&gt; 48   3149.6752
-#&gt; 49   3104.2192
-#&gt; 50   3052.7728
-#&gt; 51   3014.5648
-#&gt; 52   2923.2688
-#&gt; 53   2744.0448
-#&gt; 54   2513.3488
-#&gt; 55   2294.2640
-#&gt; 56   2064.3184
-#&gt; 57   1897.9424
-#&gt; 58   1835.3744
-#&gt; 59   1836.1008
-#&gt; 60   1826.9504
-#&gt; 61   1831.6544
-#&gt; 62   1779.1824
-#&gt; 63   1629.7344
-#&gt; 64   1422.4784
-#&gt; 65   1231.8448
-#&gt; 66   1037.5024
-#&gt; 67    891.8304
-#&gt; 68    826.6464
-#&gt; 69    813.1760
-#&gt; 70    792.0960
-#&gt; 71    776.7936
-#&gt; 72    745.8176
-#&gt; 73    683.0176
-#&gt; 74    601.2752
-#&gt; 75    529.6992
-#&gt; 76    462.5600
-#&gt; 77    401.2800
-#&gt; 78    349.5120
-#&gt; 79    304.9488
-#&gt; 80    261.4336
-#&gt; 81    219.9616
-#&gt; 82    183.1696
-#&gt; 83    151.6816
-#&gt; 84    124.7536
-#&gt; 85    100.7200
-#&gt; 86     79.5568
-#&gt; 87     61.8448
-#&gt; 88     47.5888
-#&gt; 89     36.2896
-#&gt; 90     27.1456
-#&gt; 91     19.9600
-#&gt; 92     14.5360
-#&gt; 93     10.5760
-#&gt; 94      7.7824
-#&gt; 95      5.8576
-#&gt; 96      4.5040
-#&gt; 97      3.4240
-#&gt; 98      2.3200
-#&gt; 99      0.8944
-#&gt; 100     0.0000</div><div class='input'><span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sprague"</span>, <span class='kw'>keep0</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;           [,1]
-#&gt; 0   12172.4912
-#&gt; 1   11380.4480
-#&gt; 2   10717.4480
-#&gt; 3   10171.0000
-#&gt; 4    9728.6128
-#&gt; 5    9377.7952
-#&gt; 6    9106.0560
-#&gt; 7    8900.9040
-#&gt; 8    8749.8480
-#&gt; 9    8640.3968
-#&gt; 10   8573.6144
-#&gt; 11   8550.5648
-#&gt; 12   8490.9808
-#&gt; 13   8355.2608
-#&gt; 14   8171.5792
-#&gt; 15   8008.3808
-#&gt; 16   7852.7792
-#&gt; 17   7694.2592
-#&gt; 18   7534.6752
-#&gt; 19   7373.9056
-#&gt; 20   7210.8208
-#&gt; 21   7046.6624
-#&gt; 22   6881.6064
-#&gt; 23   6715.9664
-#&gt; 24   6550.9440
-#&gt; 25   6386.5216
-#&gt; 26   6221.6160
-#&gt; 27   6065.6560
-#&gt; 28   5922.9920
-#&gt; 29   5789.2144
-#&gt; 30   5656.4784
-#&gt; 31   5527.4512
-#&gt; 32   5393.8752
-#&gt; 33   5251.2032
-#&gt; 34   5103.9920
-#&gt; 35   4958.4544
-#&gt; 36   4809.8784
-#&gt; 37   4676.3904
-#&gt; 38   4566.5184
-#&gt; 39   4469.7584
-#&gt; 40   4372.0480
-#&gt; 41   4282.1632
-#&gt; 42   4161.7152
-#&gt; 43   3992.0912
-#&gt; 44   3793.9824
-#&gt; 45   3600.3712
-#&gt; 46   3397.0752
-#&gt; 47   3237.6592
-#&gt; 48   3149.6752
-#&gt; 49   3104.2192
-#&gt; 50   3052.7728
-#&gt; 51   3014.5648
-#&gt; 52   2923.2688
-#&gt; 53   2744.0448
-#&gt; 54   2513.3488
-#&gt; 55   2294.2640
-#&gt; 56   2064.3184
-#&gt; 57   1897.9424
-#&gt; 58   1835.3744
-#&gt; 59   1836.1008
-#&gt; 60   1826.9504
-#&gt; 61   1831.6544
-#&gt; 62   1779.1824
-#&gt; 63   1629.7344
-#&gt; 64   1422.4784
-#&gt; 65   1231.8448
-#&gt; 66   1037.5024
-#&gt; 67    891.8304
-#&gt; 68    826.6464
-#&gt; 69    813.1760
-#&gt; 70    792.0960
-#&gt; 71    776.7936
-#&gt; 72    745.8176
-#&gt; 73    683.0176
-#&gt; 74    601.2752
-#&gt; 75    529.6992
-#&gt; 76    462.5600
-#&gt; 77    401.2800
-#&gt; 78    349.5120
-#&gt; 79    304.9488
-#&gt; 80    261.4336
-#&gt; 81    219.9616
-#&gt; 82    183.1696
-#&gt; 83    151.6816
-#&gt; 84    124.7536
-#&gt; 85    100.7200
-#&gt; 86     79.5568
-#&gt; 87     61.8448
-#&gt; 88     47.5888
-#&gt; 89     36.2896
-#&gt; 90     27.1456
-#&gt; 91     19.9600
-#&gt; 92     14.5360
-#&gt; 93     10.5760
-#&gt; 94      7.7824
-#&gt; 95      5.8576
-#&gt; 96      4.5040
-#&gt; 97      3.4240
-#&gt; 98      2.3200
-#&gt; 99      0.8944
-#&gt; 100     0.0000</div><div class='input'>
+<span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sprague"</span>)</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
+#&gt; 12172.4912 11380.4480 10717.4480 10171.0000  9728.6128  9377.7952  9106.0560 
+#&gt;          7          8          9         10         11         12         13 
+#&gt;  8900.9040  8749.8480  8640.3968  8573.6144  8550.5648  8490.9808  8355.2608 
+#&gt;         14         15         16         17         18         19         20 
+#&gt;  8171.5792  8008.3808  7852.7792  7694.2592  7534.6752  7373.9056  7210.8208 
+#&gt;         21         22         23         24         25         26         27 
+#&gt;  7046.6624  6881.6064  6715.9664  6550.9440  6386.5216  6221.6160  6065.6560 
+#&gt;         28         29         30         31         32         33         34 
+#&gt;  5922.9920  5789.2144  5656.4784  5527.4512  5393.8752  5251.2032  5103.9920 
+#&gt;         35         36         37         38         39         40         41 
+#&gt;  4958.4544  4809.8784  4676.3904  4566.5184  4469.7584  4372.0480  4282.1632 
+#&gt;         42         43         44         45         46         47         48 
+#&gt;  4161.7152  3992.0912  3793.9824  3600.3712  3397.0752  3237.6592  3149.6752 
+#&gt;         49         50         51         52         53         54         55 
+#&gt;  3104.2192  3052.7728  3014.5648  2923.2688  2744.0448  2513.3488  2294.2640 
+#&gt;         56         57         58         59         60         61         62 
+#&gt;  2064.3184  1897.9424  1835.3744  1836.1008  1826.9504  1831.6544  1779.1824 
+#&gt;         63         64         65         66         67         68         69 
+#&gt;  1629.7344  1422.4784  1231.8448  1037.5024   891.8304   826.6464   813.1760 
+#&gt;         70         71         72         73         74         75         76 
+#&gt;   792.0960   776.7936   745.8176   683.0176   601.2752   529.6992   462.5600 
+#&gt;         77         78         79         80         81         82         83 
+#&gt;   401.2800   349.5120   304.9488   261.4336   219.9616   183.1696   151.6816 
+#&gt;         84         85         86         87         88         89         90 
+#&gt;   124.7536   100.7200    79.5568    61.8448    47.5888    36.2896    27.1456 
+#&gt;         91         92         93         94         95         96         97 
+#&gt;    19.9600    14.5360    10.5760     7.7824     5.8576     4.5040     3.4240 
+#&gt;         98         99        100 
+#&gt;     2.3200     0.8944     0.0000 </div><div class='input'><span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sprague"</span>, <span class='kw'>keep0</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
+#&gt; 12172.4912 11380.4480 10717.4480 10171.0000  9728.6128  9377.7952  9106.0560 
+#&gt;          7          8          9         10         11         12         13 
+#&gt;  8900.9040  8749.8480  8640.3968  8573.6144  8550.5648  8490.9808  8355.2608 
+#&gt;         14         15         16         17         18         19         20 
+#&gt;  8171.5792  8008.3808  7852.7792  7694.2592  7534.6752  7373.9056  7210.8208 
+#&gt;         21         22         23         24         25         26         27 
+#&gt;  7046.6624  6881.6064  6715.9664  6550.9440  6386.5216  6221.6160  6065.6560 
+#&gt;         28         29         30         31         32         33         34 
+#&gt;  5922.9920  5789.2144  5656.4784  5527.4512  5393.8752  5251.2032  5103.9920 
+#&gt;         35         36         37         38         39         40         41 
+#&gt;  4958.4544  4809.8784  4676.3904  4566.5184  4469.7584  4372.0480  4282.1632 
+#&gt;         42         43         44         45         46         47         48 
+#&gt;  4161.7152  3992.0912  3793.9824  3600.3712  3397.0752  3237.6592  3149.6752 
+#&gt;         49         50         51         52         53         54         55 
+#&gt;  3104.2192  3052.7728  3014.5648  2923.2688  2744.0448  2513.3488  2294.2640 
+#&gt;         56         57         58         59         60         61         62 
+#&gt;  2064.3184  1897.9424  1835.3744  1836.1008  1826.9504  1831.6544  1779.1824 
+#&gt;         63         64         65         66         67         68         69 
+#&gt;  1629.7344  1422.4784  1231.8448  1037.5024   891.8304   826.6464   813.1760 
+#&gt;         70         71         72         73         74         75         76 
+#&gt;   792.0960   776.7936   745.8176   683.0176   601.2752   529.6992   462.5600 
+#&gt;         77         78         79         80         81         82         83 
+#&gt;   401.2800   349.5120   304.9488   261.4336   219.9616   183.1696   151.6816 
+#&gt;         84         85         86         87         88         89         90 
+#&gt;   124.7536   100.7200    79.5568    61.8448    47.5888    36.2896    27.1456 
+#&gt;         91         92         93         94         95         96         97 
+#&gt;    19.9600    14.5360    10.5760     7.7824     5.8576     4.5040     3.4240 
+#&gt;         98         99        100 
+#&gt;     2.3200     0.8944     0.0000 </div><div class='input'>
 <span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"beers(ord)"</span>)</div><div class='output co'>#&gt;           [,1]
 #&gt; 0   11932.7336
 #&gt; 1   11342.3240

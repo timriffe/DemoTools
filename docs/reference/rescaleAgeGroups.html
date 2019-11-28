@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>rescaleAgeGroups</span>(<span class='no'>Value1</span>, <span class='no'>AgeInt1</span>, <span class='no'>Value2</span>, <span class='no'>AgeInt2</span>,
-  <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>splitUniform</span>, <span class='no'>splitMono</span>)[<span class='fl'>1</span>], <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>splitUniform</span>, <span class='no'>graduate_mono</span>)[<span class='fl'>1</span>], <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -184,7 +184,7 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If the final age group is open, define its age interval as 1.</p>
-<p>Presently the intermediate splitting function can either be <code><a href='splitUniform.html'>splitUniform()</a></code> or <code><a href='splitMono.html'>splitMono()</a></code>.</p>
+<p>Presently the intermediate splitting function can either be <code><a href='splitUniform.html'>splitUniform()</a></code> or <code><a href='graduate_mono.html'>graduate_mono()</a></code>.</p>
 <p>The method is an original contribution. It works by first splitting the counts of <code>Value1</code> to single ages using the assumptions of <code>splitfun()</code>. <code>Value1</code> is then rescaled such that were it re-grouped to match the age classes of <code>Value2</code> they would be identical. If <code>recursive = FALSE</code>, the single-age rescaled <code>Value1</code> data are returned regrouped to their original ages. If <code>recursive = TRUE</code>, the process is repeated until <code>Value1</code> is rescaled such that it could be split and regrouped to <code>Value2</code> using the same process a single time with no need for further rescaling. If age groups in <code>Value1</code> are very irregular, <code>recursive = TRUE</code> can induce noise (see example). If the age groups of <code>Value1</code> nest cleanly within the age groups of <code>Value2</code> then recursion is unnecessary. This is the case, for example, whenever <code>Value1</code> is in single ages and <code>Value2</code> is in grouped ages, which is likely the most common usage scenario.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
