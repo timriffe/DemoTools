@@ -27,7 +27,7 @@
 </head>
 <body>
     <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <header><div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -46,42 +46,59 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Short manuals
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/Age-heaping_quality_with_Demotools.html">Age-heaping indices with DemoTools</a>
+      <a href="../articles/Age-heaping_quality_with_Demotools.html">Handle age heaping</a>
     </li>
     <li>
-      <a href="../articles/case_study_1.html">DemoTools: A case study</a>
+      <a href="../articles/graduation_with_demotools.html">Graduate demographic counts</a>
     </li>
     <li>
-      <a href="../articles/graduation_with_demotools.html">Graduation with DemoTools</a>
+      <a href="../articles/smoothing_with_demotools.html">Smooth demographic counts</a>
     </li>
     <li>
-      <a href="../articles/lifetable_with_demotools.html">The lifetable with DemoTools</a>
+      <a href="../articles/lifetable_with_demotools.html">Construct a lifetable</a>
     </li>
     <li>
-      <a href="../articles/smoothing_with_demotools.html">Smoothing with DemoTools</a>
+      <a href="../articles/lifetable_with_demotools.html">Model migration</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="../articles/case_study_1.html">Case study</a>
+</li>
+<li>
+  <a href="../reference/index.html">Functions</a>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://twitter.com/timriffe1">
+    <span class="fa fa-twitter"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/timriffe/DemoTools/">
+    <span class="fa fa-github fa-lg"></span>
+     
+    github
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -306,12 +323,10 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <a class="sourceLine" id="cb14-16" data-line-number="16">                    <span class="dt">splitfun =</span> splitUniform, </a>
 <a class="sourceLine" id="cb14-17" data-line-number="17">                 <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb14-18" data-line-number="18">pop1resc</a>
-<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="co">#&gt;          0          1          6          8         10         14         18 </span></a>
-<a class="sourceLine" id="cb14-20" data-line-number="20"><span class="co">#&gt;  45.799056 291.442731  88.140863 169.283567 239.317696 111.102675   8.157659 </span></a>
-<a class="sourceLine" id="cb14-21" data-line-number="21"><span class="co">#&gt;         19         21         24         28         31         34         37 </span></a>
-<a class="sourceLine" id="cb14-22" data-line-number="22"><span class="co">#&gt; 129.304984 159.589212 237.562627 208.176470  52.709567 241.201668 139.044061 </span></a>
-<a class="sourceLine" id="cb14-23" data-line-number="23"><span class="co">#&gt;         40 </span></a>
-<a class="sourceLine" id="cb14-24" data-line-number="24"><span class="co">#&gt; 372.052596</span></a></code></pre></div>
+<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="co">#&gt;         0         1         6         8        10        14        18        19 </span></a>
+<a class="sourceLine" id="cb14-20" data-line-number="20"><span class="co">#&gt;  36.28649 313.40849  80.73693 181.65094 210.85500 233.48261  11.42084 110.71265 </span></a>
+<a class="sourceLine" id="cb14-21" data-line-number="21"><span class="co">#&gt;        21        24        28        31        34        37        40 </span></a>
+<a class="sourceLine" id="cb14-22" data-line-number="22"><span class="co">#&gt; 151.02896 218.96250 186.32019  67.21091 137.40043 151.53959 228.27292</span></a></code></pre></div>
 </div>
 </div>
 <div id="graduation-as-a-light-smoother" class="section level2">

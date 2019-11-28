@@ -5,9 +5,8 @@
 
 #' Calculate Rogers-Castro migration age schedule
 
-#' @description Given a set of ages and parameters, calculate the migration age 
-#' schedule based on the Rogers and Catsro formula. 
-#' Choose between a 7,9,11 or 13 parameter model (TODO, only does 11 for now). 
+#' @description Given a set of ages and parameters, calculate the migration age schedule based on the Rogers and Castro formula. 
+#' Choose between a 7,9,11 or 13 parameter model. 
 
 #' @param ages numeric. A vector of ages for migration rates to be calculated. 
 #' @param pars numeric. A named list of parameters. 
@@ -31,6 +30,10 @@
 mig_calculate_rc <- function(ages,
                              pars,
                              num_pars = 11){
+  
+  # simple check. Really I guess specific combos are the important thing
+  stopifnot(length(pars) %in% c(7, 9, 11, 13))
+  
   pars_blank <- c(a1 = 0, alpha1 = 0, a2 = 0, 
                alpha2 = 0, mu2 = 0, lambda2 = 0, a3 = 0, 
                alpha3 = 0, mu3 = 0, lambda3 = 0, c = 0)
