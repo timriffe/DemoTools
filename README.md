@@ -1,5 +1,3 @@
-[<img src="logo.png" width=100 />](https://timriffe.github.io/DemoTools/)
-
 [<img src="logo.png" align="left" width=100 />](https://timriffe.github.io/DemoTools/)
 
 # DemoTools
@@ -11,8 +9,6 @@
 [![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 
-# Tools for the evaluation, adjustment, and standardization of demographic data
-Date: 2019-11-28
 # Tools for aggregate demographic analysis
 Date: 2019-11-28
  
@@ -39,7 +35,7 @@ install_github("timriffe/DemoTools")
 ## Note
 Sometime soon there will be an overhaul of function names. We plan to switch to snake case, with method families as the first element. This is to make naming more regular and memorable, and also to activate autocomplete in RStudio or similar.
 
-These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 121 documented functions, with more in development. 
+These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 122 documented functions, with more in development. 
 
 Presently all functions are in a testing phase, but the aim is to end up with a set of robust generic functions around which wrappers can be easily built for various institutional data production needs. As-is, these functions may also be useful for DIY demographers. This set of methods is a cherry-pick from legacy methods collections, including PAS, DAPPS, MPCDA, MortPack, IREDA, UN Manual X, G. Feeney Spreadsheets, formulas found in Siegel and Swanson or Shyrock and Siegel, and various (apparent) first-implementations from formulas in papers, or ad hoc DIY approximations from old pros. 
 
