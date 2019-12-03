@@ -141,7 +141,11 @@ lx2dx <- lt_id_l_d
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return nLx numeric vector of lifetable exposure.
 #' @export
-lxdxax2Lx <- function(lx, ndx, nax, AgeInt) {
+lt_id_lda_L <- function(lx, ndx, nax, AgeInt) {
+  if (as.character(match.call()[[1]]) == "lxdxax2Lx") {
+    warning("please use lxdxax2Lx() instead of lt_id_lda_L().", call. = FALSE)
+  }
+  
   N                   <- length(lx)
   nLx                 <- rep(0, N)
   nLx[1:(N - 1)]      <-
@@ -149,6 +153,11 @@ lxdxax2Lx <- function(lx, ndx, nax, AgeInt) {
   nLx[N]		        <- lx[N] * nax[N]
   nLx
 }
+
+#' @export
+#' @rdname lt_id_lda_L
+lxdxax2Lx <- lt_id_lda_L
+
 
 #' Derive lifetable total person years left to live from exposure.
 #' @description A lifetable identity. Tx is interpreted as the total years
@@ -184,15 +193,20 @@ Lx2Tx <- lt_id_L_T
 #' # this is a problematic case
 #' (mx2qx(mx, ax, AgeInt))
 #' # here a workable value
-#' (mxax2qx_Backstop(mx, ax, AgeInt))
+#' (lt_id_ma_q_robust(mx, ax, AgeInt))
 #' #' # still less than 1
-#' mxax2qx_Backstop(1.99, ax, AgeInt) < 1
+#' lt_id_ma_q_robust(1.99, ax, AgeInt) < 1
 #' # unity
-#' (mxax2qx_Backstop(2, ax, AgeInt))
+#' (lt_id_ma_q_robust(2, ax, AgeInt))
 #' # qx imputed as 1
-#' (mxax2qx_Backstop(2.1, ax, AgeInt))
+#' (lt_id_ma_q_robust(2.1, ax, AgeInt))
 
-mxax2qx_Backstop <- function(nMx, nax, AgeInt) {
+lt_id_ma_q_robust<- function(nMx, nax, AgeInt) {
+  
+  if (as.character(match.call()[[1]]) == "mxax2qx_Backstop") {
+    warning("please use mxax2qx_Backstop() instead of lt_id_ma_q_robust().", call. = FALSE)
+  }
+  
   stopifnot(length(nMx) == 1)
   # sometime assuming mid interval nAx causes the world
   # to turn upside down.
@@ -207,6 +221,9 @@ mxax2qx_Backstop <- function(nMx, nax, AgeInt) {
   qx
 }
 
+#' @export
+#' @rdname lt_id_ma_q_robust
+mxax2qx_Backstop <- lt_id_ma_q_robust
 
 #' calculate survivor ratios
 #' @description An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age (\code{N=1}) or five-year ages (\code{N=5}). Input vectors are assumed to come from either single or standard abridged ages.

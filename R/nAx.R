@@ -267,7 +267,7 @@ axPAS <-
     if (sum(ind) > 0) {
       for (i in which(ind)) {
         qxnew <-
-          mxax2qx_Backstop(nMx = nMx[i],
+          lt_id_ma_q_robust(nMx = nMx[i],
                            nax = ax[i],
                            AgeInt = AgeInt[i])
         ax[i] <- qxmx2ax(nqx = qxnew,

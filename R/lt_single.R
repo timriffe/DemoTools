@@ -95,7 +95,7 @@ lt_single_simple <- function(nMx,
   lx            <- qx2lx(qx, radix = radix)
   ndx           <- lt_id_l_d(lx)
   nLx           <-
-    lxdxax2Lx(
+    lt_id_lda_L(
       lx = lx,
       ndx = ndx,
       nax = nAx,
