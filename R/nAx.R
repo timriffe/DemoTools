@@ -750,6 +750,10 @@ lt_ax_closeout <- function(mx,
                                 extrapFrom = max(Age),
                                 extrapFit = Age[Age >= 40],
                                 ...) {
+  if (as.character(match.call()[[1]]) == "aomegaMortalityLaws") {
+    warning("please use lt_ax_closeout() instead of aomegaMortalityLaws().", call. = FALSE)
+  }
+  
   extrapLaw <- tolower(law)
   OA        <- max(Age)
   x_extr    <- seq(OA, 130, by = .1)
@@ -771,6 +775,10 @@ lt_ax_closeout <- function(mx,
   sum(shift.vector(lx, -1) + lx) / 20
   
 }
+
+#' @export
+#' @rdname lt_ax_closeout
+aomegaMortalityLaws <- lt_ax_closeout
 
 #' wrapper to invoke PAS or UN ax methods given qx or mx
 #' @description Given either mx or qx, call either the \code{axUN()} or \code{axPAS()} functions.

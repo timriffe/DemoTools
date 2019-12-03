@@ -38,7 +38,7 @@
 #'   
 #'  \item \code{\link{lx2dx}}: This function is now called \code{\link{lt_id_l_d}}.
 #'  
-#'   \item \code{\link{Lx2Tx}}: This function is now called \code{\link{lt_id_L_T}}.
+#'  \item \code{\link{Lx2Tx}}: This function is now called \code{\link{lt_id_L_T}}.
 #' }
 #' 
 #' 
@@ -47,85 +47,40 @@ NULL
 
 # graduate family
 
-#' @export
-#' @rdname graduate_mono_closeout
-monoCloseout <- function(...){
-  if (as.character(match.call()[[1]]) == "monoCloseout") {
-    warning("please use graduate_mono_closeout() instead of monoCloseout().", call. = FALSE)
-  }
-  graduate_mono_closeout(...)
-}
+#' #' @export
+#' #' @rdname graduate_mono_closeout
+#' monoCloseout <- graduate_mono_closeout
 
-#' @export
-#' @rdname graduate_mono
-splitMono <- function(...){
-  if (as.character(match.call()[[1]]) == "splitMono") {
-    warning("please use graduate_mono() instead of splitMono().", call. = FALSE)
-  }
-  graduate_mono(...)
-}
+#' #' @export
+#' #' @rdname graduate_mono
+#' splitMono <- graduate_mono
 
-#' @export
-#' @rdname graduate_grabill
-grabill <- function(...){
-  if (as.character(match.call()[[1]]) == "grabill") {
-    warning("please use graduate_grabill() instead of grabill().", call. = FALSE)
-  }
-  graduate_grabill(...)
-}
+#' #' @export
+#' #' @rdname graduate_grabill
+#' grabill <- graduate_grabill
 
-#' @export
-#' @rdname graduate_sprague
-sprague <- function(...){
-  if (as.character(match.call()[[1]]) == "sprague") {
-    warning("please use graduate_sprague() instead of sprague().", call. = FALSE)
-  }
-  graduate_sprague(...)
-}
+#' #' @export
+#' #' @rdname graduate_sprague
+#' sprague <- graduate_sprague
 
-#' @export
-#' @rdname graduate_beers
-beers <- function(...){
-  if (as.character(match.call()[[1]]) == "beers") {
-    warning("please use graduate_beers() instead of beers().", call. = FALSE)
-  }
-  graduate_beers(...)
-}
+#' #' @export
+#' #' @rdname graduate_beers
+#' beers <- graduate_beers
 
-#' @export
-#' @rdname graduate_uniform
-splitUniform <- function(...){
-  if (as.character(match.call()[[1]]) == "splitUniform") {
-    warning("please use graduate_uniform() instead of splitUniform().", call. = FALSE)
-  }
-  graduate_uniform(...)
-}
+#' #' @export  
+#' #' @rdname graduate_uniform
+#' splitUniform <- graduate_uniform
 # --------------------------------------------------- #
 
 # lifetable related functions:
-#' @export
-#' @rdname lt_ax_closeout
-aomegaMortalityLaws <- function(...){
-  if (as.character(match.call()[[1]]) == "aomegaMortalityLaws") {
-    warning("please use lt_ax_closeout() instead of aomegaMortalityLaws().", call. = FALSE)
-  }
-  lt_ax_closeout(...)
-}
+#' #' @export
+#' #' @rdname lt_ax_closeout
+#' aomegaMortalityLaws <- lt_ax_closeout
 
-#' @export
-#' @rdname lt_id_l_d
-lx2dx <- function(...){
-  if (as.character(match.call()[[1]]) == "lx2dx") {
-    warning("please use lx2dx() instead of lt_id_l_d().", call. = FALSE)
-  }
-  lt_id_l_d(...)
-}
+#' #' @export
+#' #' @rdname lt_id_l_d
+#' lx2dx <- lt_id_l_d
 
-#' @export
-#' @rdname lt_id_L_T
-Lx2Tx <-function(...){
-  if (as.character(match.call()[[1]]) == "Lx2Tx") {
-    warning("please use Lx2Tx() instead of lt_id_L_T().", call. = FALSE)
-  }
-  lt_id_L_T(...)
-}
+#' #' @export
+#' #' @rdname lt_id_L_T
+#' Lx2Tx <- lt_id_L_T

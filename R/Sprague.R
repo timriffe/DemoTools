@@ -44,7 +44,11 @@
 graduate_sprague <- function(Value,
                     Age,
                     OAG = TRUE) {
-
+  
+  if (as.character(match.call()[[1]]) == "sprague") {
+    warning("please use graduate_sprague() instead of sprague().", call. = FALSE)
+  }
+  
   punif1       <- graduate_uniform(
                          Value = Value, 
                          Age = Age, 
@@ -103,6 +107,10 @@ graduate_sprague <- function(Value,
   #	}
   pop1
 }
+
+#' @export
+#' @rdname graduate_sprague
+sprague <- graduate_sprague
 
 #' Create the Sprague coefficient matrix.
 #'

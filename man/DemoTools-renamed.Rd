@@ -24,6 +24,6 @@ These functions still work but will be removed (defunct) in the next version.
   
  \item \code{\link{lx2dx}}: This function is now called \code{\link{lt_id_l_d}}.
  
-  \item \code{\link{Lx2Tx}}: This function is now called \code{\link{lt_id_L_T}}.
+ \item \code{\link{Lx2Tx}}: This function is now called \code{\link{lt_id_L_T}}.
 }
 }

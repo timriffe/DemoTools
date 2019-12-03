@@ -266,6 +266,10 @@ graduate_beers <- function(Value,
                   OAG = TRUE,
                   method = "mod",
                   johnson = FALSE) {
+  if (as.character(match.call()[[1]]) == "beers") {
+    warning("please use graduate_beers() instead of beers().", call. = FALSE)
+  }
+  
   if (missing(AgeInt)){
     AgeInt <- age2int(Age, OAG = OAG, OAvalue = 1)
   }
@@ -311,6 +315,10 @@ graduate_beers <- function(Value,
   names(pop1)       <- ages
   pop1
 }
+
+#' @export
+#' @rdname graduate_beers
+beers <- graduate_beers
 
 #' Adjust ages under 10 using a modification of Beers
 #' @description Assuming we have an external estimate of age 0, this method

@@ -118,8 +118,15 @@ qx2lx <- function(nqx, radix = 1e5) {
 #' @return ndx vector of lifetable deaths.
 #' @export
 lt_id_l_d <- function(lx) {
+  if (as.character(match.call()[[1]]) == "lx2dx") {
+    warning("please use lx2dx() instead of lt_id_l_d().", call. = FALSE)
+  }
   diff(-c(lx, 0))
 }
+
+#' @export
+#' @rdname lt_id_l_d
+lx2dx <- lt_id_l_d
 
 #' Derive lifetable exposure from lx, ndx and nax.
 #' @description This is a common approximation of lifetable exposure:
@@ -154,8 +161,15 @@ lxdxax2Lx <- function(lx, ndx, nax, AgeInt) {
 #' @return Tx total years left to live above age x.
 #' @export
 lt_id_L_T <- function(Lx) {
+  if (as.character(match.call()[[1]]) == "Lx2Tx") {
+    warning("please use Lx2Tx() instead of lt_id_L_T().", call. = FALSE)
+  }
   rev(cumsum(rev(Lx)))
 }
+
+#' @export
+#' @rdname lt_id_L_T
+Lx2Tx <- lt_id_L_T
 
 #' adjust ax estimate so that qx less than or equal to 1
 #' @description Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages.

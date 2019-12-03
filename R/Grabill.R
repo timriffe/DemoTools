@@ -126,7 +126,11 @@ graduate_grabill <- function(
   Value,
   Age,
   OAG = TRUE) {
-
+  
+  if (as.character(match.call()[[1]]) == "grabill") {
+    warning("please use graduate_grabill() instead of grabill().", call. = FALSE)
+  }
+  
   punif1       <- graduate_uniform(
                     Value = Value, 
                     Age = Age, 
@@ -197,3 +201,7 @@ graduate_grabill <- function(
   
   popg
 }
+
+#' @export
+#' @rdname graduate_grabill
+grabill <- graduate_grabill

@@ -254,6 +254,11 @@ graduate_uniform <-
            Age,
            OAG = TRUE,
            OAvalue = 1) {
+    
+    if (as.character(match.call()[[1]]) == "splitUniform") {
+      warning("please use graduate_uniform() instead of splitUniform().", call. = FALSE)
+    }
+    
     if (missing(Age) & missing(AgeInt)) {
       Age      <- names2age(Value)
     }
@@ -270,6 +275,9 @@ graduate_uniform <-
     out
   }
 
+#' @export  
+#' @rdname graduate_uniform
+splitUniform <- graduate_uniform
 
 
 #' Wrapper to provide a single location to reference all model life tables.
