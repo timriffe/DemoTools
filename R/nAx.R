@@ -293,15 +293,15 @@ axPAS <-
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
 #' @param mod logical. Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.
 #' @param closeout logical. Whether or not to estimate open age a(x) via extrapolation. Default \code{TRUE}.
-#' @inheritParams aomegaMortalityLaws
+#' @inheritParams lt_ax_closeout
 #'
 #'
-#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. The final a(x) value is closed out using the \code{aomegaMortalityLaws()} method (reciprocal and Mortpak methods are deprecated). Age groups must be standard abridged. No check on age groups is done.
+#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. The final a(x) value is closed out using the \code{lt_ax_closeout()} method (reciprocal and Mortpak methods are deprecated). Age groups must be standard abridged. No check on age groups is done.
 #'
 #' There are different vectors one can specify for this method: ultimately it's either \code{nMx} or \code{nqx}, and the \code{nax} results will differ potentially quite a lot depending which you have on hand.
 
 #' @seealso
-#' \code{\link[DemoTools]{aomegaMortalityLaws}}
+#' \code{\link[DemoTools]{lt_ax_closeout}}
 #' @references
 #' \insertRef{greville1977short}{DemoTools}
 #' \insertRef{un1982model}{DemoTools}
@@ -481,7 +481,7 @@ ax.greville.mortpak <- function(nMx,
   
   # closeout
   if (max(Age) < 130 & closeout) {
-    aomega         <- aomegaMortalityLaws(
+    aomega         <- lt_ax_closeout(
       mx = nMx,
       Age = Age,
       law = law,
@@ -502,7 +502,7 @@ ax.greville.mortpak <- function(nMx,
 #'
 #' @description The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 for ages 5-9 and 10-14, and the Greville formula for higher ages. In the original sources these are referred to as separation factors.
 #'
-#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. If the main input is \code{nMx}, and if \code{IMR} is not given, we first approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the Coale-Demeny approach before applying the formula. The final a(x) value is closed out using the \code{aomegaMortalityLaws()} method (reciprocal and Mortpak methods are deprecated). For nMx inputs this method is rather direct, but for {\ifelse{html}{\out{q<sub>X</sub>}}{\eqn{q_X}}} or l(x) inputs it is iterative. Age groups must be standard abridged.  No check on age groups are done.
+#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. If the main input is \code{nMx}, and if \code{IMR} is not given, we first approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the Coale-Demeny approach before applying the formula. The final a(x) value is closed out using the \code{lt_ax_closeout()} method (reciprocal and Mortpak methods are deprecated). For nMx inputs this method is rather direct, but for {\ifelse{html}{\out{q<sub>X</sub>}}{\eqn{q_X}}} or l(x) inputs it is iterative. Age groups must be standard abridged.  No check on age groups are done.
 #'
 #' @param nMx numeric. Event exposure mortality rates.
 #' @param nqx numeric.  Vector of age specific death probabilities in standard abridged age groups.
@@ -515,7 +515,7 @@ ax.greville.mortpak <- function(nMx,
 #' @param maxit integer. The maximum number of iterations for the qx-based iterative method. Default 1000.
 #' @param mod logical.  Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.
-#' @inheritParams aomegaMortalityLaws
+#' @inheritParams lt_ax_closeout
 #'
 #' @return nax average contribution to exposure of those dying in the interval.
 #' @export
@@ -686,7 +686,7 @@ axUN <- function(nMx,
   # closeout
   N    <- length(axi)
   if (max(Age) <= 125) {
-    aomega         <- aomegaMortalityLaws(
+    aomega         <- lt_ax_closeout(
       mx = nMx,
       Age = Age,
       law = law,
@@ -726,16 +726,16 @@ axUN <- function(nMx,
 #' Age <- c(0,1,seq(5,80,by =5))
 #'
 #'
-#' aomegaMortalityLaws(nMx,Age,"Kannisto")
-#' aomegaMortalityLaws(nMx,Age,"Kannisto_Makeham")
-#' aomegaMortalityLaws(nMx,Age,"Makeham")
-#' aomegaMortalityLaws(nMx,Age,"Gompertz")
-#' aomegaMortalityLaws(nMx,Age,"GGompertz")
-#' aomegaMortalityLaws(nMx,Age,extrapLaw ="Beard")
-#' aomegaMortalityLaws(nMx,Age,"Beard_Makeham")
-#' aomegaMortalityLaws(nMx,Age,"Quadratic")
+#' lt_ax_closeout(nMx,Age,"Kannisto")
+#' lt_ax_closeout(nMx,Age,"Kannisto_Makeham")
+#' lt_ax_closeout(nMx,Age,"Makeham")
+#' lt_ax_closeout(nMx,Age,"Gompertz")
+#' lt_ax_closeout(nMx,Age,"GGompertz")
+#' lt_ax_closeout(nMx,Age,extrapLaw ="Beard")
+#' lt_ax_closeout(nMx,Age,"Beard_Makeham")
+#' (nMx,Age,"Quadratic")
 
-aomegaMortalityLaws <- function(mx,
+lt_ax_closeout <- function(mx,
                                 Age,
                                 law = c(
                                   "kannisto",

@@ -49,7 +49,7 @@ nax average contribution to exposure of those dying in the interval.
 The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 for ages 5-9 and 10-14, and the Greville formula for higher ages. In the original sources these are referred to as separation factors.
 }
 \details{
-a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. If the main input is \code{nMx}, and if \code{IMR} is not given, we first approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the Coale-Demeny approach before applying the formula. The final a(x) value is closed out using the \code{aomegaMortalityLaws()} method (reciprocal and Mortpak methods are deprecated). For nMx inputs this method is rather direct, but for {\ifelse{html}{\out{q<sub>X</sub>}}{\eqn{q_X}}} or l(x) inputs it is iterative. Age groups must be standard abridged.  No check on age groups are done.
+a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. If the main input is \code{nMx}, and if \code{IMR} is not given, we first approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the Coale-Demeny approach before applying the formula. The final a(x) value is closed out using the \code{lt_ax_closeout()} method (reciprocal and Mortpak methods are deprecated). For nMx inputs this method is rather direct, but for {\ifelse{html}{\out{q<sub>X</sub>}}{\eqn{q_X}}} or l(x) inputs it is iterative. Age groups must be standard abridged.  No check on age groups are done.
 }
 \examples{
 # example data from UN 1982 Model Life Tables for Developing Countries.

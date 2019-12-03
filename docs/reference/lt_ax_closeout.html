@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Adjust ages under 10 using a modification of Beers — johnsonAdjust • DemoTools</title>
+<title>Life expectancy in the open age group. — aomegaMortalityLaws • DemoTools</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,10 +42,8 @@
 
 
 
-<meta property="og:title" content="Adjust ages under 10 using a modification of Beers — johnsonAdjust" />
-<meta property="og:description" content="Assuming we have an external estimate of age 0, this method
-refits to the ordinary Beers single age results, remaining constrained to the
-original 5-year age groups and smoothly blending into ages greater than 10." />
+<meta property="og:title" content="Life expectancy in the open age group. — aomegaMortalityLaws" />
+<meta property="og:description" content="Get an estimate of life expectancy in the open age group." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -152,49 +150,74 @@ original 5-year age groups and smoothly blending into ages greater than 10." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Adjust ages under 10 using a modification of Beers</h1>
+    <h1>Life expectancy in the open age group.</h1>
     
-    <div class="hidden name"><code>johnsonAdjust.Rd</code></div>
+    <div class="hidden name"><code>lt_ax_closeout.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Assuming we have an external estimate of age 0, this method
-refits to the ordinary Beers single age results, remaining constrained to the
-original 5-year age groups and smoothly blending into ages greater than 10.</p>
+    <p>Get an estimate of life expectancy in the open age group.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>johnsonAdjust</span>(<span class='no'>Age0</span>, <span class='no'>pop5</span>, <span class='no'>pop1</span>)</pre>
+    <pre class="usage"><span class='fu'>aomegaMortalityLaws</span>(<span class='no'>...</span>)
+
+<span class='fu'>lt_ax_closeout</span>(<span class='no'>mx</span>, <span class='no'>Age</span>, <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>,
+  <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>, <span class='st'>"beard_makeham"</span>,
+  <span class='st'>"quadratic"</span>)[<span class='fl'>1</span>], <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>40</span>],
+  <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>Age0</th>
-      <td><p>numeric. An estimate of age 0.</p></td>
+      <th>...</th>
+      <td><p>Other arguments to be passed on to the
+<code><a href='https://rdrr.io/pkg/MortalityLaws/man/MortalityLaw.html'>MortalityLaw</a></code> function.</p></td>
     </tr>
     <tr>
-      <th>pop5</th>
-      <td><p>numeric. Matrix of age-period population counts in 5-year age groups.</p></td>
+      <th>mx</th>
+      <td><p>Vector or matrix of age specific death-rates.</p></td>
     </tr>
     <tr>
-      <th>pop1</th>
-      <td><p>numeric. Matrix of age-period population using Beers ordinary (or some other) method.</p></td>
+      <th>Age</th>
+      <td><p>integer. A vector of ages of the lower integer bound of the age classes.</p></td>
+    </tr>
+    <tr>
+      <th>law</th>
+      <td><p>The name of the mortality law/model to be used.
+The following options are available:</p><ul>
+<li><p><code>"kannisto"</code> -- The Kannisto model;</p></li>
+<li><p><code>"kannisto_makeham"</code> -- The Kannisto-Makeham model;</p></li>
+<li><p><code>"gompertz"</code> -- The Gompertz model;</p></li>
+<li><p><code>"ggompertz"</code> -- The Gamma-Gompertz model;</p></li>
+<li><p><code>"makeham"</code> -- The Makeham model;</p></li>
+<li><p><code>"beard"</code> -- The Beard model;</p></li>
+<li><p><code>"beard_makeham"</code> -- The Beard-Makeham model;</p></li>
+<li><p><code>"quadratic"</code> -- The Quadratic model.</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>extrapFrom</th>
+      <td><p>integer. Age from which to impute extrapolated mortality.</p></td>
+    </tr>
+    <tr>
+      <th>extrapFit</th>
+      <td><p>integer vector. Ages to include in model fitting. Defaults to all ages <code>&gt;          =60</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A matrix of single age population estimates.</p>
+    <p>life expectancy in the open age group</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This has not been tested using <code>pop1</code> as generated from other methods, such as
-the Beers modified, Sprague, or Grabill methods. Called internally by <code><a href='beers.html'>beers()</a></code>.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>This method estimates life expectancy in the open age group by fitting one of several potential old-age parametric mortality models, extrapolating rates to age 130, then backing out the implied remaining life expectancy in the open age group. This function replaces <code>aomegaMORTPAK()</code>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Stover J, Johnson P, Zaba B, Zwahlen M, Dabis F, Ekpini R (2008).
-&#8220;The Spectrum projection package: improvements in estimating mortality, ART needs, PMTCT impact and uncertainty bounds.&#8221;
-<em>Sexually Transmitted Infections</em>, <b>84</b>(Suppl 1), i24--i30.</p>
+    <div class='dont-index'><p><code><a href='extra_mortality.html'>extra_mortality</a></code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
@@ -202,7 +225,8 @@ the Beers modified, Sprague, or Grabill methods. Called internally by <code><a h
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
+      <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

@@ -39,7 +39,7 @@
 #' @param OAG logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include
 #'   \code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.
-#' @inheritParams aomegaMortalityLaws
+#' @inheritParams lt_ax_closeout
 #' @export
 #' @return Lifetable in data.frame with columns
 #' \itemize{

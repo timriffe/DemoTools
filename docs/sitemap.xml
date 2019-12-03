@@ -97,9 +97,6 @@
     <loc>https://timriffe.github.io/DemoTools//reference/agesmth1.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/aomegaMortalityLaws.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/arriaga_smth.html</loc>
   </url>
   <url>
@@ -230,6 +227,9 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/loess_smth1.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_ax_closeout.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/lt_single_simple.html</loc>

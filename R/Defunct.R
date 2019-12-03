@@ -38,7 +38,7 @@ NULL
 #' @export
 #' @rdname graduate_mono_closeout
 monoCloseout <- function(...){
-  if (as.character(match.call()[[1]]) == "foo") {
+  if (as.character(match.call()[[1]]) == "monoCloseout") {
     warning("please use graduate_mono_closeout() instead of monoCloseout().", call. = FALSE)
   }
   graduate_mono_closeout(...)
@@ -47,7 +47,7 @@ monoCloseout <- function(...){
 #' @export
 #' @rdname graduate_mono
 splitMono <- function(...){
-  if (as.character(match.call()[[1]]) == "foo") {
+  if (as.character(match.call()[[1]]) == "splitMono") {
     warning("please use graduate_mono() instead of splitMono().", call. = FALSE)
   }
   graduate_mono(...)
@@ -56,7 +56,7 @@ splitMono <- function(...){
 #' @export
 #' @rdname graduate_grabill
 grabill <- function(...){
-  if (as.character(match.call()[[1]]) == "foo") {
+  if (as.character(match.call()[[1]]) == "grabill") {
     warning("please use graduate_grabill() instead of grabill().", call. = FALSE)
   }
   graduate_grabill(...)
@@ -65,8 +65,20 @@ grabill <- function(...){
 #' @export
 #' @rdname graduate_sprague
 sprague <- function(...){
-  if (as.character(match.call()[[1]]) == "foo") {
+  if (as.character(match.call()[[1]]) == "sprague") {
     warning("please use graduate_sprague() instead of sprague().", call. = FALSE)
   }
   graduate_sprague(...)
+}
+
+
+# --------------------------------------------------- #
+# lifetable related functions:
+#' @export
+#' @rdname lt_ax_closeout
+aomegaMortalityLaws <- function(...){
+  if (as.character(match.call()[[1]]) == "aomegaMortalityLaws") {
+    warning("please use lt_ax_closeout() instead of aomegaMortalityLaws().", call. = FALSE)
+  }
+  lt_ax_closeout(...)
 }
