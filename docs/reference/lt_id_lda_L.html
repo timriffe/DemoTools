@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>calculate Noumbissi's digit heaping index — Noumbissi • DemoTools</title>
+<title>Derive lifetable exposure from lx, ndx and nax. — lt_id_lda_L • DemoTools</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,9 +42,10 @@
 
 
 
-<meta property="og:title" content="calculate Noumbissi's digit heaping index — Noumbissi" />
-<meta property="og:description" content="Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators
-consisting in 5-year age groups centered on the terminal digit of age in question. For example, 9, 19, 29, etc are all of digit 9." />
+<meta property="og:title" content="Derive lifetable exposure from lx, ndx and nax. — lt_id_lda_L" />
+<meta property="og:description" content="This is a common approximation of lifetable exposure:
+All persons surviving to the end of the interval time the interval width, plus all those that died
+in the interval multiplied by their average time spent in the interval." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -151,65 +152,54 @@ consisting in 5-year age groups centered on the terminal digit of age in questio
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>calculate Noumbissi's digit heaping index</h1>
+    <h1>Derive lifetable exposure from lx, ndx and nax.</h1>
     
-    <div class="hidden name"><code>Noumbissi.Rd</code></div>
+    <div class="hidden name"><code>lt_id_lda_L.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators
-consisting in 5-year age groups centered on the terminal digit of age in question. For example, 9, 19, 29, etc are all of digit 9.</p>
+    <p>This is a common approximation of lifetable exposure:
+All persons surviving to the end of the interval time the interval width, plus all those that died
+in the interval multiplied by their average time spent in the interval.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>Noumbissi</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>64</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'>lt_id_lda_L</span>(<span class='no'>lx</span>, <span class='no'>ndx</span>, <span class='no'>nax</span>, <span class='no'>AgeInt</span>)
+
+<span class='fu'><a href='lxdxax2Lx.html'>lxdxax2Lx</a></span>(<span class='no'>lx</span>, <span class='no'>ndx</span>, <span class='no'>nax</span>, <span class='no'>AgeInt</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>Value</th>
-      <td><p>numeric. A vector of demographic counts by single age.</p></td>
+      <th>lx</th>
+      <td><p>numeric.  Vector of age-specific lifetable survivorship.</p></td>
     </tr>
     <tr>
-      <th>Age</th>
-      <td><p>numeric. A vector of ages corresponding to the lower integer bound of the counts.</p></td>
+      <th>ndx</th>
+      <td><p>numeric. Vector of lifetable deaths, summing to radix of <code>lx</code>.</p></td>
     </tr>
     <tr>
-      <th>ageMin</th>
-      <td><p>integer. The lowest age included in calculations. Default 20.</p></td>
+      <th>nax</th>
+      <td><p>numeric. Vector of average time spent in interval by those dying in interval.</p></td>
     </tr>
     <tr>
-      <th>ageMax</th>
-      <td><p>integer. The upper age bound used for calculations. Default 64.</p></td>
-    </tr>
-    <tr>
-      <th>digit</th>
-      <td><p>integer. Any digit 0-9. Default 0.</p></td>
+      <th>AgeInt</th>
+      <td><p>integer. Vector of age class widths.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The value of the index.</p>
+    <p>nLx numeric vector of lifetable exposure.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>ageMin</code> and <code>ageMax</code> are applied to numerator ages, not denominators.
- Denominators are always 5-year age groups centered on the digit in question,
-and these therefore stretch into ages a bit higher or lower than the numerator ages. <code>ageMax</code> is an inclusive upper bound, treated as interval.
-If you want ages 20 to 64, then give <code>ageMin = 20</code> and <code>ageMax = 64</code>, not 65.</p>
+    <p>There is no checking of equal vector lengths at this time.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Noumbissi A (1992).
-&#8220;L'indice de Whipple modifié: une application aux données du Cameroun, de la Suède et de la Belgique.&#8221;
-<em>Population (french edition)</em>, 1038--1041.
+    <p>Preston S, Heuveline P, Guillot M (2000).
+<em>Demography: measuring and modeling population processes</em>.
+Wiley-Blackwell.</p>
 
-Spoorenberg T, Dutreuilh C (2007).
-&#8220;Quality of age reporting: extension and application of the modified Whipple's index.&#8221;
-<em>Population</em>, <b>62</b>(4), 729--741.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>99</span>
-<span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>0</span>) <span class='co'># 2.32</span></div><div class='output co'>#&gt; [1] 2.324269</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='co'># 0.55</span></div><div class='output co'>#&gt; [1] 0.5502185</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>2</span>) <span class='co'># 0.73</span></div><div class='output co'>#&gt; [1] 0.7298055</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>3</span>) <span class='co'># 0.76</span></div><div class='output co'>#&gt; [1] 0.7610771</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>4</span>) <span class='co'># 0.49</span></div><div class='output co'>#&gt; [1] 0.5158693</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>5</span>) <span class='co'># 2.08</span></div><div class='output co'>#&gt; [1] 2.040742</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>6</span>) <span class='co'># 0.66</span></div><div class='output co'>#&gt; [1] 0.6597471</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>7</span>) <span class='co'># 1.08  7 looks good!</span></div><div class='output co'>#&gt; [1] 1.077396</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>8</span>) <span class='co'># 0.57</span></div><div class='output co'>#&gt; [1] 0.5700284</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>9</span>) <span class='co'># 0.59</span></div><div class='output co'>#&gt; [1] 0.5895384</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
@@ -218,7 +208,6 @@ Spoorenberg T, Dutreuilh C (2007).
       <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

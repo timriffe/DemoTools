@@ -119,7 +119,7 @@ qx2lx <- function(nqx, radix = 1e5) {
 #' @export
 lt_id_l_d <- function(lx) {
   if (as.character(match.call()[[1]]) == "lx2dx") {
-    warning("please use lx2dx() instead of lt_id_l_d().", call. = FALSE)
+    warning("please use lt_id_l_d() instead of lx2dx().", call. = FALSE)
   }
   diff(-c(lx, 0))
 }
@@ -143,7 +143,7 @@ lx2dx <- lt_id_l_d
 #' @export
 lt_id_lda_L <- function(lx, ndx, nax, AgeInt) {
   if (as.character(match.call()[[1]]) == "lxdxax2Lx") {
-    warning("please use lxdxax2Lx() instead of lt_id_lda_L().", call. = FALSE)
+    warning("please use lt_id_lda_L() instead of lxdxax2Lx().", call. = FALSE)
   }
   
   N                   <- length(lx)
@@ -171,7 +171,7 @@ lxdxax2Lx <- lt_id_lda_L
 #' @export
 lt_id_L_T <- function(Lx) {
   if (as.character(match.call()[[1]]) == "Lx2Tx") {
-    warning("please use Lx2Tx() instead of lt_id_L_T().", call. = FALSE)
+    warning("please use lt_id_L_T() instead of Lx2Tx().", call. = FALSE)
   }
   rev(cumsum(rev(Lx)))
 }
@@ -204,7 +204,7 @@ Lx2Tx <- lt_id_L_T
 lt_id_ma_q_robust<- function(nMx, nax, AgeInt) {
   
   if (as.character(match.call()[[1]]) == "mxax2qx_Backstop") {
-    warning("please use mxax2qx_Backstop() instead of lt_id_ma_q_robust().", call. = FALSE)
+    warning("please use lt_id_ma_q_robust() instead of mxax2qx_Backstop().", call. = FALSE)
   }
   
   stopifnot(length(nMx) == 1)
@@ -232,7 +232,12 @@ mxax2qx_Backstop <- lt_id_ma_q_robust
 #' @param nLx numeric vector of lifetable exposure.
 #' @param N integer, the age width for survivor ratios, either 5 or 1. Default 5.
 #' @export
-Lxlx2Sx           <- function(nLx, lx, AgeInt, N = c(5, 1)) {
+lt_id_Ll_S      <- function(nLx, lx, AgeInt, N = c(5, 1)) {
+  
+  if (as.character(match.call()[[1]]) == "Lxlx2Sx") {
+    warning("please use lt_id_Ll_S() instead of Lxlx2Sx().", call. = FALSE)
+  }
+  
   n               <- length(nLx)
   stopifnot(length(lx) == n)
   # either we're in 1 or 5 year age groups
@@ -266,3 +271,6 @@ Lxlx2Sx           <- function(nLx, lx, AgeInt, N = c(5, 1)) {
   
   Sx
 }
+#' @export
+#' @rdname lt_id_Ll_S
+Lxlx2Sx <- lt_id_Ll_S

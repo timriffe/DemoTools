@@ -78,7 +78,7 @@ calculate a full abridged lifetable." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.8</span>
       </span>
     </div>
 
@@ -330,8 +330,7 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
                 <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"pas"</span>,
                 <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>.1</span>,
                 <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"n"</span>,
-                <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>)
-
+                <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: please use lt_id_Ll_S() instead of Lxlx2Sx().</span></div><div class='input'>
 <span class='co'># examples based on UN 1982 (p. 34)</span>
 <span class='no'>Mx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.23669</span>,<span class='fl'>.04672</span>,<span class='fl'>.00982</span>,<span class='fl'>.00511</span>,<span class='fl'>.00697</span>,<span class='fl'>.01036</span>,<span class='fl'>.01169</span>,
                 <span class='fl'>.01332</span>,<span class='fl'>.01528</span>,<span class='fl'>.01757</span>,<span class='fl'>.02092</span>,<span class='fl'>.02517</span>,<span class='fl'>.03225</span>,<span class='fl'>.04241</span>,<span class='fl'>.06056</span>,
@@ -348,14 +347,12 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
                 <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,
                 <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"un"</span>,
                 <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
-                <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>UNLT2</span> <span class='kw'>&lt;-</span> <span class='fu'>LTabr</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>Mx</span>,
+                <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: please use lt_id_Ll_S() instead of Lxlx2Sx().</span></div><div class='input'><span class='no'>UNLT2</span> <span class='kw'>&lt;-</span> <span class='fu'>LTabr</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>Mx</span>,
                 <span class='kw'>Age</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>,<span class='fl'>85</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>)),
                 <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,
                 <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"un"</span>,
                 <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
-                <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
+                <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: please use lt_id_Ll_S() instead of Lxlx2Sx().</span></div><div class='input'>
 <span class='co'>#  \dontrun{</span>
 <span class='co'># 	 plot(UNLT2$ex - UNLT1$ex)</span>
 <span class='co'>#  }</span>
@@ -381,8 +378,7 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
                 <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"un"</span>,
                 <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"f"</span>,
                 <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-                <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fl'>100</span>)
-<span class='co'>#'</span>
+                <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fl'>100</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: please use lt_id_Ll_S() instead of Lxlx2Sx().</span></div><div class='input'><span class='co'>#'</span>
 <span class='co'>#' # lifetable to original open age group</span>
  <span class='no'>MP_UNLT80</span> <span class='kw'>&lt;-</span> <span class='fu'>LTabr</span>(
                 <span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>MPnMx</span>,
@@ -391,8 +387,7 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
                 <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"un"</span>,
                 <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"f"</span>,
                 <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-                <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fl'>80</span>)
-
+                <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fl'>80</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: please use lt_id_Ll_S() instead of Lxlx2Sx().</span></div><div class='input'>
 <span class='co'># same, but truncated at 60</span>
 <span class='no'>MP_UNLT60</span> <span class='kw'>&lt;-</span> <span class='fu'>LTabr</span>(
                 <span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>MPnMx</span>,
@@ -401,7 +396,7 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
                 <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"un"</span>,
                 <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"f"</span>,
                 <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-                <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fl'>60</span>)</div></pre>
+                <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fl'>60</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: please use lt_id_Ll_S() instead of Lxlx2Sx().</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>

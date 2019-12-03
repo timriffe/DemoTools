@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>calculate Noumbissi's digit heaping index — Noumbissi • DemoTools</title>
+<title>adjust ax estimate so that qx less than or equal to 1 — lt_id_ma_q_robust • DemoTools</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,9 +42,8 @@
 
 
 
-<meta property="og:title" content="calculate Noumbissi's digit heaping index — Noumbissi" />
-<meta property="og:description" content="Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators
-consisting in 5-year age groups centered on the terminal digit of age in question. For example, 9, 19, 29, etc are all of digit 9." />
+<meta property="og:title" content="adjust ax estimate so that qx less than or equal to 1 — lt_id_ma_q_robust" />
+<meta property="og:description" content="Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -151,73 +150,57 @@ consisting in 5-year age groups centered on the terminal digit of age in questio
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>calculate Noumbissi's digit heaping index</h1>
+    <h1>adjust ax estimate so that qx less than or equal to 1</h1>
     
-    <div class="hidden name"><code>Noumbissi.Rd</code></div>
+    <div class="hidden name"><code>lt_id_ma_q_robust.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators
-consisting in 5-year age groups centered on the terminal digit of age in question. For example, 9, 19, 29, etc are all of digit 9.</p>
+    <p>Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>Noumbissi</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>64</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'>lt_id_ma_q_robust</span>(<span class='no'>nMx</span>, <span class='no'>nax</span>, <span class='no'>AgeInt</span>)
+
+<span class='fu'><a href='mxax2qx_Backstop.html'>mxax2qx_Backstop</a></span>(<span class='no'>nMx</span>, <span class='no'>nax</span>, <span class='no'>AgeInt</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>Value</th>
-      <td><p>numeric. A vector of demographic counts by single age.</p></td>
+      <th>nMx</th>
+      <td><p>numeric. Vector of age-specific death rates.</p></td>
     </tr>
     <tr>
-      <th>Age</th>
-      <td><p>numeric. A vector of ages corresponding to the lower integer bound of the counts.</p></td>
+      <th>nax</th>
+      <td><p>numeric. Vector of average time spent in interval by those dying in interval.</p></td>
     </tr>
     <tr>
-      <th>ageMin</th>
-      <td><p>integer. The lowest age included in calculations. Default 20.</p></td>
-    </tr>
-    <tr>
-      <th>ageMax</th>
-      <td><p>integer. The upper age bound used for calculations. Default 64.</p></td>
-    </tr>
-    <tr>
-      <th>digit</th>
-      <td><p>integer. Any digit 0-9. Default 0.</p></td>
+      <th>AgeInt</th>
+      <td><p>integer. Vector of age class widths.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>The value of the index.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>ageMin</code> and <code>ageMax</code> are applied to numerator ages, not denominators.
- Denominators are always 5-year age groups centered on the digit in question,
-and these therefore stretch into ages a bit higher or lower than the numerator ages. <code>ageMax</code> is an inclusive upper bound, treated as interval.
-If you want ages 20 to 64, then give <code>ageMin = 20</code> and <code>ageMax = 64</code>, not 65.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Noumbissi A (1992).
-&#8220;L'indice de Whipple modifié: une application aux données du Cameroun, de la Suède et de la Belgique.&#8221;
-<em>Population (french edition)</em>, 1038--1041.
-
-Spoorenberg T, Dutreuilh C (2007).
-&#8220;Quality of age reporting: extension and application of the modified Whipple's index.&#8221;
-<em>Population</em>, <b>62</b>(4), 729--741.</p>
+    <p>nMx equal to 2 will imply nqx of 1 by this formula. Implied nqx greater than 1 after this procedure are returned as 1. This is not vectorized!</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>99</span>
-<span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>0</span>) <span class='co'># 2.32</span></div><div class='output co'>#&gt; [1] 2.324269</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='co'># 0.55</span></div><div class='output co'>#&gt; [1] 0.5502185</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>2</span>) <span class='co'># 0.73</span></div><div class='output co'>#&gt; [1] 0.7298055</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>3</span>) <span class='co'># 0.76</span></div><div class='output co'>#&gt; [1] 0.7610771</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>4</span>) <span class='co'># 0.49</span></div><div class='output co'>#&gt; [1] 0.5158693</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>5</span>) <span class='co'># 2.08</span></div><div class='output co'>#&gt; [1] 2.040742</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>6</span>) <span class='co'># 0.66</span></div><div class='output co'>#&gt; [1] 0.6597471</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>7</span>) <span class='co'># 1.08  7 looks good!</span></div><div class='output co'>#&gt; [1] 1.077396</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>8</span>) <span class='co'># 0.57</span></div><div class='output co'>#&gt; [1] 0.5700284</div><div class='input'><span class='fu'>Noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>9</span>) <span class='co'># 0.59</span></div><div class='output co'>#&gt; [1] 0.5895384</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># implies a qx &gt; 1</span>
+<span class='no'>mx</span>     <span class='kw'>&lt;-</span> <span class='fl'>.65</span>
+<span class='no'>AgeInt</span> <span class='kw'>&lt;-</span> <span class='fl'>5</span>
+<span class='no'>ax</span>     <span class='kw'>&lt;-</span> <span class='fl'>2.5</span>
+<span class='co'># this is a problematic case</span>
+(<span class='fu'><a href='mx2qx.html'>mx2qx</a></span>(<span class='no'>mx</span>, <span class='no'>ax</span>, <span class='no'>AgeInt</span>))</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='co'># here a workable value</span>
+(<span class='fu'>lt_id_ma_q_robust</span>(<span class='no'>mx</span>, <span class='no'>ax</span>, <span class='no'>AgeInt</span>))</div><div class='output co'>#&gt; [1] 0.9656885</div><div class='input'><span class='co'>#' # still less than 1</span>
+<span class='fu'>lt_id_ma_q_robust</span>(<span class='fl'>1.99</span>, <span class='no'>ax</span>, <span class='no'>AgeInt</span>) <span class='kw'>&lt;</span> <span class='fl'>1</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'># unity</span>
+(<span class='fu'>lt_id_ma_q_robust</span>(<span class='fl'>2</span>, <span class='no'>ax</span>, <span class='no'>AgeInt</span>))</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='co'># qx imputed as 1</span>
+(<span class='fu'>lt_id_ma_q_robust</span>(<span class='fl'>2.1</span>, <span class='no'>ax</span>, <span class='no'>AgeInt</span>))</div><div class='output co'>#&gt; [1] 1</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
