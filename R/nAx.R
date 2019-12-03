@@ -374,7 +374,7 @@ ax.greville.mortpak <- function(nMx,
   
   # if no qx, we can get from lx if available
   if (qxflag & !missing(lx)) {
-    nqx <- lx2dx(lx) / lx
+    nqx <- lt_id_l_d(lx) / lx
     qxflag <- FALSE
   }
   stopifnot(!qxflag | !mxflag)
@@ -586,7 +586,7 @@ axUN <- function(nMx,
   law     <- tolower(extrapLaw)
   
   if (missing(nqx) & !missing(lx)) {
-    nqx <- lx2dx(lx) / lx
+    nqx <- lt_id_l_d(lx) / lx
   }
   # now we have either nqx or nMx
   

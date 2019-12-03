@@ -117,7 +117,7 @@ qx2lx <- function(nqx, radix = 1e5) {
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return ndx vector of lifetable deaths.
 #' @export
-lx2dx <- function(lx) {
+lt_id_l_d <- function(lx) {
   diff(-c(lx, 0))
 }
 
@@ -153,7 +153,7 @@ lxdxax2Lx <- function(lx, ndx, nax, AgeInt) {
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return Tx total years left to live above age x.
 #' @export
-Lx2Tx <- function(Lx) {
+lt_id_L_T <- function(Lx) {
   rev(cumsum(rev(Lx)))
 }
 

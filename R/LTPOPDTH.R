@@ -197,7 +197,7 @@ LTabr <- function(Deaths,
   
   # 1) if lx given but not qx:
   if (missing(nqx) & !missing(lx)) {
-    nqx          <- lx2dx(lx) / lx
+    nqx          <- lt_id_l_d(lx) / lx
   }
   # 2) if still no nqx then make sure we have or can get nMx
   if (missing(nqx) & missing(nMx)) {
@@ -318,14 +318,14 @@ LTabr <- function(Deaths,
   
   # TR: the lifetable is the shortest part of this code!
   lx             <- qx2lx(nqx, radix = radix)
-  ndx            <- lx2dx(lx)
+  ndx            <- lt_id_l_d(lx)
   nLx            <- lxdxax2Lx(
     lx = lx,
     ndx = ndx,
     nax = nAx,
     AgeInt = AgeInt
   )
-  Tx            <- Lx2Tx(nLx)
+  Tx            <- lt_id_L_T(nLx)
   ex            <- Tx / lx
   
   # TR: now cut down due to closeout method (added 11 Oct 2018)
@@ -338,7 +338,7 @@ LTabr <- function(Deaths,
   
   lx            <- lx[ind]
   # recalc dx from chopped lx
-  ndx           <- lx2dx(lx)
+  ndx           <- lt_id_l_d(lx)
   nLx           <- nLx[ind]
   Tx            <- Tx[ind]
   ex            <- ex[ind]

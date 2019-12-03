@@ -138,7 +138,7 @@ survRatioError <-
     Lx5        <- Lx5[1:N]
     exprior    <- exprior[1:N]
     
-    Tx         <- Lx2Tx(Lx5)
+    Tx         <- lt_id_L_T(Lx5)
     ex.est     <- Tx / Lx
     dif        <- exprior - ex.est
     abserror   <- 100 * abs(dif / exprior)

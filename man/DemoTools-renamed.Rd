@@ -21,5 +21,9 @@ These functions still work but will be removed (defunct) in the next version.
  \item \code{\link{splitUniform}}: This function is now called \code{\link{graduate_uniform}}.
  
  \item \code{\link{aomegaMortalityLaws}}: This function is now called \code{\link{lt_ax_closeout}}.
+  
+ \item \code{\link{lx2dx}}: This function is now called \code{\link{lt_id_l_d}}.
+ 
+  \item \code{\link{Lx2Tx}}: This function is now called \code{\link{lt_id_L_T}}.
 }
 }

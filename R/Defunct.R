@@ -35,6 +35,10 @@
 #'  \item \code{\link{splitUniform}}: This function is now called \code{\link{graduate_uniform}}.
 #'  
 #'  \item \code{\link{aomegaMortalityLaws}}: This function is now called \code{\link{lt_ax_closeout}}.
+#'   
+#'  \item \code{\link{lx2dx}}: This function is now called \code{\link{lt_id_l_d}}.
+#'  
+#'   \item \code{\link{Lx2Tx}}: This function is now called \code{\link{lt_id_L_T}}.
 #' }
 #' 
 #' 
@@ -106,4 +110,22 @@ aomegaMortalityLaws <- function(...){
     warning("please use lt_ax_closeout() instead of aomegaMortalityLaws().", call. = FALSE)
   }
   lt_ax_closeout(...)
+}
+
+#' @export
+#' @rdname lt_id_l_d
+lx2dx <- function(...){
+  if (as.character(match.call()[[1]]) == "lx2dx") {
+    warning("please use lx2dx() instead of lt_id_l_d().", call. = FALSE)
+  }
+  lt_id_l_d(...)
+}
+
+#' @export
+#' @rdname lt_id_L_T
+Lx2Tx <-function(...){
+  if (as.character(match.call()[[1]]) == "Lx2Tx") {
+    warning("please use Lx2Tx() instead of lt_id_L_T().", call. = FALSE)
+  }
+  lt_id_L_T(...)
 }
