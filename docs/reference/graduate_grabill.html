@@ -78,7 +78,7 @@ Sprague estimated single-age population counts for the first and final ten ages.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.4</span>
       </span>
     </div>
 
@@ -170,7 +170,7 @@ Sprague estimated single-age population counts for the first and final ten ages.
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>extra arguments passed to <code><a href='beers.html'>beers()</a></code> or <code><a href='graduate_pclm.html'>graduate_pclm()</a></code></p></td>
+      <td><p>extra arguments passed to <code>graduate_beers()</code> or <code><a href='graduate_pclm.html'>graduate_pclm()</a></code></p></td>
     </tr>
     <tr>
       <th>Value</th>
@@ -188,12 +188,10 @@ Sprague estimated single-age population counts for the first and final ten ages.
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An age-period matrix of split population counts with the same number of columns as <code>popmat</code>, and single ages in rows.</p>
+    <p>numeric vector in single ages.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages.</p>
-<p>If the highest age does not end in a 0 or 5, and <code>OAG == TRUE</code>, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and <code>OAG == FALSE</code>, then results extend
-to single ages covering the entire 5-year age group.</p>
+    <p>Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages. If the highest age does not end in a 0 or 5, and <code>OAG == TRUE</code>, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and <code>OAG == FALSE</code>, then results extend to single ages covering the entire 5-year age group.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Shryock HS, Siegel JS, Larmon EA (1973).

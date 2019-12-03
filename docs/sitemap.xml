@@ -112,12 +112,6 @@
     <loc>https://timriffe.github.io/DemoTools//reference/axUN.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/beers.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/beersExpand.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/birthCohorts.html</loc>
   </url>
   <url>
@@ -157,6 +151,12 @@
     <loc>https://timriffe.github.io/DemoTools//reference/graduate.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/graduate_beers.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/graduate_beers_expand.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/graduate_grabill.html</loc>
   </url>
   <url>
@@ -176,6 +176,9 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/graduate_sprague_expand.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/graduate_uniform.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/groupAges.html</loc>
@@ -329,9 +332,6 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/splitOscillate.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/splitUniform.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/strong_smth.html</loc>

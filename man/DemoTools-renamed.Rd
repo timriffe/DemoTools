@@ -15,5 +15,11 @@ These functions still work but will be removed (defunct) in the next version.
 \item \code{\link{grabill}}: This function is now called \code{\link{graduate_grabill}}.
 
 \item \code{\link{sprague}}: This function is now called \code{\link{graduate_sprague}}.
+
+\item \code{\link{beers}}: This function is now called \code{\link{graduate_beers}}.
+ 
+ \item \code{\link{splitUniform}}: This function is now called \code{\link{graduate_uniform}}.
+ 
+ \item \code{\link{aomegaMortalityLaws}}: This function is now called \code{\link{lt_ax_closeout}}.
 }
 }

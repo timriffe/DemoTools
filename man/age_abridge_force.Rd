@@ -7,17 +7,17 @@
 age_abridge_force(Value, AgeInt, Age)
 }
 \arguments{
-\item{Value}{numeric. Vector of (presumably) counts in grouped ages.}
+\item{Value}{numeric vector, presumably counts in grouped ages}
 
-\item{AgeInt}{integer or numeric. Vector of age intervals.}
+\item{AgeInt}{integer vector, age interval widths}
 
-\item{Age}{numeric. Vector of ages corresponding to the lower integer bound of the age range.}
+\item{Age}{integer vector, lower bounds of age groups}
 }
 \description{
 This is a robustness utility, in place to avoid annoying hang-ups in \code{LTAbr()}. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling \code{LTAbr()}
 }
 \details{
-This should be able to group up and group down as needed. \code{graduate_mono()} is used below the hood. \code{pclm()} or \code{splitUniform()} out to be flexible enough to do the same.
+This should be able to group up and group down as needed. \code{graduate_mono()} is used below the hood. \code{pclm()} or \code{graduate_uniform()} out to be flexible enough to do the same.
 }
 \examples{
 V1        <- pop1m_ind

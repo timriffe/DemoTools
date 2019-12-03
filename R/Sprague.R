@@ -45,11 +45,10 @@ graduate_sprague <- function(Value,
                     Age,
                     OAG = TRUE) {
 
-  punif1       <- splitUniform(
+  punif1       <- graduate_uniform(
                          Value = Value, 
                          Age = Age, 
                          OAG = OAG)
-    #apply(popmat, 2, splitUniform, Age = Age, OAG = OAG)
   # this is innocuous if ages are already grouped
   a1           <- as.integer(names(punif1))
   pop5         <- groupAges(
@@ -60,10 +59,7 @@ graduate_sprague <- function(Value,
     )
   # depending on OAG, highest age may shift down.
   a5           <- as.integer(names(pop5))
-  punif1       <- splitUniform(
-                         pop5,
-                         Age = a5,
-                         OAG = OAG)
+
   # generate coefficient matrix
   scm          <- graduate_sprague_expand(
                          Value = pop5, 

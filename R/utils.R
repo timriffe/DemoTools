@@ -234,10 +234,7 @@ ratx   <- function(fx, k = 1) {
 #'
 #' @description Uniformly splits aggregate counts in age groups into single year age groups.
 #'
-#' @param Value numeric. Vector of (presumably) counts in grouped ages.
-#' @param AgeInt integer or numeric. Vector of age intervals.
-#' @param Age numeric. Vector of ages corresponding to the lower integer bound of the age range.
-#' @param OAG boolean. Argument that determines whether the final age group (assumed open ended) is kept as it is or has the same length as the rest of the age groups. Default is FALSE, i.e. use the same length for the final age group.
+#' @inheritParams graduate
 #' @param OAvalue Desired width of open age group. See details.
 #'
 #' @return Numeric vector of counts for single year age groups.
@@ -250,8 +247,8 @@ ratx   <- function(fx, k = 1) {
 #' 		11993151,10033918,14312222,8111523,15311047,6861510,13305117,7454575,
 #' 		9015381,10325432,9055588,5519173)
 #' Ages <- seq(0, 85, by = 5)
-#' splitUniform(MalePop, Age = Ages)
-splitUniform <-
+#' graduate_uniform(MalePop, Age = Ages)
+graduate_uniform <-
   function(Value,
            AgeInt,
            Age,
@@ -325,7 +322,7 @@ simplify.text <- function(string) {
 
 # deprecated functions
 
-# TR: deprecated 20 July, 2018. Use splitUniform() instead
+# TR: deprecated 20 July, 2018. Use graduate_uniform() instead
 ##' Convert arbitrary age groupings into single years of age
 ##'
 ##' @description Splits aggregate counts for a vector of age groups of a common width into single year age groups.

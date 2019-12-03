@@ -733,7 +733,7 @@ axUN <- function(nMx,
 #' lt_ax_closeout(nMx,Age,"GGompertz")
 #' lt_ax_closeout(nMx,Age,extrapLaw ="Beard")
 #' lt_ax_closeout(nMx,Age,"Beard_Makeham")
-#' (nMx,Age,"Quadratic")
+#' lt_ax_closeout(nMx,Age,"Quadratic")
 
 lt_ax_closeout <- function(mx,
                                 Age,

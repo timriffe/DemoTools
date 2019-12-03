@@ -10,7 +10,7 @@ sprague(...)
 graduate_sprague(Value, Age, OAG = TRUE)
 }
 \arguments{
-\item{...}{extra arguments passed to \code{beers()} or \code{graduate_pclm()}}
+\item{...}{extra arguments passed to \code{graduate_beers()} or \code{graduate_pclm()}}
 
 \item{Value}{numeric vector, presumably counts in grouped ages}
 

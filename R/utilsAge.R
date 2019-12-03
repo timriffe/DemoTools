@@ -557,14 +557,14 @@ names2age <- function(...) {
 #' @description This method rescales a vector of counts in arbitrary (integer) age groups to approximate a vector of counts in a potentially different age grouping. Common use cases will be to scale single ages (whose age pattern we wish to roughly maintain) to sum to abridged or 5-year age groups from another source. The counts to be rescaled could potentially be in any grouping (see example).
 #' @details If the final age group is open, define its age interval as 1.
 #'
-#' Presently the intermediate splitting function can either be \code{splitUniform()} or \code{graduate_mono()}.
+#' Presently the intermediate splitting function can either be \code{graduate_uniform()} or \code{graduate_mono()}.
 #'
 #' The method is an original contribution. It works by first splitting the counts of \code{Value1} to single ages using the assumptions of \code{splitfun()}. \code{Value1} is then rescaled such that were it re-grouped to match the age classes of \code{Value2} they would be identical. If \code{recursive = FALSE}, the single-age rescaled \code{Value1} data are returned regrouped to their original ages. If \code{recursive = TRUE}, the process is repeated until \code{Value1} is rescaled such that it could be split and regrouped to \code{Value2} using the same process a single time with no need for further rescaling. If age groups in \code{Value1} are very irregular, \code{recursive = TRUE} can induce noise (see example). If the age groups of \code{Value1} nest cleanly within the age groups of \code{Value2} then recursion is unnecessary. This is the case, for example, whenever \code{Value1} is in single ages and \code{Value2} is in grouped ages, which is likely the most common usage scenario.
 #' @param Value1 numeric vector. A vector of demographic counts for population 1.
 #' @param AgeInt1 integer vector. Age interval widths for population 1.
 #' @param Value2 numeric vector. A vector of demographic counts for population 2.
 #' @param AgeInt2 integer vector. Age interval widths for population 2.
-#' @param splitfun function to use for splitting \code{pop1}. Presently on \code{splitUniform()} works.
+#' @param splitfun function to use for splitting \code{pop1}. Presently on \code{graduate_uniform()} works.
 #' @param recursive logical. Shall we repeat the split/regroup/rescale process until stable? See details. Default \code{FALSE}.
 #' @param tol numeric. Default 1e-3. The numerical tolerance for the residual. Used to detect stability if \code{recursive = TRUE}.
 #' @export
@@ -590,14 +590,14 @@ names2age <- function(...) {
 #' 					AgeInt1 = AgeIntRandom,
 #' 					Value2 = pop2,
 #' 					AgeInt2 = AgeInt5,
-#' 					splitfun = splitUniform,
+#' 					splitfun = graduate_uniform,
 #'                  recursive = TRUE))
 #' # a single pass adjustment (no recursion)
 #' (pop1resc1 <- rescaleAgeGroups(Value1 = pop1,
 #' 					AgeInt1 = AgeIntRandom,
 #' 					Value2 = pop2,
 #' 					AgeInt2 = AgeInt5,
-#' 					splitfun = splitUniform,
+#' 					splitfun = graduate_uniform,
 #' 					recursive = FALSE))
 #' pop1resc / pop1
 #' perturb
@@ -623,11 +623,11 @@ names2age <- function(...) {
 #'
 #' # show before / after under uniform (in pop1) assumption.
 #' 	plot(NULL, xlim = c(0, 45), ylim = c(0, 150), main = "Uniform constraint")
-#' 	lines(0:44, splitUniform(pop1, AgeInt = AgeIntRandom, OAG = FALSE), col = "red")
-#' 	lines(0:44, splitUniform(pop2, AgeInt = AgeInt5, OAG = FALSE), col = "blue")
-#' 	lines(0:44, splitUniform(pop1resc, AgeInt = AgeIntRandom, OAG = FALSE),
+#' 	lines(0:44, graduate_uniform(pop1, AgeInt = AgeIntRandom, OAG = FALSE), col = "red")
+#' 	lines(0:44, graduate_uniform(pop2, AgeInt = AgeInt5, OAG = FALSE), col = "blue")
+#' 	lines(0:44, graduate_uniform(pop1resc, AgeInt = AgeIntRandom, OAG = FALSE),
 #' col = "orange", lty = 2, lwd = 2)
-#' 	lines(0:44, splitUniform(pop1resc1, AgeInt = AgeIntRandom, OAG = FALSE),
+#' 	lines(0:44, graduate_uniform(pop1resc1, AgeInt = AgeIntRandom, OAG = FALSE),
 #' col = "magenta", lty = 2, lwd = 2)
 #' 	legend("topright",
 #'         lty = c(1, 1, 2, 2),
@@ -643,7 +643,7 @@ rescaleAgeGroups <- function(Value1,
                              AgeInt1,
                              Value2,
                              AgeInt2,
-                             splitfun = c(splitUniform, graduate_mono)[1],
+                             splitfun = c(graduate_uniform, graduate_mono)[1],
                              recursive = FALSE,
                              tol = 1e-3) {
   N1          <- length(Value1)
@@ -706,8 +706,8 @@ rescaleAgeGroups <- function(Value1,
 
 #' force a (count) vector to abridged ages
 #' @description This is a robustness utility, in place to avoid annoying hang-ups in \code{LTAbr()}. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling \code{LTAbr()}
-#' @details This should be able to group up and group down as needed. \code{graduate_mono()} is used below the hood. \code{pclm()} or \code{splitUniform()} out to be flexible enough to do the same.
-#' @inheritParams splitUniform
+#' @details This should be able to group up and group down as needed. \code{graduate_mono()} is used below the hood. \code{pclm()} or \code{graduate_uniform()} out to be flexible enough to do the same.
+#' @inheritParams graduate_uniform
 #' @seealso graduate_mono_closeout, LTAbr
 #' @export
 #' @examples

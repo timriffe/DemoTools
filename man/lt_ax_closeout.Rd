@@ -60,7 +60,7 @@ lt_ax_closeout(nMx,Age,"Gompertz")
 lt_ax_closeout(nMx,Age,"GGompertz")
 lt_ax_closeout(nMx,Age,extrapLaw ="Beard")
 lt_ax_closeout(nMx,Age,"Beard_Makeham")
-(nMx,Age,"Quadratic")
+lt_ax_closeout(nMx,Age,"Quadratic")
 }
 \seealso{
 \code{\link[DemoTools]{extra_mortality}}

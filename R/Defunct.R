@@ -24,12 +24,20 @@
 #' \itemize{
 #'  \item \code{\link{monoCloseout}}: This function is now called \code{\link{graduate_mono_closeout}}.
 #' 
-#' \item \code{\link{splitMono}}: This function is now called \code{\link{graduate_mono}}.
+#'  \item \code{\link{splitMono}}: This function is now called \code{\link{graduate_mono}}.
 #' 
-#' \item \code{\link{grabill}}: This function is now called \code{\link{graduate_grabill}}.
+#'  \item \code{\link{grabill}}: This function is now called \code{\link{graduate_grabill}}.
 #' 
-#' \item \code{\link{sprague}}: This function is now called \code{\link{graduate_sprague}}.
+#'  \item \code{\link{sprague}}: This function is now called \code{\link{graduate_sprague}}.
+#' 
+#'  \item \code{\link{beers}}: This function is now called \code{\link{graduate_beers}}.
+#'  
+#'  \item \code{\link{splitUniform}}: This function is now called \code{\link{graduate_uniform}}.
+#'  
+#'  \item \code{\link{aomegaMortalityLaws}}: This function is now called \code{\link{lt_ax_closeout}}.
 #' }
+#' 
+#' 
 #' @name DemoTools-renamed
 NULL
 
@@ -71,8 +79,25 @@ sprague <- function(...){
   graduate_sprague(...)
 }
 
+#' @export
+#' @rdname graduate_beers
+beers <- function(...){
+  if (as.character(match.call()[[1]]) == "beers") {
+    warning("please use graduate_beers() instead of beers().", call. = FALSE)
+  }
+  graduate_beers(...)
+}
 
+#' @export
+#' @rdname graduate_uniform
+splitUniform <- function(...){
+  if (as.character(match.call()[[1]]) == "splitUniform") {
+    warning("please use graduate_uniform() instead of splitUniform().", call. = FALSE)
+  }
+  graduate_uniform(...)
+}
 # --------------------------------------------------- #
+
 # lifetable related functions:
 #' @export
 #' @rdname lt_ax_closeout
