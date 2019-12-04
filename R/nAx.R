@@ -536,13 +536,13 @@ ax.greville.mortpak <- function(nMx,
 #'
 #' AgeInt     <- inferAgeIntAbr(vec = Mx)
 #' Age <- int2age(AgeInt)
-#' nAx1       <- axUN(nMx = Mx,
+#' nAx1       <- lt_a_un(nMx = Mx,
 #'                    Age = Age,
 #' 		                AgeInt = AgeInt,
 #' 		                Sex = "m",
 #'					          region = "w",
 #' 		                mod = FALSE)
-#' nAx2       <- axUN(nMx = Mx,
+#' nAx2       <- lt_a_un(nMx = Mx,
 #'                    Age = Age,
 #' 		                AgeInt = AgeInt,
 #' 		                Sex = "m",
@@ -554,7 +554,7 @@ ax.greville.mortpak <- function(nMx,
 #' N <- length(ax)
 #' # default unit test...
 #' stopifnot(all(round(nAx1[-N],3) - ax[-N] == 0)) # spot on
-axUN <- function(nMx,
+lt_a_un <- function(nMx,
                  nqx,
                  lx,
                  IMR = NA,
@@ -578,6 +578,10 @@ axUN <- function(nMx,
                  extrapFrom = max(Age),
                  extrapFit = Age[Age >= 60],
                  ...) {
+  if (as.character(match.call()[[1]]) == "axUN") {
+    warning("please use lt_a_un() instead of axUN().", call. = FALSE)
+  }
+  
   stopifnot(!missing(nqx) | !missing(nMx))
   smsq    <- 99999
   Sex     <- tolower(Sex)
@@ -701,8 +705,9 @@ axUN <- function(nMx,
   # if mx, qx, or both are given, then by now we have ax
   axi
 }
-
-
+#' @export
+#' @rdname lt_a_un
+axUN <- lt_a_un
 
 #' Life expectancy in the open age group.
 #'
@@ -854,7 +859,7 @@ lt_id_morq_a <- function(nMx,
     # no sense calling Abacus here because it gets called later if necessary
     if (missing(nMx)) {
       #fakenMx   <- nqx
-      nAx       <- axUN(
+      nAx       <- lt_a_un(
         nqx = nqx,
         Age = Age,
         AgeInt = AgeInt,
@@ -869,7 +874,7 @@ lt_id_morq_a <- function(nMx,
       )
       
     } else {
-      nAx       <- axUN(
+      nAx       <- lt_a_un(
         nMx = nMx,
         Age = Age,
         AgeInt = AgeInt,
