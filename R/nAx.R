@@ -33,20 +33,20 @@
 #' @examples
 #' m0 <- seq(.001, .2, by = .001)
 #' \dontrun{
-#' plot(m0, sapply(m0, geta0CD, Sex = "m", region = "e"), ylab = "a0",
+#' plot(m0, sapply(m0, lt_rule_1a0_cd, Sex = "m", region = "e"), ylab = "a0",
 #' 		type = 'l', ylim = c(0,.36), lty = 2, col = "blue")
-#' lines(m0,sapply(m0, geta0CD, Sex = "m", region = "w"), col = "blue")
-#' lines(m0,sapply(m0, geta0CD, Sex = "f", region = "e"), lty = 2, col = "red")
-#' lines(m0,sapply(m0, geta0CD, Sex = "f", region = "w"), col = "red")
-#' text(.15, geta0CD(.15,Sex = "m", region = "e"),"males E",font=2)
-#' text(.15, geta0CD(.15,Sex = "m", region = "w"),"males N,W,S",font=2)
-#' text(.15, geta0CD(.15,Sex = "f", region = "e"),"females E",font=2)
-#' text(.15, geta0CD(.15,Sex = "f", region = "w"),"females N,W,S",font=2)
+#' lines(m0,sapply(m0, lt_rule_1a0_cd, Sex = "m", region = "w"), col = "blue")
+#' lines(m0,sapply(m0, lt_rule_1a0_cd, Sex = "f", region = "e"), lty = 2, col = "red")
+#' lines(m0,sapply(m0, lt_rule_1a0_cd, Sex = "f", region = "w"), col = "red")
+#' text(.15, lt_rule_1a0_cd(.15,Sex = "m", region = "e"),"males E",font=2)
+#' text(.15, lt_rule_1a0_cd(.15,Sex = "m", region = "w"),"males N,W,S",font=2)
+#' text(.15, lt_rule_1a0_cd(.15,Sex = "f", region = "e"),"females E",font=2)
+#' text(.15, lt_rule_1a0_cd(.15,Sex = "f", region = "w"),"females N,W,S",font=2)
 #'
 #' # compare with the Preston approximation
 #' # constants identical after m0 = .107
 #' m0 <- seq(.001,.107,by =.001)
-#' a0CDm0 <- sapply(m0, geta0CD, Sex = "m", region = "w")
+#' a0CDm0 <- sapply(m0, lt_rule_1a0_cd, Sex = "m", region = "w")
 #' a0CDpr <- 0.045 + 2.684 * m0
 #' plot(m0, a0CDm0, type = 'l', lty = 2, col = "red")
 #' lines(m0, a0CDpr)
@@ -54,10 +54,14 @@
 #'}
 # this is called a separation factor in the spreadsheet?
 # separate estimate of IMR optional
-geta0CD <- function(M0,
+lt_rule_1a0_cd <- function(M0,
                     IMR = NA,
                     Sex = "m",
                     region = "w") {
+  if (as.character(match.call()[[1]]) == "geta0CD") {
+    warning("please use lt_rule_1a0_cd() instead of geta0CD().", call. = FALSE)
+  }
+  
   # sex can be "m", "f", or "b"
   # region can be "n","e","s","w",or
   Sex       <- tolower(Sex)
@@ -104,6 +108,9 @@ geta0CD <- function(M0,
   })
 }
 
+#' @export
+#' @rdname lt_rule_1a0_cd
+geta0CD <- lt_rule_1a0_cd
 # Separate estimate of IMR optional
 # TR: I think it's funny that a1-4 doesn't depend at all on m1-4
 
@@ -177,7 +184,7 @@ geta1_4CD <- function(M0,
   Slope        <- c(3.013, 	1.627, 	1.6270)
   names(Slope) <- c("m", "f", "b")
   if (missing(IMR) | is.na(IMR)) {
-    a0 <- geta0CD(M0,
+    a0 <- lt_rule_1a0_cd(M0,
                   IMR = NA,
                   Sex = Sex,
                   region = region)
@@ -245,7 +252,7 @@ lt_a_pas <-
     ax     <- AgeInt / 2
     
     ax[1]  <-
-      geta0CD(
+      lt_rule_1a0_cd(
         M0 = nMx[1],
         IMR = IMR,
         Sex = Sex,
@@ -391,7 +398,7 @@ lt_id_morq_a_greville <- function(nMx,
   
   if (!mxflag) {
     a0     <-
-      geta0CD(
+      lt_rule_1a0_cd(
         M0 = nMx[1],
         IMR = IMR,
         Sex = Sex,
@@ -409,7 +416,7 @@ lt_id_morq_a_greville <- function(nMx,
   }
   # TR: from this it would appear that nMx is preferred input
   if (mxflag & !qxflag) {
-    a0     <- geta0CD(
+    a0     <- lt_rule_1a0_cd(
       M0 = NA,
       IMR = nqx[1],
       Sex = Sex,

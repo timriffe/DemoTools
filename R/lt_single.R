@@ -76,13 +76,11 @@ lt_single_mx <- function(nMx,
   
   # get ax:
   nAx           <- rep(.5, N)
-  nAx[1]        <-
-    geta0CD(
-      M0 = nMx[1],
-      IMR = IMR,
-      Sex = Sex,
-      region = region
-    )
+  nAx[1]        <- lt_rule_1a0_cd(
+                     M0 = nMx[1],
+                     IMR = IMR,
+                     Sex = Sex,
+                     region = region)
   
   # get
   qx            <- lt_id_m_q(

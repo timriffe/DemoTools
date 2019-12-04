@@ -31,5 +31,8 @@ These functions still work but will be removed (defunct) in the next version.
  \item \code{\link{ax.greville.mortpak}}: This function is now called \code{\link{lt_id_morq_a_greville}}.
  \item \code{\link{LTabr}}: This function is now called \code{\link{lt_abridged}}.
  \item \code{\link{lt_single_simple}}: This function is now called \code{\link{lt_single_mx}}.
+ 
+ \item \code{\link{extra.mortality}}: This function is now called \code{\link{lt_rule_m_extrapolate}}.
+ \item \code{\link{geta0CD}}: This function is now called \code{\link{lt_rule_1a0_cd}}.
 }
 }

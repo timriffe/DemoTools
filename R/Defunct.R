@@ -47,6 +47,7 @@
 #'  \item \code{\link{lt_single_simple}}: This function is now called \code{\link{lt_single_mx}}.
 #'  
 #'  \item \code{\link{extra.mortality}}: This function is now called \code{\link{lt_rule_m_extrapolate}}.
+#'  \item \code{\link{geta0CD}}: This function is now called \code{\link{lt_rule_1a0_cd}}.
 #' }
 #' 
 #' 
