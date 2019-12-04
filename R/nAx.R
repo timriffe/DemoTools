@@ -266,11 +266,10 @@ axPAS <-
     ind <- impliedqx > 1
     if (sum(ind) > 0) {
       for (i in which(ind)) {
-        qxnew <-
-          lt_id_ma_q_robust(nMx = nMx[i],
+        qxnew <- lt_id_ma_q_robust(nMx = nMx[i],
                            nax = ax[i],
                            AgeInt = AgeInt[i])
-        ax[i] <- qxmx2ax(nqx = qxnew,
+        ax[i] <- lt_id_qm_a(nqx = qxnew,
                          nMx = nMx[i],
                          AgeInt = AgeInt[i])
       }
@@ -333,11 +332,11 @@ axPAS <-
 #' # both qx and lx given, but lx not used for anything = same
 #' ax.greville.mortpak(nqx = nqx, lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 #'
-#' # if both qx and mx given, then same as qxmx2ax identity,
+#' # if both qx and mx given, then same as lt_id_qm_a identity,
 #' # except young ages follow Coale-Demeny, and greville uses
 #' # MortalityLaws closeout.
 #' ax.greville.mortpak(nMx = nMx, nqx = nqx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')-
-#' 		qxmx2ax(nqx,nMx,age2int(Age,TRUE,5))
+#' 		lt_id_qm_a(nqx,nMx,age2int(Age,TRUE,5))
 #' # same (qx comes from lx)
 #' ax.greville.mortpak(nMx = nMx, lx = lx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')
 ax.greville.mortpak <- function(nMx,
@@ -426,7 +425,7 @@ ax.greville.mortpak <- function(nMx,
   # this is a fallback, always preferred, and not part of the greville
   # method per se. Greville is an either-or method.
   if (!qxflag & !mxflag) {
-    ax <- qxmx2ax(nqx = nqx,
+    ax <- lt_id_qm_a(nqx = nqx,
                   nMx = nMx,
                   AgeInt = AgeInt)
     qind <- FALSE
@@ -672,7 +671,7 @@ axUN <- function(nMx,
   }
   # if both given, then we have ax via identity:
   if (!missing(nqx) & !missing(nMx)) {
-    axi <- qxmx2ax(nqx = nqx,
+    axi <- lt_id_qm_a(nqx = nqx,
                    nMx = nMx,
                    AgeInt = AgeInt)
   }

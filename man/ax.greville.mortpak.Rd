@@ -84,11 +84,11 @@ ax.greville.mortpak(lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 # both qx and lx given, but lx not used for anything = same
 ax.greville.mortpak(nqx = nqx, lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 
-# if both qx and mx given, then same as qxmx2ax identity,
+# if both qx and mx given, then same as lt_id_qm_a identity,
 # except young ages follow Coale-Demeny, and greville uses
 # MortalityLaws closeout.
 ax.greville.mortpak(nMx = nMx, nqx = nqx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')-
-		qxmx2ax(nqx,nMx,age2int(Age,TRUE,5))
+		lt_id_qm_a(nqx,nMx,age2int(Age,TRUE,5))
 # same (qx comes from lx)
 ax.greville.mortpak(nMx = nMx, lx = lx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')
 }

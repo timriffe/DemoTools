@@ -50,9 +50,18 @@ mx2qx <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return nax numeric vector of average time spent in interval by those dying in interval via identity.
 #' @export
-qxmx2ax <- function(nqx, nMx, AgeInt) {
+lt_id_qm_a <- function(nqx, nMx, AgeInt) {
+  if (as.character(match.call()[[1]]) == "qxmx2ax") {
+    warning("please use lt_id_qm_a() instead of qxmx2ax().", call. = FALSE)
+  }
+  
   1 / nMx - AgeInt / nqx + AgeInt
 }
+
+#' @export
+#' @rdname lt_id_qm_a
+qxmx2ax <- lt_id_qm_a
+
 
 #' Derive nqx from nMx and nax.
 #' @description This is the standard identity to derive nqx from nax and nMx.
