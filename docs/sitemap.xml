@@ -94,15 +94,6 @@
     <loc>https://timriffe.github.io/DemoTools//reference/avg_adj.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/ax.greville.mortpak.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/axPAS.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/axUN.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/birthCohorts.html</loc>
   </url>
   <url>
@@ -115,16 +106,10 @@
     <loc>https://timriffe.github.io/DemoTools//reference/carrier_farrag_smth.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/coef.extra_mortality.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/dec.date.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/dth5_zigzag.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/extra_mortality.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/five_year_roughness.html</loc>
@@ -223,10 +208,16 @@
     <loc>https://timriffe.github.io/DemoTools//reference/loess_smth1.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_abridged.html</loc>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_a_closeout.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_ax_closeout.html</loc>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_a_pas.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_a_un.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_abridged.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/lt_id_L_T.html</loc>
@@ -241,6 +232,9 @@
     <loc>https://timriffe.github.io/DemoTools//reference/lt_id_lda_L.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_m_q.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/lt_id_ma_q.html</loc>
   </url>
   <url>
@@ -248,6 +242,9 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/lt_id_morq_a.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_morq_a_greville.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/lt_id_q_l.html</loc>
@@ -259,7 +256,10 @@
     <loc>https://timriffe.github.io/DemoTools//reference/lt_id_qm_a.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_single_simple.html</loc>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_m_extrapolate.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_single_mx.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/ma.html</loc>
@@ -275,9 +275,6 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/mig_calculate_rc.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mx2qx.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/names2age.html</loc>
@@ -302,9 +299,6 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/popA_later.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/print.extra_mortality.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/ratx.html</loc>
