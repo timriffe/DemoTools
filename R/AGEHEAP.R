@@ -687,12 +687,14 @@ zero_pref_sawtooth <-
 #'
 #' @examples
 #' Age <- 0:99
+#' A5 <- seq(0,95,by=5)
 #' smoothed <- graduate_sprague(
 #' 		agesmth(pop1m_pasex,
 #' 				Age,
 #' 				method = "Strong",
 #' 				OAG = FALSE,
 #' 				young.tail = "Arriaga"),
+#' 				Age = A5,
 #' 		OAG = FALSE)
 #' # not very rough, no need to smooth more
 #' five_year_roughness(smoothed, Age)
@@ -708,7 +710,7 @@ zero_pref_sawtooth <-
 #'\dontrun{
 #'	#cols <- RColorBrewer::brewer.pal(7,"Reds")[3:7]
 #'  cols <-  c("#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#99000D")
-#'  A5 <- seq(0,95,by=5)
+#'  
 #' 	plot(A5, groupAges(smoothed), type='l',xlim=c(20,80),ylim=c(0,3e5))
 #'	lines(A5, groupAges(h1),col=cols[1])
 #' 	lines(A5, groupAges(h2),col=cols[2])
@@ -745,3 +747,13 @@ five_year_roughness <-
     
     mean(abs(d1 - d1s) / abs(d1s))
   }
+Age <- 0:99
+a5 <- seq(0,95,by=5)
+smoothed <- graduate_sprague(
+  agesmth(pop1m_pasex,
+          Age,
+          method = "Strong",
+          OAG = FALSE,
+          young.tail = "Arriaga"),
+  Age = a5,
+  OAG = FALSE)
