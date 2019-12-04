@@ -19,28 +19,26 @@
 #'   \item{ex}{numeric. Age-specific remaining life expectancy.}
 #' }
 #' @export
-lt_single_simple <- function(nMx,
-                             Age = 1:length(nMx) - 1,
-                             radix = 1e5,
-                             Sex = "m",
-                             region = "w",
-                             IMR = NA,
-                             mod = TRUE,
-                             OAG = TRUE,
-                             OAnew = max(Age),
-                             extrapLaw = c(
-                               "Kannisto",
-                               "Kannisto_Makeham",
-                               "Makeham",
-                               "Gompertz",
-                               "GGompertz",
-                               "Beard",
-                               "Beard_Makeham",
-                               "Quadratic"
-                             )[1],
+lt_single_mx <- function(nMx,
+                        Age = 1:length(nMx) - 1,
+                        radix = 1e5,
+                        Sex = "m",
+                        region = "w",
+                        IMR = NA,
+                        mod = TRUE,
+                        OAG = TRUE,
+                        OAnew = max(Age),
+                        extrapLaw = c("Kannisto","Kannisto_Makeham",
+                          "Makeham", "Gompertz", "GGompertz",
+                          "Beard", "Beard_Makeham", "Quadratic"
+                        )[1],
                              extrapFrom = max(Age),
                              extrapFit = Age[Age >= 60],
                              ...) {
+  if (as.character(match.call()[[1]]) == "lt_single_simple") {
+    warning("please use lt_single_mx() instead of lt_single_simple().", call. = FALSE)
+  }
+  
   stopifnot(extrapFrom <= max(Age))
   
   Sex           <- tolower(Sex)
@@ -157,3 +155,6 @@ lt_single_simple <- function(nMx,
   )
   return(out)
 }
+#' @export
+#' @rdname lt_single_mx
+lt_single_simple <- lt_single_mx

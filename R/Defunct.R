@@ -40,6 +40,7 @@
 #'  \item \code{\link{mxorqx2ax}}: This function is now called \code{\link{lt_id_morq_a}}.
 #'  \item \code{\link{mxax2qx_Backstop}}: This function is now called \code{\link{lt_id_ma_q_robust}}.
 #'  \item \code{\link{LTabr}}: This function is now called \code{\link{lt_abridged}}.
+#'  \item \code{\link{lt_single_simple}}: This function is now called \code{\link{lt_single_mx}}.
 #' }
 #' 
 #' 
