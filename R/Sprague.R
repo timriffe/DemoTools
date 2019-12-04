@@ -75,7 +75,7 @@ graduate_sprague <- function(Value,
   
   dim(pop1)    <- NULL
   # label and return
-  names(pop1)  <- min(Age):(length(popg) - 1)
+  names(pop1)  <- min(Age):(length(pop1) - 1)
   
   # no sense adding closeout behavior here, when it isn't offered
   # in grabill or beers. Better make wrapper with this sugar.
