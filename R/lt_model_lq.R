@@ -3,8 +3,6 @@
 # Ilya Kashnitsky, ilya.kashnitsky@gmail.com
 #===============================================================================
 
-
-
 # Log-Quad family (Wilmoth) -----------------------------------------------
 # Author: Marius D. Pascariu
 # License: GNU General Public License v3.0
@@ -56,6 +54,7 @@
 #'  \item{values}{ Associated values of \code{q0_5, q0_1, q15_45, q15_35} 
 #' and \code{e0}.}
 #' @seealso \code{\link[MortalityEstimate]{wilmothLT}}
+#' @importFrom stats uniroot
 #' @examples 
 #' 
 #' # Build life tables with various choices of 2 input parameters
@@ -92,7 +91,7 @@
 #' 
 #' @export
 lt_model_lq <- function(
-    Sex = c("b", "f", "m"),
+    Sex = c("b", "f", "m"), # has to be specified always
     fitted_logquad = NULL, 
     q0_5 = NULL, 
     q0_1 = NULL, 
@@ -105,13 +104,20 @@ lt_model_lq <- function(
     maxit = 200, 
     ...
 ) {
+    # securing Sex input
+    Sex <- tolower(Sex)
+    if(Sex%in%c("total", "t")){
+        Sex <- "b"
+    }
+    if(!nchar(Sex)==1){
+        Sex <- substr(Sex,1,2)
+    }
+    
+    
     # check if an optional fitted_logquad is specified
     
-    Sex <- match.arg(Sex)
-    
-    if(!is.null(fitted_logquad)){
-        fitted_logquad
-    } else {
+    if(is.null(fitted_logquad)){
+        
         if(Sex == "b"){
             fitted_logquad <- fitted_logquad_b
         }
@@ -132,31 +138,31 @@ lt_model_lq <- function(
 
     if (my_case %in% c("C1", "C2", "C3")) {
         if (my_case == "C1") fun.k <- function(k) {
-            lthat.logquad(cf, x, q0_5, k, radix)$lt$ex[1] - e0
+            lthat.logquad(cf, x, q0_5, k, radix, Sex = Sex)$lt$ex[1] - e0
         }
         if (my_case == "C2") fun.k <- function(k) { 
-            lt <- lthat.logquad(cf, x, q0_5, k, radix)$lt
+            lt <- lthat.logquad(cf, x, q0_5, k, radix, Sex = Sex)$lt
             return(1 - lt[lt$Age == 60, "lx"] / lt[lt$Age == 15, "lx"] - q15_45)
         }
         if (my_case == "C3") fun.k <- function(k) { 
-            lt <- lthat.logquad(cf, x, q0_5, k, radix)$lt
+            lt <- lthat.logquad(cf, x, q0_5, k, radix, Sex = Sex)$lt
             return(1 - lt[lt$Age == 50, "lx"] / lt[lt$Age == 15, "lx"] - q15_35)
         }
         
         root <- uniroot(f = fun.k, interval = c(-10, 10))$root
-        tmp  <- lthat.logquad(cf, x, q0_5, k = root, radix) 
+        tmp  <- lthat.logquad(cf, x, q0_5, k = root, radix, Sex = Sex) 
     }
     
     # Cases 4-6: 1q0 is known, plus e0, 45q15 or 35q15;
     # after finding 5q0 (assume k=0, but it doesn't matter), these become Cases 1-3
     if (my_case %in% c("C4","C5","C6") ) {
-        fun.q0_5 <- function(q0_5) lthat.logquad(cf, x, q0_5, k = 0, radix)$lt$nqx[1] - q0_1
+        fun.q0_5 <- function(q0_5) lthat.logquad(cf, x, q0_5, k = 0, radix, Sex = Sex)$lt$nqx[1] - q0_1
         root <- uniroot(f = fun.q0_5, interval = c(1e-5, 0.8))$root
     }
 
-    if (my_case == "C4") tmp <- lt_model_lq(fitted_logquad, q0_5 = root, e0 = e0, ...)
-    if (my_case == "C5") tmp <- lt_model_lq(fitted_logquad, q0_5 = root, q15_45 = q15_45, ...)
-    if (my_case == "C6") tmp <- lt_model_lq(fitted_logquad, q0_5 = root, q15_35 = q15_35, ...)
+    if (my_case == "C4") tmp <- lt_model_lq(fitted_logquad = fitted_logquad, q0_5 = root, e0 = e0, ...)
+    if (my_case == "C5") tmp <- lt_model_lq(fitted_logquad = fitted_logquad, q0_5 = root, q15_45 = q15_45, ...)
+    if (my_case == "C6") tmp <- lt_model_lq(fitted_logquad = fitted_logquad, q0_5 = root, q15_35 = q15_35, ...)
     
     # Case 7 and 8: e0 and 45q15 or 35q15 are known; must find both 5q0 and k
     if (my_case %in% c("C7", "C8")) {
@@ -170,17 +176,17 @@ lt_model_lq <- function(
             fun.q0_5 = function(q0_5) { 
                 lthat.logquad(cf, x, q0_5, k, 
                               q0_1 = NULL, q15_45 =  NULL, q15_35 = NULL, 
-                              radix)$lt$ex[1] - e0 
+                              radix, Sex = Sex)$lt$ex[1] - e0 
             }
             root <- uniroot(f = fun.q0_5, interval = c(1e-4, 0.8))$root
             q0_5 <- lthat.logquad(
                 cf, x, q0_5 = root, k, 
                 q0_1 = NULL, q15_45 =  NULL, q15_35 = NULL,
-                radix
+                radix, Sex = Sex
             )$values$q0_5 
             # Get k from 45q15 or 35q15 assuming 5q0
-            if (my_case == "C7") tmp = lt_model_lq(fitted_logquad, q0_5 = q0_5, q15_45 = q15_45, ...)
-            if (my_case == "C8") tmp = lt_model_lq(fitted_logquad, q0_5 = q0_5, q15_35 = q15_35, ...)
+            if (my_case == "C7") tmp = lt_model_lq(fitted_logquad = fitted_logquad, q0_5 = q0_5, q15_45 = q15_45, ...)
+            if (my_case == "C8") tmp = lt_model_lq(fitted_logquad = fitted_logquad, q0_5 = q0_5, q15_35 = q15_35, ...)
             k  <- tmp$values$k
             crit <- sum(abs(c(k, q0_5) - c(k.old, q0_5.old)))
             iter <- iter + 1
@@ -210,8 +216,10 @@ lthat.logquad <- function(coefs,
                           q0_5, 
                           k, 
                           radix,
+                          Sex, # needed to pass over to lt_id_morq_a
                           ...) {
     
+    # Sex <- Sex
     h     <- log(q0_5)
     mx    <- with(as.list(coefs), exp(ax + bx*h + cx*h^2 + vx*k))
     # estimate ax
