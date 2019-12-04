@@ -29,7 +29,7 @@ AgeInt <- rep(1, 100)
 is_age_coherent(Age = Age, AgeInt = AgeInt, OAG = FALSE)     # TRUE
 
 # incorrectly coded OAG
-is_age_coherent(Age = Age, AgeInt = AgeInt, OAG = TRUE)      # FALSE   
+is_age_coherent(Age = Age, AgeInt = AgeInt, OAG = TRUE)      # FALSE
 
 # correctly coded OAG
 AgeInt[100] <- NA

@@ -32,11 +32,11 @@ Age <- c(0,1,seq(5,90,by=5))
 zigzag_min(dth5_zigzag,Age,ageMin=40,ageMax = 80,p=rep(.05,4))
 # it's used like this in zigzag()
 (p <- optim(
-		rep(.05,4), 
-		zigzag_min, 
-		Value = dth5_zigzag, 
-		Age = Age, 
-		ageMin = 40, 
+		rep(.05,4),
+		zigzag_min,
+		Value = dth5_zigzag,
+		Age = Age,
+		ageMin = 40,
 		ageMax = 80)$par)
 Smoothed <- zigzag_p(dth5_zigzag,Age,40,80,p)
 }

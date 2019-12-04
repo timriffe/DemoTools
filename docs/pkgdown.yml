@@ -1,0 +1,13 @@
+pandoc: 2.3.1
+pkgdown: 1.4.1.9000
+pkgdown_sha: af379b9bae1d14189ca260a69115ab3e66a6c5c5
+articles:
+  Age-heaping_quality_with_Demotools: Age-heaping_quality_with_Demotools.html
+  case_study_1: case_study_1.html
+  graduation_with_demotools: graduation_with_demotools.html
+  lifetable_with_demotools: lifetable_with_demotools.html
+  smoothing_with_demotools: smoothing_with_demotools.html
+urls:
+  reference: https://timriffe.github.io/DemoTools//reference
+  article: https://timriffe.github.io/DemoTools//articles
+

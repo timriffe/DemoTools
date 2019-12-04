@@ -20,13 +20,13 @@ A vector with the adjusted values.
 Zelnik's method is used to adjust distributions by year of age for digit preference.
 }
 \details{
-Single year age groups are assumed. If \code{q=1}, age x is affected by ages x-10 through x+10. If \code{q=2}, age x is affected by ages x-15 through x+15. 
-A vector is returned of the same length as \code{Value}, but the boundary values are imputed with \code{NA}.  
+Single year age groups are assumed. If \code{q=1}, age x is affected by ages x-10 through x+10. If \code{q=2}, age x is affected by ages x-15 through x+15.
+A vector is returned of the same length as \code{Value}, but the boundary values are imputed with \code{NA}.
 If \code{q=1}, ages 0-9 and the final 10 ages are \code{NA}. If \code{q=2}, ages 0-14 and the final 15 ages are returned as \code{NA}.
  Note results do not sum to the total from the same age-range of \code{Value} because smoothing draws from ages outside that range.
 }
 \examples{
-# data from gray1987missingages, Table 2, page 21: Aplication of Q1 and 
+# data from gray1987missingages, Table 2, page 21: Aplication of Q1 and
 # Q2 linear operators, Bangladesh Census, 1 March 1974-Males.
 Pop <- c(941307,1041335,1237034,1411359,1383853,1541942,1321576,1285877,1563448,886705,
       1623998,562924,1485173,543216,771219,903496,686431,370007,942999,250820,
@@ -59,7 +59,7 @@ perturb <- function(x, pert = 0, pos = 45){
  		276958,275057,272350,279354,244466,209374,214178,210162,
  		208499,191717,173916,173882,172936,176417,158124,138487,
  		141009,142779,145479,rep(NA,11))
- 
+
  q2_answer <- c(rep(NA,15),769826,711733,663995,623069,
  		584797,552352,530538,515578,505073,497808,489977,479740,
  		469326,460446,454699,449240,439744,429856,422980,419200,
@@ -75,7 +75,7 @@ perturb <- function(x, pert = 0, pos = 45){
  	# error in original table (or in value used by original authors to carry out calcs)
  	# 54995 now is 54955, and we get a match.
  lines(Age,round(zelnik(perturb(Pop,-40,45),1,Age)) - q1_answer, col = "blue")
- 
+
  # that the same adjustment works for q2 makes me suspect that the error
  # is indeed in the value given for the census count at age 44.
  plot(Age,round(zelnik(Pop,2,Age)) - q2_answer,xlim=c(30,55),type='l')

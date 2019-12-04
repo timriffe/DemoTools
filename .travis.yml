@@ -11,3 +11,13 @@ r:
   - oldrel
   - release
   - devel
+  
+before_install:
+  - sudo apt-get install libfreetype6-dev 
+  - sudo apt-get install libftgl-dev
+  - sudo apt-get install mesa-common-dev 
+  - sudo apt-get install libglu1-mesa-dev
+  
+env:
+  - RGL_USE_NULL=TRUE
+  

@@ -1,0 +1,194 @@
+title: DemoTools
+url: https://timriffe.github.io/DemoTools/
+
+template: 
+  params:
+    bootswatch: yeti
+    
+home:
+  strip_header: true
+  title: DemoTools
+  description: Do you love demography and data? If so, you might enjoy using this package.
+  links:
+  - text: UN Deparment of Economic and Social Affairs Population
+    href: https://www.un.org/en/development/desa/population/index.asp
+  - text: Browse source code
+    href: https://github.com/timriffe/DemoTools/    
+  
+reference:
+  - title: "Age-heaping"
+    desc: Functions used to assess and handle age-heaping
+    contents: 
+      - '`Whipple`'
+      - '`Myers`'
+      - '`Bachi`'
+      - '`Noumbissi`'
+      - '`Spoorenberg`'
+      - '`CoaleLi`'
+      - '`Jdanov`'
+      - '`groupAges`'
+      - '`zero_pref_sawtooth`'
+      - '`five_year_roughness`'
+      - ageRatioScore
+      - sexRatioScore
+      - ageSexAccuracy
+      - IRD
+      - ID 
+      - survRatioError
+  - title: "Graduation"
+    desc: Functions to graduate demographic counts
+    contents:
+      - '`graduate`'
+      - '`groupAges`'
+      - '`rescaleAgeGroups`'
+  - title: "Smoothing"
+    desc: Functions to smooth demographic counts
+    contents:
+      - '`agesmth`'
+      - '`agesmth1`'
+      - '`united_nations_smth`'
+      - '`strong_smth`'
+      - '`zigzag_smth`'
+  - title: "Lifetable"
+    desc: Functions to construct a lifetable
+    contents:
+      - '`LTabr`'
+  - title: "Interpolation"
+    desc: Functions to interpolate counts
+    contents:
+      - '`interp`'
+  - title: "Migration"
+    desc: Functions for migration models
+    contents:
+      - '`mig_calculate_rc`'
+  - title: "Checking functions"
+    desc: Various functions to check some arguments
+    contents:
+      - '`is_abridged`'
+      - '`is_age_coherent`'
+      - '`is_age_redundant`'
+      - '`is_age_sequential`'
+      - '`is_LeapYear`' 
+      - '`is_single`' 
+  - title: "Internal"
+    desc: Internal functions
+    contents:
+      - '`interp`'
+      - '`adjustAge`'
+      - '`ADM`'
+      - '`age2ageN`'
+      - '`age2int`'
+      - '`AGEN`'
+      - '`ageSexAccuracyDasGupta`'
+      - '`age_abridge_force`'
+      - '`aomegaMortalityLaws`'
+      - '`arriaga_smth`'
+      - '`avg_adj`'
+      - '`ax.greville.mortpak`'
+      - '`axPAS`'
+      - '`axUN`' 
+      - '`beers`'
+      - '`beersExpand`'
+      - '`birthCohorts`'
+      - '`calcAgeAbr`'
+      - '`calcAgeN`'
+      - '`carrier_farrag_smth`'
+      - '`dec.date`'
+      - '`DemoTools-package`'
+      - '`dth5_zigzag`'
+      - '`extra_mortality`'
+      - '`geta0CD`' 
+      - '`geta1_4CD`'
+      - '`getModelLifeTable`'
+      - '`grabill`'
+      - '`grabillExpand`'
+      - '`graduate_pclm`'
+      - '`groupOAG`' 
+      - '`heapify`'
+      - '`inferAgeIntAbr`'
+      - '`int2age`' 
+      - '`int2ageN`'
+      - '`interpolatePop`'
+      - '`johnsonAdjust`'
+      - '`KannistoHeap`'
+      - '`kkn_smth`' 
+      - '`loess_smth1`'
+      - '`lt_single_simple`'
+      - '`lx2dx`' 
+      - '`Lx2Tx`'
+      - '`lxdxax2Lx`'
+      - '`Lxlx2Sx`' 
+      - '`M04_2_D0`'
+      - '`M04_2_M0`'
+      - '`ma`' 
+      - '`mav`'
+      - '`mav_smth`'
+      - '`maxA2abridged`'
+      - '`monoCloseout`' 
+      - '`mx2qx`' 
+      - '`mxax2qx`'
+      - '`mxax2qx_Backstop`'
+      - '`mxorqx2ax`' 
+      - '`names2age`'
+      - '`OPAG_simple`'
+      - '`poly_smth1`'
+      - '`pop1m_ind`'
+      - '`pop1m_pasex`'
+      - '`pop5m_pasex`'
+      - '`pop5_mat`' 
+      - '`popA_earlier`'
+      - '`popA_later`'
+      - '`qx2lx`'
+      - '`qxax2mx`'
+      - '`qxmx2ax`'
+      - '`ratx`'
+      - '`RDM`'
+      - '`rescale.vector`'
+      - '`rlog`'
+      - '`shift.vector`'
+      - '`simplify.text`'
+      - '`spencer`'
+      - '`splitMono`'
+      - '`splitOscillate`'
+      - '`splitUniform`'
+      - '`sprague`'
+      - '`spragueExpand`'
+      - '`surv10`'
+      - '`surv5`'
+      - '`survN`'
+      - '`T9R5L`'
+      - '`ypart`'
+      - '`zelnik`'
+      - '`zigzag`'
+      - '`zigzag_min`'
+      - '`zigzag_p`'
+navbar:
+  type: reverse
+  title: "DemoTools"
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Short manuals"
+      menu:
+      - text: Handle age heaping
+        href: articles/Age-heaping_quality_with_Demotools.html
+      - text: Graduate demographic counts
+        href: articles/graduation_with_demotools.html
+      - text: Smooth demographic counts
+        href: articles/smoothing_with_demotools.html
+      - text: Construct a lifetable
+        href: articles/lifetable_with_demotools.html
+      - text: Model migration
+        href: articles/lifetable_with_demotools.html
+    - text: "Case study"
+      href: articles/case_study_1.html        
+    - text: "Functions"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+  right: 
+    - icon: fa-twitter
+      href: https://twitter.com/timriffe1
+    - icon: fa-github fa-lg
+      text: "github"
+      href: https://github.com/timriffe/DemoTools/

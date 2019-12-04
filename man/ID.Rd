@@ -15,25 +15,25 @@ ID(pop1, pop2)
 The value of the index ranging from 0 to infinity..
 }
 \description{
-Calculate the index of dissimilarity between two population structures. A returned 
+Calculate the index of dissimilarity between two population structures. A returned
 value of zero means that the two population have identical structure. A value of 100 means
-that the populations have no overlap at all (not likely for populations structured only by age). 
+that the populations have no overlap at all (not likely for populations structured only by age).
 This is a simple measure of distribution overlap on the absolute scale.
 }
 \details{
-Input populations are assumed to be ordered in the same way prior to calling the function. 
+Input populations are assumed to be ordered in the same way prior to calling the function.
 It is only checked  that the vectors are of the same length. The input arguments could indeed be populations structured on multiple
 variables (more than just age), as long as they are ordered in the same way.
 }
 \examples{
-pop1 <- c(7.38,14.16,14.79,17.36,15.11,10.14,8.50,7.28,5.28)
-pop2 <- c(6.48,12.27,15.25,15.10,14.66,10.80,8.95,9.28,7.21)
+pop1                     <- c(7.38,14.16,14.79,17.36,15.11,10.14,8.50,7.28,5.28)
+pop2                     <- c(6.48,12.27,15.25,15.10,14.66,10.80,8.95,9.28,7.21)
 ID(pop1, pop2)     # 5.5 reproduces table 7.20 of Siegel & Swanson (2004)
 ID(pop1, pop1)     # identical = 0
 ID(pop1, pop2 * 2) # scale invariant
-pop3 <- pop4         <- pop1
-pop3[1:5]            <- 0
-pop4[6:length(pop4)] <- 0
+pop3                     <- pop4         <- pop1
+pop3[1:5]                <- 0
+pop4[6:length(pop4)]     <- 0
 ID(pop3, pop4)     # no overlap = 100.
 }
 \references{

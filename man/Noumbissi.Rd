@@ -21,13 +21,13 @@ Noumbissi(Value, Age, ageMin = 20, ageMax = 64, digit = 0)
 The value of the index.
 }
 \description{
-Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators 
+Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators
 consisting in 5-year age groups centered on the terminal digit of age in question. For example, 9, 19, 29, etc are all of digit 9.
 }
 \details{
 \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
  Denominators are always 5-year age groups centered on the digit in question,
-and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval. 
+and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval.
 If you want ages 20 to 64, then give \code{ageMin = 20} and \code{ageMax = 64}, not 65.
 }
 \examples{

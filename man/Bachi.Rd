@@ -22,7 +22,7 @@ The value of the index.
 }
 \description{
 Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit.
-Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90, 
+Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90,
 and 10 is the expected value for each digit.
 Two Implementations: one following the PASEX spreadsheet SINGAGE (\code{pasex = TRUE}), with ages hard-coded, and another with flexible upper and lower age bounds, but that does not match the PASEX implementation.
 }

@@ -1,26 +1,26 @@
-# Author: Juan Galeano 
+# Author: Juan Galeano
 ###############################################################################
 
 #' Zelnik 11-term moving average to adjust for digit preference.
 
-#' @description  Zelnik's method is used to adjust distributions by year of age for digit preference. 
+#' @description  Zelnik's method is used to adjust distributions by year of age for digit preference.
 
 #' @param Value numeric. A vector of demographic counts in single age groups.
 #' @param q integer. Perturbation vector used, 1 or 2. Default 1.
 #' @param Age integer. Vector of lower bound of age classes.
 
-#' @details Single year age groups are assumed. If \code{q=1}, age x is affected by ages x-10 through x+10. If \code{q=2}, age x is affected by ages x-15 through x+15. 
-#' A vector is returned of the same length as \code{Value}, but the boundary values are imputed with \code{NA}.  
+#' @details Single year age groups are assumed. If \code{q=1}, age x is affected by ages x-10 through x+10. If \code{q=2}, age x is affected by ages x-15 through x+15.
+#' A vector is returned of the same length as \code{Value}, but the boundary values are imputed with \code{NA}.
 #' If \code{q=1}, ages 0-9 and the final 10 ages are \code{NA}. If \code{q=2}, ages 0-14 and the final 15 ages are returned as \code{NA}.
 #'  Note results do not sum to the total from the same age-range of \code{Value} because smoothing draws from ages outside that range.
 #' @return A vector with the adjusted values.
 #' @export
 
-#' @references 
+#' @references
 #' \insertRef{gray1987missingages}{DemoTools}
 
-#' @examples 
-#' # data from gray1987missingages, Table 2, page 21: Aplication of Q1 and 
+#' @examples
+#' # data from gray1987missingages, Table 2, page 21: Aplication of Q1 and
 #' # Q2 linear operators, Bangladesh Census, 1 March 1974-Males.
 #' Pop <- c(941307,1041335,1237034,1411359,1383853,1541942,1321576,1285877,1563448,886705,
 #'       1623998,562924,1485173,543216,771219,903496,686431,370007,942999,250820,
@@ -53,7 +53,7 @@
 #'  		276958,275057,272350,279354,244466,209374,214178,210162,
 #'  		208499,191717,173916,173882,172936,176417,158124,138487,
 #'  		141009,142779,145479,rep(NA,11))
-#'  
+#'
 #'  q2_answer <- c(rep(NA,15),769826,711733,663995,623069,
 #'  		584797,552352,530538,515578,505073,497808,489977,479740,
 #'  		469326,460446,454699,449240,439744,429856,422980,419200,
@@ -69,33 +69,45 @@
 #'  	# error in original table (or in value used by original authors to carry out calcs)
 #'  	# 54995 now is 54955, and we get a match.
 #'  lines(Age,round(zelnik(perturb(Pop,-40,45),1,Age)) - q1_answer, col = "blue")
-#'  
+#'
 #'  # that the same adjustment works for q2 makes me suspect that the error
 #'  # is indeed in the value given for the census count at age 44.
 #'  plot(Age,round(zelnik(Pop,2,Age)) - q2_answer,xlim=c(30,55),type='l')
 #'  lines(Age,round(zelnik(perturb(Pop,-40, 45), 2, Age)) - q2_answer, col = "blue")
 #'  }
 #'  # we use this for the de facto unit test:
-#' 
+#'
 #' d1 <- round(zelnik(perturb(Pop,-40,45),1,Age)) - q1_answer
 #' d2 <- round(zelnik(perturb(Pop,-40,45),2,Age)) - q2_answer
 #' stopifnot(all(d1[!is.na(d1)] == 0))
 #' stopifnot(all(d2[!is.na(d2)] == 0))
 #' }
 
-zelnik <- function(Value, q, Age){
+zelnik <- function(Value, q, Age) {
   # edited/rewritten by TR 21-10-2017
-	
+  
   # Table 11, pp.20 Linear operators for use in deriving unbiased estimates of single-age distributions
-
-  if (q == 1){
-	  qi <- c(-0.0025,-0.01,-0.02,-0.03,-0.04,0.05,0.14,0.13,0.12,0.11,
-			  0.105,0.11,0.12,0.13,0.14,0.05,-0.04,-0.03,-0.02,-0.01,-0.0025)
-  } 
-  if (q == 2){
-	  qi <- c(-0.00025,-0.0015,-0.0045,-0.0095,-0.0165,-0.018,-0.0065,0.0105,0.0255,0.0385,
-			  0.05025,0.063,0.079,0.099,0.123,0.136,0.123,0.099,0.079,0.063,0.05025,0.0385,
-			  0.0255,0.0105,-0.0065,-0.018,-0.0165,-0.0095,-0.0045,-0.0015,-0.00025)
+  
+  if (q == 1) {
+    qi <- c( -0.0025, -0.01, -0.02, -0.03, 
+             -0.04, 0.05, 0.14, 0.13, 
+             0.12, 0.11, 0.105, 0.11, 
+             0.12, 0.13, 0.14, 0.05, 
+             -0.04, -0.03, -0.02, -0.01, 
+             -0.0025
+    )
+  }
+  if (q == 2) {
+    qi <-
+      c( -0.00025, -0.0015, -0.0045, -0.0095, 
+         -0.0165, -0.018, -0.0065, 0.0105, 
+         0.0255, 0.0385, 0.05025, 0.063, 
+         0.079, 0.099, 0.123, 0.136, 
+         0.123, 0.099, 0.079, 0.063, 
+         0.05025, 0.0385, 0.0255, 0.0105, 
+         -0.0065, -0.018, -0.0165, -0.0095, 
+         -0.0045, -0.0015, -0.00025
+      )
   }
   n          <- (length(qi) - 1) / 2
   # Multiply the vector of single ages by the linear operators Q1 or Q2
@@ -103,13 +115,13 @@ zelnik <- function(Value, q, Age){
   
   # Get the diagonal for each age and split the vector
   # used for aggregation
-  diagonal   <- row(multi) - col(multi) + n 
+  diagonal   <- row(multi) - col(multi) + n
   # this replaces sapply, and if statements to select ranges
   Q          <- tapply(multi, diagonal, sum)[as.character(Age)]
   
   # impute ends with NA
   Q[1:n]     <- NA
-  Q[(length(Q)-n):length(Q)]   <- NA
+  Q[(length(Q) - n):length(Q)]   <- NA
   
   Q
 }

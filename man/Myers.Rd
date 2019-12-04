@@ -30,7 +30,7 @@ internally rounded down if necessary so that \code{ageMax - ageMin + 1} is evenl
 }
 \examples{
 Age <- 0:99
-Myers(pop1m_pasex, Age, 10, 89) 
+Myers(pop1m_pasex, Age, 10, 89)
 
 Myers(pop1m_pasex, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
 }

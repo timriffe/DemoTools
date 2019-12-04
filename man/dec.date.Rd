@@ -16,7 +16,5 @@ Numeric expression of the date, year plus the fraction of the year passed as of 
 Convert a character or date class to decimal, taking into account leap years.
 }
 \details{
-This makes use of two HMD functions, \code{ypart()}, and \code{is_LeapYear()} to compute. If the date is numeric, it is returned as such. 
-If it is \code{"character"}, we try to coerce to \code{"Date"} class, ergo, it is best to specify a character string in an unambiguous \code{"YYYY-MM-DD"} format.
- If \code{date} is given in a \code{"Date"} class it is dealt with accordingly.
+This makes use of two HMD functions, \code{ypart()}, and \code{is_LeapYear()} to compute. If the date is numeric, it is returned as such. If it is \code{"character"}, we try to coerce to \code{"Date"} class, ergo, it is best to specify a character string in an unambiguous \code{"YYYY-MM-DD"} format.  If \code{date} is given in a \code{"Date"} class it is dealt with accordingly.
 }

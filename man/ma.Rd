@@ -15,7 +15,7 @@ ma(x, n = 5)
 Numeric vector of same length as \code{x}.
 }
 \description{
-This function is defined based on a code chunk found \href{https://stackoverflow.com/questions/743812/calculating-moving-average}{here}. 
+This function is defined based on a code chunk found \href{https://stackoverflow.com/questions/743812/calculating-moving-average}{here}.
 This is a centered moving average of arbitrary width.
 }
 \details{

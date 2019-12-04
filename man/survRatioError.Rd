@@ -17,7 +17,7 @@ survRatioError(pop1, pop2, Age, date1, date2, exprior, OAG = TRUE)
 
 \item{date2}{date. Date of the second census. See details for ways to express it.}
 
-\item{exprior}{numeric. Vector of remaining life expectancy (not e(0), see details) for same population and 
+\item{exprior}{numeric. Vector of remaining life expectancy (not e(0), see details) for same population and
 time but from a different source.}
 
 \item{OAG}{logical. Whether or not the final age group is open. Default \code{TRUE}.}
@@ -26,7 +26,7 @@ time but from a different source.}
 The median absolute percent error of the census survival remaining life expectancy vector compared with the external remaining life expectancy estimate (\code{exprior}).
 }
 \description{
-This function family implements the spreadsheets from the UN repository 
+This function family implements the spreadsheets from the UN repository
 "Adult Mortality Estimation Files/countries/JAPAN/CENSUS~1.SUR", prepared by Griffith Feeney ca 2007.
 }
 \details{
@@ -56,11 +56,11 @@ ex2  <- c(NA,70.19,65.33,60.41,55.54,50.74,45.96,41.21,
 # reproduces CENSUR~1.XLS
 # this method called under the hood when censuses are a clean 10 years apart
 (s10 <- survRatioError(
- pop1 = pop1960, 
- pop2 = pop1970, 
- Age = Age, 
- date1 = date1960, 
- date2 = date1970, 
+ pop1 = pop1960,
+ pop2 = pop1970,
+ Age = Age,
+ date1 = date1960,
+ date2 = date1970,
  exprior = ex1)) #.44
 
 # reproduces CENSUR~3.XLS
@@ -74,7 +74,7 @@ ex2  <- c(NA,70.19,65.33,60.41,55.54,50.74,45.96,41.21,
 		exprior = ex2)) #.40
 
 # reproduces CENSUR~2.XLS (if indeed censuses are oddly spaced)
-# this method called under the hood when censuses are not spaced 
+# this method called under the hood when censuses are not spaced
 # a clean 5 or 10 years apart.
 (sn <- survRatioError(
 		pop1 = pop1960,
@@ -83,7 +83,7 @@ ex2  <- c(NA,70.19,65.33,60.41,55.54,50.74,45.96,41.21,
 		date1 = date1960fake,
 		date2 = date1970,
 		exprior = ex1)) # 1.067818
-		
+
 }
 \references{
 \insertRef{united1955manual}{DemoTools}

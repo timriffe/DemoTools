@@ -28,26 +28,26 @@ Regarding argument specification, either \code{M04} *or* \code{D04} and \code{P0
 }
 \examples{
 
-# to reproduce the coefficient estimation 
+# to reproduce the coefficient estimation
 # that the method is based on:
 \dontrun{
 # get data in this format:
 	# dput(head(Dat))
 Dat <- structure(
 	list(
-	  lm0 = c(-2.92192434640927, -3.06165842367016, 
-			  -3.10778177736261, -3.14075804560425, 
+	  lm0 = c(-2.92192434640927, -3.06165842367016,
+			  -3.10778177736261, -3.14075804560425,
 			  -3.20005407062761, -3.22489389719376
-			), 
-	  lM5 = c(-4.38578221044468, -4.56777854985643, 
-			  -4.58851248767896, -4.57684656734645, 
-			  -4.62854681692805, -4.61294106314254)), 
-       .Names = c("lm0", "lM5"), 
-	class = c("data.frame"), 
+			),
+	  lM5 = c(-4.38578221044468, -4.56777854985643,
+			  -4.58851248767896, -4.57684656734645,
+			  -4.62854681692805, -4.61294106314254)),
+       .Names = c("lm0", "lM5"),
+	class = c("data.frame"),
 	row.names = c(NA, -6L))
  # where lm0 is log(M0)
  # i.e. log of infant death rate
- # and lM5 is log(M0_4) 
+ # and lM5 is log(M0_4)
  # i.e. log of death rate in first 5 years of life
 
  # then first fit a linear model:
@@ -63,9 +63,9 @@ Dat <- structure(
  # difference in slope from 1st to second:
 	seg$coef[3]    # ds1
  # make Dat come from some other dataset and you'll get different coefs,
- # it'd be possible to have these in families maybe, and in any case 
- # different for males and females. This is just a rough start, to be 
- # replaced if someone offers a superior method. These 
+ # it'd be possible to have these in families maybe, and in any case
+ # different for males and females. This is just a rough start, to be
+ # replaced if someone offers a superior method. These
 
 }
 
@@ -74,7 +74,7 @@ M0   <- M04_2_M0(M0_4)
 
 # M0 from this relationship is more reliable than other methods
 # of independently splitting D0 or P0. So, if you're going to be
-# splitting counts, then make use of M0 to force numerators and 
+# splitting counts, then make use of M0 to force numerators and
 # denominators to conform to this estimate.
 D0_4 <- 2e4
 P0_4 <- 4e6

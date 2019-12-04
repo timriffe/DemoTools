@@ -29,30 +29,32 @@ heapify(Value, Age, p0 = 2, p5 = p0, pdf0 = c(1, 6, 15, 20, 15, 6,
 Value numeric vector perturbed to look like age heaping as happened.
 }
 \description{
-For single age count data, perturb the data in such a way as to induce heaping on ages ending in 0 and 5. 
-This is a common phenomenon that several age heaping evaluation methods are designed to test for. 
+For single age count data, perturb the data in such a way as to induce heaping on ages ending in 0 and 5.
+This is a common phenomenon that several age heaping evaluation methods are designed to test for.
 In order to estimate how these methods respond to different degrees of heaping in a systematic way, a function such as
  this may be useful. The way this works is purely a guess, and no checks are in place, so use with caution.
 }
 \details{
-We use pascal weights, \code{c(1,4,6,4,1)} scaled to argument \code{p5} and \code{c(1,6,15,20,15,6,1)} 
+We use pascal weights, \code{c(1,4,6,4,1)} scaled to argument \code{p5} and \code{c(1,6,15,20,15,6,1)}
 scaled to argument \code{p0} to shift individuals from surrounding ages to ages endings in 5 and 0, respectively.
  This assumes that ages closer to digits 0 or 5 are more likely to be declared as 0 or 5, that this bias is symmetrical,
-  and that such rounding can come from farther away ages for terminal digit 0 than for 5. 
+  and that such rounding can come from farther away ages for terminal digit 0 than for 5.
   The user can also make heaping scale differently for 0s and 5s, but there is no control over the shape of bias.
 }
 \examples{
 # example to show what we're talking about.
 # pop1m_pasex is already quite heaped:
 Age <- 0:99
+A5 <- seq(0,95,by=5)
 plot(Age,pop1m_pasex)
 # here it is again, smoothed:
-smoothed <- sprague(
-		agesmth(pop1m_pasex, 
-				Age, 
-				method = "Strong", 
-				OAG = FALSE, 
+smoothed <- graduate_sprague(
+		agesmth(pop1m_pasex,
+				Age,
+				method = "Strong",
+				OAG = FALSE,
 				young.tail = "Arriaga"),
+		Age = A5,
 		OAG = FALSE)
 lines(Age, smoothed)
 # an OK approximation for testing purposes.

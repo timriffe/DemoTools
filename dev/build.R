@@ -20,6 +20,9 @@ devtools::document()
 # do this whenever the vignette text is updated
 devtools::build_vignettes()
 
+# devtools::install_github("r-lib/pkgdown")
+pkgdown::build_site()
+
 versionIncrement(
 		major = FALSE,       # only for releases
 		mid = FALSE,         # major functionality added
@@ -30,9 +33,9 @@ versionIncrement(
 # run this to get access to already-written functions
 shhh(load_all())
 
-
+# usethis::use_build_ignore(c("docs"))
 # do this whenever major changes happen
-devtools::check(force_suggests=TRUE,manual=FALSE)
+devtools::check(force_suggests = TRUE, manual = FALSE)
 
 #build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
 #?devtools::build
@@ -75,7 +78,7 @@ library(DependenciesGraphs)
 
 library(DemoTools) # The package we want to explore
 # before tinkering with an older function, note which functions depend on it
-deps <- funDependencies("package:DemoTools","mxax2qx_Backstop")
+deps <- funDependencies("package:DemoTools","qxmx2ax")
 plot(deps)
 
 
@@ -86,3 +89,6 @@ plot(deps)
 #		file.path(getwd(), ".Rprofile") )
 #
 #Filter(file.exists, candidates)
+
+# NOTE TO SELF
+# try goodpractice package

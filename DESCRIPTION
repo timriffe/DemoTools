@@ -1,15 +1,18 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.01.06
-Date: 2019-10-18
+Version: 01.03.31
+Date: 2019-12-04
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
           email = "tim.riffe@gmail.com", comment = c(ORCID = "0000-0002-2673-4622")),
+   person("José Manuel", "Aburto", role = "aut", comment = c(ORCID = "0000-0002-2926-6879")),
+   person("Ilya", "Kashnitsky", role = "aut"),
+   person("Marius D.", "Pascariu", role = "aut"),
+   person("Monica", "Alexander", role = "aut"),
    person("Sean", "Fennell", role = "aut"),
-   person("Jose Manuel", "Aburto", role = "aut"),
+   person("Jorge", "Cimentada", role = "ctb"),
    person("Juan", "Galeano", role = "ctb"),
-   person("Marius D.", "Pascariu", role = "ctb"),
    person("Derek", "Burk", role = "ctb"),
    person("Greg", "Freedman Ellis", role = "ctb"))
 Description: A collection of classic demographic methods used to evaluate, adjust, and standardize demographic data.
@@ -24,11 +27,13 @@ Suggests:
   testthat,
   knitr,
   rmarkdown,
-  tidyverse,
-  magrittr
+  magrittr,
+  dplyr,
+  DT
 RdMacros: Rdpack
 Imports:
   demogR,
+  ungroup,
   MortalityLaws (>= 1.7.0),
   Rdpack
 BugReports: https://github.com/timriffe/DemoTools/issues

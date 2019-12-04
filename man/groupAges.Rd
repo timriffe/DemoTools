@@ -27,10 +27,10 @@ Vector of counts in N-year age groups.
 This can be useful to check constrained sums, or as an intermediate step for smoothing.
 }
 \details{
-If you shift the groupings, then the first age groups may have a negative lower bound 
+If you shift the groupings, then the first age groups may have a negative lower bound
 (for example of -5). These counts would be discarded for the osculatory version of Sprague smoothing,
-for example, but they are preserved in this function. The important thing to know is that if you shift 
- the groups, the first and last groups will not be N years wide. For example if \code{shiftdown} is 1, the first age group is 4-ages wide. The ages themselves are not returned, 
+for example, but they are preserved in this function. The important thing to know is that if you shift
+ the groups, the first and last groups will not be N years wide. For example if \code{shiftdown} is 1, the first age group is 4-ages wide. The ages themselves are not returned,
 but they are the name attribute of the output count vector. Note this will also correctly group abridged ages
 into equal 5-year age groups if the \code{Age} argument is explicitly given. \code{OAnew} (optional) must be less than or equal to \code{max(Age)} to have any effect.
 }
@@ -41,5 +41,5 @@ into equal 5-year age groups if the \code{Age} argument is explicitly given. \co
  groupAges(pop1m_ind, N = 5, shiftdown = 2)
  groupAges(pop1m_ind, N = 5, shiftdown = 3)
  groupAges(pop1m_ind, N = 5, shiftdown = 4)
- groupAges(pop1m_ind, N = 5, OAnew = 80) 
+ groupAges(pop1m_ind, N = 5, OAnew = 80)
 }

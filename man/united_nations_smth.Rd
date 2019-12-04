@@ -20,8 +20,7 @@ numeric vector of smoothed counts in 5-year age groups.
 Smooth population counts in 5-year age groups.
 }
 \details{
-The open age group is aggregated down to be evenly divisible by 10. 
-This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups. Counts are not constrained in 10-year age groups, except 10-year young and old tails, which are unaffected.
+The open age group is aggregated down to be evenly divisible by 10. This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups. Counts are not constrained in 10-year age groups, except 10-year young and old tails, which are unaffected.
 }
 \examples{
 Ages         <- seq(0, 80, by = 5)

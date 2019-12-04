@@ -44,12 +44,12 @@ lwds     <- seq(3, 1, length = 5)
 plot(Age,Pop, col = "red", xlab = "Age", ylab = "The counts", pch=16,
 		main = "Moving average windows and extreme heaping")
 matplot(Age,nwindows,type='l',col=cols, lwd=lwds, add=TRUE,lty=1)
-legend("topright", 
+legend("topright",
 		lty=1,
-		col = cols, 
+		col = cols,
 		lwd = lwds,
 		legend = paste0("n=",seq(3,11,by=2)))
-}    
+}
 }
 \references{
 \insertRef{GDA1981IREDA}{DemoTools}

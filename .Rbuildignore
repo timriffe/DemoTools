@@ -11,3 +11,12 @@ devdata
 ^\.Rproj\.user$
 ^CODE_OF_CONDUCT\.md$
 ^CONTRIBUTING\.md$
+^docs$
+^_pkgdown\.yml$
+^pkgdown$
+CODE_OF_CONDUCT.html
+CONTRIBUTING.html
+LICENSE-text.html
+authors.html
+index.html
+logo.png
