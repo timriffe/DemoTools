@@ -225,7 +225,7 @@ geta1_4CD <- function(M0,
 #' Age    <- c(0, 1, seq(5, 100, by = 5))
 #' AgeInt <- c(diff(Age), NA)
 #' nMx <- Deaths/Exposures
-#' axPAS(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = TRUE)
+#' lt_a_pas(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = TRUE)
 lt_a_pas <-
   function(nMx,
            AgeInt,
@@ -797,7 +797,7 @@ lt_a_closeout <- function(mx,
 aomegaMortalityLaws <- lt_a_closeout
 
 #' wrapper to invoke PAS or UN ax methods given qx or mx
-#' @description Given either mx or qx, call either the \code{axUN()} or \code{axPAS()} functions.
+#' @description Given either mx or qx, call either the \code{lt_a_un()} or \code{lt_a_pas()} functions.
 #' @inheritParams lt_abridged
 #' @param OAG logical. Whether or not the last element of \code{nMx} is the open age group Default \code{TRUE}.
 #' @return nax average contribution to exposure of those dying in the interval.
@@ -845,7 +845,7 @@ lt_id_morq_a <- function(nMx,
     # what if only qx was given?
     if (missing(nMx)) {
       fakenMx <- nqx
-      nAx       <- axPAS(
+      nAx       <- lt_a_pas(
         nMx = fakenMx,
         AgeInt = AgeInt,
         IMR = nqx[1],
@@ -857,7 +857,7 @@ lt_id_morq_a <- function(nMx,
     } else {
       # if nMx avail, then Open age group
       # closed according to convention.
-      nAx       <- axPAS(
+      nAx       <- lt_a_pas(
         nMx = nMx,
         AgeInt = AgeInt,
         IMR = IMR,

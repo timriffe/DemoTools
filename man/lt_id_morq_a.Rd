@@ -52,7 +52,7 @@ mxorqx2ax(nMx, nqx, axmethod = c("pas", "un")[1], Age, AgeInt,
 nax average contribution to exposure of those dying in the interval.
 }
 \description{
-Given either mx or qx, call either the \code{axUN()} or \code{axPAS()} functions.
+Given either mx or qx, call either the \code{lt_a_un()} or \code{lt_a_pas()} functions.
 }
 \references{
 \insertRef{greville1977short}{DemoTools}

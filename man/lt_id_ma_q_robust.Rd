@@ -28,7 +28,7 @@ mx     <- .65
 AgeInt <- 5
 ax     <- 2.5
 # this is a problematic case
-(mx2qx(mx, ax, AgeInt))
+(lt_id_m_q(mx, ax, AgeInt))
 # here a workable value
 (lt_id_ma_q_robust(mx, ax, AgeInt))
 #' # still less than 1

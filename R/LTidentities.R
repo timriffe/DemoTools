@@ -38,7 +38,11 @@ qxax2mx <- lt_id_qa_m
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return nqx vector of age specific death probabilities derived via identity.
 #' @export
-mx2qx <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
+lt_id_m_q <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
+  if (as.character(match.call()[[1]]) == "mx2qx") {
+    warning("please use lt_id_m_q() instead of mx2qx().", call. = FALSE)
+  }
+  
   qx <- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
   ind <- qx > 1 | is.na(qx)
   if (sum(ind) > 0) {
@@ -47,6 +51,10 @@ mx2qx <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
   }
   qx
 }
+
+#' @export
+#' @rdname lt_id_m_q
+mx2qx <- lt_id_m_q
 
 #' Derive nax from nqx and nMx.
 #' @description This is the standard identity to derive nax from nqx and nMx.
@@ -73,7 +81,7 @@ qxmx2ax <- lt_id_qm_a
 
 #' Derive nqx from nMx and nax.
 #' @description This is the standard identity to derive nqx from nax and nMx.
-#' This is a more full-service wrapper of \code{mx2qx()}, with closeout options and optional age 0
+#' This is a more full-service wrapper of \code{lt_id_m_q()}, with closeout options and optional age 0
 #' treatment.
 #' @details qx values calculated as greater than 1 are imputed with 1.
 #'
@@ -91,7 +99,7 @@ lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
     warning("please use lt_id_ma_q() instead of mxax2qx().", call. = FALSE)
   }
   
-  qx <- mx2qx(nMx, nax, AgeInt)
+  qx <- lt_id_m_q(nMx, nax, AgeInt)
   if (closeout) {
     qx[length(qx)] <- 1
     if (length(nMx) == 1) {
@@ -222,7 +230,7 @@ Lx2Tx <- lt_id_L_T
 #' AgeInt <- 5
 #' ax     <- 2.5
 #' # this is a problematic case
-#' (mx2qx(mx, ax, AgeInt))
+#' (lt_id_m_q(mx, ax, AgeInt))
 #' # here a workable value
 #' (lt_id_ma_q_robust(mx, ax, AgeInt))
 #' #' # still less than 1
@@ -244,7 +252,7 @@ lt_id_ma_q_robust<- function(nMx, nax, AgeInt) {
   qx <- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
   # let's assume flat hazard inside interval
   if (qx > 1) {
-    qx <- 1 - prod(rep(1 - mx2qx(nMx, .5, 1), ceiling(AgeInt)))
+    qx <- 1 - prod(rep(1 - lt_id_m_q(nMx, .5, 1), ceiling(AgeInt)))
   }
   if (qx > 1) {
     qx <- 1

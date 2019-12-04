@@ -135,7 +135,7 @@
 #' coef(F1)
 #' @author Marius D. Pascariu <rpascariu@@outlook.com>
 #' @export
-extra_mortality <- function(mx,
+lt_rule_m_extrapolate <- function(mx,
                             x,
                             x_fit = x,
                             x_extr,
@@ -153,6 +153,10 @@ extra_mortality <- function(mx,
                                            "LF4", "LF5", "LF6",
                                            "poissonL", "binomialL"),
                             ...) {
+  if (as.character(match.call()[[1]]) == "extra_mortality") {
+    warning("please use lt_rule_m_extrapolate() instead of extra_mortality().", call. = FALSE)
+  }
+  
   # Save the input
   input <- as.list(environment())
   
@@ -192,7 +196,9 @@ extra_mortality <- function(mx,
   out <- structure(class = "extra_mortality", out)
   return(out)
 }
-
+#' @export
+#' @rdname lt_rule_m_extrapolate
+extra_mortality <- lt_rule_m_extrapolate
 
 #' Print function for extra_mortality method
 #' @param x An object of the class \code{"extra_mortality"}.
