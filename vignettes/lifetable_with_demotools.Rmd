@@ -54,7 +54,7 @@ library(DT)
  
  AgeInt <- inferAgeIntAbr(vec = nMx)
  
- MX.lifetable <- LTabr(nMx = nMx, Age = c(0,1,seq(5,85,by=5)), AgeInt = AgeInt,
+ MX.lifetable <- lt_abridged(nMx = nMx, Age = c(0,1,seq(5,85,by=5)), AgeInt = AgeInt,
                        axmethod = "un",Sex = "m",	mod = FALSE)
  MX.lifetable <- round(MX.lifetable,3)
  

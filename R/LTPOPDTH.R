@@ -75,7 +75,7 @@
 #' Age    <- c(0, 1, seq(5, 100, by = 5))
 #' AgeInt <- c(diff(Age), NA)
 #'
-#' PASLT <- LTabr(Deaths = Deaths,
+#' PASLT <- lt_abridged(Deaths = Deaths,
 #' 		Exposures = Exposures,
 #' 		Age = Age,
 #' 		AgeInt =AgeInt,
@@ -95,13 +95,13 @@
 #'
 #' # generate two variants: with and without PG's variants
 #' # for ages 5-14
-#' UNLT1 <- LTabr(nMx = Mx,
+#' UNLT1 <- lt_abridged(nMx = Mx,
 #' 		Age = c(0,1,seq(5,85,by=5)),
 #' 		AgeInt = AgeInt,
 #' 		axmethod = "un",
 #' 		Sex = "m",
 #' 		mod = FALSE)
-#' UNLT2 <- LTabr(nMx = Mx,
+#' UNLT2 <- lt_abridged(nMx = Mx,
 #' 		Age = c(0,1,seq(5,85,by=5)),
 #' 		AgeInt = AgeInt,
 #' 		axmethod = "un",
@@ -126,7 +126,7 @@
 #'  		15.349,12.095,9.240,6.903,5.099)
 #'
 #'  # First with lifetable extention to 100
-#'  MP_UNLT100 <- LTabr(
+#'  MP_UNLT100 <- lt_abridged(
 #'  		nMx = MPnMx,
 #'  		Age = Age,
 #'  		AgeInt = AgeInt,
@@ -136,7 +136,7 @@
 #'  		OAnew = 100)
 #' #'
 #' #' # lifetable to original open age group
-#'  MP_UNLT80 <- LTabr(
+#'  MP_UNLT80 <- lt_abridged(
 #'  		nMx = MPnMx,
 #'  		Age = Age,
 #'  		AgeInt = AgeInt,
@@ -146,7 +146,7 @@
 #'  		OAnew = 80)
 #'
 #' # same, but truncated at 60
-#' MP_UNLT60 <- LTabr(
+#' MP_UNLT60 <- lt_abridged(
 #' 		nMx = MPnMx,
 #' 		Age = Age,
 #' 		AgeInt = AgeInt,
@@ -155,7 +155,7 @@
 #' 		mod = FALSE,
 #' 		OAnew = 60)
 
-LTabr <- function(Deaths,
+lt_abridged <- function(Deaths,
                   Exposures,
                   nMx,
                   nqx,
@@ -183,6 +183,10 @@ LTabr <- function(Deaths,
                   extrapFrom = max(Age),
                   extrapFit = Age[Age >= 60],
                   ...) {
+  if (as.character(match.call()[[1]]) == "LTabr") {
+    warning("please use lt_abridged() instead of LTabr().", call. = FALSE)
+  }
+  
   # ages must be abridged.
   stopifnot(is_abridged(Age))
   
@@ -379,3 +383,7 @@ LTabr <- function(Deaths,
   )
   return(out)
 }
+
+#' @export
+#' @rdname lt_abridged
+LTabr <- lt_abridged

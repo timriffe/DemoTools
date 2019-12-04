@@ -25,5 +25,6 @@ These functions still work but will be removed (defunct) in the next version.
  \item \code{\link{qxax2mx}}: This function is now called \code{\link{lt_id_qa_m}}.
  \item \code{\link{mxorqx2ax}}: This function is now called \code{\link{lt_id_morq_a}}.
  \item \code{\link{mxax2qx_Backstop}}: This function is now called \code{\link{lt_id_ma_q_robust}}.
+ \item \code{\link{LTabr}}: This function is now called \code{\link{lt_abridged}}.
 }
 }

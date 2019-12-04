@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>G. Feeney's method of smoothing counts in 5-year age groups. — zigzag_smth • DemoTools</title>
+<title>Derive nax from nqx and nMx. — lt_id_qm_a • DemoTools</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,8 @@
 
 
 
-<meta property="og:title" content="G. Feeney's method of smoothing counts in 5-year age groups. — zigzag_smth" />
-<meta property="og:description" content="If age heaping is much worse on 0's than on 5's then even counts in 5-year age bins can preserve a sawtooth pattern. Most graduation techniques translate the zig-zag/sawtooth pattern to a wave pattern. It is not typically desired. This method redistributes counts 'from' every second 5-year age group in a specified range 'to' the adjacent age groups. How much to redistribute depends on a detection of roughness in the 5-year binned data, which follows the formulas recommended by Feeney. This method does not alter the total population count, counts in the youngest 10 ages, nor in old ages. 10-year age groups in the middle age range are not constrained." />
+<meta property="og:title" content="Derive nax from nqx and nMx. — lt_id_qm_a" />
+<meta property="og:description" content="This is the standard identity to derive nax from nqx and nMx." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -150,70 +150,52 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>G. Feeney's method of smoothing counts in 5-year age groups.</h1>
+    <h1>Derive nax from nqx and nMx.</h1>
     
-    <div class="hidden name"><code>zigzag_smth.Rd</code></div>
+    <div class="hidden name"><code>lt_id_qm_a.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>If age heaping is much worse on 0's than on 5's then even counts in 5-year age bins can preserve a sawtooth pattern. Most graduation techniques translate the zig-zag/sawtooth pattern to a wave pattern. It is not typically desired. This method redistributes counts 'from' every second 5-year age group in a specified range 'to' the adjacent age groups. How much to redistribute depends on a detection of roughness in the 5-year binned data, which follows the formulas recommended by Feeney. This method does not alter the total population count, counts in the youngest 10 ages, nor in old ages. 10-year age groups in the middle age range are not constrained.</p>
+    <p>This is the standard identity to derive nax from nqx and nMx.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>zigzag_smth</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>40</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>) -
-  <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>)<span class='kw'>%%</span><span class='fl'>10</span> - <span class='fl'>5</span>)</pre>
+    <pre class="usage"><span class='fu'>lt_id_qm_a</span>(<span class='no'>nqx</span>, <span class='no'>nMx</span>, <span class='no'>AgeInt</span>)
+
+<span class='fu'><a href='qxmx2ax.html'>qxmx2ax</a></span>(<span class='no'>nqx</span>, <span class='no'>nMx</span>, <span class='no'>AgeInt</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>Value</th>
-      <td><p>numeric vector of (presumably) counts in 5-year age groups.</p></td>
+      <th>nqx</th>
+      <td><p>numeric. Vector of age specific death probabilities.</p></td>
     </tr>
     <tr>
-      <th>Age</th>
-      <td><p>integer vector of age group lower bounds.</p></td>
+      <th>nMx</th>
+      <td><p>numeric. Vector of age-specific death rates.</p></td>
     </tr>
     <tr>
-      <th>OAG</th>
-      <td><p>logical. Whether or not the top age group is open. Default <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>ageMin</th>
-      <td><p>integer. Lower age bound to adjust values.</p></td>
-    </tr>
-    <tr>
-      <th>ageMax</th>
-      <td><p>integer. Upper age bound to adjust values.</p></td>
+      <th>AgeInt</th>
+      <td><p>integer. Vector of age class widths.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>numeric vector of smoothed counts in 5-year age groups.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This function calls <code><a href='zigzag.html'>zigzag()</a></code>, but prepares data in a way consistent with other methods called by <code><a href='agesmth.html'>agesmth()</a></code>. It is probably preferable to call <code><a href='zigzag.html'>zigzag()</a></code> from the top level, or else call this method from <code><a href='agesmth.html'>agesmth()</a></code> for more control over tail imputations.</p>
+    <p>nax numeric vector of average time spent in interval by those dying in interval via identity.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/</p>
+    <p>Preston S, Heuveline P, Guillot M (2000).
+<em>Demography: measuring and modeling population processes</em>.
+Wiley-Blackwell.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>,<span class='fl'>90</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>))
-<span class='co'># defaults</span>
-<span class='no'>zz</span> <span class='kw'>&lt;-</span> <span class='fu'>zigzag_smth</span>(<span class='no'>dth5_zigzag</span>, <span class='no'>Age</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>40</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>90</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Age</span>, <span class='no'>dth5_zigzag</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>zz</span>)),<span class='no'>zz</span>)
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

@@ -34,9 +34,6 @@
     <loc>https://timriffe.github.io/DemoTools//reference/KannistoHeap.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/LTabr.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/M04_2_D0.html</loc>
   </url>
   <url>
@@ -226,6 +223,9 @@
     <loc>https://timriffe.github.io/DemoTools//reference/loess_smth1.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_abridged.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/lt_ax_closeout.html</loc>
   </url>
   <url>
@@ -241,7 +241,22 @@
     <loc>https://timriffe.github.io/DemoTools//reference/lt_id_lda_L.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_ma_q.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/lt_id_ma_q_robust.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_morq_a.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_q_l.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_qa_m.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_qm_a.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/lt_single_simple.html</loc>
@@ -263,12 +278,6 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/mx2qx.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mxax2qx.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mxorqx2ax.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/names2age.html</loc>
@@ -296,15 +305,6 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/print.extra_mortality.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/qx2lx.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/qxax2mx.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/qxmx2ax.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/ratx.html</loc>

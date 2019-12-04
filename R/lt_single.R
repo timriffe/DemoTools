@@ -2,8 +2,8 @@
 
 #' calculate a single age lifetable
 #' @description Fuller description forthcoming
-#' @details Similar to \code{LTabr()} details, forthcoming
-#' @inheritParams LTabr
+#' @details Similar to \code{lt_abridged()} details, forthcoming
+#' @inheritParams lt_abridged
 #' @return Lifetable in data.frame with columns
 #' \itemize{
 #'   \item{Age}{integer. Lower bound of abridged age class},

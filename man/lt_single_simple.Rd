@@ -60,5 +60,5 @@ Lifetable in data.frame with columns
 Fuller description forthcoming
 }
 \details{
-Similar to \code{LTabr()} details, forthcoming
+Similar to \code{lt_abridged()} details, forthcoming
 }

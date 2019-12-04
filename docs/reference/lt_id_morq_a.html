@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate the PAS age ratio score — ageRatioScore • DemoTools</title>
+<title>wrapper to invoke PAS or UN ax methods given qx or mx — lt_id_morq_a • DemoTools</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,10 +42,8 @@
 
 
 
-<meta property="og:title" content="Calculate the PAS age ratio score — ageRatioScore" />
-<meta property="og:description" content="A single ratio is defined as the 100 times twice the size of an age group
-to its neighboring two age groups. Under uniformity these would all be 100. The average
-absolute deviation from 100 defines this index. This comes from the PAS spreadsheet called AGESEX" />
+<meta property="og:title" content="wrapper to invoke PAS or UN ax methods given qx or mx — lt_id_morq_a" />
+<meta property="og:description" content="Given either mx or qx, call either the axUN() or axPAS() functions." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -152,94 +150,127 @@ absolute deviation from 100 defines this index. This comes from the PAS spreadsh
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate the PAS age ratio score</h1>
+    <h1>wrapper to invoke PAS or UN ax methods given qx or mx</h1>
     
-    <div class="hidden name"><code>ageRatioScore.Rd</code></div>
+    <div class="hidden name"><code>lt_id_morq_a.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A single ratio is defined as the 100 times twice the size of an age group
-to its neighboring two age groups. Under uniformity these would all be 100. The average
-absolute deviation from 100 defines this index. This comes from the PAS spreadsheet called AGESEX</p>
+    <p>Given either mx or qx, call either the <code><a href='axUN.html'>axUN()</a></code> or <code><a href='axPAS.html'>axPAS()</a></code> functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ageRatioScore</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"UN"</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>lt_id_morq_a</span>(<span class='no'>nMx</span>, <span class='no'>nqx</span>, <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pas"</span>, <span class='st'>"un"</span>)[<span class='fl'>1</span>], <span class='no'>Age</span>, <span class='no'>AgeInt</span>,
+  <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>Sex</span>, <span class='no'>region</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Kannisto"</span>, <span class='st'>"Kannisto_Makeham"</span>, <span class='st'>"Makeham"</span>, <span class='st'>"Gompertz"</span>,
+  <span class='st'>"GGompertz"</span>, <span class='st'>"Beard"</span>, <span class='st'>"Beard_Makeham"</span>, <span class='st'>"Quadratic"</span>)[<span class='fl'>1</span>],
+  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>], <span class='no'>...</span>)
+
+<span class='fu'><a href='mxorqx2ax.html'>mxorqx2ax</a></span>(<span class='no'>nMx</span>, <span class='no'>nqx</span>, <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pas"</span>, <span class='st'>"un"</span>)[<span class='fl'>1</span>], <span class='no'>Age</span>, <span class='no'>AgeInt</span>,
+  <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>Sex</span>, <span class='no'>region</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Kannisto"</span>, <span class='st'>"Kannisto_Makeham"</span>, <span class='st'>"Makeham"</span>, <span class='st'>"Gompertz"</span>,
+  <span class='st'>"GGompertz"</span>, <span class='st'>"Beard"</span>, <span class='st'>"Beard_Makeham"</span>, <span class='st'>"Quadratic"</span>)[<span class='fl'>1</span>],
+  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>], <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>Value</th>
-      <td><p>numeric. A vector of demographic counts in 5-year age groups.</p></td>
+      <th>nMx</th>
+      <td><p>numeric. Vector of mortality rates in abridged age classes.</p></td>
+    </tr>
+    <tr>
+      <th>nqx</th>
+      <td><p>numeric. Vector of conditional death probabilities in abridged age classes.</p></td>
+    </tr>
+    <tr>
+      <th>axmethod</th>
+      <td><p>character. Either <code>"pas"</code> or <code>"un"</code>.</p></td>
     </tr>
     <tr>
       <th>Age</th>
-      <td><p>numeric. A vector of ages corresponding to the lower integer bound of the counts.</p></td>
+      <td><p>integer. A vector of ages of the lower integer bound of the age classes.</p></td>
     </tr>
     <tr>
-      <th>ageMin</th>
-      <td><p>integer. The lowest age included in calculations. Default 0.</p></td>
+      <th>AgeInt</th>
+      <td><p>integer. Vector of age class widths. Default <code><a href='inferAgeIntAbr.html'>inferAgeIntAbr(Age = Age)</a></code>.</p></td>
     </tr>
     <tr>
-      <th>ageMax</th>
-      <td><p>integer. The upper age bound used for calculations. Default <code><a href='https://rdrr.io/r/base/Extremes.html'>max(Age)</a></code>.</p></td>
+      <th>IMR</th>
+      <td><p>numeric. Infant mortality rate q<sub>0, in case available and <code>nqx</code> is not specified. Default <code>NA</code>.</p></td>
     </tr>
     <tr>
-      <th>method</th>
-      <td><p>character. Either <code>"UN"</code> (default), <code>"Zelnick"</code>, or <code>"Ramachandran"</code></p></td>
+      <th>Sex</th>
+      <td><p>character. Either male <code>"m"</code>, female <code>"f"</code>, or both <code>"b"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>region</th>
+      <td><p>character. North, East, South, or West: code"n", code"e", code"s", code"w". Default code"w".</p></td>
     </tr>
     <tr>
       <th>OAG</th>
-      <td><p>logical. Whether or not the top age group is open. Default <code>TRUE</code>.</p></td>
+      <td><p>logical. Whether or not the last element of <code>nMx</code> is the open age group Default <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>mod</th>
+      <td><p>logical. If <code>"un"</code> specified for <code>axmethod</code>, whether or not to use Nan Li's modification for ages 5-14. Default <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>extrapLaw</th>
+      <td><p>character. If extrapolating, which parametric mortality law should be invoked? Options include
+<code>"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"</code>. Default <code>"Kannisto"</code>. See details.</p></td>
+    </tr>
+    <tr>
+      <th>extrapFrom</th>
+      <td><p>integer. Age from which to impute extrapolated mortality.</p></td>
+    </tr>
+    <tr>
+      <th>extrapFit</th>
+      <td><p>integer vector. Ages to include in model fitting. Defaults to all ages <code>&gt;          =60</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other arguments to be passed on to the
+<code><a href='https://rdrr.io/pkg/MortalityLaws/man/MortalityLaw.html'>MortalityLaw</a></code> function.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The value of the index.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Age groups must be of equal intervals. Five year age groups are assumed.
- It is also assumed that the final age group is open, unless <code>ageMax &lt; max(Age)</code>.
- Setting <code>OAG = FALSE</code> will override this and potentially include <code><a href='https://rdrr.io/r/base/Extremes.html'>max(Age)</a></code> in calculations.
- The method argument determines the weighting of numerators and denominators, where the UN method puts
-twice the numerator over the sum of the adjacent ages classes, Zelnich does thrice the
-numerator over the sum of the whole range from the next lowest to the next highest age, and
-Ramachandran does four times the numerator over the same sum, but with the central age
-double-counted in the numerator.</p>
+    <p>nax average contribution to exposure of those dying in the interval.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>United Nations (1952).
-&#8220;Accuracy tests for census age distributions tabulated in five-year and ten-year groups.&#8221;
-<em>Population Bulletin</em>, 59--79.
+    <p>Greville TN (1977).
+&#8220;Short methods of constructing abridged life tables.&#8221;
+In <em>Mathematical Demography</em>, 53--60.
+Springer.
 
-Ramachandran KV (1967).
-&#8220;An Index to Measure Digit Preference Error in Age Data.&#8221;
-In <em>United Nations, Proceedings of the World Population Conference, 1965 (Belgrade)</em>, volume III, 202--203.
+United Nations (1982).
+<em>Model Life Tables for Developing Countries</em>.
+United Nations Department of International Economic and Social Affairs.
+
+Arriaga EE, Johnson PD, Jamison E (1994).
+<em>Population analysis with microcomputers</em>, volume 1.
+Bureau of the Census.
+
+United Nations (1988).
+<em>Mortpak- The United Nations Software Package for Mortality Measurement</em>.
+United Nations Department of International Economic and Social Affairs.
+
+United Nations (1983).
+<em>Manual X: Indirect Techniques for Demographic Estimation</em>,  number 81.
+United Nations Department of International Economic and Social Affairs, New York.
 
 United States Census Bureau (2017).
 &#8220;Population Analysis System (PAS) Software.&#8221;
 https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># data from PAS spreadsheet AGESEX.xlsx</span>
-<span class='no'>Males</span>   <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4677000</span>,<span class='fl'>4135000</span>,<span class='fl'>3825000</span>,<span class='fl'>3647000</span>,<span class='fl'>3247000</span>,<span class='fl'>2802000</span>,<span class='fl'>2409000</span>,<span class='fl'>2212000</span>,
-                <span class='fl'>1786000</span>,<span class='fl'>1505000</span>,<span class='fl'>1390000</span>,<span class='fl'>984000</span>,<span class='fl'>745000</span>,<span class='fl'>537000</span>,<span class='fl'>346000</span>,<span class='fl'>335000</span>)
-<span class='no'>Females</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4544000</span>,<span class='fl'>4042000</span>,<span class='fl'>3735000</span>,<span class='fl'>3647000</span>,<span class='fl'>3309000</span>,<span class='fl'>2793000</span>,<span class='fl'>2353000</span>,<span class='fl'>2112000</span>,
-                <span class='fl'>1691000</span>,<span class='fl'>1409000</span>,<span class='fl'>1241000</span>,<span class='fl'>887000</span>,<span class='fl'>697000</span>,<span class='fl'>525000</span>,<span class='fl'>348000</span>,<span class='fl'>366000</span>)
-<span class='no'>Age</span>     <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>75</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-
-<span class='fu'>ageRatioScore</span>(<span class='no'>Males</span>, <span class='no'>Age</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>75</span>)    <span class='co'># 3.9, matches PAS</span></div><div class='output co'>#&gt; [1] 3.90667</div><div class='input'><span class='fu'>ageRatioScore</span>(<span class='no'>Females</span>, <span class='no'>Age</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>75</span>)  <span class='co'># 3.66 matches PAS</span></div><div class='output co'>#&gt; [1] 3.655353</div><div class='input'><span class='fu'>ageRatioScore</span>(<span class='no'>Females</span>, <span class='no'>Age</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>75</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Ramachandran"</span>) <span class='co'># 1.8</span></div><div class='output co'>#&gt; [1] 1.834906</div><div class='input'><span class='fu'>ageRatioScore</span>(<span class='no'>Females</span>, <span class='no'>Age</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>75</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Zelnick"</span>)      <span class='co'># 2.4</span></div><div class='output co'>#&gt; [1] 2.442891</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
