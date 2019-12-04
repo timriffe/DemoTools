@@ -90,12 +90,9 @@ graduate_grabill_expand <- function(Value, Age, OAG = TRUE) {
 #' Sprague estimated single-age population counts for the first and final ten ages. Open age groups are preserved, as are annual totals.
 #'
 #' @inheritParams graduate
-#' @details  Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages.
+#' @details  Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages. If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend to single ages covering the entire 5-year age group.
 #'
-#' If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend
-#' to single ages covering the entire 5-year age group.
-#'
-#' @return An age-period matrix of split population counts with the same number of columns as \code{popmat}, and single ages in rows.
+#' @return numeric vector in single ages.
 #'
 #' @references
 #' \insertRef{shryock1973methods}{DemoTools}
@@ -129,8 +126,12 @@ graduate_grabill <- function(
   Value,
   Age,
   OAG = TRUE) {
-
-  punif1       <- splitUniform(
+  
+  if (as.character(match.call()[[1]]) == "grabill") {
+    warning("please use graduate_grabill() instead of grabill().", call. = FALSE)
+  }
+  
+  punif1       <- graduate_uniform(
                     Value = Value, 
                     Age = Age, 
                     OAG = OAG)
@@ -144,10 +145,10 @@ graduate_grabill <- function(
   )
   # depending on OAG, highest age may shift down.
   a5           <- as.integer(names(pop5))
-  punif1       <- splitUniform(
-                    pop5,
-                    Age = a5,
-                    OAG = OAG)
+  # punif1       <- graduate_uniform(
+  #                   pop5,
+  #                   Age = a5,
+  #                   OAG = OAG)
   
   
   # get coefficient matrices for Sprague and Grabill
@@ -200,3 +201,7 @@ graduate_grabill <- function(
   
   popg
 }
+
+#' @export
+#' @rdname graduate_grabill
+grabill <- graduate_grabill

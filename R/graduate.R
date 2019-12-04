@@ -65,8 +65,8 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
 #' @param OAnew integer, optional new open age, higher than \code{max(Age)}. See details.
 #' @param method character, either \code{"sprague"}, \code{"beers(ord)")}, \code{"beers(mod)")}, \code{"mono")}, \code{"uniform")}, or \code{"pclm"}
 #' @param keep0 logical. Default \code{FALSE}. If available, should the value in the infant age group be maintained, and ages 1-4 constrained?
-#' @param ... extra arguments passed to \code{beers()} or \code{graduate_pclm()}
-#' @seealso \code{\link{graduate_sprague}}, \code{\link{beers}}, \code{\link{splitUniform}}, \code{\link{graduate_mono}}, \code{\link{graduate_pclm}}, \code{\link{graduate_grabill}} 
+#' @param ... extra arguments passed to \code{graduate_beers()} or \code{graduate_pclm()}
+#' @seealso \code{\link{graduate_sprague}}, \code{\link{graduate_beers}}, \code{\link{graduate_uniform}}, \code{\link{graduate_mono}}, \code{\link{graduate_pclm}}, \code{\link{graduate_grabill}} 
 #' @export
 #' @references
 #' \insertRef{pascariu2018ungroup}{DemoTools}
@@ -182,14 +182,14 @@ graduate <- function(Value,
   # Beers in strict 5-year age groups
   if (grepl("beers", method)) {
     if (grepl("ord", method)) {
-      out <- beers(Value,
+      out <- graduate_beers(Value,
                    Age = Age,
                    OAG = OAG,
                    method = "ord",
                    ...)
     }
     if (grepl("mod", method)) {
-      out <- beers(Value,
+      out <- graduate_beers(Value,
                    Age = Age,
                    OAG = OAG,
                    method = "mod",
@@ -211,7 +211,7 @@ graduate <- function(Value,
   # Uniform respects irregular intervals
   if (method == "uniform") {
     OAvalue <- OAnew - max(Age) + 1
-    out <- splitUniform(
+    out <- graduate_uniform(
       Value = Value,
       Age = Age,
       AgeInt = AgeInt,

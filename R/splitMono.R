@@ -36,6 +36,11 @@ graduate_mono   <- function(
   AgeInt, 
   Age, 
   OAG = TRUE) {
+  
+  if (as.character(match.call()[[1]]) == "splitMono") {
+    warning("please use graduate_mono() instead of splitMono().", call. = FALSE)
+  }
+  
   if (missing(Age) & missing(AgeInt)) {
     Age                 <- names2age(Value)
   }
@@ -79,6 +84,9 @@ graduate_mono   <- function(
   out
 }
 
+#' @export
+#' @rdname graduate_mono
+splitMono <- graduate_mono
 
 #' blend the Sprague upper boundary age estimates into monotonic spline estimates
 #'
@@ -137,7 +145,9 @@ graduate_mono_closeout <-
            splitfun = graduate_sprague,
            OAG = TRUE,
            ...) {
-    
+    if (as.character(match.call()[[1]]) == "monoCloseout") {
+      warning("please use graduate_mono_closeout() instead of monoCloseout().", call. = FALSE)
+    }
     names(Value)        <- Age
     
     if (missing(pops)) {
@@ -197,3 +207,7 @@ graduate_mono_closeout <-
 
     pop.c
   }
+
+#' @export
+#' @rdname graduate_mono_closeout
+monoCloseout <- graduate_mono_closeout

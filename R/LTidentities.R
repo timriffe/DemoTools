@@ -117,9 +117,16 @@ qx2lx <- function(nqx, radix = 1e5) {
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return ndx vector of lifetable deaths.
 #' @export
-lx2dx <- function(lx) {
+lt_id_l_d <- function(lx) {
+  if (as.character(match.call()[[1]]) == "lx2dx") {
+    warning("please use lt_id_l_d() instead of lx2dx().", call. = FALSE)
+  }
   diff(-c(lx, 0))
 }
+
+#' @export
+#' @rdname lt_id_l_d
+lx2dx <- lt_id_l_d
 
 #' Derive lifetable exposure from lx, ndx and nax.
 #' @description This is a common approximation of lifetable exposure:
@@ -134,7 +141,11 @@ lx2dx <- function(lx) {
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return nLx numeric vector of lifetable exposure.
 #' @export
-lxdxax2Lx <- function(lx, ndx, nax, AgeInt) {
+lt_id_lda_L <- function(lx, ndx, nax, AgeInt) {
+  if (as.character(match.call()[[1]]) == "lxdxax2Lx") {
+    warning("please use lt_id_lda_L() instead of lxdxax2Lx().", call. = FALSE)
+  }
+  
   N                   <- length(lx)
   nLx                 <- rep(0, N)
   nLx[1:(N - 1)]      <-
@@ -142,6 +153,11 @@ lxdxax2Lx <- function(lx, ndx, nax, AgeInt) {
   nLx[N]		        <- lx[N] * nax[N]
   nLx
 }
+
+#' @export
+#' @rdname lt_id_lda_L
+lxdxax2Lx <- lt_id_lda_L
+
 
 #' Derive lifetable total person years left to live from exposure.
 #' @description A lifetable identity. Tx is interpreted as the total years
@@ -153,9 +169,16 @@ lxdxax2Lx <- function(lx, ndx, nax, AgeInt) {
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return Tx total years left to live above age x.
 #' @export
-Lx2Tx <- function(Lx) {
+lt_id_L_T <- function(Lx) {
+  if (as.character(match.call()[[1]]) == "Lx2Tx") {
+    warning("please use lt_id_L_T() instead of Lx2Tx().", call. = FALSE)
+  }
   rev(cumsum(rev(Lx)))
 }
+
+#' @export
+#' @rdname lt_id_L_T
+Lx2Tx <- lt_id_L_T
 
 #' adjust ax estimate so that qx less than or equal to 1
 #' @description Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages.
@@ -170,15 +193,20 @@ Lx2Tx <- function(Lx) {
 #' # this is a problematic case
 #' (mx2qx(mx, ax, AgeInt))
 #' # here a workable value
-#' (mxax2qx_Backstop(mx, ax, AgeInt))
+#' (lt_id_ma_q_robust(mx, ax, AgeInt))
 #' #' # still less than 1
-#' mxax2qx_Backstop(1.99, ax, AgeInt) < 1
+#' lt_id_ma_q_robust(1.99, ax, AgeInt) < 1
 #' # unity
-#' (mxax2qx_Backstop(2, ax, AgeInt))
+#' (lt_id_ma_q_robust(2, ax, AgeInt))
 #' # qx imputed as 1
-#' (mxax2qx_Backstop(2.1, ax, AgeInt))
+#' (lt_id_ma_q_robust(2.1, ax, AgeInt))
 
-mxax2qx_Backstop <- function(nMx, nax, AgeInt) {
+lt_id_ma_q_robust<- function(nMx, nax, AgeInt) {
+  
+  if (as.character(match.call()[[1]]) == "mxax2qx_Backstop") {
+    warning("please use lt_id_ma_q_robust() instead of mxax2qx_Backstop().", call. = FALSE)
+  }
+  
   stopifnot(length(nMx) == 1)
   # sometime assuming mid interval nAx causes the world
   # to turn upside down.
@@ -193,6 +221,9 @@ mxax2qx_Backstop <- function(nMx, nax, AgeInt) {
   qx
 }
 
+#' @export
+#' @rdname lt_id_ma_q_robust
+mxax2qx_Backstop <- lt_id_ma_q_robust
 
 #' calculate survivor ratios
 #' @description An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age (\code{N=1}) or five-year ages (\code{N=5}). Input vectors are assumed to come from either single or standard abridged ages.
@@ -201,7 +232,12 @@ mxax2qx_Backstop <- function(nMx, nax, AgeInt) {
 #' @param nLx numeric vector of lifetable exposure.
 #' @param N integer, the age width for survivor ratios, either 5 or 1. Default 5.
 #' @export
-Lxlx2Sx           <- function(nLx, lx, AgeInt, N = c(5, 1)) {
+lt_id_Ll_S      <- function(nLx, lx, AgeInt, N = c(5, 1)) {
+  
+  if (as.character(match.call()[[1]]) == "Lxlx2Sx") {
+    warning("please use lt_id_Ll_S() instead of Lxlx2Sx().", call. = FALSE)
+  }
+  
   n               <- length(nLx)
   stopifnot(length(lx) == n)
   # either we're in 1 or 5 year age groups
@@ -235,3 +271,6 @@ Lxlx2Sx           <- function(nLx, lx, AgeInt, N = c(5, 1)) {
   
   Sx
 }
+#' @export
+#' @rdname lt_id_Ll_S
+Lxlx2Sx <- lt_id_Ll_S

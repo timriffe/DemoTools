@@ -31,7 +31,7 @@ carrier_farrag_smth <- function(Value,
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
   # age groups and it'd still not break.
-  Value1     <- splitUniform(Value = Value, Age = Age, OAG = OAG)
+  Value1     <- graduate_uniform(Value = Value, Age = Age, OAG = OAG)
   Value5     <-
     groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
   N          <- length(Value5)
@@ -91,7 +91,7 @@ kkn_smth <- function(Value,
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
   # age groups and it'd still not break.
-  Value1     <- splitUniform(Value = Value, Age = Age, OAG = OAG)
+  Value1     <- graduate_uniform(Value = Value, Age = Age, OAG = OAG)
   Value5     <-
     groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
   N          <- length(Value5)
@@ -155,7 +155,7 @@ arriaga_smth <- function(Value,
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
   # age groups and it'd still not break.
-  Value1     <- splitUniform(Value = Value, Age = Age, OAG = OAG)
+  Value1     <- graduate_uniform(Value = Value, Age = Age, OAG = OAG)
   Value5     <-
     groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
   N          <- length(Value5)
@@ -291,7 +291,7 @@ strong_smth <- function(Value,
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
   # age groups and it'd still not break.
-  Value1     <- splitUniform(Value = Value, Age = Age, OAG = OAG)
+  Value1     <- graduate_uniform(Value = Value, Age = Age, OAG = OAG)
   Value5     <-
     groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
   N          <- length(Value5)
@@ -551,9 +551,9 @@ mav_smth <- function(Value,
 #'		  OAG = TRUE)
 #'  \dontrun{
 #'  plot(Age,pop1m_pasex,pch=16)
-#'  lines(Age,splitUniform(V5,Age=Age5,OAG=FALSE), lty=2, lwd = 2)
-#'  lines(Age,splitUniform(cf2,Age=Age5,OAG=FALSE),col="blue")
-#'  lines(Age,splitUniform(st2,Age=Age5,OAG=FALSE),col="red")
+#'  lines(Age,graduate_uniform(V5,Age=Age5,OAG=FALSE), lty=2, lwd = 2)
+#'  lines(Age,graduate_uniform(cf2,Age=Age5,OAG=FALSE),col="blue")
+#'  lines(Age,graduate_uniform(st2,Age=Age5,OAG=FALSE),col="red")
 #'  legend("topright",
 #'		  pch=c(16,NA,NA,NA),
 #'		  lty=c(NA,2,1,1),

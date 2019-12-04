@@ -37,12 +37,6 @@
     <loc>https://timriffe.github.io/DemoTools//reference/LTabr.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/Lx2Tx.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/Lxlx2Sx.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/M04_2_D0.html</loc>
   </url>
   <url>
@@ -97,9 +91,6 @@
     <loc>https://timriffe.github.io/DemoTools//reference/agesmth1.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/aomegaMortalityLaws.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/arriaga_smth.html</loc>
   </url>
   <url>
@@ -113,12 +104,6 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/axUN.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/beers.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/beersExpand.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/birthCohorts.html</loc>
@@ -160,6 +145,12 @@
     <loc>https://timriffe.github.io/DemoTools//reference/graduate.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/graduate_beers.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/graduate_beers_expand.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/graduate_grabill.html</loc>
   </url>
   <url>
@@ -179,6 +170,9 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/graduate_sprague_expand.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/graduate_uniform.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/groupAges.html</loc>
@@ -232,13 +226,25 @@
     <loc>https://timriffe.github.io/DemoTools//reference/loess_smth1.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_ax_closeout.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_L_T.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_Ll_S.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_l_d.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_lda_L.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_ma_q_robust.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/lt_single_simple.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lx2dx.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lxdxax2Lx.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/ma.html</loc>
@@ -260,9 +266,6 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/mxax2qx.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mxax2qx_Backstop.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/mxorqx2ax.html</loc>
@@ -329,9 +332,6 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/splitOscillate.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/splitUniform.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/strong_smth.html</loc>

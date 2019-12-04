@@ -39,7 +39,7 @@
 #' @param OAG logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include
 #'   \code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.
-#' @inheritParams aomegaMortalityLaws
+#' @inheritParams lt_ax_closeout
 #' @export
 #' @return Lifetable in data.frame with columns
 #' \itemize{
@@ -197,7 +197,7 @@ LTabr <- function(Deaths,
   
   # 1) if lx given but not qx:
   if (missing(nqx) & !missing(lx)) {
-    nqx          <- lx2dx(lx) / lx
+    nqx          <- lt_id_l_d(lx) / lx
   }
   # 2) if still no nqx then make sure we have or can get nMx
   if (missing(nqx) & missing(nMx)) {
@@ -318,14 +318,14 @@ LTabr <- function(Deaths,
   
   # TR: the lifetable is the shortest part of this code!
   lx             <- qx2lx(nqx, radix = radix)
-  ndx            <- lx2dx(lx)
-  nLx            <- lxdxax2Lx(
+  ndx            <- lt_id_l_d(lx)
+  nLx            <- lt_id_lda_L(
     lx = lx,
     ndx = ndx,
     nax = nAx,
     AgeInt = AgeInt
   )
-  Tx            <- Lx2Tx(nLx)
+  Tx            <- lt_id_L_T(nLx)
   ex            <- Tx / lx
   
   # TR: now cut down due to closeout method (added 11 Oct 2018)
@@ -338,7 +338,7 @@ LTabr <- function(Deaths,
   
   lx            <- lx[ind]
   # recalc dx from chopped lx
-  ndx           <- lx2dx(lx)
+  ndx           <- lt_id_l_d(lx)
   nLx           <- nLx[ind]
   Tx            <- Tx[ind]
   ex            <- ex[ind]

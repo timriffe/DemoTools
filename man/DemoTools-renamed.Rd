@@ -9,11 +9,17 @@ These functions still work but will be removed (defunct) in the next version.
 \details{
 \itemize{
  \item \code{\link{monoCloseout}}: This function is now called \code{\link{graduate_mono_closeout}}.
-
-\item \code{\link{splitMono}}: This function is now called \code{\link{graduate_mono}}.
-
-\item \code{\link{grabill}}: This function is now called \code{\link{graduate_grabill}}.
-
-\item \code{\link{sprague}}: This function is now called \code{\link{graduate_sprague}}.
+ \item \code{\link{splitMono}}: This function is now called \code{\link{graduate_mono}}.
+ \item \code{\link{grabill}}: This function is now called \code{\link{graduate_grabill}}.
+ \item \code{\link{sprague}}: This function is now called \code{\link{graduate_sprague}}.
+ \item \code{\link{beers}}: This function is now called \code{\link{graduate_beers}}.
+ \item \code{\link{splitUniform}}: This function is now called \code{\link{graduate_uniform}}.
+ \item \code{\link{aomegaMortalityLaws}}: This function is now called \code{\link{lt_ax_closeout}}.
+ 
+ \item \code{\link{lx2dx}}: This function is now called \code{\link{lt_id_l_d}}.  
+ \item \code{\link{Lx2Tx}}: This function is now called \code{\link{lt_id_L_T}}.
+ \item \code{\link{Lx2Tx}}: This function is now called \code{\link{lt_id_L_T}}.
+ \item \code{\link{Lxlx2Sx}}: This function is now called \code{\link{lt_id_Ll_S}}.
+ \item \code{\link{mxax2qx_Backstop}}: This function is now called \code{\link{lt_id_ma_q_robust}}.
 }
 }

@@ -176,7 +176,7 @@ poly_smth1 <-
 
 #' Generic smoother over age or time
 #' @description One dimensional smoothing over age (or time) using either loess (\code{"loess"} or polynomial \code{"poly"} regression.
-#'  Results of loess may at times be similar to a two-step \code{agesmth()} method followed by graduation (e.g. \code{beers()} or \code{sprague()},
+#'  Results of loess may at times be similar to a two-step \code{agesmth()} method followed by graduation (e.g. \code{graduate_beers()} or \code{graduate_beers()},
 #'  but local totals are not not constrained for any of the \code{agesmth1()} methods at this time. Total counts are
 #'  constrained to the original total in all cases.
 #' @details LOESS (locally weighted smoothing) helps to smooth data over age, preserving the open age group if necessary.

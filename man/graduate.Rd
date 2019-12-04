@@ -23,7 +23,7 @@ graduate(Value, Age, AgeInt = age2int(Age), OAG = TRUE,
 
 \item{keep0}{logical. Default \code{FALSE}. If available, should the value in the infant age group be maintained, and ages 1-4 constrained?}
 
-\item{...}{extra arguments passed to \code{beers()} or \code{graduate_pclm()}}
+\item{...}{extra arguments passed to \code{graduate_beers()} or \code{graduate_pclm()}}
 }
 \description{
 A wrapper function for several graduation methods, primarily for count data (\code{"sprague"}, \code{"beers(ord)"}, \code{"beers(mod)"}, \code{"grabill"}, \code{"mono"} (Monotonic spline), \code{"uniform"}, \code{"pclm"}), but also with one (\code{"pclm"}) with an option for graduating rates if both event counts and population at risk are available.
@@ -110,5 +110,5 @@ legend("bottomright",
 \insertRef{beers1945modified}{DemoTools}
 }
 \seealso{
-\code{\link{graduate_sprague}}, \code{\link{beers}}, \code{\link{splitUniform}}, \code{\link{graduate_mono}}, \code{\link{graduate_pclm}}, \code{\link{graduate_grabill}}
+\code{\link{graduate_sprague}}, \code{\link{graduate_beers}}, \code{\link{graduate_uniform}}, \code{\link{graduate_mono}}, \code{\link{graduate_pclm}}, \code{\link{graduate_grabill}}
 }

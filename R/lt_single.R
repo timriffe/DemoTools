@@ -93,15 +93,15 @@ lt_single_simple <- function(nMx,
                          AgeInt = AgeInt)
   
   lx            <- qx2lx(qx, radix = radix)
-  ndx           <- lx2dx(lx)
+  ndx           <- lt_id_l_d(lx)
   nLx           <-
-    lxdxax2Lx(
+    lt_id_lda_L(
       lx = lx,
       ndx = ndx,
       nax = nAx,
       AgeInt = AgeInt
     )
-  Tx            <- Lx2Tx(nLx)
+  Tx            <- lt_id_L_T(nLx)
   ex            <- Tx / lx
   
   # TR: now cut down due to closeout method (added 11 Oct 2018)
@@ -115,7 +115,7 @@ lt_single_simple <- function(nMx,
   lx            <- lx[ind]
   
   # recalc dx from chopped lx
-  ndx           <- lx2dx(lx)
+  ndx           <- lt_id_l_d(lx)
   nLx           <- nLx[ind]
   Tx            <- Tx[ind]
   ex            <- ex[ind]
