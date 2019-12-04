@@ -69,7 +69,11 @@ qxmx2ax <- function(nqx, nMx, AgeInt) {
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return nqx vector of age specific death probabilities derived via identity.
 #' @export
-mxax2qx <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
+lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
+  if (as.character(match.call()[[1]]) == "mxax2qx") {
+    warning("please use lt_id_ma_q() instead of mxax2qx().", call. = FALSE)
+  }
+  
   qx <- mx2qx(nMx, nax, AgeInt)
   if (closeout) {
     qx[length(qx)] <- 1
@@ -90,6 +94,9 @@ mxax2qx <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
   qx
 }
 
+#' @export
+#' @rdname lt_id_ma_q
+mxax2qx <- lt_id_ma_q
 #' Derive lifetable survivorship (lx) from death probabilities.
 #' @description This lifetable identity is the same no matter what kind of lifetable is required.
 #'  You can find it in any demography textbook.

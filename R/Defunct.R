@@ -35,6 +35,7 @@
 #'  \item \code{\link{Lx2Tx}}: This function is now called \code{\link{lt_id_L_T}}.
 #'  \item \code{\link{Lxlx2Sx}}: This function is now called \code{\link{lt_id_Ll_S}}.
 #'  \item \code{\link{qx2lx}}: This function is now called \code{\link{lt_id_q_l}}.
+#'  \item \code{\link{mxax2qx}}: This function is now called \code{\link{lt_id_ma_q}}.
 #'  \item \code{\link{mxax2qx_Backstop}}: This function is now called \code{\link{lt_id_ma_q_robust}}.
 #' }
 #' 

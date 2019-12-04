@@ -244,7 +244,7 @@ LTabr <- function(Deaths,
   
   if (missing(nqx)) {
     nqx          <-
-      mxax2qx(
+      lt_id_ma_q(
         nMx = nMx,
         nax = nAx,
         AgeInt = AgeInt,
@@ -305,7 +305,7 @@ LTabr <- function(Deaths,
     IMR = IMR
   )
   
-  nqx            <- mxax2qx(
+  nqx            <- lt_id_ma_q(
     nMx = nMx,
     nax = nAx,
     AgeInt = AgeInt,
