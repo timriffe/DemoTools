@@ -48,6 +48,7 @@
 #'  
 #'  \item \code{\link{extra.mortality}}: This function is now called \code{\link{lt_rule_m_extrapolate}}.
 #'  \item \code{\link{geta0CD}}: This function is now called \code{\link{lt_rule_1a0_cd}}.
+#'  \item \code{\link{geta1_4CD}}: This function is now called \code{\link{lt_rule_4a1_cd}}.
 #' }
 #' 
 #' 

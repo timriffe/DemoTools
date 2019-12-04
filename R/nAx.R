@@ -133,31 +133,35 @@ geta0CD <- lt_rule_1a0_cd
 #' @examples
 #' m0 <- seq(.001,.2,by =.001)
 #' \dontrun{
-#' plot(m0, sapply(m0, geta1_4CD, Sex = "m", region = "e"), ylab = "4a1",
+#' plot(m0, sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "e"), ylab = "4a1",
 #' 		type = 'l', ylim = c(1,2), lty = 2, col = "blue")
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "w"), col = "blue")
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "n"), col = "blue", lty = "8383",lwd=2)
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "s"), col = "blue", lty = "6464",lwd=2)
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "e"), lty = 2, col = "red")
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "w"), col = "red")
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "n"), col = "red", lty = "8383",lwd=2)
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "s"), col = "red", lty = "6464",lwd=2)
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "w"), col = "blue")
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "n"), col = "blue", lty = "8383",lwd=2)
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "s"), col = "blue", lty = "6464",lwd=2)
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "f", region = "e"), lty = 2, col = "red")
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "f", region = "w"), col = "red")
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "f", region = "n"), col = "red", lty = "8383",lwd=2)
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "f", region = "s"), col = "red", lty = "6464",lwd=2)
 #'
-#' text(.05, geta1_4CD(.05,Sex = "m", region = "e"),"males E",font=2,pos=4)
-#' text(.05, geta1_4CD(.05,Sex = "m", region = "w"),"males W",font=2,pos=4)
-#' text(.05, geta1_4CD(.05,Sex = "m", region = "s"),"males S",font=2,pos=4)
-#' text(.05, geta1_4CD(.05,Sex = "m", region = "n"),"males N",font=2,pos=4)
+#' text(.05, lt_rule_4a1_cd(.05,Sex = "m", region = "e"),"males E",font=2,pos=4)
+#' text(.05, lt_rule_4a1_cd(.05,Sex = "m", region = "w"),"males W",font=2,pos=4)
+#' text(.05, lt_rule_4a1_cd(.05,Sex = "m", region = "s"),"males S",font=2,pos=4)
+#' text(.05, lt_rule_4a1_cd(.05,Sex = "m", region = "n"),"males N",font=2,pos=4)
 #'
-#' text(0, geta1_4CD(.01,Sex = "f", region = "e"),"females E",font=2,pos=4)
-#' text(0, geta1_4CD(.01,Sex = "f", region = "w"),"females W",font=2,pos=4)
-#' text(0, geta1_4CD(.01,Sex = "f", region = "s"),"females S",font=2,pos=4)
-#' text(0, geta1_4CD(.01,Sex = "f", region = "n"),"females N",font=2,pos=4)
+#' text(0, lt_rule_4a1_cd(.01,Sex = "f", region = "e"),"females E",font=2,pos=4)
+#' text(0, lt_rule_4a1_cd(.01,Sex = "f", region = "w"),"females W",font=2,pos=4)
+#' text(0, lt_rule_4a1_cd(.01,Sex = "f", region = "s"),"females S",font=2,pos=4)
+#' text(0, lt_rule_4a1_cd(.01,Sex = "f", region = "n"),"females N",font=2,pos=4)
 #'
 #' }
-geta1_4CD <- function(M0,
+lt_rule_4a1_cd <- function(M0,
                       IMR = NA,
                       Sex = "m",
                       region = "w") {
+  if (as.character(match.call()[[1]]) == "geta1_4CD") {
+    warning("please use lt_rule_4a1_cd() instead of geta1_4CD().", call. = FALSE)
+  }
+  
   # sex can be "m", "f", or "b"
   # region can be "n","e","s","w",or
   Sex         <- tolower(Sex)
@@ -199,8 +203,9 @@ geta1_4CD <- function(M0,
   }
   ifelse(IMR > .1, Age1_4Const[region, Sex], Intercept[region, Sex] - Slope[Sex] * IMR)
 }
-
-
+#' @export
+#' @rdname lt_rule_4a1_cd
+geta1_4CD <- lt_rule_4a1_cd
 #' PAS a(x) rule of thumb.
 #'
 #' @description a(x) is calculated following the Coale-Demeny rules for ages 0 and 1-4, and assumes interval midpoints in higher ages.
@@ -259,7 +264,7 @@ lt_a_pas <-
         region = region
       )
     ax[2]  <-
-      geta1_4CD(
+      lt_rule_4a1_cd(
         M0 = nMx[1],
         IMR = IMR,
         Sex = Sex,
@@ -397,38 +402,31 @@ lt_id_morq_a_greville <- function(nMx,
   # now we have either qx or mx
   
   if (!mxflag) {
-    a0     <-
-      lt_rule_1a0_cd(
-        M0 = nMx[1],
-        IMR = IMR,
-        Sex = Sex,
-        region = region
-      )
-    a1_4   <-
-      geta1_4CD(
-        M0 = nMx[1],
-        IMR = IMR,
-        Sex = Sex,
-        region = region
-      )
+    a0     <- lt_rule_1a0_cd(
+                M0 = nMx[1],
+                IMR = IMR,
+                Sex = Sex,
+                region = region)
+    a1_4   <- lt_rule_4a1_cd(
+                M0 = nMx[1],
+                IMR = IMR,
+                Sex = Sex,
+                region = region)
     # qind slightly different from qxflag?
     qind   <- FALSE
   }
   # TR: from this it would appear that nMx is preferred input
   if (mxflag & !qxflag) {
     a0     <- lt_rule_1a0_cd(
-      M0 = NA,
-      IMR = nqx[1],
-      Sex = Sex,
-      region = region
-    )
-    a1_4   <-
-      geta1_4CD(
-        M0 = NA,
-        IMR = nqx[1],
-        Sex = Sex,
-        region = region
-      )
+                M0 = NA,
+                IMR = nqx[1],
+                Sex = Sex,
+                region = region)
+    a1_4   <- lt_rule_4a1_cd(
+                M0 = NA,
+                IMR = nqx[1],
+                Sex = Sex,
+                region = region)
     # here nMx created, but mxflag upheld
     nMx    <- nqx
     qind   <- TRUE
