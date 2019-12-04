@@ -4,14 +4,12 @@
 \alias{mig_calculate_rc}
 \title{Calculate Rogers-Castro migration age schedule}
 \usage{
-mig_calculate_rc(ages, pars, num_pars = 11)
+mig_calculate_rc(ages, pars)
 }
 \arguments{
 \item{ages}{numeric. A vector of ages for migration rates to be calculated.}
 
-\item{pars}{numeric. A named list of parameters.}
-
-\item{num_pars}{integer. The number of parameters in the model (7,9,11, or 13)}
+\item{pars}{numeric. A named list of parameters. Must have 7, 9, 11 or 13 values.}
 }
 \description{
 Given a set of ages and parameters, calculate the migration age schedule based on the Rogers and Castro formula. 
@@ -28,7 +26,7 @@ pars <- c(a1= 0.09, alpha1= 0.1, a2= 0.2,
 alpha2= 0.1, mu2= 21, lambda2= 0.39, a3= 0.001, 
 alpha3= 1, mu3= 67, lambda3= 0.6, c= 0.01)
 ages <- 0:75
-mx <- mig_calculate_rc(ages = ages, pars = pars, num_pars = 11)
+mx <- mig_calculate_rc(ages = ages, pars = pars)
 plot(ages, mx, type = 'l')
 }
 \references{
