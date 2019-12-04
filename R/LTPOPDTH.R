@@ -278,14 +278,13 @@ lt_abridged <- function(Deaths,
   # then truncate to OAnew in all cases. This will ensure more robust closeouts
   # and an e(x) that doesn't depend on OAnew. 130 used in same way by HMD by the way.
   x_extr         <- seq(extrapFrom, 130, by = 5)
-  Mxnew          <- extra_mortality(
-    x = Age,
-    mx = nMx,
-    x_fit = extrapFit,
-    x_extr = x_extr,
-    law = extrapLaw,
-    ...
-  )
+  Mxnew          <- lt_rule_m_extrapolate(
+                      x = Age,
+                      mx = nMx,
+                      x_fit = extrapFit,
+                      x_extr = x_extr,
+                      law = extrapLaw,
+                      ...)
   
   nMxext         <- Mxnew$values
   Age2           <- names2age(nMxext)

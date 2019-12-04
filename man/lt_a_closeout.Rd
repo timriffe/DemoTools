@@ -66,5 +66,5 @@ lt_a_closeout(nMx,Age,"Beard_Makeham")
 lt_a_closeout(nMx,Age,"Quadratic")
 }
 \seealso{
-\code{\link[DemoTools]{extra_mortality}}
+\code{\link[DemoTools]{lt_rule_m_extrapolate}}
 }

@@ -54,14 +54,13 @@ lt_single_mx <- function(nMx,
   # --------------------------
   # Now all vectors may end up being longer
   x_extr <- seq(extrapFrom, 130, by = 1)
-  Mxnew  <- extra_mortality(
-    x = Age,
-    mx = nMx,
-    x_fit = extrapFit,
-    x_extr = x_extr,
-    law = extrapLaw,
-    ...
-  )
+  Mxnew  <- lt_rule_m_extrapolate(
+              x = Age,
+              mx = nMx,
+              x_fit = extrapFit,
+              x_extr = x_extr,
+              law = extrapLaw,
+              ...)
   
   nMxext        <- Mxnew$values
   Age2          <- names2age(nMxext)

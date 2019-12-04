@@ -726,13 +726,13 @@ axUN <- lt_a_un
 #'
 #' @description Get an estimate of life expectancy in the open age group.
 #' @details This method estimates life expectancy in the open age group by fitting one of several potential old-age parametric mortality models, extrapolating rates to age 130, then backing out the implied remaining life expectancy in the open age group. This function replaces \code{aomegaMORTPAK()}.
-#' @inheritParams extra_mortality
+#' @inheritParams lt_rule_m_extrapolate
 #' @param Age integer. A vector of ages of the lower integer bound of the age classes.
 #' @param extrapFrom integer. Age from which to impute extrapolated mortality.
 #' @param extrapFit integer vector. Ages to include in model fitting. Defaults to all ages \code{>          =60}.
 #' @return life expectancy in the open age group
 #' @seealso
-#' \code{\link[DemoTools]{extra_mortality}}
+#' \code{\link[DemoTools]{lt_rule_m_extrapolate}}
 #' @export
 #' @examples
 #' nMx <- c(0.12846,0.02477,0.00603,0.0034,
@@ -774,7 +774,7 @@ lt_a_closeout <- function(mx,
   OA        <- max(Age)
   x_extr    <- seq(OA, 130, by = .1)
   
-  Mxnew     <- extra_mortality(
+  Mxnew     <- lt_rule_m_extrapolate(
     mx = mx,
     x = Age,
     x_fit = extrapFit,
