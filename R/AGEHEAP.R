@@ -694,7 +694,7 @@ zero_pref_sawtooth <-
 #' 				method = "Strong",
 #' 				OAG = FALSE,
 #' 				young.tail = "Arriaga"),
-#' 				Age = A5,
+#' 		Age = A5,
 #' 		OAG = FALSE)
 #' # not very rough, no need to smooth more
 #' five_year_roughness(smoothed, Age)
@@ -747,13 +747,4 @@ five_year_roughness <-
     
     mean(abs(d1 - d1s) / abs(d1s))
   }
-Age <- 0:99
-a5 <- seq(0,95,by=5)
-smoothed <- graduate_sprague(
-  agesmth(pop1m_pasex,
-          Age,
-          method = "Strong",
-          OAG = FALSE,
-          young.tail = "Arriaga"),
-  Age = a5,
-  OAG = FALSE)
+
