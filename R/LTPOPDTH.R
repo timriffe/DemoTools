@@ -253,7 +253,7 @@ LTabr <- function(Deaths,
       )
   }
   if (missing(nMx)) {
-    nMx          <- qxax2mx(nqx = nqx,
+    nMx          <- lt_id_qa_m(nqx = nqx,
                    nax = nAx,
                    AgeInt = AgeInt)
   }

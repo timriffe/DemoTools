@@ -632,9 +632,8 @@ axUN <- function(nMx,
       ...
     )
     
-    #mxi <- qxax2mx(nqx                                                                                     = nqx, nax = axi, AgeInt = AgeInt)
     for (i in 1:maxit) {
-      mxi   <- qxax2mx(
+      mxi   <- lt_id_qa_m(
                     nqx = nqx,
                     nax = axi,
                     AgeInt = AgeInt)
@@ -665,7 +664,7 @@ axUN <- function(nMx,
     }
     # no need for approximate a0 and 4a1 values
     # one last time for nMx
-    nMx <- qxax2mx(nqx = nqx,
+    nMx <- lt_id_qa_m(nqx = nqx,
                    nax = axi,
                    AgeInt = AgeInt)
   }

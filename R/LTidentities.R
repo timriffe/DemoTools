@@ -16,9 +16,17 @@
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return nMx vector of age specific death rates derived via identity.
 #' @export
-qxax2mx <- function(nqx, nax, AgeInt = inferAgeIntAbr(vec = nqx)) {
+lt_id_qa_m <- function(nqx, nax, AgeInt = inferAgeIntAbr(vec = nqx)) {
+  if (as.character(match.call()[[1]]) == "qxax2mx") {
+    warning("please use lt_id_qa_m() instead of qxax2mx().", call. = FALSE)
+  }
   nqx / (AgeInt - (AgeInt - nax) * nqx)
 }
+
+#' @export
+#' @rdname lt_id_qa_m
+qxax2mx <- lt_id_qa_m
+
 
 #' Derive nqx from nMx and nax.
 #' @description This is the standard identity to derive nqx from nax and nMx.
