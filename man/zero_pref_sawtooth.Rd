@@ -38,12 +38,14 @@ is calculated. If 0s have stronger attraction than 5s then we expect these ratio
 }
 \examples{
 Age <- 0:99
+A5 <- seq(0,95,by=5)
 smoothed <- graduate_sprague(
 		agesmth(pop1m_pasex,
 				Age,
 				method = "Strong",
 				OAG = FALSE,
 				young.tail = "Arriaga"),
+		Age = A5,
 		OAG = FALSE)
 # not saw-tooth jagged
 zero_pref_sawtooth(smoothed, Age)

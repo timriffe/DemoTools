@@ -529,6 +529,7 @@ Jdanov <- function(Value, Age, Agei = seq(95, 105, by = 5)) {
 #' # example to show what we're talking about.
 #' # pop1m_pasex is already quite heaped:
 #' Age <- 0:99
+#' A5 <- seq(0,95,by=5)
 #' plot(Age,pop1m_pasex)
 #' # here it is again, smoothed:
 #' smoothed <- graduate_sprague(
@@ -537,6 +538,7 @@ Jdanov <- function(Value, Age, Agei = seq(95, 105, by = 5)) {
 #' 				method = "Strong",
 #' 				OAG = FALSE,
 #' 				young.tail = "Arriaga"),
+#' 		Age = A5,
 #' 		OAG = FALSE)
 #' lines(Age, smoothed)
 #' # an OK approximation for testing purposes.
@@ -606,12 +608,14 @@ heapify <- function(Value,
 
 #' @examples
 #' Age <- 0:99
+#' A5 <- seq(0,95,by=5)
 #' smoothed <- graduate_sprague(
 #' 		agesmth(pop1m_pasex,
 #' 				Age,
 #' 				method = "Strong",
 #' 				OAG = FALSE,
 #' 				young.tail = "Arriaga"),
+#' 		Age = A5,
 #' 		OAG = FALSE)
 #' # not saw-tooth jagged
 #' zero_pref_sawtooth(smoothed, Age)
