@@ -89,3 +89,6 @@ plot(deps)
 #		file.path(getwd(), ".Rprofile") )
 #
 #Filter(file.exists, candidates)
+
+# NOTE TO SELF
+# try goodpractice package
