@@ -362,7 +362,7 @@ LTabr <- function(Deaths,
     nMx[N]   <-  lx[N] / Tx[N]
   }
   
-  Sx <- Lxlx2Sx(nLx, lx, AgeInt, N = 5)
+  Sx <- lt_id_Ll_S(nLx, lx, AgeInt, N = 5)
   # output is an unrounded, unsmoothed lifetable
   out <- data.frame(
     Age = Age,
