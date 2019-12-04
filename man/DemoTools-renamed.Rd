@@ -26,6 +26,8 @@ These functions still work but will be removed (defunct) in the next version.
  \item \code{\link{mxorqx2ax}}: This function is now called \code{\link{lt_id_morq_a}}.
  \item \code{\link{mxax2qx_Backstop}}: This function is now called \code{\link{lt_id_ma_q_robust}}.
  \item \code{\link{axUN}}: This function is now called \code{\link{lt_a_un}}.
+ \item \code{\link{axPAS}}: This function is now called \code{\link{lt_a_pas}}.
+ \item \code{\link{ax.greville.mortpak}}: This function is now called \code{\link{lt_id_morq_a_greville}}.
  \item \code{\link{LTabr}}: This function is now called \code{\link{lt_abridged}}.
  \item \code{\link{lt_single_simple}}: This function is now called \code{\link{lt_single_mx}}.
 }

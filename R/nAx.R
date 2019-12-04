@@ -182,7 +182,7 @@ geta1_4CD <- function(M0,
                   Sex = Sex,
                   region = region)
     IMR <-
-      mxax2qx(
+      lt_id_ma_q(
         nMx = M0,
         nax = a0,
         AgeInt = 1,
@@ -226,13 +226,16 @@ geta1_4CD <- function(M0,
 #' AgeInt <- c(diff(Age), NA)
 #' nMx <- Deaths/Exposures
 #' axPAS(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = TRUE)
-axPAS <-
+lt_a_pas <-
   function(nMx,
            AgeInt,
            IMR = NA,
            Sex = "m",
            region = "w",
            OAG = TRUE) {
+    if (as.character(match.call()[[1]]) == "axPAS") {
+      warning("please use lt_a_pas() instead of axPAS().", call. = FALSE)
+    }
     # sex can be "m", "f", or "b"
     # region can be "n","e","s","w",or
     Sex    <- tolower(Sex)
@@ -260,7 +263,7 @@ axPAS <-
     # TR 1-12-2018 if midpoint ax > 1 then we should adjust something.
     # we can prevent downstream breakage by reducing ax. Saves us from
     # having to fix qx
-    impliedqx <- mx2qx(nMx = nMx,
+    impliedqx <- lt_id_m_q(nMx = nMx,
                        nax = ax,
                        AgeInt = AgeInt)
     ind <- impliedqx > 1
@@ -278,6 +281,10 @@ axPAS <-
     ax
   }
 
+#' @export
+#' @rdname lt_a_pas
+axPAS <- lt_a_pas
+
 #' UN version of the Greville formula for a(x) from M(x)
 #'
 #' @description The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 for ages 5-9 and 10-14, and the Greville formula thereafter. In the original sources these are referred to as separation factors.
@@ -293,7 +300,6 @@ axPAS <-
 #' @param mod logical. Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.
 #' @param closeout logical. Whether or not to estimate open age a(x) via extrapolation. Default \code{TRUE}.
 #' @inheritParams lt_a_closeout
-#'
 #'
 #' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. The final a(x) value is closed out using the \code{lt_a_closeout()} method (reciprocal and Mortpak methods are deprecated). Age groups must be standard abridged. No check on age groups is done.
 #'
@@ -325,21 +331,21 @@ axPAS <-
 #' Age <- c(0,1,seq(5,85,by = 5))
 #' AgeInt <- age2int(Age, OAvalue = 5)
 #' # two quite different results depending whether you start with mx or qx
-#' ax.greville.mortpak(nMx = nMx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
-#' ax.greville.mortpak(nqx = nqx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
+#' lt_id_morq_a_greville(nMx = nMx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
+#' lt_id_morq_a_greville(nqx = nqx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 #' # same, qx comes from lx
-#' ax.greville.mortpak(lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
+#' lt_id_morq_a_greville(lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 #' # both qx and lx given, but lx not used for anything = same
-#' ax.greville.mortpak(nqx = nqx, lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
+#' lt_id_morq_a_greville(nqx = nqx, lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 #'
 #' # if both qx and mx given, then same as lt_id_qm_a identity,
 #' # except young ages follow Coale-Demeny, and greville uses
 #' # MortalityLaws closeout.
-#' ax.greville.mortpak(nMx = nMx, nqx = nqx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')-
+#' lt_id_morq_a_greville(nMx = nMx, nqx = nqx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')-
 #' 		lt_id_qm_a(nqx,nMx,age2int(Age,TRUE,5))
 #' # same (qx comes from lx)
-#' ax.greville.mortpak(nMx = nMx, lx = lx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')
-ax.greville.mortpak <- function(nMx,
+#' lt_id_morq_a_greville(nMx = nMx, lx = lx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')
+lt_id_morq_a_greville <- function(nMx,
                                 nqx,
                                 lx,
                                 Age,
@@ -362,6 +368,10 @@ ax.greville.mortpak <- function(nMx,
                                 extrapFrom = max(Age),
                                 extrapFit = Age[Age >= 60],
                                 ...) {
+  if (as.character(match.call()[[1]]) == "ax.greville.mortpak") {
+    warning("please use lt_id_morq_a_greville() instead of ax.greville.mortpak().", call. = FALSE)
+  }
+  
   Sex     <- tolower(Sex)
   region  <- tolower(region)
   law     <- tolower(law)
@@ -496,6 +506,9 @@ ax.greville.mortpak <- function(nMx,
   #
   ax
 }
+#' @export
+#' @rdname lt_id_morq_a_greville
+ax.greville.mortpak <- lt_id_morq_a_greville
 
 #' UN a(x) estimates from either M(x), q(x), or both
 #'
@@ -601,7 +614,7 @@ lt_a_un <- function(nMx,
     #		k = 1/10 log(nmx+5/nmx-5). For ages 5 and 10, nQx = 2.5
     #		and for ages under 5, nQx values from the Coale and
     #		Demeny West region relationships are used."
-    axi <- ax.greville.mortpak(
+    axi <- lt_id_morq_a_greville(
       nMx = nMx,
       Age  = Age,
       AgeInt = AgeInt,
@@ -622,7 +635,7 @@ lt_a_un <- function(nMx,
     #		that an iterative procedure is used to find the nmx and nqx
     #		values consistent with the given nqx and with the Greville
     #		expression.
-    axi <- ax.greville.mortpak(
+    axi <- lt_id_morq_a_greville(
       nqx = nqx,
       IMR = nqx[1],
       Age = Age,
@@ -641,7 +654,7 @@ lt_a_un <- function(nMx,
                     nqx = nqx,
                     nax = axi,
                     AgeInt = AgeInt)
-      axi   <- ax.greville.mortpak(
+      axi   <- lt_id_morq_a_greville(
         nMx = mxi,
         IMR = nqx[1],
         Age = Age,
@@ -654,7 +667,7 @@ lt_a_un <- function(nMx,
         ...
       )
       qxnew <-
-        mxax2qx(
+        lt_id_ma_q(
           nMx = mxi,
           nax = axi,
           AgeInt = AgeInt,

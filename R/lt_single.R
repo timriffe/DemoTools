@@ -86,19 +86,18 @@ lt_single_mx <- function(nMx,
     )
   
   # get
-  qx            <- mx2qx(nMx = nMx,
-                         nax = nAx,
-                         AgeInt = AgeInt)
+  qx            <- lt_id_m_q(
+                     nMx = nMx,
+                     nax = nAx,
+                     AgeInt = AgeInt)
   
   lx            <- lt_id_q_l(qx, radix = radix)
   ndx           <- lt_id_l_d(lx)
-  nLx           <-
-    lt_id_lda_L(
-      lx = lx,
-      ndx = ndx,
-      nax = nAx,
-      AgeInt = AgeInt
-    )
+  nLx           <- lt_id_lda_L(
+                     lx = lx,
+                     ndx = ndx,
+                     nax = nAx,
+                     AgeInt = AgeInt)
   Tx            <- lt_id_L_T(nLx)
   ex            <- Tx / lx
   
@@ -141,17 +140,17 @@ lt_single_mx <- function(nMx,
   
   # output is an unrounded, unsmoothed lifetable
   out <- data.frame(
-    Age = Age,
-    AgeInt = AgeInt,
-    nMx = nMx,
-    nAx = nAx,
-    nqx = qx,
-    lx = lx,
-    ndx = ndx,
-    nLx = nLx,
-    Sx = Sx,
-    Tx = Tx,
-    ex = ex
+           Age = Age,
+           AgeInt = AgeInt,
+           nMx = nMx,
+           nAx = nAx,
+           nqx = qx,
+           lx = lx,
+           ndx = ndx,
+           nLx = nLx,
+           Sx = Sx,
+           Tx = Tx,
+           ex = ex
   )
   return(out)
 }
