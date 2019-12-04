@@ -92,7 +92,7 @@ lt_single_simple <- function(nMx,
                          nax = nAx,
                          AgeInt = AgeInt)
   
-  lx            <- qx2lx(qx, radix = radix)
+  lx            <- lt_id_q_l(qx, radix = radix)
   ndx           <- lt_id_l_d(lx)
   nLx           <-
     lt_id_lda_L(

@@ -102,9 +102,16 @@ mxax2qx <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return lx vector of lifetable survivorship.
 #' @export
-qx2lx <- function(nqx, radix = 1e5) {
+lt_id_q_l <- function(nqx, radix = 1e5) {
+  if (as.character(match.call()[[1]]) == "qx2lx") {
+    warning("please use lt_id_q_l() instead of qx2lx().", call. = FALSE)
+  }
   radix * cumprod(c(1, 1 - nqx[-length(nqx)]))
 }
+
+#' @export
+#' @rdname lt_id_q_l
+qx2lx <- lt_id_q_l
 
 #' Derive lifetable deaths from survivorship.
 #' @description This lifetable identity is the same no matter what kind of lifetable is required.

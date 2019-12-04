@@ -317,7 +317,7 @@ LTabr <- function(Deaths,
   # ---------------------------------
   
   # TR: the lifetable is the shortest part of this code!
-  lx             <- qx2lx(nqx, radix = radix)
+  lx             <- lt_id_q_l(nqx, radix = radix)
   ndx            <- lt_id_l_d(lx)
   nLx            <- lt_id_lda_L(
     lx = lx,
