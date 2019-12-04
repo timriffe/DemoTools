@@ -118,12 +118,6 @@
     <loc>https://timriffe.github.io/DemoTools//reference/getModelLifeTable.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/geta0CD.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/geta1_4CD.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/graduate.html</loc>
   </url>
   <url>
@@ -254,6 +248,12 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/lt_id_qm_a.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_1a0_cd.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_4a1_cd.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_m_extrapolate.html</loc>
