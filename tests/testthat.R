@@ -1,6 +1,6 @@
 library(testthat)
 library(DemoTools)
-library(tidyverse)
 library(magrittr)
+library(dplyr)
 
 test_check("DemoTools")
