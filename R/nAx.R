@@ -793,7 +793,7 @@ aomegaMortalityLaws <- lt_ax_closeout
 #' \insertRef{PAS}{DemoTools}
 #' @export
 
-mxorqx2ax <- function(nMx,
+lt_id_morq_a <- function(nMx,
                       nqx,
                       axmethod = c("pas", "un")[1],
                       Age,
@@ -816,6 +816,10 @@ mxorqx2ax <- function(nMx,
                       extrapFrom = max(Age),
                       extrapFit = Age[Age >= 60],
                       ...) {
+  if (as.character(match.call()[[1]]) == "mxorqx2ax") {
+    warning("please use lt_id_morq_a() instead of mxorqx2ax().", call. = FALSE)
+  }
+  
   N <- length(AgeInt)
   if (is.na(AgeInt[N]) | is.infinite(AgeInt[N])) {
     AgeInt[N] <- AgeInt[N - 1]
@@ -884,6 +888,10 @@ mxorqx2ax <- function(nMx,
   }
   nAx
 }
+
+#' @export
+#' @rdname lt_id_morq_a
+mxorqx2ax <- lt_id_morq_a
 
 # deprecated.
 ##' Life expectancy in the open age group.

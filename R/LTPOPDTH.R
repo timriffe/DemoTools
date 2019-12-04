@@ -215,7 +215,7 @@ LTabr <- function(Deaths,
     # TR: expedient hack
     nqx[nqx > 1] <- 1
     
-    nAx          <- mxorqx2ax(
+    nAx          <- lt_id_morq_a(
       nqx = nqx,
       axmethod = axmethod,
       Age = Age,
@@ -227,7 +227,7 @@ LTabr <- function(Deaths,
       IMR = IMR
     )
   } else {
-    nAx          <- mxorqx2ax(
+    nAx          <- lt_id_morq_a(
       nMx = nMx,
       axmethod = axmethod,
       Age = Age,
@@ -293,7 +293,7 @@ LTabr <- function(Deaths,
   AgeInt         <-
     age2int(Age, OAG = TRUE, OAvalue = max(AgeInt, na.rm = TRUE))
   # redo ax and qx for extended ages
-  nAx            <- mxorqx2ax(
+  nAx            <- lt_id_morq_a(
     nMx = nMx,
     axmethod = axmethod,
     Age = Age,
