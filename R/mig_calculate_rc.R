@@ -9,8 +9,7 @@
 #' Choose between a 7,9,11 or 13 parameter model. 
 
 #' @param ages numeric. A vector of ages for migration rates to be calculated. 
-#' @param pars numeric. A named list of parameters. 
-#' @param num_pars integer. The number of parameters in the model (7,9,11, or 13)
+#' @param pars numeric. A named list of parameters. Must have 7, 9, 11 or 13 values. 
 #' @export
 
 #' @details In the full 13 parameter model, the migration rate at age x, \eqn{m(x)} is defined as
@@ -24,21 +23,37 @@
 #' alpha2= 0.1, mu2= 21, lambda2= 0.39, a3= 0.001, 
 #' alpha3= 1, mu3= 67, lambda3= 0.6, c= 0.01)
 #' ages <- 0:75
-#' mx <- mig_calculate_rc(ages = ages, pars = pars, num_pars = 11)
+#' mx <- mig_calculate_rc(ages = ages, pars = pars)
 #' plot(ages, mx, type = 'l')
 
 mig_calculate_rc <- function(ages,
-                             pars,
-                             num_pars){
+                             pars){
   
-  # simple check. Really I guess specific combos are the important thing
+  # parameter name groups
+  comp1 <- c("a1", "alpha1", "c")
+  comp2 <- c("a2", "alpha2", "lambda2", "mu2")
+  comp3 <- c("a3", "alpha3", "lambda3", "mu3")
+  comp4 <- c("a4", "lambda4")
+  
+  
+  # simple check
   stopifnot(length(pars) %in% c(7, 9, 11, 13))
+  # check for specific parameter groups
+  if(length(pars)==7)
+    stopifnot(all(c(comp1, comp2) %in% names(pars)))
+  if(length(pars)==9)
+    stopifnot(all(c(comp1, comp2, comp4) %in% names(pars)))
+  if(length(pars)==11)
+    stopifnot(all(c(comp1, comp2, comp3) %in% names(pars)))
+  if(length(pars)==13)
+    stopifnot(all(c(comp1, comp2, comp3, comp4) %in% names(pars)))
   
-  pars_blank <- c(a1 = 0, alpha1 = 0, a2 = 0, 
-               alpha2 = 0, mu2 = 0, lambda2 = 0, 
-               a3 = 0, alpha3 = 0, mu3 = 0, lambda3 = 0, 
-               a4 = 0, lambda4 = 0, 
-               c = 0)
+  pars_blank <- c(a1 = 0, alpha1 = 0, 
+                  a2 = 0, alpha2 = 0, mu2 = 0, lambda2 = 0, 
+                  a3 = 0, alpha3 = 0, mu3 = 0, lambda3 = 0, 
+                  a4 = 0, lambda4 = 0, 
+                  c = 0)
+  
   pars_blank[names(pars)] <- pars
   pars       <- pars_blank
 
