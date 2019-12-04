@@ -153,7 +153,7 @@ lt_rule_m_extrapolate <- function(mx,
                                            "LF4", "LF5", "LF6",
                                            "poissonL", "binomialL"),
                             ...) {
-  if (as.character(match.call()[[1]]) == "extra_mortality") {
+  if (as.character(match.call()[[1]]) == "extra.mortality") {
     warning("please use lt_rule_m_extrapolate() instead of extra_mortality().", call. = FALSE)
   }
   
@@ -198,7 +198,7 @@ lt_rule_m_extrapolate <- function(mx,
 }
 #' @export
 #' @rdname lt_rule_m_extrapolate
-extra_mortality <- lt_rule_m_extrapolate
+extra.mortality <- lt_rule_m_extrapolate
 
 
 # Not used internally, so deprecating without notice
