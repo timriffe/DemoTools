@@ -4,7 +4,7 @@
 \alias{mig_calculate_rc}
 \title{Calculate Rogers-Castro migration age schedule}
 \usage{
-mig_calculate_rc(ages, pars, num_pars = 11)
+mig_calculate_rc(ages, pars, num_pars)
 }
 \arguments{
 \item{ages}{numeric. A vector of ages for migration rates to be calculated.}

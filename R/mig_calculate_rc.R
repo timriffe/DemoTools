@@ -29,43 +29,37 @@
 
 mig_calculate_rc <- function(ages,
                              pars,
-                             num_pars = 11){
+                             num_pars){
   
   # simple check. Really I guess specific combos are the important thing
   stopifnot(length(pars) %in% c(7, 9, 11, 13))
   
   pars_blank <- c(a1 = 0, alpha1 = 0, a2 = 0, 
-               alpha2 = 0, mu2 = 0, lambda2 = 0, a3 = 0, 
-               alpha3 = 0, mu3 = 0, lambda3 = 0, c = 0)
+               alpha2 = 0, mu2 = 0, lambda2 = 0, 
+               a3 = 0, alpha3 = 0, mu3 = 0, lambda3 = 0, 
+               a4 = 0, lambda4 = 0, 
+               c = 0)
   pars_blank[names(pars)] <- pars
   pars       <- pars_blank
-  # TR: We can now do the whole eq even if all pars aren't given.
-  # so maybe no need for this check? Is there some other test of 
-  # validity that makes sense? ranges?
-  if(length(pars) != num_pars){
-    stop("Incorrect number of parameters specified.")
-  }
-  # TR: this won't work in a package framework, won't pass tests.
-  # Will extract pars the old fashioned way?
-  # for (i in 1:length(parameters)){
-  #   assign(names(parameters)[i], parameters[[i]])
-  # }
-  
+
   x  <- ages
   mx <- 
     # pre labor
-    pars["a1"]*exp(-1 * pars["alpha1"]*x) + 
+    pars[["a1"]]*exp(-1 * pars[["alpha1"]]*x) + 
     
     # working
-    pars["a2"]*exp(-1 * pars["alpha2"] * (x - pars["mu2"]) - 
-                     exp(-1 * pars["lambda2"] * (x - pars["mu2"]))) + 
+    pars[["a2"]]*exp(-1 * pars[["alpha2"]] * (x - pars[["mu2"]]) - 
+                     exp(-1 * pars[["lambda2"]] * (x - pars[["mu2"]]))) + 
     
     # retirement
-    pars["a3"] * exp(-1 * pars["alpha3"] * (x - pars["mu3"]) - 
-                       exp(-1 * pars["lambda3"] * (x - pars["mu3"]))) + 
+    pars[["a3"]] * exp(-1 * pars[["alpha3"]] * (x - pars[["mu3"]]) - 
+                       exp(-1 * pars[["lambda3"]] * (x - pars[["mu3"]]))) + 
     
-    # post retirement?
-    pars["c"]
+    # post-retirement
+    pars[["a4"]] * exp(pars[["lambda4"]] *x ) + 
+    
+    # intensity parameter
+    pars[["c"]]
   
   return(mx)
 }
