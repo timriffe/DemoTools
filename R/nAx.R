@@ -256,31 +256,27 @@ lt_a_pas <-
     N      <- length(nMx)
     ax     <- AgeInt / 2
     
-    ax[1]  <-
-      lt_rule_1a0_cd(
-        M0 = nMx[1],
-        IMR = IMR,
-        Sex = Sex,
-        region = region
-      )
-    ax[2]  <-
-      lt_rule_4a1_cd(
-        M0 = nMx[1],
-        IMR = IMR,
-        Sex = Sex,
-        region = region
-      )
-    ax[N]  <- ifelse(OAG, 1 / nMx[N], ax[N])
-    
+    ax[1]  <- lt_rule_1a0_cd(
+                M0 = nMx[1],
+                IMR = IMR,
+                Sex = Sex,
+                region = region)
+    ax[2]  <- lt_rule_4a1_cd(
+                M0 = nMx[1],
+                IMR = IMR,
+                Sex = Sex,
+                region = region)
+  
     # TR 5-12-2019 this tw-step returns midpoints IFF they
     # don't imply qx > 1, otherwise, for such pathological
     # values it returns the ax implied by a constant hazard.
     qx <- lt_id_ma_q(nMx = nMx,
                      nax = ax,
                      AgeInt = AgeInt,
-                     closeout = FALSE,
+                     closeout = OAG,
                      IMR = IMR)
     ax <- lt_id_qm_a(nqx = qx, nMx = nMx, AgeInt = AgeInt)
+    ax[N]  <- ifelse(OAG, 1 / nMx[N], ax[N])
     # ind <- impliedqx > 1
     # if (sum(ind) > 0) {
     #   for (i in which(ind)) {

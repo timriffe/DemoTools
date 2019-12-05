@@ -229,7 +229,8 @@ Lx2Tx <- lt_id_L_T
 #' @description Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages.
 #' @details nMx equal to 2 will imply nqx of 1 by this formula. Implied nqx greater than 1 after this procedure are returned as 1. This is not vectorized!
 #' @inheritParams lt_abridged
-#' @param closeout logical. Set to 1 if TRUE. Identity otherwise. Default \code{TRUE}.
+#' @param nax numeric. Average time spent in age interval of those that die in the interval.
+#' @param closeout logical. Set final age to 1 if TRUE. Identity otherwise. Default \code{TRUE}.
 #' @param IMR numeric. Optional q0 to impute, in case available separately.
 #' @export
 #' @examples

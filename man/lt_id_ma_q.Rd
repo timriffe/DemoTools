@@ -21,9 +21,11 @@ mxax2qx_Backstop(nMx, nax, AgeInt, closeout = TRUE, IMR)
 \arguments{
 \item{nMx}{numeric. Vector of mortality rates in abridged age classes.}
 
+\item{nax}{numeric. Average time spent in age interval of those that die in the interval.}
+
 \item{AgeInt}{integer. Vector of age class widths. Default \code{inferAgeIntAbr(Age = Age)}.}
 
-\item{closeout}{logical. Set to 1 if TRUE. Identity otherwise. Default \code{TRUE}.}
+\item{closeout}{logical. Set final age to 1 if TRUE. Identity otherwise. Default \code{TRUE}.}
 
 \item{IMR}{numeric. Optional q0 to impute, in case available separately.}
 }
