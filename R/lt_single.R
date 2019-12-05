@@ -82,11 +82,12 @@ lt_single_mx <- function(nMx,
                      Sex = Sex,
                      region = region)
   
-  # get
-  qx            <- lt_id_m_q(
+  # get qx (if pathological qx > 1, ax replaced, assumed constant hazard)
+  qx            <- lt_id_ma_q(
                      nMx = nMx,
                      nax = nAx,
-                     AgeInt = AgeInt)
+                     AgeInt = AgeInt, 
+                     closeout = TRUE)
   
   lx            <- lt_id_q_l(qx, radix = radix)
   ndx           <- lt_id_l_d(lx)

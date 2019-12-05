@@ -272,23 +272,26 @@ lt_a_pas <-
       )
     ax[N]  <- ifelse(OAG, 1 / nMx[N], ax[N])
     
-    # TR 1-12-2018 if midpoint ax > 1 then we should adjust something.
-    # we can prevent downstream breakage by reducing ax. Saves us from
-    # having to fix qx
-    impliedqx <- lt_id_m_q(nMx = nMx,
-                       nax = ax,
-                       AgeInt = AgeInt)
-    ind <- impliedqx > 1
-    if (sum(ind) > 0) {
-      for (i in which(ind)) {
-        qxnew <- lt_id_ma_q_robust(nMx = nMx[i],
-                           nax = ax[i],
-                           AgeInt = AgeInt[i])
-        ax[i] <- lt_id_qm_a(nqx = qxnew,
-                         nMx = nMx[i],
-                         AgeInt = AgeInt[i])
-      }
-    }
+    # TR 5-12-2019 this tw-step returns midpoints IFF they
+    # don't imply qx > 1, otherwise, for such pathological
+    # values it returns the ax implied by a constant hazard.
+    qx <- lt_id_ma_q(nMx = nMx,
+                     nax = ax,
+                     AgeInt = AgeInt,
+                     closeout = FALSE,
+                     IMR = IMR)
+    ax <- lt_id_qm_a(nqx = qx, nMx = nMx, AgeInt = AgeInt)
+    # ind <- impliedqx > 1
+    # if (sum(ind) > 0) {
+    #   for (i in which(ind)) {
+    #     qxnew <- lt_id_ma_q_robust(nMx = nMx[i],
+    #                        nax = ax[i],
+    #                        AgeInt = AgeInt[i])
+    #     ax[i] <- lt_id_qm_a(nqx = qxnew,
+    #                      nMx = nMx[i],
+    #                      AgeInt = AgeInt[i])
+    #   }
+    # }
     
     ax
   }
