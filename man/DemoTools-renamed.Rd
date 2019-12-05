@@ -34,6 +34,7 @@ These functions still work but will be removed (defunct) in the next version.
  \item \code{\link{extra.mortality}}: This function is now called \code{\link{lt_rule_m_extrapolate}}.
  \item \code{\link{geta0CD}}: This function is now called \code{\link{lt_rule_1a0_cd}}.
  \item \code{\link{geta1_4CD}}: This function is now called \code{\link{lt_rule_4a1_cd}}.
+ \item \code{\link{M04_2_D0}}: This function is now called \code{\link{lt_rule_4m0_D0}}.
  
  \item \code{\link{agesmth}}: This function is now called \code{\link{smooth_age_5}}.
  \item \code{\link{T9R5L}}: This function is now called \code{\link{smooth_age_5_feeney}}.
