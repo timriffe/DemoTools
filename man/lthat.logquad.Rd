@@ -15,7 +15,7 @@ subsequent 5 years;}
 \item{radix}{Life table radix. Default: 10^5;}
 
 \item{Sex}{Choose the sex of the population. This choice defines the use
-of a corresponding Log-Quadratic (\code{\link[MortalityEstimate]{wilmoth}})
+of a corresponding Log-Quadratic (\code{wilmoth})
  model fitted for the whole Human Mortality Database (as of Dec 2019, 
  there are 968 life tables for each sex).
 The following options are available: \itemize{
