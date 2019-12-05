@@ -81,6 +81,32 @@ test_that("smooth_age_5_strong works",{
 })
 
 
+test_that("smooth_age_5_feeney works", {
+    
+    Pop <- c(2337, 3873, 3882, 3952, 4056, 3685, 3687, 3683, 3611, 3175,
+             3457, 2379, 3023, 2375, 2316, 2586, 2014, 2123, 2584, 1475,
+             3006, 1299, 1236, 1052, 992, 3550, 1334, 1314, 1337, 942,
+             3951, 1128, 1108, 727, 610, 3919, 1221, 868, 979, 637,
+             3409, 887, 687, 533, 313, 2488, 677, 426, 524, 333,
+             2259, 551, 363, 290, 226, 1153, 379, 217, 223, 152,
+             1500, 319, 175, 143, 89, 670, 149, 96, 97, 69,
+             696, 170, 60, 38, 23, 745)
+    
+    Ages <- c(0:75)
+    
+    result <- smooth_age_5_feeney(Pop, Ages, maxit = 200, OAG = TRUE)
+    # inlcude original unstated age (15)
+    result <- rescale_vector(result,sum(result)+15)
+    tab2_answer <- c(18004, 17351, 14018, 10927, 8837, 8145, 7823, 7029,
+                     5748, 4326, 3289, 2415, 1794, 1197, 982, 741)
+    names(tab2_answer) <- seq(0,75,5)
+    
+    
+    testthat:::expect_equal(
+        result,
+        tab2_answer,
+        tolerance = .001) # TR: this on relative scale??
+})
 #' Age <- c(0,1,seq(5,90,by=5))
 #' # defaults
 #' zz <- zigzag_smth(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 90)
