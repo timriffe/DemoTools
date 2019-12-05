@@ -45,7 +45,7 @@ Riffe T, Aburto JM, Alexander M,Fennell S, Kashnitsky I, Pascariu M and Gerland 
 A BibTeX entry for LaTeX users is:
 
 ```
-@Misc{HMD,
+@Misc{demotools,
   Title		= {Demo{T}ools: {A}n {R} package of tools for aggregate demographic analysis},
   Author    = {Riffe, T and Aburto, JM and Alexander, M and Fennell, S and Kashnitsky, I and Pascariu, M and Gerland, P},
   Year      = {2019},
