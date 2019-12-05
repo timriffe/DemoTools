@@ -51,6 +51,7 @@
 #'  \item \code{\link{T9R5L}}: This function is now called \code{\link{smooth_age_5_feeney}}.
 #'  \item \code{\link{carrier_farrag_smth}}: This function is now called \code{\link{smooth_age_5_cf}}.
 #'  \item \code{\link{kkn_smth}}: This function is now called \code{\link{smooth_age_5_kkn}}.
+#'  \item \code{\link{arriaga_smth}}: This function is now called \code{\link{smooth_age_5_arriaga}}.
 #'  \item \code{\link{geta1_4CD}}: This function is now called \code{\link{lt_rule_4a1_cd}}.
 #'  \item \code{\link{adjustAge}}: This function is now called \code{\link{rescale_vector}}.
 #' }

@@ -151,7 +151,7 @@ kkn_smth <- smooth_age_5_kkn
 #' @export
 #' @examples
 #' Ages         <- seq(0, 80, by = 5)
-#' AMales       <- arriaga_smth(Value = pop5m_pasex, Age = Ages, OAG = TRUE)
+#' AMales       <- smooth_age_5_arriaga(Value = pop5m_pasex, Age = Ages, OAG = TRUE)
 #' # PAS spreadsheet result:
 #' Atest        <- c(662761, 495126, 345744, 287629, 285919, 261018, 237469, 203277,
 #' 161733, 126960, 88586, 67496, 54587, 41257, 28790, 17189, 34729)
@@ -165,9 +165,13 @@ kkn_smth <- smooth_age_5_kkn
 #' \insertRef{arriaga1968new}{DemoTools}
 
 
-arriaga_smth <- function(Value,
+smooth_age_5_arriaga <- function(Value,
                          Age,
                          OAG = TRUE) {
+  if (as.character(match.call()[[1]]) == "arriaga_smth") {
+    warning("please use smooth_age_5_arriaga() instead of arriaga_smth().", call. = FALSE)
+  }
+  
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
   # age groups and it'd still not break.
@@ -221,6 +225,9 @@ arriaga_smth <- function(Value,
   
   out
 }
+#' @export
+#' @rdname smooth_age_5_arriaga
+arriaga_smth <- smooth_age_5_arriaga
 
 #' The old United Nations method of population count smoothing
 #' @description Smooth population counts in 5-year age groups.
@@ -782,7 +789,7 @@ agesmth <- function(Value,
   
   # arriaga
   if (method  == "arriaga") {
-    out <- arriaga_smth(Value = Value,
+    out <- smooth_age_5_arriaga(Value = Value,
                         Age = Age,
                         OAG = OAG)
   }
@@ -823,7 +830,7 @@ agesmth <- function(Value,
   if (any(nas) & (!is.na(old.tail) | !is.na(young.tail))) {
     nrle             <- rle(as.integer(nas))
     original         <- groupAges(Value, Age = Age, N = 5)
-    arriaga          <- arriaga_smth(Value, Age = Age, OAG = OAG)
+    arriaga          <- smooth_age_5_arriaga(Value, Age = Age, OAG = OAG)
     strong           <- strong_smth(Value, Age = Age, OAG = OAG)
     # are the final entries NAs?
     if (nrle$values[length(nrle$values)] == 1 & !is.na(old.tail)) {
