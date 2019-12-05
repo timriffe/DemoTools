@@ -81,7 +81,7 @@ OPAG_simple    <-
     StAge      <- StAge[1:StN]
     
     # make stadnard distribution.
-    standard   <- rescale.vector(StPop[StAge >= OAnow], scale = 1)
+    standard   <- rescale_vector(StPop[StAge >= OAnow], scale = 1)
     # redistribute OAG
     PopUpper   <- OAtot * standard
     # keep lower ages of Pop

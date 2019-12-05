@@ -50,7 +50,7 @@
 #'  \item \code{\link{geta0CD}}: This function is now called \code{\link{lt_rule_1a0_cd}}.
 #'  \item \code{\link{geta1_4CD}}: This function is now called \code{\link{lt_rule_4a1_cd}}.
 #'  
-#'  \item \code{\link{adjustAge}}: This function is now called \code{\link{rescale.vector}}.
+#'  \item \code{\link{adjustAge}}: This function is now called \code{\link{rescale_vector}}.
 #' }
 #' 
 #' 

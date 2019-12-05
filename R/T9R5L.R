@@ -110,7 +110,7 @@ T9R5L          <- function(Value,
   I            <- G + H #f(x+2.5)
   
   # corrected, but unknowns still need to be redistributed
-  #I5          <- rescale.vector(I * 5,sum(V5[2:(N-1)]))
+  #I5          <- rescale_vector(I * 5,sum(V5[2:(N-1)]))
   I5           <- I * 5
   out          <- c(V5[1], I5, V5[N])
   
@@ -120,6 +120,6 @@ T9R5L          <- function(Value,
   }
   names(out)   <- A5
   # rescale to sum, inclusing open age group and boudned tails
-  out          <- rescale.vector(out, TOT)
+  out          <- rescale_vector(out, TOT)
   out
 }

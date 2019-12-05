@@ -34,8 +34,8 @@ IRD                         <- function(pop1, pop2) {
   stopifnot(length(pop1) == length(pop2))
   n                         <- length(pop1)
   
-  r1                        <- rescale.vector(pop1)
-  r2                        <- rescale.vector(pop2)
+  r1                        <- rescale_vector(pop1)
+  r2                        <- rescale_vector(pop2)
   
   ratio                     <- r2 / r1
   # we don't like zeros in denominators
@@ -78,8 +78,8 @@ ID                          <- function(pop1, pop2) {
   stopifnot(length(pop1) == length(pop2))
   n                         <- length(pop1)
   
-  r1                        <- rescale.vector(pop1, 100)
-  r2                        <- rescale.vector(pop2, 100)
+  r1                        <- rescale_vector(pop1, 100)
+  r2                        <- rescale_vector(pop2, 100)
   
   sum(abs(r1 - r2)) / 2
 }

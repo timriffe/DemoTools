@@ -40,7 +40,7 @@ loess_smth1     <- function(Value, Age, OAG = TRUE, ...) {
   # negatives not allowed!
   #out[out < 0] <- 0
   # enforce sums
-  out           <- rescale.vector(out,  scale)
+  out           <- rescale_vector(out,  scale)
   
   # tack open age group back on
   if (OAG) {
@@ -160,7 +160,7 @@ poly_smth1 <-
     # negatives not allowed!
     #out[out < 0]             <- 0
     # enforce sums
-    out                       <- rescale.vector(out,  scale)
+    out                       <- rescale_vector(out,  scale)
     
     # tack OAG back on, if necessary
     if (OAG) {
