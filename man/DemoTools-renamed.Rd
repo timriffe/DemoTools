@@ -41,6 +41,8 @@ These functions still work but will be removed (defunct) in the next version.
  \item \code{\link{arriaga_smth}}: This function is now called \code{\link{smooth_age_5_arriaga}}.
  \item \code{\link{mav_smth}}: This function is now called \code{\link{smooth_age_5_mav}}.
  \item \code{\link{zigzag_smth}}: This function is now called \code{\link{smooth_age_5_zigzag}}.
+ \item \code{\link{strong_smth}}: This function is now called \code{\link{smooth_age_5_strong}}.
+ 
  \item \code{\link{adjustAge}}: This function is now called \code{\link{rescale_vector}}.
 }
 }

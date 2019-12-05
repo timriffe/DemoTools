@@ -294,7 +294,7 @@ united_nations_smth <- function(Value,
 #' Ages         <- seq(0, 80, by = 5)
 #' strongtest <- c(646617,511270,386889,317345,273736,240058,218645,188297,
 #' 		153931, 124347,93254,71858,53594,39721,27887,18092,34729 )
-#' strong_result <- strong_smth(pop5m_pasex,Ages,TRUE)
+#' strong_result <- smooth_age_5_strong(pop5m_pasex,Ages,TRUE)
 #' # differences due to intermediate rounding in spreadsheet (bad practice IMO)
 #' all(abs(strong_result - strongtest) < 1, na.rm = TRUE)
 #' \dontrun{
@@ -306,11 +306,15 @@ united_nations_smth <- function(Value,
 # plz add Demgen 1994 and PASEX. I can't download above citation while
 # on vacation. plz check if this method is discussed there as well.
 
-strong_smth <- function(Value,
+smooth_age_5_strong <- function(Value,
                         Age,
                         OAG = TRUE,
                         ageMin = 10,
                         ageMax = 65) {
+  if (as.character(match.call()[[1]]) == "strong_smth") {
+    warning("please use smooth_age_5_strong() instead of strong_smth().", call. = FALSE)
+  }
+  
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
   # age groups and it'd still not break.
@@ -385,7 +389,9 @@ strong_smth <- function(Value,
   # what if OAis e.g. 85?
   out
 }
-
+#' @export
+#' @rdname smooth_age_5_strong
+strong_smth <- smooth_age_5_strong
 
 #' G. Feeney's method of smoothing counts in 5-year age groups.
 #' @description If age heaping is much worse on 0's than on 5's then even counts in 5-year age bins can preserve a sawtooth pattern. Most graduation techniques translate the zig-zag/sawtooth pattern to a wave pattern. It is not typically desired. This method redistributes counts 'from' every second 5-year age group in a specified range 'to' the adjacent age groups. How much to redistribute depends on a detection of roughness in the 5-year binned data, which follows the formulas recommended by Feeney. This method does not alter the total population count, counts in the youngest 10 ages, nor in old ages. 10-year age groups in the middle age range are not constrained.
@@ -787,7 +793,7 @@ agesmth <- function(Value,
   # stong
   if (method == "strong") {
     out <-
-      strong_smth(
+      smooth_age_5_strong(
         Value = Value,
         Age = Age,
         OAG = OAG,
@@ -855,7 +861,7 @@ agesmth <- function(Value,
     nrle             <- rle(as.integer(nas))
     original         <- groupAges(Value, Age = Age, N = 5)
     arriaga          <- smooth_age_5_arriaga(Value, Age = Age, OAG = OAG)
-    strong           <- strong_smth(Value, Age = Age, OAG = OAG)
+    strong           <- smooth_age_5_strong(Value, Age = Age, OAG = OAG)
     # are the final entries NAs?
     if (nrle$values[length(nrle$values)] == 1 & !is.na(old.tail)) {
       nrle$values[1] <- 0
