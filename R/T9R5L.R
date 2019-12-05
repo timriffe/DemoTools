@@ -31,7 +31,7 @@
 #'          1500,319,175,143,89,670,149,96,97,69,
 #'          696,170,60,38,23,745)
 #'  Ages       <- c(0:75)
-#'  result     <- T9R5L(Pop, Ages, OAG = TRUE)
+#'  result     <- smooth_age_5_feeney(Pop, Ages, OAG = TRUE)
 #'  A5         <- names2age(result)
 #'  V5         <- groupAges(Pop,Ages)
 #'  \dontrun{
@@ -51,10 +51,14 @@
 #'    legend=c("recorded 1","recorded 5","corrected 5"))
 #' }
 
-T9R5L          <- function(Value,
+smooth_age_5_feeney          <- function(Value,
                   Age,
                   maxit = 200,
                   OAG = FALSE) {
+  if (as.character(match.call()[[1]]) == "T9R5L") {
+    warning("please use smooth_age_5_feeney() instead of T9R5L().", call. = FALSE)
+  }
+  
   # ages need to be single to use this method.
   stopifnot(is_single(Age))
   TOT          <- sum(Value, na.rm = TRUE)
@@ -123,3 +127,7 @@ T9R5L          <- function(Value,
   out          <- rescale_vector(out, TOT)
   out
 }
+
+#' @export
+#' @rdname smooth_age_5_feeney
+T9R5L <- smooth_age_5_feeney
