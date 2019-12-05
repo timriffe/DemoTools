@@ -13,7 +13,7 @@
 #' KKNtest <- c(NA,NA,354871,278502,285508,261429,236513 ,
 #' 		204233,162138,126555,90094,65988,54803,41041,NA,NA,NA)
 #'
-#' CFmales <- carrier_farrag_smth(pop5m_pasex, Ages, TRUE)
+#' CFmales <- smooth_age_5_cf(pop5m_pasex, Ages, TRUE)
 #' CFtest <- c(NA,NA,346290,287083,285855,261082,237937,
 #' 202809,162973,125720,88730,67352,55187,40657,NA,NA,NA)
 #' all(round(CFmales) - CFtest == 0, na.rm = TRUE)
@@ -25,9 +25,13 @@
 #' \insertRef{carrier1959reduction}{DemoTools}
 #' \insertRef{PAS}{DemoTools}
 
-carrier_farrag_smth <- function(Value,
+smooth_age_5_cf <- function(Value,
                                 Age,
                                 OAG = TRUE) {
+  if (as.character(match.call()[[1]]) == "carrier_farrag_smth") {
+    warning("please use smooth_age_5_cf() instead of carrier_farrag_smth().", call. = FALSE)
+  }
+  
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
   # age groups and it'd still not break.
@@ -61,6 +65,10 @@ carrier_farrag_smth <- function(Value,
   out
   # tail behavior will be controlled in top level function.
 }
+
+#' @export
+#' @rdname smooth_age_5_cf
+carrier_farrag_smth <- smooth_age_5_cf
 
 #' Karup-King-Newton method of population count smoothing
 #' @description Smooth population counts in 5-year age groups.
@@ -740,7 +748,7 @@ agesmth <- function(Value,
   stopifnot(length(Age) == length(Value))
   # carrierfarrag or cf
   if (method %in% c("cf", "carrierfarrag")) {
-    out      <- carrier_farrag_smth(Value = Value,
+    out      <- smooth_age_5_cf(Value = Value,
                                Age = Age,
                                OAG = OAG)
   }
