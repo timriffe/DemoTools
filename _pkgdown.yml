@@ -16,43 +16,43 @@ home:
     href: https://github.com/timriffe/DemoTools/    
   
 reference:
-  - title: "Age-heaping"
-    desc: Functions used to assess and handle age-heaping
+  - title: "Evaluate age structure"
+    desc: Indicators to evaluate the degreee of age heaping
     contents: 
-      - '`Whipple`'
-      - '`Myers`'
-      - '`Bachi`'
-      - '`Noumbissi`'
-      - '`Spoorenberg`'
-      - '`CoaleLi`'
-      - '`Jdanov`'
-      - '`groupAges`'
-      - '`zero_pref_sawtooth`'
-      - '`five_year_roughness`'
-      - ageRatioScore
-      - sexRatioScore
-      - ageSexAccuracy
-      - IRD
-      - ID 
-      - survRatioError
+          - '`Whipple`'
+          - '`Myers`'
+          - '`Bachi`'
+          - '`Noumbissi`'
+          - '`Spoorenberg`'
+          - '`CoaleLi`'
+          - '`Jdanov`'
+  - title: "Evaluate consitenty of age structures"
+    desc: Methods to assess the consistency of age structures
+    contents:           
+          - '`ageRatioScore`'
+          - '`sexRatioScore`'
+          - '`ageSexAccuracy`'
+          - '`IRD`'
+          - '`ID`'
+          - '`survRatioError`'
+  - title: "Evaluate patterns heaping"
+    desc: Methods to assess in which ages heaping happens
+    contents:                     
+          - '`zero_pref_sawtooth`'
+          - '`five_year_roughness`'
   - title: "Graduation"
-    desc: Functions to graduate demographic counts
+    desc: Functions to graduate demographic counts. Methods include Sprague, Beers ordinary, Beers modified, monotone spline, PCLM and uniform.
     contents:
       - '`graduate`'
-      - '`groupAges`'
-      - '`rescaleAgeGroups`'
   - title: "Smoothing"
-    desc: Functions to smooth demographic counts
+    desc: Functions to smooth demographic counts. Methods include Carrier-Farrag, KKN, Arriaga, United Nations, Strong, spencer, Zigzag, Zelnik, MAV.
     contents:
       - '`agesmth`'
       - '`agesmth1`'
-      - '`united_nations_smth`'
-      - '`strong_smth`'
-      - '`zigzag_smth`'
   - title: "Lifetable"
     desc: Functions to construct a lifetable
     contents:
-      - '`LTabr`'
+      -  '`LTabr`'
   - title: "Interpolation"
     desc: Functions to interpolate counts
     contents:
@@ -61,18 +61,43 @@ reference:
     desc: Functions for migration models
     contents:
       - '`mig_calculate_rc`'
-  - title: "Checking functions"
-    desc: Various functions to check some arguments
+  - title: "Miscelaneous data operations"
     contents:
-      - '`is_abridged`'
-      - '`is_age_coherent`'
-      - '`is_age_redundant`'
-      - '`is_age_sequential`'
-      - '`is_LeapYear`' 
-      - '`is_single`' 
+      - '`groupAges`'
+      - '`rescaleAgeGroups`'
+  - title: "Internal graduation"
+    contents:
+      - starts_with("graduate_")
+      - '`beers`'
+      - '`splitMono`'
+      - '`splitOscillate`'
+      - '`splitUniform`'
+      - '`sprague`'
+  - title: "Internal smoothing"
+    contents:
+      - ends_with("_smth")
+      - '`poly_smth1`'
+      - '`spencer`'
+      - '`zelnik`'
+      - '`zigzag`'
+      - '`zigzag_min`'
+      - '`zigzag_p`'
+      - '`kkn_smth`' 
+      - '`loess_smth1`'
+  - title: "Auxiliar lifetable functions"
+    contents:      
+      - starts_with("mx")
+      - starts_with("lt_")
+  - title: "Auxiliar checking functions"
+    contents:      
+      - starts_with("is_")
+  - title: "Auxiliar population structure functions"
+    contents:      
+      - starts_with("pop")
   - title: "Internal"
     desc: Internal functions
     contents:
+      - '`OPAG_simple`'
       - '`interp`'
       - '`adjustAge`'
       - '`ADM`'
@@ -81,29 +106,14 @@ reference:
       - '`AGEN`'
       - '`ageSexAccuracyDasGupta`'
       - '`age_abridge_force`'
-      - '`aomegaMortalityLaws`'
-      - '`arriaga_smth`'
       - '`avg_adj`'
-      - '`ax.greville.mortpak`'
-      - '`axPAS`'
-      - '`axUN`' 
-      - '`beers`'
       - '`birthCohorts`'
       - '`calcAgeAbr`'
       - '`calcAgeN`'
-      - '`carrier_farrag_smth`'
       - '`dec.date`'
-      - '`DemoTools-renamed`'
-      - '`DemoTools-package`'
       - '`dth5_zigzag`'
-      - '`geta0CD`' 
-      - '`geta1_4CD`'
       - '`getModelLifeTable`'
-      - '`grabill`'
-      - '`graduate_pclm`'
-      - '`graduate_beers_expand`'
-      - '`graduate_grabill_expand`' 
-      - '`graduate_sprague_expand`'
+      - '`groupAges`'
       - '`groupOAG`' 
       - '`heapify`'
       - '`inferAgeIntAbr`'
@@ -112,57 +122,24 @@ reference:
       - '`interpolatePop`'
       - '`johnsonAdjust`'
       - '`KannistoHeap`'
-      - '`kkn_smth`' 
-      - '`lt_rule_m_extrapolate`'
-      - '`loess_smth1`'
-      - '`lt_single_simple`'
-      - '`lx2dx`' 
-      - '`Lx2Tx`'
-      - '`lxdxax2Lx`'
-      - '`Lxlx2Sx`' 
       - '`M04_2_D0`'
       - '`M04_2_M0`'
       - '`ma`' 
       - '`mav`'
       - '`mav_smth`'
       - '`maxA2abridged`'
-      - '`monoCloseout`' 
-      - '`mx2qx`' 
-      - '`mxax2qx`'
-      - '`mxax2qx_Backstop`'
-      - '`mxorqx2ax`' 
       - '`names2age`'
-      - '`OPAG_simple`'
-      - '`poly_smth1`'
-      - '`pop1m_ind`'
-      - '`pop1m_pasex`'
-      - '`pop5m_pasex`'
-      - '`pop5_mat`' 
-      - '`popA_earlier`'
-      - '`popA_later`'
-      - '`qx2lx`'
-      - '`qxax2mx`'
-      - '`qxmx2ax`'
       - '`ratx`'
       - '`RDM`'
       - '`rescale.vector`'
       - '`rlog`'
       - '`shift.vector`'
       - '`simplify.text`'
-      - '`spencer`'
-      - '`splitMono`'
-      - '`splitOscillate`'
-      - '`splitUniform`'
-      - '`sprague`'
       - '`surv10`'
       - '`surv5`'
       - '`survN`'
       - '`T9R5L`'
       - '`ypart`'
-      - '`zelnik`'
-      - '`zigzag`'
-      - '`zigzag_min`'
-      - '`zigzag_p`'
 navbar:
   type: reverse
   title: "DemoTools"
