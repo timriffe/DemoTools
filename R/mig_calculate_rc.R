@@ -30,7 +30,7 @@ mig_calculate_rc <- function(ages,
                              pars){
   
   # parameter name groups
-  comp1 <- c("a1", "alpha1", "c")
+  comp1 <- c("a1", "alpha1")
   comp2 <- c("a2", "alpha2", "lambda2", "mu2")
   comp3 <- c("a3", "alpha3", "lambda3", "mu3")
   comp4 <- c("a4", "lambda4")
@@ -39,14 +39,18 @@ mig_calculate_rc <- function(ages,
   # simple check
   stopifnot(length(pars) %in% c(7, 9, 11, 13))
   # check for specific parameter groups
-  if(length(pars)==7)
-    stopifnot(all(c(comp1, comp2) %in% names(pars)))
-  if(length(pars)==9)
-    stopifnot(all(c(comp1, comp2, comp4) %in% names(pars)))
-  if(length(pars)==11)
-    stopifnot(all(c(comp1, comp2, comp3) %in% names(pars)))
-  if(length(pars)==13)
-    stopifnot(all(c(comp1, comp2, comp3, comp4) %in% names(pars)))
+  if (any(comp1 %in% names(pars))){
+    stopifnot(all(comp1 %in% names(pars)))
+  }
+  if (any(comp2 %in% names(pars))){
+    stopifnot(all(comp2 %in% names(pars)))
+  }
+  if (any(comp3 %in% names(pars))){
+    stopifnot(all(comp3 %in% names(pars)))
+  }
+  if (any(comp4 %in% names(pars))){
+    stopifnot(all(comp4 %in% names(pars)))
+  }
   
   pars_blank <- c(a1 = 0, alpha1 = 0, 
                   a2 = 0, alpha2 = 0, mu2 = 0, lambda2 = 0, 

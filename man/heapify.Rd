@@ -49,7 +49,7 @@ A5 <- seq(0,95,by=5)
 plot(Age,pop1m_pasex)
 # here it is again, smoothed:
 smoothed <- graduate_sprague(
-		agesmth(pop1m_pasex,
+		smooth_age_5(pop1m_pasex,
 				Age,
 				method = "Strong",
 				OAG = FALSE,

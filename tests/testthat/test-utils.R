@@ -20,11 +20,11 @@ test_that("ma works",{
 })
 
 
-test_that("rescale.vector works",{
+test_that("rescale_vector works",{
     set.seed(911)
     x  <- runif(10)
 
-    xx <- rescale.vector(x, 100)
+    xx <- rescale_vector(x, 100)
     expect_equal(sum(xx), 100)
     # check if proportionality is preserved
     expect_equal(x[1]/x[2], xx[1]/xx[2])

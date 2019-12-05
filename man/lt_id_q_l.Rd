@@ -3,7 +3,10 @@
 \name{lt_id_q_l}
 \alias{lt_id_q_l}
 \alias{qx2lx}
-\title{Derive lifetable survivorship (lx) from death probabilities.}
+\title{#' @export
+#' @rdname lt_id_ma_q
+mxax2qx <- lt_id_ma_q
+Derive lifetable survivorship (lx) from death probabilities.}
 \usage{
 lt_id_q_l(nqx, radix = 1e+05)
 

@@ -55,13 +55,7 @@
     <loc>https://timriffe.github.io/DemoTools//reference/Spoorenberg.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/T9R5L.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/Whipple.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/adjustAge.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/age2ageN.html</loc>
@@ -82,13 +76,7 @@
     <loc>https://timriffe.github.io/DemoTools//reference/age_abridge_force.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/agesmth.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/agesmth1.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/arriaga_smth.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/avg_adj.html</loc>
@@ -101,9 +89,6 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/calcAgeN.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/carrier_farrag_smth.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/dec.date.html</loc>
@@ -196,9 +181,6 @@
     <loc>https://timriffe.github.io/DemoTools//reference/johnsonAdjust.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/kkn_smth.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/loess_smth1.html</loc>
   </url>
   <url>
@@ -268,9 +250,6 @@
     <loc>https://timriffe.github.io/DemoTools//reference/mav.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mav_smth.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/maxA2abridged.html</loc>
   </url>
   <url>
@@ -304,10 +283,10 @@
     <loc>https://timriffe.github.io/DemoTools//reference/ratx.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/rescale.vector.html</loc>
+    <loc>https://timriffe.github.io/DemoTools//reference/rescaleAgeGroups.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/rescaleAgeGroups.html</loc>
+    <loc>https://timriffe.github.io/DemoTools//reference/rescale_vector.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/rlog.html</loc>
@@ -322,13 +301,46 @@
     <loc>https://timriffe.github.io/DemoTools//reference/simplify.text.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_arriaga.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_cf.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_feeney.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_kkn.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_mav.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_strong.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_un.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_zigzag.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_zigzag_inner.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_zigzag_min.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_zigzag_p.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/spencer.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/splitOscillate.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/strong_smth.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/surv10.html</loc>
@@ -343,9 +355,6 @@
     <loc>https://timriffe.github.io/DemoTools//reference/survRatioError.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/united_nations_smth.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/ypart.html</loc>
   </url>
   <url>
@@ -353,18 +362,6 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/zero_pref_sawtooth.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/zigzag.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/zigzag_min.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/zigzag_p.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/zigzag_smth.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//articles/Age-heaping_quality_with_Demotools.html</loc>

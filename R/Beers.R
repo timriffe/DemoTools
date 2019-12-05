@@ -304,7 +304,7 @@ graduate_beers <- function(Value,
   # cuz we need a separate age 0
   if (johnson & ((min(Age) == 0 & 1 %in% Age))) {
     Age0 <- Value[1]
-    pop1 <- johnsonAdjust(Age0 = Age0,
+    pop1 <- graduate_beers_johnson(Age0 = Age0,
                           pop5 = pop5,
                           pop1 = pop1)
   }
@@ -334,7 +334,8 @@ beers <- graduate_beers
 #' @export
 #' @references
 #' \insertRef{stover2008spectrum}{DemoTools}
-johnsonAdjust <- function(Age0, pop5, pop1) {
+graduate_beers_johnson <- function(Age0, pop5, pop1) {
+
   # coefficient matrix
   DAPPSmod <- matrix(
     c(

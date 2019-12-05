@@ -2,35 +2,52 @@
 % Please edit documentation in R/LTidentities.R
 \name{lt_id_ma_q}
 \alias{lt_id_ma_q}
+\alias{lt_id_m_q}
 \alias{mxax2qx}
-\title{Derive nqx from nMx and nax.}
+\alias{mx2qx}
+\alias{mxax2qx_Backstop}
+\title{Calculate conditional death probabilities from nMx and nax}
 \usage{
 lt_id_ma_q(nMx, nax, AgeInt, closeout = TRUE, IMR)
 
+lt_id_m_q(nMx, nax, AgeInt, closeout = TRUE, IMR)
+
 mxax2qx(nMx, nax, AgeInt, closeout = TRUE, IMR)
+
+mx2qx(nMx, nax, AgeInt, closeout = TRUE, IMR)
+
+mxax2qx_Backstop(nMx, nax, AgeInt, closeout = TRUE, IMR)
 }
 \arguments{
-\item{nMx}{numeric. Vector of age-specific death rates.}
+\item{nMx}{numeric. Vector of mortality rates in abridged age classes.}
 
-\item{nax}{numeric. Vector of average time spent in interval by those dying in interval.}
+\item{nax}{numeric. Average time spent in age interval of those that die in the interval.}
 
-\item{AgeInt}{integer. Vector of age class widths.}
+\item{AgeInt}{integer. Vector of age class widths. Default \code{inferAgeIntAbr(Age = Age)}.}
 
-\item{closeout}{logical. Set to 1 if TRUE. Identity otherwise. Default \code{TRUE}.}
+\item{closeout}{logical. Set final age to 1 if TRUE. Identity otherwise. Default \code{TRUE}.}
 
 \item{IMR}{numeric. Optional q0 to impute, in case available separately.}
 }
-\value{
-nqx vector of age specific death probabilities derived via identity.
-}
 \description{
-This is the standard identity to derive nqx from nax and nMx.
-This is a more full-service wrapper of \code{lt_id_m_q()}, with closeout options and optional age 0
-treatment.
+Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages.
 }
 \details{
-qx values calculated as greater than 1 are imputed with 1.
+nMx equal to 2 will imply nqx of 1 by this formula. Implied nqx greater than 1 after this procedure are returned as 1. This is not vectorized!
 }
-\references{
-\insertRef{preston2000demography}{DemoTools}
+\examples{
+# implies a qx > 1
+mx     <- .65
+AgeInt <- 5
+ax     <- 2.5
+# this is a problematic case
+ (AgeInt * mx) / (1 + (AgeInt - ax) * mx)
+# here a workable value
+(lt_id_ma_q(mx, ax, AgeInt, closeout = FALSE))
+#' # still less than 1
+lt_id_ma_q(1.99, ax, AgeInt, closeout = FALSE) < 1
+# unity
+(lt_id_ma_q(2, ax, AgeInt, closeout = FALSE))
+# qx imputed as 1
+(lt_id_ma_q(2.1, ax, AgeInt, closeout = FALSE))
 }

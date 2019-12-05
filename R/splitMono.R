@@ -188,7 +188,7 @@ graduate_mono_closeout <-
     ## adjust back on initial pop 5x5 for age 90-94
     ## proportional distribution
     pop.c[is.na(pop.c)] <- 0
-    prop                <- rescale.vector(pop.c, scale = 1)
+    prop                <- rescale_vector(pop.c, scale = 1)
     pivot5              <- Value[which(AgeIn == pivotAge)]
     pop.c               <- prop * pivot5
     ## append the remaining of the age groups (except last open age)

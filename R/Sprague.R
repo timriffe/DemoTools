@@ -360,7 +360,7 @@ splitOscillate <- function(
   # take average per age
   p.out                          <- rowMeans(p1x1, na.rm = TRUE)
   # rescale toa proper total
-  p.out                          <- rescale.vector(p.out, TOT)
+  p.out                          <- rescale_vector(p.out, TOT)
   # re-append the open age group if needed
   if (OAG) {
     Age                          <- c(Age, OA)

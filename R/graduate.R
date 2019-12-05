@@ -248,7 +248,7 @@ graduate <- function(Value,
       V4       <- V5 - V0
       a1       <- names2age(out)
       ind      <- a1 < 5 & a1 > 0
-      out[ind] <- rescale.vector(out[ind], scale = V4)
+      out[ind] <- rescale_vector(out[ind], scale = V4)
       out[1]   <- V0
     }
   }
