@@ -8,7 +8,7 @@
 #' @description LOESS (locally weighted smoothing) helps to smooth data over age, preserving the open age group if necessary. This is a simple wrapper to \code{stats::loess()} but using standard demographic arguments.
 #'  It is a popular tool to create a smooth line through a timeplot or scatter plot.
 #' @details The total sum of \code{Value} is preserved in the output. One can control smoothness using the \code{spar} argument of \code{stats::loess()}. See \code{\link[stats]{loess}} for more details.
-#' @inheritParams agesmth
+#' @inheritParams smooth_age_5
 #' @param ... optional arguments passed to \code{stats::loess()}
 #' @export
 #' @importFrom stats loess
@@ -65,7 +65,7 @@ loess_smth1     <- function(Value, Age, OAG = TRUE, ...) {
 #' @description Smooth data over age fitting linear models, preserving the open age group if necessary.
 #' This is a wrapper to \code{stats::lm()} but using standard demographic arguments.
 #' @details The total sum of \code{Value} is preserved in the output. One can control smoothness by adjusting the degree of the polynomial (higher degree more wiggly). See \code{\link[stats]{lm}} for more details. One may wish to log transform the data before fitting the polynomial, in which case \code{trans} should be specified as \code{"log"}. \code{"power"} is also an option in which case the data is transformed by \code{Value^(1/pow)} before fitting, and then the prediction is back-transformed (negative values not allowed)-- This is friendlier in the case of 0s. For the log transformation, 0s have no weight.
-#' @inheritParams agesmth
+#' @inheritParams smooth_age_5
 #' @param degree integer degree of polynomial. Default 2.
 #' @param trans if a transformation is desired, either specify \code{"log"} or \code{"power"}, otherwise leave missing.
 #' @param pow if \code{"power"} specified for \code{trans} then the power transformation to apply.
@@ -176,7 +176,7 @@ poly_smth1 <-
 
 #' Generic smoother over age or time
 #' @description One dimensional smoothing over age (or time) using either loess (\code{"loess"} or polynomial \code{"poly"} regression.
-#'  Results of loess may at times be similar to a two-step \code{agesmth()} method followed by graduation (e.g. \code{graduate_beers()} or \code{graduate_beers()},
+#'  Results of loess may at times be similar to a two-step \code{smooth_age_5()} method followed by graduation (e.g. \code{graduate_beers()} or \code{graduate_beers()},
 #'  but local totals are not not constrained for any of the \code{agesmth1()} methods at this time. Total counts are
 #'  constrained to the original total in all cases.
 #' @details LOESS (locally weighted smoothing) helps to smooth data over age, preserving the open age group if necessary.

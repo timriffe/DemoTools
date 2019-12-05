@@ -72,4 +72,4 @@ mav <- function(Value, Age, n = 3, OAG = TRUE) {
 #Age  <-c(0:70)
 #mav(Pop,Age,OAG=FALSE)
 #groupAges(mav(Pop,Age,OAG=FALSE))-
-#agesmth(Pop,Age,method = "un")
+#smooth_age_5(Pop,Age,method = "un")

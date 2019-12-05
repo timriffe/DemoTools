@@ -35,6 +35,7 @@ These functions still work but will be removed (defunct) in the next version.
  \item \code{\link{geta0CD}}: This function is now called \code{\link{lt_rule_1a0_cd}}.
  \item \code{\link{geta1_4CD}}: This function is now called \code{\link{lt_rule_4a1_cd}}.
  
+ \item \code{\link{agesmth}}: This function is now called \code{\link{smooth_age_5}}.
  \item \code{\link{T9R5L}}: This function is now called \code{\link{smooth_age_5_feeney}}.
  \item \code{\link{carrier_farrag_smth}}: This function is now called \code{\link{smooth_age_5_cf}}.
  \item \code{\link{kkn_smth}}: This function is now called \code{\link{smooth_age_5_kkn}}.
@@ -42,6 +43,7 @@ These functions still work but will be removed (defunct) in the next version.
  \item \code{\link{mav_smth}}: This function is now called \code{\link{smooth_age_5_mav}}.
  \item \code{\link{zigzag_smth}}: This function is now called \code{\link{smooth_age_5_zigzag}}.
  \item \code{\link{strong_smth}}: This function is now called \code{\link{smooth_age_5_strong}}.
+ \item \code{\link{united_nations_smth}}: This function is now called \code{\link{smooth_age_5_un}}.
  
  \item \code{\link{adjustAge}}: This function is now called \code{\link{rescale_vector}}.
 }

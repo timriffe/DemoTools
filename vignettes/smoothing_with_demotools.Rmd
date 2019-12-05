@@ -45,7 +45,7 @@ plot(Age, Value/sum(Value), type = 'l',
 This method considers the ratio, $K$, of the population in one quinary age-group to the next one [@carrier1959reduction]. If $v_0$ is a denary age-group, and $v_{-2}$ and $v_2$ are the preceding and succeeding age-groups, respectively, and if $K^4 = v_{-2}/v_2$. Then, the older quinary group $v_1$ can be estimated by $v_0/(1+K)$. This equation connects the population in two ten-year age groups separated by an interval of ten years. Therefore the value $K$ can be seen as the middle point between the two ten-year age groups. To run this method in `DemoTools` the function `afesmth` is used with the option 'Carrier-Farrag'. The figure below  shows the smoothed population by five-year age groups.
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
-cf <- agesmth(Value = Value, 
+cf <- smooth_age_5(Value = Value, 
 	Age = Age, 
 	method = "Carrier-Farrag", 
 	OAG = TRUE)
@@ -91,7 +91,7 @@ To perform this model the option 'Arriaga' must be chosen in the 'agesmth' funct
 
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
-cf <- agesmth(Value = Value, 
+cf <- smooth_age_5(Value = Value, 
 	Age = Age, 
 	method = "Arriaga", 
 	OAG = TRUE)
@@ -119,7 +119,7 @@ _{5}P_{x+5} = _{10}P_{x} - _{5}P_{x}.
 To implement this smoothing process select the `Karup-King-Newton` inthe `agesmth` function.
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
-cf <- agesmth(Value = Value, 
+cf <- smooth_age_5(Value = Value, 
 	Age = Age, 
 	method = "Karup-King-Newton", 
 	OAG = TRUE)

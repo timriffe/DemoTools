@@ -26,7 +26,7 @@ agesmth1(Value, Age, method = "loess", OAG = TRUE, degree = 2, trans,
 }
 \description{
 One dimensional smoothing over age (or time) using either loess (\code{"loess"} or polynomial \code{"poly"} regression.
- Results of loess may at times be similar to a two-step \code{agesmth()} method followed by graduation (e.g. \code{graduate_beers()} or \code{graduate_beers()},
+ Results of loess may at times be similar to a two-step \code{smooth_age_5()} method followed by graduation (e.g. \code{graduate_beers()} or \code{graduate_beers()},
  but local totals are not not constrained for any of the \code{agesmth1()} methods at this time. Total counts are
  constrained to the original total in all cases.
 }

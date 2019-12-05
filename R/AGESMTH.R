@@ -241,7 +241,7 @@ arriaga_smth <- smooth_age_5_arriaga
 #' Ages         <- seq(0, 80, by = 5)
 #' un_test <- c(NA,NA,364491,279123,268724,272228,243638,200923,162752,126304,
 #' 		91662,67432,54677,38833,NA,NA,NA)
-#' un_result <- united_nations_smth(pop5m_pasex, Ages, TRUE)
+#' un_result <- smooth_age_5_un(pop5m_pasex, Ages, TRUE)
 #' all(round(un_result) - un_test == 0, na.rm = TRUE)
 #' \dontrun{
 #' plot(Ages, pop5m_pasex)
@@ -252,9 +252,13 @@ arriaga_smth <- smooth_age_5_arriaga
 #' \insertRef{arriaga1994population}{DemoTools}
 
 
-united_nations_smth <- function(Value,
+smooth_age_5_un <- function(Value,
                                 Age,
                                 OAG = TRUE) {
+  if (as.character(match.call()[[1]]) == "united_nations_smth") {
+    warning("please use smooth_age_5_un() instead of united_nations_smth().", call. = FALSE)
+  }
+  
   N <- length(Value)
   if (OAG) {
     Value[N] <- NA
@@ -279,6 +283,10 @@ united_nations_smth <- function(Value,
   names(out) <- Age5
   out
 }
+
+#' @export
+#' @rdname smooth_age_5_un
+united_nations_smth <- smooth_age_5_un
 
 #' A strong method of population count smoothing
 #' @description Smooth population counts in 5-year age groups.
@@ -395,7 +403,7 @@ strong_smth <- smooth_age_5_strong
 
 #' G. Feeney's method of smoothing counts in 5-year age groups.
 #' @description If age heaping is much worse on 0's than on 5's then even counts in 5-year age bins can preserve a sawtooth pattern. Most graduation techniques translate the zig-zag/sawtooth pattern to a wave pattern. It is not typically desired. This method redistributes counts 'from' every second 5-year age group in a specified range 'to' the adjacent age groups. How much to redistribute depends on a detection of roughness in the 5-year binned data, which follows the formulas recommended by Feeney. This method does not alter the total population count, counts in the youngest 10 ages, nor in old ages. 10-year age groups in the middle age range are not constrained.
-#' @details This function calls \code{smooth_age_5_zigzag_inner()}, but prepares data in a way consistent with other methods called by \code{agesmth()}. It is probably preferable to call \code{zigzag()} from the top level, or else call this method from \code{agesmth()} for more control over tail imputations.
+#' @details This function calls \code{smooth_age_5_zigzag_inner()}, but prepares data in a way consistent with other methods called by \code{smooth_age_5()}. It is probably preferable to call \code{zigzag()} from the top level, or else call this method from \code{smooth_age_5()} for more control over tail imputations.
 #' @param Value numeric vector of (presumably) counts in 5-year age groups.
 #' @param Age integer vector of age group lower bounds.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}.
@@ -446,7 +454,7 @@ zigzag_smth <- smooth_age_5_zigzag
 
 #' Smooth in 5-year age groups using a moving average
 #' @description Smooth data in 5-year age groups.
-#' @details This function calls \code{smooth_age_5_zigzag_inner()}, but prepares data in a way consistent with other methods called by \code{agesmth()}. It is probably preferable to call \code{zigzag()} from the top level, or else call this method from \code{agesmth()} for more control over tail imputations.
+#' @details This function calls \code{smooth_age_5_zigzag_inner()}, but prepares data in a way consistent with other methods called by \code{smooth_age_5()}. It is probably preferable to call \code{zigzag()} from the top level, or else call this method from \code{agesmth()} for more control over tail imputations.
 #' @param Value numeric vector of (presumably) counts in 5-year age groups.
 #' @param Age integer vector of age group lower bounds.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}.
@@ -672,7 +680,7 @@ T9R5L <- smooth_age_5_feeney
 #' Ages         <- seq(0, 80, by = 5)
 #'
 #' # names a bit flexible:
-#' cf <- agesmth(Value = pop5m_pasex,
+#' cf <- smooth_age_5(Value = pop5m_pasex,
 #'		Age = Ages,
 #'		method = "Carrier-Farrag",
 #'		OAG = TRUE)
@@ -680,27 +688,27 @@ T9R5L <- smooth_age_5_feeney
 #'# "cf" also works
 #'
 #'# no need to specify tails for Arriaga or Strong
-#'arr <- agesmth(Value = pop5m_pasex,
+#'arr <- smooth_age_5(Value = pop5m_pasex,
 #'		Age = Ages,
 #'		method = "Arriaga",
 #'		OAG = TRUE)
-#'strong <- agesmth(Value = pop5m_pasex,
+#'strong <- smooth_age_5(Value = pop5m_pasex,
 #'		Age = Ages,
 #'		method = "Strong",
 #'		OAG = TRUE)
 #'# other methods:
-#'un <- agesmth(Value = pop5m_pasex,
+#'un <- smooth_age_5(Value = pop5m_pasex,
 #'		Age = Ages,
 #'		method = "United Nations",
 #'		OAG = TRUE)
-#'kkn <- agesmth(Value = pop5m_pasex,
+#'kkn <- smooth_age_5(Value = pop5m_pasex,
 #'		Age = Ages,
 #'		method = "Karup-King-Newton",
 #'		OAG = TRUE)
 #' # zigzag, not plotted.
-#' zz <- agesmth(pop5m_pasex,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 80)
+#' zz <- smooth_age_5(pop5m_pasex,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 80)
 #' # mav, not plotted.
-#' ma3 <- agesmth(pop5m_pasex,Ages,OAG=TRUE,method="MAV",n=3)
+#' ma3 <- smooth_age_5(pop5m_pasex,Ages,OAG=TRUE,method="MAV",n=3)
 #'
 #'\dontrun{
 #'	plot(Ages,pop5m_pasex,pch=16)
@@ -721,11 +729,11 @@ T9R5L <- smooth_age_5_feeney
 #'
 #'  V5 <- groupAges(pop1m_pasex, Age=Age)
 #'  Age5 <- as.integer(names(V5))
-#'  cf2 <- agesmth(Value = pop1m_pasex,
+#'  cf2 <- smooth_age_5(Value = pop1m_pasex,
 #'		  Age = Age,
 #'		  method = "Carrier-Farrag",
 #'		  OAG = TRUE)
-#'  st2 <- agesmth(Value = pop1m_pasex,
+#'  st2 <- smooth_age_5(Value = pop1m_pasex,
 #'		  Age = Age,
 #'		  method = "Strong",
 #'		  OAG = TRUE)
@@ -760,7 +768,7 @@ T9R5L <- smooth_age_5_feeney
 #'		legend=c("orig single","orig->Sprague","C-F->Sprague","Strong->Sprague"))
 #'}
 #'
-agesmth <- function(Value,
+smooth_age_5 <- function(Value,
                     Age,
                     method = c("Carrier-Farrag",
                                "KKN",
@@ -775,6 +783,11 @@ agesmth <- function(Value,
                     n = 3,
                     young.tail = c("Original", "Arriaga", "Strong", NA)[1],
                     old.tail = young.tail) {
+  if (as.character(match.call()[[1]]) == "agesmth") {
+    warning("please use smooth_age_5() instead of agesmth().", call. = FALSE)
+  }
+  
+  
   method     <- simplify.text(method)
   young.tail <- simplify.text(young.tail)
   old.tail   <- simplify.text(old.tail)
@@ -804,7 +817,7 @@ agesmth <- function(Value,
   
   # un or unitednations
   if (method %in% c("un", "unitednations")) {
-    out <- united_nations_smth(Value = Value,
+    out <- smooth_age_5_un(Value = Value,
                                Age = Age,
                                OAG = OAG)
   }
@@ -909,3 +922,8 @@ agesmth <- function(Value,
   
   out
 }
+
+
+#' @export
+#' @rdname smooth_age_5
+agesmth <- smooth_age_5
