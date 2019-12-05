@@ -197,7 +197,9 @@ graduate_grabill <- function(
   # label dims and return
   AgeOut            <- min(Age):(min(Age) + nrow(popg) - 1)
   dim(popg)         <- NULL
-  names(popg)       <- a1
+  # TR: this is necessary if final age group is open, 
+  # but not in an age evenly divisible by 5
+  names(popg)       <- min(Age):(length(popg) - 1)
   
   popg
 }

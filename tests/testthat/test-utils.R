@@ -74,7 +74,7 @@ test_that("splitUniform works",{
                  11993151, 10033918, 14312222, 8111523, 15311047, 6861510,
                  13305117, 7454575, 9015381, 10325432, 9055588, 5519173)
     Ages <- seq(0, 85, by = 5)
-    one <- splitUniform(MalePop, Age = Ages)
+    one <- graduate_uniform(MalePop, Age = Ages)
     expect_equivalent(tail(as.vector(table(one)), 2), c(5, 1))
 })
 

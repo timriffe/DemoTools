@@ -39,7 +39,7 @@
 #' @param OAG logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include
 #'   \code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.
-#' @inheritParams lt_ax_closeout
+#' @inheritParams lt_a_closeout
 #' @export
 #' @return Lifetable in data.frame with columns
 #' \itemize{
@@ -75,7 +75,7 @@
 #' Age    <- c(0, 1, seq(5, 100, by = 5))
 #' AgeInt <- c(diff(Age), NA)
 #'
-#' PASLT <- LTabr(Deaths = Deaths,
+#' PASLT <- lt_abridged(Deaths = Deaths,
 #' 		Exposures = Exposures,
 #' 		Age = Age,
 #' 		AgeInt =AgeInt,
@@ -95,13 +95,13 @@
 #'
 #' # generate two variants: with and without PG's variants
 #' # for ages 5-14
-#' UNLT1 <- LTabr(nMx = Mx,
+#' UNLT1 <- lt_abridged(nMx = Mx,
 #' 		Age = c(0,1,seq(5,85,by=5)),
 #' 		AgeInt = AgeInt,
 #' 		axmethod = "un",
 #' 		Sex = "m",
 #' 		mod = FALSE)
-#' UNLT2 <- LTabr(nMx = Mx,
+#' UNLT2 <- lt_abridged(nMx = Mx,
 #' 		Age = c(0,1,seq(5,85,by=5)),
 #' 		AgeInt = AgeInt,
 #' 		axmethod = "un",
@@ -126,7 +126,7 @@
 #'  		15.349,12.095,9.240,6.903,5.099)
 #'
 #'  # First with lifetable extention to 100
-#'  MP_UNLT100 <- LTabr(
+#'  MP_UNLT100 <- lt_abridged(
 #'  		nMx = MPnMx,
 #'  		Age = Age,
 #'  		AgeInt = AgeInt,
@@ -136,7 +136,7 @@
 #'  		OAnew = 100)
 #' #'
 #' #' # lifetable to original open age group
-#'  MP_UNLT80 <- LTabr(
+#'  MP_UNLT80 <- lt_abridged(
 #'  		nMx = MPnMx,
 #'  		Age = Age,
 #'  		AgeInt = AgeInt,
@@ -146,7 +146,7 @@
 #'  		OAnew = 80)
 #'
 #' # same, but truncated at 60
-#' MP_UNLT60 <- LTabr(
+#' MP_UNLT60 <- lt_abridged(
 #' 		nMx = MPnMx,
 #' 		Age = Age,
 #' 		AgeInt = AgeInt,
@@ -155,7 +155,7 @@
 #' 		mod = FALSE,
 #' 		OAnew = 60)
 
-LTabr <- function(Deaths,
+lt_abridged <- function(Deaths,
                   Exposures,
                   nMx,
                   nqx,
@@ -183,6 +183,10 @@ LTabr <- function(Deaths,
                   extrapFrom = max(Age),
                   extrapFit = Age[Age >= 60],
                   ...) {
+  if (as.character(match.call()[[1]]) == "LTabr") {
+    warning("please use lt_abridged() instead of LTabr().", call. = FALSE)
+  }
+  
   # ages must be abridged.
   stopifnot(is_abridged(Age))
   
@@ -215,7 +219,7 @@ LTabr <- function(Deaths,
     # TR: expedient hack
     nqx[nqx > 1] <- 1
     
-    nAx          <- mxorqx2ax(
+    nAx          <- lt_id_morq_a(
       nqx = nqx,
       axmethod = axmethod,
       Age = Age,
@@ -227,7 +231,7 @@ LTabr <- function(Deaths,
       IMR = IMR
     )
   } else {
-    nAx          <- mxorqx2ax(
+    nAx          <- lt_id_morq_a(
       nMx = nMx,
       axmethod = axmethod,
       Age = Age,
@@ -244,7 +248,7 @@ LTabr <- function(Deaths,
   
   if (missing(nqx)) {
     nqx          <-
-      mxax2qx(
+      lt_id_ma_q(
         nMx = nMx,
         nax = nAx,
         AgeInt = AgeInt,
@@ -253,7 +257,7 @@ LTabr <- function(Deaths,
       )
   }
   if (missing(nMx)) {
-    nMx          <- qxax2mx(nqx = nqx,
+    nMx          <- lt_id_qa_m(nqx = nqx,
                    nax = nAx,
                    AgeInt = AgeInt)
   }
@@ -274,14 +278,13 @@ LTabr <- function(Deaths,
   # then truncate to OAnew in all cases. This will ensure more robust closeouts
   # and an e(x) that doesn't depend on OAnew. 130 used in same way by HMD by the way.
   x_extr         <- seq(extrapFrom, 130, by = 5)
-  Mxnew          <- extra_mortality(
-    x = Age,
-    mx = nMx,
-    x_fit = extrapFit,
-    x_extr = x_extr,
-    law = extrapLaw,
-    ...
-  )
+  Mxnew          <- lt_rule_m_extrapolate(
+                      x = Age,
+                      mx = nMx,
+                      x_fit = extrapFit,
+                      x_extr = x_extr,
+                      law = extrapLaw,
+                      ...)
   
   nMxext         <- Mxnew$values
   Age2           <- names2age(nMxext)
@@ -293,7 +296,7 @@ LTabr <- function(Deaths,
   AgeInt         <-
     age2int(Age, OAG = TRUE, OAvalue = max(AgeInt, na.rm = TRUE))
   # redo ax and qx for extended ages
-  nAx            <- mxorqx2ax(
+  nAx            <- lt_id_morq_a(
     nMx = nMx,
     axmethod = axmethod,
     Age = Age,
@@ -305,7 +308,7 @@ LTabr <- function(Deaths,
     IMR = IMR
   )
   
-  nqx            <- mxax2qx(
+  nqx            <- lt_id_ma_q(
     nMx = nMx,
     nax = nAx,
     AgeInt = AgeInt,
@@ -317,7 +320,7 @@ LTabr <- function(Deaths,
   # ---------------------------------
   
   # TR: the lifetable is the shortest part of this code!
-  lx             <- qx2lx(nqx, radix = radix)
+  lx             <- lt_id_q_l(nqx, radix = radix)
   ndx            <- lt_id_l_d(lx)
   nLx            <- lt_id_lda_L(
     lx = lx,
@@ -362,7 +365,7 @@ LTabr <- function(Deaths,
     nMx[N]   <-  lx[N] / Tx[N]
   }
   
-  Sx <- Lxlx2Sx(nLx, lx, AgeInt, N = 5)
+  Sx <- lt_id_Ll_S(nLx, lx, AgeInt, N = 5)
   # output is an unrounded, unsmoothed lifetable
   out <- data.frame(
     Age = Age,
@@ -379,3 +382,7 @@ LTabr <- function(Deaths,
   )
   return(out)
 }
+
+#' @export
+#' @rdname lt_abridged
+LTabr <- lt_abridged

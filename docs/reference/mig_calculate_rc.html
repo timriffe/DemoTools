@@ -78,7 +78,7 @@ Choose between a 7,9,11 or 13 parameter model." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.31</span>
       </span>
     </div>
 
@@ -161,7 +161,7 @@ Choose between a 7,9,11 or 13 parameter model." />
 Choose between a 7,9,11 or 13 parameter model.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mig_calculate_rc</span>(<span class='no'>ages</span>, <span class='no'>pars</span>, <span class='kw'>num_pars</span> <span class='kw'>=</span> <span class='fl'>11</span>)</pre>
+    <pre class="usage"><span class='fu'>mig_calculate_rc</span>(<span class='no'>ages</span>, <span class='no'>pars</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,11 +172,7 @@ Choose between a 7,9,11 or 13 parameter model.</p>
     </tr>
     <tr>
       <th>pars</th>
-      <td><p>numeric. A named list of parameters.</p></td>
-    </tr>
-    <tr>
-      <th>num_pars</th>
-      <td><p>integer. The number of parameters in the model (7,9,11, or 13)</p></td>
+      <td><p>numeric. A named list of parameters. Must have 7, 9, 11 or 13 values.</p></td>
     </tr>
     </table>
 
@@ -196,7 +192,7 @@ RR-81-030.</p>
 <span class='kw'>alpha2</span><span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>mu2</span><span class='kw'>=</span> <span class='fl'>21</span>, <span class='kw'>lambda2</span><span class='kw'>=</span> <span class='fl'>0.39</span>, <span class='kw'>a3</span><span class='kw'>=</span> <span class='fl'>0.001</span>,
 <span class='kw'>alpha3</span><span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>mu3</span><span class='kw'>=</span> <span class='fl'>67</span>, <span class='kw'>lambda3</span><span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>c</span><span class='kw'>=</span> <span class='fl'>0.01</span>)
 <span class='no'>ages</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>75</span>
-<span class='no'>mx</span> <span class='kw'>&lt;-</span> <span class='fu'>mig_calculate_rc</span>(<span class='kw'>ages</span> <span class='kw'>=</span> <span class='no'>ages</span>, <span class='kw'>pars</span> <span class='kw'>=</span> <span class='no'>pars</span>, <span class='kw'>num_pars</span> <span class='kw'>=</span> <span class='fl'>11</span>)
+<span class='no'>mx</span> <span class='kw'>&lt;-</span> <span class='fu'>mig_calculate_rc</span>(<span class='kw'>ages</span> <span class='kw'>=</span> <span class='no'>ages</span>, <span class='kw'>pars</span> <span class='kw'>=</span> <span class='no'>pars</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>ages</span>, <span class='no'>mx</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'l'</span>)</div><div class='img'><img src='mig_calculate_rc-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

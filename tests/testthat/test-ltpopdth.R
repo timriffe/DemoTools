@@ -34,7 +34,7 @@ lt_test_all_positive_plus_qx_lt_1 <- function(LT) {
 
 # PAS LTPOPDTH ------------------------------------------------------------
 
-test_that("LTabr works on PAS example", {
+test_that("lt_abridged works on PAS example", {
     # trial code from PAS LTPOPDTH, North, Males, IMR = .1
     Exposures <- c(100958, 466275, 624134, 559559, 446736, 370653, 
                    301862, 249409, 247473, 223014, 172260, 149338, 
@@ -48,7 +48,7 @@ test_that("LTabr works on PAS example", {
     Age    <- c(0, 1, seq(5, 100, by = 5))
     AgeInt <- c(diff(Age), NA)
     
-    PASLT <- LTabr(Deaths = Deaths,
+    PASLT <- lt_abridged(Deaths = Deaths,
                    Exposures = Exposures,
                    Age = Age,
                    AgeInt = AgeInt,
@@ -85,7 +85,7 @@ test_that("LTabr works on PAS example", {
 
 # UN 1982 (p. 34) example -------------------------------------------------
 
-test_that("LTabr works on UN 1982 (p. 34) example", {
+test_that("lt_abridged works on UN 1982 (p. 34) example", {
     
     Mx <- c(.23669, .04672, .00982, .00511, .00697, .01036, .01169,
             .01332, .01528, .01757, .02092, .02517, .03225, .04241, 
@@ -98,21 +98,21 @@ test_that("LTabr works on UN 1982 (p. 34) example", {
     AgeInt <- age2int(Age, OAvalue = 5)
     
     # generate two variants: with and without PG's variants for ages 5-14
-    UNLT1 <- LTabr(nMx = Mx,
+    UNLT1 <- lt_abridged(nMx = Mx,
                    Age = Age,
                    AgeInt = AgeInt,
                    axmethod = "un",
                    Sex = "m",
                    mod = FALSE)
     
-    UNLT2 <- LTabr(nMx = Mx,
+    UNLT2 <- lt_abridged(nMx = Mx,
                    Age = Age,
                    AgeInt = AgeInt,
                    axmethod = "un",
                    Sex = "m",
                    mod = TRUE)
     
-	# TR 2 Dec 2018: LTabr closeout is permanently
+	# TR 2 Dec 2018: lt_abridged closeout is permanently
 	# changed, influencing all ages, especially old ages.
 	# results should be close in young ages
 	ind <- 1:14
@@ -139,7 +139,7 @@ test_that("LTabr works on UN 1982 (p. 34) example", {
 # the ABACUS method as an option. It wins us consistency, though.
 # IFF I revitalize the Mortpak closeout method then it'll come back
 # in via args and be tested, but for now can't do that.
-test_that("LTabr works on Mortpak example (United Nations 1988, p. 82)", {
+test_that("lt_abridged works on Mortpak example (United Nations 1988, p. 82)", {
     
     MPnMx <- c(0.12846, 0.02477, 0.00603, 0.0034,
                0.00417, 0.00513, 0.00581, 0.00645, 0.00725,
@@ -152,7 +152,7 @@ test_that("LTabr works on Mortpak example (United Nations 1988, p. 82)", {
                    15.349, 12.095, 9.240, 6.903, 5.099)
     Age <-c(0, 1, seq(5, 80, by = 5))
     # First with lifetable extention to 100
-    MP_UNLT100 <- LTabr(
+    MP_UNLT100 <- lt_abridged(
         nMx = MPnMx,
         Age = Age,
         AgeInt = inferAgeIntAbr(vec = MPnMx),
@@ -163,7 +163,7 @@ test_that("LTabr works on Mortpak example (United Nations 1988, p. 82)", {
     )
     
     # lifetable to original open age group
-    MP_UNLT80 <- LTabr(
+    MP_UNLT80 <- lt_abridged(
         nMx = MPnMx,
         Age = c(0, 1, seq(5, 80, by = 5)),
         AgeInt = age2int(Age),
@@ -174,7 +174,7 @@ test_that("LTabr works on Mortpak example (United Nations 1988, p. 82)", {
     )
     
     # same, but truncated at 60
-    MP_UNLT60 <- LTabr(
+    MP_UNLT60 <- lt_abridged(
         nMx = MPnMx,
         Age = c(0, 1, seq(5, 80, by = 5)),
         AgeInt = inferAgeIntAbr(vec = MPnMx),

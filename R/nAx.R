@@ -33,20 +33,20 @@
 #' @examples
 #' m0 <- seq(.001, .2, by = .001)
 #' \dontrun{
-#' plot(m0, sapply(m0, geta0CD, Sex = "m", region = "e"), ylab = "a0",
+#' plot(m0, sapply(m0, lt_rule_1a0_cd, Sex = "m", region = "e"), ylab = "a0",
 #' 		type = 'l', ylim = c(0,.36), lty = 2, col = "blue")
-#' lines(m0,sapply(m0, geta0CD, Sex = "m", region = "w"), col = "blue")
-#' lines(m0,sapply(m0, geta0CD, Sex = "f", region = "e"), lty = 2, col = "red")
-#' lines(m0,sapply(m0, geta0CD, Sex = "f", region = "w"), col = "red")
-#' text(.15, geta0CD(.15,Sex = "m", region = "e"),"males E",font=2)
-#' text(.15, geta0CD(.15,Sex = "m", region = "w"),"males N,W,S",font=2)
-#' text(.15, geta0CD(.15,Sex = "f", region = "e"),"females E",font=2)
-#' text(.15, geta0CD(.15,Sex = "f", region = "w"),"females N,W,S",font=2)
+#' lines(m0,sapply(m0, lt_rule_1a0_cd, Sex = "m", region = "w"), col = "blue")
+#' lines(m0,sapply(m0, lt_rule_1a0_cd, Sex = "f", region = "e"), lty = 2, col = "red")
+#' lines(m0,sapply(m0, lt_rule_1a0_cd, Sex = "f", region = "w"), col = "red")
+#' text(.15, lt_rule_1a0_cd(.15,Sex = "m", region = "e"),"males E",font=2)
+#' text(.15, lt_rule_1a0_cd(.15,Sex = "m", region = "w"),"males N,W,S",font=2)
+#' text(.15, lt_rule_1a0_cd(.15,Sex = "f", region = "e"),"females E",font=2)
+#' text(.15, lt_rule_1a0_cd(.15,Sex = "f", region = "w"),"females N,W,S",font=2)
 #'
 #' # compare with the Preston approximation
 #' # constants identical after m0 = .107
 #' m0 <- seq(.001,.107,by =.001)
-#' a0CDm0 <- sapply(m0, geta0CD, Sex = "m", region = "w")
+#' a0CDm0 <- sapply(m0, lt_rule_1a0_cd, Sex = "m", region = "w")
 #' a0CDpr <- 0.045 + 2.684 * m0
 #' plot(m0, a0CDm0, type = 'l', lty = 2, col = "red")
 #' lines(m0, a0CDpr)
@@ -54,10 +54,14 @@
 #'}
 # this is called a separation factor in the spreadsheet?
 # separate estimate of IMR optional
-geta0CD <- function(M0,
+lt_rule_1a0_cd <- function(M0,
                     IMR = NA,
                     Sex = "m",
                     region = "w") {
+  if (as.character(match.call()[[1]]) == "geta0CD") {
+    warning("please use lt_rule_1a0_cd() instead of geta0CD().", call. = FALSE)
+  }
+  
   # sex can be "m", "f", or "b"
   # region can be "n","e","s","w",or
   Sex       <- tolower(Sex)
@@ -104,6 +108,9 @@ geta0CD <- function(M0,
   })
 }
 
+#' @export
+#' @rdname lt_rule_1a0_cd
+geta0CD <- lt_rule_1a0_cd
 # Separate estimate of IMR optional
 # TR: I think it's funny that a1-4 doesn't depend at all on m1-4
 
@@ -126,31 +133,35 @@ geta0CD <- function(M0,
 #' @examples
 #' m0 <- seq(.001,.2,by =.001)
 #' \dontrun{
-#' plot(m0, sapply(m0, geta1_4CD, Sex = "m", region = "e"), ylab = "4a1",
+#' plot(m0, sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "e"), ylab = "4a1",
 #' 		type = 'l', ylim = c(1,2), lty = 2, col = "blue")
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "w"), col = "blue")
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "n"), col = "blue", lty = "8383",lwd=2)
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "s"), col = "blue", lty = "6464",lwd=2)
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "e"), lty = 2, col = "red")
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "w"), col = "red")
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "n"), col = "red", lty = "8383",lwd=2)
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "s"), col = "red", lty = "6464",lwd=2)
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "w"), col = "blue")
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "n"), col = "blue", lty = "8383",lwd=2)
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "s"), col = "blue", lty = "6464",lwd=2)
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "f", region = "e"), lty = 2, col = "red")
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "f", region = "w"), col = "red")
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "f", region = "n"), col = "red", lty = "8383",lwd=2)
+#' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "f", region = "s"), col = "red", lty = "6464",lwd=2)
 #'
-#' text(.05, geta1_4CD(.05,Sex = "m", region = "e"),"males E",font=2,pos=4)
-#' text(.05, geta1_4CD(.05,Sex = "m", region = "w"),"males W",font=2,pos=4)
-#' text(.05, geta1_4CD(.05,Sex = "m", region = "s"),"males S",font=2,pos=4)
-#' text(.05, geta1_4CD(.05,Sex = "m", region = "n"),"males N",font=2,pos=4)
+#' text(.05, lt_rule_4a1_cd(.05,Sex = "m", region = "e"),"males E",font=2,pos=4)
+#' text(.05, lt_rule_4a1_cd(.05,Sex = "m", region = "w"),"males W",font=2,pos=4)
+#' text(.05, lt_rule_4a1_cd(.05,Sex = "m", region = "s"),"males S",font=2,pos=4)
+#' text(.05, lt_rule_4a1_cd(.05,Sex = "m", region = "n"),"males N",font=2,pos=4)
 #'
-#' text(0, geta1_4CD(.01,Sex = "f", region = "e"),"females E",font=2,pos=4)
-#' text(0, geta1_4CD(.01,Sex = "f", region = "w"),"females W",font=2,pos=4)
-#' text(0, geta1_4CD(.01,Sex = "f", region = "s"),"females S",font=2,pos=4)
-#' text(0, geta1_4CD(.01,Sex = "f", region = "n"),"females N",font=2,pos=4)
+#' text(0, lt_rule_4a1_cd(.01,Sex = "f", region = "e"),"females E",font=2,pos=4)
+#' text(0, lt_rule_4a1_cd(.01,Sex = "f", region = "w"),"females W",font=2,pos=4)
+#' text(0, lt_rule_4a1_cd(.01,Sex = "f", region = "s"),"females S",font=2,pos=4)
+#' text(0, lt_rule_4a1_cd(.01,Sex = "f", region = "n"),"females N",font=2,pos=4)
 #'
 #' }
-geta1_4CD <- function(M0,
+lt_rule_4a1_cd <- function(M0,
                       IMR = NA,
                       Sex = "m",
                       region = "w") {
+  if (as.character(match.call()[[1]]) == "geta1_4CD") {
+    warning("please use lt_rule_4a1_cd() instead of geta1_4CD().", call. = FALSE)
+  }
+  
   # sex can be "m", "f", or "b"
   # region can be "n","e","s","w",or
   Sex         <- tolower(Sex)
@@ -177,12 +188,12 @@ geta1_4CD <- function(M0,
   Slope        <- c(3.013, 	1.627, 	1.6270)
   names(Slope) <- c("m", "f", "b")
   if (missing(IMR) | is.na(IMR)) {
-    a0 <- geta0CD(M0,
+    a0 <- lt_rule_1a0_cd(M0,
                   IMR = NA,
                   Sex = Sex,
                   region = region)
     IMR <-
-      mxax2qx(
+      lt_id_ma_q(
         nMx = M0,
         nax = a0,
         AgeInt = 1,
@@ -192,8 +203,9 @@ geta1_4CD <- function(M0,
   }
   ifelse(IMR > .1, Age1_4Const[region, Sex], Intercept[region, Sex] - Slope[Sex] * IMR)
 }
-
-
+#' @export
+#' @rdname lt_rule_4a1_cd
+geta1_4CD <- lt_rule_4a1_cd
 #' PAS a(x) rule of thumb.
 #'
 #' @description a(x) is calculated following the Coale-Demeny rules for ages 0 and 1-4, and assumes interval midpoints in higher ages.
@@ -225,14 +237,17 @@ geta1_4CD <- function(M0,
 #' Age    <- c(0, 1, seq(5, 100, by = 5))
 #' AgeInt <- c(diff(Age), NA)
 #' nMx <- Deaths/Exposures
-#' axPAS(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = TRUE)
-axPAS <-
+#' lt_a_pas(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = TRUE)
+lt_a_pas <-
   function(nMx,
            AgeInt,
            IMR = NA,
            Sex = "m",
            region = "w",
            OAG = TRUE) {
+    if (as.character(match.call()[[1]]) == "axPAS") {
+      warning("please use lt_a_pas() instead of axPAS().", call. = FALSE)
+    }
     # sex can be "m", "f", or "b"
     # region can be "n","e","s","w",or
     Sex    <- tolower(Sex)
@@ -242,14 +257,14 @@ axPAS <-
     ax     <- AgeInt / 2
     
     ax[1]  <-
-      geta0CD(
+      lt_rule_1a0_cd(
         M0 = nMx[1],
         IMR = IMR,
         Sex = Sex,
         region = region
       )
     ax[2]  <-
-      geta1_4CD(
+      lt_rule_4a1_cd(
         M0 = nMx[1],
         IMR = IMR,
         Sex = Sex,
@@ -260,17 +275,16 @@ axPAS <-
     # TR 1-12-2018 if midpoint ax > 1 then we should adjust something.
     # we can prevent downstream breakage by reducing ax. Saves us from
     # having to fix qx
-    impliedqx <- mx2qx(nMx = nMx,
+    impliedqx <- lt_id_m_q(nMx = nMx,
                        nax = ax,
                        AgeInt = AgeInt)
     ind <- impliedqx > 1
     if (sum(ind) > 0) {
       for (i in which(ind)) {
-        qxnew <-
-          lt_id_ma_q_robust(nMx = nMx[i],
+        qxnew <- lt_id_ma_q_robust(nMx = nMx[i],
                            nax = ax[i],
                            AgeInt = AgeInt[i])
-        ax[i] <- qxmx2ax(nqx = qxnew,
+        ax[i] <- lt_id_qm_a(nqx = qxnew,
                          nMx = nMx[i],
                          AgeInt = AgeInt[i])
       }
@@ -278,6 +292,10 @@ axPAS <-
     
     ax
   }
+
+#' @export
+#' @rdname lt_a_pas
+axPAS <- lt_a_pas
 
 #' UN version of the Greville formula for a(x) from M(x)
 #'
@@ -293,15 +311,14 @@ axPAS <-
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
 #' @param mod logical. Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.
 #' @param closeout logical. Whether or not to estimate open age a(x) via extrapolation. Default \code{TRUE}.
-#' @inheritParams lt_ax_closeout
+#' @inheritParams lt_a_closeout
 #'
-#'
-#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. The final a(x) value is closed out using the \code{lt_ax_closeout()} method (reciprocal and Mortpak methods are deprecated). Age groups must be standard abridged. No check on age groups is done.
+#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. The final a(x) value is closed out using the \code{lt_a_closeout()} method (reciprocal and Mortpak methods are deprecated). Age groups must be standard abridged. No check on age groups is done.
 #'
 #' There are different vectors one can specify for this method: ultimately it's either \code{nMx} or \code{nqx}, and the \code{nax} results will differ potentially quite a lot depending which you have on hand.
 
 #' @seealso
-#' \code{\link[DemoTools]{lt_ax_closeout}}
+#' \code{\link[DemoTools]{lt_a_closeout}}
 #' @references
 #' \insertRef{greville1977short}{DemoTools}
 #' \insertRef{un1982model}{DemoTools}
@@ -326,21 +343,21 @@ axPAS <-
 #' Age <- c(0,1,seq(5,85,by = 5))
 #' AgeInt <- age2int(Age, OAvalue = 5)
 #' # two quite different results depending whether you start with mx or qx
-#' ax.greville.mortpak(nMx = nMx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
-#' ax.greville.mortpak(nqx = nqx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
+#' lt_id_morq_a_greville(nMx = nMx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
+#' lt_id_morq_a_greville(nqx = nqx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 #' # same, qx comes from lx
-#' ax.greville.mortpak(lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
+#' lt_id_morq_a_greville(lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 #' # both qx and lx given, but lx not used for anything = same
-#' ax.greville.mortpak(nqx = nqx, lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
+#' lt_id_morq_a_greville(nqx = nqx, lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 #'
-#' # if both qx and mx given, then same as qxmx2ax identity,
+#' # if both qx and mx given, then same as lt_id_qm_a identity,
 #' # except young ages follow Coale-Demeny, and greville uses
 #' # MortalityLaws closeout.
-#' ax.greville.mortpak(nMx = nMx, nqx = nqx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')-
-#' 		qxmx2ax(nqx,nMx,age2int(Age,TRUE,5))
+#' lt_id_morq_a_greville(nMx = nMx, nqx = nqx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')-
+#' 		lt_id_qm_a(nqx,nMx,age2int(Age,TRUE,5))
 #' # same (qx comes from lx)
-#' ax.greville.mortpak(nMx = nMx, lx = lx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')
-ax.greville.mortpak <- function(nMx,
+#' lt_id_morq_a_greville(nMx = nMx, lx = lx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')
+lt_id_morq_a_greville <- function(nMx,
                                 nqx,
                                 lx,
                                 Age,
@@ -363,6 +380,10 @@ ax.greville.mortpak <- function(nMx,
                                 extrapFrom = max(Age),
                                 extrapFit = Age[Age >= 60],
                                 ...) {
+  if (as.character(match.call()[[1]]) == "ax.greville.mortpak") {
+    warning("please use lt_id_morq_a_greville() instead of ax.greville.mortpak().", call. = FALSE)
+  }
+  
   Sex     <- tolower(Sex)
   region  <- tolower(region)
   law     <- tolower(law)
@@ -381,38 +402,31 @@ ax.greville.mortpak <- function(nMx,
   # now we have either qx or mx
   
   if (!mxflag) {
-    a0     <-
-      geta0CD(
-        M0 = nMx[1],
-        IMR = IMR,
-        Sex = Sex,
-        region = region
-      )
-    a1_4   <-
-      geta1_4CD(
-        M0 = nMx[1],
-        IMR = IMR,
-        Sex = Sex,
-        region = region
-      )
+    a0     <- lt_rule_1a0_cd(
+                M0 = nMx[1],
+                IMR = IMR,
+                Sex = Sex,
+                region = region)
+    a1_4   <- lt_rule_4a1_cd(
+                M0 = nMx[1],
+                IMR = IMR,
+                Sex = Sex,
+                region = region)
     # qind slightly different from qxflag?
     qind   <- FALSE
   }
   # TR: from this it would appear that nMx is preferred input
   if (mxflag & !qxflag) {
-    a0     <- geta0CD(
-      M0 = NA,
-      IMR = nqx[1],
-      Sex = Sex,
-      region = region
-    )
-    a1_4   <-
-      geta1_4CD(
-        M0 = NA,
-        IMR = nqx[1],
-        Sex = Sex,
-        region = region
-      )
+    a0     <- lt_rule_1a0_cd(
+                M0 = NA,
+                IMR = nqx[1],
+                Sex = Sex,
+                region = region)
+    a1_4   <- lt_rule_4a1_cd(
+                M0 = NA,
+                IMR = nqx[1],
+                Sex = Sex,
+                region = region)
     # here nMx created, but mxflag upheld
     nMx    <- nqx
     qind   <- TRUE
@@ -426,7 +440,7 @@ ax.greville.mortpak <- function(nMx,
   # this is a fallback, always preferred, and not part of the greville
   # method per se. Greville is an either-or method.
   if (!qxflag & !mxflag) {
-    ax <- qxmx2ax(nqx = nqx,
+    ax <- lt_id_qm_a(nqx = nqx,
                   nMx = nMx,
                   AgeInt = AgeInt)
     qind <- FALSE
@@ -481,7 +495,7 @@ ax.greville.mortpak <- function(nMx,
   
   # closeout
   if (max(Age) < 130 & closeout) {
-    aomega         <- lt_ax_closeout(
+    aomega         <- lt_a_closeout(
       mx = nMx,
       Age = Age,
       law = law,
@@ -497,12 +511,15 @@ ax.greville.mortpak <- function(nMx,
   #
   ax
 }
+#' @export
+#' @rdname lt_id_morq_a_greville
+ax.greville.mortpak <- lt_id_morq_a_greville
 
 #' UN a(x) estimates from either M(x), q(x), or both
 #'
 #' @description The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 for ages 5-9 and 10-14, and the Greville formula for higher ages. In the original sources these are referred to as separation factors.
 #'
-#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. If the main input is \code{nMx}, and if \code{IMR} is not given, we first approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the Coale-Demeny approach before applying the formula. The final a(x) value is closed out using the \code{lt_ax_closeout()} method (reciprocal and Mortpak methods are deprecated). For nMx inputs this method is rather direct, but for {\ifelse{html}{\out{q<sub>X</sub>}}{\eqn{q_X}}} or l(x) inputs it is iterative. Age groups must be standard abridged.  No check on age groups are done.
+#' @details a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. If the main input is \code{nMx}, and if \code{IMR} is not given, we first approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the Coale-Demeny approach before applying the formula. The final a(x) value is closed out using the \code{lt_a_closeout()} method (reciprocal and Mortpak methods are deprecated). For nMx inputs this method is rather direct, but for {\ifelse{html}{\out{q<sub>X</sub>}}{\eqn{q_X}}} or l(x) inputs it is iterative. Age groups must be standard abridged.  No check on age groups are done.
 #'
 #' @param nMx numeric. Event exposure mortality rates.
 #' @param nqx numeric.  Vector of age specific death probabilities in standard abridged age groups.
@@ -515,7 +532,7 @@ ax.greville.mortpak <- function(nMx,
 #' @param maxit integer. The maximum number of iterations for the qx-based iterative method. Default 1000.
 #' @param mod logical.  Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.
-#' @inheritParams lt_ax_closeout
+#' @inheritParams lt_a_closeout
 #'
 #' @return nax average contribution to exposure of those dying in the interval.
 #' @export
@@ -537,13 +554,13 @@ ax.greville.mortpak <- function(nMx,
 #'
 #' AgeInt     <- inferAgeIntAbr(vec = Mx)
 #' Age <- int2age(AgeInt)
-#' nAx1       <- axUN(nMx = Mx,
+#' nAx1       <- lt_a_un(nMx = Mx,
 #'                    Age = Age,
 #' 		                AgeInt = AgeInt,
 #' 		                Sex = "m",
 #'					          region = "w",
 #' 		                mod = FALSE)
-#' nAx2       <- axUN(nMx = Mx,
+#' nAx2       <- lt_a_un(nMx = Mx,
 #'                    Age = Age,
 #' 		                AgeInt = AgeInt,
 #' 		                Sex = "m",
@@ -555,7 +572,7 @@ ax.greville.mortpak <- function(nMx,
 #' N <- length(ax)
 #' # default unit test...
 #' stopifnot(all(round(nAx1[-N],3) - ax[-N] == 0)) # spot on
-axUN <- function(nMx,
+lt_a_un <- function(nMx,
                  nqx,
                  lx,
                  IMR = NA,
@@ -579,6 +596,10 @@ axUN <- function(nMx,
                  extrapFrom = max(Age),
                  extrapFit = Age[Age >= 60],
                  ...) {
+  if (as.character(match.call()[[1]]) == "axUN") {
+    warning("please use lt_a_un() instead of axUN().", call. = FALSE)
+  }
+  
   stopifnot(!missing(nqx) | !missing(nMx))
   smsq    <- 99999
   Sex     <- tolower(Sex)
@@ -598,7 +619,7 @@ axUN <- function(nMx,
     #		k = 1/10 log(nmx+5/nmx-5). For ages 5 and 10, nQx = 2.5
     #		and for ages under 5, nQx values from the Coale and
     #		Demeny West region relationships are used."
-    axi <- ax.greville.mortpak(
+    axi <- lt_id_morq_a_greville(
       nMx = nMx,
       Age  = Age,
       AgeInt = AgeInt,
@@ -619,7 +640,7 @@ axUN <- function(nMx,
     #		that an iterative procedure is used to find the nmx and nqx
     #		values consistent with the given nqx and with the Greville
     #		expression.
-    axi <- ax.greville.mortpak(
+    axi <- lt_id_morq_a_greville(
       nqx = nqx,
       IMR = nqx[1],
       Age = Age,
@@ -633,13 +654,12 @@ axUN <- function(nMx,
       ...
     )
     
-    #mxi <- qxax2mx(nqx                                                                                     = nqx, nax = axi, AgeInt = AgeInt)
     for (i in 1:maxit) {
-      mxi   <- qxax2mx(
+      mxi   <- lt_id_qa_m(
                     nqx = nqx,
                     nax = axi,
                     AgeInt = AgeInt)
-      axi   <- ax.greville.mortpak(
+      axi   <- lt_id_morq_a_greville(
         nMx = mxi,
         IMR = nqx[1],
         Age = Age,
@@ -652,7 +672,7 @@ axUN <- function(nMx,
         ...
       )
       qxnew <-
-        mxax2qx(
+        lt_id_ma_q(
           nMx = mxi,
           nax = axi,
           AgeInt = AgeInt,
@@ -666,13 +686,13 @@ axUN <- function(nMx,
     }
     # no need for approximate a0 and 4a1 values
     # one last time for nMx
-    nMx <- qxax2mx(nqx = nqx,
+    nMx <- lt_id_qa_m(nqx = nqx,
                    nax = axi,
                    AgeInt = AgeInt)
   }
   # if both given, then we have ax via identity:
   if (!missing(nqx) & !missing(nMx)) {
-    axi <- qxmx2ax(nqx = nqx,
+    axi <- lt_id_qm_a(nqx = nqx,
                    nMx = nMx,
                    AgeInt = AgeInt)
   }
@@ -686,7 +706,7 @@ axUN <- function(nMx,
   # closeout
   N    <- length(axi)
   if (max(Age) <= 125) {
-    aomega         <- lt_ax_closeout(
+    aomega         <- lt_a_closeout(
       mx = nMx,
       Age = Age,
       law = law,
@@ -703,20 +723,21 @@ axUN <- function(nMx,
   # if mx, qx, or both are given, then by now we have ax
   axi
 }
-
-
+#' @export
+#' @rdname lt_a_un
+axUN <- lt_a_un
 
 #' Life expectancy in the open age group.
 #'
 #' @description Get an estimate of life expectancy in the open age group.
 #' @details This method estimates life expectancy in the open age group by fitting one of several potential old-age parametric mortality models, extrapolating rates to age 130, then backing out the implied remaining life expectancy in the open age group. This function replaces \code{aomegaMORTPAK()}.
-#' @inheritParams extra_mortality
+#' @inheritParams lt_rule_m_extrapolate
 #' @param Age integer. A vector of ages of the lower integer bound of the age classes.
 #' @param extrapFrom integer. Age from which to impute extrapolated mortality.
 #' @param extrapFit integer vector. Ages to include in model fitting. Defaults to all ages \code{>          =60}.
 #' @return life expectancy in the open age group
 #' @seealso
-#' \code{\link[DemoTools]{extra_mortality}}
+#' \code{\link[DemoTools]{lt_rule_m_extrapolate}}
 #' @export
 #' @examples
 #' nMx <- c(0.12846,0.02477,0.00603,0.0034,
@@ -726,16 +747,16 @@ axUN <- function(nMx,
 #' Age <- c(0,1,seq(5,80,by =5))
 #'
 #'
-#' lt_ax_closeout(nMx,Age,"Kannisto")
-#' lt_ax_closeout(nMx,Age,"Kannisto_Makeham")
-#' lt_ax_closeout(nMx,Age,"Makeham")
-#' lt_ax_closeout(nMx,Age,"Gompertz")
-#' lt_ax_closeout(nMx,Age,"GGompertz")
-#' lt_ax_closeout(nMx,Age,extrapLaw ="Beard")
-#' lt_ax_closeout(nMx,Age,"Beard_Makeham")
-#' lt_ax_closeout(nMx,Age,"Quadratic")
+#' lt_a_closeout(nMx,Age,"Kannisto")
+#' lt_a_closeout(nMx,Age,"Kannisto_Makeham")
+#' lt_a_closeout(nMx,Age,"Makeham")
+#' lt_a_closeout(nMx,Age,"Gompertz")
+#' lt_a_closeout(nMx,Age,"GGompertz")
+#' lt_a_closeout(nMx,Age,extrapLaw ="Beard")
+#' lt_a_closeout(nMx,Age,"Beard_Makeham")
+#' lt_a_closeout(nMx,Age,"Quadratic")
 
-lt_ax_closeout <- function(mx,
+lt_a_closeout <- function(mx,
                                 Age,
                                 law = c(
                                   "kannisto",
@@ -751,14 +772,14 @@ lt_ax_closeout <- function(mx,
                                 extrapFit = Age[Age >= 40],
                                 ...) {
   if (as.character(match.call()[[1]]) == "aomegaMortalityLaws") {
-    warning("please use lt_ax_closeout() instead of aomegaMortalityLaws().", call. = FALSE)
+    warning("please use lt_a_closeout() instead of aomegaMortalityLaws().", call. = FALSE)
   }
   
   extrapLaw <- tolower(law)
   OA        <- max(Age)
   x_extr    <- seq(OA, 130, by = .1)
   
-  Mxnew     <- extra_mortality(
+  Mxnew     <- lt_rule_m_extrapolate(
     mx = mx,
     x = Age,
     x_fit = extrapFit,
@@ -777,12 +798,12 @@ lt_ax_closeout <- function(mx,
 }
 
 #' @export
-#' @rdname lt_ax_closeout
-aomegaMortalityLaws <- lt_ax_closeout
+#' @rdname lt_a_closeout
+aomegaMortalityLaws <- lt_a_closeout
 
 #' wrapper to invoke PAS or UN ax methods given qx or mx
-#' @description Given either mx or qx, call either the \code{axUN()} or \code{axPAS()} functions.
-#' @inheritParams LTabr
+#' @description Given either mx or qx, call either the \code{lt_a_un()} or \code{lt_a_pas()} functions.
+#' @inheritParams lt_abridged
 #' @param OAG logical. Whether or not the last element of \code{nMx} is the open age group Default \code{TRUE}.
 #' @return nax average contribution to exposure of those dying in the interval.
 #' @references
@@ -794,7 +815,7 @@ aomegaMortalityLaws <- lt_ax_closeout
 #' \insertRef{PAS}{DemoTools}
 #' @export
 
-mxorqx2ax <- function(nMx,
+lt_id_morq_a <- function(nMx,
                       nqx,
                       axmethod = c("pas", "un")[1],
                       Age,
@@ -817,6 +838,10 @@ mxorqx2ax <- function(nMx,
                       extrapFrom = max(Age),
                       extrapFit = Age[Age >= 60],
                       ...) {
+  if (as.character(match.call()[[1]]) == "mxorqx2ax") {
+    warning("please use lt_id_morq_a() instead of mxorqx2ax().", call. = FALSE)
+  }
+  
   N <- length(AgeInt)
   if (is.na(AgeInt[N]) | is.infinite(AgeInt[N])) {
     AgeInt[N] <- AgeInt[N - 1]
@@ -825,7 +850,7 @@ mxorqx2ax <- function(nMx,
     # what if only qx was given?
     if (missing(nMx)) {
       fakenMx <- nqx
-      nAx       <- axPAS(
+      nAx       <- lt_a_pas(
         nMx = fakenMx,
         AgeInt = AgeInt,
         IMR = nqx[1],
@@ -837,7 +862,7 @@ mxorqx2ax <- function(nMx,
     } else {
       # if nMx avail, then Open age group
       # closed according to convention.
-      nAx       <- axPAS(
+      nAx       <- lt_a_pas(
         nMx = nMx,
         AgeInt = AgeInt,
         IMR = IMR,
@@ -852,7 +877,7 @@ mxorqx2ax <- function(nMx,
     # no sense calling Abacus here because it gets called later if necessary
     if (missing(nMx)) {
       #fakenMx   <- nqx
-      nAx       <- axUN(
+      nAx       <- lt_a_un(
         nqx = nqx,
         Age = Age,
         AgeInt = AgeInt,
@@ -867,7 +892,7 @@ mxorqx2ax <- function(nMx,
       )
       
     } else {
-      nAx       <- axUN(
+      nAx       <- lt_a_un(
         nMx = nMx,
         Age = Age,
         AgeInt = AgeInt,
@@ -885,6 +910,10 @@ mxorqx2ax <- function(nMx,
   }
   nAx
 }
+
+#' @export
+#' @rdname lt_id_morq_a
+mxorqx2ax <- lt_id_morq_a
 
 # deprecated.
 ##' Life expectancy in the open age group.

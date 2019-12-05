@@ -78,7 +78,7 @@ This is just a rule of thumb. This procedure is as found in the PAS spreadsheet 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.22</span>
       </span>
     </div>
 
@@ -220,7 +220,7 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 <span class='no'>Age</span>    <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>, <span class='fl'>100</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>))
 <span class='no'>AgeInt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span>(<span class='no'>Age</span>), <span class='fl'>NA</span>)
 <span class='no'>nMx</span> <span class='kw'>&lt;-</span> <span class='no'>Deaths</span>/<span class='no'>Exposures</span>
-<span class='fu'>axPAS</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>nMx</span>,<span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,<span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'m'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'n'</span>,<span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;  [1] 0.2750276 1.6153111 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000
+<span class='fu'>axPAS</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>nMx</span>,<span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,<span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'m'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'n'</span>,<span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: please use lt_id_ma_q() instead of mxax2qx().</span></div><div class='output co'>#&gt;  [1] 0.2750276 1.6153111 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000
 #&gt;  [8] 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000
 #&gt; [15] 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000 2.5000000
 #&gt; [22] 3.3333333</div></pre>

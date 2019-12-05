@@ -45,6 +45,7 @@ scaled to argument \code{p0} to shift individuals from surrounding ages to ages 
 # example to show what we're talking about.
 # pop1m_pasex is already quite heaped:
 Age <- 0:99
+A5 <- seq(0,95,by=5)
 plot(Age,pop1m_pasex)
 # here it is again, smoothed:
 smoothed <- graduate_sprague(
@@ -53,6 +54,7 @@ smoothed <- graduate_sprague(
 				method = "Strong",
 				OAG = FALSE,
 				young.tail = "Arriaga"),
+		Age = A5,
 		OAG = FALSE)
 lines(Age, smoothed)
 # an OK approximation for testing purposes.

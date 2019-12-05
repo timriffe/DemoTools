@@ -529,6 +529,7 @@ Jdanov <- function(Value, Age, Agei = seq(95, 105, by = 5)) {
 #' # example to show what we're talking about.
 #' # pop1m_pasex is already quite heaped:
 #' Age <- 0:99
+#' A5 <- seq(0,95,by=5)
 #' plot(Age,pop1m_pasex)
 #' # here it is again, smoothed:
 #' smoothed <- graduate_sprague(
@@ -537,6 +538,7 @@ Jdanov <- function(Value, Age, Agei = seq(95, 105, by = 5)) {
 #' 				method = "Strong",
 #' 				OAG = FALSE,
 #' 				young.tail = "Arriaga"),
+#' 		Age = A5,
 #' 		OAG = FALSE)
 #' lines(Age, smoothed)
 #' # an OK approximation for testing purposes.
@@ -606,12 +608,14 @@ heapify <- function(Value,
 
 #' @examples
 #' Age <- 0:99
+#' A5 <- seq(0,95,by=5)
 #' smoothed <- graduate_sprague(
 #' 		agesmth(pop1m_pasex,
 #' 				Age,
 #' 				method = "Strong",
 #' 				OAG = FALSE,
 #' 				young.tail = "Arriaga"),
+#' 		Age = A5,
 #' 		OAG = FALSE)
 #' # not saw-tooth jagged
 #' zero_pref_sawtooth(smoothed, Age)
@@ -687,12 +691,14 @@ zero_pref_sawtooth <-
 #'
 #' @examples
 #' Age <- 0:99
+#' A5 <- seq(0,95,by=5)
 #' smoothed <- graduate_sprague(
 #' 		agesmth(pop1m_pasex,
 #' 				Age,
 #' 				method = "Strong",
 #' 				OAG = FALSE,
 #' 				young.tail = "Arriaga"),
+#' 		Age = A5,
 #' 		OAG = FALSE)
 #' # not very rough, no need to smooth more
 #' five_year_roughness(smoothed, Age)
@@ -708,7 +714,7 @@ zero_pref_sawtooth <-
 #'\dontrun{
 #'	#cols <- RColorBrewer::brewer.pal(7,"Reds")[3:7]
 #'  cols <-  c("#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#99000D")
-#'  A5 <- seq(0,95,by=5)
+#'  
 #' 	plot(A5, groupAges(smoothed), type='l',xlim=c(20,80),ylim=c(0,3e5))
 #'	lines(A5, groupAges(h1),col=cols[1])
 #' 	lines(A5, groupAges(h2),col=cols[2])
@@ -745,3 +751,4 @@ five_year_roughness <-
     
     mean(abs(d1 - d1s) / abs(d1s))
   }
+

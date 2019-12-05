@@ -43,7 +43,7 @@
 
 
 <meta property="og:title" content="force a (count) vector to abridged ages — age_abridge_force" />
-<meta property="og:description" content="This is a robustness utility, in place to avoid annoying hang-ups in LTAbr(). If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling LTAbr()" />
+<meta property="og:description" content="This is a robustness utility, in place to avoid annoying hang-ups in LTAbr(). If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling lt_abridged()" />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.31</span>
       </span>
     </div>
 
@@ -156,7 +156,7 @@
     </div>
 
     <div class="ref-description">
-    <p>This is a robustness utility, in place to avoid annoying hang-ups in <code>LTAbr()</code>. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling <code>LTAbr()</code></p>
+    <p>This is a robustness utility, in place to avoid annoying hang-ups in <code>LTAbr()</code>. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling <code><a href='lt_abridged.html'>lt_abridged()</a></code></p>
     </div>
 
     <pre class="usage"><span class='fu'>age_abridge_force</span>(<span class='no'>Value</span>, <span class='no'>AgeInt</span>, <span class='no'>Age</span>)</pre>
@@ -180,10 +180,10 @@
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This should be able to group up and group down as needed. <code><a href='graduate_mono.html'>graduate_mono()</a></code> is used below the hood. <code>pclm()</code> or <code>graduate_uniform()</code> out to be flexible enough to do the same.</p>
+    <p>This should be able to group up and group down as needed. <code><a href='graduate_mono.html'>graduate_mono()</a></code> is used below the hood. <code>pclm()</code> or <code><a href='graduate_uniform.html'>graduate_uniform()</a></code> out to be flexible enough to do the same.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>graduate_mono_closeout, LTAbr</p></div>
+    <div class='dont-index'><p>graduate_mono_closeout, lt_abridged</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>V1</span>        <span class='kw'>&lt;-</span> <span class='no'>pop1m_ind</span>

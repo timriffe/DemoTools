@@ -16,9 +16,17 @@
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return nMx vector of age specific death rates derived via identity.
 #' @export
-qxax2mx <- function(nqx, nax, AgeInt = inferAgeIntAbr(vec = nqx)) {
+lt_id_qa_m <- function(nqx, nax, AgeInt = inferAgeIntAbr(vec = nqx)) {
+  if (as.character(match.call()[[1]]) == "qxax2mx") {
+    warning("please use lt_id_qa_m() instead of qxax2mx().", call. = FALSE)
+  }
   nqx / (AgeInt - (AgeInt - nax) * nqx)
 }
+
+#' @export
+#' @rdname lt_id_qa_m
+qxax2mx <- lt_id_qa_m
+
 
 #' Derive nqx from nMx and nax.
 #' @description This is the standard identity to derive nqx from nax and nMx.
@@ -30,7 +38,11 @@ qxax2mx <- function(nqx, nax, AgeInt = inferAgeIntAbr(vec = nqx)) {
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return nqx vector of age specific death probabilities derived via identity.
 #' @export
-mx2qx <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
+lt_id_m_q <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
+  if (as.character(match.call()[[1]]) == "mx2qx") {
+    warning("please use lt_id_m_q() instead of mx2qx().", call. = FALSE)
+  }
+  
   qx <- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
   ind <- qx > 1 | is.na(qx)
   if (sum(ind) > 0) {
@@ -39,6 +51,10 @@ mx2qx <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
   }
   qx
 }
+
+#' @export
+#' @rdname lt_id_m_q
+mx2qx <- lt_id_m_q
 
 #' Derive nax from nqx and nMx.
 #' @description This is the standard identity to derive nax from nqx and nMx.
@@ -50,13 +66,22 @@ mx2qx <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return nax numeric vector of average time spent in interval by those dying in interval via identity.
 #' @export
-qxmx2ax <- function(nqx, nMx, AgeInt) {
+lt_id_qm_a <- function(nqx, nMx, AgeInt) {
+  if (as.character(match.call()[[1]]) == "qxmx2ax") {
+    warning("please use lt_id_qm_a() instead of qxmx2ax().", call. = FALSE)
+  }
+  
   1 / nMx - AgeInt / nqx + AgeInt
 }
 
+#' @export
+#' @rdname lt_id_qm_a
+qxmx2ax <- lt_id_qm_a
+
+
 #' Derive nqx from nMx and nax.
 #' @description This is the standard identity to derive nqx from nax and nMx.
-#' This is a more full-service wrapper of \code{mx2qx()}, with closeout options and optional age 0
+#' This is a more full-service wrapper of \code{lt_id_m_q()}, with closeout options and optional age 0
 #' treatment.
 #' @details qx values calculated as greater than 1 are imputed with 1.
 #'
@@ -69,8 +94,12 @@ qxmx2ax <- function(nqx, nMx, AgeInt) {
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return nqx vector of age specific death probabilities derived via identity.
 #' @export
-mxax2qx <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
-  qx <- mx2qx(nMx, nax, AgeInt)
+lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
+  if (as.character(match.call()[[1]]) == "mxax2qx") {
+    warning("please use lt_id_ma_q() instead of mxax2qx().", call. = FALSE)
+  }
+  
+  qx <- lt_id_m_q(nMx, nax, AgeInt)
   if (closeout) {
     qx[length(qx)] <- 1
     if (length(nMx) == 1) {
@@ -90,6 +119,9 @@ mxax2qx <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
   qx
 }
 
+#' @export
+#' @rdname lt_id_ma_q
+mxax2qx <- lt_id_ma_q
 #' Derive lifetable survivorship (lx) from death probabilities.
 #' @description This lifetable identity is the same no matter what kind of lifetable is required.
 #'  You can find it in any demography textbook.
@@ -102,9 +134,16 @@ mxax2qx <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
 #' \insertRef{preston2000demography}{DemoTools}
 #' @return lx vector of lifetable survivorship.
 #' @export
-qx2lx <- function(nqx, radix = 1e5) {
+lt_id_q_l <- function(nqx, radix = 1e5) {
+  if (as.character(match.call()[[1]]) == "qx2lx") {
+    warning("please use lt_id_q_l() instead of qx2lx().", call. = FALSE)
+  }
   radix * cumprod(c(1, 1 - nqx[-length(nqx)]))
 }
+
+#' @export
+#' @rdname lt_id_q_l
+qx2lx <- lt_id_q_l
 
 #' Derive lifetable deaths from survivorship.
 #' @description This lifetable identity is the same no matter what kind of lifetable is required.
@@ -191,7 +230,7 @@ Lx2Tx <- lt_id_L_T
 #' AgeInt <- 5
 #' ax     <- 2.5
 #' # this is a problematic case
-#' (mx2qx(mx, ax, AgeInt))
+#' (lt_id_m_q(mx, ax, AgeInt))
 #' # here a workable value
 #' (lt_id_ma_q_robust(mx, ax, AgeInt))
 #' #' # still less than 1
@@ -213,7 +252,7 @@ lt_id_ma_q_robust<- function(nMx, nax, AgeInt) {
   qx <- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
   # let's assume flat hazard inside interval
   if (qx > 1) {
-    qx <- 1 - prod(rep(1 - mx2qx(nMx, .5, 1), ceiling(AgeInt)))
+    qx <- 1 - prod(rep(1 - lt_id_m_q(nMx, .5, 1), ceiling(AgeInt)))
   }
   if (qx > 1) {
     qx <- 1
@@ -228,7 +267,7 @@ mxax2qx_Backstop <- lt_id_ma_q_robust
 #' calculate survivor ratios
 #' @description An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age (\code{N=1}) or five-year ages (\code{N=5}). Input vectors are assumed to come from either single or standard abridged ages.
 #' @details This function does not account for \code{nLx} having been pre-binned into uniform 5-year age widths, which will throw an error. Just leave them in abridged ages instead. Note that in the case of abridged ages, the interpretation for the first and second value don't follow the original abridged age intervals: the first value in the probability of surviving from birth into ages 0-4 in the first five years, and the second value is the probability of surviving from 0-4 to 5-9. This represents a slight misalignment with the rest of the lifetable, user beware.
-#' @inheritParams LTabr
+#' @inheritParams lt_abridged
 #' @param nLx numeric vector of lifetable exposure.
 #' @param N integer, the age width for survivor ratios, either 5 or 1. Default 5.
 #' @export

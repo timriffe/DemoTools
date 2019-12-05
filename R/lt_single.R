@@ -2,8 +2,8 @@
 
 #' calculate a single age lifetable
 #' @description Fuller description forthcoming
-#' @details Similar to \code{LTabr()} details, forthcoming
-#' @inheritParams LTabr
+#' @details Similar to \code{lt_abridged()} details, forthcoming
+#' @inheritParams lt_abridged
 #' @return Lifetable in data.frame with columns
 #' \itemize{
 #'   \item{Age}{integer. Lower bound of abridged age class},
@@ -19,28 +19,26 @@
 #'   \item{ex}{numeric. Age-specific remaining life expectancy.}
 #' }
 #' @export
-lt_single_simple <- function(nMx,
-                             Age = 1:length(nMx) - 1,
-                             radix = 1e5,
-                             Sex = "m",
-                             region = "w",
-                             IMR = NA,
-                             mod = TRUE,
-                             OAG = TRUE,
-                             OAnew = max(Age),
-                             extrapLaw = c(
-                               "Kannisto",
-                               "Kannisto_Makeham",
-                               "Makeham",
-                               "Gompertz",
-                               "GGompertz",
-                               "Beard",
-                               "Beard_Makeham",
-                               "Quadratic"
-                             )[1],
+lt_single_mx <- function(nMx,
+                        Age = 1:length(nMx) - 1,
+                        radix = 1e5,
+                        Sex = "m",
+                        region = "w",
+                        IMR = NA,
+                        mod = TRUE,
+                        OAG = TRUE,
+                        OAnew = max(Age),
+                        extrapLaw = c("Kannisto","Kannisto_Makeham",
+                          "Makeham", "Gompertz", "GGompertz",
+                          "Beard", "Beard_Makeham", "Quadratic"
+                        )[1],
                              extrapFrom = max(Age),
                              extrapFit = Age[Age >= 60],
                              ...) {
+  if (as.character(match.call()[[1]]) == "lt_single_simple") {
+    warning("please use lt_single_mx() instead of lt_single_simple().", call. = FALSE)
+  }
+  
   stopifnot(extrapFrom <= max(Age))
   
   Sex           <- tolower(Sex)
@@ -56,14 +54,13 @@ lt_single_simple <- function(nMx,
   # --------------------------
   # Now all vectors may end up being longer
   x_extr <- seq(extrapFrom, 130, by = 1)
-  Mxnew  <- extra_mortality(
-    x = Age,
-    mx = nMx,
-    x_fit = extrapFit,
-    x_extr = x_extr,
-    law = extrapLaw,
-    ...
-  )
+  Mxnew  <- lt_rule_m_extrapolate(
+              x = Age,
+              mx = nMx,
+              x_fit = extrapFit,
+              x_extr = x_extr,
+              law = extrapLaw,
+              ...)
   
   nMxext        <- Mxnew$values
   Age2          <- names2age(nMxext)
@@ -79,28 +76,25 @@ lt_single_simple <- function(nMx,
   
   # get ax:
   nAx           <- rep(.5, N)
-  nAx[1]        <-
-    geta0CD(
-      M0 = nMx[1],
-      IMR = IMR,
-      Sex = Sex,
-      region = region
-    )
+  nAx[1]        <- lt_rule_1a0_cd(
+                     M0 = nMx[1],
+                     IMR = IMR,
+                     Sex = Sex,
+                     region = region)
   
   # get
-  qx            <- mx2qx(nMx = nMx,
-                         nax = nAx,
-                         AgeInt = AgeInt)
+  qx            <- lt_id_m_q(
+                     nMx = nMx,
+                     nax = nAx,
+                     AgeInt = AgeInt)
   
-  lx            <- qx2lx(qx, radix = radix)
+  lx            <- lt_id_q_l(qx, radix = radix)
   ndx           <- lt_id_l_d(lx)
-  nLx           <-
-    lt_id_lda_L(
-      lx = lx,
-      ndx = ndx,
-      nax = nAx,
-      AgeInt = AgeInt
-    )
+  nLx           <- lt_id_lda_L(
+                     lx = lx,
+                     ndx = ndx,
+                     nax = nAx,
+                     AgeInt = AgeInt)
   Tx            <- lt_id_L_T(nLx)
   ex            <- Tx / lx
   
@@ -120,7 +114,7 @@ lt_single_simple <- function(nMx,
   Tx            <- Tx[ind]
   ex            <- ex[ind]
   
-  Sx            <- Lxlx2Sx(nLx, lx, AgeInt = AgeInt, N = 1)
+  Sx            <- lt_id_Ll_S(nLx, lx, AgeInt = AgeInt, N = 1)
   
   # some closeout considerations
   N             <- length(qx)
@@ -143,17 +137,20 @@ lt_single_simple <- function(nMx,
   
   # output is an unrounded, unsmoothed lifetable
   out <- data.frame(
-    Age = Age,
-    AgeInt = AgeInt,
-    nMx = nMx,
-    nAx = nAx,
-    nqx = qx,
-    lx = lx,
-    ndx = ndx,
-    nLx = nLx,
-    Sx = Sx,
-    Tx = Tx,
-    ex = ex
+           Age = Age,
+           AgeInt = AgeInt,
+           nMx = nMx,
+           nAx = nAx,
+           nqx = qx,
+           lx = lx,
+           ndx = ndx,
+           nLx = nLx,
+           Sx = Sx,
+           Tx = Tx,
+           ex = ex
   )
   return(out)
 }
+#' @export
+#' @rdname lt_single_mx
+lt_single_simple <- lt_single_mx

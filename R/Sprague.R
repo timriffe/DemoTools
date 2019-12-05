@@ -21,16 +21,17 @@
 #'
 #' @examples
 #' head(pop5_mat) # this is the entire matrix
+#' a5 <- as.integer(rownames(pop5_mat))
 #' # the last value is an open age group, preserve as such:
-#' p1                            <- graduate_sprague(Value = pop5_mat[,1], OAG = TRUE)
+#' p1   <- graduate_sprague(Value = pop5_mat[,1], Age = a5, OAG = TRUE)
 #' head(p1); tail(p1)
 #' sum(p1) - sum(pop5_mat[,1])
 #'
 #' # another case, starting with single ages
-#' Age                           <- 0:100
+#' Age   <- 0:100
 #' # notice how this particular case produces a negative value in the last age
 #' # before OAG:
-#' pops                          <- graduate_sprague(Value = pop1m_ind, Age = Age, OAG = TRUE)
+#' pops  <- graduate_sprague(Value = pop1m_ind, Age = Age, OAG = TRUE)
 #'
 #' \dontrun{
 #'   plot(seq(0,100,by=5), pop5_mat[,1]/5, type = 's')
@@ -75,7 +76,7 @@ graduate_sprague <- function(Value,
   
   dim(pop1)    <- NULL
   # label and return
-  names(pop1)  <- a1
+  names(pop1)  <- min(Age):(length(pop1) - 1)
   
   # no sense adding closeout behavior here, when it isn't offered
   # in grabill or beers. Better make wrapper with this sugar.

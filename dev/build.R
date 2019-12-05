@@ -78,7 +78,7 @@ library(DependenciesGraphs)
 
 library(DemoTools) # The package we want to explore
 # before tinkering with an older function, note which functions depend on it
-deps <- funDependencies("package:DemoTools","beers")
+deps <- funDependencies("package:DemoTools","qxmx2ax")
 plot(deps)
 
 
@@ -89,3 +89,6 @@ plot(deps)
 #		file.path(getwd(), ".Rprofile") )
 #
 #Filter(file.exists, candidates)
+
+# NOTE TO SELF
+# try goodpractice package

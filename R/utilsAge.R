@@ -705,10 +705,10 @@ rescaleAgeGroups <- function(Value1,
 }
 
 #' force a (count) vector to abridged ages
-#' @description This is a robustness utility, in place to avoid annoying hang-ups in \code{LTAbr()}. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling \code{LTAbr()}
+#' @description This is a robustness utility, in place to avoid annoying hang-ups in \code{LTAbr()}. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling \code{lt_abridged()}
 #' @details This should be able to group up and group down as needed. \code{graduate_mono()} is used below the hood. \code{pclm()} or \code{graduate_uniform()} out to be flexible enough to do the same.
 #' @inheritParams graduate_uniform
-#' @seealso graduate_mono_closeout, LTAbr
+#' @seealso graduate_mono_closeout, lt_abridged
 #' @export
 #' @examples
 #' V1        <- pop1m_ind

@@ -14,7 +14,7 @@ age_abridge_force(Value, AgeInt, Age)
 \item{Age}{integer vector, lower bounds of age groups}
 }
 \description{
-This is a robustness utility, in place to avoid annoying hang-ups in \code{LTAbr()}. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling \code{LTAbr()}
+This is a robustness utility, in place to avoid annoying hang-ups in \code{LTAbr()}. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling \code{lt_abridged()}
 }
 \details{
 This should be able to group up and group down as needed. \code{graduate_mono()} is used below the hood. \code{pclm()} or \code{graduate_uniform()} out to be flexible enough to do the same.
@@ -29,5 +29,5 @@ is_abridged(Age)
 age_abridge_force(Value, AgeInt, Age)
 }
 \seealso{
-graduate_mono_closeout, LTAbr
+graduate_mono_closeout, lt_abridged
 }
