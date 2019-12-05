@@ -15,14 +15,14 @@
 #' Construct model life tables based on the Log-Quadratic (wilmoth) estimates
 #' with various choices of 2 input parameters: 
 #' \code{q0_5, q0_1, q15_45, q15_35} and \code{e0}. There are 8 possible 
-#' combinations (see examples below).
+#' combinations (see examples below). 
 #' 
 #' @details Due to limitations of the R language the notation for probability 
 #' of dying \code{nqx} is written \code{qx_n}, where \code{x} and \code{n} are 
 #' integers. For example \code{45q15} is represented as \code{q45_15}.
-#' 
+#' @note This function is ported from \code{MortalityEstimate::wilmothLT} experimental package by Marius Pascariu. The package is no longe maintained. The latest version can be found here: \url{https://github.com/mpascariu/MortalityEstimate}
 #' @param Sex Choose the sex of the population. This choice defines the use
-#' of a corresponding Log-Quadratic (\code{\link[MortalityEstimate]{wilmoth}})
+#' of a corresponding Log-Quadratic (\code{wilmoth})
 #'  model fitted for the whole Human Mortality Database (as of Dec 2019, 
 #'  there are 968 life tables for each sex).
 #' The following options are available: \itemize{
@@ -31,8 +31,8 @@
 #'   \item{\code{"m"}} -- Males.
 #'   }
 #' @param fitted_logquad Optional, defaults to \code{NULL}. An object of class
-#'  \code{\link[MortalityEstimate]{wilmoth}}. If full HMD is not enough, one 
-#'  can fit a Log-Quadratic (\code{\link[MortalityEstimate]{wilmoth}}) model 
+#'  \code{wilmoth}. If full HMD is not enough, one 
+#'  can fit a Log-Quadratic (\url{https://github.com/mpascariu/MortalityEstimate}) model 
 #'  based on any other collection  of life tables;
 #' @param q0_5 5q0. The probability that a new-born will die during the 
 #' subsequent 5 years;
@@ -53,7 +53,6 @@
 #'  \item{lt}{ Life table matching given inputs}
 #'  \item{values}{ Associated values of \code{q0_5, q0_1, q15_45, q15_35} 
 #' and \code{e0}.}
-#' @seealso \code{\link[MortalityEstimate]{wilmothLT}}
 #' @importFrom stats uniroot
 #' @examples 
 #' 
