@@ -3,13 +3,13 @@
 context("test-agesmth")
 
 
-# carrier_farrag_smth -----------------------------------------------------
+# smooth_age_5_cf -----------------------------------------------------
 
-test_that("carrier_farrag_smth works",{
+test_that("smooth_age_5_cf works",{
     
     Ages         <- seq(0, 80, by = 5)
     
-    CFmales <- carrier_farrag_smth(pop5m_pasex, Ages, OAG = TRUE)
+    CFmales <- smooth_age_5_cf(pop5m_pasex, Ages, OAG = TRUE)
     
     CFtest <- c(NA, NA, 346290, 287083, 285855, 261082, 237937,
                 202809, 162973, 125720, 88730, 67352, 55187, 40657, NA, NA, NA)
@@ -23,16 +23,16 @@ test_that("carrier_farrag_smth works",{
 
 
 
-# kkn_smth ----------------------------------------------------------------
+# smooth_age_5_kkn ----------------------------------------------------------------
 
-test_that("kkn_smth works",{
+test_that("smooth_age_5_kkn works",{
     
     Ages <- seq(0, 80, by = 5)
     
     KKNtest <- c(NA, NA, 354871, 278502, 285508, 261429, 236513 ,
                  204233, 162138, 126555, 90094, 65988, 54803, 41041, NA, NA, NA)
     
-    KKNmales <- kkn_smth(pop5m_pasex, Ages, OAG = TRUE)
+    KKNmales <- smooth_age_5_kkn(pop5m_pasex, Ages, OAG = TRUE)
     
     # test
     expect_equivalent(KKNmales, KKNtest, tolerance = 1)
@@ -42,13 +42,13 @@ test_that("kkn_smth works",{
 })
 
 
-# arriaga_smth ----------------------------------------------------------------
+# smooth_age_5_arriaga ----------------------------------------------------------------
 
-test_that("arriaga_smth works",{
+test_that("smooth_age_5_arriaga works",{
     
     Ages <- seq(0, 80, by = 5)
     
-    Amales <- arriaga_smth(Value = pop5m_pasex, Age = Ages, OAG = TRUE)
+    Amales <- smooth_age_5_arriaga(Value = pop5m_pasex, Age = Ages, OAG = TRUE)
     
     #' # PAS spreadsheet result:
     Atest <- c(662761, 495126, 345744, 287629, 285919, 261018, 237469, 203277,
@@ -62,16 +62,16 @@ test_that("arriaga_smth works",{
 })
 
 
-# strong_smth ----------------------------------------------------------------
+# smooth_age_5_strong ----------------------------------------------------------------
 
-test_that("strong_smth works",{
+test_that("smooth_age_5_strong works",{
     
     Ages <- seq(0, 80, by = 5)
     
     Stest <- c(646617, 511270, 386889, 317345, 273736, 240058, 218645, 188297, 
                153931, 124347, 93254, 71858, 53594, 39721, 27887, 18092, 34729)
     
-    Smales <- strong_smth(pop5m_pasex, Ages, OAG = TRUE)
+    Smales <- smooth_age_5_strong(pop5m_pasex, Ages, OAG = TRUE)
     
     # test
     expect_equivalent(Smales, Stest, tolerance = 1)

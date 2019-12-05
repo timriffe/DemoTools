@@ -4,7 +4,7 @@ context("test-zigzag")
 
 # Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/
 
-test_that("zigzag works",{
+test_that("smooth_age_5_zigzag works",{
     
     Age <- c(0, 1, seq(5, 90, by = 5))
 
@@ -17,7 +17,7 @@ test_that("zigzag works",{
 
     
     expect_equal(
-        zigzag_min(dth5_zigzag, Age, 40,80,p.feeney),
+        smooth_age_5_zigzag_min(dth5_zigzag, Age, 40,80,p.feeney),
         ans,
         tolerance = 1e-6
     )
