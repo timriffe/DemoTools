@@ -109,7 +109,7 @@ lt_model_lq <- function(
         Sex <- "b"
     }
     if(!nchar(Sex)==1){
-        Sex <- substr(Sex,1,2)
+        Sex <- substr(Sex,1,1)
     }
     
     
