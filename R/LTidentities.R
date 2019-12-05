@@ -108,8 +108,10 @@ lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
       )
     }
   }
-  if (!missing(IMR) & !is.na(IMR)) {
-    qx[1] <- IMR
+  if (!missing(IMR)) {
+    if ( !is.na(IMR)){
+      qx[1] <- IMR
+    }
   }
   ind <- qx > 1
   if (sum(ind) > 0) {
