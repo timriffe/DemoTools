@@ -402,16 +402,20 @@ strong_smth <- function(Value,
 #' @examples
 #' Age <- c(0,1,seq(5,90,by=5))
 #' # defaults
-#' zz <- zigzag_smth(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 90)
+#' zz <- smooth_age_5_zigzag(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 90)
 #' \dontrun{
 #' plot(Age, dth5_zigzag)
 #' lines(as.integer(names(zz)),zz)
 #' }
-zigzag_smth <- function(Value,
+smooth_age_5_zigzag <- function(Value,
                         Age,
                         OAG = TRUE,
                         ageMin = 40,
                         ageMax = max(Age) - max(Age) %% 10 - 5) {
+  
+  if (as.character(match.call()[[1]]) == "zigzag_smth") {
+    warning("please use smooth_age_5_zigzag() instead of zigzag_smth().", call. = FALSE)
+  }
   # insist on 5-year age groups
   Value <- groupAges(Value, Age = Age, N = 5)
   Age   <- as.integer(names(Value))
@@ -429,6 +433,11 @@ zigzag_smth <- function(Value,
   Smoothed
 }
 
+#' @export
+#' @rdname smooth_age_5_zigzag
+zigzag_smth <- smooth_age_5_zigzag
+
+
 #' Smooth in 5-year age groups using a moving average
 #' @description Smooth data in 5-year age groups.
 #' @details This function calls \code{zigzag()}, but prepares data in a way consistent with other methods called by \code{agesmth()}. It is probably preferable to call \code{zigzag()} from the top level, or else call this method from \code{agesmth()} for more control over tail imputations.
@@ -441,7 +450,7 @@ zigzag_smth <- function(Value,
 #' @examples
 #' Age <- c(0,1,seq(5,90,by=5))
 #' # defaults
-#' ns   <- sapply(1:5,mav_smth,Value=dth5_zigzag,Age=Age,OAG=TRUE)
+#' ns   <- sapply(1:5,smooth_age_5_mav,Value=dth5_zigzag,Age=Age,OAG=TRUE)
 #' cols <- paste0(gray(seq(.8,0,length=5)),"A0")
 #' lwds <- seq(4,1,length=5)
 #' \dontrun{
@@ -455,10 +464,13 @@ zigzag_smth <- function(Value,
 #' }
 #' @export
 
-mav_smth <- function(Value,
+smooth_age_5_mav <- function(Value,
                      Age,
                      OAG = TRUE,
                      n = 3) {
+  if (as.character(match.call()[[1]]) == "mav_smth") {
+    warning("please use smooth_age_5_mav() instead of mav_smth().", call. = FALSE)
+  }
   Value <- groupAges(Value, Age = Age, N = 5)
   Age   <- as.integer(names(Value))
   
@@ -471,6 +483,10 @@ mav_smth <- function(Value,
   
   Smoothed
 }
+
+#' @export
+#' @rdname smooth_age_5_mav
+mav_smth <- smooth_age_5_mav
 
 
 # Author: Juan Galeano
@@ -801,28 +817,36 @@ agesmth <- function(Value,
                     OAG = OAG)
   }
   # TR: new Feeney method added July 31, 2018
-  if (method %in% c("feeney", "zigzag")) {
+  # TR: ruh roh, we have another feeney method T9R5L, now called feeney.
+  if (method %in% c("zigzag")) {
     # however, need to make it so NAs returned in unaffected ages?
     # or make the user call it in various runs and graft together.
-    out <-
-      zigzag_smth(
-        Value = Value,
-        Age = Age,
-        OAG = OAG,
-        ageMin = ageMin,
-        ageMax = ageMax
-      )
+    out <- smooth_age_5_zigzag(
+             Value = Value,
+             Age = Age,
+             OAG = OAG,
+             ageMin = ageMin,
+             ageMax = ageMax)
   }
-  # TR: MAV added Aug 7
+
+  if (method %in% c("feeney")) {
+    # however, need to make it so NAs returned in unaffected ages?
+    # or make the user call it in various runs and graft together.
+    out <- smooth_age_5_feeney(
+             Value = Value,
+             Age = Age,
+             OAG = OAG,
+             maxit = 200)
+  }
+  
   if (method %in% c("mav", "ma", "movingaverage")) {
     # however, need to make it so NAs returned in unaffected ages?
     # or make the user call it in various runs and graft together.
-    out <- mav_smth(
-      Value = Value,
-      Age = Age,
-      OAG = OAG,
-      n = n
-    )
+    out <- smooth_age_5_mav(
+             Value = Value,
+             Age = Age,
+             OAG = OAG,
+             n = n)
   }
   # -------------------------------
   # clean tails

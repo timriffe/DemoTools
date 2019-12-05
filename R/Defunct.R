@@ -45,14 +45,17 @@
 #'  \item \code{\link{ax.greville.mortpak}}: This function is now called \code{\link{lt_id_morq_a_greville}}.
 #'  \item \code{\link{LTabr}}: This function is now called \code{\link{lt_abridged}}.
 #'  \item \code{\link{lt_single_simple}}: This function is now called \code{\link{lt_single_mx}}.
-#'  
 #'  \item \code{\link{extra.mortality}}: This function is now called \code{\link{lt_rule_m_extrapolate}}.
 #'  \item \code{\link{geta0CD}}: This function is now called \code{\link{lt_rule_1a0_cd}}.
+#'  \item \code{\link{geta1_4CD}}: This function is now called \code{\link{lt_rule_4a1_cd}}.
+#'  
 #'  \item \code{\link{T9R5L}}: This function is now called \code{\link{smooth_age_5_feeney}}.
 #'  \item \code{\link{carrier_farrag_smth}}: This function is now called \code{\link{smooth_age_5_cf}}.
 #'  \item \code{\link{kkn_smth}}: This function is now called \code{\link{smooth_age_5_kkn}}.
 #'  \item \code{\link{arriaga_smth}}: This function is now called \code{\link{smooth_age_5_arriaga}}.
-#'  \item \code{\link{geta1_4CD}}: This function is now called \code{\link{lt_rule_4a1_cd}}.
+#'  \item \code{\link{mav_smth}}: This function is now called \code{\link{smooth_age_5_mav}}.
+#'  \item \code{\link{zigzag_smth}}: This function is now called \code{\link{smooth_age_5_zigzag}}.
+
 #'  \item \code{\link{adjustAge}}: This function is now called \code{\link{rescale_vector}}.
 #' }
 #' 
