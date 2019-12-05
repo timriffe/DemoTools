@@ -25,7 +25,7 @@ numeric vector of smoothed counts in 5-year age groups.
 Smooth data in 5-year age groups.
 }
 \details{
-This function calls \code{zigzag()}, but prepares data in a way consistent with other methods called by \code{agesmth()}. It is probably preferable to call \code{zigzag()} from the top level, or else call this method from \code{agesmth()} for more control over tail imputations.
+This function calls \code{smooth_age_5_zigzag_inner()}, but prepares data in a way consistent with other methods called by \code{agesmth()}. It is probably preferable to call \code{zigzag()} from the top level, or else call this method from \code{agesmth()} for more control over tail imputations.
 
 This function calls \code{mav()}, which itself relies on the more general \code{ma()}. We lose the lowest and highest ages with this method, unless \code{n=1}, in which case data is returned in the original 5-year age groups. The total population count is not constrained to sum to the orignal total.
 }

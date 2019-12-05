@@ -2,7 +2,7 @@
 ###############################################################################
 
 #' Objective function to minimize Feeney's zigzag method residual
-#' @description This function is auxiliary to \code{zigzag()}, see \code{?zigzag} for a description.
+#' @description This function is auxiliary to \code{smooth_age_5_zigzag_inner()}, see \code{?smooth_age_5_zigzag_inner} for a description.
 #' @details This function is not intended to be used at the top level, but just in case, make sure that \code{ageMax = ageMin + 10 * length(p)}. Age groups \code{ >= ageMin} AND \code{ <= ageMin} must be in 5-year age groups. This function does no checks.
 #' @param Value numeric vector of (presumably) counts in 5-year age groups.
 #' @param Age integer vector of age group lower bounds.
@@ -16,33 +16,34 @@
 #' Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/
 #' @examples
 #'Age <- c(0,1,seq(5,90,by=5))
-#'zigzag_min(dth5_zigzag,Age,ageMin=40,ageMax = 80,p=rep(.05,4))
+#'smooth_age_5_zigzag_min(dth5_zigzag,Age,ageMin=40,ageMax = 80,p=rep(.05,4))
 #'# it's used like this in zigzag()
 #'(p <- optim(
 #'			rep(.05,4),
-#'			zigzag_min,
+#'			smooth_age_5_zigzag_min,
 #'			Value = dth5_zigzag,
 #'			Age = Age,
 #'			ageMin = 40,
 #'			ageMax = 80)$par)
-#' Smoothed <- zigzag_p(dth5_zigzag,Age,40,80,p)
+#' Smoothed <- smooth_age_5_zigzag_p(dth5_zigzag,Age,40,80,p)
 #' # de facto unit test:
 #' # check result using results frozen in Feeney spreadsheet
 #' # after fixing probable cell range 'error'
 #' p.feeney <- c(0.0235802695087692,0.0724286618207911,
 #' 		      0.0242327829742267,0.0883411499065237)
 #' ans      <- 106.1147411629
-#' stopifnot(abs(zigzag_min(dth5_zigzag, Age, 40,80,p.feeney) - ans) < 1e-6)
-zigzag_min <- function(Value,
+#' stopifnot(abs(smooth_age_5_zigzag_min(dth5_zigzag, Age, 40,80,p.feeney) - ans) < 1e-6)
+smooth_age_5_zigzag_min <- function(Value,
                        Age,
                        ageMin = 40,
                        ageMax = 80,
                        p) {
+
   # first, we need an odd number of age groups to smooth over.
   # we enforce this
   
   
-  Smoothed <- zigzag_p(
+  Smoothed <- smooth_age_5_zigzag_p(
     Value = Value,
     Age = Age,
     ageMin = ageMin,
@@ -78,18 +79,18 @@ zigzag_min <- function(Value,
 #' Feeney, G. 2013 "Removing "Zigzag" from Age Data," http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/
 #' @examples
 #'Age <- c(0,1,seq(5,90,by=5))
-#'zigzag_min(dth5_zigzag,Age,ageMin=40,ageMax = 80,p=rep(.05,4))
-#'# it's used like this in zigzag()
+#'smooth_age_5_zigzag_min(dth5_zigzag,Age,ageMin=40,ageMax = 80,p=rep(.05,4))
+#'# it's used like this in smooth_age_5_zigzag_inner()
 #'(p <- optim(
 #'			rep(.05,4),
-#'			zigzag_min,
+#'			smooth_age_5_zigzag_min,
 #'			Value = dth5_zigzag,
 #'			Age = Age,
 #'			ageMin = 40,
 #'			ageMax = 80)$par)
-#' Smoothed <- zigzag_p(dth5_zigzag,Age,40,80,p)
+#' Smoothed <- smooth_age_5_zigzag_p(dth5_zigzag,Age,40,80,p)
 
-zigzag_p <- function(Value,
+smooth_age_5_zigzag_p <- function(Value,
                      Age,
                      ageMin = 40,
                      ageMax = 80,
@@ -139,9 +140,9 @@ zigzag_p <- function(Value,
 #' @examples
 #' Age <- c(0,1,seq(5,90,by=5))
 #' # defaults
-#' zz1 <- zigzag(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
+#' zz1 <- smooth_age_5_zigzag_inner(dth5_zigzag, Age, OAG = TRUE, ageMin = 40, ageMax = 80)
 #' # shift age range up by 5
-#' zz2 <- zigzag(dth5_zigzag, Age, OAG = TRUE, ageMin = 45, ageMax = 85)
+#' zz2 <- smooth_age_5_zigzag_inner(dth5_zigzag, Age, OAG = TRUE, ageMin = 45, ageMax = 85)
 #' \dontrun{
 #' plot(Age, dth5_zigzag,pch = 16)
 #' lines(Age,zz1,col="red",lty=1)
@@ -154,7 +155,7 @@ zigzag_p <- function(Value,
 #' 		legend = c("Original","40-80","45-85","avg"))
 #' }
 
-zigzag <- function(Value,
+smooth_age_5_zigzag_inner <- function(Value,
                    Age,
                    OAG = TRUE,
                    ageMin = 40,
@@ -200,7 +201,7 @@ zigzag <- function(Value,
   p        <-
     optim(
       p,
-      zigzag_min,
+      smooth_age_5_zigzag_min,
       Value = Value5,
       Age = Age5,
       ageMin = ageMin,
@@ -208,7 +209,7 @@ zigzag <- function(Value,
     )$par
   # and resulting smoothed pops
   Smoothed <-
-    zigzag_p(
+    smooth_age_5_zigzag_p(
       Value = Value5,
       Age = Age5,
       ageMin = ageMin,
