@@ -83,7 +83,7 @@ carrier_farrag_smth <- smooth_age_5_cf
 #' KKNtest <- c(NA,NA,354871,278502,285508,261429,236513 ,
 #' 		204233,162138,126555,90094,65988,54803,41041,NA,NA,NA)
 #'
-#' KKNmales <- kkn_smth(pop5m_pasex, Ages, TRUE)
+#' KKNmales <- smooth_age_5_kkn(pop5m_pasex, Ages, TRUE)
 #' all(round(KKNmales) - KKNtest == 0, na.rm = TRUE)
 #' \dontrun{
 #' plot(Ages, pop5m_pasex)
@@ -93,9 +93,13 @@ carrier_farrag_smth <- smooth_age_5_cf
 #' \insertRef{carrier1959reduction}{DemoTools}
 # plz add PASEX citation, and add above to bibtex
 
-kkn_smth <- function(Value,
+smooth_age_5_kkn <- function(Value,
                      Age,
                      OAG = TRUE) {
+  if (as.character(match.call()[[1]]) == "kkn_smth") {
+    warning("please use smooth_age_5_kkn() instead of kkn_smth().", call. = FALSE)
+  }
+  
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
   # age groups and it'd still not break.
@@ -131,6 +135,10 @@ kkn_smth <- function(Value,
   
   out
 }
+#' @export
+#' @rdname smooth_age_5_kkn
+kkn_smth <- smooth_age_5_kkn
+
 
 #' E. Arriaga's method of population count smoothing
 #' @description Smooth population counts in 5-year age groups.
@@ -781,7 +789,7 @@ agesmth <- function(Value,
   
   # kkn kkingnewton karupkingnewton
   if (method %in% c("kkn", "kkingnewton", "karupkingnewton")) {
-    out <- kkn_smth(Value = Value,
+    out <- smooth_age_5_kkn(Value = Value,
                     Age = Age,
                     OAG = OAG)
   }
