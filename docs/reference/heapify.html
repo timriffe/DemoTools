@@ -80,7 +80,7 @@ In order to estimate how these methods respond to different degrees of heaping i
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.33</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.42</span>
       </span>
     </div>
 
@@ -224,7 +224,7 @@ scaled to argument <code>p0</code> to shift individuals from surrounding ages to
 <span class='no'>A5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>95</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Age</span>,<span class='no'>pop1m_pasex</span>)</div><div class='input'><span class='co'># here it is again, smoothed:</span>
 <span class='no'>smoothed</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span>(
-                <span class='fu'><a href='agesmth.html'>agesmth</a></span>(<span class='no'>pop1m_pasex</span>,
+                <span class='fu'>smooth_age_5</span>(<span class='no'>pop1m_pasex</span>,
                                 <span class='no'>Age</span>,
                                 <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Strong"</span>,
                                 <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
