@@ -119,13 +119,13 @@ lt_model_lq <- function(
     if(is.null(fitted_logquad)){
         
         if(Sex == "b"){
-            fitted_logquad <- fitted_logquad_b
+            fitted_logquad <- DemoTools::fitted_logquad_b
         }
         if(Sex == "f"){
-            fitted_logquad <- fitted_logquad_f
+            fitted_logquad <- DemoTools::fitted_logquad_f
         }
         if(Sex == "m"){
-            fitted_logquad <- fitted_logquad_m
+            fitted_logquad <- DemoTools::fitted_logquad_m
         }
     }
     
@@ -197,7 +197,7 @@ lt_model_lq <- function(
     # after finding 5q0 (assume k=0, but it doesn't matter), these become Cases 1-3
     
     if (my_case %in% c("C4","C5","C6") ) {
-        fun.q0_5 <- function(q0_5, q0_1, cf, x, radix, Sex){
+        fun.q0_5a <- function(q0_5, q0_1, cf, x, radix, Sex){
             lthat.logquad(coefs = cf, 
                           x = x, 
                           q0_5 = q0_5, 
@@ -205,7 +205,7 @@ lt_model_lq <- function(
                           radix = radix, 
                           Sex = Sex)$lt$nqx[1] - q0_1
         }
-        q0_5  <- uniroot(f = fun.q0_5, interval = c(1e-5, 0.8),
+        q0_5  <- uniroot(f = fun.q0_5a, interval = c(1e-5, 0.8),
                         cf = cf, 
                         x = x, 
                         q0_1 = q0_1, 
@@ -224,58 +224,56 @@ lt_model_lq <- function(
                            Sex = Sex, 
                            radix = radix, 
                            tol = tol)
-        }
+    }
     if (my_case == "C5"){ 
         tmp <- lt_model_lq(fitted_logquad = fitted_logquad, 
                            q0_1 = NULL,
                            q15_35 = NULL,
                            e0 = NULL,
-                           q0_5 = q05root, 
+                           q0_5 = q0_5, 
                            q15_45 = q15_45,
                            Sex = Sex, 
                            radix = radix, 
                            tol = tol)
-        }
+    }
     if (my_case == "C6"){
         tmp <- lt_model_lq(fitted_logquad = fitted_logquad,
                            q0_1 = NULL,
                            q15_45 = NULL,
                            e0 = NULL,
-                           q0_5 = q05root,
+                           q0_5 = q0_5,
                            q15_35 = q15_35,
                            Sex = Sex, 
                            radix = radix, 
                            tol = tol)
-        }
+    }
     
     # Case 7 and 8: e0 and 45q15 or 35q15 are known; must find both 5q0 and k
     if (my_case %in% c("C7", "C8")) {
         k    <- q0_5 <- 0
         iter <- crit <- 1
         
-        while (crit > tol & iter <= maxit) {
-            k.old    <- k
-            q0_5.old <- q0_5
-            # Get new 5q0 from e0 given k (case 9 from MortalityEstimate::wilmothLT)
-            fun.q0_5 = function(q0_5,
-                                cf = cf, 
-                                x, 
-                                k, 
-                                radix, 
-                                Sex = Sex,
-                                e0) { 
+        fun.q0_5b = function(q0_5,
+                             cf = cf, 
+                             x, 
+                             k, 
+                             radix, 
+                             Sex,
+                             e0) { 
                 lthat.logquad(coefs = cf, 
                               x = x, 
                               q0_5 = q0_5, 
                               k = k, 
-                              q0_1 = NULL, 
-                              q15_45 =  NULL, 
-                              q15_35 = NULL, 
                               radix, 
                               Sex = Sex)$lt$ex[1] - e0 
             }
+        while (crit > tol & iter <= maxit) {
+            k.old    <- k
+            q0_5.old <- q0_5
+            # Get new 5q0 from e0 given k (case 9 from MortalityEstimate::wilmothLT)
+            
            
-            q0_5i <- uniroot(f = fun.q0_5, 
+            q0_5i <- uniroot(f = fun.q0_5b, 
                             interval = c(1e-4, 0.8),
                             x = x, 
                             cf = cf,
@@ -289,10 +287,6 @@ lt_model_lq <- function(
                       x = x, 
                       q0_5 = q0_5i, 
                       k = k, 
-                      e0 = NULL,
-                      q0_1 = NULL, 
-                      q15_45 =  NULL, 
-                      q15_35 = NULL,
                       radix = radix, 
                       Sex = Sex
             )$values$q0_5 
