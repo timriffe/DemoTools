@@ -7,12 +7,12 @@ Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
           email = "tim.riffe@gmail.com", comment = c(ORCID = "0000-0002-2673-4622")),
    person("José Manuel", "Aburto", role = "aut", comment = c(ORCID = "0000-0002-2926-6879")),
-   person("Ilya", "Kashnitsky", role = "aut"),
-   person("Marius D.", "Pascariu", role = "aut"),
-   person("Monica", "Alexander", role = "aut"),
+   person("Ilya", "Kashnitsky", role = "aut", comment = c(ORCID = "0000-0003-1835-8687")),
+   person("Marius D.", "Pascariu", role = "aut", comment = c(ORCID = "0000-0002-2568-6489")),
+   person("Monica", "Alexander", role = "aut", comment = c(ORCID = "0000-0002-8135-3435")),
    person("Sean", "Fennell", role = "aut"),
-   person("Jorge", "Cimentada", role = "ctb"),
-   person("Juan", "Galeano", role = "ctb"),
+   person("Jorge", "Cimentada", role = "ctb", comment = c(ORCID = "0000-0001-5594-1156")),
+   person("Juan", "Galeano", role = "ctb", comment = c(ORCID = "0000-0002-3682-1797")),
    person("Derek", "Burk", role = "ctb"),
    person("Greg", "Freedman Ellis", role = "ctb"))
 Description: A collection of classic demographic methods used to evaluate, adjust, and standardize demographic data.
@@ -23,19 +23,20 @@ RoxygenNote: 6.1.1
 Depends:
     R (>= 2.10)
 Suggests:
-  covr,
-  testthat,
-  knitr,
-  rmarkdown,
-  magrittr,
-  dplyr,
-  DT
+    covr,
+    testthat,
+    knitr,
+    rmarkdown,
+    dplyr,
+    DT
 RdMacros: Rdpack
 Imports:
-  demogR,
-  ungroup,
-  MortalityLaws (>= 1.7.0),
-  Rdpack
+    demogR,
+    ungroup,
+    MortalityLaws (>= 1.7.0),
+    Rdpack,
+    magrittr
+Remotes: mpascariu/MortalityEstimate
 BugReports: https://github.com/timriffe/DemoTools/issues
 Encoding: UTF-8
 VignetteBuilder: knitr

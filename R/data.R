@@ -1,5 +1,5 @@
 # Author: IK
-# Date: 2018-10-12
+# Date: 2018-10-12 UPD 2019-12-04
 ################################################################################
 
 
@@ -112,3 +112,60 @@
 #'   The data comes from
 #'   \url{http://}
 "popA_later"
+
+
+# model life tables --fitted LogQuad models -------------------------------
+
+#' LogQuad model for BOTH SEX fitted for all HMD life tables
+#'
+#' LogQuad model fitted using \code{\link[MortalityEstimate]{wilmoth}} for all BOTH SEX period life tables present in Human Mortality Database (\url{https://mortality.org}) in December 2019 (968 life tables). Object of class \code{wilmoth}.
+#'
+#' @format
+#'   List of 6:
+#'   \describe{
+#'     \item{input}{List of parameters passed to \code{\link[MortalityEstimate]{wilmoth}}.}
+#'     \item{call}{R code call line used for fitting.}
+#'     \item{coefficients}{Dataframe with 24 rows and 4 variables -- parameters \code{ax}, \code{bx}, \code{cx}, \code{vx} for each age group.}
+#'     \item{k}{\code{k} fitting parameter of the LogQuag model, a vector of 968 values.}
+#'     \item{fitted.values}{Fitted death rates, a matrix 968x24.}
+#'     \item{model.info}{Model formula.}
+#' @source
+#'   Human Mortality Database [Portal]. Retrieved 2019-11-28, from 
+#'   \url{https://mortality.org}
+"fitted_logquad_b"
+
+#' LogQuad model for FEMALES fitted for all HMD life tables
+#'
+#' LogQuad model fitted using \code{\link[MortalityEstimate]{wilmoth}} for all FEMALE period life tables present in Human Mortality Database (\url{https://mortality.org}) in December 2019 (968 life tables). Object of class \code{wilmoth}.
+#'
+#' @format
+#'   List of 6:
+#'   \describe{
+#'     \item{input}{List of parameters passed to \code{\link[MortalityEstimate]{wilmoth}}.}
+#'     \item{call}{R code call line used for fitting.}
+#'     \item{coefficients}{Dataframe with 24 rows and 4 variables -- parameters \code{ax}, \code{bx}, \code{cx}, \code{vx} for each age group.}
+#'     \item{k}{\code{k} fitting parameter of the LogQuag model, a vector of 968 values.}
+#'     \item{fitted.values}{Fitted death rates, a matrix 968x24.}
+#'     \item{model.info}{Model formula.}
+#' @source
+#'   Human Mortality Database [Portal]. Retrieved 2019-11-28, from 
+#'   \url{https://mortality.org}
+"fitted_logquad_f"
+
+#' LogQuad model for MALES fitted for all HMD life tables
+#'
+#' LogQuad model fitted using \code{\link[MortalityEstimate]{wilmoth}} for all MALE period life tables present in Human Mortality Database (\url{https://mortality.org}) in December 2019 (968 life tables). Object of class \code{wilmoth}.
+#'
+#' @format
+#'   List of 6:
+#'   \describe{
+#'     \item{input}{List of parameters passed to \code{\link[MortalityEstimate]{wilmoth}}.}
+#'     \item{call}{R code call line used for fitting.}
+#'     \item{coefficients}{Dataframe with 24 rows and 4 variables -- parameters \code{ax}, \code{bx}, \code{cx}, \code{vx} for each age group.}
+#'     \item{k}{\code{k} fitting parameter of the LogQuag model, a vector of 968 values.}
+#'     \item{fitted.values}{Fitted death rates, a matrix 968x24.}
+#'     \item{model.info}{Model formula.}
+#' @source
+#'   Human Mortality Database [Portal]. Retrieved 2019-11-28, from 
+#'   \url{https://mortality.org}
+"fitted_logquad_m"
