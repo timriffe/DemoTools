@@ -4,7 +4,7 @@
 \alias{lthat.logquad}
 \title{Estimated life table using the log-quadratic model}
 \usage{
-lthat.logquad(coefs, x, q0_5, k, radix, Sex, ...)
+lthat.logquad(coefs, x, q0_5, k, radix, Sex)
 }
 \arguments{
 \item{coefs}{Estimated coefficients}
@@ -23,8 +23,6 @@ The following options are available: \itemize{
   \item{\code{"f"}} -- Females;
   \item{\code{"m"}} -- Males.
   }}
-
-\item{...}{Additional arguments affecting the predictions produced.}
 }
 \description{
 Estimated life table using the log-quadratic model

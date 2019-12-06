@@ -5,25 +5,16 @@
 \title{Function that determines the case/problem we have to solve
 It also performs some checks}
 \usage{
-find.my.case(q0_5, q0_1, q15_45, q15_35, e0)
+find.my.case(par_ind)
 }
 \arguments{
-\item{q0_5}{5q0. The probability that a new-born will die during the 
-subsequent 5 years;}
-
-\item{q0_1}{1q0. The probability that a life aged 0 will die during the 
-following year;}
-
-\item{q15_45}{45q15. The probability that a life aged 15 will die during 
-the subsequent 45 years;}
-
-\item{q15_35}{35q15. The probability that a life aged 15 will die during 
-the subsequent 35 years;}
-
-\item{e0}{Life expectancy at birth;}
+\item{par_ind}{logical vector of length 5}
 }
 \description{
 Function that determines the case/problem we have to solve
 It also performs some checks
+}
+\details{
+\code{par_ind} should consist in logicals in the following order: \code{q0_5}, \code{q0_1}, \code{q15_45}, \code{q15_35}, \code{e0}. This is faithfully constructed in calling functions as required.
 }
 \keyword{internal}

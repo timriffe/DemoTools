@@ -4,7 +4,15 @@
 \name{fitted_logquad_m}
 \alias{fitted_logquad_m}
 \title{LogQuad model for MALES fitted for all HMD life tables}
-\format{An object of class \code{wilmoth} of length 6.}
+\format{List of 6:
+  \describe{
+    \item{input}{List of parameters passed to \code{\link[MortalityEstimate]{wilmoth}}.}
+    \item{call}{R code call line used for fitting.}
+    \item{coefficients}{Dataframe with 24 rows and 4 variables -- parameters \code{ax}, \code{bx}, \code{cx}, \code{vx} for each age group.}
+    \item{k}{\code{k} fitting parameter of the LogQuag model, a vector of 968 values.}
+    \item{fitted.values}{Fitted death rates, a matrix 968x24.}
+    \item{model.info}{Model formula.}
+    }}
 \source{
 Human Mortality Database [Portal]. Retrieved 2019-11-28, from 
   \url{https://mortality.org}

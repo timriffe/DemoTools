@@ -97,7 +97,6 @@ lt_model_lq <- function(
     q15_45 = NULL, 
     q15_35 = NULL, 
     e0 = NULL, 
-    
     radix = 1e5, 
     tol = 1e-9, 
     maxit = 200, 
@@ -108,13 +107,15 @@ lt_model_lq <- function(
     if(Sex%in%c("total", "t")){
         Sex <- "b"
     }
-    if(!nchar(Sex)==1){
-        Sex <- substr(Sex,1,1)
-    }
-    
+    # TR: removed check. Reasoning:
+    # if condition met then this is
+    # innocuous. If it is *not* met then
+    # this takes care of cases like male and
+    # female as well.
+    Sex <- substr(Sex,1,1)
     
     # check if an optional fitted_logquad is specified
-    
+    # TR: changing NULL checks to missing checks
     if(is.null(fitted_logquad)){
         
         if(Sex == "b"){
@@ -128,40 +129,124 @@ lt_model_lq <- function(
         }
     }
     
-    
-    my_case <- find.my.case(q0_5, q0_1, q15_45, q15_35, e0)
+    # TR: I see this is why you want NULLs, but maybe there's
+    # a better way? Rather then passing in values, we can pass
+    # in logicals. Looking inside find.my.case I see that it 
+    # just composes vectors of length 5. We can mimick this like so.
+    par_ind <- c(q0_5 = !is.null(q0_5), 
+                 q0_1 = !is.null(q0_1), 
+                 q15_45 = !is.null(q15_45), 
+                 q15_35 = !is.null(q15_35), 
+                 e0 = !is.null(e0))
+    my_case <- find.my.case(par_ind = par_ind)
+
     cf      <- coef(fitted_logquad)
     x       <- fitted_logquad$input$x
     
     # Cases 1-3:  5q0 is known, plus e0, 45q15 or 45q15
-
+    # TR: functions should have all parameters passed in.
     if (my_case %in% c("C1", "C2", "C3")) {
-        if (my_case == "C1") fun.k <- function(k) {
-            lthat.logquad(cf, x, q0_5, k, radix, Sex = Sex)$lt$ex[1] - e0
+        if (my_case == "C1"){
+          fun.k <- function(k, cf, x, q0_5, radix, Sex, par2) {
+                lthat.logquad(coefs = cf, 
+                              x = x, 
+                              q0_5 = q0_5, 
+                              k = k, 
+                              radix = radix, 
+                              Sex = Sex)$lt$ex[1] - par2
+          } 
+          par2 <- e0
         }
-        if (my_case == "C2") fun.k <- function(k) { 
-            lt <- lthat.logquad(cf, x, q0_5, k, radix, Sex = Sex)$lt
-            return(1 - lt[lt$Age == 60, "lx"] / lt[lt$Age == 15, "lx"] - q15_45)
-        }
-        if (my_case == "C3") fun.k <- function(k) { 
-            lt <- lthat.logquad(cf, x, q0_5, k, radix, Sex = Sex)$lt
-            return(1 - lt[lt$Age == 50, "lx"] / lt[lt$Age == 15, "lx"] - q15_35)
-        }
+        if (my_case == "C2"){
+            fun.k <- function(k, cf, x, q0_5, radix, Sex, par2) { 
+                lt <- lthat.logquad(coefs = cf, 
+                                    x = x, 
+                                    q0_5 = q0_5, 
+                                    k = k, 
+                                    radix = radix, 
+                                    Sex = Sex)$lt
+                (1 - (lt[lt$Age == 60, "lx"] / lt[lt$Age == 15, "lx"])) - par2
+            }
+            par2 <- q15_45
+        } 
+        if (my_case == "C3"){
+            fun.k <- function(k, cf, x, q0_5, radix, Sex, par2) { 
+                lt <- lthat.logquad(coefs = cf, 
+                                    x = x, 
+                                    q0_5 = q0_5, 
+                                    k = k, 
+                                    radix = radix, 
+                                    Sex = Sex)$lt
+                (1 - (lt[lt$Age == 50, "lx"] / lt[lt$Age == 15, "lx"])) - par2
+            }
+            par2 <- q15_35
+        } 
         
-        root <- uniroot(f = fun.k, interval = c(-10, 10))$root
-        tmp  <- lthat.logquad(cf, x, q0_5, k = root, radix, Sex = Sex) 
+        kroot <- uniroot(f = fun.k, 
+                         interval = c(-10, 10), 
+                         cf = cf, 
+                         x = x, 
+                         q0_5 = q0_5, 
+                         radix = radix, 
+                         Sex = Sex,
+                         par2 = par2)$root
+        tmp  <- lthat.logquad(coefs = cf, x = x, q0_5 = q0_5, k = kroot, radix = radix, Sex = Sex) 
     }
     
     # Cases 4-6: 1q0 is known, plus e0, 45q15 or 35q15;
     # after finding 5q0 (assume k=0, but it doesn't matter), these become Cases 1-3
+    
     if (my_case %in% c("C4","C5","C6") ) {
-        fun.q0_5 <- function(q0_5) lthat.logquad(cf, x, q0_5, k = 0, radix, Sex = Sex)$lt$nqx[1] - q0_1
-        root <- uniroot(f = fun.q0_5, interval = c(1e-5, 0.8))$root
+        fun.q0_5 <- function(q0_5, q0_1, cf, x, radix, Sex){
+            lthat.logquad(coefs = cf, 
+                          x = x, 
+                          q0_5 = q0_5, 
+                          k = 0, 
+                          radix = radix, 
+                          Sex = Sex)$lt$nqx[1] - q0_1
+        }
+        q0_5  <- uniroot(f = fun.q0_5, interval = c(1e-5, 0.8),
+                        cf = cf, 
+                        x = x, 
+                        q0_1 = q0_1, 
+                        radix = radix, 
+                        Sex = Sex
+                       )$root
     }
 
-    if (my_case == "C4") tmp <- lt_model_lq(fitted_logquad = fitted_logquad, q0_5 = root, e0 = e0, ...)
-    if (my_case == "C5") tmp <- lt_model_lq(fitted_logquad = fitted_logquad, q0_5 = root, q15_45 = q15_45, ...)
-    if (my_case == "C6") tmp <- lt_model_lq(fitted_logquad = fitted_logquad, q0_5 = root, q15_35 = q15_35, ...)
+    if (my_case == "C4"){ 
+        tmp <- lt_model_lq(fitted_logquad = fitted_logquad, 
+                           q0_5 = q0_5, 
+                           e0 = e0, 
+                           q0_1 = NULL,
+                           q15_35 = NULL,
+                           q15_45 = NULL,
+                           Sex = Sex, 
+                           radix = radix, 
+                           tol = tol)
+        }
+    if (my_case == "C5"){ 
+        tmp <- lt_model_lq(fitted_logquad = fitted_logquad, 
+                           q0_1 = NULL,
+                           q15_35 = NULL,
+                           e0 = NULL,
+                           q0_5 = q05root, 
+                           q15_45 = q15_45,
+                           Sex = Sex, 
+                           radix = radix, 
+                           tol = tol)
+        }
+    if (my_case == "C6"){
+        tmp <- lt_model_lq(fitted_logquad = fitted_logquad,
+                           q0_1 = NULL,
+                           q15_45 = NULL,
+                           e0 = NULL,
+                           q0_5 = q05root,
+                           q15_35 = q15_35,
+                           Sex = Sex, 
+                           radix = radix, 
+                           tol = tol)
+        }
     
     # Case 7 and 8: e0 and 45q15 or 35q15 are known; must find both 5q0 and k
     if (my_case %in% c("C7", "C8")) {
@@ -169,24 +254,67 @@ lt_model_lq <- function(
         iter <- crit <- 1
         
         while (crit > tol & iter <= maxit) {
-            k.old  <- k
+            k.old    <- k
             q0_5.old <- q0_5
-            # Get new 5q0 from e0 assuming k (case 9 from MortalityEstimate::wilmothLT)
-            fun.q0_5 = function(q0_5) { 
-                lthat.logquad(cf, x, q0_5, k, 
-                              q0_1 = NULL, q15_45 =  NULL, q15_35 = NULL, 
-                              radix, Sex = Sex)$lt$ex[1] - e0 
+            # Get new 5q0 from e0 given k (case 9 from MortalityEstimate::wilmothLT)
+            fun.q0_5 = function(q0_5,
+                                cf = cf, 
+                                x, 
+                                k, 
+                                radix, 
+                                Sex = Sex,
+                                e0) { 
+                lthat.logquad(coefs = cf, 
+                              x = x, 
+                              q0_5 = q0_5, 
+                              k = k, 
+                              q0_1 = NULL, 
+                              q15_45 =  NULL, 
+                              q15_35 = NULL, 
+                              radix, 
+                              Sex = Sex)$lt$ex[1] - e0 
             }
-            root <- uniroot(f = fun.q0_5, interval = c(1e-4, 0.8))$root
+           
+            q0_5i <- uniroot(f = fun.q0_5, 
+                            interval = c(1e-4, 0.8),
+                            x = x, 
+                            cf = cf,
+                            k = k, 
+                            radix = radix, 
+                            Sex = Sex,
+                            e0 = e0)$root
+            # get new q0_5
             q0_5 <- lthat.logquad(
-                cf, x, q0_5 = root, k, 
-                q0_1 = NULL, q15_45 =  NULL, q15_35 = NULL,
-                radix, Sex = Sex
+                      coefs = cf, 
+                      x = x, 
+                      q0_5 = q0_5i, 
+                      k = k, 
+                      e0 = NULL,
+                      q0_1 = NULL, 
+                      q15_45 =  NULL, 
+                      q15_35 = NULL,
+                      radix = radix, 
+                      Sex = Sex
             )$values$q0_5 
             # Get k from 45q15 or 35q15 assuming 5q0
-            if (my_case == "C7") tmp = lt_model_lq(fitted_logquad = fitted_logquad, q0_5 = q0_5, q15_45 = q15_45, ...)
-            if (my_case == "C8") tmp = lt_model_lq(fitted_logquad = fitted_logquad, q0_5 = q0_5, q15_35 = q15_35, ...)
-            k  <- tmp$values$k
+            if (my_case == "C7"){ 
+                tmp = lt_model_lq(fitted_logquad = fitted_logquad, 
+                                  q0_5 = q0_5, 
+                                  q15_45 = q15_45,
+                                  Sex = Sex,
+                                  tol = tol,
+                                  radix = radix)
+            }
+            if (my_case == "C8"){ 
+                tmp = lt_model_lq(fitted_logquad = fitted_logquad, 
+                                  q0_5 = q0_5,
+                                  q15_35 = q15_35,
+                                  Sex = Sex,
+                                  tol = tol,
+                                  radix = radix
+                )
+            }
+            k    <- tmp$values$k
             crit <- sum(abs(c(k, q0_5) - c(k.old, q0_5.old)))
             iter <- iter + 1
         }
@@ -215,22 +343,19 @@ lthat.logquad <- function(coefs,
                           q0_5, 
                           k, 
                           radix,
-                          Sex, # needed to pass over to lt_id_morq_a
-                          ...) {
-    
-    # Sex <- Sex
+                          Sex){ # needed to pass over to lt_id_morq_a
+
     h     <- log(q0_5)
     mx    <- with(as.list(coefs), exp(ax + bx*h + cx*h^2 + vx*k))
     # estimate ax
     age_int <- c(diff(x), Inf)
     ax    <- lt_id_morq_a(
-        nMx = mx, 
-        Age = x,
-        AgeInt = age_int,
-        axmethod = "un",
-        Sex = Sex,
-        region = "w"
-    )
+               nMx = mx, 
+               Age = x,
+               AgeInt = age_int,
+               axmethod = "un",
+               Sex = Sex,
+               region = "w")
     # qx from mx and estimated ax
     qx <- lt_id_ma_q(nMx = mx, nax = ax, AgeInt = age_int, IMR = NA)
     # Force 4q1 (and thus 4m1) to be consistent with 1q0 and 5q0
@@ -253,39 +378,44 @@ lthat.logquad <- function(coefs,
 
 #' Function that determines the case/problem we have to solve
 #' It also performs some checks
-#' @inheritParams lt_model_lq
+#' @details \code{par_ind} should consist in logicals in the following order: \code{q0_5}, \code{q0_1}, \code{q15_45}, \code{q15_35}, \code{e0}. This is faithfully constructed in calling functions as required.
+#' @param  par_ind logical vector of length 5
 #' @keywords internal
-find.my.case <- function(q0_5, q0_1, q15_45, q15_35, e0) {
-    # Test that at least of one of 1q0 and 5q0 is null
-    input   <- as.list(environment())
-    my_case <- unlist(lapply(input, is.null))
+ 
+find.my.case <- function(par_ind) {
+    # need to reverse logicals to minimize code changes below
     
-    if (sum(my_case[c(1, 2)]) == 0) {
+    # TR: more robust would be to pick out by name:
+    if (sum(par_ind[c('q0_1', 'q0_5')]) == 2) {
         stop("cannot have both 'q0_1' and 'q0_5' as inputs", call. = FALSE)
     }
     
-    # Test that at least of one of 45q15 and 35q15 is null
-    if (sum(my_case[c(3, 4)]) == 0) {
+    # TR: changed logic
+    if (sum(par_ind[c('q15_45', 'q15_35')]) == 2) {
         stop("cannot have both 'q15_45' and 'q15_35' as inputs", call. = FALSE)
     }
     
     # Test that exactly two inputs are non-null
-    if (sum(my_case) != 3) {
+    if (sum(par_ind) != 2) {
         stop("must have exactly two inputs", call. = FALSE)
     }
     
+    case <- "Invalid par combo"
     # There are 8 cases:  "5 choose 2" = 10, but we disallow two cases 
     # (1q0 and 5q0, or 45q15 and 35q15)
+    # 'q0_5'  'q0_1'  'q15_45'  'q15_35'  'e0'
+    if (sum(par_ind[ c('q0_5', 'e0')]) == 2 ) case = "C1"
+    if (sum(par_ind[c('q0_5','q15_45')]) == 2) case = "C2" 
+    if (sum(par_ind[c('q0_5','q15_35')]) == 2) case = "C3" 
+    
+    if (sum(par_ind[ c('q0_1', 'e0')]) == 2 ) case = "C4"
+    if (sum(par_ind[c('q0_1','q15_45')]) == 2) case = "C5" 
+    if (sum(par_ind[c('q0_1','q15_35')]) == 2) case = "C6" 
+    
+    if (sum(par_ind[ c('q15_45', 'e0')]) == 2 ) case = "C7"
+    if (sum(par_ind[ c('q15_35', 'e0')]) == 2 ) case = "C8"
 
-    if (all(my_case == c(F,T,T,T,F))) case = "C1"
-    if (all(my_case == c(F,T,F,T,T))) case = "C2" 
-    if (all(my_case == c(F,T,T,F,T))) case = "C3"
-
-    if (all(my_case == c(T,F,T,T,F))) case = "C4"   
-    if (all(my_case == c(T,F,F,T,T))) case = "C5"
-    if (all(my_case == c(T,F,T,F,T))) case = "C6" 
-
-    if (all(my_case == c(T,T,F,T,F))) case = "C7" 
-    if (all(my_case == c(T,T,T,F,F))) case = "C8" 
+    stopifnot(case != "Invalid parameter combo")
+    
     return(case)
 }

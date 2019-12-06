@@ -22,7 +22,7 @@ devtools::build_vignettes()
 
 # devtools::install_github("r-lib/pkgdown")
 pkgdown::build_site()
-
+  
 versionIncrement(
 		major = FALSE,       # only for releases
 		mid = FALSE,         # major functionality added

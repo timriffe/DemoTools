@@ -129,6 +129,7 @@
 #'     \item{k}{\code{k} fitting parameter of the LogQuag model, a vector of 968 values.}
 #'     \item{fitted.values}{Fitted death rates, a matrix 968x24.}
 #'     \item{model.info}{Model formula.}
+#'  }
 #' @source
 #'   Human Mortality Database [Portal]. Retrieved 2019-11-28, from 
 #'   \url{https://mortality.org}
@@ -147,6 +148,7 @@
 #'     \item{k}{\code{k} fitting parameter of the LogQuag model, a vector of 968 values.}
 #'     \item{fitted.values}{Fitted death rates, a matrix 968x24.}
 #'     \item{model.info}{Model formula.}
+#'     }
 #' @source
 #'   Human Mortality Database [Portal]. Retrieved 2019-11-28, from 
 #'   \url{https://mortality.org}
@@ -165,6 +167,7 @@
 #'     \item{k}{\code{k} fitting parameter of the LogQuag model, a vector of 968 values.}
 #'     \item{fitted.values}{Fitted death rates, a matrix 968x24.}
 #'     \item{model.info}{Model formula.}
+#'     }
 #' @source
 #'   Human Mortality Database [Portal]. Retrieved 2019-11-28, from 
 #'   \url{https://mortality.org}
