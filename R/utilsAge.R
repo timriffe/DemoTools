@@ -164,6 +164,7 @@ calcAgeAbr <- function(Age) {
 #' vec <- runif(20)
 #' inferAgeIntAbr(vec = vec)
 #' inferAgeIntAbr(vec = vec, OAG = TRUE)
+#' inferAgeIntAbr(Age = 0:100, OAG = TRUE)
 inferAgeIntAbr <- function(Age,
                            vec,
                            OAG = FALSE,

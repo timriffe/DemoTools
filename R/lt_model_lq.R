@@ -342,7 +342,7 @@ lthat.logquad <- function(coefs,
     h     <- log(q0_5)
     mx    <- with(as.list(coefs), exp(ax + bx*h + cx*h^2 + vx*k))
     # estimate ax
-    age_int <- c(diff(x), Inf)
+    age_int <- age2int(Age = x, OAG = TRUE, OAvalue = NA)
     ax    <- lt_id_morq_a(
                nMx = mx, 
                Age = x,
@@ -354,10 +354,10 @@ lthat.logquad <- function(coefs,
     qx <- lt_id_ma_q(nMx = mx, nax = ax, AgeInt = age_int, IMR = NA)
     # Force 4q1 (and thus 4m1) to be consistent with 1q0 and 5q0
     qx[2] <- 1 - (1 - q0_5)/(1 - qx[1])
-    mx[2] <- lt_id_qa_m(nqx = qx, nax = ax)[2]
+    mx[2] <- lt_id_qa_m(nqx = qx, nax = ax, AgeInt = age_int)[2]
     names(mx) = names(qx) <- rownames(coefs)
     
-    LT     <- lt_abridged(Age = x, nMx = mx, lx0 = radix)
+    LT     <- lt_abridged(Age = x, nMx = mx, lx0 = radix, lt_abridged = age_int)
     e0     <- LT$ex[1]
     q0_1   <- LT$nqx[1]
     q15_45 <- 1 - LT[LT$Age == 60, "lx"] / LT[LT$Age == 15, "lx"]
