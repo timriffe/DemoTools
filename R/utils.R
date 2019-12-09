@@ -237,54 +237,7 @@ ratx   <- function(fx, k = 1) {
   fx
 }
 
-#' Convert arbitrary age groupings into single years of age.
-#'
-#' @description Uniformly splits aggregate counts in age groups into single year age groups.
-#'
-#' @inheritParams graduate
-#' @param OAvalue Desired width of open age group. See details.
-#'
-#' @return Numeric vector of counts for single year age groups.
-#'
-#' @details Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If \code{AgeInt} is given, its final value is used as the interval for the final age group. If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, *or* give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}.
-#'
-#' @export
-#' @examples
-#' MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,
-#' 		11993151,10033918,14312222,8111523,15311047,6861510,13305117,7454575,
-#' 		9015381,10325432,9055588,5519173)
-#' Ages <- seq(0, 85, by = 5)
-#' graduate_uniform(MalePop, Age = Ages)
-graduate_uniform <-
-  function(Value,
-           AgeInt,
-           Age,
-           OAG = TRUE,
-           OAvalue = 1) {
-    
-    if (as.character(match.call()[[1]]) == "splitUniform") {
-      warning("please use graduate_uniform() instead of splitUniform().", call. = FALSE)
-    }
-    
-    if (missing(Age) & missing(AgeInt)) {
-      Age      <- names2age(Value)
-    }
-    if (missing(AgeInt)) {
-      # give 1 to final interval to preserve
-      AgeInt   <- age2int(Age, OAG = OAG, OAvalue = OAvalue)
-    }
-    if (missing(Age)) {
-      Age      <- cumsum(AgeInt) - AgeInt
-    }
-    # discount for single
-    out        <- rep(Value / AgeInt, times = AgeInt)
-    names(out) <- min(Age):(min(Age) + length(out) - 1)
-    out
-  }
 
-#' @export  
-#' @rdname graduate_uniform
-splitUniform <- graduate_uniform
 
 
 #' Wrapper to provide a single location to reference all model life tables.
