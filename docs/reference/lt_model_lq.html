@@ -80,7 +80,7 @@ combinations (see examples below)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.2</span>
       </span>
     </div>
 
@@ -327,14 +327,16 @@ integers. For example <code>45q15</code> is represented as <code>q45_15</code>.<
 <span class='no'>L4</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_model_lq</span>(<span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>q0_1</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>e0</span> <span class='kw'>=</span> <span class='fl'>65</span>)
 
 <span class='co'># case 5: Using 1q0 and 45q15</span>
-<span class='no'>L5</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_model_lq</span>(<span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>q0_1</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>q15_45</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in lt_model_lq(fitted_logquad = fitted_logquad, q0_1 = NULL, q15_35 = NULL,     e0 = NULL, q0_5 = q05root, q15_45 = q15_45, Sex = Sex, radix = radix,     tol = tol): object 'q05root' not found</span></div><div class='input'>
+<span class='no'>L5</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_model_lq</span>(<span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>q0_1</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>q15_45</span> <span class='kw'>=</span> <span class='fl'>0.2</span>)
+
 <span class='co'># case 6: Using 1q0 and 35q15</span>
-<span class='no'>L6</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_model_lq</span>(<span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>q0_1</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>q15_35</span> <span class='kw'>=</span> <span class='fl'>0.125</span>)</div><div class='output co'>#&gt; <span class='error'>Error in lt_model_lq(fitted_logquad = fitted_logquad, q0_1 = NULL, q15_45 = NULL,     e0 = NULL, q0_5 = q05root, q15_35 = q15_35, Sex = Sex, radix = radix,     tol = tol): object 'q05root' not found</span></div><div class='input'>
+<span class='no'>L6</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_model_lq</span>(<span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>q0_1</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>q15_35</span> <span class='kw'>=</span> <span class='fl'>0.125</span>)
+
 <span class='co'># case 7: Using 45q15 and e0</span>
-<span class='no'>L7</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_model_lq</span>(<span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>q15_45</span> <span class='kw'>=</span> <span class='fl'>0.125</span>, <span class='kw'>e0</span> <span class='kw'>=</span> <span class='fl'>65</span>)</div><div class='output co'>#&gt; <span class='error'>Error in lthat.logquad(coefs = cf, x = x, q0_5 = q0_5, k = k, q0_1 = NULL,     q15_45 = NULL, q15_35 = NULL, radix, Sex = Sex): unused arguments (q0_1 = NULL, q15_45 = NULL, q15_35 = NULL)</span></div><div class='input'>
+<span class='no'>L7</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_model_lq</span>(<span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>q15_45</span> <span class='kw'>=</span> <span class='fl'>0.125</span>, <span class='kw'>e0</span> <span class='kw'>=</span> <span class='fl'>65</span>)
+
 <span class='co'># case 8: Using 35q15 and e0</span>
-<span class='no'>L8</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_model_lq</span>(<span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>q15_35</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>e0</span> <span class='kw'>=</span> <span class='fl'>65</span>)</div><div class='output co'>#&gt; <span class='error'>Error in lthat.logquad(coefs = cf, x = x, q0_5 = q0_5, k = k, q0_1 = NULL,     q15_45 = NULL, q15_35 = NULL, radix, Sex = Sex): unused arguments (q0_1 = NULL, q15_45 = NULL, q15_35 = NULL)</span></div><div class='input'>
-</div></pre>
+<span class='no'>L8</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_model_lq</span>(<span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>q15_35</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>e0</span> <span class='kw'>=</span> <span class='fl'>65</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>

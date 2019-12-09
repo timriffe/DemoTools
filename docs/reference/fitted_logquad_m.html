@@ -43,7 +43,7 @@
 
 
 <meta property="og:title" content="LogQuad model for MALES fitted for all HMD life tables — fitted_logquad_m" />
-<meta property="og:description" content="LogQuad model fitted using wilmoth for all MALE period life tables present in Human Mortality Database (https://mortality.org) in December 2019 (968 life tables). Object of class wilmoth." />
+<meta property="og:description" content="LogQuad model fitted using MortalityEstimate::wilmoth for all MALE period life tables present in Human Mortality Database (https://mortality.org) in December 2019 (968 life tables). Object of class wilmoth." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.2</span>
       </span>
     </div>
 
@@ -156,7 +156,7 @@
     </div>
 
     <div class="ref-description">
-    <p>LogQuad model fitted using <code><a href='https://rdrr.io/pkg/MortalityEstimate/man/wilmoth.html'>wilmoth</a></code> for all MALE period life tables present in Human Mortality Database (<a href='https://mortality.org'>https://mortality.org</a>) in December 2019 (968 life tables). Object of class <code>wilmoth</code>.</p>
+    <p>LogQuad model fitted using <code><a href='https://rdrr.io/pkg/MortalityEstimate/man/wilmoth.html'>MortalityEstimate::wilmoth</a></code> for all MALE period life tables present in Human Mortality Database (<a href='https://mortality.org'>https://mortality.org</a>) in December 2019 (968 life tables). Object of class <code>wilmoth</code>.</p>
     </div>
 
     <pre class="usage"><span class='no'>fitted_logquad_m</span></pre>
@@ -165,7 +165,7 @@
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p>List of 6:</p><dl class='dl-horizontal'>
-    <dt>input</dt><dd><p>List of parameters passed to <code><a href='https://rdrr.io/pkg/MortalityEstimate/man/wilmoth.html'>wilmoth</a></code>.</p></dd>
+    <dt>input</dt><dd><p>List of parameters passed to <code><a href='https://rdrr.io/pkg/MortalityEstimate/man/wilmoth.html'>MortalityEstimate::wilmoth</a></code>.</p></dd>
     <dt>call</dt><dd><p>R code call line used for fitting.</p></dd>
     <dt>coefficients</dt><dd><p>Dataframe with 24 rows and 4 variables -- parameters <code>ax</code>, <code>bx</code>, <code>cx</code>, <code>vx</code> for each age group.</p></dd>
     <dt>k</dt><dd><p><code>k</code> fitting parameter of the LogQuag model, a vector of 968 values.</p></dd>
