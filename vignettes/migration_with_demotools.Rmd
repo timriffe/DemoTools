@@ -1,0 +1,40 @@
+---
+title: "Migration models with DemoTools"
+author: "José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{Migration with DemoTools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{amssymb}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6, 
+  fig.height = 6,
+  fig.align = "center"
+)
+
+```
+
+## How to use `DemoTools` to model migration
+
+### Why modeling migration
+introduction
+
+### The Rogers and Castro model
+Brief description of the model
+ 
+### An example in R
+Interpret results
+
+
+## References
