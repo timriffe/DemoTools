@@ -84,6 +84,14 @@ reference:
   - title: "Auxiliar population structure functions"
     contents:      
       - starts_with("pop")
+  - title: "Datasets"
+    contents:      
+      - '`calcAgeN`'
+      - '`dec.date`'
+      - '`dth5_zigzag`'
+      - '`fitted_logquad_b`'
+      - '`fitted_logquad_f`'
+      - '`fitted_logquad_m`'
   - title: "Internal"
     desc: Internal functions
     contents:
@@ -99,12 +107,6 @@ reference:
       - '`avg_adj`'
       - '`birthCohorts`'
       - '`calcAgeAbr`'
-      - '`calcAgeN`'
-      - '`dec.date`'
-      - '`dth5_zigzag`'
-      - '`fitted_logquad_b`'
-      - '`fitted_logquad_f`'
-      - '`fitted_logquad_m`'
       - '`getModelLifeTable`'
       - '`groupAges`'
       - '`groupOAG`' 
