@@ -34,4 +34,5 @@ also been a good choice, but we went with \code{NA}.
 vec <- runif(20)
 inferAgeIntAbr(vec = vec)
 inferAgeIntAbr(vec = vec, OAG = TRUE)
+inferAgeIntAbr(Age = 0:100, OAG = TRUE)
 }

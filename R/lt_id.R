@@ -6,7 +6,7 @@
 ###############################################################################
 
 
-#' Derive nMx from nqx and nax.
+#' @title Derive nMx from nqx and nax.
 #' @description This is the standard identity to derive nMx from nax and nqx.
 #'
 #' @param nqx numeric. Vector of age specific death probabilities.
@@ -76,7 +76,7 @@ lt_id_qm_a <- function(nqx, nMx, AgeInt) {
 
 #' @export
 #' @rdname lt_id_qm_a
-#'qxmx2ax <- lt_id_qm_a
+qxmx2ax <- lt_id_qm_a
 
 
 # #' Derive nqx from nMx and nax.

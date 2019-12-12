@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.5</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
       <a href="../articles/lifetable_with_demotools.html">Construct a lifetable</a>
     </li>
     <li>
-      <a href="../articles/lifetable_with_demotools.html">Model migration</a>
+      <a href="../articles/migration_with_demotools.html">Model migration</a>
     </li>
   </ul>
 </li>
@@ -460,6 +460,12 @@
       <tr>
         
         <td>
+          <p><code><a href="smooth_age_5.html">smooth_age_5()</a></code> <code><a href="smooth_age_5.html">agesmth()</a></code> </p>
+        </td>
+        <td><p>Smooth populations in 5-year age groups using various methods</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="smooth_age_5_arriaga.html">smooth_age_5_arriaga()</a></code> <code><a href="smooth_age_5_arriaga.html">arriaga_smth()</a></code> </p>
         </td>
         <td><p>E. Arriaga's method of population count smoothing</p></td>
@@ -469,6 +475,12 @@
           <p><code><a href="smooth_age_5_cf.html">smooth_age_5_cf()</a></code> <code><a href="smooth_age_5_cf.html">carrier_farrag_smth()</a></code> </p>
         </td>
         <td><p>The Carrier-Farrag method of population count smoothing</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="smooth_age_5_feeney.html">smooth_age_5_feeney()</a></code> <code><a href="smooth_age_5_feeney.html">T9R5L()</a></code> </p>
+        </td>
+        <td><p>Feeney'S formula on 9 years to correct for heaping on multiples of 5.</p></td>
       </tr><tr>
         
         <td>
@@ -502,6 +514,36 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="smooth_age_5_zigzag_inner.html">smooth_age_5_zigzag_inner()</a></code> </p>
+        </td>
+        <td><p>G. Feeney's method of removing the zigzag from counts in 5-year age groups.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="smooth_age_5_zigzag_min.html">smooth_age_5_zigzag_min()</a></code> </p>
+        </td>
+        <td><p>Objective function to minimize Feeney's zigzag method residual</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="smooth_age_5_zigzag_p.html">smooth_age_5_zigzag_p()</a></code> </p>
+        </td>
+        <td><p>Smooth population counts using Feeney's zigzag method and smoothing parameters.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="agesmth1.html">agesmth1()</a></code> </p>
+        </td>
+        <td><p>Generic smoother over age or time</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="loess_smth1.html">loess_smth1()</a></code> </p>
+        </td>
+        <td><p>Wrapper to LOESS using demographic data.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="poly_smth1.html">poly_smth1()</a></code> </p>
         </td>
         <td><p>Fit a polynomial to demographic data</p></td>
@@ -517,12 +559,6 @@
           <p><code><a href="zelnik.html">zelnik()</a></code> </p>
         </td>
         <td><p>Zelnik 11-term moving average to adjust for digit preference.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="loess_smth1.html">loess_smth1()</a></code> </p>
-        </td>
-        <td><p>Wrapper to LOESS using demographic data.</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -532,18 +568,6 @@
         </th>
       </tr>
       <tr>
-        
-        <td>
-          <p><code><a href="lt_id_ma_q.html">lt_id_ma_q()</a></code> <code><a href="lt_id_ma_q.html">lt_id_m_q()</a></code> <code><a href="lt_id_ma_q.html">mxax2qx()</a></code> <code><a href="lt_id_ma_q.html">mx2qx()</a></code> <code><a href="lt_id_ma_q.html">mxax2qx_Backstop()</a></code> </p>
-        </td>
-        <td><p>Calculate conditional death probabilities from nMx and nax</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="lt_id_morq_a.html">lt_id_morq_a()</a></code> <code><a href="lt_id_morq_a.html">mxorqx2ax()</a></code> </p>
-        </td>
-        <td><p>wrapper to invoke PAS or UN ax methods given qx or mx</p></td>
-      </tr><tr>
         
         <td>
           <p><code><a href="lt_a_closeout.html">lt_a_closeout()</a></code> <code><a href="lt_a_closeout.html">aomegaMortalityLaws()</a></code> </p>
@@ -591,6 +615,18 @@
           <p><code><a href="lt_id_lda_L.html">lt_id_lda_L()</a></code> <code><a href="lt_id_lda_L.html">lxdxax2Lx()</a></code> </p>
         </td>
         <td><p>Derive lifetable exposure from lx, ndx and nax.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lt_id_ma_q.html">lt_id_ma_q()</a></code> <code><a href="lt_id_ma_q.html">lt_id_m_q()</a></code> <code><a href="lt_id_ma_q.html">mxax2qx()</a></code> <code><a href="lt_id_ma_q.html">mx2qx()</a></code> <code><a href="lt_id_ma_q.html">mxax2qx_Backstop()</a></code> </p>
+        </td>
+        <td><p>Calculate conditional death probabilities from nMx and nax</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="lt_id_morq_a.html">lt_id_morq_a()</a></code> <code><a href="lt_id_morq_a.html">mxorqx2ax()</a></code> </p>
+        </td>
+        <td><p>wrapper to invoke PAS or UN ax methods given qx or mx</p></td>
       </tr><tr>
         
         <td>
@@ -781,6 +817,50 @@ Derive nax from nqx and nMx.</p></td>
     </tbody><tbody>
       <tr>
         <th colspan="2">
+          <h2 id="section-datasets" class="hasAnchor"><a href="#section-datasets" class="anchor"></a>Datasets</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="calcAgeN.html">calcAgeN()</a></code> </p>
+        </td>
+        <td><p>Calculate which large age group single ages belong to.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dec.date.html">dec.date()</a></code> </p>
+        </td>
+        <td><p>Convert date to decimal year fraction.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="dth5_zigzag.html">dth5_zigzag</a></code> </p>
+        </td>
+        <td><p>Deaths by 5 year age groups</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="fitted_logquad_b.html">fitted_logquad_b</a></code> </p>
+        </td>
+        <td><p>LogQuad model for BOTH SEX fitted for all HMD life tables</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="fitted_logquad_f.html">fitted_logquad_f</a></code> </p>
+        </td>
+        <td><p>LogQuad model for FEMALES fitted for all HMD life tables</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="fitted_logquad_m.html">fitted_logquad_m</a></code> </p>
+        </td>
+        <td><p>LogQuad model for MALES fitted for all HMD life tables</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
           <h2 id="section-internal" class="hasAnchor"><a href="#section-internal" class="anchor"></a>Internal</h2>
           <p class="section-desc"><p>Internal functions</p></p>
         </th>
@@ -857,24 +937,6 @@ Derive nax from nqx and nMx.</p></td>
           <p><code><a href="calcAgeAbr.html">calcAgeAbr()</a></code> </p>
         </td>
         <td><p>Calculate which abridged age group single ages belong to.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="calcAgeN.html">calcAgeN()</a></code> </p>
-        </td>
-        <td><p>Calculate which large age group single ages belong to.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dec.date.html">dec.date()</a></code> </p>
-        </td>
-        <td><p>Convert date to decimal year fraction.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dth5_zigzag.html">dth5_zigzag</a></code> </p>
-        </td>
-        <td><p>Deaths by 5 year age groups</p></td>
       </tr><tr>
         
         <td>
@@ -1053,6 +1115,7 @@ Derive nax from nqx and nMx.</p></td>
       <li><a href="#section-auxiliar-lifetable-functions">Auxiliar lifetable functions</a></li>
       <li><a href="#section-auxiliar-checking-functions">Auxiliar checking functions</a></li>
       <li><a href="#section-auxiliar-population-structure-functions">Auxiliar population structure functions</a></li>
+      <li><a href="#section-datasets">Datasets</a></li>
       <li><a href="#section-internal">Internal</a></li>
     </ul>
   </div>

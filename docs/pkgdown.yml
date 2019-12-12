@@ -6,6 +6,7 @@ articles:
   case_study_1: case_study_1.html
   graduation_with_demotools: graduation_with_demotools.html
   lifetable_with_demotools: lifetable_with_demotools.html
+  migration_with_demotools: migration_with_demotools.html
   smoothing_with_demotools: smoothing_with_demotools.html
 urls:
   reference: https://timriffe.github.io/DemoTools//reference

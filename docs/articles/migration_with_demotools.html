@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DemoTools: A case study • DemoTools</title>
+<title>Migration models with DemoTools • DemoTools</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="DemoTools: A case study">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Migration models with DemoTools">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png">
 <meta name="twitter:card" content="summary">
@@ -111,25 +111,40 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>DemoTools: A case study</h1>
-                        <h4 class="author">Jose Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
+      <h1>Migration models with DemoTools</h1>
+                        <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
             <h4 class="date">2019-12-12</h4>
       
       
-      <div class="hidden name"><code>case_study_1.Rmd</code></div>
+      <div class="hidden name"><code>migration_with_demotools.Rmd</code></div>
 
     </div>
 
     
     
-<div id="intro" class="section level2">
+<div id="how-to-use-demotools-to-model-migration" class="section level2">
 <h2 class="hasAnchor">
-<a href="#intro" class="anchor"></a>Intro</h2>
-<p>Here the idea is use API to read in death count and pop count data, evaluate them, adjust them, get to single ages, and make a single age lifetable. Or Abrdiged lifetable. Or both and compare. Show different closeout options too.</p>
+<a href="#how-to-use-demotools-to-model-migration" class="anchor"></a>How to use <code>DemoTools</code> to model migration</h2>
+<div id="why-modeling-migration" class="section level3">
+<h3 class="hasAnchor">
+<a href="#why-modeling-migration" class="anchor"></a>Why modeling migration</h3>
+<p>introduction</p>
 </div>
-<div id="section" class="section level2">
-<h2></h2>
+<div id="the-rogers-and-castro-model" class="section level3">
+<h3 class="hasAnchor">
+<a href="#the-rogers-and-castro-model" class="anchor"></a>The Rogers and Castro model</h3>
+<p>Brief description of the model</p>
+</div>
+<div id="an-example-in-r" class="section level3">
+<h3 class="hasAnchor">
+<a href="#an-example-in-r" class="anchor"></a>An example in R</h3>
+<p>Interpret results</p>
+</div>
+</div>
+<div id="references" class="section level2">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
 </div>
   </div>
 
@@ -139,8 +154,8 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#intro">Intro</a></li>
-      <li><a href="#section"></a></li>
+<li><a href="#how-to-use-demotools-to-model-migration">How to use <code>DemoTools</code> to model migration</a></li>
+      <li><a href="#references">References</a></li>
       </ul>
 </div>
       </div>
