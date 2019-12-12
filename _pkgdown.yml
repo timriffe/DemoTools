@@ -47,12 +47,12 @@ reference:
   - title: "Smoothing"
     desc: Functions to smooth demographic counts. Methods include Carrier-Farrag, KKN, Arriaga, United Nations, Strong, spencer, Zigzag, Zelnik, MAV.
     contents:
-      - '`agesmth`'
+      - '`smooth_age_5`'
       - '`agesmth1`'
   - title: "Lifetable"
     desc: Functions to construct a lifetable
     contents:
-      -  '`LTabr`'
+      -  '`lt_abridged`'
   - title: "Interpolation"
     desc: Functions to interpolate counts
     contents:
@@ -68,25 +68,15 @@ reference:
   - title: "Internal graduation"
     contents:
       - starts_with("graduate_")
-      - '`beers`'
-      - '`splitMono`'
       - '`splitOscillate`'
-      - '`splitUniform`'
-      - '`sprague`'
   - title: "Internal smoothing"
     contents:
-      - ends_with("_smth")
-      - '`poly_smth1`'
+      - starts_with("smooth_")
+      - ends_with("smth1")
       - '`spencer`'
       - '`zelnik`'
-      - '`zigzag`'
-      - '`zigzag_min`'
-      - '`zigzag_p`'
-      - '`kkn_smth`' 
-      - '`loess_smth1`'
   - title: "Auxiliar lifetable functions"
     contents:      
-      - starts_with("mx")
       - starts_with("lt_")
   - title: "Auxiliar checking functions"
     contents:      
@@ -112,6 +102,9 @@ reference:
       - '`calcAgeN`'
       - '`dec.date`'
       - '`dth5_zigzag`'
+      - '`fitted_logquad_b`'
+      - '`fitted_logquad_f`'
+      - '`fitted_logquad_m`'
       - '`getModelLifeTable`'
       - '`groupAges`'
       - '`groupOAG`' 
@@ -120,7 +113,6 @@ reference:
       - '`int2age`' 
       - '`int2ageN`'
       - '`interpolatePop`'
-      - '`johnsonAdjust`'
       - '`KannistoHeap`'
       - '`M04_2_D0`'
       - '`M04_2_M0`'
@@ -131,7 +123,6 @@ reference:
       - '`names2age`'
       - '`ratx`'
       - '`RDM`'
-      - '`rescale.vector`'
       - '`rlog`'
       - '`shift.vector`'
       - '`simplify.text`'
@@ -157,7 +148,7 @@ navbar:
       - text: Construct a lifetable
         href: articles/lifetable_with_demotools.html
       - text: Model migration
-        href: articles/lifetable_with_demotools.html
+        href: articles/migration_with_demotools.html
     - text: "Case study"
       href: articles/case_study_1.html        
     - text: "Functions"
