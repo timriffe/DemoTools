@@ -76,7 +76,7 @@ lt_id_qm_a <- function(nqx, nMx, AgeInt) {
 
 #' @export
 #' @rdname lt_id_qm_a
-qxmx2ax <- lt_id_qm_a
+#'qxmx2ax <- lt_id_qm_a
 
 
 # #' Derive nqx from nMx and nax.
