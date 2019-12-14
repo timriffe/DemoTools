@@ -32,52 +32,7 @@ mig_estimate_rc <- function(ages,
   )
   
   # stan model
-  rc_model <- "
-data {
-  int<lower=0> N;
-  vector[N] x;
-  vector[N] y;
-}
-parameters {
-real<lower=0> alpha1;
-real<lower=0> alpha2;
-real<lower=0> alpha3;
-real<lower=0, upper=1> a1;
-real<lower=0, upper=1> a2;
-real<lower=0, upper=1> a3;
-real<lower=0, upper=1> c;
-real<lower=0> mu2;
-real<lower=mu2+1, upper=max(x)> mu3;
-real<lower=0> lambda2;
-real<lower=0> lambda3;
-real<lower=0> sigma;
-}
-
-transformed parameters {
-vector[N] mu_rc;
-
-mu_rc = a1*exp(-alpha1*x) + a2*exp(-alpha2*(x - mu2) - exp(-lambda2*(x - mu2))) + a3*exp(-alpha3*(x - mu3) - exp(-lambda3*(x - mu3))) + c;
-}
-
-model {
-// likelihood
-y ~ normal(mu_rc, sigma);
-
-//priors
-alpha1 ~ normal(0,1);
-alpha2 ~ normal(0,1);
-alpha3 ~ normal(0,1);
-a1 ~ normal(0,1);
-a2 ~ normal(0,1);
-a3 ~ normal(0,1);
-c ~ normal(0,1);
-mu2 ~ normal(25,1);
-mu3 ~ normal(65,1);
-lambda2 ~ normal(0,1);
-lambda3 ~ normal(0,1);
-sigma ~ normal(0,1);
-}
-"
+  rc_model <- .return_rc_stan_model(num_pars = num_pars)
   
 # fit the model
   rc_fit <- rstan::stan(
@@ -96,22 +51,14 @@ sigma ~ normal(0,1);
   
   # create a matrix to store fitted values
   y_hat <- matrix(nrow = length(list_of_draws[[1]]), ncol = length(x))
+  these_pars <- list()
+  parnames <- names(list_of_draws)[grep("alpha|a[0-9]|mu[0-9]|lambda|^c$",names(list_of_draws))]
   for(j in 1:length(list_of_draws[[1]])){
-      these_pars <- list(a1 = list_of_draws[["a1"]][j],
-                         alpha1 = list_of_draws[["alpha1"]][j],
-                         a2 = list_of_draws[["a2"]][j],
-                         alpha2 = list_of_draws[["alpha2"]][j],
-                         a3 = list_of_draws[["a3"]][j],
-                         alpha3 = list_of_draws[["alpha3"]][j],
-                         mu2 = list_of_draws[["mu2"]][j],
-                         mu3 = list_of_draws[["mu3"]][j],
-                         lambda2 = list_of_draws[["lambda2"]][j],
-                         lambda3 = list_of_draws[["lambda3"]][j],
-                         c = list_of_draws[["c"]][j]
-      )
-      y_hat[j,] <- mig_calculate_rc(ages = ages, pars = these_pars)
+    for(i in 1:length(parnames)){
+      these_pars[[names(list_of_draws)[i]]] <- list_of_draws[[names(list_of_draws)[i]]][j]
+    }
+    y_hat[j,] <- mig_calculate_rc(ages = ages, pars = these_pars)
   }
-  
   
   dfit <- tibble::tibble(age = x, 
                  data = y, median = apply(y_hat, 2, median),
@@ -121,10 +68,12 @@ sigma ~ normal(0,1);
   
   
   
-  pars_df <- rc_fit %>% tidybayes::spread_draws(a1, a2, a3,
-                                             alpha1, alpha2, alpha3,
-                                             mu2, mu3, lambda2, lambda3,
-                                             c, sigma) %>%
+  pars_df <- rc_fit %>% tidybayes::spread_draws(`a[0-9]`,
+                                                `alpha[0-9]`,
+                                                `mu[0-9]`,
+                                                `lambda[0-9]`,
+                                                `^c$`,
+                                                regex = TRUE) %>%
     gather(variable, value, -.chain, -.iteration, -.draw) %>%
     group_by(variable) %>%
     summarise(median = median(value),
