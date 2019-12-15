@@ -9,17 +9,20 @@
 
 #' @param ages numeric. A vector of ages. 
 #' @param mx numeric. A vector of observed age-specific migration rates. 
+#' @param num_pars integer. Number of parameters to be estimated in the model. 
 #' @export
 
 mig_estimate_rc <- function(ages, 
                             mx, 
-                            num_pars = 11,
+                            num_pars,
                             chains = 4,
                             warmup= 1000,
                             iter = 3000,
                             cores = 2,
                             adapt_delta = 0.8, 
                             max_treedepth = 10){
+  
+  stopifnot(num_pars %in% c(7, 9, 11, 13))
   
   # data for model input
   y <- mx
@@ -65,8 +68,6 @@ mig_estimate_rc <- function(ages,
                  lower = apply(y_hat, 2, quantile,0.025),
                  upper = apply(y_hat, 2, quantile, 0.975),
                  diff_sq = (median - data)^2)
-  
-  
   
   pars_df <- rc_fit %>% tidybayes::spread_draws(`a[0-9]`,
                                                 `alpha[0-9]`,
