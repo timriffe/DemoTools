@@ -85,7 +85,7 @@
     c ~ normal(0,1);
     mu2 ~ normal(25,1);
     lambda2 ~ normal(0,1);
-    lambda4 ~ normal(0,1);
+    lambda4 ~ normal(0,0.1);
     sigma ~ normal(0,1);
     }
     "
@@ -185,7 +185,7 @@ data {
     mu3 ~ normal(65,1);
     lambda2 ~ normal(0,1);
     lambda3 ~ normal(0,1);
-    lambda4 ~ normal(0,1);
+    lambda4 ~ normal(0,0.1);
     sigma ~ normal(0,1);
     }
     "

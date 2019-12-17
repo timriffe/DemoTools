@@ -15,12 +15,7 @@
 mig_estimate_rc <- function(ages, 
                             mx, 
                             num_pars,
-                            chains = 4,
-                            warmup= 1000,
-                            iter = 3000,
-                            cores = 2,
-                            adapt_delta = 0.8, 
-                            max_treedepth = 10){
+                            ...){
   
   stopifnot(num_pars %in% c(7, 9, 11, 13))
   
@@ -37,16 +32,35 @@ mig_estimate_rc <- function(ages,
   # stan model
   rc_model <- .return_rc_stan_model(num_pars = num_pars)
   
-# fit the model
+  # initial values
+  # init_fn <- function(num_pars){
+  # 
+  #   # parameter groups
+  #   comp1 <- list(a1 = 0.01, alpha1 = 0.1, c = 0.01)
+  #   comp2 <- list(a2 = 0.01, alpha2 = 0.1, lambda2 = 0.1, mu2 = 25)
+  #   comp3 <- list(a3 = 0.01, alpha3 = 0.1, lambda3 = 0.1, mu3 = 60)
+  #   comp4 <- list(a4 = 0.01, lambda4 = 0.01)
+  # 
+  #   if(num_pars==7){
+  #     this_init <- function(){c(comp1, comp2)}
+  #   }
+  #   if(num_pars==9){
+  #     this_init <- function(){c(comp1, comp2, comp4)}
+  #   }
+  #   if(num_pars==11){
+  #     this_init <- function(){c(comp1, comp2, comp2)}
+  #   }
+  #   if(num_pars==13){
+  #     this_init <- function(){c(comp1, comp2, comp3, comp4)}
+  #   }
+  #   return(this_init)
+  # }
+  
+  # fit the model
   rc_fit <- rstan::stan(
     model_code = rc_model,
     data = mig_data,    # named list of data
-    chains = chains,             # number of Markov chains
-    warmup = warmup,          # number of warmup iterations per chain
-    iter = iter,            # total number of iterations per chain
-    cores = cores,              # number of cores 
-    control = list(adapt_delta = adapt_delta, max_treedepth = max_treedepth),
-    refresh = 2000          # show progress every 'refresh' iteration
+    ...
   )
   
   # extract the posterior samples
