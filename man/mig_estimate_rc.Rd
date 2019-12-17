@@ -4,13 +4,16 @@
 \alias{mig_estimate_rc}
 \title{Estimate Rogers-Castro migration age schedule}
 \usage{
-mig_estimate_rc(ages, mx, num_pars = 11, chains = 4, warmup = 1000,
-  iter = 3000, cores = 2, adapt_delta = 0.8, max_treedepth = 10)
+mig_estimate_rc(ages, mx, num_pars, ...)
 }
 \arguments{
 \item{ages}{numeric. A vector of ages.}
 
 \item{mx}{numeric. A vector of observed age-specific migration rates.}
+
+\item{num_pars}{integer. Number of parameters to be estimated in the model.}
+
+\item{...}{additional inputs to stan, see ?rstan::stan for details.}
 }
 \description{
 Given a set of ages and observed age-specific migration rates, estimate the parameters of a Rogers-Castro model migration schedule. 

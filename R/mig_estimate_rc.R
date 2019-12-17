@@ -10,6 +10,7 @@
 #' @param ages numeric. A vector of ages. 
 #' @param mx numeric. A vector of observed age-specific migration rates. 
 #' @param num_pars integer. Number of parameters to be estimated in the model. 
+#' @param ... additional inputs to stan, see ?rstan::stan for details. 
 #' @export
 
 mig_estimate_rc <- function(ages, 
@@ -31,30 +32,6 @@ mig_estimate_rc <- function(ages,
   
   # stan model
   rc_model <- .return_rc_stan_model(num_pars = num_pars)
-  
-  # initial values
-  # init_fn <- function(num_pars){
-  # 
-  #   # parameter groups
-  #   comp1 <- list(a1 = 0.01, alpha1 = 0.1, c = 0.01)
-  #   comp2 <- list(a2 = 0.01, alpha2 = 0.1, lambda2 = 0.1, mu2 = 25)
-  #   comp3 <- list(a3 = 0.01, alpha3 = 0.1, lambda3 = 0.1, mu3 = 60)
-  #   comp4 <- list(a4 = 0.01, lambda4 = 0.01)
-  # 
-  #   if(num_pars==7){
-  #     this_init <- function(){c(comp1, comp2)}
-  #   }
-  #   if(num_pars==9){
-  #     this_init <- function(){c(comp1, comp2, comp4)}
-  #   }
-  #   if(num_pars==11){
-  #     this_init <- function(){c(comp1, comp2, comp2)}
-  #   }
-  #   if(num_pars==13){
-  #     this_init <- function(){c(comp1, comp2, comp3, comp4)}
-  #   }
-  #   return(this_init)
-  # }
   
   # fit the model
   rc_fit <- rstan::stan(
