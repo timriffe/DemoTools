@@ -37,6 +37,7 @@ Imports:
     MortalityLaws (>= 1.7.0),
     Rdpack,
     magrittr,
+    tibble,
     rstan,
     tidybayes
 Remotes: mpascariu/MortalityEstimate
