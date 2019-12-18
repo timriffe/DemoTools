@@ -11,7 +11,10 @@
 #' @param mx numeric. A vector of observed age-specific migration rates. 
 #' @param num_pars integer. Number of parameters to be estimated in the model. 
 #' @param ... additional inputs to stan, see ?rstan::stan for details. 
+#' @import Rcpp
+#' @importFrom stats quantile
 #' @export
+
 
 mig_estimate_rc <- function(ages, 
                             mx, 
