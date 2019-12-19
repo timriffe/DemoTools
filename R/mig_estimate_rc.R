@@ -13,6 +13,7 @@
 #' @param ... additional inputs to stan, see ?rstan::stan for details. 
 #' @import Rcpp
 #' @importFrom stats quantile
+#' 
 #' @export
 
 
@@ -47,9 +48,9 @@ mig_estimate_rc <- function(ages,
   list_of_draws <- rstan::extract(rc_fit)
   
   # create a matrix to store fitted values
-  y_hat <- matrix(nrow = length(list_of_draws[[1]]), ncol = length(x))
+  y_hat      <- matrix(nrow = length(list_of_draws[[1]]), ncol = length(x))
   these_pars <- list()
-  parnames <- names(list_of_draws)[grep("alpha|a[0-9]|mu[0-9]|lambda|^c$",names(list_of_draws))]
+  parnames   <- names(list_of_draws)[grep("alpha|a[0-9]|mu[0-9]|lambda|^c$",names(list_of_draws))]
   for(j in 1:length(list_of_draws[[1]])){
     for(i in 1:length(parnames)){
       these_pars[[names(list_of_draws)[i]]] <- list_of_draws[[names(list_of_draws)[i]]][j]
@@ -63,11 +64,13 @@ mig_estimate_rc <- function(ages,
                  upper = apply(y_hat, 2, quantile, 0.975),
                  diff_sq = (median - data)^2)
   
-  pars_df <- rc_fit %>% tidybayes::spread_draws(`a[0-9]`,
-                                                `alpha[0-9]`,
-                                                `mu[0-9]`,
-                                                `lambda[0-9]`,
-                                                `^c$`,
+  # TR: can these ` be changed to " without loss?
+  # TR: 
+  pars_df <- rc_fit %>% tidybayes::spread_draws("a[0-9]",
+                                                "alpha[0-9]",
+                                                "mu[0-9]",
+                                                "lambda[0-9]",
+                                                "^c$",
                                                 regex = TRUE) %>%
     gather(variable, value, -.chain, -.iteration, -.draw) %>%
     group_by(variable) %>%
