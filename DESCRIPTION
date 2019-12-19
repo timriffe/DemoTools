@@ -21,7 +21,8 @@ LazyLoad: yes
 LazyData: true
 RoxygenNote: 6.1.1
 Depends:
-    R (>= 2.10)
+    R (>= 2.10),
+    Rcpp
 Suggests:
     covr,
     testthat,
@@ -35,7 +36,10 @@ Imports:
     ungroup,
     MortalityLaws (>= 1.7.0),
     Rdpack,
-    magrittr
+    magrittr,
+    tibble,
+    rstan,
+    tidybayes
 Remotes: mpascariu/MortalityEstimate
 BugReports: https://github.com/timriffe/DemoTools/issues
 Encoding: UTF-8
