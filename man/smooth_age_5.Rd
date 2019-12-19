@@ -5,15 +5,31 @@
 \alias{agesmth}
 \title{Smooth populations in 5-year age groups using various methods}
 \usage{
-smooth_age_5(Value, Age, method = c("Carrier-Farrag", "KKN", "Arriaga",
-  "United Nations", "Strong", "Zigzag", "MAV")[1], OAG = TRUE,
-  ageMin = 10, ageMax = 65, n = 3, young.tail = c("Original",
-  "Arriaga", "Strong", NA)[1], old.tail = young.tail)
+smooth_age_5(
+  Value,
+  Age,
+  method = c("Carrier-Farrag", "KKN", "Arriaga", "United Nations", "Strong", "Zigzag",
+    "MAV")[1],
+  OAG = TRUE,
+  ageMin = 10,
+  ageMax = 65,
+  n = 3,
+  young.tail = c("Original", "Arriaga", "Strong", NA)[1],
+  old.tail = young.tail
+)
 
-agesmth(Value, Age, method = c("Carrier-Farrag", "KKN", "Arriaga",
-  "United Nations", "Strong", "Zigzag", "MAV")[1], OAG = TRUE,
-  ageMin = 10, ageMax = 65, n = 3, young.tail = c("Original",
-  "Arriaga", "Strong", NA)[1], old.tail = young.tail)
+agesmth(
+  Value,
+  Age,
+  method = c("Carrier-Farrag", "KKN", "Arriaga", "United Nations", "Strong", "Zigzag",
+    "MAV")[1],
+  OAG = TRUE,
+  ageMin = 10,
+  ageMax = 65,
+  n = 3,
+  young.tail = c("Original", "Arriaga", "Strong", NA)[1],
+  old.tail = young.tail
+)
 }
 \arguments{
 \item{Value}{numeric vector of counts in single, abridged, or 5-year age groups.}

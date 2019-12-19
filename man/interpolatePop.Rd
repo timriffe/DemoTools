@@ -4,8 +4,15 @@
 \alias{interpolatePop}
 \title{Interpolate between two population age distributions.}
 \usage{
-interpolatePop(Pop1, Pop2, Date1, Date2, DesiredDate, method = "linear",
-  roundoutput = FALSE)
+interpolatePop(
+  Pop1,
+  Pop2,
+  Date1,
+  Date2,
+  DesiredDate,
+  method = "linear",
+  roundoutput = FALSE
+)
 }
 \arguments{
 \item{Pop1}{numeric. A vector of demographic counts by age at time 1 (earlier date).}

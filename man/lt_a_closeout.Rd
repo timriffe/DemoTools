@@ -5,15 +5,25 @@
 \alias{aomegaMortalityLaws}
 \title{Life expectancy in the open age group.}
 \usage{
-lt_a_closeout(mx, Age, law = c("kannisto", "kannisto_makeham",
-  "gompertz", "ggompertz", "makeham", "beard", "beard_makeham",
-  "quadratic")[1], extrapFrom = max(Age), extrapFit = Age[Age >= 40],
-  ...)
+lt_a_closeout(
+  mx,
+  Age,
+  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
+    "beard_makeham", "quadratic")[1],
+  extrapFrom = max(Age),
+  extrapFit = Age[Age >= 40],
+  ...
+)
 
-aomegaMortalityLaws(mx, Age, law = c("kannisto", "kannisto_makeham",
-  "gompertz", "ggompertz", "makeham", "beard", "beard_makeham",
-  "quadratic")[1], extrapFrom = max(Age), extrapFit = Age[Age >= 40],
-  ...)
+aomegaMortalityLaws(
+  mx,
+  Age,
+  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
+    "beard_makeham", "quadratic")[1],
+  extrapFrom = max(Age),
+  extrapFit = Age[Age >= 40],
+  ...
+)
 }
 \arguments{
 \item{mx}{Vector or matrix of age specific death-rates.}

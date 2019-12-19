@@ -4,8 +4,16 @@
 \alias{ageSexAccuracy}
 \title{Calculate an age-sex accuracy index}
 \usage{
-ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
-  method = "UN", adjust = TRUE, OAG = TRUE)
+ageSexAccuracy(
+  Males,
+  Females,
+  Age,
+  ageMin = 0,
+  ageMax = max(Age),
+  method = "UN",
+  adjust = TRUE,
+  OAG = TRUE
+)
 }
 \arguments{
 \item{Males}{numeric.  A vector of demographic counts in 5-year age groups for males.}

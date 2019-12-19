@@ -4,8 +4,13 @@
 \alias{smooth_age_5_zigzag_p}
 \title{Smooth population counts using Feeney's zigzag method and smoothing parameters.}
 \usage{
-smooth_age_5_zigzag_p(Value, Age, ageMin = 40, ageMax = 80,
-  p = rep(0.05, floor((ageMax - ageMin)/10)))
+smooth_age_5_zigzag_p(
+  Value,
+  Age,
+  ageMin = 40,
+  ageMax = 80,
+  p = rep(0.05, floor((ageMax - ageMin)/10))
+)
 }
 \arguments{
 \item{Value}{numeric vector of (presumably) counts in 5-year age groups.}

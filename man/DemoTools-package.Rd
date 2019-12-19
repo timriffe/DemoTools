@@ -16,21 +16,21 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Tim Riffe \email{tim.riffe@gmail.com} (0000-0002-2673-4622)
+\strong{Maintainer}: Tim Riffe \email{tim.riffe@gmail.com} (\href{https://orcid.org/0000-0002-2673-4622}{ORCID})
 
 Authors:
 \itemize{
-  \item José Manuel Aburto (0000-0002-2926-6879)
-  \item Ilya Kashnitsky (0000-0003-1835-8687)
-  \item Marius D. Pascariu (0000-0002-2568-6489)
-  \item Monica Alexander (0000-0002-8135-3435)
+  \item José Manuel Aburto (\href{https://orcid.org/0000-0002-2926-6879}{ORCID})
+  \item Ilya Kashnitsky (\href{https://orcid.org/0000-0003-1835-8687}{ORCID})
+  \item Marius D. Pascariu (\href{https://orcid.org/0000-0002-2568-6489}{ORCID})
+  \item Monica Alexander (\href{https://orcid.org/0000-0002-8135-3435}{ORCID})
   \item Sean Fennell
 }
 
 Other contributors:
 \itemize{
-  \item Jorge Cimentada (0000-0001-5594-1156) [contributor]
-  \item Juan Galeano (0000-0002-3682-1797) [contributor]
+  \item Jorge Cimentada (\href{https://orcid.org/0000-0001-5594-1156}{ORCID}) [contributor]
+  \item Juan Galeano (\href{https://orcid.org/0000-0002-3682-1797}{ORCID}) [contributor]
   \item Derek Burk [contributor]
   \item Greg Freedman Ellis [contributor]
 }

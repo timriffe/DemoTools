@@ -4,8 +4,15 @@
 \alias{splitOscillate}
 \title{An oscillatory average of age splits.}
 \usage{
-splitOscillate(Value, Age = 1:length(Value) - 1, OAG = TRUE,
-  splitfun = graduate_sprague, closeout = "mono", pivotAge = 90, ...)
+splitOscillate(
+  Value,
+  Age = 1:length(Value) - 1,
+  OAG = TRUE,
+  splitfun = graduate_sprague,
+  closeout = "mono",
+  pivotAge = 90,
+  ...
+)
 }
 \arguments{
 \item{Value}{numeric. Vector of single age counts.}

@@ -4,8 +4,7 @@
 \alias{five_year_roughness}
 \title{Evaluate roughness of data in 5-year age groups}
 \usage{
-five_year_roughness(Value, Age, ageMin = 20, ageMax = max(Age[Age\%\%5
-  == 0]))
+five_year_roughness(Value, Age, ageMin = 20, ageMax = max(Age[Age\%\%5 == 0]))
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}

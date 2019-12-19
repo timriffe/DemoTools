@@ -5,11 +5,25 @@
 \alias{monoCloseout}
 \title{blend the Sprague upper boundary age estimates into monotonic spline estimates}
 \usage{
-graduate_mono_closeout(Value, Age, pops, pivotAge = 90,
-  splitfun = graduate_sprague, OAG = TRUE, ...)
+graduate_mono_closeout(
+  Value,
+  Age,
+  pops,
+  pivotAge = 90,
+  splitfun = graduate_sprague,
+  OAG = TRUE,
+  ...
+)
 
-monoCloseout(Value, Age, pops, pivotAge = 90,
-  splitfun = graduate_sprague, OAG = TRUE, ...)
+monoCloseout(
+  Value,
+  Age,
+  pops,
+  pivotAge = 90,
+  splitfun = graduate_sprague,
+  OAG = TRUE,
+  ...
+)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}

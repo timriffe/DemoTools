@@ -5,17 +5,41 @@
 \alias{mxorqx2ax}
 \title{wrapper to invoke PAS or UN ax methods given qx or mx}
 \usage{
-lt_id_morq_a(nMx, nqx, axmethod = c("pas", "un")[1], Age, AgeInt,
-  IMR = NA, Sex, region, OAG = TRUE, mod = TRUE,
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz",
-  "GGompertz", "Beard", "Beard_Makeham", "Quadratic")[1],
-  extrapFrom = max(Age), extrapFit = Age[Age >= 60], ...)
+lt_id_morq_a(
+  nMx,
+  nqx,
+  axmethod = c("pas", "un")[1],
+  Age,
+  AgeInt,
+  IMR = NA,
+  Sex,
+  region,
+  OAG = TRUE,
+  mod = TRUE,
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
+    "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapFrom = max(Age),
+  extrapFit = Age[Age >= 60],
+  ...
+)
 
-mxorqx2ax(nMx, nqx, axmethod = c("pas", "un")[1], Age, AgeInt,
-  IMR = NA, Sex, region, OAG = TRUE, mod = TRUE,
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz",
-  "GGompertz", "Beard", "Beard_Makeham", "Quadratic")[1],
-  extrapFrom = max(Age), extrapFit = Age[Age >= 60], ...)
+mxorqx2ax(
+  nMx,
+  nqx,
+  axmethod = c("pas", "un")[1],
+  Age,
+  AgeInt,
+  IMR = NA,
+  Sex,
+  region,
+  OAG = TRUE,
+  mod = TRUE,
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
+    "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapFrom = max(Age),
+  extrapFit = Age[Age >= 60],
+  ...
+)
 }
 \arguments{
 \item{nMx}{numeric. Vector of mortality rates in abridged age classes.}

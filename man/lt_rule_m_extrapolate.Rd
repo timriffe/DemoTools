@@ -5,15 +5,27 @@
 \alias{extra.mortality}
 \title{Extrapolate old-age human mortality curve using mortality laws}
 \usage{
-lt_rule_m_extrapolate(mx, x, x_fit = x, x_extr, law = c("kannisto",
-  "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
-  "beard_makeham", "quadratic"), opt.method = c("LF2", "LF1", "LF3",
-  "LF4", "LF5", "LF6", "poissonL", "binomialL"), ...)
+lt_rule_m_extrapolate(
+  mx,
+  x,
+  x_fit = x,
+  x_extr,
+  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
+    "beard_makeham", "quadratic"),
+  opt.method = c("LF2", "LF1", "LF3", "LF4", "LF5", "LF6", "poissonL", "binomialL"),
+  ...
+)
 
-extra.mortality(mx, x, x_fit = x, x_extr, law = c("kannisto",
-  "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
-  "beard_makeham", "quadratic"), opt.method = c("LF2", "LF1", "LF3",
-  "LF4", "LF5", "LF6", "poissonL", "binomialL"), ...)
+extra.mortality(
+  mx,
+  x,
+  x_fit = x,
+  x_extr,
+  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
+    "beard_makeham", "quadratic"),
+  opt.method = c("LF2", "LF1", "LF3", "LF4", "LF5", "LF6", "poissonL", "binomialL"),
+  ...
+)
 }
 \arguments{
 \item{mx}{Vector or matrix of age specific death-rates.}
@@ -41,7 +53,7 @@ The following options are available: \itemize{
 \item{opt.method}{How would you like to find the parameters? Specify the
 function to be optimize. Available options: the Poisson likelihood function
 \code{poissonL}; the Binomial likelihood function -\code{binomialL}; and
-6 other loss functions. For more details, check the \code{\link{availableLF}}
+6 other loss functions. For more details, check the \code{\link[MortalityLaws]{availableLF}}
 function.}
 
 \item{...}{Other arguments to be passed on to the

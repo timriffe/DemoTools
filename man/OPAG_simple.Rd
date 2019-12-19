@@ -4,8 +4,7 @@
 \alias{OPAG_simple}
 \title{redistripute an open age group count over higher ages proportional to an arbitrary standard}
 \usage{
-OPAG_simple(Pop, Age, OAnow = max(Age), StPop, StAge,
-  OAnew = max(StAge))
+OPAG_simple(Pop, Age, OAnow = max(Age), StPop, StAge, OAnew = max(StAge))
 }
 \arguments{
 \item{Pop}{numeric vector of population counts}

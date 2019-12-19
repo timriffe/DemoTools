@@ -4,8 +4,7 @@
 \alias{sexRatioScore}
 \title{Calculate the PAS sex ratio score}
 \usage{
-sexRatioScore(Males, Females, Age, ageMin = 0, ageMax = max(Age),
-  OAG = TRUE)
+sexRatioScore(Males, Females, Age, ageMin = 0, ageMax = max(Age), OAG = TRUE)
 }
 \arguments{
 \item{Males}{numeric.  A vector of demographic counts in 5-year age groups for males.}

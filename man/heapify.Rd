@@ -4,9 +4,16 @@
 \alias{heapify}
 \title{Induce heaping on terminal digits 0 and 5}
 \usage{
-heapify(Value, Age, p0 = 2, p5 = p0, pdf0 = c(1, 6, 15, 20, 15, 6,
-  1), pdf5 = c(c(1, 4, 6, 4, 1)), ageMin = 25,
-  ageMax = max(Age[Age\%\%5 == 0]))
+heapify(
+  Value,
+  Age,
+  p0 = 2,
+  p5 = p0,
+  pdf0 = c(1, 6, 15, 20, 15, 6, 1),
+  pdf5 = c(c(1, 4, 6, 4, 1)),
+  ageMin = 25,
+  ageMax = max(Age[Age\%\%5 == 0])
+)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}

@@ -5,11 +5,9 @@
 \alias{beers}
 \title{The ordinary modified Beers splitting methods}
 \usage{
-graduate_beers(Value, Age, AgeInt, OAG = TRUE, method = "mod",
-  johnson = FALSE)
+graduate_beers(Value, Age, AgeInt, OAG = TRUE, method = "mod", johnson = FALSE)
 
-beers(Value, Age, AgeInt, OAG = TRUE, method = "mod",
-  johnson = FALSE)
+beers(Value, Age, AgeInt, OAG = TRUE, method = "mod", johnson = FALSE)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}

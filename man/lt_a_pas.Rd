@@ -5,8 +5,7 @@
 \alias{axPAS}
 \title{PAS a(x) rule of thumb.}
 \usage{
-lt_a_pas(nMx, AgeInt, IMR = NA, Sex = "m", region = "w",
-  OAG = TRUE)
+lt_a_pas(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE)
 
 axPAS(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE)
 }

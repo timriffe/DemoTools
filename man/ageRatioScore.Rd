@@ -4,8 +4,14 @@
 \alias{ageRatioScore}
 \title{Calculate the PAS age ratio score}
 \usage{
-ageRatioScore(Value, Age, ageMin = 0, ageMax = max(Age),
-  method = "UN", OAG = TRUE)
+ageRatioScore(
+  Value,
+  Age,
+  ageMin = 0,
+  ageMax = max(Age),
+  method = "UN",
+  OAG = TRUE
+)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in 5-year age groups.}

@@ -4,9 +4,19 @@
 \alias{lt_model_lq}
 \title{Estimate Wilmoth Model Life Table}
 \usage{
-lt_model_lq(Sex = c("b", "f", "m"), fitted_logquad = NULL,
-  q0_5 = NULL, q0_1 = NULL, q15_45 = NULL, q15_35 = NULL,
-  e0 = NULL, radix = 1e+05, tol = 1e-09, maxit = 200, ...)
+lt_model_lq(
+  Sex = c("b", "f", "m"),
+  fitted_logquad = NULL,
+  q0_5 = NULL,
+  q0_1 = NULL,
+  q15_45 = NULL,
+  q15_35 = NULL,
+  e0 = NULL,
+  radix = 1e+05,
+  tol = 1e-09,
+  maxit = 200,
+  ...
+)
 }
 \arguments{
 \item{Sex}{Choose the sex of the population. This choice defines the use

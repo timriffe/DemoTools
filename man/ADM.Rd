@@ -4,8 +4,14 @@
 \alias{ADM}
 \title{Mean absolute difference in survival rates.}
 \usage{
-ADM(lx1, lx2, Age1, Age2 = Age1, ageMin = max(c(min(Age1), min(Age2))),
-  ageMax = min(c(max(Age1), max(Age2))))
+ADM(
+  lx1,
+  lx2,
+  Age1,
+  Age2 = Age1,
+  ageMin = max(c(min(Age1), min(Age2))),
+  ageMax = min(c(max(Age1), max(Age2)))
+)
 }
 \arguments{
 \item{lx1}{numeric. Vector of the first survival function, any radix size.}

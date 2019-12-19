@@ -5,21 +5,51 @@
 \alias{LTabr}
 \title{Calculate an abridged-age lifetable.}
 \usage{
-lt_abridged(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = age2int(Age =
-  Age, OAvalue = 5), radix = 1e+05, axmethod = "pas", Sex = "m",
-  region = "w", IMR = NA, mod = TRUE, OAG = TRUE,
-  OAnew = max(Age), extrapLaw = c("Kannisto", "Kannisto_Makeham",
-  "Makeham", "Gompertz", "GGompertz", "Beard", "Beard_Makeham",
-  "Quadratic")[1], extrapFrom = max(Age), extrapFit = Age[Age >= 60],
-  ...)
+lt_abridged(
+  Deaths,
+  Exposures,
+  nMx,
+  nqx,
+  lx,
+  Age,
+  AgeInt = age2int(Age = Age, OAvalue = 5),
+  radix = 1e+05,
+  axmethod = "pas",
+  Sex = "m",
+  region = "w",
+  IMR = NA,
+  mod = TRUE,
+  OAG = TRUE,
+  OAnew = max(Age),
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
+    "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapFrom = max(Age),
+  extrapFit = Age[Age >= 60],
+  ...
+)
 
-LTabr(Deaths, Exposures, nMx, nqx, lx, Age, AgeInt = age2int(Age = Age,
-  OAvalue = 5), radix = 1e+05, axmethod = "pas", Sex = "m",
-  region = "w", IMR = NA, mod = TRUE, OAG = TRUE,
-  OAnew = max(Age), extrapLaw = c("Kannisto", "Kannisto_Makeham",
-  "Makeham", "Gompertz", "GGompertz", "Beard", "Beard_Makeham",
-  "Quadratic")[1], extrapFrom = max(Age), extrapFit = Age[Age >= 60],
-  ...)
+LTabr(
+  Deaths,
+  Exposures,
+  nMx,
+  nqx,
+  lx,
+  Age,
+  AgeInt = age2int(Age = Age, OAvalue = 5),
+  radix = 1e+05,
+  axmethod = "pas",
+  Sex = "m",
+  region = "w",
+  IMR = NA,
+  mod = TRUE,
+  OAG = TRUE,
+  OAnew = max(Age),
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
+    "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapFrom = max(Age),
+  extrapFit = Age[Age >= 60],
+  ...
+)
 }
 \arguments{
 \item{Deaths}{numeric. Vector of death counts in abridged age classes.}

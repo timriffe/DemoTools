@@ -4,8 +4,16 @@
 \alias{agesmth1}
 \title{Generic smoother over age or time}
 \usage{
-agesmth1(Value, Age, method = "loess", OAG = TRUE, degree = 2, trans,
-  pow = 2, ...)
+agesmth1(
+  Value,
+  Age,
+  method = "loess",
+  OAG = TRUE,
+  degree = 2,
+  trans,
+  pow = 2,
+  ...
+)
 }
 \arguments{
 \item{Value}{numeric vector of counts in single, abridged, or 5-year age groups.}

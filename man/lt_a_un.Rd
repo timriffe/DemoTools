@@ -5,17 +5,43 @@
 \alias{axUN}
 \title{UN a(x) estimates from either M(x), q(x), or both}
 \usage{
-lt_a_un(nMx, nqx, lx, IMR = NA, Age, AgeInt, Sex = "m", region = "w",
-  tol = .Machine$double.eps, maxit = 1000, mod = TRUE,
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz",
-  "GGompertz", "Beard", "Beard_Makeham", "Quadratic")[1],
-  extrapFrom = max(Age), extrapFit = Age[Age >= 60], ...)
+lt_a_un(
+  nMx,
+  nqx,
+  lx,
+  IMR = NA,
+  Age,
+  AgeInt,
+  Sex = "m",
+  region = "w",
+  tol = .Machine$double.eps,
+  maxit = 1000,
+  mod = TRUE,
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
+    "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapFrom = max(Age),
+  extrapFit = Age[Age >= 60],
+  ...
+)
 
-axUN(nMx, nqx, lx, IMR = NA, Age, AgeInt, Sex = "m", region = "w",
-  tol = .Machine$double.eps, maxit = 1000, mod = TRUE,
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz",
-  "GGompertz", "Beard", "Beard_Makeham", "Quadratic")[1],
-  extrapFrom = max(Age), extrapFit = Age[Age >= 60], ...)
+axUN(
+  nMx,
+  nqx,
+  lx,
+  IMR = NA,
+  Age,
+  AgeInt,
+  Sex = "m",
+  region = "w",
+  tol = .Machine$double.eps,
+  maxit = 1000,
+  mod = TRUE,
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
+    "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapFrom = max(Age),
+  extrapFit = Age[Age >= 60],
+  ...
+)
 }
 \arguments{
 \item{nMx}{numeric. Event exposure mortality rates.}

@@ -4,9 +4,17 @@
 \alias{graduate}
 \title{Graduate grouped data}
 \usage{
-graduate(Value, Age, AgeInt = age2int(Age), OAG = TRUE,
-  OAnew = max(Age), method = c("sprague", "beers(ord)", "beers(mod)",
-  "grabill", "pclm", "mono", "uniform"), keep0 = FALSE, ...)
+graduate(
+  Value,
+  Age,
+  AgeInt = age2int(Age),
+  OAG = TRUE,
+  OAnew = max(Age),
+  method = c("sprague", "beers(ord)", "beers(mod)", "grabill", "pclm", "mono",
+    "uniform"),
+  keep0 = FALSE,
+  ...
+)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}

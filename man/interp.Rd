@@ -4,8 +4,14 @@
 \alias{interp}
 \title{Interpolate between two population age distributions.}
 \usage{
-interp(popmat, datesIn, datesOut, method = c("linear", "exponential",
-  "power")[1], power = 2, ...)
+interp(
+  popmat,
+  datesIn,
+  datesOut,
+  method = c("linear", "exponential", "power")[1],
+  power = 2,
+  ...
+)
 }
 \arguments{
 \item{popmat}{numeric. An age-period matrix of data to interpolate over. Age in rows, time in columns.}
