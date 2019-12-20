@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -159,15 +159,25 @@
     <p>Get an estimate of life expectancy in the open age group.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lt_a_closeout</span>(<span class='no'>mx</span>, <span class='no'>Age</span>, <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>,
-  <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>, <span class='st'>"beard_makeham"</span>,
-  <span class='st'>"quadratic"</span>)[<span class='fl'>1</span>], <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>40</span>],
-  <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>lt_a_closeout</span>(
+  <span class='no'>mx</span>,
+  <span class='no'>Age</span>,
+  <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>,
+    <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>)[<span class='fl'>1</span>],
+  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
+  <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>40</span>],
+  <span class='no'>...</span>
+)
 
-<span class='fu'>aomegaMortalityLaws</span>(<span class='no'>mx</span>, <span class='no'>Age</span>, <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>,
-  <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>, <span class='st'>"beard_makeham"</span>,
-  <span class='st'>"quadratic"</span>)[<span class='fl'>1</span>], <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>40</span>],
-  <span class='no'>...</span>)</pre>
+<span class='fu'>aomegaMortalityLaws</span>(
+  <span class='no'>mx</span>,
+  <span class='no'>Age</span>,
+  <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>,
+    <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>)[<span class='fl'>1</span>],
+  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
+  <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>40</span>],
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

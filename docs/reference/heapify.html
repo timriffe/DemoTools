@@ -80,7 +80,7 @@ In order to estimate how these methods respond to different degrees of heaping i
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -165,9 +165,16 @@ In order to estimate how these methods respond to different degrees of heaping i
  this may be useful. The way this works is purely a guess, and no checks are in place, so use with caution.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>heapify</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>p0</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>p5</span> <span class='kw'>=</span> <span class='no'>p0</span>, <span class='kw'>pdf0</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>6</span>, <span class='fl'>15</span>, <span class='fl'>20</span>, <span class='fl'>15</span>, <span class='fl'>6</span>,
-  <span class='fl'>1</span>), <span class='kw'>pdf5</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>1</span>)), <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>25</span>,
-  <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>[<span class='no'>Age</span><span class='kw'>%%</span><span class='fl'>5</span> <span class='kw'>==</span> <span class='fl'>0</span>]))</pre>
+    <pre class="usage"><span class='fu'>heapify</span>(
+  <span class='no'>Value</span>,
+  <span class='no'>Age</span>,
+  <span class='kw'>p0</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>p5</span> <span class='kw'>=</span> <span class='no'>p0</span>,
+  <span class='kw'>pdf0</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>6</span>, <span class='fl'>15</span>, <span class='fl'>20</span>, <span class='fl'>15</span>, <span class='fl'>6</span>, <span class='fl'>1</span>),
+  <span class='kw'>pdf5</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>1</span>)),
+  <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>25</span>,
+  <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>[<span class='no'>Age</span><span class='kw'>%%</span><span class='fl'>5</span> <span class='kw'>==</span> <span class='fl'>0</span>])
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -159,17 +159,41 @@
     <p>Given either mx or qx, call either the <code><a href='lt_a_un.html'>lt_a_un()</a></code> or <code><a href='lt_a_pas.html'>lt_a_pas()</a></code> functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lt_id_morq_a</span>(<span class='no'>nMx</span>, <span class='no'>nqx</span>, <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pas"</span>, <span class='st'>"un"</span>)[<span class='fl'>1</span>], <span class='no'>Age</span>, <span class='no'>AgeInt</span>,
-  <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>Sex</span>, <span class='no'>region</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Kannisto"</span>, <span class='st'>"Kannisto_Makeham"</span>, <span class='st'>"Makeham"</span>, <span class='st'>"Gompertz"</span>,
-  <span class='st'>"GGompertz"</span>, <span class='st'>"Beard"</span>, <span class='st'>"Beard_Makeham"</span>, <span class='st'>"Quadratic"</span>)[<span class='fl'>1</span>],
-  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>], <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>lt_id_morq_a</span>(
+  <span class='no'>nMx</span>,
+  <span class='no'>nqx</span>,
+  <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pas"</span>, <span class='st'>"un"</span>)[<span class='fl'>1</span>],
+  <span class='no'>Age</span>,
+  <span class='no'>AgeInt</span>,
+  <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='no'>Sex</span>,
+  <span class='no'>region</span>,
+  <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Kannisto"</span>, <span class='st'>"Kannisto_Makeham"</span>, <span class='st'>"Makeham"</span>, <span class='st'>"Gompertz"</span>, <span class='st'>"GGompertz"</span>,
+    <span class='st'>"Beard"</span>, <span class='st'>"Beard_Makeham"</span>, <span class='st'>"Quadratic"</span>)[<span class='fl'>1</span>],
+  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
+  <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>],
+  <span class='no'>...</span>
+)
 
-<span class='fu'>mxorqx2ax</span>(<span class='no'>nMx</span>, <span class='no'>nqx</span>, <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pas"</span>, <span class='st'>"un"</span>)[<span class='fl'>1</span>], <span class='no'>Age</span>, <span class='no'>AgeInt</span>,
-  <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>Sex</span>, <span class='no'>region</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Kannisto"</span>, <span class='st'>"Kannisto_Makeham"</span>, <span class='st'>"Makeham"</span>, <span class='st'>"Gompertz"</span>,
-  <span class='st'>"GGompertz"</span>, <span class='st'>"Beard"</span>, <span class='st'>"Beard_Makeham"</span>, <span class='st'>"Quadratic"</span>)[<span class='fl'>1</span>],
-  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>], <span class='no'>...</span>)</pre>
+<span class='fu'>mxorqx2ax</span>(
+  <span class='no'>nMx</span>,
+  <span class='no'>nqx</span>,
+  <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pas"</span>, <span class='st'>"un"</span>)[<span class='fl'>1</span>],
+  <span class='no'>Age</span>,
+  <span class='no'>AgeInt</span>,
+  <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='no'>Sex</span>,
+  <span class='no'>region</span>,
+  <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Kannisto"</span>, <span class='st'>"Kannisto_Makeham"</span>, <span class='st'>"Makeham"</span>, <span class='st'>"Gompertz"</span>, <span class='st'>"GGompertz"</span>,
+    <span class='st'>"Beard"</span>, <span class='st'>"Beard_Makeham"</span>, <span class='st'>"Quadratic"</span>)[<span class='fl'>1</span>],
+  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
+  <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>],
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

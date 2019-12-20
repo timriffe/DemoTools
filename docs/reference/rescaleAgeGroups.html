@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -159,9 +159,15 @@
     <p>This method rescales a vector of counts in arbitrary (integer) age groups to approximate a vector of counts in a potentially different age grouping. Common use cases will be to scale single ages (whose age pattern we wish to roughly maintain) to sum to abridged or 5-year age groups from another source. The counts to be rescaled could potentially be in any grouping (see example).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rescaleAgeGroups</span>(<span class='no'>Value1</span>, <span class='no'>AgeInt1</span>, <span class='no'>Value2</span>, <span class='no'>AgeInt2</span>,
-  <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>graduate_uniform</span>, <span class='no'>graduate_mono</span>)[<span class='fl'>1</span>], <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>0.001</span>)</pre>
+    <pre class="usage"><span class='fu'>rescaleAgeGroups</span>(
+  <span class='no'>Value1</span>,
+  <span class='no'>AgeInt1</span>,
+  <span class='no'>Value2</span>,
+  <span class='no'>AgeInt2</span>,
+  <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>graduate_uniform</span>, <span class='no'>graduate_mono</span>)[<span class='fl'>1</span>],
+  <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>0.001</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -159,15 +159,27 @@
     <p>Extrapolate old-age human mortality curve using mortality laws</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lt_rule_m_extrapolate</span>(<span class='no'>mx</span>, <span class='no'>x</span>, <span class='kw'>x_fit</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='no'>x_extr</span>, <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>,
-  <span class='st'>"kannisto_makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>,
-  <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>), <span class='kw'>opt.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LF2"</span>, <span class='st'>"LF1"</span>, <span class='st'>"LF3"</span>,
-  <span class='st'>"LF4"</span>, <span class='st'>"LF5"</span>, <span class='st'>"LF6"</span>, <span class='st'>"poissonL"</span>, <span class='st'>"binomialL"</span>), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>lt_rule_m_extrapolate</span>(
+  <span class='no'>mx</span>,
+  <span class='no'>x</span>,
+  <span class='kw'>x_fit</span> <span class='kw'>=</span> <span class='no'>x</span>,
+  <span class='no'>x_extr</span>,
+  <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>,
+    <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>),
+  <span class='kw'>opt.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LF2"</span>, <span class='st'>"LF1"</span>, <span class='st'>"LF3"</span>, <span class='st'>"LF4"</span>, <span class='st'>"LF5"</span>, <span class='st'>"LF6"</span>, <span class='st'>"poissonL"</span>, <span class='st'>"binomialL"</span>),
+  <span class='no'>...</span>
+)
 
-<span class='fu'>extra.mortality</span>(<span class='no'>mx</span>, <span class='no'>x</span>, <span class='kw'>x_fit</span> <span class='kw'>=</span> <span class='no'>x</span>, <span class='no'>x_extr</span>, <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>,
-  <span class='st'>"kannisto_makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>,
-  <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>), <span class='kw'>opt.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LF2"</span>, <span class='st'>"LF1"</span>, <span class='st'>"LF3"</span>,
-  <span class='st'>"LF4"</span>, <span class='st'>"LF5"</span>, <span class='st'>"LF6"</span>, <span class='st'>"poissonL"</span>, <span class='st'>"binomialL"</span>), <span class='no'>...</span>)</pre>
+<span class='fu'>extra.mortality</span>(
+  <span class='no'>mx</span>,
+  <span class='no'>x</span>,
+  <span class='kw'>x_fit</span> <span class='kw'>=</span> <span class='no'>x</span>,
+  <span class='no'>x_extr</span>,
+  <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>,
+    <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>),
+  <span class='kw'>opt.method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LF2"</span>, <span class='st'>"LF1"</span>, <span class='st'>"LF3"</span>, <span class='st'>"LF4"</span>, <span class='st'>"LF5"</span>, <span class='st'>"LF6"</span>, <span class='st'>"poissonL"</span>, <span class='st'>"binomialL"</span>),
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,7 +221,7 @@ The following options are available:</p><ul>
       <td><p>How would you like to find the parameters? Specify the
 function to be optimize. Available options: the Poisson likelihood function
 <code>poissonL</code>; the Binomial likelihood function -<code>binomialL</code>; and
-6 other loss functions. For more details, check the <code>availableLF</code>
+6 other loss functions. For more details, check the <code><a href='https://rdrr.io/pkg/MortalityLaws/man/availableLF.html'>availableLF</a></code>
 function.</p></td>
     </tr>
     <tr>

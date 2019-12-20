@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
       <h1>Age-heaping indices with DemoTools</h1>
                         <h4 class="author">Jose Manuel Aburto, Ilya Kashnitsky, Marius Pascariu, Tim Riffe</h4>
             
-            <h4 class="date">2019-12-12</h4>
+            <h4 class="date">2019-12-20</h4>
       
       
       <div class="hidden name"><code>Age-heaping_quality_with_Demotools.Rmd</code></div>
@@ -129,11 +129,12 @@
 <p>The observed age distribution of a population can be affected by various kinds of reporting errors: 1) misstatements of age, 2) incomplete enumeration at particular ages, and 3) failure to report ages <span class="citation">(United Nations 1952)</span>. These errors can have different sources. For example, ages of older women are often understated <span class="citation">(United Nations 1952)</span>. Men, on the other hand, may misrepresent their age to avoid taxation or military services in some populations <span class="citation">(United Nations 1952)</span>. In addition to these reasons, some errors are induced by how the census takes place. For instance, in many countries the census is taken by leaving the questionnaire to be filled by a family member who might have to report other family members’ age, in other countries the census information is collected by enumerators in interviews in which case the quality of declared ages depends on who is answering the interview, among other reasons <span class="citation">(United Nations 1952)</span>. In this vignette we focus on indices to measure the quality of data affected by age misstatement.</p>
 <p>Consider the 1991 male census population of India.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(DemoTools)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># 'pop1m_ind' available as package data</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">Age   &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(pop1m_ind)<span class="op">-</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"> </a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(Age, pop1m_ind, <span class="dt">type =</span> <span class="st">'o'</span>)  </a></code></pre></div>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; Loading required package: Rcpp</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># 'pop1m_ind' available as package data</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">Age   &lt;-<span class="st"> </span><span class="dv">0</span><span class="op">:</span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(pop1m_ind)<span class="op">-</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"> </a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(Age, pop1m_ind, <span class="dt">type =</span> <span class="st">'o'</span>)  </a></code></pre></div>
 <p><img src="Age-heaping_quality_with_Demotools_files/figure-html/unnamed-chunk-1-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>The figure above has some clear age irregularities. For example, there is a consistent clustering around ages ending in zero and five. In principle, a post-enumeration survey or a sample interview should give more information on the reasons why these irregularities appear in the data <span class="citation">(Siegel Jacob and Swanson David 2004)</span>. However, not every country has the resources to conduct a survey or post-enumeration process. Therefore, various arithmetic techniques have been developed for measuring heaping on individual ages, terminal digits, and age ranges. These estimate the degree of bias, but they do not correct it <span class="citation">(Booth and Gerland 2015)</span>. The simplest way to analyze age-heaping is by assuming that the true numbers are <em>rectangularly</em> distributed over some age range that includes centered the age in question <span class="citation">(Siegel Jacob and Swanson David 2004)</span>.</p>
 <p>Several indices of age-heaping exist. <code>DemoTools</code> implements Whipple <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>, Myers, Bachi <span class="citation">(Bachi 1951)</span>, Coale-Li <span class="citation">(Coale and Li 1991)</span>, Noumbissi <span class="citation">(Noumbissi 1992)</span>, Spoorenberg <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>, Jdanov <span class="citation">(Jdanov 2008)</span>, and Kannisto <span class="citation">(Kannisto 1999)</span> age-heaping indices. Although the literal interpretation of these indices may vary, they tend to covary strongly when applied to the same data and age-ranges, so for making quick judgements of the degree of heaping over a large collection of data it may not be necessary to apply more than one or two. We also offer two new measures designed to test for irregularities in data in 5-year age bins.</p>

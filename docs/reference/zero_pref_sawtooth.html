@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -159,8 +159,12 @@
     <p>Ages ending in 0 often have higher apparent heaping than ages ending in 5. In this case, data in 5-year age bins might show a sawtooth pattern. If heaping ocurrs in roughly the same amount on 0s and 5s, then it may be sufficient to group data into 5-year age groups and then graduate back to single ages. However, if heaping is worse on 0s, then this procedure tends to produce a wavy pattern in count data, with 10-year periodicity. In this case it is recommended to use one of the methods of <code><a href='smooth_age_5.html'>smooth_age_5()</a></code> as an intermediate step before graduation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>zero_pref_sawtooth</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>40</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>[<span class='no'>Age</span><span class='kw'>%%</span><span class='fl'>5</span>
-  <span class='kw'>==</span> <span class='fl'>0</span>]) - <span class='fl'>10</span>)</pre>
+    <pre class="usage"><span class='fu'>zero_pref_sawtooth</span>(
+  <span class='no'>Value</span>,
+  <span class='no'>Age</span>,
+  <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>40</span>,
+  <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>[<span class='no'>Age</span><span class='kw'>%%</span><span class='fl'>5</span> <span class='kw'>==</span> <span class='fl'>0</span>]) - <span class='fl'>10</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
       </span>
     </div>
 
@@ -159,17 +159,41 @@
     <p>The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 for ages 5-9 and 10-14, and the Greville formula thereafter. In the original sources these are referred to as separation factors.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lt_id_morq_a_greville</span>(<span class='no'>nMx</span>, <span class='no'>nqx</span>, <span class='no'>lx</span>, <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='no'>Age</span>, <span class='kw'>OAvalue</span> <span class='kw'>=</span>
-  <span class='fl'>5</span>), <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>, <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>, <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>closeout</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"gompertz"</span>,
-  <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>, <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>)[<span class='fl'>1</span>],
-  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>], <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>lt_id_morq_a_greville</span>(
+  <span class='no'>nMx</span>,
+  <span class='no'>nqx</span>,
+  <span class='no'>lx</span>,
+  <span class='no'>Age</span>,
+  <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='no'>Age</span>, <span class='kw'>OAvalue</span> <span class='kw'>=</span> <span class='fl'>5</span>),
+  <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
+  <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
+  <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>closeout</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>,
+    <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>)[<span class='fl'>1</span>],
+  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
+  <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>],
+  <span class='no'>...</span>
+)
 
-<span class='fu'>ax.greville.mortpak</span>(<span class='no'>nMx</span>, <span class='no'>nqx</span>, <span class='no'>lx</span>, <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='no'>Age</span>, <span class='kw'>OAvalue</span> <span class='kw'>=</span>
-  <span class='fl'>5</span>), <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>, <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>, <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>closeout</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"gompertz"</span>,
-  <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>, <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>)[<span class='fl'>1</span>],
-  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>], <span class='no'>...</span>)</pre>
+<span class='fu'>ax.greville.mortpak</span>(
+  <span class='no'>nMx</span>,
+  <span class='no'>nqx</span>,
+  <span class='no'>lx</span>,
+  <span class='no'>Age</span>,
+  <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='no'>Age</span>, <span class='kw'>OAvalue</span> <span class='kw'>=</span> <span class='fl'>5</span>),
+  <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
+  <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
+  <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>closeout</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>,
+    <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>)[<span class='fl'>1</span>],
+  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
+  <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>],
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

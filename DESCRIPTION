@@ -41,7 +41,7 @@ Imports:
     tidybayes,
     rlang,
     dplyr,
-    tidyr
+    tidyr   
 Remotes: mpascariu/MortalityEstimate
 BugReports: https://github.com/timriffe/DemoTools/issues
 Encoding: UTF-8
