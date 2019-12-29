@@ -67,15 +67,15 @@ mig_estimate_rc <- function(ages,
                  upper = apply(y_hat, 2, quantile, 0.975),
                  diff_sq = (!!sym("median") - !!sym("data"))^2)
 
-  pars_df <- rc_fit %>% tidybayes::spread_draws("a[0-9]",
-                                                "alpha[0-9]",
-                                                "mu[0-9]",
-                                                "lambda[0-9]",
-                                                "^c$",
+  pars_df <- rc_fit %>% tidybayes::spread_draws(`a[0-9]`,
+                                                `alpha[0-9]`,
+                                                `mu[0-9]`,
+                                                `lambda[0-9]`,
+                                                `^c$`,
                                                 regex = TRUE) %>%
     # TR: can we plz switch to pivot_longer and add @imporFrom dplyr pivot_longer ?
     # I didn't switch this cuz I didn't have live data to test it on.
-    gather(!!sym("variable"), !!sym("value"), !!sym("-.chain"), !!sym("-.iteration"), !!sym("-.draw")) %>%
+    gather(!!sym("variable"), !!sym("value"), -!!sym(".chain"), -!!sym(".iteration"), -!!sym(".draw")) %>%
     group_by(!!sym("variable")) %>%
     summarise(median = median(!!sym("value")),
               lower = quantile(!!sym("value"), 0.025),
