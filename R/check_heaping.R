@@ -6,10 +6,7 @@
 
 #' Calculate Whipple's index of age heaping
 
-#' @description Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking.
-#' Whipple's index is a summary measure of age heaping on ages ending usually in the digits 0 or 5 used to determine variability in the
-#' quality of age reporting between regions or countries and its evolution over time. It assumes a
-#' linear distribution of ages in each five-year age range. Digits refer to terminal age digits. For example, 9, 19, 29, etc are all of digit 9.
+#' @description Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking. Whipple's index is a summary measure of age heaping on ages ending usually in the digits 0 or 5 used to determine variability in the quality of age reporting between regions or countries and its evolution over time. It assumes a linear distribution of ages in each five-year age range. Digits refer to terminal age digits. For example, 9, 19, 29, etc are all of digit 9.
 
 #' @param Value numeric. A vector of demographic counts by single age.
 #' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
@@ -18,10 +15,7 @@
 #' @param digit integer. Any digit between 0 and 9. Default \code{c(0,5)}. Otherwise it needs to be a single digit.
 #'
 #'
-#' @details \code{ageMin} and \code{ageMax} refer to the bounds of the digits evaluated, which end up in the numerator. \code{ageMax} is inclusive.
-#' The denominator looks 7 ages lower and 2 ages higher than this range, so these ages must be available. You can get
-#' arbitrary W(i) indices by specifying other digits. Note you can only do pairs of digits
-#' they are 0 and 5. Otherwise just one digit at a time.
+#' @details \code{ageMin} and \code{ageMax} refer to the bounds of the digits evaluated, which end up in the numerator. \code{ageMax} is inclusive. The denominator looks 7 ages lower and 2 ages higher than this range, so these ages must be available. You can get arbitrary W(i) indices by specifying other digits. Note you can only do pairs of digits they are 0 and 5. Otherwise just one digit at a time.
 #' @return The value of the index.
 #' @references
 #' \insertRef{GDA1981IREDA}{DemoTools}
@@ -69,9 +63,7 @@ Whipple <-
 # test to see if can override inheritParams
 #' Calculate Myer's blended index of age heaping
 
-#' @description Implementation following the PASEX spreadsheet SINGAGE. Myers' measures preferences for each of the ten possible digits
-#' as a blended index. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits
-#'  0 to 9 should represent 10 percent of the total population.
+#' @description Implementation following the PASEX spreadsheet SINGAGE. Myers' measures preferences for each of the ten possible digits as a blended index. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits 0 to 9 should represent 10 percent of the total population.
 #' @inheritParams Whipple
 #' @param ageMax integer. The upper age bound used for calculations. Default 89.
 #'
@@ -134,10 +126,7 @@ Myers <- function(Value,
 
 #' calculate Bachi's index of age heaping
 
-#' @description Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit.
-#' Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90,
-#' and 10 is the expected value for each digit.
-#' Two Implementations: one following the PASEX spreadsheet SINGAGE (\code{pasex = TRUE}), with ages hard-coded, and another with flexible upper and lower age bounds, but that does not match the PASEX implementation.
+#' @description Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90, and 10 is the expected value for each digit. Two Implementations: one following the PASEX spreadsheet SINGAGE (\code{pasex = TRUE}), with ages hard-coded, and another with flexible upper and lower age bounds, but that does not match the PASEX implementation.
 
 #' @inheritParams Whipple
 #' @param pasex logical. Whether or not reproduce the specific age weightings in the PASEX spreadsheet. Default \code{FALSE}.
