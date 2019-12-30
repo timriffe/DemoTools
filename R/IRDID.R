@@ -5,17 +5,15 @@
 
 #' Index of relative difference.
 #'
-#' @description Calculate the relative percent difference between two population structures. A returned
-#' value of zero means that the two population have identical structure.
+#' @description Calculate the relative percent difference between two population structures. A returned value of zero means that the two population have identical structure.
 #'
 #' @param pop1 numeric. Vector of counts from population 1.
 #' @param pop2 numeric. Vector of counts from population 2.
+#' @param log logical. Default \code{FALSE}. Shall we take the mean of the natural log of ratios?
 #'
-#' @details Input populations are assumed to be ordered in the same way prior to calling the function.
-#' It is only checked  that the vectors are of the same length. The input arguments could indeed be populations structured on multiple
-#' variables (more than just age), as long as they are ordered in the same way. It is advised to lower
-#' the open age group for this method because each age has the same weight. Ages where one population
-#' has a zero count and the other does not are thrown out.
+#' @details Input populations are assumed to be ordered in the same way prior to calling the function. It is only checked  that the vectors are of the same length. The input arguments could indeed be populations structured on multiple variables (more than just age), as long as they are ordered in the same way. It is advised to lower the open age group for this method because each age has the same weight. Ages where one population has a zero count and the other does not are thrown out.
+#' 
+#' If \code{log = TRUE} then we return a simple mean of the absolute of the log of the element-wise ratios between \code{pop1} and \code{pop2}. In this case it doesn't matter which vector is which. This result is also on a percent scale, and the max is greater than 100.
 #'
 #' @return The value of the index ranging from 0 to infinity.
 #' @export
@@ -28,7 +26,7 @@
 #' pop3                     <- pop1
 #' pop3[1:7]                <- 0
 #' IRD(pop1, pop3)     # theoretical max > 100
-IRD                         <- function(pop1, pop2) {
+IRD                         <- function(pop1, pop2, log = FALSE) {
   # for now just make sure they're the same lengths. We won't do
   # age matching here.
   stopifnot(length(pop1) == length(pop2))
@@ -40,6 +38,14 @@ IRD                         <- function(pop1, pop2) {
   ratio                     <- r2 / r1
   # we don't like zeros in denominators
   ratio[is.infinite(ratio)] <- NA
+  # redefine n accordingly
+  n                         <- sum(!is.na(ratio))
+  # TR: this gives disproportionate weight to deviations > 1. BOO!
+  # why not mean(log(ratio), na.rm =  TRUE) ?
+  if (log){
+    out <-  mean(abs(log(ratio)), na.rm =  TRUE) * 50
+    return(out)
+  }
   sum(abs((ratio * 100) - 100), na.rm = TRUE) / (2 * n)
   
 }
