@@ -5,13 +5,13 @@ context("test-ageheap")
 
 # PASEX spreadsheet SINGAGE
 
-test_that("Whipple replicates SINGAGE males", {
+test_that("check_heaping_whipple replicates SINGAGE males", {
     
     Age <- 0:99
 
     # test
     expect_equal(
-        Whipple(
+        check_heaping_whipple(
             Value = pop1m_pasex, 
             Age = Age, 
             ageMin = 25, 
@@ -31,18 +31,18 @@ df <- data.frame(
 		count = 10
 )
 
-expect_equal(Whipple(df$count, df$age, ageMin = 25, ageMax = 65),1)
-expect_equal(Myers(df$count, df$age, ageMin = 25, ageMax = 65),0)
-expect_equal(Bachi(df$count, df$age, ageMin = 25, ageMax = 65),0)
-expect_equal(CoaleLi(df$count, df$age, ageMin = 60, ageMax = 89),1)
-expect_equal(Noumbissi(df$count, df$age, ageMin = 25, ageMax = 65),1)
-expect_equal(Spoorenberg(df$count, df$age, ageMin = 25, ageMax = 65),0)
+expect_equal(check_heaping_whipple(df$count, df$age, ageMin = 25, ageMax = 65),1)
+expect_equal(check_heaping_myers(df$count, df$age, ageMin = 25, ageMax = 65),0)
+expect_equal(check_heaping_bachi(df$count, df$age, ageMin = 25, ageMax = 65),0)
+expect_equal(check_heaping_coale_li(df$count, df$age, ageMin = 60, ageMax = 89),1)
+expect_equal(check_heaping_noumbissi(df$count, df$age, ageMin = 25, ageMax = 65),1)
+expect_equal(check_heaping_spoorenberg(df$count, df$age, ageMin = 25, ageMax = 65),0)
 
 # should indice errors
-expect_error(Whipple(df$count, df$age, ageMin = 25, ageMax = 100))
-expect_error(Myers(df$count, df$age, ageMin = 25, ageMax = 100))
-expect_error(Bachi(df$count, df$age, ageMin = 25, ageMax = 100))
-expect_error(CoaleLi(df$count, df$age, ageMin = 60, ageMax = 100))
-expect_error(Noumbissi(df$count, df$age, ageMin = 25, ageMax = 100))
-expect_error(Spoorenberg(df$count, df$age, ageMin = 25, ageMax = 100))
+expect_error(check_heaping_whipple(df$count, df$age, ageMin = 25, ageMax = 100))
+expect_error(check_heaping_myers(df$count, df$age, ageMin = 25, ageMax = 100))
+expect_error(check_heaping_bachi(df$count, df$age, ageMin = 25, ageMax = 100))
+expect_error(check_heaping_coale_li(df$count, df$age, ageMin = 60, ageMax = 100))
+expect_error(check_heaping_noumbissi(df$count, df$age, ageMin = 25, ageMax = 100))
+expect_error(check_heaping_spoorenberg(df$count, df$age, ageMin = 25, ageMax = 100))
 })

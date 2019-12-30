@@ -60,7 +60,7 @@ where $P_x$ is the population of age $x$ in completed years [@spoorenberg2007qua
 For example, the Whipple's index using `DemoTools` between ages 25 and 60 for country x is given by
 
 ```{r}
-Wi <-  Whipple(pop1m_ind, Age, ageMin = 25, ageMax = 60, digit = c(0, 5))
+Wi <-  check_heaping_whipple(pop1m_ind, Age, ageMin = 25, ageMax = 60, digit = c(0, 5))
 Wi
 ```
 
@@ -82,11 +82,11 @@ The result varies from 1, which means no concentration around numbers ending in 
  
  For example, the Myers index for country x using `DemoTools` is given by
 ```{r}
-Mi <- Myers(pop1m_ind, Age, ageMin = 20, ageMax = 90) 
+Mi <- check_heaping_myers(pop1m_ind, Age, ageMin = 20, ageMax = 90) 
 Mi
 
 ```
-Myers index, `r round(Myers(pop1m_ind, Age, ageMin = 20, ageMax = 90),2)` in this case, expresses the extent of concentration on or avoidance of a particular digit [@myers1954accuracy]. The theoretical range of Myers
+Myers index, `r round(check_heaping_myers(pop1m_ind, Age, ageMin = 20, ageMax = 90),2)` in this case, expresses the extent of concentration on or avoidance of a particular digit [@myers1954accuracy]. The theoretical range of Myers
 index is 0, representing no heaping (perfect uniformity over digits), to 90, which would result if all ages were reported at a single terminal digit [@siegel2004methods].
 
 
@@ -95,7 +95,7 @@ index is 0, representing no heaping (perfect uniformity over digits), to 90, whi
 With the previous formulas, Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers, it equals the sum of the positive deviations from 10 percent [@bachi1951tendency]. It has a theoretical range from 0 to 90, AND 10% is the expected value for each digit. Therefore, the results of Bachi's method is similar to those obtained by Myers' index.
 
 ```{r}
-Bi <- Bachi(pop1m_ind, Age, ageMin = 20, ageMax = 90)
+Bi <- check_heaping_bachi(pop1m_ind, Age, ageMin = 20, ageMax = 90)
 Bi
 ```
 
@@ -113,7 +113,7 @@ W_5 =5\frac{P_{25}+P_{35}+P_{45}+P_{55}}{_5P_{23}+\, _5P_{33}+\, _5P_{43}+\, _5P
 where $P_x$ is the population having completed age $x$ and $_5P_x$ the population of the age range $(x,x+4)$. From these, age heaping can then be calculated for all ten digits (0-9) [@spoorenberg2007quality]. If digits are uniformly distributed, this "digit-specific modified Whipple's index" is equal to 1 for any digit tested. An index above or below 1 indicates preference for or avoidance of the digit in question, respectively. The theoretical range is from 0 for absolute avoidance to 5 for perfect concentration on a single digit.
 
 ```{r}
-Ni <- Noumbissi(pop1m_ind, Age, digit = 0) 
+Ni <- check_heaping_noumbissi(pop1m_ind, Age, digit = 0) 
 Ni
 ```
 
@@ -128,7 +128,7 @@ W_{tot} = \sum_{i=0}^9(|W_i - 1|)
 
 
 ```{r}
-Si <- Spoorenberg(pop1m_ind, Age, ageMin = 20, ageMax = 64)
+Si <- check_heaping_spoorenberg(pop1m_ind, Age, ageMin = 20, ageMax = 64)
 Si
 ```
 
@@ -143,7 +143,7 @@ The index is based on the deviation of the number at each age from a smooth sequ
 In the case of enumerated Indian males in 1991 the index for age 0 is 3.8, which indicates extensive errors in reported ages.
 
 ```{r}
-CLi <- CoaleLi(pop1m_ind, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0)
+CLi <- check_heaping_coale_li(pop1m_ind, Age, ageMin = 60, ageMax = max(Age), terms = 5, digit = 0)
 CLi
 ```
 
@@ -156,26 +156,26 @@ Similarly, Jdanov and colleagues [@jdanov2008beyond] developed a modified versio
 WI = \frac{D_{95}+D{100}+D{105}}{\sum_{i = 93}^{107}D_i}
 \end{equation}
 
-where $D_i$ is number of deaths at age $i$. Any deviations from the 'golden-standard' Sweden represent age-heaping issues. It can be implemented with the function `Jdanov`. 
+where $D_i$ is number of deaths at age $i$. Any deviations from the 'golden-standard' Sweden represent age-heaping issues. It can be implemented with the function `check_heaping_jdanov()`. 
 
 NOTE: we need single age death counts in the package data still
 ```{r}
-Ji <- Jdanov(pop1m_ind, Age, Agei = c(95,100,105))
+Ji <- check_heaping_jdanov(pop1m_ind, Age, Agei = c(95,100,105))
 Ji
 ```
 
 ### distortions in 5-year data
 
-Sometimes heaping is so much worse on 0s than on 5s that the pattern of distortion carries over into 5-year binned data. If graduated, for example using `sprague()`, the jagged (or sawtooth) pattern can translate to a wave pattern, which is also not desired. The package data from India is heaped in this way to some extent in ages greater than 40.
+Sometimes heaping is so much worse on 0s than on 5s that the pattern of distortion carries over into 5-year binned data. If graduated, for example using `graduate_sprague()`, the jagged (or sawtooth) pattern can translate to a wave pattern, which is also not desired. The package data from India is heaped in this way to some extent in ages greater than 40.
 
 ```{r}
 P5 <- groupAges(pop1m_ind, N = 5, 0:100)
 A5 <- seq(0, 100, by = 5)
 plot(A5,P5,type='o')
 ```
-We can test for this kind of distortion using `zero_pref_sawtooth()` like so:
+We can test for this kind of distortion using `check_heaping_sawtooth()` like so:
 ```{r}
-zero_pref_sawtooth(pop1m_ind, Age = 0:100, ageMin = 40, ageMax = 80)
+check_heaping_sawtooth(pop1m_ind, Age = 0:100, ageMin = 40, ageMax = 80)
 ```
 
 The value is calculated in the following way: for each 5-year age group whose lower bound ends with a 0, calculate:
@@ -195,7 +195,7 @@ If the pattern is not consistently such that $R_{x0}>1$ and $R_{x}<1$ (max two e
 
 A quick judgement of the overall volatility of the 5-year binned data can be given by:
 ```{r}
-r5 <- five_year_roughness(pop1m_ind, Age = 0:100, ageMin = 40, ageMax = 80)
+r5 <- check_heaping_roughness(pop1m_ind, Age = 0:100, ageMin = 40, ageMax = 80)
 r5
 ```
 

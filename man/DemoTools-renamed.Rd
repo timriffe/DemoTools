@@ -47,5 +47,16 @@ These functions still work but will be removed (defunct) in the next version.
  \item \code{\link{united_nations_smth}}: This function is now called \code{\link{smooth_age_5_un}}.
  
  \item \code{\link{adjustAge}}: This function is now called \code{\link{rescale_vector}}.
+ 
+ \item \code{\link{Whipple}}: This function is now called \code{\link{check_heaping_whipple}}.
+ \item \code{\link{Myers}}: This function is now called \code{\link{check_heaping_myers}}.
+ \item \code{\link{Bachi}}: This function is now called \code{\link{check_heaping_bachi}}.
+ \item \code{\link{CoaleLi}}: This function is now called \code{\link{check_heaping_coale_li}}.
+ \item \code{\link{Noumbissi}}: This function is now called \code{\link{check_heaping_noumbissi}}.
+ \item \code{\link{Spoorenberg}}: This function is now called \code{\link{check_heaping_spoorenberg}}.
+ \item \code{\link{KannistoHeap}}: This function is now called \code{\link{check_heaping_kannisto}}.
+ \item \code{\link{Jdanov}}: This function is now called \code{\link{check_heaping_jdanov}}.
+ \item \code{\link{zero_pref_sawtooth}}: This function is now called \code{\link{check_heaping_sawtooth}}.
+ \item \code{\link{five_year_roughness}}: This function is now called \code{\link{check_heaping_roughness}}.
 }
 }

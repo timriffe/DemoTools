@@ -23,21 +23,26 @@
 #' @export
 #' @examples
 #'  Age <- 0:99
-#'
-#'  (w05 <- Whipple(pop1m_pasex, Age, 25, 60, digit = c(0,5))) # 2.34,replicates SINGAGE males
+#' # 2.34,replicates SINGAGE males
+#'  (w05 <- check_heaping_whipple(pop1m_pasex, Age, 25, 60, digit = c(0,5))) 
 #'
 #'  # implements formula from Roger et al. (1981, p. 148)
-#'  (w0 <- Whipple(pop1m_pasex, Age, 25, 60, digit = 0))
-#'  (w5 <- Whipple(pop1m_pasex, Age, 25, 60, digit = 5))
+#'  (w0 <- check_heaping_whipple(pop1m_pasex, Age, 25, 60, digit = 0))
+#'  (w5 <- check_heaping_whipple(pop1m_pasex, Age, 25, 60, digit = 5))
 #'
 #'  # Whipple types
-#'  Whipple(pop1m_pasex, Age, 25, 60, digit = 3)
-Whipple <-
+#'  check_heaping_whipple(pop1m_pasex, Age, 25, 60, digit = 3)
+check_heaping_whipple <-
   function(Value,
            Age,
            ageMin = 25,
            ageMax = 65,
            digit = c(0, 5)) {
+    
+    if (as.character(match.call()[[1]]) == "Whipple") {
+      warning("please use check_heaping_whipple() instead of Whipple().", call. = FALSE)
+    }
+    
     stopifnot(length(digit) == 1 ||
                 (all(c(0, 5) %in% digit) & length(digit == 2)))
     stopifnot(length(Value) == length(Age))
@@ -59,12 +64,16 @@ Whipple <-
     
     return(whip)
   }
+#' @export
+#' @rdname check_heaping_whipple
+Whipple <- check_heaping_whipple
+
 
 # test to see if can override inheritParams
 #' Calculate Myer's blended index of age heaping
 
 #' @description Implementation following the PASEX spreadsheet SINGAGE. Myers' measures preferences for each of the ten possible digits as a blended index. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits 0 to 9 should represent 10 percent of the total population.
-#' @inheritParams Whipple
+#' @inheritParams check_heaping_whipple
 #' @param ageMax integer. The upper age bound used for calculations. Default 89.
 #'
 #' @details \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
@@ -78,14 +87,18 @@ Whipple <-
 #' @export
 #' @examples
 #' Age <- 0:99
-#' Myers(pop1m_pasex, Age, 10, 89)
+#' check_heaping_myers(pop1m_pasex, Age, 10, 89)
 #'
-#' Myers(pop1m_pasex, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
+#' check_heaping_myers(pop1m_pasex, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
 
-Myers <- function(Value,
+check_heaping_myers <- function(Value,
                   Age,
                   ageMin = 10,
                   ageMax = 89) {
+  if (as.character(match.call()[[1]]) == "Myers") {
+    warning("please use check_heaping_myers() instead of Myers().", call. = FALSE)
+  }
+  
   # hard code period to 10 for digits
   period  <- 10
   
@@ -122,13 +135,15 @@ Myers <- function(Value,
   my      <- sum(abs(TAB / sum(TAB) - 1 / period)) * 50
   return(my)
 }
-
+#' @export
+#' @rdname check_heaping_myers
+Myers <- check_heaping_myers
 
 #' calculate Bachi's index of age heaping
 
 #' @description Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90, and 10 is the expected value for each digit. Two Implementations: one following the PASEX spreadsheet SINGAGE (\code{pasex = TRUE}), with ages hard-coded, and another with flexible upper and lower age bounds, but that does not match the PASEX implementation.
 
-#' @inheritParams Whipple
+#' @inheritParams check_heaping_whipple
 #' @param pasex logical. Whether or not reproduce the specific age weightings in the PASEX spreadsheet. Default \code{FALSE}.
 #'
 #' @details \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
@@ -141,16 +156,21 @@ Myers <- function(Value,
 #' @export
 #' @examples
 #' Age <- 0:99
-#'
-#' Bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79, pasex = TRUE) # reproduces PASEX SINGAGE
-#' Bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79) # default simpler
+#' # reproduces PASEX SINGAGE
+#' check_heaping_bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79, pasex = TRUE) 
+#' # default simpler
+#' check_heaping_bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79) 
 
-Bachi <-
+check_heaping_bachi <-
   function(Value,
            Age,
            ageMin = 30,
            ageMax = 79,
            pasex = FALSE) {
+    if (as.character(match.call()[[1]]) == "Bachi") {
+      warning("please use check_heaping_bachi() instead of Bachi().", call. = FALSE)
+    }
+    
     stopifnot(length(Age) == length(Value))
     stopifnot(is_single(Age[Age >= (ageMin - 5) & Age <= ageMax]))
     # make a matrix for numerators
@@ -222,6 +242,10 @@ Bachi <-
     sum(abs(ratioeq))  / 2
   }
 
+#' @export
+#' @rdname check_heaping_bachi
+Bachi <- check_heaping_bachi
+
 # ----------------------------
 # Coale, A. and S. Li (1991) The effect of age misreporting in China on
 # the calculation of mortality rates at very high ages. Demography 28(2)
@@ -235,7 +259,7 @@ Bachi <-
 #' an index. This procedure was used in that paper for ages 65-100 for mortality rates.
 #' It is probably better suited to rates than counts, but that is not a hard rule.
 #'
-#' @inheritParams Whipple
+#' @inheritParams check_heaping_whipple
 #' @param terms integer. Length of the (centered) moving average be. Default 5.
 #' @param digit integer. Any digit 0-9. Default 0.
 
@@ -252,16 +276,20 @@ Bachi <-
 #' @export
 #' @examples
 #' Age <- 0:99
-#' CoaleLi(pop1m_pasex, Age, 65, 95, 5, 0) # 3.7
-#' CoaleLi(pop1m_pasex, Age, 65, 95, 5, 5) # 3.5 almost just as high
+#' check_heaping_coale_li(pop1m_pasex, Age, 65, 95, 5, 0) # 3.7
+#' check_heaping_coale_li(pop1m_pasex, Age, 65, 95, 5, 5) # 3.5 almost just as high
 
-CoaleLi <-
+check_heaping_coale_li <-
   function(Value,
            Age,
            ageMin = 60,
            ageMax = max(Age),
            terms = 5,
            digit = 0) {
+    if (as.character(match.call()[[1]]) == "CoaleLi") {
+      warning("please use check_heaping_coale_li() instead of CoaleLi().", call. = FALSE)
+    }
+    
     stopifnot(length(Age) == length(Value))
     reference <- ma(ma(Value, n = terms), n = terms)
     
@@ -283,18 +311,16 @@ CoaleLi <-
     # return avg deviation for specified digit(s)
     mean(avgRatios[as.character(digit)])
   }
+#' @export
+#' @rdname check_heaping_coale_li
+CoaleLi <- check_heaping_coale_li
 
 
 #' calculate Noumbissi's digit heaping index
 #'
-#' @description Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators
-#' consisting in 5-year age groups centered on the terminal digit of age in question. For example, 9, 19, 29, etc are all of digit 9.
+#' @description Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators consisting in 5-year age groups centered on the terminal digit of age in question. For example, 9, 19, 29, etc are all of digit 9.
 
-#' @param Value numeric. A vector of demographic counts by single age.
-#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
-#' @param ageMin integer. The lowest age included in calculations. Default 20.
-#' @param ageMax integer. The upper age bound used for calculations. Default 64.
-#' @param digit integer. Any digit 0-9. Default 0.
+#' @inheritParams check_heaping_whipple
 #' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
 #'  Denominators are always 5-year age groups centered on the digit in question,
 #' and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval.
@@ -306,23 +332,27 @@ CoaleLi <-
 #' @export
 #' @examples
 #' Age <- 0:99
-#' Noumbissi(pop1m_pasex, Age, digit = 0) # 2.32
-#' Noumbissi(pop1m_pasex, Age, digit = 1) # 0.55
-#' Noumbissi(pop1m_pasex, Age, digit = 2) # 0.73
-#' Noumbissi(pop1m_pasex, Age, digit = 3) # 0.76
-#' Noumbissi(pop1m_pasex, Age, digit = 4) # 0.49
-#' Noumbissi(pop1m_pasex, Age, digit = 5) # 2.08
-#' Noumbissi(pop1m_pasex, Age, digit = 6) # 0.66
-#' Noumbissi(pop1m_pasex, Age, digit = 7) # 1.08  7 looks good!
-#' Noumbissi(pop1m_pasex, Age, digit = 8) # 0.57
-#' Noumbissi(pop1m_pasex, Age, digit = 9) # 0.59
+#' check_heaping_noumbissi(pop1m_pasex, Age, digit = 0) # 2.32
+#' check_heaping_noumbissi(pop1m_pasex, Age, digit = 1) # 0.55
+#' check_heaping_noumbissi(pop1m_pasex, Age, digit = 2) # 0.73
+#' check_heaping_noumbissi(pop1m_pasex, Age, digit = 3) # 0.76
+#' check_heaping_noumbissi(pop1m_pasex, Age, digit = 4) # 0.49
+#' check_heaping_noumbissi(pop1m_pasex, Age, digit = 5) # 2.08
+#' check_heaping_noumbissi(pop1m_pasex, Age, digit = 6) # 0.66
+#' check_heaping_noumbissi(pop1m_pasex, Age, digit = 7) # 1.08  7 looks good!
+#' check_heaping_noumbissi(pop1m_pasex, Age, digit = 8) # 0.57
+#' check_heaping_noumbissi(pop1m_pasex, Age, digit = 9) # 0.59
 
-Noumbissi <-
+check_heaping_noumbissi <-
   function(Value,
            Age,
            ageMin = 20,
            ageMax = 64,
            digit = 0) {
+    if (as.character(match.call()[[1]]) == "Noumbissi") {
+      warning("please use check_heaping_noumbissi() instead of Noumbissi().", call. = FALSE)
+    }
+    
     stopifnot(is_single(Age[Age >= (ageMin - 2) & Age <= (ageMax + 2)]))
     stopifnot(length(Age) == length(Value))
     stopifnot(length(digit) == 1)
@@ -337,38 +367,39 @@ Noumbissi <-
     5 * sum(Value[numi]) / sum(Value[denomi])
   }
 
+#' @export
+#' @rdname check_heaping_noumbissi
+Noumbissi <- check_heaping_noumbissi
+
 #' Spoorenberg's total modified Whipple index
 
 #' @description Using the digit-specific modified Whipple's index, this index summarizes
-#' all age preference and avoidance effects by taking the sum of the absolute differences between digit-specific Whipple's index and 1 (counting all
-#' differences as positive).
-#' @param Value numeric. A vector of demographic counts by single age.
-#' @param Age numeric. A vector of ages corresponding to the lower integer bound of the counts.
-#' @param ageMin integer. The lowest age included in calculations. Default 20.
-#' @param ageMax integer. The upper age bound used for calculations. Default 64.
+#' all age preference and avoidance effects by taking the sum of the absolute differences between digit-specific Whipple's index and 1 (counting all differences as positive).
+#' @inheritParams check_heaping_whipple
 #'
-#' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
-#'  Denominators are always 5-year age groups centered on the digit in question,
-#' and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval.
-#' If you want ages 20 to 64, then give \code{ageMin = 20} and \code{ageMax = 64}, not 65.
+#' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators. Denominators are always 5-year age groups centered on the digit in question, and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages 20 to 64, then give \code{ageMin = 20} and \code{ageMax = 64}, not 65.
 #' @return The value of the index.
 #' @references
 #' \insertRef{spoorenberg2007quality}{DemoTools}
 #' @export
 #' @examples
 #' Age <- 0:99
-#' Spoorenberg(pop1m_pasex, Age)
+#' check_heaping_spoorenberg(pop1m_pasex, Age)
 
-Spoorenberg <- function(Value,
+check_heaping_spoorenberg <- function(Value,
                         Age,
                         ageMin = 20,
                         ageMax = 64) {
+  if (as.character(match.call()[[1]]) == "Spoorenberg") {
+    warning("please use check_heaping_spoorenberg() instead of Spoorenberg().", call. = FALSE)
+  }
+  
   stopifnot(length(Age) == length(Value))
   stopifnot(is_single(Age[Age >= (ageMin - 2) & Age <= (ageMax + 2)]))
   digits <- 0:9
   Wi   <- sapply(
     digits,
-    Noumbissi,
+    check_heaping_noumbissi,
     Value = Value,
     Age = Age,
     ageMin = ageMin,
@@ -378,6 +409,9 @@ Spoorenberg <- function(Value,
   Wtot <- sum(abs(1 - Wi))
   return(Wtot)
 }
+#' @export
+#' @rdname check_heaping_spoorenberg
+Spoorenberg <- check_heaping_spoorenberg
 
 
 #' Kannisto's age heaping index
@@ -398,16 +432,19 @@ Spoorenberg <- function(Value,
 #'
 #' @examples
 #'Age <- 0:99
-#' KannistoHeap(pop1m_pasex, Age, 90)
-#' KannistoHeap(pop1m_pasex, Age, 95)
-#' KannistoHeap(pop1m_pasex, Age, 95, pow = 2) # geometric mean in denom
-#' KannistoHeap(pop1m_pasex, Age, 95, pow = 1000) # similar, but robust to 0s
-#' KannistoHeap(pop1m_pasex, Age, 95, pow = 1) # arithmetic mean in denom
+#' check_heaping_kannisto(pop1m_pasex, Age, 90)
+#' check_heaping_kannisto(pop1m_pasex, Age, 95)
+#' check_heaping_kannisto(pop1m_pasex, Age, 95, pow = 2) # geometric mean in denom
+#' check_heaping_kannisto(pop1m_pasex, Age, 95, pow = 1000) # similar, but robust to 0s
+#' check_heaping_kannisto(pop1m_pasex, Age, 95, pow = 1) # arithmetic mean in denom
 #' pop1m_pasex[Age==95] / mean(pop1m_pasex[Age >= 93 & Age <= 97])
-KannistoHeap <- function(Value,
+check_heaping_kannisto <- function(Value,
                          Age,
                          Agei = 90,
                          pow = "exp") {
+  if (as.character(match.call()[[1]]) == "KannistoHeap") {
+    warning("please use check_heaping_kannisto() instead of KannistoHeap().", call. = FALSE)
+  }
   stopifnot(length(Agei) == 1)
   stopifnot(is_single(Age[Age >= (Agei - 2) & Age <= (Agei + 2)]))
   denomi   <- Age %in% ((Agei - 2):(Agei + 2))
@@ -422,6 +459,10 @@ KannistoHeap <- function(Value,
   }
   Value[Age == Agei] / denom
 }
+
+#' @export
+#' @rdname check_heaping_kannisto
+KannistoHeap <- check_heaping_kannisto
 
 # removed from vignette until this is further investigated.
 #### Kannisto
@@ -438,7 +479,7 @@ KannistoHeap <- function(Value,
 #\frac{1}{5}\sum_{y = x-2}^{x+2}\ln D_y.
 #\end{equation}
 #
-#This indicator has the advantage that its significance is easily measurable. Absence of heaping does not result #in an indicator close to unity but higher due to the well-known bend of the mortality curve in logarithmic #scale. It can me implemented using the `KannistoHeap()` function. This index is calculated for a single age #rather than for a terminal digit.
+#This indicator has the advantage that its significance is easily measurable. Absence of heaping does not result in an indicator close to unity but higher due to the well-known bend of the mortality curve in logarithmic scale. It can me implemented using the `KannistoHeap()` function. This index is calculated for a single age #rather than for a terminal digit.
 #
 #```{r}
 #		Ki <- KannistoHeap(Value = dth5_zigzag, Age = Age, Agei = 90)
@@ -447,12 +488,7 @@ KannistoHeap <- function(Value,
 
 #' Calculate Jdanov's old-age heaping index
 #'
-#' @description This is a slightly more flexible implementation of Jdanov's formula,
-#' with defaults set to match his parameters. The numerator is the sum of
-#' (death counts) in ages 95, 100, and 105. The denominator consists in the sum of the 5-year age groups centered around each of the numerator ages.
-#' It probably only makes sense to use this with the default values, however. Used with a single age
-#' in the numerator, it is almost the same as \code{Noumbissi()}, except here we pick out particular ages,
-#' whereas Noumbissi picks out terminal digits.
+#' @description This is a slightly more flexible implementation of Jdanov's formula, with defaults set to match his parameters. The numerator is the sum of (death counts) in ages 95, 100, and 105. The denominator consists in the sum of the 5-year age groups centered around each of the numerator ages. It probably only makes sense to use this with the default values, however. Used with a single age in the numerator, it is almost the same as \code{Noumbissi()}, except here we pick out particular ages, whereas Noumbissi picks out terminal digits.
 #'
 #' @param Value numeric. A vector of demographic counts by single age.
 #' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts.
@@ -474,9 +510,13 @@ KannistoHeap <- function(Value,
 #'		924, 667, 465, 287, 189, 125, 99, 80, 24, 10, 7, 3, 1, 0, 1,
 #'		1, 0, 0)
 #'Age <- 0:110
-#'Jdanov(Value, Age, Agei = c(95,100,105))
+#'check_heaping_jdanov(Value, Age, Agei = c(95,100,105))
 
-Jdanov <- function(Value, Age, Agei = seq(95, 105, by = 5)) {
+check_heaping_jdanov <- function(Value, Age, Agei = seq(95, 105, by = 5)) {
+  if (as.character(match.call()[[1]]) == "Jdanov") {
+    warning("please use check_heaping_jdanov() instead of Jdanov().", call. = FALSE)
+  }
+  
   stopifnot(is_single(Age[Age >= (min(Agei) - 2) &
                             Age <= (max(Agei) + 2)]))
   numi   <- Age %in% Agei
@@ -493,20 +533,16 @@ Jdanov <- function(Value, Age, Agei = seq(95, 105, by = 5)) {
   500 * sum(Value[numi]) / denom
   
 }
+#' @export
+#' @rdname check_heaping_jdanov
+Jdanov <- check_heaping_jdanov
 
 
 #' Induce heaping on terminal digits 0 and 5
-#' @description For single age count data, perturb the data in such a way as to induce heaping on ages ending in 0 and 5.
-#' This is a common phenomenon that several age heaping evaluation methods are designed to test for.
-#' In order to estimate how these methods respond to different degrees of heaping in a systematic way, a function such as
-#'  this may be useful. The way this works is purely a guess, and no checks are in place, so use with caution.
-#' @details We use pascal weights, \code{c(1,4,6,4,1)} scaled to argument \code{p5} and \code{c(1,6,15,20,15,6,1)}
-#' scaled to argument \code{p0} to shift individuals from surrounding ages to ages endings in 5 and 0, respectively.
-#'  This assumes that ages closer to digits 0 or 5 are more likely to be declared as 0 or 5, that this bias is symmetrical,
-#'   and that such rounding can come from farther away ages for terminal digit 0 than for 5.
-#'   The user can also make heaping scale differently for 0s and 5s, but there is no control over the shape of bias.
+#' @description For single age count data, perturb the data in such a way as to induce heaping on ages ending in 0 and 5. This is a common phenomenon that several age heaping evaluation methods are designed to test for. In order to estimate how these methods respond to different degrees of heaping in a systematic way, a function such as  this may be useful. The way this works is purely a guess, and no checks are in place, so use with caution.
+#' @details We use pascal weights, \code{c(1,4,6,4,1)} scaled to argument \code{p5} and \code{c(1,6,15,20,15,6,1)} scaled to argument \code{p0} to shift individuals from surrounding ages to ages endings in 5 and 0, respectively. This assumes that ages closer to digits 0 or 5 are more likely to be declared as 0 or 5, that this bias is symmetrical, and that such rounding can come from farther away ages for terminal digit 0 than for 5. The user can also make heaping scale differently for 0s and 5s, but there is no control over the shape of bias.
 #' @export
-#' @inheritParams Bachi
+#' @inheritParams check_heaping_bachi
 #' @param p0 total size of bias to round to 0s. Default 2.
 #' @param p5 total size of bias to round to 5s. Defaults to \code{p0}.
 #' @param pdf0 numeric vector of length 7 giving the pdf to apply around 0s.
@@ -573,7 +609,9 @@ heapify <- function(Value,
 
 
 #' Detect if heaping is worse on terminal digits 0s than on 5s
+#' 
 #' @description Ages ending in 0 often have higher apparent heaping than ages ending in 5. In this case, data in 5-year age bins might show a sawtooth pattern. If heaping ocurrs in roughly the same amount on 0s and 5s, then it may be sufficient to group data into 5-year age groups and then graduate back to single ages. However, if heaping is worse on 0s, then this procedure tends to produce a wavy pattern in count data, with 10-year periodicity. In this case it is recommended to use one of the methods of \code{smooth_age_5()} as an intermediate step before graduation.
+#' 
 #' @details Data is grouped to 5-year age bins. The ratio of each value to the average of its neighboring values is calculated. If 0s have stronger attraction than 5s then we expect these ratios to be >1 for 0s and <1 for 5s. Ratios are compared within each 10-year age group in the evaluated age range. If in the evaluated range there are at most two exceptions to this rule (0s>5s), then the ratio of the mean of these ratios is returned, and it is recommended to use a smoother method. Higher values suggest use of a more aggressive method. This approach is only slightly different from that of Feeney, as implemented in the \code{smooth_age_5_zigzag_inner()} functions. This is not a general measure of roughness, but rather an indicator of this particular pattern of age attraction.
 #' @export
 #' @inheritParams heapify
@@ -596,9 +634,9 @@ heapify <- function(Value,
 #' 		Age = A5,
 #' 		OAG = FALSE)
 #' # not saw-tooth jagged
-#' zero_pref_sawtooth(smoothed, Age)
+#' check_heaping_sawtooth(smoothed, Age)
 #' # saw-tooth pattern detected in older ages
-#' zero_pref_sawtooth(pop1m_pasex, Age)
+#' check_heaping_sawtooth(pop1m_pasex, Age)
 #' # heaped, but no 0>5 preference
 #' h1 <- heapify(smoothed, Age, p0 = 1, p5 = 1)
 #' # heaping progressively worse on 0s than on 5s.
@@ -612,18 +650,22 @@ heapify <- function(Value,
 #' 	lines(Age, h2,col="green")
 #' 	lines(Age, h3,col="red")
 #' }
-#' zero_pref_sawtooth(h1, Age)
+#' check_heaping_sawtooth(h1, Age)
 #' # 0-preference > 5 pref
-#' zero_pref_sawtooth(h2, Age)
+#' check_heaping_sawtooth(h2, Age)
 #' # increasing values
-#' zero_pref_sawtooth(h3, Age)
-#' zero_pref_sawtooth(h4, Age,ageMin=35)
+#' check_heaping_sawtooth(h3, Age)
+#' check_heaping_sawtooth(h4, Age,ageMin=35)
 
-zero_pref_sawtooth <-
+check_heaping_sawtooth <-
   function(Value,
            Age,
            ageMin = 40,
            ageMax = max(Age[Age %% 5 == 0]) - 10) {
+    if (as.character(match.call()[[1]]) == "zero_pref_sawtooth") {
+      warning("please use check_heaping_sawtooth() instead of zero_pref_sawtooth().", call. = FALSE)
+    }
+    
     # rather than stopifnot() check, just make it work.
     ageMin   <- ageMin - ageMin %% 10
     # group to 5-year ages if not already.
@@ -653,11 +695,16 @@ zero_pref_sawtooth <-
     1 / ratx(rowMeans(m05, na.rm = TRUE))
   }
 
+#' @export
+#' @rdname check_heaping_sawtooth
+zero_pref_sawtooth <- check_heaping_sawtooth
+
+
 #' Evaluate roughness of data in 5-year age groups
 #' @description For a given age-structured vector of counts, how rough is data after grouping to 5-year age bins? Data may require smoothing even if there is no detectable sawtooth pattern. It is best to use the value in this method together with visual evidence to gauage whether use of \code{smooth_age_5()} is recommended.
 #' @details First we group data to 5-year age bins. Then we take first differences (d1) of these within the evaluated age range. Then we smooth first differences (d1s) using a generic smoother (\code{ogive()}). Roughness is defined as the mean of the absolute differences between \code{mean(abs(d1 - d1s) / abs(d1s))}. Higher values indicate rougher data, and may suggest more aggressive smoothing. Just eyeballing, one could consider smoothing if the returned value is greater than ca 0.2, and values greater than 0.5 already highly recommend it (pending visual verification).
 #' @export
-#' @inheritParams zero_pref_sawtooth
+#' @inheritParams check_heaping_sawtooth
 #' @param ageMin integer evenly divisible by 5. Lower bound of evaluated age range, default 20.
 #'
 #' @examples
@@ -672,9 +719,9 @@ zero_pref_sawtooth <-
 #' 		Age = A5,
 #' 		OAG = FALSE)
 #' # not very rough, no need to smooth more
-#' five_year_roughness(smoothed, Age)
+#' check_heaping_roughness(smoothed, Age)
 #'  # quite rough, even after grouping to 5-year ages
-#' five_year_roughness(pop1m_pasex, Age)
+#' check_heaping_roughness(pop1m_pasex, Age)
 #' # heaped, but no 0>5 preference
 #' h1 <- heapify(smoothed, Age, p0 = 1, p5 = 1)
 #' # heaping progressively worse
@@ -693,19 +740,23 @@ zero_pref_sawtooth <-
 #'	lines(A5, groupAges(h4),col=cols[4])
 #'	lines(A5, groupAges(h5),col=cols[5])
 #'}
-#'five_year_roughness(smoothed, Age)
-#'five_year_roughness(h1, Age)
-#'five_year_roughness(h2, Age)
-#'five_year_roughness(h3, Age)
-#'five_year_roughness(h4, Age)
-#'five_year_roughness(h5, Age)
+#'check_heaping_roughness(smoothed, Age)
+#'check_heaping_roughness(h1, Age)
+#'check_heaping_roughness(h2, Age)
+#'check_heaping_roughness(h3, Age)
+#'check_heaping_roughness(h4, Age)
+#'check_heaping_roughness(h5, Age)
 #'
 
-five_year_roughness <-
+check_heaping_roughness <-
   function(Value,
            Age,
            ageMin = 20,
            ageMax = max(Age[Age %% 5 == 0])) {
+    if (as.character(match.call()[[1]]) == "five_year_roughness") {
+      warning("please use check_heaping_roughness() instead of five_year_roughness().", call. = FALSE)
+    }
+    
     # rather than stopifnot() check, just make it work.
     ageMin <- ageMin - ageMin %% 5
     # group to 5-year ages if not already.
@@ -722,4 +773,7 @@ five_year_roughness <-
     
     mean(abs(d1 - d1s) / abs(d1s))
   }
+#' @export
+#' @rdname check_heaping_roughness
+five_year_roughness <- check_heaping_roughness
 
