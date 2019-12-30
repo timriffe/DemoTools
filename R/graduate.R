@@ -1354,7 +1354,22 @@ graduate <- function(Value,
     }
   }
   
-  # TR: TODO detect negatives. Have default option to re
+  # detect negatives. Have default option to replace.
+  # Favor quick over perfect, since this only can arise
+  # in Sprague, Beers, or Grabill, which are quick
+  ind0 <- out < 0
+  if (any(ind0)){
+    out[ind0] <- 0
+    # well, this is maybe to complicated, can swap w 
+    # different trick
+    outm <- graduate_mono(
+              Value = Value,
+              Age = Age,
+              AgeInt = AgeInt,
+              OAG = OAG)
+    out <- interp(cbind(out,outm), dateIn = c(10,20), datesOut = 15, method = "power")
+    dim(out) <- NULL
+  }
   
   out
 }
