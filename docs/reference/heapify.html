@@ -43,10 +43,7 @@
 
 
 <meta property="og:title" content="Induce heaping on terminal digits 0 and 5 — heapify" />
-<meta property="og:description" content="For single age count data, perturb the data in such a way as to induce heaping on ages ending in 0 and 5.
-This is a common phenomenon that several age heaping evaluation methods are designed to test for.
-In order to estimate how these methods respond to different degrees of heaping in a systematic way, a function such as
- this may be useful. The way this works is purely a guess, and no checks are in place, so use with caution." />
+<meta property="og:description" content="For single age count data, perturb the data in such a way as to induce heaping on ages ending in 0 and 5. This is a common phenomenon that several age heaping evaluation methods are designed to test for. In order to estimate how these methods respond to different degrees of heaping in a systematic way, a function such as  this may be useful. The way this works is purely a guess, and no checks are in place, so use with caution." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -80,7 +77,7 @@ In order to estimate how these methods respond to different degrees of heaping i
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
       </span>
     </div>
 
@@ -159,10 +156,7 @@ In order to estimate how these methods respond to different degrees of heaping i
     </div>
 
     <div class="ref-description">
-    <p>For single age count data, perturb the data in such a way as to induce heaping on ages ending in 0 and 5.
-This is a common phenomenon that several age heaping evaluation methods are designed to test for.
-In order to estimate how these methods respond to different degrees of heaping in a systematic way, a function such as
- this may be useful. The way this works is purely a guess, and no checks are in place, so use with caution.</p>
+    <p>For single age count data, perturb the data in such a way as to induce heaping on ages ending in 0 and 5. This is a common phenomenon that several age heaping evaluation methods are designed to test for. In order to estimate how these methods respond to different degrees of heaping in a systematic way, a function such as  this may be useful. The way this works is purely a guess, and no checks are in place, so use with caution.</p>
     </div>
 
     <pre class="usage"><span class='fu'>heapify</span>(
@@ -218,11 +212,7 @@ In order to estimate how these methods respond to different degrees of heaping i
     <p>Value numeric vector perturbed to look like age heaping as happened.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>We use pascal weights, <code><a href='https://rdrr.io/r/base/c.html'>c(1,4,6,4,1)</a></code> scaled to argument <code>p5</code> and <code><a href='https://rdrr.io/r/base/c.html'>c(1,6,15,20,15,6,1)</a></code>
-scaled to argument <code>p0</code> to shift individuals from surrounding ages to ages endings in 5 and 0, respectively.
- This assumes that ages closer to digits 0 or 5 are more likely to be declared as 0 or 5, that this bias is symmetrical,
-  and that such rounding can come from farther away ages for terminal digit 0 than for 5.
-  The user can also make heaping scale differently for 0s and 5s, but there is no control over the shape of bias.</p>
+    <p>We use pascal weights, <code><a href='https://rdrr.io/r/base/c.html'>c(1,4,6,4,1)</a></code> scaled to argument <code>p5</code> and <code><a href='https://rdrr.io/r/base/c.html'>c(1,6,15,20,15,6,1)</a></code> scaled to argument <code>p0</code> to shift individuals from surrounding ages to ages endings in 5 and 0, respectively. This assumes that ages closer to digits 0 or 5 are more likely to be declared as 0 or 5, that this bias is symmetrical, and that such rounding can come from farther away ages for terminal digit 0 than for 5. The user can also make heaping scale differently for 0s and 5s, but there is no control over the shape of bias.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># example to show what we're talking about.</span>
