@@ -13,6 +13,7 @@ graduate(
   method = c("sprague", "beers(ord)", "beers(mod)", "grabill", "pclm", "mono",
     "uniform"),
   keep0 = FALSE,
+  constrain = FALSE,
   ...
 )
 }
@@ -31,6 +32,8 @@ graduate(
 
 \item{keep0}{logical. Default \code{FALSE}. If available, should the value in the infant age group be maintained, and ages 1-4 constrained?}
 
+\item{constrain}{logical. Default \code{FALSE}. Should output be constrained to sum within the input age groups?}
+
 \item{...}{extra arguments passed to \code{graduate_beers()} or \code{graduate_pclm()}}
 }
 \description{
@@ -46,6 +49,10 @@ Beers may either be ordinary \code{"beers(ord)"} or modified \code{"beers(mod)"}
 This wrapper standardizes some inconsistencies in how open ages are dealt with. For example, with the \code{"pclm"} method, the last age group can be redistributed over a specified interval implied by increase \code{OAnew} beyond the range of \code{Age}. To get this same behavior from \code{"mono"}, or \code{"uniform"} specify \code{OAG = FALSE} along with an appropriately high \code{OAnew} (or integer final value of \code{AgeInt}.
 
 \code{OAnew} cannot be higher than \code{max(Age)+4} for \code{"sprague"} or \code{"beers"} methods. For \code{"uniform","mono","pclm"} it can be higher than this, and in each case the open age group is completely redistributed within this range, meaning it's not really open anymore.
+
+For all methods, negative values are detected in output. If present, we deal with these in the following way: we take the geometric mean between the given output (with negative imputed with 0s) and the output of \code{graduate_mono()}, which is guaranteed non-negative. This only affects age groups where negatives were produced in the first pass. In our experience this only arises when using sprague, beers, or grabill methods, whereas all others are guarateed non-negative.
+
+For any case where input data are in single ages, constraining results to sum to values in the original age groups will simply return the original input data, which is clearly not your intent. This might arise when using graduation as an implicit two-step smoother (group + graduate). In this case, separate the steps, first group using \code{groupAges()} then use \code{graduate(..., constrain = TRUE)}.
 }
 \examples{
 Value <- pop5_mat[, 1]

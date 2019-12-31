@@ -60,7 +60,7 @@ splitUniform <- graduate_uniform
 #' @description This method is used to interpolate counts based on the Sprague formula. It is based on the first stage of the Sprague R script prepared by Thomas Buettner and Patrick Gerland, itself based on the description in Siegel and Swanson, 2004, p. 727.
 #'
 #' @inheritParams graduate
-#' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as or coercible to a single-column matrix. This method may produce negative values, most likely in the youngest or oldest ages.
+#' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as or coercible to a single-column matrix. This method may produce negative values, most likely in the youngest or oldest ages. This case is dealt with in the \code{graduate()} wrapper function but not in this function.
 #'
 #' If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend to single ages covering the entire 5-year age group.
 #'
@@ -85,7 +85,7 @@ splitUniform <- graduate_uniform
 #' # notice how this particular case produces a negative value in the last age
 #' # before OAG:
 #' pops  <- graduate_sprague(Value = pop1m_ind, Age = Age, OAG = TRUE)
-#'
+#' # the graduate() wrapper deals with this automatically.
 #' \dontrun{
 #'   plot(seq(0,100,by=5), pop5_mat[,1]/5, type = 's')
 #'   lines(0:100,
@@ -759,7 +759,7 @@ graduate_beers_expand <- function(Value,
 #' # this replaces ages 90+, guaranteed no negatives.
 #' graduate_mono_closeout(Value, Age = Age, pops = mod1, OAG = TRUE)
 #' # Note: there are no kludges built into beers() to handle such cases.
-#' # these ought to be handled by wrappers as appropriate.
+#' # graduate() deals with this automatically.
 #'
 #' # This replicates Johnson_2016_BEERSP.XLS, males
 #' M <- c(184499,752124-184499,582662,463534,369976,286946,235867,
@@ -1158,6 +1158,10 @@ monoCloseout <- graduate_mono_closeout
 #' This wrapper standardizes some inconsistencies in how open ages are dealt with. For example, with the \code{"pclm"} method, the last age group can be redistributed over a specified interval implied by increase \code{OAnew} beyond the range of \code{Age}. To get this same behavior from \code{"mono"}, or \code{"uniform"} specify \code{OAG = FALSE} along with an appropriately high \code{OAnew} (or integer final value of \code{AgeInt}.
 #'
 #' \code{OAnew} cannot be higher than \code{max(Age)+4} for \code{"sprague"} or \code{"beers"} methods. For \code{"uniform","mono","pclm"} it can be higher than this, and in each case the open age group is completely redistributed within this range, meaning it's not really open anymore.
+#' 
+#' For all methods, negative values are detected in output. If present, we deal with these in the following way: we take the geometric mean between the given output (with negative imputed with 0s) and the output of \code{graduate_mono()}, which is guaranteed non-negative. This only affects age groups where negatives were produced in the first pass. In our experience this only arises when using sprague, beers, or grabill methods, whereas all others are guarateed non-negative.
+#' 
+#' For any case where input data are in single ages, constraining results to sum to values in the original age groups will simply return the original input data, which is clearly not your intent. This might arise when using graduation as an implicit two-step smoother (group + graduate). In this case, separate the steps, first group using \code{groupAges()} then use \code{graduate(..., constrain = TRUE)}.
 #'
 #' @param Value numeric vector, presumably counts in grouped ages
 #' @param Age integer vector, lower bounds of age groups
@@ -1166,6 +1170,7 @@ monoCloseout <- graduate_mono_closeout
 #' @param OAnew integer, optional new open age, higher than \code{max(Age)}. See details.
 #' @param method character, either \code{"sprague"}, \code{"beers(ord)")}, \code{"beers(mod)")}, \code{"mono")}, \code{"uniform")}, or \code{"pclm"}
 #' @param keep0 logical. Default \code{FALSE}. If available, should the value in the infant age group be maintained, and ages 1-4 constrained?
+#' @param constrain logical. Default \code{FALSE}. Should output be constrained to sum within the input age groups?
 #' @param ... extra arguments passed to \code{graduate_beers()} or \code{graduate_pclm()}
 #' @seealso \code{\link{graduate_sprague}}, \code{\link{graduate_beers}}, \code{\link{graduate_uniform}}, \code{\link{graduate_mono}}, \code{\link{graduate_pclm}}, \code{\link{graduate_grabill}} 
 #' @export
@@ -1252,6 +1257,7 @@ graduate <- function(Value,
                                 "mono",
                                 "uniform"),
                      keep0 = FALSE,
+                     constrain = FALSE,
                      ...) {
   method <- tolower(method)
   if (method == "beers") {
@@ -1354,12 +1360,20 @@ graduate <- function(Value,
     }
   }
   
+  n  <- length(out)
+  a1 <- min(Age):(n - 1)
+  
   # detect negatives. Have default option to replace.
   # Favor quick over perfect, since this only can arise
-  # in Sprague, Beers, or Grabill, which are quick
+  # in Sprague, Beers, or Grabill, which are quick. In this
+  # case the age group with negatives will no longer be constrained
+  # to sum to the same original value.
   ind0 <- out < 0
   if (any(ind0)){
-    out[ind0] <- 0
+    # which 
+    agen         <- rep(Age, times = AgeInt)
+    problem.ages <- agen[ind0]
+    out[ind0]    <- 0
     # well, this is maybe to complicated, can swap w 
     # different trick
     outm <- graduate_mono(
@@ -1367,12 +1381,32 @@ graduate <- function(Value,
               Age = Age,
               AgeInt = AgeInt,
               OAG = OAG)
-    out <- interp(cbind(out,outm), datesIn = c(10,20), datesOut = 15, method = "power")
-    dim(out) <- NULL
+    
+    swap <- agen %in% problem.ages
+    
+    out.swap <- interp(cbind(out[swap],outm[swap]), 
+                       datesIn = c(10,20), 
+                       datesOut = 15, 
+                       method = "power", 
+                       power = 1/2)
+    
+    out[swap] <- out.swap
+    dim(out)  <- NULL
+  }
+  
+  # option to contrain to sum to original age groups
+  if (constrain){
+    out <- rescaleAgeGroups(Value1 = out, 
+                            AgeInt1 = rep(1, n),
+                            Value2 = Value,
+                            AgeInt2 = AgeInt,
+                            splitfun = graduate_uniform,
+                            recursive = FALSE)
+    out[is.nan(out)] <- 0
   }
   
   # last min names assure
-  names(out) <- min(Age):(length(out)-1)
+  names(out) <- a1
   
   out
 }

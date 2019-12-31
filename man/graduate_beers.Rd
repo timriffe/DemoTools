@@ -67,7 +67,7 @@ tail(mod1)
 # this replaces ages 90+, guaranteed no negatives.
 graduate_mono_closeout(Value, Age = Age, pops = mod1, OAG = TRUE)
 # Note: there are no kludges built into beers() to handle such cases.
-# these ought to be handled by wrappers as appropriate.
+# graduate() deals with this automatically.
 
 # This replicates Johnson_2016_BEERSP.XLS, males
 M <- c(184499,752124-184499,582662,463534,369976,286946,235867,
