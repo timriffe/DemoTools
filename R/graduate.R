@@ -1371,5 +1371,8 @@ graduate <- function(Value,
     dim(out) <- NULL
   }
   
+  # last min names assure
+  names(out) <- min(Age):(length(out)-1)
+  
   out
 }
