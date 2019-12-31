@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.7</span>
       </span>
     </div>
 
@@ -168,6 +168,7 @@
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"sprague"</span>, <span class='st'>"beers(ord)"</span>, <span class='st'>"beers(mod)"</span>, <span class='st'>"grabill"</span>, <span class='st'>"pclm"</span>, <span class='st'>"mono"</span>,
     <span class='st'>"uniform"</span>),
   <span class='kw'>keep0</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>constrain</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -203,6 +204,10 @@
       <td><p>logical. Default <code>FALSE</code>. If available, should the value in the infant age group be maintained, and ages 1-4 constrained?</p></td>
     </tr>
     <tr>
+      <th>constrain</th>
+      <td><p>logical. Default <code>FALSE</code>. Should output be constrained to sum within the input age groups?</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>extra arguments passed to <code><a href='graduate_beers.html'>graduate_beers()</a></code> or <code><a href='graduate_pclm.html'>graduate_pclm()</a></code></p></td>
     </tr>
@@ -215,6 +220,8 @@
 <p>Beers may either be ordinary <code>"beers(ord)"</code> or modified <code>"beers(mod)"</code>, and either can pass on the optional argument <code>johnson = TRUE</code> if desired (this has a different distribution pattern for young ages, <code>FALSE</code> by default). If <code>method = "beers"</code> is given, then <code>"beers(ord)"</code> is used.</p>
 <p>This wrapper standardizes some inconsistencies in how open ages are dealt with. For example, with the <code>"pclm"</code> method, the last age group can be redistributed over a specified interval implied by increase <code>OAnew</code> beyond the range of <code>Age</code>. To get this same behavior from <code>"mono"</code>, or <code>"uniform"</code> specify <code>OAG = FALSE</code> along with an appropriately high <code>OAnew</code> (or integer final value of <code>AgeInt</code>.</p>
 <p><code>OAnew</code> cannot be higher than <code>max(Age)+4</code> for <code>"sprague"</code> or <code>"beers"</code> methods. For <code>"uniform","mono","pclm"</code> it can be higher than this, and in each case the open age group is completely redistributed within this range, meaning it's not really open anymore.</p>
+<p>For all methods, negative values are detected in output. If present, we deal with these in the following way: we take the geometric mean between the given output (with negative imputed with 0s) and the output of <code><a href='graduate_mono.html'>graduate_mono()</a></code>, which is guaranteed non-negative. This only affects age groups where negatives were produced in the first pass. In our experience this only arises when using sprague, beers, or grabill methods, whereas all others are guarateed non-negative.</p>
+<p>For any case where input data are in single ages, constraining results to sum to values in the original age groups will simply return the original input data, which is clearly not your intent. This might arise when using graduation as an implicit two-step smoother (group + graduate). In this case, separate the steps, first group using <code><a href='groupAges.html'>groupAges()</a></code> then use <code>graduate(..., constrain = TRUE)</code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Pascariu MD, Dańko MJ, Schöley J, Rizzi S (2018).

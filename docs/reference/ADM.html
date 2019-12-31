@@ -43,9 +43,7 @@
 
 
 <meta property="og:title" content="Mean absolute difference in survival rates. — ADM" />
-<meta property="og:description" content="The mean absolute difference between 5-year survival
-ratios with optional age trimming.
-Based on LIFIT program from the MPCDA code base." />
+<meta property="og:description" content="The mean absolute difference between 5-year survival ratios with optional age trimming. Based on LIFIT program from the MPCDA code base." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -79,7 +77,7 @@ Based on LIFIT program from the MPCDA code base." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.7</span>
       </span>
     </div>
 
@@ -158,9 +156,7 @@ Based on LIFIT program from the MPCDA code base." />
     </div>
 
     <div class="ref-description">
-    <p>The mean absolute difference between 5-year survival
-ratios with optional age trimming.
-Based on LIFIT program from the MPCDA code base.</p>
+    <p>The mean absolute difference between 5-year survival ratios with optional age trimming. Based on LIFIT program from the MPCDA code base.</p>
     </div>
 
     <pre class="usage"><span class='fu'>ADM</span>(
@@ -206,15 +202,7 @@ Based on LIFIT program from the MPCDA code base.</p>
     <p>The mean absolute difference in survival ratios.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>lx1</code> and <code>lx2</code> can be of different lengths and grouped differently.
-For example, either or both input vectors could be in single or five-year age groups
-for this function. Results are selected internally for 5-year age groups, and vector lengths are matched.
-<code>ageMax</code> is an inclusive upper bound, treated as interval.
- If you want the age-group 70-74 to be included in calculations, then give <code>ageMax = 70</code>, not 75.
-The input vectors can also be of different lifetable radices. As with the original Fortran code,
-the open age group must be included in input vectors, even though it is not included in calcs.
-If your final age group is not open, then tack an extra element to it to simulate an open element,
-and just make sure to match ages.</p>
+    <p><code>lx1</code> and <code>lx2</code> can be of different lengths and grouped differently. For example, either or both input vectors could be in single or five-year age groups for this function. Results are selected internally for 5-year age groups, and vector lengths are matched. <code>ageMax</code> is an inclusive upper bound, treated as interval. If you want the age-group 70-74 to be included in calculations, then give <code>ageMax = 70</code>, not 75. The input vectors can also be of different lifetable radices. As with the original Fortran code, the open age group must be included in input vectors, even though it is not included in calcs. If your final age group is not open, then tack an extra element to it to simulate an open element, and just make sure to match ages.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Arriaga E, Anderson PD, Heligman L (1976).

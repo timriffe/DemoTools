@@ -43,8 +43,7 @@
 
 
 <meta property="og:title" content="Index of relative difference. — IRD" />
-<meta property="og:description" content="Calculate the relative percent difference between two population structures. A returned
-value of zero means that the two population have identical structure." />
+<meta property="og:description" content="Calculate the relative percent difference between two population structures. A returned value of zero means that the two population have identical structure." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -78,7 +77,7 @@ value of zero means that the two population have identical structure." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.7</span>
       </span>
     </div>
 
@@ -157,11 +156,10 @@ value of zero means that the two population have identical structure." />
     </div>
 
     <div class="ref-description">
-    <p>Calculate the relative percent difference between two population structures. A returned
-value of zero means that the two population have identical structure.</p>
+    <p>Calculate the relative percent difference between two population structures. A returned value of zero means that the two population have identical structure.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>IRD</span>(<span class='no'>pop1</span>, <span class='no'>pop2</span>)</pre>
+    <pre class="usage"><span class='fu'>IRD</span>(<span class='no'>pop1</span>, <span class='no'>pop2</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,6 +172,10 @@ value of zero means that the two population have identical structure.</p>
       <th>pop2</th>
       <td><p>numeric. Vector of counts from population 2.</p></td>
     </tr>
+    <tr>
+      <th>log</th>
+      <td><p>logical. Default <code>FALSE</code>. Shall we take the mean of the natural log of ratios?</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -181,11 +183,8 @@ value of zero means that the two population have identical structure.</p>
     <p>The value of the index ranging from 0 to infinity.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Input populations are assumed to be ordered in the same way prior to calling the function.
-It is only checked  that the vectors are of the same length. The input arguments could indeed be populations structured on multiple
-variables (more than just age), as long as they are ordered in the same way. It is advised to lower
-the open age group for this method because each age has the same weight. Ages where one population
-has a zero count and the other does not are thrown out.</p>
+    <p>Input populations are assumed to be ordered in the same way prior to calling the function. It is only checked  that the vectors are of the same length. The input arguments could indeed be populations structured on multiple variables (more than just age), as long as they are ordered in the same way. It is advised to lower the open age group for this method because each age has the same weight. Ages where one population has a zero count and the other does not are thrown out.</p>
+<p>If <code>log = TRUE</code> then we return a simple mean of the absolute of the log of the element-wise ratios between <code>pop1</code> and <code>pop2</code>. In this case it doesn't matter which vector is which. This result is also on a percent scale, and the max is greater than 100.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>pop1</span>                     <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7.38</span>,<span class='fl'>14.16</span>,<span class='fl'>14.79</span>,<span class='fl'>17.36</span>,<span class='fl'>15.11</span>,<span class='fl'>10.14</span>,<span class='fl'>8.50</span>,<span class='fl'>7.28</span>,<span class='fl'>5.28</span>)
