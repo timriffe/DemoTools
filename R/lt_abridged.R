@@ -220,41 +220,39 @@ lt_abridged <- function(Deaths,
     nqx[nqx > 1] <- 1
     
     nAx          <- lt_id_morq_a(
-      nqx = nqx,
-      axmethod = axmethod,
-      Age = Age,
-      AgeInt = AgeInt,
-      Sex = Sex,
-      region = region,
-      OAG = OAG,
-      mod = mod,
-      IMR = IMR
+                      nqx = nqx,
+                      axmethod = axmethod,
+                      Age = Age,
+                      AgeInt = AgeInt,
+                      Sex = Sex,
+                      region = region,
+                      OAG = OAG,
+                      mod = mod,
+                      IMR = IMR
     )
   } else {
     nAx          <- lt_id_morq_a(
-      nMx = nMx,
-      axmethod = axmethod,
-      Age = Age,
-      AgeInt = AgeInt,
-      Sex = Sex,
-      region = region,
-      OAG = OAG,
-      mod = mod,
-      IMR = IMR
-    )
+                      nMx = nMx,
+                      axmethod = axmethod,
+                      Age = Age,
+                      AgeInt = AgeInt,
+                      Sex = Sex,
+                      region = region,
+                      OAG = OAG,
+                      mod = mod,
+                      IMR = IMR)
   }
+  # TR, these nAx ought to turn out to be the same...
   
   #	# as of here we have nAx either way. And we have either mx or qx.
   
   if (missing(nqx)) {
-    nqx          <-
-      lt_id_ma_q(
-        nMx = nMx,
-        nax = nAx,
-        AgeInt = AgeInt,
-        closeout = TRUE,
-        IMR = IMR
-      )
+    nqx          <- lt_id_ma_q(
+                      nMx = nMx,
+                      nax = nAx,
+                      AgeInt = AgeInt,
+                      closeout = TRUE,
+                      IMR = IMR)
   }
   if (missing(nMx)) {
     nMx          <- lt_id_qa_m(nqx = nqx,
@@ -293,41 +291,40 @@ lt_abridged <- function(Deaths,
   nMxext[keepi]  <- nMx[Age < extrapFrom]
   nMx            <- nMxext
   Age            <- Age2
-  AgeInt         <-
-    age2int(Age, OAG = TRUE, OAvalue = max(AgeInt, na.rm = TRUE))
+  AgeInt         <- age2int(
+                      Age, 
+                      OAG = TRUE, 
+                      OAvalue = max(AgeInt, na.rm = TRUE))
   # redo ax and qx for extended ages
   nAx            <- lt_id_morq_a(
-    nMx = nMx,
-    axmethod = axmethod,
-    Age = Age,
-    AgeInt = AgeInt,
-    Sex = Sex,
-    region = region,
-    OAG = TRUE,
-    mod = mod,
-    IMR = IMR
-  )
+                      nMx = nMx,
+                      axmethod = axmethod,
+                      Age = Age,
+                      AgeInt = AgeInt,
+                      Sex = Sex,
+                      region = region,
+                      OAG = TRUE,
+                      mod = mod,
+                      IMR = IMR)
   
   nqx            <- lt_id_ma_q(
-    nMx = nMx,
-    nax = nAx,
-    AgeInt = AgeInt,
-    closeout = TRUE,
-    IMR = IMR
-  )
+                      nMx = nMx,
+                      nax = nAx,
+                      AgeInt = AgeInt,
+                      closeout = TRUE,
+                      IMR = IMR)
   
   # end extrapolation
   # ---------------------------------
   
   # TR: the lifetable is the shortest part of this code!
-  lx             <- lt_id_q_l(nqx, radix = radix)
-  ndx            <- lt_id_l_d(lx)
-  nLx            <- lt_id_lda_L(
-    lx = lx,
-    ndx = ndx,
-    nax = nAx,
-    AgeInt = AgeInt
-  )
+  lx            <- lt_id_q_l(nqx, radix = radix)
+  ndx           <- lt_id_l_d(lx)
+  nLx           <- lt_id_lda_L(
+                     lx = lx,
+                     ndx = ndx,
+                     nax = nAx,
+                     AgeInt = AgeInt)
   Tx            <- lt_id_L_T(nLx)
   ex            <- Tx / lx
   
