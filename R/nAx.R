@@ -23,6 +23,7 @@
 #' \item{approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} as:}{ \ifelse{html}{\out{q<sub>0</sub> = (b<sup>2</sup>- &radic; [b -4*a*M<sub>0</sub>]) / (2*a)}}{\eqn{q_0 = \frac{ b - sqrt(b^2 - 4 * a * M_0) }{ 2 * a } }}}
 #' \item{use {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} as}{ IMR, and applied directly to the Coale-Demeny piecewise linear formula.}
 #' }
+#' If \code{IMR} is given, then \code{M0} is disregarded, and transitivity is therefore not guaranteed. In this case, one has the option to use \code{lt_id_qm_a()} to derive \code{a(0)}, however discrepancies between these two parameters could force implausible results in \code{a(0)}, whereas the CD rule always gives something plausible.
 #'
 #' @references
 #' \insertRef{united1983manual}{DemoTools}
@@ -103,9 +104,10 @@ lt_rule_1a0_cd <- function(M0,
       IMR      <- (b - sqrt(SQRTmiddle)) / (2 * a)
     }
   }
-  ifelse(IMR > .1, Age0Const[region, Sex], {
-    Alpha + Beta * IMR
-  })
+  ifelse(
+    IMR > .1, 
+    Age0Const[region, Sex], 
+    {Alpha + Beta * IMR})
 }
 
 #' @export
@@ -275,8 +277,17 @@ lt_a_pas <-
                      AgeInt = AgeInt,
                      closeout = OAG,
                      IMR = IMR)
+    # TR: this step vulnerable, see comment below.
     ax <- lt_id_qm_a(nqx = qx, nMx = nMx, AgeInt = AgeInt)
     ax[N]  <- ifelse(OAG, 1 / nMx[N], ax[N])
+    
+    # TR 31-12-2019 at this point, transitivity is guaranteed internally for
+    # qx, mx, and ax, however, a0 may have been determied by IMR, and in this
+    # case q0 (just created above) might be different from IMR (likely so), AND
+    # the a0 might be negative or greater than 1, which simply cannot be. It
+    # should be preferred to EITHER override M0 downstream (beyond this function call)
+    # OR remove the IMR option altogether.
+    
     # ind <- impliedqx > 1
     # if (sum(ind) > 0) {
     #   for (i in which(ind)) {
