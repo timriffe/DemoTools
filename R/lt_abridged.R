@@ -166,7 +166,7 @@ lt_abridged <- function(Deaths,
                   axmethod = "pas",
                   Sex = "m",
                   region = "w",
-                  IMR = NA,
+                  IMR = NA, #TR: this arg causes headaches
                   mod = TRUE,
                   OAG = TRUE,
                   OAnew = max(Age),
@@ -219,6 +219,8 @@ lt_abridged <- function(Deaths,
     # TR: expedient hack
     nqx[nqx > 1] <- 1
     
+    # TR: note q0 likely different from IMR. In this case,
+    # disregard IMR.
     nAx          <- lt_id_morq_a(
                       nqx = nqx,
                       axmethod = axmethod,
@@ -228,8 +230,7 @@ lt_abridged <- function(Deaths,
                       region = region,
                       OAG = OAG,
                       mod = mod,
-                      IMR = IMR
-    )
+                      IMR = NA)
   } else {
     nAx          <- lt_id_morq_a(
                       nMx = nMx,
@@ -245,15 +246,17 @@ lt_abridged <- function(Deaths,
   # TR, these nAx ought to turn out to be the same...
   
   #	# as of here we have nAx either way. And we have either mx or qx.
-  
-  if (missing(nqx)) {
-    nqx          <- lt_id_ma_q(
-                      nMx = nMx,
-                      nax = nAx,
-                      AgeInt = AgeInt,
-                      closeout = TRUE,
-                      IMR = IMR)
-  }
+  # TR: 31-12-2019 comment out, code chunk appears pointless, since
+  # qx redefined
+  # if (missing(nqx)) {
+  #   nqx          <- lt_id_ma_q(
+  #                     nMx = nMx,
+  #                     nax = nAx,
+  #                     AgeInt = AgeInt,
+  #                     closeout = TRUE,
+  #                     IMR = IMR)
+  # }
+  # TR: in the case that nMx is missing, then we must have nqx by now
   if (missing(nMx)) {
     nMx          <- lt_id_qa_m(nqx = nqx,
                    nax = nAx,
@@ -268,13 +271,9 @@ lt_abridged <- function(Deaths,
   }
   # --------------------------------
   # begin extrapolation:
-  
-  # TR: Oct 11, 2018: Deprecate abacus code, too hard to maintain. Variety of laws now avail
-  # no guarantee of monotonicity in old age however.
-  
-  # TR: 13 Oct 2018. NOTE switch to always extrapolate to 130 no matter what,
+  # TR: 13 Oct 2018. always extrapolate to 130 no matter what,
   # then truncate to OAnew in all cases. This will ensure more robust closeouts
-  # and an e(x) that doesn't depend on OAnew. 130 used in same way by HMD by the way.
+  # and an e(x) that doesn't depend on OAnew. 130 is used similarly by HMD.
   x_extr         <- seq(extrapFrom, 130, by = 5)
   Mxnew          <- lt_rule_m_extrapolate(
                       x = Age,
