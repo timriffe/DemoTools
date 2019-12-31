@@ -1367,7 +1367,7 @@ graduate <- function(Value,
               Age = Age,
               AgeInt = AgeInt,
               OAG = OAG)
-    out <- interp(cbind(out,outm), dateIn = c(10,20), datesOut = 15, method = "power")
+    out <- interp(cbind(out,outm), datesIn = c(10,20), datesOut = 15, method = "power")
     dim(out) <- NULL
   }
   
