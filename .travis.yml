@@ -38,7 +38,6 @@ matrix:
 
      
 before_install:
-  - ls src/stan_files/chunks/
   - mkdir -p ~/.R/
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "CXX14 = g++-7 -fPIC -flto=2" >> ~/.R/Makevars; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "CXX14FLAGS = -mtune=native -O3" >> ~/.R/Makevars; fi
