@@ -34,7 +34,10 @@ matrix:
             - llvm-toolchain-trusty-6.0
           packages:
             - clang-6.0
-        
+      r:
+        - oldrel
+        - release
+        - devel
     - os: osx
       osx_image: xcode10.2
       r: release

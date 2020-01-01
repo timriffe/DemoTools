@@ -34,6 +34,7 @@ If sex is given as both, \code{"b"}, then female values are taken, per the PAS s
 \item{approximate {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} as:}{ \ifelse{html}{\out{q<sub>0</sub> = (b<sup>2</sup>- &radic; [b -4*a*M<sub>0</sub>]) / (2*a)}}{\eqn{q_0 = \frac{ b - sqrt(b^2 - 4 * a * M_0) }{ 2 * a } }}}
 \item{use {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} as}{ IMR, and applied directly to the Coale-Demeny piecewise linear formula.}
 }
+If \code{IMR} is given, then \code{M0} is disregarded, and transitivity is therefore not guaranteed. In this case, one has the option to use \code{lt_id_qm_a()} to derive \code{a(0)}, however discrepancies between these two parameters could force implausible results in \code{a(0)}, whereas the CD rule always gives something plausible.
 }
 \examples{
 m0 <- seq(.001, .2, by = .001)
