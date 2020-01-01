@@ -54,3 +54,7 @@ before_install:
   # - more wait4.sh
   # - echo -e "Package\x3A mnb_bnm" > DESCRIPTION
   - chmod 755 wait4.sh
+  # from https://discourse.mc-stan.org/t/building-rstanarm-like-packagee-on-travis-with-c-14/6054/10?
+  - mkdir -p ~/.R
+  - echo "CXX14FLAGS=-O3 -mtune=native -march=native -Wno-unused-variable -Wno-unused-function  -Wno-macro-redefined" >> ~/.R/Makevars
+  - echo "CXX14=g++ -std=c++1y -fPIC" >> ~/.R/Makevars
