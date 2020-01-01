@@ -47,7 +47,6 @@ matrix:
         - CC=clang
         - CXX=clang++
 
-before_install:
 # from https://discourse.mc-stan.org/t/building-rstanarm-like-packagee-on-travis-with-c-14/6054/10?
 before_install:
   - mkdir -p ~/.R

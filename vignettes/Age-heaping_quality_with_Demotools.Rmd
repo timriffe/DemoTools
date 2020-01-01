@@ -6,7 +6,7 @@ output: rmarkdown::html_vignette
 bibliography: REFERENCES.bib
 vignette: >
   %\VignetteIndexEntry{Age-heaping indices with DemoTools}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 header-includes:
 - \usepackage{amsmath}
