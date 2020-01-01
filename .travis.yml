@@ -5,10 +5,11 @@ warnings_are_errors: true
 # Use Xenial whenever running in Linux (ignored for OS X)
 dist: xenial
 
-# Disable lintr-bot comments by default
+# dont check for rgl used by dependencies here and there
 env: RGL_USE_NULL=TRUE
 
 # Construct the matrix of OS and R versions
+# this is a 2x2 matrix
 os:
   - linux
   - osx
@@ -32,19 +33,6 @@ before_install:
       echo "LDFLAGS=-L$(brew --prefix llvm)/lib" >> ~/.R/Makevars
     fi
 
-# Explicitly enable the lintr-bot for one build (this avoids duplicate comments).
-# Travis treats builds with different environment variables as different builds.
-# We therefore remove the one we don't want in order to replace it with the one
-# we do.
-matrix:
-  exclude:
-    - os: linux
-      r: release
-    - os: osx
-      r: devel
-  include:
-    - os: linux
-      r: release
 
 # Add R packages from CRAN. If newer versions are needed, r_github_packages
 # can be used instead
