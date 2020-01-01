@@ -6,7 +6,9 @@ warnings_are_errors: true
 dist: xenial
 
 # dont check for rgl used by dependencies here and there
-env: RGL_USE_NULL=TRUE
+env: 
+  global: 
+    - RGL_USE_NULL=TRUE
 
 # Construct the matrix of OS and R versions
 # this is a 2x2 matrix
@@ -32,7 +34,13 @@ before_install:
       echo "CXX=$(brew --prefix llvm)/bin/clang++" >> ~/.R/Makevars
       echo "LDFLAGS=-L$(brew --prefix llvm)/lib" >> ~/.R/Makevars
     fi
-
+  - |
+    if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+      sudo apt-get install libfreetype6-dev 
+      sudo apt-get install libftgl-dev
+      sudo apt-get install mesa-common-dev 
+      sudo apt-get install libglu1-mesa-dev
+    fi
 
 # Add R packages from CRAN. If newer versions are needed, r_github_packages
 # can be used instead
