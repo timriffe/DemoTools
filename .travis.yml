@@ -61,12 +61,14 @@ matrix:
       osx_image: xcode10
       r: release
 
+
+
      
 before_install:
   - mkdir -p ~/.R/
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "CXX14 = g++-7 -fPIC" >> ~/.R/Makevars; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "CXX14FLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O3" >> ~/.R/Makevars; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "CXX14 = clang++ -arch x86_64 -ftemplate-depth-256" >> ~/.R/Makevars; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "CXX14FLAGS = -O3 -mtune=native -march=native -Wno-unused-variable -Wno-unused-function  -Wno-unknown-pragmas" >> ~/.R/Makevars; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "CC = clang" >> ~/.R/Makevars; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo tlmgr install inconsolata; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "CXX14 = g++-7 -fPIC" >> ~/.R/Makevars
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "CXX14FLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O3" >> ~/.R/Makevars
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "CXX14 = clang++ -arch x86_64 -ftemplate-depth-256" >> ~/.R/Makevars
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "CXX14FLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O3" >> ~/.R/Makevars
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "CC = clang" >> ~/.R/Makevars
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo tlmgr install inconsolata
