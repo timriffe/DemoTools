@@ -7,7 +7,6 @@ dist: xenial
 
 # Disable lintr-bot comments by default
 env:
-  - LINTR_COMMENT_BOT=false
   - RGL_USE_NULL=TRUE
 
 # Construct the matrix of OS and R versions
@@ -42,20 +41,16 @@ matrix:
   exclude:
     - os: linux
       r: release
-      env: LINTR_COMMENT_BOT=false
     - os: osx
       r: devel
-      env: LINTR_COMMENT_BOT=false
   include:
     - os: linux
       r: release
-      env: LINTR_COMMENT_BOT=true
 
 # Add R packages from CRAN. If newer versions are needed, r_github_packages
 # can be used instead
 r_packages:
   - covr
-  - lintr
 
 after_success:
   - Rscript -e 'covr::codecov()'
