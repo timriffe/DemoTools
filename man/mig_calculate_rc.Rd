@@ -27,7 +27,9 @@ alpha2= 0.1, mu2= 21, lambda2= 0.39, a3= 0.001,
 alpha3= 1, mu3= 67, lambda3= 0.6, c= 0.01)
 ages <- 0:75
 mx <- mig_calculate_rc(ages = ages, pars = pars)
+\dontun{
 plot(ages, mx, type = 'l')
+}
 }
 \references{
 \insertRef{rogers1981model}{DemoTools}
