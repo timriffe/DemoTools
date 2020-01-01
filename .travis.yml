@@ -54,7 +54,8 @@ after_success:
   - Rscript -e 'covr::codecov()'
   
   
-# commented out from previous osx attempt
+# commented out from previous osx attempt.
+# note most recent attempt may have had a typo..
 #    if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
 #      mkdir -p ~/.R
 #      # Ensure that R will use clang from homebrew llvm (which includes openmp support)
