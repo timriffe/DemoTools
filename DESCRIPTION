@@ -38,7 +38,7 @@ Imports:
     Rdpack,
     magrittr,
     tibble,
-    rstan,
+    rstan (>= 2.18.2),
     tidybayes,
     rlang,
     dplyr,

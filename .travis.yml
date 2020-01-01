@@ -1,50 +1,62 @@
+sudo: enabled
 language: r
-sudo: true
-cache: packages
+warnings_are_errors: true
 
+# Use Xenial whenever running in Linux (ignored for OS X)
+dist: xenial
 
+# Disable lintr-bot comments by default
+env:
+  - LINTR_COMMENT_BOT=false
+
+# Construct the matrix of OS and R versions
+os:
+  - linux
+  - osx
+r:
+  - oldrel
+  - release
+  - devel
+
+# Specify any additional packages that might be needed
+addons:
+  homebrew:
+    packages:
+    - llvm
+
+before_install:
+  - |
+    if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+      mkdir -p ~/.R
+      # Ensure that R will use clang from homebrew llvm (which includes openmp support)
+      echo "CC=$(brew --prefix llvm)/bin/clang" > ~/.R/Makevars
+      echo "CXX=$(brew --prefix llvm)/bin/clang++" >> ~/.R/Makevars
+      echo "LDFLAGS=-L$(brew --prefix llvm)/lib" >> ~/.R/Makevars
+    fi
+
+# Explicitly enable the lintr-bot for one build (this avoids duplicate comments).
+# Travis treats builds with different environment variables as different builds.
+# We therefore remove the one we don't want in order to replace it with the one
+# we do.
 matrix:
+  exclude:
+    - os: linux
+      r: release
+      env: LINTR_COMMENT_BOT=false
+    - os: osx
+      r: devel
+      env: LINTR_COMMENT_BOT=false
   include:
     - os: linux
-      dist: trusty
       r: release
-      r_binary_packages:
-        - devtools
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-7
-      env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-    - os: linux
-      dist: trusty
-      r: devel
-      r_binary_packages:
-        - devtools
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-7
-      env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-    - os: osx
-      fortran: true
-      osx_image: xcode10
-      r: release
+      env: LINTR_COMMENT_BOT=true
 
-     
-before_install:
-  - mkdir -p ~/.R/
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "CXX14 = g++-7 -fPIC -flto=2" >> ~/.R/Makevars; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "CXX14FLAGS = -mtune=native -O3" >> ~/.R/Makevars; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "CXX14 = clang++ -arch x86_64 -ftemplate-depth-256" >> ~/.R/Makevars; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "CXX14FLAGS = -O3 -mtune=native" >> ~/.R/Makevars; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "CC = clang" >> ~/.R/Makevars; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo tlmgr install inconsolata; fi
+# Add R packages from CRAN. If newer versions are needed, r_github_packages
+# can be used instead
+r_packages:
+  - covr
+  - lintr
+
+after_success:
+  - Rscript -e 'covr::codecov()'
   
-after_failure:
-  - cat /home/travis/build/saudiwin/idealstan/idealstan.Rcheck/00install.out
