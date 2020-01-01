@@ -1,8 +1,20 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
+sudo: true
+dist: trusty
+# services:
+#   - docker
+
+cache: 
+  apt: true
+  ccache: true
+  packages: true
+  directories:
+    - $HOME/.ccache
+    - $HOME/.m2
+
+
 language: r
-sudo: false
-cache: packages
 latex: false
 r_build_args: '--no-build-vignettes'
 
@@ -14,39 +26,31 @@ env:
   
 matrix:
   include:
-    - dist: trusty
-      before_install:
-        - sudo apt-get install libfreetype6-dev 
-        - sudo apt-get install libftgl-dev
-        - sudo apt-get install mesa-common-dev 
-        - sudo apt-get install libglu1-mesa-dev
-      r:
-        - release
-        - devel
-        - oldrel
-    - dist: xenial
-      before_install:
-        - sudo apt-get install libfreetype6-dev 
-        - sudo apt-get install libftgl-dev
-        - sudo apt-get install mesa-common-dev 
-        - sudo apt-get install libglu1-mesa-dev
-      r: release
-    - dist: bionic
-      before_install:
-        - sudo apt-get install libfreetype6-dev 
-        - sudo apt-get install libftgl-dev
-        - sudo apt-get install mesa-common-dev 
-        - sudo apt-get install libglu1-mesa-dev
-      r:
-        - release
-        - devel
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
+          packages:
+            - clang-6.0
+        
     - os: osx
       osx_image: xcode10.2
       r: release
-    - os: osx
-      osx_image: xcode9.4
-      r: release
-    - os: osx
-      osx_image: xcode7.3
-      r: release
+      env:
+        - CC=clang
+        - CXX=clang++
+
+before_install:
+  - sudo apt-get install libfreetype6-dev 
+  - sudo apt-get install libftgl-dev
+  - sudo apt-get install mesa-common-dev 
+  - sudo apt-get install libglu1-mesa-dev
+  - eval "${MATRIX_EVAL}"
+  - echo -e "#\x21/bin/sh\n\$1 &\nPROCESS=\"\$!\"\nwhile :\ndo\n  RESULT=\`ps -p \${PROCESS} -o comm=\`" > wait4.sh
+  - echo -e "  if [ -z \"\${RESULT}\" ]; then\n    wait \${PROCESS}; exit \$?\n  else\n    echo \"-\"; sleep 10\n  fi\ndone\nexit \$?" >> wait4.sh
+  # - more wait4.sh
+  - echo -e "Package\x3A mnb_bnm" > DESCRIPTION
+  - chmod 755 wait4.sh
   
