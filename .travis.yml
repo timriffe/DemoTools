@@ -14,16 +14,6 @@ env:
   
 matrix:
   include:
-    - dist: precise
-      before_install:
-        - sudo apt-get install libfreetype6-dev 
-        - sudo apt-get install libftgl-dev
-        - sudo apt-get install mesa-common-dev 
-        - sudo apt-get install libglu1-mesa-dev
-      r:
-        - release
-        - devel
-        - oldrel
     - dist: trusty
       before_install:
         - sudo apt-get install libfreetype6-dev 
