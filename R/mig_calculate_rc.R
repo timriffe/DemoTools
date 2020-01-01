@@ -24,7 +24,7 @@
 #' alpha3= 1, mu3= 67, lambda3= 0.6, c= 0.01)
 #' ages <- 0:75
 #' mx <- mig_calculate_rc(ages = ages, pars = pars)
-#' \dontun{
+#' \dontrun{
 #' plot(ages, mx, type = 'l')
 #'}
 mig_calculate_rc <- function(ages,
