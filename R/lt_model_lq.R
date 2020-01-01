@@ -115,17 +115,16 @@ lt_model_lq <- function(
     Sex <- substr(Sex,1,1)
     
     # check if an optional fitted_logquad is specified
-    # TR: changing NULL checks to missing checks
     if(is.null(fitted_logquad)){
         
         if(Sex == "b"){
-            fitted_logquad <- DemoTools::fitted_logquad_b
+            fitted_logquad <- fitted_logquad_b
         }
         if(Sex == "f"){
-            fitted_logquad <- DemoTools::fitted_logquad_f
+            fitted_logquad <- fitted_logquad_f
         }
         if(Sex == "m"){
-            fitted_logquad <- DemoTools::fitted_logquad_m
+            fitted_logquad <- fitted_logquad_m
         }
     }
     

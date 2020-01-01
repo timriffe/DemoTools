@@ -9,6 +9,9 @@ dist: xenial
 env: 
   global: 
     - RGL_USE_NULL=TRUE
+    - _R_CHECK_FORCE_SUGGESTS_=false
+    - MAKEFLAGS="-j 2"
+
 
 # Construct the matrix of OS and R versions
 # this is a 2x2 matrix
