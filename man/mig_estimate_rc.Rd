@@ -33,9 +33,11 @@ mig_rate <- c(0.1014,0.0984,0.0839,0.0759,0.0679,0.0616,
 0.0102,0.0109,0.0107,0.0143,0.0135,0.0134,0.0116,0.0099,
 0.0093,0.0083,0.0078,0.0067,0.0069,0.0054)
 # fit the model
+\dontrun{
 res <- mig_estimate_rc(ages, mig_rate, num_pars = 7)
 # plot the results and data
 plot(ages, mig_rate, ylab = "migration rate", xlab = "age")
 lines(ages, res[["fit_df"]]$median, col = "red")
 legend("topright", legend=c("data", "fit"), col=c("black", "red"), lty=1, pch = 1)
+}
 }

@@ -19,7 +19,6 @@ library(TimUtils)
 devtools::document()
 # do this whenever the vignette text is updated
 devtools::build_vignettes()
-?devtools::build_vignettes
 
 # devtools::install_github("r-lib/pkgdown")
 pkgdown::build_site()
