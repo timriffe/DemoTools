@@ -22,8 +22,8 @@ Authors:
 \itemize{
   \item José Manuel Aburto (\href{https://orcid.org/0000-0002-2926-6879}{ORCID})
   \item Ilya Kashnitsky (\href{https://orcid.org/0000-0003-1835-8687}{ORCID})
-  \item Marius D. Pascariu (\href{https://orcid.org/0000-0002-2568-6489}{ORCID})
   \item Monica Alexander (\href{https://orcid.org/0000-0002-8135-3435}{ORCID})
+  \item Marius D. Pascariu (\href{https://orcid.org/0000-0002-2568-6489}{ORCID})
   \item Sean Fennell
 }
 

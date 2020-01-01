@@ -5,18 +5,17 @@ dist: trusty
 # services:
 #   - docker
 
-cache: 
-  apt: true
-  ccache: true
-  packages: true
-  directories:
-    - $HOME/.ccache
-    - $HOME/.m2
+#cache: 
+#  apt: true
+#  ccache: true
+#  packages: true
+#  directories:
+#    - $HOME/.ccache
+#    - $HOME/.m2
 
 
 language: r
 latex: false
-r_build_args: '--no-build-vignettes'
 
 after_success:
   - Rscript -e 'covr::codecov()'
@@ -24,10 +23,10 @@ after_success:
 env:
   - RGL_USE_NULL=TRUE
   
-r:
-  - oldrel
-  - release
-  - devel
+#r:
+#  - oldrel
+#  - release
+#  - devel
   
 matrix:
   include:
@@ -39,6 +38,7 @@ matrix:
             - llvm-toolchain-trusty-6.0
           packages:
             - clang-6.0
+      r: release
             
     - os: osx
       osx_image: xcode10.2
