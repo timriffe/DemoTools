@@ -14,12 +14,13 @@
 #' @importFrom rstan stan extract
 #' @import Rcpp
 #' @importFrom stats quantile
-#' @importFrom dplyr group_by summarise rename
-#' @importFrom tidyr gather
+# #' @importFrom dplyr group_by summarise rename
 #' @importFrom rlang sym
 #' @importFrom tibble tibble
+#' @importFrom tibble as.tibble
 #' @importFrom tidybayes gather_draws
 #' @importFrom rstan extract
+#' @import data.table
 #' @export
 #' @examples 
 #' # define ages and migration rates
@@ -90,18 +91,30 @@ mig_estimate_rc <- function(ages,
                  diff_sq = (!!sym("median") - !!sym("data"))^2)
   
   #TR: experimenting rm pipes re segfault error on osx...
-  pars_dfA <- gather_draws(rc_fit, !!sym("a[0-9]"),
+  pars_df <- gather_draws(rc_fit, !!sym("a[0-9]"),
                            !!sym("alpha[0-9]"),
                            !!sym("mu[0-9]"),
                            !!sym("lambda[0-9]"),
                            !!sym("^c$"),
                            regex = TRUE)
-  pars_dfB <- group_by(pars_dfA, !!sym(".variable")) 
-  pars_dfC <- summarise(pars_dfB, 
-                        median = median(!!sym(".value")),
-                        lower = quantile(!!sym(".value"), 0.025),
-                        upper = quantile(!!sym(".value"), 0.975))
-  pars_df_out <- dplyr::rename(paras_dfC,"variable" = !!sym(".variable"))
+  # pars_dfB <- group_by(pars_dfA, !!sym(".variable")) 
+  # pars_dfC <- summarise(pars_dfB, 
+  #                       median = median(!!sym(".value")),
+  #                       lower = quantile(!!sym(".value"), 0.025),
+  #                       upper = quantile(!!sym(".value"), 0.975))
+  # pars_df_out <- dplyr::rename(pars_dfC,"variable" = !!sym(".variable"))
+  # 
+
+  # for sake of R CMD checks
+  .value <- .variable <- NULL
+  dt <- as.data.table(pars_df) 
+  dt <- 
+    dt[, list(median = median( .value ),
+             lower = quantile(.value, 0.025),
+             upper = quantile(.value, 0.975)),
+           by = list( .variable )] %>% 
+    setnames(".variable","variable") %>% 
+    as.tibble()
   
-  return(list(pars_df = pars_df_out, fit_df = dfit))
+  return(list(pars_df = dt, fit_df = dfit))
 }

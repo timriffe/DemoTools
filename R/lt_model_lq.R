@@ -118,13 +118,13 @@ lt_model_lq <- function(
     if(is.null(fitted_logquad)){
         
         if(Sex == "b"){
-            fitted_logquad <- fitted_logquad_b
+            fitted_logquad <- DemoTools::fitted_logquad_b
         }
         if(Sex == "f"){
-            fitted_logquad <- fitted_logquad_f
+            fitted_logquad <- DemoTools::fitted_logquad_f
         }
         if(Sex == "m"){
-            fitted_logquad <- fitted_logquad_m
+            fitted_logquad <- DemoTools::fitted_logquad_m
         }
     }
     
