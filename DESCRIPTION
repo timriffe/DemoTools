@@ -21,14 +21,15 @@ LazyLoad: yes
 LazyData: true
 RoxygenNote: 7.0.2
 Depends:
-    R (>= 2.10),
+    R (>= 3.6),
     Rcpp (>= 1.0.3)
 Suggests:
     covr,
     testthat,
     knitr,
     rmarkdown,
-    DT
+    DT,
+    bibtex (>= 0.4.2)
 RdMacros: Rdpack
 Imports:
     demogR,
