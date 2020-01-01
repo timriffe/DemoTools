@@ -41,14 +41,20 @@ matrix:
   exclude:
     - os: linux
       r: release
-      env: LINTR_COMMENT_BOT=false
+      env: 
+        - LINTR_COMMENT_BOT=false
+        - RGL_USE_NULL=TRUE
     - os: osx
       r: devel
-      env: LINTR_COMMENT_BOT=false
+      env: 
+        - LINTR_COMMENT_BOT=false
+        - RGL_USE_NULL=TRUE
   include:
     - os: linux
       r: release
-      env: LINTR_COMMENT_BOT=true
+      env: 
+        - LINTR_COMMENT_BOT=true
+        - RGL_USE_NULL=TRUE
 
 # Add R packages from CRAN. If newer versions are needed, r_github_packages
 # can be used instead
