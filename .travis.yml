@@ -24,6 +24,11 @@ after_success:
 env:
   - RGL_USE_NULL=TRUE
   
+r:
+  - oldrel
+  - release
+  - devel
+  
 matrix:
   include:
     - os: linux
@@ -34,10 +39,7 @@ matrix:
             - llvm-toolchain-trusty-6.0
           packages:
             - clang-6.0
-      r:
-        - oldrel
-        - release
-        - devel
+            
     - os: osx
       osx_image: xcode10.2
       r: release
