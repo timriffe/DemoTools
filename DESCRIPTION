@@ -1,7 +1,7 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.05.13
+Version: 01.05.14
 Date: 2020-01-02
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
@@ -43,7 +43,6 @@ Imports:
     tidybayes,
     rlang,
     dplyr
-Remotes: mpascariu/MortalityEstimate
 BugReports: https://github.com/timriffe/DemoTools/issues
 Encoding: UTF-8
 VignetteBuilder: knitr
