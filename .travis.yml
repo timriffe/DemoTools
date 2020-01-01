@@ -4,7 +4,7 @@ sudo: true
 dist: trusty
 # services:
 #   - docker
-
+cache: packages
 #cache: 
 #  apt: true
 #  ccache: true
@@ -31,24 +31,42 @@ env:
 matrix:
   include:
     - os: linux
+      dist: trusty
+      r: release
+      r_binary_packages:
+        - devtools
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
           packages:
-            - clang-6.0
-      r: release
-            
-    - os: osx
-      osx_image: xcode10.2
-      r: release
+            - g++-7
       env:
-        - CC=clang
-        - CXX=clang++
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: linux
+      dist: trusty
+      r: devel
+      r_binary_packages:
+        - devtools
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: osx
+      fortran: false
+      osx_image: xcode10
+      r: release
 
-# from https://discourse.mc-stan.org/t/building-rstanarm-like-packagee-on-travis-with-c-14/6054/10?
+     
 before_install:
-  - mkdir -p ~/.R
-  - echo "CXX14FLAGS=-O3 -mtune=native -march=native -Wno-unused-variable -Wno-unused-function  -Wno-macro-redefined" >> ~/.R/Makevars
-  - echo "CXX14=g++ -std=c++1y -fPIC" >> ~/.R/Makevars
+  - mkdir -p ~/.R/
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "CXX14 = g++-7 -fPIC" >> ~/.R/Makevars; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "CXX14FLAGS = -mtune=native -march=native -Wno-unused-variable -Wno-unused-function -Wno-unused-local-typedefs -Wno-ignored-attributes -Wno-deprecated-declarations -Wno-attributes -O3" >> ~/.R/Makevars; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "CXX14 = clang++ -arch x86_64 -ftemplate-depth-256" >> ~/.R/Makevars; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "CXX14FLAGS = -O3 -mtune=native -march=native -Wno-unused-variable -Wno-unused-function  -Wno-unknown-pragmas" >> ~/.R/Makevars; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then echo "CC = clang" >> ~/.R/Makevars; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo tlmgr install inconsolata; fi
