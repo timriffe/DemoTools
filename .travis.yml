@@ -1,4 +1,4 @@
-sudo: enabled
+sudo: false
 language: r
 warnings_are_errors: true
 
@@ -6,8 +6,7 @@ warnings_are_errors: true
 dist: xenial
 
 # Disable lintr-bot comments by default
-env:
-  - RGL_USE_NULL=TRUE
+env: RGL_USE_NULL=TRUE
 
 # Construct the matrix of OS and R versions
 os:
