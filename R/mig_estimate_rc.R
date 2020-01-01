@@ -17,6 +17,9 @@
 #' @importFrom dplyr group_by summarise rename
 #' @importFrom tidyr gather
 #' @importFrom rlang sym
+#' @importFrom tibble tibble
+#' @importFrom tidybayes gather_draws
+#' @importFrom rstan extract
 #' @export
 #' @examples 
 #' # define ages and migration rates
@@ -80,22 +83,25 @@ mig_estimate_rc <- function(ages,
     y_hat[j,] <- mig_calculate_rc(ages = ages, pars = these_pars)
   }
   
-  dfit <- tibble::tibble(age = x, 
+  dfit <- tibble(age = x, 
                  data = y, median = apply(y_hat, 2, median),
                  lower = apply(y_hat, 2, quantile,0.025),
                  upper = apply(y_hat, 2, quantile, 0.975),
                  diff_sq = (!!sym("median") - !!sym("data"))^2)
-  pars_df <- rc_fit %>% tidybayes::gather_draws(!!sym("a[0-9]"),
-                                                !!sym("alpha[0-9]"),
-                                                !!sym("mu[0-9]"),
-                                                !!sym("lambda[0-9]"),
-                                                !!sym("^c$"),
-                                                regex = TRUE) %>%
-    group_by(!!sym(".variable")) %>%
-    summarise(median = median(!!sym(".value")),
-              lower = quantile(!!sym(".value"), 0.025),
-              upper = quantile(!!sym(".value"), 0.975)) %>% 
-    dplyr::rename("variable" = !!sym(".variable"))
   
-  return(list(pars_df = pars_df, fit_df = dfit))
+  #TR: experimenting rm pipes re segfault error on osx...
+  pars_dfA <- gather_draws(rc_fit, !!sym("a[0-9]"),
+                           !!sym("alpha[0-9]"),
+                           !!sym("mu[0-9]"),
+                           !!sym("lambda[0-9]"),
+                           !!sym("^c$"),
+                           regex = TRUE)
+  pars_dfB <- group_by(pars_dfA, !!sym(".variable")) 
+  pars_dfC <- summarise(pars_dfB, 
+                        median = median(!!sym(".value")),
+                        lower = quantile(!!sym(".value"), 0.025),
+                        upper = quantile(!!sym(".value"), 0.975))
+  pars_df_out <- dplyr::rename(paras_dfC,"variable" = !!sym(".variable"))
+  
+  return(list(pars_df = pars_df_out, fit_df = dfit))
 }
