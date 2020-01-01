@@ -22,7 +22,7 @@ LazyData: true
 RoxygenNote: 7.0.2
 Depends:
     R (>= 2.10),
-    Rcpp
+    Rcpp (>= 1.0.3)
 Suggests:
     covr,
     testthat,
