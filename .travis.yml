@@ -30,7 +30,6 @@ r:
 before_install:
   - |
     if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-      Rscript -e "install.packages(c('demogR','ungroup','MortalityLaws','Rdpack','rlang','dplyr','testthat','knitr','rmarkdown','DT','bibtex','MortalitySmooth','pbapply','Rcpp','rgl','RcppEigen','minpack.lm','RCurl','tidyr','gbRd','assertthat','glue','pkgconfig','tibble','tidyselect','BH','plogr','cli','ellipsis','evaluate','pkgload','praise','highr','markdown','stringr','xfun','htmltools','base64enc','tinytex','htmlwidgets','crosstalk','promises','svcm','shiny','manipulateWidget','ggplot2','miniUI','webshot','httpuv','xtable','sourcetools','later','fastmap','gtable','reshape2','scales','viridisLite','stringi','callr','processx','plyr','farver','labeling','munsell','RColorBrewer','lifecycle','fansi','pillar','colorspace','utf8','vctrs','ps','backports','zeallot','bitops','purrr','desc','pkgbuild','rprojroot','rstudioapi','prettyunits'), repos = 'https://cloud.r-project.org/', dependencies = TRUE)"
       mkdir -p ~/.R
       # Ensure that R will use clang from homebrew llvm (which includes openmp support)
       echo "CC=$(brew --prefix llvm)/bin/clang" >> ~/.R/Makevars
@@ -39,7 +38,6 @@ before_install:
     fi
   - |
     if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
-      Rscript -e "install.packages(c('demogR','ungroup','MortalityLaws','Rdpack','rlang','dplyr','testthat','knitr','rmarkdown','DT','bibtex','MortalitySmooth','pbapply','Rcpp','rgl','RcppEigen','minpack.lm','RCurl','tidyr','gbRd','assertthat','glue','pkgconfig','tibble','tidyselect','BH','plogr','cli','ellipsis','evaluate','pkgload','praise','highr','markdown','stringr','xfun','htmltools','base64enc','tinytex','htmlwidgets','crosstalk','promises','svcm','shiny','manipulateWidget','ggplot2','miniUI','webshot','httpuv','xtable','sourcetools','later','fastmap','gtable','reshape2','scales','viridisLite','stringi','callr','processx','plyr','farver','labeling','munsell','RColorBrewer','lifecycle','fansi','pillar','colorspace','utf8','vctrs','ps','backports','zeallot','bitops','purrr','desc','pkgbuild','rprojroot','rstudioapi','prettyunits'), repos = 'https://cloud.r-project.org/', dependencies = TRUE)"
       sudo apt-get install libfreetype6-dev 
       sudo apt-get install libftgl-dev
       sudo apt-get install mesa-common-dev 
