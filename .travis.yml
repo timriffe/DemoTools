@@ -7,8 +7,7 @@ warnings_are_errors: true
 dist: xenial
 
 # dont check for rgl used by dependencies here and there
-env: 
- global: RGL_USE_NULL=TRUE
+env: RGL_USE_NULL=TRUE
 
 # Construct the matrix of OS and R versions
 # this is a 2x2 matrix
