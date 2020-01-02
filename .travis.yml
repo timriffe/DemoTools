@@ -3,7 +3,7 @@ language: r
 warnings_are_errors: true
 
 # Use Xenial whenever running in Linux (ignored for OS X)
-dist: xenial
+#dist: xenial
 
 # dont check for rgl used by dependencies here and there
 env: 
