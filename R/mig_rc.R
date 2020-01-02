@@ -21,7 +21,7 @@
      real<lower=0, upper=1> a1;
      real<lower=0, upper=1> a2;
      real<lower=0, upper=1> c;
-#'     real<lower=0> mu2;
+     real<lower=0> mu2;
      real<lower=0> lambda2;
      real<lower=0> sigma;
      }
