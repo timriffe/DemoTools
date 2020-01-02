@@ -16,7 +16,7 @@ os:
  - osx
 r:
  - release
- - devel
+# - devel
 
 # Specify any additional packages that might be needed
 addons:
