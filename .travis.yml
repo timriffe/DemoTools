@@ -1,4 +1,4 @@
-sudo: false
+sudo: true
 language: r
 warnings_are_errors: true
 
@@ -30,13 +30,12 @@ addons:
 before_install:
  - |
    if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-     mkdir -p ~/.R
-     # this taken from https://github.com/tidyverse/dplyr/issues/322#issuecomment-37766444
-     echo "CC=clang" >> ~/R.Makevars
-     echo "CXX=clang++" >> ~/R.Makevars 
-     echo "PKG_CFLAGS=-g -O2" >> ~/R.Makevars
-     echo "PKG_CXXFLAGS=-g -O2 -stdlib=libc++" >> ~/R.Makevars
-   fi
+      mkdir -p ~/.R
+      # Ensure that R will use clang from homebrew llvm (which includes openmp support)
+      echo "CC=$(brew --prefix llvm)/bin/clang" >> ~/.R/Makevars
+      echo "CXX=$(brew --prefix llvm)/bin/clang++" >> ~/.R/Makevars
+      echo "LDFLAGS=-L$(brew --prefix llvm)/lib" >> ~/.R/Makevars
+    fi
   - |
     if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
       sudo apt-get install libfreetype6-dev 
@@ -52,14 +51,3 @@ r_packages:
 
 after_success:
   - Rscript -e 'covr::codecov()'
-  
-  
-# commented out from previous osx attempt.
-# note most recent attempt may have had a typo..
-#    if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-#      mkdir -p ~/.R
-#      # Ensure that R will use clang from homebrew llvm (which includes openmp support)
-#      echo "CC=$(brew --prefix llvm)/bin/clang" >> ~/.R/Makevars
-#      echo "CXX=$(brew --prefix llvm)/bin/clang++" >> ~/.R/Makevars
-#      echo "LDFLAGS=-L$(brew --prefix llvm)/lib" >> ~/.R/Makevars
-#    fi
