@@ -9,8 +9,8 @@ dist: xenial
 env: 
   global: 
     - RGL_USE_NULL=TRUE
-    - _R_CHECK_FORCE_SUGGESTS_=false
-    - MAKEFLAGS="-j 2"
+#    - _R_CHECK_FORCE_SUGGESTS_=false
+#    - MAKEFLAGS="-j 2"
 
 # Construct the matrix of OS and R versions
 # this is a 2x2 matrix
@@ -22,27 +22,27 @@ r:
 #  - devel
 
 # Specify any additional packages that might be needed
-addons:
-  homebrew:
-    packages:
-    - llvm
+#addons:
+#  homebrew:
+#    packages:
+#    - llvm
 
-before_install:
- - |
-   if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-      mkdir -p ~/.R
-      # Ensure that R will use clang from homebrew llvm (which includes openmp support)
-      echo "CC=$(brew --prefix llvm)/bin/clang" >> ~/.R/Makevars
-      echo "CXX=$(brew --prefix llvm)/bin/clang++" >> ~/.R/Makevars
-      echo "LDFLAGS=-L$(brew --prefix llvm)/lib" >> ~/.R/Makevars
-    fi
-  - |
-    if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
-      sudo apt-get install libfreetype6-dev 
-      sudo apt-get install libftgl-dev
-      sudo apt-get install mesa-common-dev 
-      sudo apt-get install libglu1-mesa-dev
-    fi
+#before_install:
+# - |
+#   if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+#      mkdir -p ~/.R
+#      # Ensure that R will use clang from homebrew llvm (which includes openmp support)
+#      echo "CC=$(brew --prefix llvm)/bin/clang" >> ~/.R/Makevars
+#      echo "CXX=$(brew --prefix llvm)/bin/clang++" >> ~/.R/Makevars
+#      echo "LDFLAGS=-L$(brew --prefix llvm)/lib" >> ~/.R/Makevars
+#    fi
+#  - |
+#    if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+#      sudo apt-get install libfreetype6-dev 
+#      sudo apt-get install libftgl-dev
+#      sudo apt-get install mesa-common-dev 
+#      sudo apt-get install libglu1-mesa-dev
+#    fi
 
 # Add R packages from CRAN. If newer versions are needed, r_github_packages
 # can be used instead
