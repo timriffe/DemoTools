@@ -7,9 +7,10 @@ dist: xenial
 
 # dont check for rgl used by dependencies here and there
 env: 
-  global: RGL_USE_NULL=TRUE
-#    - _R_CHECK_FORCE_SUGGESTS_=false
-#    - MAKEFLAGS="-j 2"
+  global: 
+    - RGL_USE_NULL=TRUE
+    - _R_CHECK_FORCE_SUGGESTS_=false
+    - MAKEFLAGS="-j 2"
 
 # Construct the matrix of OS and R versions
 # this is a 2x2 matrix
@@ -22,19 +23,19 @@ r:
 
 # Specify any additional packages that might be needed
 #addons:
-#  homebrew:
-#    packages:
-#    - llvm
+  homebrew:
+    packages:
+    - llvm
 
 before_install:
-# - |
-#   if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-#      mkdir -p ~/.R
-#      # Ensure that R will use clang from homebrew llvm (which includes openmp support)
-#      echo "CC=$(brew --prefix llvm)/bin/clang" >> ~/.R/Makevars
-#      echo "CXX=$(brew --prefix llvm)/bin/clang++" >> ~/.R/Makevars
-#      echo "LDFLAGS=-L$(brew --prefix llvm)/lib" >> ~/.R/Makevars
-#    fi
+  - |
+    if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+      mkdir -p ~/.R
+      # Ensure that R will use clang from homebrew llvm (which includes openmp support)
+      echo "CC=$(brew --prefix llvm)/bin/clang" >> ~/.R/Makevars
+      echo "CXX=$(brew --prefix llvm)/bin/clang++" >> ~/.R/Makevars
+      echo "LDFLAGS=-L$(brew --prefix llvm)/lib" >> ~/.R/Makevars
+    fi
   - |
     if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
       sudo apt-get install libfreetype6-dev 

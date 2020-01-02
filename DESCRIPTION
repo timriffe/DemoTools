@@ -21,7 +21,8 @@ LazyLoad: yes
 LazyData: true
 RoxygenNote: 7.0.2
 Depends:
-    R (>= 3.6)
+    R (>= 3.6),
+    Rcpp
 Suggests:
     covr,
     testthat,
@@ -35,9 +36,13 @@ Imports:
     ungroup,
     MortalityLaws (>= 1.7.0),
     Rdpack,
+    data.table,
     magrittr,
     rlang,
-    dplyr
+    dplyr,
+    rstan,
+    tibble,
+    tidybayes
 BugReports: https://github.com/timriffe/DemoTools/issues
 Encoding: UTF-8
 VignetteBuilder: knitr
