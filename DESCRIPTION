@@ -1,7 +1,7 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.05.14
+Version: 01.05.15
 Date: 2020-01-02
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
@@ -22,7 +22,6 @@ LazyData: true
 RoxygenNote: 7.0.2
 Depends:
     R (>= 3.6),
-    Rcpp (>= 1.0.3),
     data.table
 Suggests:
     covr,
@@ -38,9 +37,6 @@ Imports:
     MortalityLaws (>= 1.7.0),
     Rdpack,
     magrittr,
-    tibble,
-    rstan (>= 2.18.2),
-    tidybayes,
     rlang,
     dplyr
 BugReports: https://github.com/timriffe/DemoTools/issues
