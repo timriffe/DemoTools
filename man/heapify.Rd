@@ -46,6 +46,7 @@ We use pascal weights, \code{c(1,4,6,4,1)} scaled to argument \code{p5} and \cod
 # pop1m_pasex is already quite heaped:
 Age <- 0:99
 A5 <- seq(0,95,by=5)
+\dontrun{
 plot(Age,pop1m_pasex)
 # here it is again, smoothed:
 smoothed <- graduate_sprague(
@@ -59,5 +60,5 @@ smoothed <- graduate_sprague(
 lines(Age, smoothed)
 # an OK approximation for testing purposes.
 points(Age,heapify(smoothed,Age=0:99,1.8,1.1,ageMin=20),pch="x")
-
+}
 }

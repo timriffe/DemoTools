@@ -58,6 +58,7 @@
 #' f8 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "quadratic")
 #'
 #' # Plot the results
+#' \dontrun{
 #' par(mfrow = c(1, 2))
 #' plot(x, mx, pch = 16, xlim = c(60, 110), ylim = c(0, 0.6), cex = 1.5)
 #' points(x_fit, mx[paste(x_fit)], pch = 16, col = 4, cex = 1.5)
@@ -76,7 +77,7 @@
 #'                   "Makeham", "Beard", "Beard-Makeham", "Quadratic"),
 #'        lty = c(NA, NA, 1:8), pch = c(16, 16, rep(NA, 8)),
 #'        col = c(1, 4, 2:9), lwd = 2, pt.cex = 2)
-#'
+#'}
 #'
 #' # ----------------------------------------------
 #' # Example 2 - 1-year age data
@@ -103,6 +104,7 @@
 #' g8 <- lt_rule_m_extrapolate(mx1, x1, x_fit, x_extr, law = "quadratic")
 #'
 #' # Plot
+#' \dontrun{
 #' plot(x1, mx1, log = "y", ylim = c(0.001, 5),
 #'      pch = 16, xlim = c(65, 125), cex = 1.3)
 #' points(x_fit, mx1[paste(x_fit)], pch = 16, col = 4, cex = 1.5)
@@ -121,7 +123,7 @@
 #'                   "Makeham", "Beard", "Beard-Makeham", "Quadratic"),
 #'        lty = c(NA, NA, 1:8), pch = c(16, 16, rep(NA, 8)),
 #'        col = c(1, 4, 2:9), lwd = 2, pt.cex = 2)
-#'
+#'}
 #' # ----------------------------------------------
 #' # Example 3 - Extrapolate mortality for multiple years at once
 #'
