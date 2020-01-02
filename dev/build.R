@@ -92,3 +92,20 @@ plot(deps)
 
 # NOTE TO SELF
 # try goodpractice package
+
+# Extra once-off checks
+
+# checks run Aug 13, 2018
+check_win_devel()      # OK
+check_win_release()    # OK
+check_win_oldrelease() # OK
+
+check_rhub(email = "tim.riffe@gmail.com", interactive = FALSE)  # sent
+
+library(spelling)
+spell_check()
+
+# for notable moments of stability and cleanliness:
+release()
+
+
