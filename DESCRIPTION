@@ -21,8 +21,7 @@ LazyLoad: yes
 LazyData: true
 RoxygenNote: 7.0.2
 Depends:
-    R (>= 3.6),
-    data.table
+    R (>= 3.6)
 Suggests:
     covr,
     testthat,
