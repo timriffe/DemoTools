@@ -269,16 +269,18 @@ lt_a_pas <-
                 Sex = Sex,
                 region = region)
   
-    # TR 5-12-2019 this tw-step returns midpoints IFF they
+    # TR 5-12-2019 this two-step returns midpoints IFF they
     # don't imply qx > 1, otherwise, for such pathological
     # values it returns the ax implied by a constant hazard.
-    qx <- lt_id_ma_q(nMx = nMx,
-                     nax = ax,
-                     AgeInt = AgeInt,
-                     closeout = OAG,
-                     IMR = IMR)
-    # TR: this step vulnerable, see comment below.
-    ax <- lt_id_qm_a(nqx = qx, nMx = nMx, AgeInt = AgeInt)
+    # TR 4-1-2020 removed. caes of qx > 1 can be dealt with
+    # downstream if necessary.
+    # qx <- lt_id_ma_q(nMx = nMx,
+    #                  nax = ax,
+    #                  AgeInt = AgeInt,
+    #                  closeout = OAG,
+    #                  IMR = IMR)
+    # # TR: this step vulnerable, see comment below.
+    # ax <- lt_id_qm_a(nqx = qx, nMx = nMx, AgeInt = AgeInt)
     ax[N]  <- ifelse(OAG, 1 / nMx[N], ax[N])
     
     # TR 31-12-2019 at this point, transitivity is guaranteed internally for
@@ -402,12 +404,20 @@ lt_id_morq_a_greville <- function(nMx,
   # sort out arguments:
   mxflag  <- missing(nMx)
   qxflag  <- missing(nqx)
+  imr_flag <- !is.na(IMR)
+  
+
   
   # if no qx, we can get from lx if available
   if (qxflag & !missing(lx)) {
     nqx <- lt_id_l_d(lx) / lx
     qxflag <- FALSE
   }
+  if (!qxflag & imr_flag){
+    # preserve IMR like so
+    nqx[1] <- IMR
+  }
+  
   stopifnot(!qxflag | !mxflag)
   # now we have either qx or mx
   
@@ -425,8 +435,9 @@ lt_id_morq_a_greville <- function(nMx,
     # qind slightly different from qxflag?
     qind   <- FALSE
   }
-  # TR: from this it would appear that nMx is preferred input
+
   if (mxflag & !qxflag) {
+    # TR: in any case nqx[1] is IMR, if IMR was given.
     a0     <- lt_rule_1a0_cd(
                 M0 = NA,
                 IMR = nqx[1],
@@ -449,12 +460,12 @@ lt_id_morq_a_greville <- function(nMx,
   # if both mx and qx given at start then we get ax by identity
   # this is a fallback, always preferred, and not part of the greville
   # method per se. Greville is an either-or method.
-  if (!qxflag & !mxflag) {
-    ax <- lt_id_qm_a(nqx = nqx,
-                  nMx = nMx,
-                  AgeInt = AgeInt)
-    qind <- FALSE
-  } else {
+  # if (!qxflag & !mxflag) {
+  #   ax <- lt_id_qm_a(nqx = nqx,
+  #                 nMx = nMx,
+  #                 AgeInt = AgeInt)
+  #   qind <- FALSE
+  # } else {
     # then we enter the greville loop
     ax     <- AgeInt / 2
     for (i in 2:(N - 1)) {
@@ -486,6 +497,7 @@ lt_id_morq_a_greville <- function(nMx,
       
       ## add constraint at older ages (in Mortpak and bayesPop)
       ## 0.97                                                                                               = 1-5*exp(-5)/(1-exp(-5)), for constant mu=1, Kannisto assumption
+   
       ## (Mortpak used 1 instead of 0.97).
       if (Age[i] > 35 && ax[i] < 0.97) {
         ax[i] <- 0.97
@@ -497,7 +509,7 @@ lt_id_morq_a_greville <- function(nMx,
       ax[i] <- ifelse(qind & Age[i] >= 65 & ax[i] < tmp, tmp, ax[i])
       
     }
-  }
+  #}
   ax[1:2] <- c(a0, a1_4)
   if (!mod) {
     ax[3:4] <- 2.5
@@ -506,13 +518,12 @@ lt_id_morq_a_greville <- function(nMx,
   # closeout
   if (max(Age) < 130 & closeout) {
     aomega         <- lt_a_closeout(
-      mx = nMx,
-      Age = Age,
-      law = law,
-      extrapFrom = extrapFrom,
-      extrapFit = extrapFit,
-      ...
-    )
+                         mx = nMx,
+                         Age = Age,
+                         law = law,
+                         extrapFrom = extrapFrom,
+                         extrapFit = extrapFit,
+                         ...)
     
     ax[N]          <- aomega
   } else {
@@ -859,27 +870,24 @@ lt_id_morq_a <- function(nMx,
   if (axmethod == "pas") {
     # what if only qx was given?
     if (missing(nMx)) {
-      fakenMx <- nqx
       nAx       <- lt_a_pas(
-        nMx = fakenMx,
-        AgeInt = AgeInt,
-        IMR = nqx[1],
-        Sex = Sex,
-        region = region,
-        OAG = OAG
-      )
+                     nMx = nqx,
+                     AgeInt = AgeInt,
+                     IMR = IMR,
+                     Sex = Sex,
+                     region = region,
+                     OAG = OAG)             
       
     } else {
       # if nMx avail, then Open age group
       # closed according to convention.
       nAx       <- lt_a_pas(
-        nMx = nMx,
-        AgeInt = AgeInt,
-        IMR = IMR,
-        Sex = Sex,
-        region = region,
-        OAG = TRUE
-      )
+                     nMx = nMx,
+                     AgeInt = AgeInt,
+                     IMR = IMR,
+                     Sex = Sex,
+                     region = region,
+                     OAG = TRUE)
     }
   }
   if (axmethod == "un") {
@@ -888,33 +896,31 @@ lt_id_morq_a <- function(nMx,
     if (missing(nMx)) {
       #fakenMx   <- nqx
       nAx       <- lt_a_un(
-        nqx = nqx,
-        Age = Age,
-        AgeInt = AgeInt,
-        IMR = nqx[1],
-        Sex = Sex,
-        region = region,
-        mod = mod,
-        extrapLaw = extrapLaw,
-        extrapFrom = extrapFrom,
-        extrapFit = extrapFit,
-        ...
-      )
+                     nqx = nqx,
+                     Age = Age,
+                     AgeInt = AgeInt,
+                     IMR = IMR,
+                     Sex = Sex,
+                     region = region,
+                     mod = mod,
+                     extrapLaw = extrapLaw,
+                     extrapFrom = extrapFrom,
+                     extrapFit = extrapFit,
+                     ...)
       
     } else {
       nAx       <- lt_a_un(
-        nMx = nMx,
-        Age = Age,
-        AgeInt = AgeInt,
-        IMR = IMR,
-        Sex = Sex,
-        region = region,
-        mod = mod,
-        extrapLaw = extrapLaw,
-        extrapFrom = extrapFrom,
-        extrapFit = extrapFit,
-        ...
-      )
+                     nMx = nMx,
+                     Age = Age,
+                     AgeInt = AgeInt,
+                     IMR = IMR,
+                     Sex = Sex,
+                     region = region,
+                     mod = mod,
+                     extrapLaw = extrapLaw,
+                     extrapFrom = extrapFrom,
+                     extrapFit = extrapFit,
+                     ...)
     }
     
   }

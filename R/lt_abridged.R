@@ -199,9 +199,13 @@ lt_abridged <- function(Deaths,
   stopifnot(OAnew <= 110)
   # need to make it possible to start w (D,E), M, q or l...
   
+  # TR: make sure IMR propagates
+  imr_flag <- !is.na(IMR)
+  
   # 1) if lx given but not qx:
   if (missing(nqx) & !missing(lx)) {
     nqx          <- lt_id_l_d(lx) / lx
+    nqx[1]       <- ifelse(imr_flag, IMR, nqx[1])
   }
   # 2) if still no nqx then make sure we have or can get nMx
   if (missing(nqx) & missing(nMx)) {
@@ -216,11 +220,12 @@ lt_abridged <- function(Deaths,
   
   # take care of ax first, two ways presently
   if (missing(nMx)) {
+    nqx[1]       <- ifelse(imr_flag, IMR, nqx[1])
+    
     # TR: expedient hack
     nqx[nqx > 1] <- 1
     
-    # TR: note q0 likely different from IMR. In this case,
-    # disregard IMR.
+    # TR: note q0 likely different from IMR. In this case use IMR
     nAx          <- lt_id_morq_a(
                       nqx = nqx,
                       axmethod = axmethod,
@@ -230,7 +235,7 @@ lt_abridged <- function(Deaths,
                       region = region,
                       OAG = OAG,
                       mod = mod,
-                      IMR = NA)
+                      IMR = IMR)
   } else {
     nAx          <- lt_id_morq_a(
                       nMx = nMx,
@@ -312,6 +317,11 @@ lt_abridged <- function(Deaths,
                       AgeInt = AgeInt,
                       closeout = TRUE,
                       IMR = IMR)
+  
+  # one more step: make sure M0 agrees with
+  # q0 and a0, which may have been determined by IMR parameter
+  nMx[1] <- lt_id_qa_m(nqx = nqx[1], nax = nAx[1], AgeInt = 1)
+  
   
   # end extrapolation
   # ---------------------------------
