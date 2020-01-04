@@ -78,7 +78,7 @@ In this and some other older texts, a(0) is known as a 'separation factor'." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.19</span>
       </span>
     </div>
 
@@ -197,8 +197,7 @@ In this and some other older texts, a(0) is known as a 'separation factor'.</p>
 <li><p>calculate \(b\) as: b = 1 + M<sub>0</sub> *(1- &alpha;)</p></li>
 <li><p>approximate q<sub>0</sub> as: q<sub>0</sub> = (b<sup>2</sup>- &radic; [b -4*a*M<sub>0</sub>]) / (2*a)</p></li>
 <li><p>use q<sub>0</sub> as IMR, and applied directly to the Coale-Demeny piecewise linear formula.</p></li>
-</ol>
-
+</ol><p>If <code>IMR</code> is given, then <code>M0</code> is disregarded, and transitivity is therefore not guaranteed. In this case, one has the option to use <code><a href='lt_id_qm_a.html'>lt_id_qm_a()</a></code> to derive <code>a(0)</code>, however discrepancies between these two parameters could force implausible results in <code>a(0)</code>, whereas the CD rule always gives something plausible.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>United Nations (1983).
@@ -248,7 +247,7 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Marius D. Pascariu, Monica Alexander, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">

@@ -43,7 +43,7 @@
 
 
 <meta property="og:title" content="Estimate Rogers-Castro migration age schedule — mig_estimate_rc" />
-<meta property="og:description" content="Given a set of ages and observed age-specific migration rates, estimate the parameters of a Rogers-Castro model migration schedule. 
+<meta property="og:description" content="Given a set of ages and observed age-specific migration rates, estimate the parameters of a Rogersastro model migration schedule. 
 Choose between a 7,9,11 or 13 parameter model." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -78,7 +78,7 @@ Choose between a 7,9,11 or 13 parameter model." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.19</span>
       </span>
     </div>
 
@@ -157,7 +157,7 @@ Choose between a 7,9,11 or 13 parameter model." />
     </div>
 
     <div class="ref-description">
-    <p>Given a set of ages and observed age-specific migration rates, estimate the parameters of a Rogers-Castro model migration schedule. 
+    <p>Given a set of ages and observed age-specific migration rates, estimate the parameters of a Rogersastro model migration schedule. 
 Choose between a 7,9,11 or 13 parameter model.</p>
     </div>
 
@@ -199,11 +199,12 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 <span class='fl'>0.0102</span>,<span class='fl'>0.0109</span>,<span class='fl'>0.0107</span>,<span class='fl'>0.0143</span>,<span class='fl'>0.0135</span>,<span class='fl'>0.0134</span>,<span class='fl'>0.0116</span>,<span class='fl'>0.0099</span>,
 <span class='fl'>0.0093</span>,<span class='fl'>0.0083</span>,<span class='fl'>0.0078</span>,<span class='fl'>0.0067</span>,<span class='fl'>0.0069</span>,<span class='fl'>0.0054</span>)
 <span class='co'># fit the model</span>
+
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>mig_estimate_rc</span>(<span class='no'>ages</span>, <span class='no'>mig_rate</span>, <span class='kw'>num_pars</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt; 
-#&gt; SAMPLING FOR MODEL '77fe169230af79897bf8e500d8c37dc4' NOW (CHAIN 1).
+#&gt; SAMPLING FOR MODEL '12623aefde970f045d7caf398c46bcc1' NOW (CHAIN 1).
 #&gt; Chain 1: 
-#&gt; Chain 1: Gradient evaluation took 4.8e-05 seconds
-#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.48 seconds.
+#&gt; Chain 1: Gradient evaluation took 4e-05 seconds
+#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.4 seconds.
 #&gt; Chain 1: Adjust your expectations accordingly!
 #&gt; Chain 1: 
 #&gt; Chain 1: 
@@ -220,15 +221,15 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 #&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #&gt; Chain 1: 
-#&gt; Chain 1:  Elapsed Time: 0.630618 seconds (Warm-up)
-#&gt; Chain 1:                0.622086 seconds (Sampling)
-#&gt; Chain 1:                1.2527 seconds (Total)
+#&gt; Chain 1:  Elapsed Time: 0.506638 seconds (Warm-up)
+#&gt; Chain 1:                0.395589 seconds (Sampling)
+#&gt; Chain 1:                0.902227 seconds (Total)
 #&gt; Chain 1: 
 #&gt; 
-#&gt; SAMPLING FOR MODEL '77fe169230af79897bf8e500d8c37dc4' NOW (CHAIN 2).
+#&gt; SAMPLING FOR MODEL '12623aefde970f045d7caf398c46bcc1' NOW (CHAIN 2).
 #&gt; Chain 2: 
-#&gt; Chain 2: Gradient evaluation took 2.2e-05 seconds
-#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.22 seconds.
+#&gt; Chain 2: Gradient evaluation took 1.8e-05 seconds
+#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
 #&gt; Chain 2: Adjust your expectations accordingly!
 #&gt; Chain 2: 
 #&gt; Chain 2: 
@@ -245,15 +246,15 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 #&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #&gt; Chain 2: 
-#&gt; Chain 2:  Elapsed Time: 0.618355 seconds (Warm-up)
-#&gt; Chain 2:                0.587401 seconds (Sampling)
-#&gt; Chain 2:                1.20576 seconds (Total)
+#&gt; Chain 2:  Elapsed Time: 0.410993 seconds (Warm-up)
+#&gt; Chain 2:                0.383516 seconds (Sampling)
+#&gt; Chain 2:                0.794509 seconds (Total)
 #&gt; Chain 2: 
 #&gt; 
-#&gt; SAMPLING FOR MODEL '77fe169230af79897bf8e500d8c37dc4' NOW (CHAIN 3).
+#&gt; SAMPLING FOR MODEL '12623aefde970f045d7caf398c46bcc1' NOW (CHAIN 3).
 #&gt; Chain 3: 
-#&gt; Chain 3: Gradient evaluation took 2.3e-05 seconds
-#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
+#&gt; Chain 3: Gradient evaluation took 2e-05 seconds
+#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.
 #&gt; Chain 3: Adjust your expectations accordingly!
 #&gt; Chain 3: 
 #&gt; Chain 3: 
@@ -270,15 +271,15 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 #&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #&gt; Chain 3: 
-#&gt; Chain 3:  Elapsed Time: 0.712683 seconds (Warm-up)
-#&gt; Chain 3:                0.601311 seconds (Sampling)
-#&gt; Chain 3:                1.31399 seconds (Total)
+#&gt; Chain 3:  Elapsed Time: 0.473927 seconds (Warm-up)
+#&gt; Chain 3:                0.398189 seconds (Sampling)
+#&gt; Chain 3:                0.872116 seconds (Total)
 #&gt; Chain 3: 
 #&gt; 
-#&gt; SAMPLING FOR MODEL '77fe169230af79897bf8e500d8c37dc4' NOW (CHAIN 4).
+#&gt; SAMPLING FOR MODEL '12623aefde970f045d7caf398c46bcc1' NOW (CHAIN 4).
 #&gt; Chain 4: 
-#&gt; Chain 4: Gradient evaluation took 2.4e-05 seconds
-#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.24 seconds.
+#&gt; Chain 4: Gradient evaluation took 1.7e-05 seconds
+#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.17 seconds.
 #&gt; Chain 4: Adjust your expectations accordingly!
 #&gt; Chain 4: 
 #&gt; Chain 4: 
@@ -295,11 +296,15 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 #&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #&gt; Chain 4: 
-#&gt; Chain 4:  Elapsed Time: 0.735149 seconds (Warm-up)
-#&gt; Chain 4:                0.513762 seconds (Sampling)
-#&gt; Chain 4:                1.24891 seconds (Total)
-#&gt; Chain 4: </div><div class='input'><span class='co'># plot the results and data</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>ages</span>, <span class='no'>mig_rate</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"migration rate"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"age"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>ages</span>, <span class='no'>res</span><span class='kw'>[[</span><span class='st'>"fit_df"</span>]]$<span class='no'>median</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"topright"</span>, <span class='kw'>legend</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"data"</span>, <span class='st'>"fit"</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>, <span class='st'>"red"</span>), <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='mig_estimate_rc-1.png' alt='' width='700' height='433' /></div></pre>
+#&gt; Chain 4:  Elapsed Time: 0.503473 seconds (Warm-up)
+#&gt; Chain 4:                0.402462 seconds (Sampling)
+#&gt; Chain 4:                0.905935 seconds (Total)
+#&gt; Chain 4: </div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># plot the results and data</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>ages</span>, <span class='no'>mig_rate</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"migration rate"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"age"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>ages</span>, <span class='no'>res</span><span class='kw'>[[</span><span class='st'>"fit_df"</span>]]$<span class='no'>median</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"topright"</span>, <span class='kw'>legend</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"data"</span>, <span class='st'>"fit"</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>, <span class='st'>"red"</span>), <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
@@ -314,7 +319,7 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Marius D. Pascariu, Monica Alexander, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
