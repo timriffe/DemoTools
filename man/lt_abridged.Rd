@@ -6,11 +6,11 @@
 \title{Calculate an abridged-age lifetable.}
 \usage{
 lt_abridged(
-  Deaths,
-  Exposures,
-  nMx,
-  nqx,
-  lx,
+  Deaths = NULL,
+  Exposures = NULL,
+  nMx = NULL,
+  nqx = NULL,
+  lx = NULL,
   Age,
   AgeInt = age2int(Age = Age, OAvalue = 5),
   radix = 1e+05,
@@ -24,16 +24,16 @@ lt_abridged(
   extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
     "Beard", "Beard_Makeham", "Quadratic")[1],
   extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60],
+  extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
   ...
 )
 
 LTabr(
-  Deaths,
-  Exposures,
-  nMx,
-  nqx,
-  lx,
+  Deaths = NULL,
+  Exposures = NULL,
+  nMx = NULL,
+  nqx = NULL,
+  lx = NULL,
   Age,
   AgeInt = age2int(Age = Age, OAvalue = 5),
   radix = 1e+05,
@@ -47,7 +47,7 @@ LTabr(
   extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
     "Beard", "Beard_Makeham", "Quadratic")[1],
   extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60],
+  extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
   ...
 )
 }

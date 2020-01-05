@@ -155,18 +155,18 @@
 #' 		mod = FALSE,
 #' 		OAnew = 60)
 
-lt_abridged <- function(Deaths,
-                  Exposures,
-                  nMx,
-                  nqx,
-                  lx,
+lt_abridged <- function(Deaths = NULL,
+                  Exposures = NULL,
+                  nMx = NULL,
+                  nqx = NULL,
+                  lx = NULL,
                   Age,
                   AgeInt = age2int(Age = Age, OAvalue = 5),
                   radix = 1e5,
                   axmethod = "pas",
                   Sex = "m",
                   region = "w",
-                  IMR = NA, #TR: this arg causes headaches
+                  IMR = NA, 
                   mod = TRUE,
                   OAG = TRUE,
                   OAnew = max(Age),
@@ -181,7 +181,7 @@ lt_abridged <- function(Deaths,
                     "Quadratic"
                   )[1],
                   extrapFrom = max(Age),
-                  extrapFit = Age[Age >= 60],
+                  extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
                   ...) {
   if (as.character(match.call()[[1]]) == "LTabr") {
     warning("please use lt_abridged() instead of LTabr().", call. = FALSE)
@@ -201,16 +201,20 @@ lt_abridged <- function(Deaths,
   
   # TR: make sure IMR propagates
   imr_flag <- !is.na(IMR)
-  
-  # 1) if lx given but not qx:
-  if (missing(nqx) & !missing(lx)) {
+  # and use more consistent flags
+  mxflag   <- !is.null(nMx)
+  qxflag   <- !is.null(nqx)
+  # 1) if lx given but not qx:9
+  if ((!qxflag) & (!is.null(lx))) {
     nqx          <- lt_id_l_d(lx) / lx
     nqx[1]       <- ifelse(imr_flag, IMR, nqx[1])
+    qxflag       <- TRUE
   }
   # 2) if still no nqx then make sure we have or can get nMx
-  if (missing(nqx) & missing(nMx)) {
-    stopifnot((!missing(Deaths)) & (!missing(Exposures)))
+  if ((!qxflag) & (!mxflag)) {
+    stopifnot((!is.null(Deaths)) & (!is.null(Exposures)))
     nMx          <- Deaths / Exposures
+    mxflag       <- TRUE
   }
   
   axmethod       <- tolower(axmethod)
@@ -219,7 +223,7 @@ lt_abridged <- function(Deaths,
   extrapLaw      <- tolower(extrapLaw)
   
   # take care of ax first, two ways presently
-  if (missing(nMx)) {
+  if (!mxflag) {
     nqx[1]       <- ifelse(imr_flag, IMR, nqx[1])
     
     # TR: expedient hack
@@ -262,16 +266,20 @@ lt_abridged <- function(Deaths,
   #                     IMR = IMR)
   # }
   # TR: in the case that nMx is missing, then we must have nqx by now
-  if (missing(nMx)) {
+  if (!mxflag){
+    # TR note, if OAG, then final nMx is NA here!
     nMx          <- lt_id_qa_m(nqx = nqx,
-                   nax = nAx,
-                   AgeInt = AgeInt)
+                               nax = nAx,
+                               AgeInt = AgeInt)
   }
   # now we have all three, [mx,ax,qx] guaranteed.
   
   OA             <- max(Age)
   # TR: save for later, in case OAG preserved
-  if (OAG & OAnew == OA) {
+  # TR: 5-1-2020, having doubts re this, can also
+  # back out momega from extrapolation, and this would
+  # handle closeout agreement in case of nqx inputs
+  if (OAG & OAnew == OA & mxflag) {
     momega       <- nMx[length(nMx)]
   }
   # --------------------------------
@@ -280,6 +288,7 @@ lt_abridged <- function(Deaths,
   # then truncate to OAnew in all cases. This will ensure more robust closeouts
   # and an e(x) that doesn't depend on OAnew. 130 is used similarly by HMD.
   x_extr         <- seq(extrapFrom, 130, by = 5)
+  
   Mxnew          <- lt_rule_m_extrapolate(
                       x = Age,
                       mx = nMx,
@@ -329,11 +338,10 @@ lt_abridged <- function(Deaths,
   # TR: the lifetable is the shortest part of this code!
   lx            <- lt_id_q_l(nqx, radix = radix)
   ndx           <- lt_id_l_d(lx)
-  nLx           <- lt_id_lda_L(
-                     lx = lx,
-                     ndx = ndx,
-                     nax = nAx,
-                     AgeInt = AgeInt)
+  nLx           <- lt_id_lda_L(lx = lx,
+                               ndx = ndx,
+                               nax = nAx,
+                               AgeInt = AgeInt)
   Tx            <- lt_id_L_T(nLx)
   ex            <- Tx / lx
   
@@ -361,7 +369,7 @@ lt_abridged <- function(Deaths,
   # TR: https://github.com/timriffe/DemoTools/issues/83
   # (Added 3 Oct 2019)
   if (OAG) {
-    if (OAnew == OA) {
+    if (OAnew == OA & mxflag) {
       nMx[N] <- momega
     } else {
       # Otherwise inner coherence
