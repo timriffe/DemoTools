@@ -31,7 +31,7 @@ lt_single_mx <- function(nMx,
                         extrapLaw = c("Kannisto","Kannisto_Makeham",
                           "Makeham", "Gompertz", "GGompertz",
                           "Beard", "Beard_Makeham", "Quadratic"
-                        )[1],
+                        ),
                              extrapFrom = max(Age),
                              extrapFit = Age[Age >= 60],
                              ...) {

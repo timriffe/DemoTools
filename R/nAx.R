@@ -388,7 +388,7 @@ lt_id_morq_a_greville <- function(nMx,
                                   "beard",
                                   "beard_makeham",
                                   "quadratic"
-                                )[1],
+                                ),
                                 extrapFrom = max(Age),
                                 extrapFit = Age[Age >= 60],
                                 ...) {
@@ -613,7 +613,7 @@ lt_a_un <- function(nMx,
                    "Beard",
                    "Beard_Makeham",
                    "Quadratic"
-                 )[1],
+                 ),
                  extrapFrom = max(Age),
                  extrapFit = Age[Age >= 60],
                  ...) {
@@ -788,7 +788,7 @@ lt_a_closeout <- function(mx,
                                   "beard",
                                   "beard_makeham",
                                   "quadratic"
-                                )[1],
+                                ),
                                 extrapFrom = max(Age),
                                 extrapFit = Age[Age >= 40],
                                 ...) {
@@ -855,7 +855,7 @@ lt_id_morq_a <- function(nMx,
                         "Beard",
                         "Beard_Makeham",
                         "Quadratic"
-                      )[1],
+                      ),
                       extrapFrom = max(Age),
                       extrapFit = Age[Age >= 60],
                       ...) {
