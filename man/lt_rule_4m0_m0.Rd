@@ -5,9 +5,9 @@
 \alias{M04_2_M0}
 \title{rule of thumb for estimating infant mortality rate from under 5 mortality}
 \usage{
-lt_rule_4m0_m0(M04, D04, P04, Sex = c("m", "f")[1])
+lt_rule_4m0_m0(M04, D04, P04, Sex = c("m", "f"))
 
-M04_2_M0(M04, D04, P04, Sex = c("m", "f")[1])
+M04_2_M0(M04, D04, P04, Sex = c("m", "f"))
 }
 \arguments{
 \item{M04}{numeric. Death rate under age 5.}

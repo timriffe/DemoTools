@@ -8,7 +8,7 @@
 lt_id_morq_a(
   nMx,
   nqx,
-  axmethod = c("pas", "un")[1],
+  axmethod = c("pas", "un"),
   Age,
   AgeInt,
   IMR = NA,
@@ -26,7 +26,7 @@ lt_id_morq_a(
 mxorqx2ax(
   nMx,
   nqx,
-  axmethod = c("pas", "un")[1],
+  axmethod = c("pas", "un"),
   Age,
   AgeInt,
   IMR = NA,

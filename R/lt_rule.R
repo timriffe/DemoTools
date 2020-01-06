@@ -88,7 +88,7 @@
 #' segments(1, M1_4, 5, M1_4)
 #' text(1, c(M0, M1_4, M0_4), c("M0", "M1_4", "M0_4"), pos = 3)
 #' }
-lt_rule_4m0_D0 <- function(D04, M04, P04, Sex = c("m", "f")[1]) {
+lt_rule_4m0_D0 <- function(D04, M04, P04, Sex = c("m", "f")) {
   if (as.character(match.call()[[1]]) == "M04_2_D0") {
     warning("please use lt_rule_4m0_D0() instead of M04_2_D0().", call. = FALSE)
   }
@@ -233,7 +233,7 @@ M04_2_D0 <- lt_rule_4m0_D0
 #' text(1, c(M0, M1_4, M0_4), c("M0", "M1_4", "M0_4"), pos = 3)
 #' }
 
-lt_rule_4m0_m0 <- function(M04, D04, P04, Sex = c("m", "f")[1]) {
+lt_rule_4m0_m0 <- function(M04, D04, P04, Sex = c("m", "f")) {
   if (as.character(match.call()[[1]]) == "M04_2_M0") {
     warning("please use lt_rule_4m0_m0() instead of M04_2_M0().", call. = FALSE)
   }

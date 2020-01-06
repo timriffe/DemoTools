@@ -835,7 +835,7 @@ aomegaMortalityLaws <- lt_a_closeout
 
 lt_id_morq_a <- function(nMx,
                       nqx,
-                      axmethod = c("pas", "un")[1],
+                      axmethod = c("pas", "un"),
                       Age,
                       AgeInt,
                       IMR = NA,
