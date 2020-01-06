@@ -179,7 +179,7 @@ lt_abridged <- function(Deaths = NULL,
                     "Beard",
                     "Beard_Makeham",
                     "Quadratic"
-                  )[1],
+                  ),
                   extrapFrom = max(Age),
                   extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
                   ...) {
