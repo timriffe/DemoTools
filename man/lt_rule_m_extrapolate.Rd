@@ -10,7 +10,7 @@ lt_rule_m_extrapolate(
   x,
   x_fit = x,
   x_extr,
-  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
+  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
     "beard_makeham", "quadratic"),
   opt.method = c("LF2", "LF1", "LF3", "LF4", "LF5", "LF6", "poissonL", "binomialL"),
   ...
@@ -21,7 +21,7 @@ extra.mortality(
   x,
   x_fit = x,
   x_extr,
-  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
+  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
     "beard_makeham", "quadratic"),
   opt.method = c("LF2", "LF1", "LF3", "LF4", "LF5", "LF6", "poissonL", "binomialL"),
   ...

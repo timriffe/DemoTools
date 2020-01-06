@@ -370,28 +370,27 @@ axPAS <- lt_a_pas
 #' # same (qx comes from lx)
 #' lt_id_morq_a_greville(nMx = nMx, lx = lx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')
 lt_id_morq_a_greville <- function(nMx,
-                                nqx,
-                                lx,
-                                Age,
-                                AgeInt = age2int(Age, OAvalue = 5),
-                                IMR = NA,
-                                Sex = "m",
-                                region = "w",
-                                mod = TRUE,
-                                closeout = TRUE,
-                                law = c(
-                                  "kannisto",
-                                  "kannisto_makeham",
-                                  "gompertz",
-                                  "ggompertz",
-                                  "makeham",
-                                  "beard",
-                                  "beard_makeham",
-                                  "quadratic"
-                                )[1],
-                                extrapFrom = max(Age),
-                                extrapFit = Age[Age >= 60],
-                                ...) {
+                                  nqx,
+                                  lx,
+                                  Age,
+                                  AgeInt = age2int(Age, OAvalue = 5),
+                                  IMR = NA,
+                                  Sex = "m",
+                                  region = "w",
+                                  mod = TRUE,
+                                  closeout = TRUE,
+                                  law = c("kannisto",
+                                          "kannisto_makeham",
+                                          "makeham",
+                                          "gompertz",
+                                          "ggompertz",
+                                          "beard",
+                                          "beard_makeham",
+                                          "quadratic"
+                                          ),
+                                  extrapFrom = max(Age),
+                                  extrapFit = Age[Age >= 60],
+                                  ...) {
   if (as.character(match.call()[[1]]) == "ax.greville.mortpak") {
     warning("please use lt_id_morq_a_greville() instead of ax.greville.mortpak().", call. = FALSE)
   }
@@ -604,16 +603,15 @@ lt_a_un <- function(nMx,
                  tol = .Machine$double.eps,
                  maxit = 1e3,
                  mod = TRUE,
-                 extrapLaw = c(
-                   "Kannisto",
-                   "Kannisto_Makeham",
-                   "Makeham",
-                   "Gompertz",
-                   "GGompertz",
-                   "Beard",
-                   "Beard_Makeham",
-                   "Quadratic"
-                 )[1],
+                 extrapLaw = c("Kannisto",
+                               "Kannisto_Makeham",
+                               "Makeham",
+                               "Gompertz",
+                               "Ggompertz",
+                               "Beard",
+                               "Beard_Makeham",
+                               "Quadratic"
+                               ),
                  extrapFrom = max(Age),
                  extrapFit = Age[Age >= 60],
                  ...) {
@@ -778,20 +776,19 @@ axUN <- lt_a_un
 #' lt_a_closeout(nMx,Age,"Quadratic")
 
 lt_a_closeout <- function(mx,
-                                Age,
-                                law = c(
-                                  "kannisto",
+                          Age,
+                          law = c("kannisto",
                                   "kannisto_makeham",
+                                  "makeham",
                                   "gompertz",
                                   "ggompertz",
-                                  "makeham",
                                   "beard",
                                   "beard_makeham",
                                   "quadratic"
-                                )[1],
-                                extrapFrom = max(Age),
-                                extrapFit = Age[Age >= 40],
-                                ...) {
+                                  ),
+                          extrapFrom = max(Age),
+                          extrapFit = Age[Age >= 40],
+                          ...) {
   if (as.character(match.call()[[1]]) == "aomegaMortalityLaws") {
     warning("please use lt_a_closeout() instead of aomegaMortalityLaws().", call. = FALSE)
   }
@@ -838,7 +835,7 @@ aomegaMortalityLaws <- lt_a_closeout
 
 lt_id_morq_a <- function(nMx,
                       nqx,
-                      axmethod = c("pas", "un")[1],
+                      axmethod = c("pas", "un"),
                       Age,
                       AgeInt,
                       IMR = NA,
@@ -846,16 +843,15 @@ lt_id_morq_a <- function(nMx,
                       region,
                       OAG = TRUE,
                       mod = TRUE,
-                      extrapLaw = c(
-                        "Kannisto",
-                        "Kannisto_Makeham",
-                        "Makeham",
-                        "Gompertz",
-                        "GGompertz",
-                        "Beard",
-                        "Beard_Makeham",
-                        "Quadratic"
-                      )[1],
+                      extrapLaw = c("Kannisto",
+                                    "Kannisto_Makeham",
+                                    "Makeham",
+                                    "Gompertz",
+                                    "Ggompertz",
+                                    "Beard",
+                                    "Beard_Makeham",
+                                    "Quadratic"
+                                    ),
                       extrapFrom = max(Age),
                       extrapFit = Age[Age >= 60],
                       ...) {

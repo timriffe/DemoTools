@@ -138,30 +138,29 @@
 #' @author Marius D. Pascariu <rpascariu@@outlook.com>
 #' @export
 lt_rule_m_extrapolate <- function(mx,
-                            x,
-                            x_fit = x,
-                            x_extr,
-                            law = c(
-                              "kannisto",
-                              "kannisto_makeham",
-                              "gompertz",
-                              "ggompertz",
-                              "makeham",
-                              "beard",
-                              "beard_makeham",
-                              "quadratic"
-                            ),
-                            opt.method = c("LF2", "LF1", "LF3",
-                                           "LF4", "LF5", "LF6",
-                                           "poissonL", "binomialL"),
-                            ...) {
+                                  x,
+                                  x_fit = x,
+                                  x_extr,
+                                  law = c("kannisto",
+                                          "kannisto_makeham",
+                                          "makeham",
+                                          "gompertz",
+                                          "ggompertz",
+                                          "beard",
+                                          "beard_makeham",
+                                          "quadratic"
+                                          ),
+                                  opt.method = c("LF2", "LF1", "LF3",
+                                                 "LF4", "LF5", "LF6",
+                                                 "poissonL", "binomialL"),
+                                  ...) {
   if (as.character(match.call()[[1]]) == "extra.mortality") {
     warning("please use lt_rule_m_extrapolate() instead of extra_mortality().", call. = FALSE)
   }
   
   # Save the input
   input <- as.list(environment())
-  
+
   # Fit the mortality model
   M <- MortalityLaw(
     x = x,

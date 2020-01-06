@@ -9,12 +9,12 @@ smooth_age_5(
   Value,
   Age,
   method = c("Carrier-Farrag", "KKN", "Arriaga", "United Nations", "Strong", "Zigzag",
-    "MAV")[1],
+    "MAV"),
   OAG = TRUE,
   ageMin = 10,
   ageMax = 65,
   n = 3,
-  young.tail = c("Original", "Arriaga", "Strong", NA)[1],
+  young.tail = c("Original", "Arriaga", "Strong", NA),
   old.tail = young.tail
 )
 
@@ -22,12 +22,12 @@ agesmth(
   Value,
   Age,
   method = c("Carrier-Farrag", "KKN", "Arriaga", "United Nations", "Strong", "Zigzag",
-    "MAV")[1],
+    "MAV"),
   OAG = TRUE,
   ageMin = 10,
   ageMax = 65,
   n = 3,
-  young.tail = c("Original", "Arriaga", "Strong", NA)[1],
+  young.tail = c("Original", "Arriaga", "Strong", NA),
   old.tail = young.tail
 )
 }

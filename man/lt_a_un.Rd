@@ -17,8 +17,8 @@ lt_a_un(
   tol = .Machine$double.eps,
   maxit = 1000,
   mod = TRUE,
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
-    "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "Ggompertz",
+    "Beard", "Beard_Makeham", "Quadratic"),
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...
@@ -36,8 +36,8 @@ axUN(
   tol = .Machine$double.eps,
   maxit = 1000,
   mod = TRUE,
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
-    "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "Ggompertz",
+    "Beard", "Beard_Makeham", "Quadratic"),
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...

@@ -8,8 +8,8 @@
 lt_a_closeout(
   mx,
   Age,
-  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
-    "beard_makeham", "quadratic")[1],
+  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
+    "beard_makeham", "quadratic"),
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 40],
   ...
@@ -18,8 +18,8 @@ lt_a_closeout(
 aomegaMortalityLaws(
   mx,
   Age,
-  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
-    "beard_makeham", "quadratic")[1],
+  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
+    "beard_makeham", "quadratic"),
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 40],
   ...

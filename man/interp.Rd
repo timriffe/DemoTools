@@ -8,7 +8,7 @@ interp(
   popmat,
   datesIn,
   datesOut,
-  method = c("linear", "exponential", "power")[1],
+  method = c("linear", "exponential", "power"),
   power = 2,
   ...
 )

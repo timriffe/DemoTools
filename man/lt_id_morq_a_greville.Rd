@@ -16,8 +16,8 @@ lt_id_morq_a_greville(
   region = "w",
   mod = TRUE,
   closeout = TRUE,
-  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
-    "beard_makeham", "quadratic")[1],
+  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
+    "beard_makeham", "quadratic"),
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...
@@ -34,8 +34,8 @@ ax.greville.mortpak(
   region = "w",
   mod = TRUE,
   closeout = TRUE,
-  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
-    "beard_makeham", "quadratic")[1],
+  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
+    "beard_makeham", "quadratic"),
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...

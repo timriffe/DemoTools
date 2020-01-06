@@ -5,9 +5,9 @@
 \alias{M04_2_D0}
 \title{rule of thumb for splitting infants from deaths under 5}
 \usage{
-lt_rule_4m0_D0(D04, M04, P04, Sex = c("m", "f")[1])
+lt_rule_4m0_D0(D04, M04, P04, Sex = c("m", "f"))
 
-M04_2_D0(D04, M04, P04, Sex = c("m", "f")[1])
+M04_2_D0(D04, M04, P04, Sex = c("m", "f"))
 }
 \arguments{
 \item{D04}{numeric. Deaths under age 5.}
