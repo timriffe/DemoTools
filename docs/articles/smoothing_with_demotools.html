@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.22</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.23</span>
       </span>
     </div>
 
@@ -147,11 +147,29 @@
 <a class="sourceLine" id="cb2-2" data-line-number="2">    <span class="dt">Age =</span> Age, </a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">    <span class="dt">method =</span> <span class="st">"Carrier-Farrag"</span>, </a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">    <span class="dt">OAG =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>),cf<span class="op">/</span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(cf), <span class="dt">type=</span> <span class="st">'l'</span>,</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">     <span class="dt">ylab =</span> <span class="st">'Proportion of population'</span>,</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8">     <span class="dt">xlab =</span> <span class="st">'Age-group'</span>,<span class="dt">main =</span> <span class="st">'Smoothed population with Carrier-Farrag'</span>,<span class="dt">xaxt=</span><span class="st">'n'</span>)</a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>),<span class="st">'-'</span>,<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">4</span>,<span class="dv">104</span>,<span class="dv">5</span>)), <span class="dt">at =</span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Warning in if (any(nas) &amp; (!is.na(old.tail) | !is.na(young.tail))) {: the</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; condition has length &gt; 1 and only the first element will be used</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; Warning in if (nrle$values[length(nrle$values)] == 1 &amp; !is.na(old.tail)) {: the</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; condition has length &gt; 1 and only the first element will be used</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; Warning in if (old.tail %in% c("o", "orig", "original")) {: the condition has</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; length &gt; 1 and only the first element will be used</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; Warning in if (old.tail == "arriaga") {: the condition has length &gt; 1 and only</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; the first element will be used</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; Warning in if (old.tail == "strong") {: the condition has length &gt; 1 and only</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; the first element will be used</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; Warning in if (nrle$values[1] == 1 &amp; !is.na(young.tail)) {: the condition has</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; length &gt; 1 and only the first element will be used</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; Warning in if (young.tail %in% c("o", "orig", "original")) {: the condition has</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; length &gt; 1 and only the first element will be used</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; Warning in if (young.tail == "arriaga") {: the condition has length &gt; 1 and only</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; the first element will be used</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; Warning in if (young.tail == "strong") {: the condition has length &gt; 1 and only</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; the first element will be used</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>),cf<span class="op">/</span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(cf), <span class="dt">type=</span> <span class="st">'l'</span>,</a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">     <span class="dt">ylab =</span> <span class="st">'Proportion of population'</span>,</a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">     <span class="dt">xlab =</span> <span class="st">'Age-group'</span>,<span class="dt">main =</span> <span class="st">'Smoothed population with Carrier-Farrag'</span>,<span class="dt">xaxt=</span><span class="st">'n'</span>)</a>
+<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="kw"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>),<span class="st">'-'</span>,<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">4</span>,<span class="dv">104</span>,<span class="dv">5</span>)), <span class="dt">at =</span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>))</a></code></pre></div>
 <p><img src="smoothing_with_demotools_files/figure-html/unnamed-chunk-2-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
 </div>
 <div id="arriaga" class="section level3">
@@ -178,11 +196,13 @@ _{5}P_{x} = \frac{ -_{10}P_{x-20}+ 5 _{10}P_{x-10}+ 8 _{10}P_{x}}{24}.
 <a class="sourceLine" id="cb3-2" data-line-number="2">    <span class="dt">Age =</span> Age, </a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="dt">method =</span> <span class="st">"Arriaga"</span>, </a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="dt">OAG =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>),cf<span class="op">/</span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(cf), <span class="dt">type=</span> <span class="st">'l'</span>,</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">     <span class="dt">ylab =</span> <span class="st">'Proportion of population'</span>,</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">     <span class="dt">xlab =</span> <span class="st">'Age-group'</span>,<span class="dt">main =</span> <span class="st">'Smoothed population with Arriaga'</span>,<span class="dt">xaxt=</span><span class="st">'n'</span>)</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>),<span class="st">'-'</span>,<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">4</span>,<span class="dv">104</span>,<span class="dv">5</span>)), <span class="dt">at =</span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Warning in if (any(nas) &amp; (!is.na(old.tail) | !is.na(young.tail))) {: the</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; condition has length &gt; 1 and only the first element will be used</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>),cf<span class="op">/</span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(cf), <span class="dt">type=</span> <span class="st">'l'</span>,</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">     <span class="dt">ylab =</span> <span class="st">'Proportion of population'</span>,</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">     <span class="dt">xlab =</span> <span class="st">'Age-group'</span>,<span class="dt">main =</span> <span class="st">'Smoothed population with Arriaga'</span>,<span class="dt">xaxt=</span><span class="st">'n'</span>)</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>),<span class="st">'-'</span>,<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">4</span>,<span class="dv">104</span>,<span class="dv">5</span>)), <span class="dt">at =</span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>))</a></code></pre></div>
 <p><img src="smoothing_with_demotools_files/figure-html/unnamed-chunk-3-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
 </div>
 <div id="karup-king-newton" class="section level3">
@@ -199,11 +219,29 @@ _{5}P_{x+5} = _{10}P_{x} - _{5}P_{x}.
 <a class="sourceLine" id="cb4-2" data-line-number="2">    <span class="dt">Age =</span> Age, </a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">    <span class="dt">method =</span> <span class="st">"Karup-King-Newton"</span>, </a>
 <a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="dt">OAG =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>),cf<span class="op">/</span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(cf), <span class="dt">type=</span> <span class="st">'l'</span>,</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">     <span class="dt">ylab =</span> <span class="st">'Proportion of population'</span>,</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">     <span class="dt">xlab =</span> <span class="st">'Age-group'</span>,<span class="dt">main =</span> <span class="st">'Smoothed population with Karup-King-Newton '</span>,<span class="dt">xaxt=</span><span class="st">'n'</span>)</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>),<span class="st">'-'</span>,<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">4</span>,<span class="dv">104</span>,<span class="dv">5</span>)), <span class="dt">at =</span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Warning in if (any(nas) &amp; (!is.na(old.tail) | !is.na(young.tail))) {: the</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; condition has length &gt; 1 and only the first element will be used</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; Warning in if (nrle$values[length(nrle$values)] == 1 &amp; !is.na(old.tail)) {: the</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; condition has length &gt; 1 and only the first element will be used</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; Warning in if (old.tail %in% c("o", "orig", "original")) {: the condition has</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; length &gt; 1 and only the first element will be used</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; Warning in if (old.tail == "arriaga") {: the condition has length &gt; 1 and only</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; the first element will be used</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; Warning in if (old.tail == "strong") {: the condition has length &gt; 1 and only</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; the first element will be used</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; Warning in if (nrle$values[1] == 1 &amp; !is.na(young.tail)) {: the condition has</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; length &gt; 1 and only the first element will be used</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; Warning in if (young.tail %in% c("o", "orig", "original")) {: the condition has</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; length &gt; 1 and only the first element will be used</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; Warning in if (young.tail == "arriaga") {: the condition has length &gt; 1 and only</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; the first element will be used</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; Warning in if (young.tail == "strong") {: the condition has length &gt; 1 and only</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; the first element will be used</span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>),cf<span class="op">/</span><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(cf), <span class="dt">type=</span> <span class="st">'l'</span>,</a>
+<a class="sourceLine" id="cb4-25" data-line-number="25">     <span class="dt">ylab =</span> <span class="st">'Proportion of population'</span>,</a>
+<a class="sourceLine" id="cb4-26" data-line-number="26">     <span class="dt">xlab =</span> <span class="st">'Age-group'</span>,<span class="dt">main =</span> <span class="st">'Smoothed population with Karup-King-Newton '</span>,<span class="dt">xaxt=</span><span class="st">'n'</span>)</a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="kw"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>),<span class="st">'-'</span>,<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">4</span>,<span class="dv">104</span>,<span class="dv">5</span>)), <span class="dt">at =</span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">0</span>,<span class="dv">100</span>,<span class="dv">5</span>))</a></code></pre></div>
 <p><img src="smoothing_with_demotools_files/figure-html/unnamed-chunk-4-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
 </div>
 <div id="united-nations" class="section level3">
