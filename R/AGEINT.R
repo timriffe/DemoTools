@@ -193,7 +193,7 @@ interpolatePop <-
 interp <- function(popmat,
                    datesIn,
                    datesOut,
-                   method = c("linear", "exponential", "power")[1],
+                   method = c("linear", "exponential", "power"),
                    power = 2,
                    ...) {
   # ... args passed to stats::approx . Can give control over extrap assumptions

@@ -776,12 +776,12 @@ smooth_age_5 <- function(Value,
                                "United Nations",
                                "Strong",
                                "Zigzag",
-                               "MAV")[1],
+                               "MAV"),
                     OAG = TRUE,
                     ageMin = 10,
                     ageMax = 65,
                     n = 3,
-                    young.tail = c("Original", "Arriaga", "Strong", NA)[1],
+                    young.tail = c("Original", "Arriaga", "Strong", NA),
                     old.tail = young.tail) {
   if (as.character(match.call()[[1]]) == "agesmth") {
     warning("please use smooth_age_5() instead of agesmth().", call. = FALSE)
