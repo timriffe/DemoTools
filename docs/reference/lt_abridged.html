@@ -78,7 +78,7 @@ calculate a full abridged lifetable." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.19</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.22</span>
       </span>
     </div>
 
@@ -162,11 +162,11 @@ calculate a full abridged lifetable.</p>
     </div>
 
     <pre class="usage"><span class='fu'>lt_abridged</span>(
-  <span class='no'>Deaths</span>,
-  <span class='no'>Exposures</span>,
-  <span class='no'>nMx</span>,
-  <span class='no'>nqx</span>,
-  <span class='no'>lx</span>,
+  <span class='kw'>Deaths</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>Exposures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>nMx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>nqx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>lx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>Age</span>,
   <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>OAvalue</span> <span class='kw'>=</span> <span class='fl'>5</span>),
   <span class='kw'>radix</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
@@ -180,16 +180,16 @@ calculate a full abridged lifetable.</p>
   <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Kannisto"</span>, <span class='st'>"Kannisto_Makeham"</span>, <span class='st'>"Makeham"</span>, <span class='st'>"Gompertz"</span>, <span class='st'>"GGompertz"</span>,
     <span class='st'>"Beard"</span>, <span class='st'>"Beard_Makeham"</span>, <span class='st'>"Quadratic"</span>)[<span class='fl'>1</span>],
   <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
-  <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>],
+  <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span> <span class='kw'>&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>OAG</span>, <span class='no'>Age</span> <span class='kw'>&lt;</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='fl'>TRUE</span>)],
   <span class='no'>...</span>
 )
 
 <span class='fu'>LTabr</span>(
-  <span class='no'>Deaths</span>,
-  <span class='no'>Exposures</span>,
-  <span class='no'>nMx</span>,
-  <span class='no'>nqx</span>,
-  <span class='no'>lx</span>,
+  <span class='kw'>Deaths</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>Exposures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>nMx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>nqx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>lx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>Age</span>,
   <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>OAvalue</span> <span class='kw'>=</span> <span class='fl'>5</span>),
   <span class='kw'>radix</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
@@ -203,7 +203,7 @@ calculate a full abridged lifetable.</p>
   <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Kannisto"</span>, <span class='st'>"Kannisto_Makeham"</span>, <span class='st'>"Makeham"</span>, <span class='st'>"Gompertz"</span>, <span class='st'>"GGompertz"</span>,
     <span class='st'>"Beard"</span>, <span class='st'>"Beard_Makeham"</span>, <span class='st'>"Quadratic"</span>)[<span class='fl'>1</span>],
   <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
-  <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>],
+  <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span> <span class='kw'>&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>OAG</span>, <span class='no'>Age</span> <span class='kw'>&lt;</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='fl'>TRUE</span>)],
   <span class='no'>...</span>
 )</pre>
 
