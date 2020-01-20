@@ -3,7 +3,27 @@
 \name{lt_id_qm_a}
 \alias{lt_id_qm_a}
 \alias{qxmx2ax}
-\title{#' Derive nqx from nMx and nax.
+\title{Derive nax from nqx and nMx.}
+\usage{
+lt_id_qm_a(nqx, nMx, AgeInt)
+
+qxmx2ax(nqx, nMx, AgeInt)
+}
+\arguments{
+\item{nqx}{numeric. Vector of age specific death probabilities.}
+
+\item{nMx}{numeric. Vector of age-specific death rates.}
+
+\item{AgeInt}{integer. Vector of age class widths.}
+}
+\value{
+nax numeric vector of average time spent in interval by those dying in interval via identity.
+}
+\description{
+This is the standard identity to derive nax from nqx and nMx.
+}
+\details{
+#' @title Derive nqx from nMx and nax.
 #' @description This is the standard identity to derive nqx from nax and nMx.
 #' @details qx values calculated as greater than 1 are imputed with 1.
 #' @param nMx numeric. Vector of age-specific death rates.
@@ -29,24 +49,6 @@ lt_id_m_q <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
 #' @export
 #' @rdname lt_id_ma_q
 mx2qx <- lt_id_ma_q
-Derive nax from nqx and nMx.}
-\usage{
-lt_id_qm_a(nqx, nMx, AgeInt)
-
-qxmx2ax(nqx, nMx, AgeInt)
-}
-\arguments{
-\item{nqx}{numeric. Vector of age specific death probabilities.}
-
-\item{nMx}{numeric. Vector of age-specific death rates.}
-
-\item{AgeInt}{integer. Vector of age class widths.}
-}
-\value{
-nax numeric vector of average time spent in interval by those dying in interval via identity.
-}
-\description{
-This is the standard identity to derive nax from nqx and nMx.
 }
 \references{
 \insertRef{preston2000demography}{DemoTools}

@@ -3,7 +3,7 @@
 \name{lt_id_Ll_S}
 \alias{lt_id_Ll_S}
 \alias{Lxlx2Sx}
-\title{calculate survivor ratios}
+\title{Calculate survivor ratios}
 \usage{
 lt_id_Ll_S(nLx, lx, AgeInt, N = c(5, 1))
 

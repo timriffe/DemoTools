@@ -3,10 +3,7 @@
 \name{lt_id_q_l}
 \alias{lt_id_q_l}
 \alias{qx2lx}
-\title{#' @export
-#' @rdname lt_id_ma_q
-mxax2qx <- lt_id_ma_q
-Derive lifetable survivorship (lx) from death probabilities.}
+\title{Derive lifetable survivorship (lx) from death probabilities.}
 \usage{
 lt_id_q_l(nqx, radix = 1e+05)
 
@@ -25,6 +22,10 @@ This lifetable identity is the same no matter what kind of lifetable is required
  You can find it in any demography textbook.
 }
 \details{
+#' @export
+#' @rdname lt_id_ma_q
+mxax2qx <- lt_id_ma_q
+
 set \code{radix = 1} for the probability of surviving until age x. The vector returned is
 the same length as \code{nqx}, thereby throwing out the final value of qx, which is usually set to 1.
 }

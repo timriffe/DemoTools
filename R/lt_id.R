@@ -28,7 +28,7 @@ lt_id_qa_m <- function(nqx, nax, AgeInt) {
 qxax2mx <- lt_id_qa_m
 
 
-#' #' Derive nqx from nMx and nax.
+#' #' @title Derive nqx from nMx and nax.
 #' #' @description This is the standard identity to derive nqx from nax and nMx.
 #' #' @details qx values calculated as greater than 1 are imputed with 1.
 #' #' @param nMx numeric. Vector of age-specific death rates.
@@ -56,7 +56,7 @@ qxax2mx <- lt_id_qa_m
 #' #' @rdname lt_id_ma_q
 #' mx2qx <- lt_id_ma_q
 
-#' Derive nax from nqx and nMx.
+#' @title Derive nax from nqx and nMx.
 #' @description This is the standard identity to derive nax from nqx and nMx.
 #'
 #' @param nqx numeric. Vector of age specific death probabilities.
@@ -128,7 +128,7 @@ qxmx2ax <- lt_id_qm_a
 #' mxax2qx <- lt_id_ma_q
 
 
-#' Derive lifetable survivorship (lx) from death probabilities.
+#' @title Derive lifetable survivorship (lx) from death probabilities.
 #' @description This lifetable identity is the same no matter what kind of lifetable is required.
 #'  You can find it in any demography textbook.
 #' @details set \code{radix = 1} for the probability of surviving until age x. The vector returned is
@@ -151,7 +151,7 @@ lt_id_q_l <- function(nqx, radix = 1e5) {
 #' @rdname lt_id_q_l
 qx2lx <- lt_id_q_l
 
-#' Derive lifetable deaths from survivorship.
+#' @title Derive lifetable deaths from survivorship.
 #' @description This lifetable identity is the same no matter what kind of lifetable is required.
 #'  You can find it in any demography textbook.
 #' @details The vector returned is the same length as \code{lx} and it sums to the lifetable radix.
@@ -173,7 +173,7 @@ lt_id_l_d <- function(lx) {
 #' @rdname lt_id_l_d
 lx2dx <- lt_id_l_d
 
-#' Derive lifetable exposure from lx, ndx and nax.
+#' @title Derive lifetable exposure from lx, ndx and nax.
 #' @description This is a common approximation of lifetable exposure:
 #' All persons surviving to the end of the interval time the interval width, plus all those that died
 #' in the interval multiplied by their average time spent in the interval.
@@ -204,7 +204,7 @@ lt_id_lda_L <- function(lx, ndx, nax, AgeInt) {
 lxdxax2Lx <- lt_id_lda_L
 
 
-#' Derive lifetable total person years left to live from exposure.
+#' @title Derive lifetable total person years left to live from exposure.
 #' @description A lifetable identity. Tx is interpreted as the total years
 #' left to live above age x in the life table stationary population.
 #' @details No \code{NA} or other error checking here. This is taken as the numerator in the classic lifetable method
@@ -225,7 +225,7 @@ lt_id_L_T <- function(Lx) {
 #' @rdname lt_id_L_T
 Lx2Tx <- lt_id_L_T
 
-#' Calculate conditional death probabilities from nMx and nax
+#' @title Calculate conditional death probabilities from nMx and nax
 #' @description Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages.
 #' @details nMx equal to 2 will imply nqx of 1 by this formula. Implied nqx greater than 1 after this procedure are returned as 1. This is not vectorized!
 #' @inheritParams lt_abridged
@@ -318,7 +318,7 @@ mx2qx    <- lt_id_ma_q
 #' @rdname lt_id_ma_q
 mxax2qx_Backstop <- lt_id_ma_q
 
-#' calculate survivor ratios
+#' @title Calculate survivor ratios
 #' @description An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age (\code{N=1}) or five-year ages (\code{N=5}). Input vectors are assumed to come from either single or standard abridged ages.
 #' @details This function does not account for \code{nLx} having been pre-binned into uniform 5-year age widths, which will throw an error. Just leave them in abridged ages instead. Note that in the case of abridged ages, the interpretation for the first and second value don't follow the original abridged age intervals: the first value in the probability of surviving from birth into ages 0-4 in the first five years, and the second value is the probability of surviving from 0-4 to 5-9. This represents a slight misalignment with the rest of the lifetable, user beware.
 #' @inheritParams lt_abridged
