@@ -28,13 +28,20 @@ knitr::opts_chunk$set(
 ## How to use `DemoTools` to model migration
 
 ### Why modeling migration
-introduction
+Migrations happens with multiple transitions over the life course such as entry to education, new job or retirement  [@preston2000demography]. These transitions happen more frequently at some ages and come in parallel often with migration. Adult migration usually peaks at youn adult ages. Around age at retirement there is a second peak. Because of these regularities it is, therefore, possible to model migration by age, which is very important for policy makers and for demographers in estimating population dynamics. 
 
 ### The Rogers and Castro model
-Brief description of the model
+@rogers1981model developed a mathematical model of migration with 11 parameter. Seven of these parameters explain the shape of migration by age, while the rest of parameters represent the intensity of migration. The original formula for the migration rate at age $x$ is:
+
+\begin{equation*}
+m(x)= a_1 \exp{[ \alpha_1 x ]} + a_2 \exp{[ -\alpha_2 (x - \mu_2) - \exp{ [ -\lambda_2(x - \mu_2) ]}  ]}+ a_3 \exp{[ - \alpha_3(x-\mu_3) - \exp{[-\lambda_3 (x-\mu_3)]} ]} + c
+\end{equation*}
+
+@ Monica: some interpretation of the coefficients?
  
-### An example in R
-Interpret results
+### Example with `DemoTools`
+An example, flexibility of parameters in R, and interpretation of results
+@ Monica: could you help with this section?
 
 
 ## References
