@@ -131,6 +131,7 @@ check_heaping_myers <- function(Value,
   
   # weighted tabulation
   TAB     <- tab1 * 1:period + tab2 * c(period:1 - 1)
+  
   # interpret as % that would need to be redistributed...
   my      <- sum(abs(TAB / sum(TAB) - 1 / period)) * 50
   return(my)
