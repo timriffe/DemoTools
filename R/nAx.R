@@ -457,59 +457,43 @@ lt_id_morq_a_greville <- function(nMx,
   # some setup
   N           <- length(nMx)
   
-  # if both mx and qx given at start then we get ax by identity
-  # this is a fallback, always preferred, and not part of the greville
-  # method per se. Greville is an either-or method.
-  # if (!qxflag & !mxflag) {
-  #   ax <- lt_id_qm_a(nqx = nqx,
-  #                 nMx = nMx,
-  #                 AgeInt = AgeInt)
-  #   qind <- FALSE
-  # } else {
-    # then we enter the greville loop
-    ax     <- AgeInt / 2
-    for (i in 2:(N - 1)) {
-      ## Mortpak LIFETB for age 5-9 and 10-14
-      # ax[j]                                                                                               = 2.5
-      ## for ages 15-19 onward
-      ## AK <- log(QxMx[j+1]/QxMx[j-1])/10
-      ## ax[j] <- 2.5 - (25.0/12.0) * (QxMx[j] - AK)
-      
-      ## improved Greville formula for adolescent ages 5-9 and 10-14
-      ## Let the three successive lengths be n1, n2 and n3, the formula for 5a5 is:
-      ## ax[i] = 2.5 - (25 / 12) * (mx[i] - log(mx[i + 1] / mx[i-1])/(n1/2+n2+n3/2))
-      ## for age 5-9, coefficient should be 1/9.5, because age group 1-4
-      ## has only 4 ages (not 5), while the other 5-year age group are 1/10
-      ## ax[i] = 2.5 - (25 / 12) * (mx[i] - (1/9.5)* log(mx[i + 1] / mx[i-1]))
-      ## Age 20-25, ..., 95-99
-      ## Greville (based on Mortpak LIFETB) for other ages, new implementation
-      # back term
-      Ab     <-
-        1 / (AgeInt[i - 1] / 2 + AgeInt[i] + AgeInt[i + 1] / 2)
-      # subtract
-      if (i < (N - 1)) {
-        # N-1 uses K from N-2...
-        K      <- rlog(nMx[i + 1] / max(nMx[i - 1], DBL_MIN))
-      }
-      # main formula
-      ax[i]  <-
-        AgeInt[i] / 2 - (AgeInt[i] ^ 2 / 12) * (nMx[i] - K * Ab)
-      
-      ## add constraint at older ages (in Mortpak and bayesPop)
-      ## 0.97                                                                                               = 1-5*exp(-5)/(1-exp(-5)), for constant mu=1, Kannisto assumption
-   
-      ## (Mortpak used 1 instead of 0.97).
-      if (Age[i] > 35 && ax[i] < 0.97) {
-        ax[i] <- 0.97
-      }
-      
-      ## Extra condition based on Mortpak LIFETB for age 65 onward
-      # TR: why .8a[x-1] only for qx?
-      tmp   <- 0.8 * ax[i - 1]
-      ax[i] <- ifelse(qind & Age[i] >= 65 & ax[i] < tmp, tmp, ax[i])
-      
-    }
-  #}
+  ## for ages 15-19 onward
+  ## AK <- log(QxMx[j+1]/QxMx[j-1])/10 ## we don't have 1/10 ?
+  ## ax[j] <- 2.5 - (25.0/12.0) * (QxMx[j] - AK)
+  
+  ## improved Greville formula for adolescent ages 5-9 and 10-14
+  ## Let the three successive lengths be n1, n2 and n3, the formula for 5a5 is:
+  ## ax[i] = 2.5 - (25 / 12) * (mx[i] - log(mx[i + 1] / mx[i-1])/(n1/2+n2+n3/2))
+  ## for age 5-9, coefficient should be 1/9.5, because age group 1-4
+  ## has only 4 ages (not 5), while the other 5-year age group are 1/10
+  ## ax[i] = 2.5 - (25 / 12) * (mx[i] - (1/9.5)* log(mx[i + 1] / mx[i-1]))
+  ## Age 20-25, ..., 95-99
+  
+  # TR: 6-3-2020 remove pointless loop, add in new back stop
+  
+  # constant hazard ax, as filler for pathological cases:
+  axConst <- AgeInt + 1 / nMx - AgeInt / (1 - exp(-AgeInt * nMx))
+  # inverse of weighted moving avg age interval.
+  Abx     <- 1 / (shift.vector(AgeInt,1, fill = NA) / 2 + AgeInt + shift.vector(AgeInt,-1, fill = NA) / 2)
+  # Kx is fragile
+  Kx      <- log(pmax(shift.vector(nMx,-1, fill = NA),DBL_MIN) / 
+                   pmax(shift.vector(nMx,1, fill = NA),DBL_MIN)) # / 10?
+  # This does nothing special for age 5-9, which has a 4-year age group on the left.
+  # age 1-4 is overwritten anyway.
+  ax      <- AgeInt / 2 - (AgeInt ^ 2 / 12) * (nMx - Kx * Abx)
+  
+  # pick out likely pathological cases and imput w const ax
+  ind     <- Age >= 10 & Age < max(Age) & (ax < (.4 * AgeInt) | ax > (.6 * AgeInt))
+  ax[ind] <- axConst[ind]
+  
+  # preserve old patch for 
+  if (qind){
+    axfill   <- shift.vector(ax,1, fill = NA) * .8
+    ind      <- Age >= 65 & ax < axfill
+    ax[ind]  <- axfill[ind]
+  }
+  
+  
   ax[1:2] <- c(a0, a1_4)
   if (!mod) {
     ax[3:4] <- 2.5
