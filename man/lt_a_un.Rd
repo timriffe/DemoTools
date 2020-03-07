@@ -108,11 +108,11 @@ nAx2       <- lt_a_un(nMx = Mx,
 				          region = "w",
 		                mod = TRUE)
 # this is acceptable...
-round(nAx2,3) - ax # only different in ages 5-9 and 10-14, and open age
+round(nAx2,3) - ax # only different in ages 5-9 and 10-14, and last two ages
 # ignore open age, which is treated differently
 N <- length(ax)
 # default unit test...
-stopifnot(all(round(nAx1[-N],3) - ax[-N] == 0)) # spot on
+stopifnot(all(round(nAx1[Age<80],3) - ax[Age<80] == 0)) # spot on
 }
 \references{
 \insertRef{greville1977short}{DemoTools}

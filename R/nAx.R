@@ -486,6 +486,13 @@ lt_id_morq_a_greville <- function(nMx,
   ind     <- Age >= 10 & Age < max(Age) & (ax < (.4 * AgeInt) | ax > (.6 * AgeInt))
   ax[ind] <- axConst[ind]
   
+  # TR: remove this, superceded by axConst filler.
+  ## (Mortpak used 1 instead of 0.97).
+  # if (Age[i] > 35 && ax[i] < 0.97) {
+  #   ax[i] <- 0.97
+  # }
+  
+  
   # preserve old patch for 
   if (qind){
     axfill   <- shift.vector(ax,1, fill = NA) * .8
@@ -493,10 +500,12 @@ lt_id_morq_a_greville <- function(nMx,
     ax[ind]  <- axfill[ind]
   }
   
-  
+  # a1_4 only valid for abridged
   ax[1:2] <- c(a0, a1_4)
+  
+  # TR: this is questionable now
   if (!mod) {
-    ax[3:4] <- 2.5
+    ax[3:4] <- AgeInt[3:4] / 2
   }
   
   # closeout
@@ -572,11 +581,11 @@ ax.greville.mortpak <- lt_id_morq_a_greville
 #'					          region = "w",
 #' 		                mod = TRUE)
 #' # this is acceptable...
-#' round(nAx2,3) - ax # only different in ages 5-9 and 10-14, and open age
+#' round(nAx2,3) - ax # only different in ages 5-9 and 10-14, and last two ages
 #' # ignore open age, which is treated differently
 #' N <- length(ax)
 #' # default unit test...
-#' stopifnot(all(round(nAx1[-N],3) - ax[-N] == 0)) # spot on
+#' stopifnot(all(round(nAx1[Age<80],3) - ax[Age<80] == 0)) # spot on
 lt_a_un <- function(nMx,
                  nqx,
                  lx,
