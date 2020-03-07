@@ -358,17 +358,12 @@ axPAS <- lt_a_pas
 #' # two quite different results depending whether you start with mx or qx
 #' lt_id_morq_a_greville(nMx = nMx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 #' lt_id_morq_a_greville(nqx = nqx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
-#' # same, qx comes from lx
+#' # same, qx comes from lx (Except OAG, because qx closed above w NA)
 #' lt_id_morq_a_greville(lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
-#' # both qx and lx given, but lx not used for anything = same
+#' # both qx and lx given, but lx not used for anything = same as qx
 #' lt_id_morq_a_greville(nqx = nqx, lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 #'
-#' # if both qx and mx given, then same as lt_id_qm_a identity,
-#' # except young ages follow Coale-Demeny, and greville uses
-#' # MortalityLaws closeout.
-#' lt_id_morq_a_greville(nMx = nMx, nqx = nqx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')-
-#' 		lt_id_qm_a(nqx,nMx,age2int(Age,TRUE,5))
-#' # same (qx comes from lx)
+#' # nMx taken over lx.
 #' lt_id_morq_a_greville(nMx = nMx, lx = lx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')
 lt_id_morq_a_greville <- function(nMx,
                                   nqx,
@@ -483,7 +478,7 @@ lt_id_morq_a_greville <- function(nMx,
   ax      <- AgeInt / 2 - (AgeInt ^ 2 / 12) * (nMx - Kx * Abx)
   
   # pick out likely pathological cases and imput w const ax
-  ind     <- Age >= 10 & Age < max(Age) & (ax < (.4 * AgeInt) | ax > (.6 * AgeInt))
+  ind     <- Age >= 10 & Age < max(Age) & (ax < (.4 * AgeInt) | ax > (.6 * AgeInt)) | is.na(ax)
   ax[ind] <- axConst[ind]
   
   # TR: remove this, superceded by axConst filler.
