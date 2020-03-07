@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.24</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.25</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
       <h1>Migration models with DemoTools</h1>
                         <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
-            <h4 class="date">2020-01-20</h4>
+            <h4 class="date">2020-03-07</h4>
       
       
       <div class="hidden name"><code>migration_with_demotools.Rmd</code></div>
@@ -129,22 +129,35 @@
 <div id="why-modeling-migration" class="section level3">
 <h3 class="hasAnchor">
 <a href="#why-modeling-migration" class="anchor"></a>Why modeling migration</h3>
-<p>introduction</p>
+<p>Migrations happens with multiple transitions over the life course such as entry to education, new job or retirement <span class="citation">(Preston, Heuveline, and Guillot 2000)</span>. These transitions happen more frequently at some ages and come in parallel often with migration. Adult migration usually peaks at youn adult ages. Around age at retirement there is a second peak. Because of these regularities it is, therefore, possible to model migration by age, which is very important for policy makers and for demographers in estimating population dynamics.</p>
 </div>
 <div id="the-rogers-and-castro-model" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-rogers-and-castro-model" class="anchor"></a>The Rogers and Castro model</h3>
-<p>Brief description of the model</p>
+<p><span class="citation">Rogers and Castro (1981)</span> developed a mathematical model of migration with 11 parameter. Seven of these parameters explain the shape of migration by age, while the rest of parameters represent the intensity of migration. The original formula for the migration rate at age <span class="math inline">\(x\)</span> is:</p>
+<p><span class="math display">\[\begin{equation*}
+m(x)= a_1 \exp{[ \alpha_1 x ]} + a_2 \exp{[ -\alpha_2 (x - \mu_2) - \exp{ [ -\lambda_2(x - \mu_2) ]}  ]}+ a_3 \exp{[ - \alpha_3(x-\mu_3) - \exp{[-\lambda_3 (x-\mu_3)]} ]} + c
+\end{equation*}\]</span></p>
+<p>@ Monica: some interpretation of the coefficients?</p>
 </div>
-<div id="an-example-in-r" class="section level3">
+<div id="example-with-demotools" class="section level3">
 <h3 class="hasAnchor">
-<a href="#an-example-in-r" class="anchor"></a>An example in R</h3>
-<p>Interpret results</p>
+<a href="#example-with-demotools" class="anchor"></a>Example with <code>DemoTools</code>
+</h3>
+<p>An example, flexibility of parameters in R, and interpretation of results @ Monica: could you help with this section?</p>
 </div>
 </div>
-<div id="references" class="section level2">
+<div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
+<div id="refs" class="references">
+<div id="ref-preston2000demography">
+<p>Preston, Samuel, Patrick Heuveline, and Michel Guillot. 2000. <em>Demography: Measuring and Modeling Population Processes</em>. Wiley-Blackwell.</p>
+</div>
+<div id="ref-rogers1981model">
+<p>Rogers, Andrei, and Luis J Castro. 1981. “Model Migration Schedules.” <em>IIASA Working Papers</em>.</p>
+</div>
+</div>
 </div>
   </div>
 
