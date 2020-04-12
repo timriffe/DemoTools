@@ -76,10 +76,10 @@ reference:
   - title: "Auxiliar checking functions"
     contents:      
       - starts_with("is_")
-  - title: "Auxiliar population structure functions"
+  - title: "Datasets"
     contents:      
       - starts_with("pop")
-  - title: "Datasets"
+  - title: "Auxiliar population structure functions"
     contents:      
       - '`calcAgeN`'
       - '`dec.date`'
