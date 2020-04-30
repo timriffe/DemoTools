@@ -1,3 +1,4 @@
+library(DemoTools)
 ## library(tibble)
 
 ## Ages <- seq(0, 80, by = 5)
@@ -202,9 +203,9 @@ asfr_interp_latedate <- c("15-19" = 0.1500,
 ## pop_gender_counts <- pop_counts_male
 ages <- names(pop_female_counts)
 ## sex_ratio
-nlx_gender_earlydate <- nlx_female_earlydate
+## nlx_gender_earlydate <- nlx_male_earlydate
 ## nlx_earlydate
-nlx_gender_latedate <- nlx_female_latedate
+## nlx_gender_latedate <- nlx_male_latedate
 ## nlx_latedate
 ## asfr_interp_earlydate
 ## asfr_earlydate
@@ -236,9 +237,11 @@ smooth_youngtail_5_arriaga <- function(reference_year,
                                        pop_female_counts,
                                        ages,
                                        sex_ratio,
-                                       nlx_gender_earlydate,
+                                       nlx_male_earlydate,
+                                       nlx_female_earlydate,
                                        nlx_earlydate,
-                                       nlx_gender_latedate,
+                                       nlx_male_latedate,
+                                       nlx_female_latedate,
                                        nlx_latedate,
                                        asfr_interp_earlydate,
                                        asfr_earlydate,
@@ -246,7 +249,17 @@ smooth_youngtail_5_arriaga <- function(reference_year,
                                        asfr_latedate,
                                        male = TRUE) {
 
+  if (male) {
+    nlx_gender_earlydate <- nlx_male_earlydate
+    nlx_gender_latedate <- nlx_male_latedate    
+  } else {
+    nlx_gender_earlydate <- nlx_female_earlydate
+    nlx_gender_latedate <- nlx_female_latedate    
+  }
+
   past_year <- c("past_year" = 0.5, "twohalf_before" = 2.5, "sevenhalf_before" = 7.5)
+  # Matches with female
+  # Matches with male
   nlx <- lapply(past_year,
                 estimates_nlx,
                 nlx_m_t1 = nlx_gender_earlydate,
@@ -256,6 +269,17 @@ smooth_youngtail_5_arriaga <- function(reference_year,
                 t0 = reference_year
                 )
 
+  # Matches with female
+  nlx_female <- lapply(past_year,
+                       estimates_nlx,
+                       nlx_m_t1 = nlx_female_earlydate,
+                       nlx_t1 = nlx_earlydate,
+                       nlx_m_t2 = nlx_female_latedate,
+                       nlx_t2 = nlx_latedate,
+                       t0 = reference_year
+                       )
+
+  # Matches with baseline asfr
   asfr <- lapply(past_year,
                  estimates_nlx,
                  nlx_m_t1 = asfr_interp_earlydate,
@@ -265,23 +289,28 @@ smooth_youngtail_5_arriaga <- function(reference_year,
                  t0 = reference_year
                  )
 
+  ## Intermediatte calculations
   smoothed_middleages <- smooth_age_5(Value = pop_female_counts,
                                       Age = as.numeric(ages),
                                       method = "Arriaga",
                                       OAG = TRUE)[as.character(seq(15, 55, by = 5))]
 
-  nlx_div <- nlx$twohalf_before[4:length(nlx$twohalf_before)]
+  ## smoothed_middleages[1] <- 34721
+
+  nlx_div <- nlx_female$twohalf_before[4:length(nlx_female$twohalf_before)]
   iter <- c(1, rep(seq(2, length(nlx_div) - 1), each = 2), length(nlx_div))
   nlx_seq <- lapply(seq(1, length(iter), by = 2), function(i) nlx_div[iter[i:(i+1)]])
 
+  # Matches with baseline except for first age group
   est_pop_middledate <- mapply(function(x, y) x * y[1] / y[2],
                              smoothed_middleages[-1],
                              nlx_seq
                              )
-  
+
+  # Matches with baseline except for first age group
   est_pop_earlydate <- 0.2 * est_pop_middledate + 0.8 * smoothed_middleages[-length(smoothed_middleages)]
 
-  nlx_div <- nlx$sevenhalf_before[4:(length(nlx$sevenhalf_before) - 1)]
+  nlx_div <- nlx_female$sevenhalf_before[4:(length(nlx_female$sevenhalf_before) - 1)]
   iter <- c(1, rep(seq(2, length(nlx_div) - 1), each = 2), length(nlx_div))
   nlx_seq <- lapply(seq(1, length(iter), by = 2), function(i) nlx_div[iter[i:(i+1)]])
 
@@ -292,6 +321,7 @@ smooth_youngtail_5_arriaga <- function(reference_year,
 
   restricted_middleages <- smoothed_middleages[as.character(seq(15, 45, by = 5))]
 
+  # All est_pop_* match except for the first age group
   est_pop_past_year <- vapply(seq_along(restricted_middleages),
                               function(i) mean(c(smoothed_middleages[i], est_pop_earlydate[i])),
                               FUN.VALUE = numeric(1))
@@ -304,40 +334,7 @@ smooth_youngtail_5_arriaga <- function(reference_year,
                                     function(i) mean(c(est_pop_middledate[i], est_pop_latedate[i])),
                                     FUN.VALUE = numeric(1))
 
-
-  ## female_est_pop_1985 <- c(
-  ##   "15-19" = 34803,
-  ##   "20-24" = 34081,
-  ##   "25-29" = 29334,
-  ##   "30-34" = 22081,
-  ##   "35-39" = 17312,
-  ##   "40-44" = 13044,
-  ##   "45-49" = 10013
-  ## )
-
-  ## female_est_pop_1983 <- c(
-  ##   "15-19" = 35133,
-  ##   "20-24" = 32784,
-  ##   "25-29" = 26728,
-  ##   "30-34" = 20519,
-  ##   "35-39" = 15854,
-  ##   "40-44" = 12075,
-  ##   "45-49" = 9171
-  ## )
-
-  ## female_est_pop_1978 <- c(
-  ##   "15-19" = 33910,
-  ##   "20-24" = 27813,
-  ##   "25-29" = 21461,
-  ##   "30-34" = 16674,
-  ##   "35-39" = 12769,
-  ##   "40-44" = 9758,
-  ##   "45-49" = 7602
-  ## )
-
-  ## est_pop_years <- list("past_year" = female_est_pop_1985,
-  ##                       "twohalf_before" = female_est_pop_1983,
-  ##                       "sevenhalf_before" = female_est_pop_1978)
+  ## End intermediate calculations
 
   est_pop_years <- list("past_year" = est_pop_past_year,
                         "twohalf_before" = est_pop_twohalfbefore,
@@ -371,9 +368,11 @@ arriaga_male <-
     pop_female_counts = pop_female_counts,
     ages = names(pop_male_counts),
     sex_ratio = sex_ratio,
-    nlx_gender_earlydate = nlx_male_earlydate,
+    nlx_female_earlydate = nlx_female_earlydate,
+    nlx_male_earlydate = nlx_male_earlydate,
     nlx_earlydate = nlx_earlydate,
-    nlx_gender_latedate = nlx_male_latedate,
+    nlx_female_latedate = nlx_female_latedate,
+    nlx_male_latedate = nlx_male_latedate,
     nlx_latedate = nlx_latedate,
     asfr_interp_earlydate = asfr_interp_earlydate,
     asfr_earlydate = asfr_earlydate,
@@ -382,10 +381,10 @@ arriaga_male <-
     male = TRUE
   )
 
-all.equal(arriaga_male[1:3],
-          c(13559, 47444, 54397),
-          tolerance = 0.01,
-          check.attributes = FALSE)
+## all(round(arriaga_male[1:3], 0) == c(13559, 47444, 54397))
+
+difference <- arriaga_male[1:3] - c(13559, 47444, 54397)
+difference
 
 arriaga_female <-
   smooth_youngtail_5_arriaga(
@@ -394,9 +393,11 @@ arriaga_female <-
     pop_female_counts = pop_female_counts,
     ages = names(pop_female_counts),
     sex_ratio = sex_ratio,
-    nlx_gender_earlydate = nlx_female_earlydate,
+    nlx_female_earlydate = nlx_female_earlydate,
+    nlx_male_earlydate = nlx_male_earlydate,
     nlx_earlydate = nlx_earlydate,
-    nlx_gender_latedate = nlx_female_latedate,
+    nlx_female_latedate = nlx_female_latedate,
+    nlx_male_latedate = nlx_male_latedate,
     nlx_latedate = nlx_latedate,
     asfr_interp_earlydate = asfr_interp_earlydate,
     asfr_earlydate = asfr_earlydate,
@@ -405,7 +406,7 @@ arriaga_female <-
     male = FALSE
   )
 
-all.equal(arriaga_female[1:3],
-          c(13467, 47576, 54554),
-          tolerance = 0.01,
-          check.attributes = FALSE)
+## all(round(arriaga_female[1:3], 0) == c(13467, 47576, 54554))
+
+difference <- arriaga_female[1:3] - c(13467, 47576, 54554)
+difference
