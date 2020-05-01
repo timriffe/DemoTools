@@ -1,8 +1,5 @@
 library(DemoTools)
 
-# (1) Reference year of the counts
-reference_year <- 1986.21
-
 # (2) Reported population by 5-year age groups and sex in the base year (Include unknowns).
 pop_male_counts <- c(`0` = 11684,
                      `1` = 46738,
@@ -42,8 +39,6 @@ pop_female_counts <- c(`0` = 11673,
                        `70` = 3344,
                        `75` = 1455,
                        `80` = 4143)
-
-Ages <- as.numeric(names(pop_female_counts))
 
 # (4) Sex ratio at birth (m/f)
 sex_ratio <- 1.0300
@@ -114,7 +109,7 @@ AsfrDatesOut <- c(1985.71, 1983.71, 1978.71)
 
 ## Intermediatte calculations
 smoothed_females <- smooth_age_5(Value = pop_female_counts,
-                                 Age = as.numeric(Ages),
+                                 Age = as.numeric(names(pop_female_counts)),
                                  method = "Arriaga",
                                  OAG = TRUE,
                                  young.tail = "Original")
@@ -136,19 +131,47 @@ AdjustFemalePop <- function(x, asfr_pastyear, sex_ratio, male = TRUE) {
   est_tot
 }
 
-basepop <- function(reference_year,
-                    Males,
+ArgsCheck <- function(ArgList) {
+  # I don't have any checks for nlxDatesIn/Out nor AsfrDatesIn/Out
+  # because I leave the checking to interp, which has more
+  # sophisticated checks based on the format of the date.
+  with(ArgList, {
+    stopifnot(is.numeric(Males),
+              is.numeric(Females),
+              length(SRB) == 1,            
+              is.numeric(SRB),
+              is.matrix(nlxFemale),
+              is.matrix(asfrMat),
+              ncol(nlxFemale) == length(nlxDatesIn)
+              )
+
+    if (!is.null(nlxMale)) {
+      stopifnot(is.matrix(nlxMale),
+                ncol(nlxMale) == length(nlxDatesIn))
+    }
+    
+    is.named <- function(x) !is.null(names(x))
+    if (!is.null(SmoothedFemales)) stopifnot(is.named(SmoothedFemales))
+
+  })
+}
+
+basepop <- function(Males,
                     Females,
-                    SmoothedFemales = NULL,
-                    Ages,
                     SRB,
                     nlxFemale,
-                    nlxMale = NULL,
                     nlxDatesIn,
                     nlxDatesOut,
                     asfrMat,
                     AsfrDatesIn,
-                    AsfrDatesOut) {
+                    AsfrDatesOut,
+                    interp_method = "linear",
+                    SmoothedFemales = NULL,
+                    nlxMale = NULL) {
+
+  ## Check all arguments
+  AllArgs <- as.list(environment())
+  ArgsCheck(AllArgs)
 
   # We calculate basepop for males **ONLY** if the nlxMale
   # argument is not null
@@ -161,7 +184,7 @@ basepop <- function(reference_year,
     nlxGender,
     datesIn = nlxDatesIn,
     datesOut = nlxDatesOut,
-    method = "linear"
+    method = interp_method
   )
   # Turn the columns from the matrix into a list
   nlx <- lapply(as.data.frame(nlx), identity)
@@ -173,7 +196,7 @@ basepop <- function(reference_year,
     nlxFemale,
     datesIn = nlxDatesIn,
     datesOut = nlxDatesOut,
-    method = "linear"
+    method = interp_method
   )
   # Turn the columns from the matrix into a list
   nlxFemale <- lapply(as.data.frame(nlxFemale), identity)
@@ -184,7 +207,7 @@ basepop <- function(reference_year,
     asfrMat,
     datesIn = AsfrDatesIn,
     datesOut = AsfrDatesOut,
-    method = "linear"
+    method = interp_method
   )
   # Turn the columns from the matrix into a list
   Asfr <- lapply(as.data.frame(Asfr), identity)
@@ -193,9 +216,11 @@ basepop <- function(reference_year,
   OlderNlxFemale <- nlxFemale[-EarliestDate]
   OlderNlxFemale <- OlderNlxFemale[sort(names(OlderNlxFemale), decreasing = TRUE)]
 
-  # We assume that smoothed_females is returned by smooth_age_5, since
-  # we use the smoothed vector names to only get certain age groups
+  # If SmoothedFemales is specified, we assume that it is returned
+  # by smooth_age_5, so it should be named with the age groups.
   FemalePops <- if (!is.null(SmoothedFemales)) SmoothedFemales else Females
+
+  # We use the smoothed vector names to only get certain age groups
   SmoothedFMiddleages <- FemalePops[as.character(seq(15, 55, by = 5))]
 
   ## Currently, we assume that
@@ -266,11 +291,9 @@ basepop <- function(reference_year,
 
 bpa_male <-
   basepop(
-    reference_year = reference_year,
     Males = pop_male_counts,
     Females = pop_female_counts,
     SmoothedFemales = smoothed_females,
-    Ages = names(pop_male_counts),
     SRB = sex_ratio,
     nlxFemale = nlxFemale,
     nlxMale = nlxMale,
@@ -285,11 +308,9 @@ all(round(bpa_male[1:3], 0) == c(13559, 47444, 54397))
 
 bpa_female <-
   basepop(
-    reference_year = reference_year,
     Males = pop_male_counts,
     Females = pop_female_counts,
     SmoothedFemales = smoothed_females,
-    Ages = names(pop_female_counts),
     SRB = sex_ratio,
     nlxFemale = nlxFemale,
     nlxDatesIn = nlxDatesIn,
@@ -306,10 +327,8 @@ all(round(bpa_female[1:3], 0) == c(13467, 47576, 54554))
 
 bpe_male <-
   basepop(
-    reference_year = reference_year,
     Males = pop_male_counts,
     Females = pop_female_counts,
-    Ages = names(pop_male_counts),
     SRB = sex_ratio,
     nlxFemale = nlxFemale,
     nlxMale = nlxMale,
@@ -324,10 +343,8 @@ all(round(bpe_male[1:3], 0) == c(13679, 47967, 55721))
 
 bpe_female <-
   basepop(
-    reference_year = reference_year,
     Males = pop_male_counts,
     Females = pop_female_counts,
-    Ages = names(pop_female_counts),
     SRB = sex_ratio,
     nlxFemale = nlxFemale,
     nlxDatesIn = nlxDatesIn,
