@@ -50,37 +50,44 @@ sex_ratio <- 1.0300
 
 # (6) The male and female nLx functions for ages under 1 year, 1 to 4 years, and 5 to 9
 # years, pertaining to an earlier and later date
-nlx_earlydate <- 1977.31
-nlx_male_earlydate <- c(87732,
-                        304435,
-                        361064)
+nlxDatesIn <- c(1977.31, 1986.50)
+nlxDatesOut <- c(1985.71, 1983.71, 1978.71)
 
-nlx_female_earlydate <- c(89842,
-                          314521,
-                          372681,
-                          353053,
-                          340650,
-                          326588,
-                          311481,
-                          295396,
-                          278646,
-                          261260,
-                          241395,
-                          217419)
-nlx_latedate <- 1986.50
-nlx_male_latedate <- c(88451, 310605, 370362)
-nlx_female_latedate <- c(90478,
-                         320755,
-                         382531,
-                         364776, 
-                         353538, 
-                         340687, 
-                         326701, 
-                         311573, 
-                         295501, 
-                         278494, 
-                         258748,
-                         234587)
+nlxMale <- matrix(c(87732,
+                    304435,
+                    361064,
+                    88451,
+                    310605,
+                    370362
+                    ),
+                  nrow = 3, ncol = 2)
+
+nlxFemale <- matrix(c(89842,
+                      314521,
+                      372681,
+                      353053,
+                      340650,
+                      326588,
+                      311481,
+                      295396,
+                      278646,
+                      261260,
+                      241395,
+                      217419,
+                      90478,
+                      320755,
+                      382531,
+                      364776, 
+                      353538, 
+                      340687, 
+                      326701, 
+                      311573, 
+                      295501, 
+                      278494, 
+                      258748,
+                      234587),
+                    nrow = 12,
+                    ncol = 2)
 
 # (7) A set of age-specific fertility rates pertaining to an earlier and later
 # date
@@ -107,9 +114,10 @@ AsfrDatesOut <- c(1985.71, 1983.71, 1978.71)
 
 ## Intermediatte calculations
 smoothed_females <- smooth_age_5(Value = pop_female_counts,
-                                    Age = as.numeric(ages),
-                                    method = "Arriaga",
-                                    OAG = TRUE)
+                                 Age = as.numeric(Ages),
+                                 method = "Arriaga",
+                                 OAG = TRUE,
+                                 young.tail = "Original")
 
 ## This is the only number that messes up the whole calculation.
 ## smooth_age_5 returns the same result as the excel sheet
@@ -136,121 +144,111 @@ adjust_female_pop <- function(x, asfr_pastyear, sex_ratio, male = TRUE) {
   est_tot
 }
 
-estimates_nlx <- function(nlx_m_t1,
-                          nlx_t1,
-                          nlx_m_t2,
-                          nlx_t2,
-                          t0,
-                          t_before = 0.5) {
-  res <- nlx_m_t1*(t0-t_before-nlx_t2)/(nlx_t1-nlx_t2)+nlx_m_t2*(nlx_t1-t0+t_before)/(nlx_t1-nlx_t2)
-
-  res
-}
-
 basepop <- function(reference_year,
                     pop_male_counts, # Males
                     pop_female_counts, # Females
                     smoothed_females,
                     Ages,
                     sex_ratio, # SRB
-                    nlx_male_earlydate,
-                    nlx_female_earlydate,
-                    nlx_earlydate,
-                    nlx_male_latedate,
-                    nlx_female_latedate,
-                    nlx_latedate,
+                    nlxFemale,
+                    nlxDatesIn,
+                    nlxDatesOut,
+                    nlxMale = NULL,
                     asfrmat,
                     AsfrDatesIn,
-                    AsfrDatesOut,
-                    male = TRUE) {
+                    AsfrDatesOut) {
 
-  if (male) {
-    nlx_gender_earlydate <- nlx_male_earlydate
-    nlx_gender_latedate <- nlx_male_latedate    
-  } else {
-    nlx_gender_earlydate <- nlx_female_earlydate
-    nlx_gender_latedate <- nlx_female_latedate    
-  }
+  # We calculate basepop for males **ONLY** if the nlxMale
+  # argument is not null
+  nlxGender <- if (!is.null(nlxMale)) nlxMale else nlxFemale
+  male <- if (!is.null(nlxMale)) TRUE else FALSE
 
-  past_year <- c("past_year" = 0.5, "twohalf_before" = 2.5, "sevenhalf_before" = 7.5)
-  # Matches with female
-  # Matches with male
-  nlx <- lapply(past_year,
-                estimates_nlx,
-                nlx_m_t1 = nlx_gender_earlydate,
-                nlx_t1 = nlx_earlydate,
-                nlx_m_t2 = nlx_gender_latedate,
-                nlx_t2 = nlx_latedate,
-                t0 = reference_year
-                )
+  # Interpolate the gender specific nlx to the requested
+  # dates out
+  nlx <- interp(
+    nlxGender,
+    datesIn = nlxDatesIn,
+    datesOut = nlxDatesOut,
+    method = "linear"
+  )
+  # Turn the columns from the matrix into a list
+  nlx <- lapply(as.data.frame(nlx), identity)
 
-  # Matches with female
-  nlx_female <- lapply(past_year,
-                       estimates_nlx,
-                       nlx_m_t1 = nlx_female_earlydate,
-                       nlx_t1 = nlx_earlydate,
-                       nlx_m_t2 = nlx_female_latedate,
-                       nlx_t2 = nlx_latedate,
-                       t0 = reference_year
-                       )
+  # Interpolate only the female nlx to the requested dates.
+  # This is independent of the nlx above, since to apply
+  # basepop to either gender you need to have the female nlx
+  nlx_female <- interp(
+    nlxFemale,
+    datesIn = nlxDatesIn,
+    datesOut = nlxDatesOut,
+    method = "linear"
+  )
+  # Turn the columns from the matrix into a list
+  nlx_female <- lapply(as.data.frame(nlx_female), identity)
 
-  # Matches with baseline asfr
+  # Interpolate the asfr to the requested dates.
+  # This is gender agnostic.
   asfr <- interp(
     asfrmat,
     datesIn = AsfrDatesIn,
     datesOut = AsfrDatesOut,
     method = "linear"
   )
+  # Turn the columns from the matrix into a list
   asfr <- lapply(as.data.frame(asfr), identity)
 
+  
+  EarliestDate <- which.max(names(nlx_female))
+  OlderNlxFemale <- nlx_female[-EarliestDate]
+  OlderNlxFemale <- OlderNlxFemale[sort(names(OlderNlxFemale), decreasing = TRUE)]
+
+  # We assume that smoothed_females is returned by smooth_age_5, since
+  # we use the smoothed vector names to only get certain age groups
   smoothed_f_middleages <- smoothed_females[as.character(seq(15, 55, by = 5))]
 
-  nlx_div <- nlx_female$twohalf_before[4:length(nlx_female$twohalf_before)]
-  iter <- c(1, rep(seq(2, length(nlx_div) - 1), each = 2), length(nlx_div))
-  nlx_seq <- lapply(seq(1, length(iter), by = 2), function(i) nlx_div[iter[i:(i+1)]])
+  ## Currently, we assume that
+  for (i in seq_along(OlderNlxFemale)) {
+    .x <- OlderNlxFemale[[i]]
+    vec_mult <- if (i == 1) smoothed_f_middleages else OlderNlxFemale[[i-1]]
+    ind_length <- if (i == 1) 0 else 1
 
-  # Matches with baseline except for first age group
-  est_pop_middledate <- mapply(function(x, y) x * y[1] / y[2],
-                               smoothed_f_middleages[-1],
-                               nlx_seq
-                               )
+    nlx_div <- .x[4:(length(.x) - ind_length)]
+    iter <- c(1, rep(seq(2, length(nlx_div) - 1), each = 2), length(nlx_div))
+    nlx_seq <- lapply(seq(1, length(iter), by = 2), function(i) nlx_div[iter[i:(i+1)]])
 
-  # Matches with baseline except for first age group
-  est_pop_earlydate <- 0.2 * est_pop_middledate + 0.8 * smoothed_f_middleages[-length(smoothed_f_middleages)]
+    OlderNlxFemale[[i]] <- mapply(function(.y, .z) .y * .z[1] / .z[2],
+                                  vec_mult[-1],
+                                  nlx_seq
+                                  )
+  }
 
-  nlx_div <- nlx_female$sevenhalf_before[4:(length(nlx_female$sevenhalf_before) - 1)]
-  iter <- c(1, rep(seq(2, length(nlx_div) - 1), each = 2), length(nlx_div))
-  nlx_seq <- lapply(seq(1, length(iter), by = 2), function(i) nlx_div[iter[i:(i+1)]])
-
-  est_pop_latedate <- mapply(function(x, y) x * y[1] / y[2],
-                             est_pop_middledate[-1],
-                             nlx_seq
-                             )
-
+  FirstDate <- list(0.2 * OlderNlxFemale[[1]] + 0.8 * smoothed_f_middleages[-length(smoothed_f_middleages)])
+  names(FirstDate) <- max(names(nlx_female))
+  OlderNlxFemale <- c(
+    FirstDate,
+    OlderNlxFemale
+  )
+  
   restricted_middleages <- smoothed_females[as.character(seq(15, 45, by = 5))]
 
-  # All est_pop_* match except for the first age group
-  est_pop_past_year <- vapply(seq_along(restricted_middleages),
-                              function(i) mean(c(smoothed_f_middleages[i], est_pop_earlydate[i])),
-                              FUN.VALUE = numeric(1))
+  ## Currently, we assume that for estimating the population
+  ## For other years, after the second year, we carry forward
+  ## the mean between the current year the previous one
+  est_pop <- vector("list", length(OlderNlxFemale))
+  names(est_pop) <- names(OlderNlxFemale)
+  for (i in seq_along(OlderNlxFemale)) {
+    .x <- OlderNlxFemale[[i]]
+    mean_vec <- if (i > 2) OlderNlxFemale[[i-1]] else smoothed_f_middleages
 
-  est_pop_twohalfbefore <- vapply(seq_along(restricted_middleages),
-                                  function(i) mean(c(smoothed_f_middleages[i], est_pop_middledate[i])),
-                                  FUN.VALUE = numeric(1))
-
-  est_pop_sevenhalfbefore <- vapply(seq_along(restricted_middleages),
-                                    function(i) mean(c(est_pop_middledate[i], est_pop_latedate[i])),
-                                    FUN.VALUE = numeric(1))
-
+    est_pop[[i]] <- vapply(seq_along(restricted_middleages),
+                           function(i) mean(c(mean_vec[i], .x[i])),
+                           FUN.VALUE = numeric(1))
+  }
   ## End intermediate calculations
-
-  est_pop_years <- list("past_year" = est_pop_past_year,
-                        "twohalf_before" = est_pop_twohalfbefore,
-                        "sevenhalf_before" = est_pop_sevenhalfbefore)
 
   est_tot <- mapply(
     adjust_female_pop,
-    est_pop_years,
+    est_pop,
     asfr,
     sex_ratio,
     male,
@@ -259,12 +257,16 @@ basepop <- function(reference_year,
 
   pop_gender_counts <- if (male) pop_male_counts else pop_female_counts
 
+  ## Currently, this assumes that there can only be 3 dates. How
+  ## would we multiply the above if we had 5 dates?
+  ## We only have 3 age groups to adjust and 3 dates
+
   # Age 0
-  pop_gender_counts[1] <- est_tot$past_year * nlx$past_year[1] / 100000
+  pop_gender_counts[1] <- est_tot[[1]] * nlx[[1]][1] / 100000
   # Age 1-4
-  pop_gender_counts[2] <- est_tot$twohalf_before * 5 * (sum(nlx$twohalf_before[1:2])) / 500000 - pop_gender_counts[1]
+  pop_gender_counts[2] <- est_tot[[2]] * 5 * (sum(nlx[[2]][1:2])) / 500000 - pop_gender_counts[1]
   # Age 5-9
-  pop_gender_counts[3] <- est_tot$sevenhalf_before * 5 * (sum(nlx$sevenhalf_before[1:2])) / 500000 * nlx$twohalf_before[3] / sum(nlx$twohalf_before[1:2])
+  pop_gender_counts[3] <- est_tot[[3]] * 5 * (sum(nlx[[3]][1:2])) / 500000 * nlx[[2]][3] / sum(nlx[[2]][1:2])
 
   pop_gender_counts
 }
@@ -275,24 +277,18 @@ arriaga_male <-
     pop_male_counts = pop_male_counts,
     pop_female_counts = pop_female_counts,
     smoothed_females = smoothed_females,
-    ages = names(pop_male_counts),
+    Ages = names(pop_male_counts),
     sex_ratio = sex_ratio,
-    nlx_female_earlydate = nlx_female_earlydate,
-    nlx_male_earlydate = nlx_male_earlydate,
-    nlx_earlydate = nlx_earlydate,
-    nlx_female_latedate = nlx_female_latedate,
-    nlx_male_latedate = nlx_male_latedate,
-    nlx_latedate = nlx_latedate,
+    nlxFemale = nlxFemale,
+    nlxMale = nlxMale,
+    nlxDatesIn = nlxDatesIn,
+    nlxDatesOut = nlxDatesOut,
     asfrmat = asfrmat,
     AsfrDatesIn = AsfrDatesIn,
-    AsfrDatesOut = AsfrDatesOut,
-    male = TRUE
+    AsfrDatesOut = AsfrDatesOut
   )
 
 all(round(arriaga_male[1:3], 0) == c(13559, 47444, 54397))
-
-## difference <- arriaga_male[1:3] - c(13559, 47444, 54397)
-## difference
 
 arriaga_female <-
   basepop(
@@ -300,21 +296,15 @@ arriaga_female <-
     pop_male_counts = pop_male_counts,
     pop_female_counts = pop_female_counts,
     smoothed_females = smoothed_females,
-    ages = names(pop_female_counts),
+    Ages = names(pop_female_counts),
     sex_ratio = sex_ratio,
-    nlx_female_earlydate = nlx_female_earlydate,
-    nlx_male_earlydate = nlx_male_earlydate,
-    nlx_earlydate = nlx_earlydate,
-    nlx_female_latedate = nlx_female_latedate,
-    nlx_male_latedate = nlx_male_latedate,
-    nlx_latedate = nlx_latedate,
+    nlxFemale = nlxFemale,
+    nlxDatesIn = nlxDatesIn,
+    nlxDatesOut = nlxDatesOut,
     asfrmat = asfrmat,
     AsfrDatesIn = AsfrDatesIn,
-    AsfrDatesOut = AsfrDatesOut,
-    male = FALSE
+    AsfrDatesOut = AsfrDatesOut
   )
 
 all(round(arriaga_female[1:3], 0) == c(13467, 47576, 54554))
 
-## difference <- arriaga_female[1:3] - c(13467, 47576, 54554)
-## difference
