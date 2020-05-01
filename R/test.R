@@ -156,6 +156,20 @@ ArgsCheck <- function(ArgList) {
   })
 }
 
+# Args for testing
+## Males = pop_male_counts
+## Females = pop_female_counts
+## SmoothedFemales = smoothed_females
+## SRB = sex_ratio
+## nlxFemale = nlxFemale
+## nlxMale = nlxMale
+## nlxDatesIn = nlxDatesIn
+## nlxDatesOut = nlxDatesOut
+## asfrMat = asfrmat
+## AsfrDatesIn = AsfrDatesIn
+## AsfrDatesOut = AsfrDatesOut
+
+
 basepop <- function(Males,
                     Females,
                     SRB,
@@ -214,16 +228,22 @@ basepop <- function(Males,
   
   EarliestDate <- which.max(names(nlxFemale))
   OlderNlxFemale <- nlxFemale[-EarliestDate]
+  # Reorder the years such that the earlier year is first
   OlderNlxFemale <- OlderNlxFemale[sort(names(OlderNlxFemale), decreasing = TRUE)]
 
   # If SmoothedFemales is specified, we assume that it is returned
   # by smooth_age_5, so it should be named with the age groups.
+  # This is checked in ArgList
   FemalePops <- if (!is.null(SmoothedFemales)) SmoothedFemales else Females
 
   # We use the smoothed vector names to only get certain age groups
   SmoothedFMiddleages <- FemalePops[as.character(seq(15, 55, by = 5))]
 
-  ## Currently, we assume that
+  # Currently, we assume that for calculating the estimated
+  # female population for the DatesOut, the first OlderNlxFemale
+  # date is multiplied by the SmoothedFMiddleages. However,
+  # all dates after that one are mutltiplied by the previous
+  # OlderNlxFemale in the order.
   for (i in seq_along(OlderNlxFemale)) {
     .x <- OlderNlxFemale[[i]]
     VecMult <- if (i == 1) SmoothedFMiddleages else OlderNlxFemale[[i-1]]
@@ -233,12 +253,15 @@ basepop <- function(Males,
     iter <- c(1, rep(seq(2, length(NlxDiv) - 1), each = 2), length(NlxDiv))
     NlxSeq <- lapply(seq(1, length(iter), by = 2), function(i) NlxDiv[iter[i:(i+1)]])
 
+    # Here VecMult is either SmoothedFMiddleAges
     OlderNlxFemale[[i]] <- mapply(function(.y, .z) .y * .z[1] / .z[2],
                                   VecMult[-1],
                                   NlxSeq
                                   )
   }
 
+  # We always assume that the FirstDate will be calculate with the first date
+  # from the OlderNlxFemale, regardless of the number of dates.
   FirstDate <- list(0.2 * OlderNlxFemale[[1]] + 0.8 * SmoothedFMiddleages[-length(SmoothedFMiddleages)])
   names(FirstDate) <- max(names(nlxFemale))
   OlderNlxFemale <- c(
@@ -246,22 +269,24 @@ basepop <- function(Males,
     OlderNlxFemale
   )
   
-  RestrictedMiddleages <- FemalePops[as.character(seq(15, 45, by = 5))]
-
-  ## Currently, we assume that for estimating the population
-  ## For other years, after the second year, we carry forward
-  ## the mean between the current year the previous one
+  # Currently, we assume that for estimating the population
+  # for DatesOut, starting from the third year, we carry forward
+  # the mean between the current year the previous one instead
+  # of the SmoothedFMiddleages as fixed first year
   EstPop <- vector("list", length(OlderNlxFemale))
   names(EstPop) <- names(OlderNlxFemale)
   for (i in seq_along(OlderNlxFemale)) {
     .x <- OlderNlxFemale[[i]]
-    mean_vec <- if (i > 2) OlderNlxFemale[[i-1]] else SmoothedFMiddleages
+    MeanVec <- if (i > 2) OlderNlxFemale[[i-1]] else SmoothedFMiddleages
 
-    EstPop[[i]] <- vapply(seq_along(RestrictedMiddleages),
-                           function(i) mean(c(mean_vec[i], .x[i])),
+    # Loop along the 15-45 age groups
+    EstPop[[i]] <- vapply(seq_along(seq(15, 45, by = 5)),
+                           function(i) mean(c(MeanVec[i], .x[i])),
                            FUN.VALUE = numeric(1))
   }
 
+  # This contains the estimate male/female population (depending on whether
+  # the user specified nlxMale) for the DatesOut.
   EstTot <- mapply(
     AdjustFemalePop,
     EstPop,
@@ -355,3 +380,5 @@ bpe_female <-
   )
 
 all(round(bpe_female[1:3], 0) == c(13587, 48101, 55882))
+
+# Do we implement the calculation with adjusted total?
