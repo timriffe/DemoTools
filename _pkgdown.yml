@@ -70,16 +70,16 @@ reference:
       - ends_with("smth1")
       - '`spencer`'
       - '`zelnik`'
-  - title: "Auxiliar lifetable functions"
+  - title: "Auxiliary lifetable functions"
     contents:      
       - starts_with("lt_")
-  - title: "Auxiliar checking functions"
+  - title: "Auxiliary checking functions"
     contents:      
       - starts_with("is_")
   - title: "Datasets"
     contents:      
       - starts_with("pop")
-  - title: "Auxiliar population structure functions"
+  - title: "Auxiliary population structure functions"
     contents:      
       - '`calcAgeN`'
       - '`dec.date`'

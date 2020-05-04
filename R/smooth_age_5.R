@@ -787,11 +787,22 @@ smooth_age_5 <- function(Value,
     warning("please use smooth_age_5() instead of agesmth().", call. = FALSE)
   }
   
+  method <- match.arg(method, c("Carrier-Farrag",
+                                "KKN",
+                                "Arriaga",
+                                "United Nations",
+                                "Strong",
+                                "Zigzag",
+                                "MAV"))
+  young.tail <- match.arg(young.tail, c("Original", "Arriaga", "Strong", NA))
+  old.tail   <- match.arg(old.tail, c("Original", "Arriaga", "Strong", NA))
   
   method     <- simplify.text(method)
   young.tail <- simplify.text(young.tail)
   old.tail   <- simplify.text(old.tail)
+ 
   
+   
   if (missing(Age)) {
     Age      <- as.integer(names(Value))
   }
