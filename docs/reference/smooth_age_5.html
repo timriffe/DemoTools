@@ -80,7 +80,7 @@ and United Nations methods." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.1</span>
       </span>
     </div>
 
@@ -204,7 +204,7 @@ and United Nations methods.</p>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>character string. Options include <code>"Carrier-Farrag"</code>,<code>"Arriaga"</code>,<code>"Karup-King-Newton"</code>,<code>"United Nations"</code>, <code>"Strong"</code>, and <code>"Zigzag"</code>. See details. Default <code>"Carrier-Farrag"</code>.</p></td>
+      <td><p>character string. Options include <code>"Carrier-Farrag"</code>,<code>"Arriaga"</code>,<code>"KKN"</code>,<code>"United Nations"</code>, <code>"Strong"</code>, and <code>"Zigzag"</code>. See details. Default <code>"Carrier-Farrag"</code>.</p></td>
     </tr>
     <tr>
       <th>OAG</th>
@@ -237,7 +237,7 @@ and United Nations methods.</p>
     <p>numeric vector of smoothed counts in 5-year age groups.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The Carrier-Farrag, Karup-King-Newton, and Arriaga methods do not modify the totals
+    <p>The Carrier-Farrag, Karup-King-Newton (KKN), and Arriaga methods do not modify the totals
 in each 10-year age group, whereas the United Nations, Strong, Zigzag, and moving average (MAV) methods do. The age intervals
 of input data could be any integer structure (single, abridged, 5-year, other), but
 output is always in 5-year age groups. All methods except the United Nations and MAV methods
@@ -280,8 +280,9 @@ compare the results from a variety of methods.</p>
         <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>kkn</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>pop5m_pasex</span>,
         <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Ages</span>,
-        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Karup-King-Newton"</span>,
-        <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in match.arg(method, c("Carrier-Farrag", "KKN", "Arriaga", "United Nations",     "Strong", "Zigzag", "MAV")): 'arg' should be one of “Carrier-Farrag”, “KKN”, “Arriaga”, “United Nations”, “Strong”, “Zigzag”, “MAV”</span></div><div class='input'><span class='co'># zigzag, not plotted.</span>
+        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"KKN"</span>,
+        <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='co'># zigzag, not plotted.</span>
 <span class='no'>zz</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5</span>(<span class='no'>pop5m_pasex</span>,<span class='no'>Ages</span>,<span class='kw'>OAG</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Zigzag"</span>,<span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>80</span>)
 <span class='co'># mav, not plotted.</span>
 <span class='no'>ma3</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5</span>(<span class='no'>pop5m_pasex</span>,<span class='no'>Ages</span>,<span class='kw'>OAG</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"MAV"</span>,<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>3</span>)
