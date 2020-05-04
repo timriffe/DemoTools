@@ -210,16 +210,9 @@ interp <- function(popmat,
   
   # -----------------------
   # clean method declaration
-  method <- tolower(method)
-  if (grepl(method, pattern = "exp")) {
-    pattern <- "exponential"
-  }
-  if (grepl(method, pattern = "lin")) {
-    pattern <- "linear"
-  }
-  if (grepl(method, pattern = "pow")) {
-    pattern <- "power"
-  }
+  # match.arg does partial matching and it's safer:
+  # match.arg("lin", c("linear", "exponential", "power"))
+  method <- tolower(match.arg(method))
   # -----------------------
   
   # coerce dates to decimal if necessary

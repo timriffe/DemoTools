@@ -25,7 +25,7 @@ Depends:
     Rcpp
 Suggests:
     covr,
-    testthat,
+    testthat (>= 2.1.0),
     knitr,
     rmarkdown,
     DT,
