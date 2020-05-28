@@ -22,3 +22,6 @@ index.html
 logo.png
 DemoToolsHexTests
 Spreadsheets
+^\.ccache$
+^\.github$
+^tic\.R$
