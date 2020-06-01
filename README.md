@@ -2,13 +2,11 @@
 
 # DemoTools
 
-`<!-- badges: start -->`
-[![R build status](https://github.com/timriffe/DemoTools/workflows/R-CMD-check/badge.svg)](https://github.com/timriffe/DemoTools)
+![R CMD Check via {tic}](https://github.com/timriffe/DemoTools/workflows/R%20CMD%20Check%20via%20%7Btic%7D/badge.svg)
 [![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools)
 [![](https://img.shields.io/badge/devel%20version-01.06.01-yellow.svg)](https://github.com/timriffe/DemoTools)
 [![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-`<!-- badges: end -->`
 
 # Tools for aggregate demographic analysis
 Date: 2020-05-04
