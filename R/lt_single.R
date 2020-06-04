@@ -120,14 +120,15 @@ lt_single_mx <- function(nMx,
   Tx            <- Tx[ind]
   ex            <- ex[ind]
   
-  Sx            <- lt_id_Ll_S(nLx, lx, AgeInt = AgeInt, N = 1)
-  
   # some closeout considerations
   N             <- length(qx)
   qx[N]         <- 1
   nLx[N]        <- Tx[N]
   nAx[N]        <- ex[N]
   AgeInt[N]     <- NA
+  
+  # Survival ratios computed only after  nLx is closed out
+  Sx            <- lt_id_Ll_S(nLx, lx, AgeInt = AgeInt, N = 1)
   
   if (OAG) {
     if (OAnew == OA) {
