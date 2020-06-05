@@ -350,17 +350,20 @@ lt_id_Ll_S      <- function(nLx, lx, AgeInt, N = c(5, 1)) {
     # middle age groups
     mind          <- 3:(n - 2)
     Sx[mind]      <- nLx[mind + 1] / nLx[mind]
+    # penultimate age group
+    Sx[n - 1]       <- nLx[n] / (nLx[n - 1] + nLx[n])
+    # closeout
+    Sx[n]           <- 0.0
   }
   if (N == 1) {
     LLXX          <- c(lx[1], nLx)
-    mind          <- 1:(n - 2)
+    mind          <- 1:(n - 1)
     Sx[mind]      <- LLXX[mind + 1] / LLXX[mind]
+    # closeout
+    Sx[n]           <- nLx[n] / (nLx[n - 1] + nLx[n])
   }
   
-  # penultimate age group
-  Sx[n - 1]       <- nLx[n] / (nLx[n - 1] + nLx[n])
-  # closeout
-  Sx[n]           <- 0.0
+  
   
   Sx
 }
