@@ -4,7 +4,9 @@
 \name{pop5m_pasex}
 \alias{pop5m_pasex}
 \title{Male population by 5 year age groups}
-\format{A numeric vector of length 17}
+\format{
+A numeric vector of length 17
+}
 \source{
 The data comes from
   \url{https://URL}

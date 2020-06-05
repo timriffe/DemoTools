@@ -1,6 +1,6 @@
 pandoc: 2.3.1
-pkgdown: 1.4.1.9000
-pkgdown_sha: af379b9bae1d14189ca260a69115ab3e66a6c5c5
+pkgdown: 1.5.1
+pkgdown_sha: ~
 articles:
   Age-heaping_quality_with_Demotools: Age-heaping_quality_with_Demotools.html
   case_study_1: case_study_1.html
@@ -8,6 +8,7 @@ articles:
   lifetable_with_demotools: lifetable_with_demotools.html
   migration_with_demotools: migration_with_demotools.html
   smoothing_with_demotools: smoothing_with_demotools.html
+last_built: 2020-06-05T14:07Z
 urls:
   reference: https://timriffe.github.io/DemoTools//reference
   article: https://timriffe.github.io/DemoTools//articles
