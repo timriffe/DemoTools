@@ -154,10 +154,11 @@ lt_rule_m_extrapolate <- function(mx,
                                                  "LF4", "LF5", "LF6",
                                                  "poissonL", "binomialL"),
                                   ...) {
-  if (as.character(match.call()[[1]]) == "extra.mortality") {
-    warning("please use lt_rule_m_extrapolate() instead of extra_mortality().", call. = FALSE)
+    fn_call <- deparse(match.call()[[1]])
+    if (identical(length(fn_call), 1L) && grepl("extra.mortality$", fn_call)) {
+        warning("please use lt_rule_m_extrapolate() instead of extra_mortality().", call. = FALSE)
   }
-  
+
   # Save the input
   input <- as.list(environment())
 
@@ -170,23 +171,23 @@ lt_rule_m_extrapolate <- function(mx,
     opt.method = match.arg(opt.method),
     ...
   )
-  
+
   pv <- predict(object = M,
                 x = x_extr)
-  
+
   # which ages are not to be replaced with fitted values?
   L  <- !(x %in% x_extr)
-  
+
   # Create the output object
   if (is.vector(mx)) {
     names(mx)    <- x
     values       <- c(mx[L], pv)
-    
+
   } else {
     rownames(mx) <- x
     values       <- rbind(mx[L, ], pv)
   }
-  
+
   # Exit
   out <- list(
     input = input,
@@ -215,8 +216,8 @@ extra.mortality <- lt_rule_m_extrapolate
 #'   message("\nAges in fit  :", paste(range(x$input$x_fit), collapse = " - "))
 #'   message("\nAges in extrapolation:", paste(range(x$input$x_extr), collapse = " - "))
 #' }
-#' 
-#' 
+#'
+#'
 #' #' coef function for extra_mortality method
 #' #' @param object An object of the class \code{"extra_mortality"}.
 #' #' @inheritParams print.extra_mortality

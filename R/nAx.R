@@ -60,28 +60,29 @@ lt_rule_1a0_cd <- function(M0,
                     IMR = NA,
                     Sex = "m",
                     region = "w") {
-  if (as.character(match.call()[[1]]) == "geta0CD") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("geta0CD$", fn_call)) {
     warning("please use lt_rule_1a0_cd() instead of geta0CD().", call. = FALSE)
   }
-  
+
   # sex can be "m", "f", or "b"
   # region can be "n","e","s","w",or
   Sex       <- tolower(Sex)
   region    <- tolower(region)
-  
+
   Age0Const <- matrix(
-    c( 0.33, 0.35, 0.3500, 0.33, 
-       0.35, 0.3500, 0.29, 0.31, 
+    c( 0.33, 0.35, 0.3500, 0.33,
+       0.35, 0.3500, 0.29, 0.31,
        0.3100, 0.33, 0.35, 0.3500
     ),
     ncol = 3,
     byrow = TRUE,
     dimnames = list(c("w", "n", "e", "s"), c("m", "f", "b"))
   )
-  
+
   Intercept <- matrix(
-    c( 0.0425, 0.05, 0.0500, 0.0425, 
-       0.05, 0.0500, 0.0025, 0.01, 
+    c( 0.0425, 0.05, 0.0500, 0.0425,
+       0.05, 0.0500, 0.0025, 0.01,
        0.0100, 0.0425, 0.05, 0.0500
     ),
     ncol = 3,
@@ -90,7 +91,7 @@ lt_rule_1a0_cd <- function(M0,
   )
   Slope        <- c(2.875, 	3.000, 	3.0000)
   names(Slope) <- c("m", "f", "b")
-  
+
   Alpha        <- Intercept[region, Sex]
   Beta         <- Slope[Sex]
   # IMR optional here, use approximation
@@ -106,8 +107,8 @@ lt_rule_1a0_cd <- function(M0,
     }
   }
   ifelse(
-    IMR > .1, 
-    Age0Const[region, Sex], 
+    IMR > .1,
+    Age0Const[region, Sex],
     {Alpha + Beta * IMR})
 }
 
@@ -161,27 +162,28 @@ lt_rule_4a1_cd <- function(M0,
                       IMR = NA,
                       Sex = "m",
                       region = "w") {
-  if (as.character(match.call()[[1]]) == "geta1_4CD") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("geta1_4CD$", fn_call)) {
     warning("please use lt_rule_4a1_cd() instead of geta1_4CD().", call. = FALSE)
   }
-  
+
   # sex can be "m", "f", or "b"
   # region can be "n","e","s","w",or
   Sex         <- tolower(Sex)
   region      <- tolower(region)
   Age1_4Const <- matrix(
-    c( 1.352, 1.361, 1.3610, 1.558, 
-       1.570, 1.5700, 1.313, 1.324, 
+    c( 1.352, 1.361, 1.3610, 1.558,
+       1.570, 1.5700, 1.313, 1.324,
        1.3240, 1.240, 1.239, 1.2390
     ),
     ncol = 3,
     byrow = TRUE,
     dimnames = list(c("w", "n", "e", "s"), c("m", "f", "b"))
   )
-  
+
   Intercept <- matrix(
-    c( 1.653, 1.524, 1.5240, 1.859, 
-       1.733, 1.7330, 1.614, 1.487, 
+    c( 1.653, 1.524, 1.5240, 1.859,
+       1.733, 1.7330, 1.614, 1.487,
        1.4870, 1.541, 1.402, 1.4020
     ),
     ncol = 3,
@@ -248,17 +250,18 @@ lt_a_pas <-
            Sex = "m",
            region = "w",
            OAG = TRUE) {
-    if (as.character(match.call()[[1]]) == "axPAS") {
+    fn_call <- deparse(match.call()[[1]])
+    if (identical(length(fn_call), 1L) && grepl("axPAS$", fn_call)) {
       warning("please use lt_a_pas() instead of axPAS().", call. = FALSE)
     }
     # sex can be "m", "f", or "b"
     # region can be "n","e","s","w",or
     Sex    <- tolower(Sex)
     region <- tolower(region)
-    
+
     N      <- length(nMx)
     ax     <- AgeInt / 2
-    
+
     ax[1]  <- lt_rule_1a0_cd(
                 M0 = nMx[1],
                 IMR = IMR,
@@ -269,7 +272,7 @@ lt_a_pas <-
                 IMR = IMR,
                 Sex = Sex,
                 region = region)
-  
+
     # TR 5-12-2019 this two-step returns midpoints IFF they
     # don't imply qx > 1, otherwise, for such pathological
     # values it returns the ax implied by a constant hazard.
@@ -283,14 +286,14 @@ lt_a_pas <-
     # # TR: this step vulnerable, see comment below.
     # ax <- lt_id_qm_a(nqx = qx, nMx = nMx, AgeInt = AgeInt)
     ax[N]  <- ifelse(OAG, 1 / nMx[N], ax[N])
-    
+
     # TR 31-12-2019 at this point, transitivity is guaranteed internally for
     # qx, mx, and ax, however, a0 may have been determied by IMR, and in this
     # case q0 (just created above) might be different from IMR (likely so), AND
     # the a0 might be negative or greater than 1, which simply cannot be. It
     # should be preferred to EITHER override M0 downstream (beyond this function call)
     # OR remove the IMR option altogether.
-    
+
     # ind <- impliedqx > 1
     # if (sum(ind) > 0) {
     #   for (i in which(ind)) {
@@ -302,7 +305,7 @@ lt_a_pas <-
     #                      AgeInt = AgeInt[i])
     #   }
     # }
-    
+
     ax
   }
 
@@ -387,22 +390,23 @@ lt_id_morq_a_greville <- function(nMx,
                                   extrapFrom = max(Age),
                                   extrapFit = Age[Age >= 60],
                                   ...) {
-  if (as.character(match.call()[[1]]) == "ax.greville.mortpak") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("ax.greville.mortpak$", fn_call)) {
     warning("please use lt_id_morq_a_greville() instead of ax.greville.mortpak().", call. = FALSE)
   }
-  
+
   Sex     <- tolower(Sex)
   region  <- tolower(region)
   law     <- tolower(law)
   DBL_MIN <- .Machine$double.xmin
-  
+
   # sort out arguments:
   mxflag  <- missing(nMx)
   qxflag  <- missing(nqx)
   imr_flag <- !is.na(IMR)
-  
 
-  
+
+
   # if no qx, we can get from lx if available
   if (qxflag & !missing(lx)) {
     nqx <- lt_id_l_d(lx) / lx
@@ -412,10 +416,10 @@ lt_id_morq_a_greville <- function(nMx,
     # preserve IMR like so
     nqx[1] <- IMR
   }
-  
+
   stopifnot(!qxflag | !mxflag)
   # now we have either qx or mx
-  
+
   if (!mxflag) {
     a0     <- lt_rule_1a0_cd(
                 M0 = nMx[1],
@@ -447,15 +451,15 @@ lt_id_morq_a_greville <- function(nMx,
     nMx    <- nqx
     qind   <- TRUE
   }
-  
-  
+
+
   # some setup
   N           <- length(nMx)
-  
+
   ## for ages 15-19 onward
   ## AK <- log(QxMx[j+1]/QxMx[j-1])/10 ## we don't have 1/10 ?
   ## ax[j] <- 2.5 - (25.0/12.0) * (QxMx[j] - AK)
-  
+
   ## improved Greville formula for adolescent ages 5-9 and 10-14
   ## Let the three successive lengths be n1, n2 and n3, the formula for 5a5 is:
   ## ax[i] = 2.5 - (25 / 12) * (mx[i] - log(mx[i + 1] / mx[i-1])/(n1/2+n2+n3/2))
@@ -463,46 +467,46 @@ lt_id_morq_a_greville <- function(nMx,
   ## has only 4 ages (not 5), while the other 5-year age group are 1/10
   ## ax[i] = 2.5 - (25 / 12) * (mx[i] - (1/9.5)* log(mx[i + 1] / mx[i-1]))
   ## Age 20-25, ..., 95-99
-  
+
   # TR: 6-3-2020 remove pointless loop, add in new back stop
-  
+
   # constant hazard ax, as filler for pathological cases:
   axConst <- AgeInt + 1 / nMx - AgeInt / (1 - exp(-AgeInt * nMx))
   # inverse of weighted moving avg age interval.
   Abx     <- 1 / (shift.vector(AgeInt,1, fill = NA) / 2 + AgeInt + shift.vector(AgeInt,-1, fill = NA) / 2)
   # Kx is fragile
-  Kx      <- log(pmax(shift.vector(nMx,-1, fill = NA),DBL_MIN) / 
+  Kx      <- log(pmax(shift.vector(nMx,-1, fill = NA),DBL_MIN) /
                    pmax(shift.vector(nMx,1, fill = NA),DBL_MIN)) # / 10?
   # This does nothing special for age 5-9, which has a 4-year age group on the left.
   # age 1-4 is overwritten anyway.
   ax      <- AgeInt / 2 - (AgeInt ^ 2 / 12) * (nMx - Kx * Abx)
-  
+
   # pick out likely pathological cases and imput w const ax
   ind     <- Age >= 10 & Age < max(Age) & (ax < (.4 * AgeInt) | ax > (.6 * AgeInt)) | is.na(ax)
   ax[ind] <- axConst[ind]
-  
+
   # TR: remove this, superceded by axConst filler.
   ## (Mortpak used 1 instead of 0.97).
   # if (Age[i] > 35 && ax[i] < 0.97) {
   #   ax[i] <- 0.97
   # }
-  
-  
-  # preserve old patch for 
+
+
+  # preserve old patch for
   if (qind){
     axfill   <- shift.vector(ax,1, fill = NA) * .8
     ind      <- Age >= 65 & ax < axfill
     ax[ind]  <- axfill[ind]
   }
-  
+
   # a1_4 only valid for abridged
   ax[1:2] <- c(a0, a1_4)
-  
+
   # TR: this is questionable now
   if (!mod) {
     ax[3:4] <- AgeInt[3:4] / 2
   }
-  
+
   # closeout
   if (max(Age) < 130 & closeout) {
     aomega         <- lt_a_closeout(
@@ -512,7 +516,7 @@ lt_id_morq_a_greville <- function(nMx,
                          extrapFrom = extrapFrom,
                          extrapFit = extrapFit,
                          ...)
-    
+
     ax[N]          <- aomega
   } else {
     ax[N]          <- 1 / nMx[N]
@@ -604,21 +608,22 @@ lt_a_un <- function(nMx,
                  extrapFrom = max(Age),
                  extrapFit = Age[Age >= 60],
                  ...) {
-  if (as.character(match.call()[[1]]) == "axUN") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("axUN$", fn_call)) {
     warning("please use lt_a_un() instead of axUN().", call. = FALSE)
   }
-  
+
   stopifnot(!missing(nqx) | !missing(nMx))
   smsq    <- 99999
   Sex     <- tolower(Sex)
   region  <- tolower(region)
   law     <- tolower(extrapLaw)
-  
+
   if (missing(nqx) & !missing(lx)) {
     nqx <- lt_id_l_d(lx) / lx
   }
   # now we have either nqx or nMx
-  
+
   if (missing(nqx) & !missing(nMx)) {
     # UN (1982) p 31
     # http://www.un.org/esa/population/publications/Model_Life_Tables/Model_Life_Tables.htm
@@ -661,7 +666,7 @@ lt_a_un <- function(nMx,
       extrapFit = extrapFit,
       ...
     )
-    
+
     for (i in 1:maxit) {
       mxi   <- lt_id_qa_m(
                     nqx = nqx,
@@ -704,7 +709,7 @@ lt_a_un <- function(nMx,
                    nMx = nMx,
                    AgeInt = AgeInt)
   }
-  
+
   #	if (closeout == "mortpak" & sum(AgeInt) < 100){
   #		N      <- length(axi)
   #		aomega <- aomegaMORTPAK(mx_or_qx                                                                       = nMx, qind = FALSE)
@@ -726,8 +731,8 @@ lt_a_un <- function(nMx,
   } else {
     axi[N] <- 1 / nMx[N]
   }
-  
-  
+
+
   # if mx, qx, or both are given, then by now we have ax
   axi
 }
@@ -778,14 +783,15 @@ lt_a_closeout <- function(mx,
                           extrapFrom = max(Age),
                           extrapFit = Age[Age >= 40],
                           ...) {
-  if (as.character(match.call()[[1]]) == "aomegaMortalityLaws") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("aomegaMortalityLaws$", fn_call)) {
     warning("please use lt_a_closeout() instead of aomegaMortalityLaws().", call. = FALSE)
   }
-  
+
   extrapLaw <- tolower(law)
   OA        <- max(Age)
   x_extr    <- seq(OA, 130, by = .1)
-  
+
   Mxnew     <- lt_rule_m_extrapolate(
     mx = mx,
     x = Age,
@@ -796,12 +802,12 @@ lt_a_closeout <- function(mx,
   )
   mmxx      <- Mxnew$values
   mx        <- mmxx[names2age(mmxx) >= OA]
-  
+
   # acceptable approximation for small intervals
   lx        <- c(1, exp(-cumsum(mx / 10)), 0)
   # divide by 10 (interval) and 2 (avg), so 20.
   sum(shift.vector(lx, -1) + lx) / 20
-  
+
 }
 
 #' @export
@@ -844,10 +850,11 @@ lt_id_morq_a <- function(nMx,
                       extrapFrom = max(Age),
                       extrapFit = Age[Age >= 60],
                       ...) {
-  if (as.character(match.call()[[1]]) == "mxorqx2ax") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("mxorqx2ax$", fn_call)) {
     warning("please use lt_id_morq_a() instead of mxorqx2ax().", call. = FALSE)
   }
-  
+
   N <- length(AgeInt)
   if (is.na(AgeInt[N]) | is.infinite(AgeInt[N])) {
     AgeInt[N] <- AgeInt[N - 1]
@@ -861,8 +868,8 @@ lt_id_morq_a <- function(nMx,
                      IMR = IMR,
                      Sex = Sex,
                      region = region,
-                     OAG = OAG)             
-      
+                     OAG = OAG)
+
     } else {
       # if nMx avail, then Open age group
       # closed according to convention.
@@ -892,7 +899,7 @@ lt_id_morq_a <- function(nMx,
                      extrapFrom = extrapFrom,
                      extrapFit = extrapFit,
                      ...)
-      
+
     } else {
       nAx       <- lt_a_un(
                      nMx = nMx,
@@ -907,7 +914,7 @@ lt_id_morq_a <- function(nMx,
                      extrapFit = extrapFit,
                      ...)
     }
-    
+
   }
   nAx
 }
