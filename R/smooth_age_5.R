@@ -28,10 +28,11 @@
 smooth_age_5_cf <- function(Value,
                                 Age,
                                 OAG = TRUE) {
-  if (as.character(match.call()[[1]]) == "carrier_farrag_smth") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("carrier_farrag_smth$", fn_call)) {
     warning("please use smooth_age_5_cf() instead of carrier_farrag_smth().", call. = FALSE)
   }
-  
+
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
   # age groups and it'd still not break.
@@ -40,28 +41,28 @@ smooth_age_5_cf <- function(Value,
     groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
   N          <- length(Value5)
   Age5       <- as.integer(names(Value5))
-  
+
   # would need to move this up to ensure?
   # or in case of 85+ would we want to keep 80-84, 85+ as-is?
   Value10    <- groupAges(Value, Age = Age, N = 10)
-  
+
   # what OAG is a strange digit? Then take OAG after grouping.
   if (OAG) {
     OAGvalue <- Value10[length(Value10)]
     Value10[length(Value10)] <- NA
   }
-  
+
   v10R       <- shift.vector(Value10, 1, fill = NA)
   v10L       <- shift.vector(Value10,-1, fill = NA)
   vevens     <- Value10 / (1 + (v10R / v10L) ^ .25)
   vodds      <- Value10 - vevens
-  
+
   out        <- Value5 * NA
   # cut back down (depending) and name
   interleaf  <- c(rbind(vodds, vevens))
   n          <- min(c(length(interleaf), N))
   out[1:n]   <- interleaf[1:n]
-  
+
   out
   # tail behavior will be controlled in top level function.
 }
@@ -96,10 +97,11 @@ carrier_farrag_smth <- smooth_age_5_cf
 smooth_age_5_kkn <- function(Value,
                      Age,
                      OAG = TRUE) {
-  if (as.character(match.call()[[1]]) == "kkn_smth") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("kkn_smth$", fn_call)) {
     warning("please use smooth_age_5_kkn() instead of kkn_smth().", call. = FALSE)
   }
-  
+
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
   # age groups and it'd still not break.
@@ -108,20 +110,20 @@ smooth_age_5_kkn <- function(Value,
     groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
   N          <- length(Value5)
   Age5       <- as.integer(names(Value5))
-  
+
   # would need to move this up to ensure?
   # or in case of 85+ would we want to keep 80-84, 85+ as-is?
   Value10    <- groupAges(Value, Age = Age, N = 10)
-  
+
   # what OAG is a strange digit? Then take OAG after grouping.
   if (OAG) {
     OAGvalue <- Value10[length(Value10)]
     Value10[length(Value10)] <- NA
   }
-  
+
   v10R       <- shift.vector(Value10, 1, fill = NA)
   v10L       <- shift.vector(Value10,-1, fill = NA)
-  
+
   # this is the KNN operation
   vodds      <- Value10 / 2 + (v10R - v10L) / 16
   # constrained in 10-year age groups
@@ -132,7 +134,7 @@ smooth_age_5_kkn <- function(Value,
   out        <- Value5 * NA
   n          <- min(c(length(interleaf), N))
   out[1:n]   <- interleaf[1:n]
-  
+
   out
 }
 #' @export
@@ -168,10 +170,11 @@ kkn_smth <- smooth_age_5_kkn
 smooth_age_5_arriaga <- function(Value,
                          Age,
                          OAG = TRUE) {
-  if (as.character(match.call()[[1]]) == "arriaga_smth") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("arriaga_smth$", fn_call)) {
     warning("please use smooth_age_5_arriaga() instead of arriaga_smth().", call. = FALSE)
   }
-  
+
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
   # age groups and it'd still not break.
@@ -180,24 +183,24 @@ smooth_age_5_arriaga <- function(Value,
     groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
   N          <- length(Value5)
   Age5       <- as.integer(names(Value5))
-  
+
   # would need to move this up to ensure?
   # or in case of 85+ would we want to keep 80-84, 85+ as-is?
   Value10    <- groupAges(Value, Age = Age, N = 10)
-  
+
   # what OAG is a strange digit? Then take OAG after grouping.
   if (OAG) {
     OAGvalue <- Value5[length(Value5)]
     Value10[length(Value10)] <- NA
     Value5[length(Value5)]   <- NA
   }
-  
+
   # again get staggered vectors
   Value10LL   <- shift.vector(Value10,-2, fill = NA)
   Value10L    <- shift.vector(Value10,-1, fill = NA)
   Value10R    <- shift.vector(Value10, 1, fill = NA)
   Value10RR   <- shift.vector(Value10, 2, fill = NA)
-  
+
   # alternating calc, with differences at tails
   vevens      <- (-Value10R + 11 * Value10 + 2 * Value10L) / 24
   # tails different
@@ -208,21 +211,21 @@ smooth_age_5_arriaga <- function(Value,
     Value10[lastind] - (8 * Value10[lastind] + 5 * Value10R[lastind] - Value10RR[lastind]) / 24
   # odds are complement
   vodds       <- Value10 - vevens
-  
+
   # prepare output
   interleaf  <- c(rbind(vodds, vevens))
   # produce results vector
   out        <- Value5 * NA
   n          <- min(c(length(interleaf), N))
   out[1:n]   <- interleaf[1:n]
-  
+
   # if OA ends in 5, then we can save penultimate value too
   na.i       <- is.na(out)
   out[na.i]  <- Value5[na.i]
   if (OAG) {
     out[N] <- OAGvalue
   }
-  
+
   out
 }
 #' @export
@@ -255,30 +258,31 @@ arriaga_smth <- smooth_age_5_arriaga
 smooth_age_5_un <- function(Value,
                                 Age,
                                 OAG = TRUE) {
-  if (as.character(match.call()[[1]]) == "united_nations_smth") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("united_nations_smth$", fn_call)) {
     warning("please use smooth_age_5_un() instead of united_nations_smth().", call. = FALSE)
   }
-  
+
   N <- length(Value)
   if (OAG) {
     Value[N] <- NA
   }
-  
+
   Value5     <- groupAges(Value, Age = Age, N = 5)
   N          <- length(Value5)
   Age5       <- as.integer(names(Value5))
-  
+
   # get staggered vectors
   Value5LL   <- shift.vector(Value5,-2, fill = NA)
   Value5L    <- shift.vector(Value5,-1, fill = NA)
   Value5R    <- shift.vector(Value5, 1, fill = NA)
   Value5RR   <- shift.vector(Value5, 2, fill = NA)
-  
+
   # this is the funny KNN operation
   # B11 is central
   out  <-
     (-Value5RR + 4 * (Value5L + Value5R) + 10 * Value5 - Value5LL) / 16
-  
+
   # cut back down (depending) and name
   names(out) <- Age5
   out
@@ -319,10 +323,11 @@ smooth_age_5_strong <- function(Value,
                         OAG = TRUE,
                         ageMin = 10,
                         ageMax = 65) {
-  if (as.character(match.call()[[1]]) == "strong_smth") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("strong_smth$", fn_call)) {
     warning("please use smooth_age_5_strong() instead of strong_smth().", call. = FALSE)
   }
-  
+
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
   # age groups and it'd still not break.
@@ -331,11 +336,11 @@ smooth_age_5_strong <- function(Value,
     groupAges(Value1, Age = as.integer(names(Value1)), N = 5)
   N          <- length(Value5)
   Age5       <- as.integer(names(Value5))
-  
+
   # would need to move this up to ensure?
   # or in case of 85+ would we want to keep 80-84, 85+ as-is?
   Value10    <- groupAges(Value, Age = Age, N = 10)
-  
+
   # what OAG is a strange digit? Then take OAG after grouping.
   if (OAG) {
     OAGvalue <- Value5[length(Value5)]
@@ -344,11 +349,11 @@ smooth_age_5_strong <- function(Value,
   }
   Age5       <- as.integer(names(Value5))
   Age10      <- as.integer(names(Value10))
-  
+
   # subtotal
   indsub     <- Age10 >= ageMin & Age10 <= ageMax
   SubTot     <- sum(Value10[indsub])
-  
+
   #	# get staggered vectors
   Value10L    <- shift.vector(Value10,-1, fill = NA)
   Value10R    <- shift.vector(Value10, 1, fill = NA)
@@ -356,18 +361,18 @@ smooth_age_5_strong <- function(Value,
   # B11 is central
   Value10Pert <- (Value10 * 2 + Value10L + Value10R) / 4
   Value10Pert[is.na(Value10Pert)] <- Value10[is.na(Value10Pert)]
-  
+
   # rescale ages between min and max to sum to original
   Value10Adj  <- Value10Pert
   Value10Adj[indsub] <-
     Value10Adj[indsub] * SubTot / sum(Value10Adj[indsub])
-  
+
   # again get staggered vectors
   V10adjLL    <- shift.vector(Value10Adj,-2, fill = NA)
   V10adjL     <- shift.vector(Value10Adj,-1, fill = NA)
   V10adjR     <- shift.vector(Value10Adj, 1, fill = NA)
   V10adjRR    <- shift.vector(Value10Adj, 2, fill = NA)
-  
+
   # alternating calc, with differences at tails
   vevens     <- (-V10adjR + 11 * Value10Adj + 2 * V10adjL) / 24
   # tails different
@@ -378,7 +383,7 @@ smooth_age_5_strong <- function(Value,
     Value10Adj[lastind] - (8 * Value10Adj[lastind] + 5 * V10adjR[lastind] - V10adjRR[lastind]) / 24
   # odds are complement
   vodds      <- Value10Adj - vevens
-  
+
   # prepare output
   # prepare output
   interleaf  <- c(rbind(vodds, vevens))
@@ -386,14 +391,14 @@ smooth_age_5_strong <- function(Value,
   out        <- Value5 * NA
   n          <- min(c(length(interleaf), N))
   out[1:n]   <- interleaf[1:n]
-  
+
   # if OA ends in 5, then we can save penultimate value too
   na.i       <- is.na(out)
   out[na.i]  <- Value5[na.i]
   if (OAG) {
     out[N] <- OAGvalue
   }
-  
+
   # what if OAis e.g. 85?
   out
 }
@@ -426,14 +431,15 @@ smooth_age_5_zigzag <- function(Value,
                         OAG = TRUE,
                         ageMin = 40,
                         ageMax = max(Age) - max(Age) %% 10 - 5) {
-  
-  if (as.character(match.call()[[1]]) == "zigzag_smth") {
+
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("zigzag_smth$", fn_call)) {
     warning("please use smooth_age_5_zigzag() instead of zigzag_smth().", call. = FALSE)
   }
   # insist on 5-year age groups
   Value <- groupAges(Value, Age = Age, N = 5)
   Age   <- as.integer(names(Value))
-  
+
   Smoothed <- smooth_age_5_zigzag_inner(
     Value = Value,
     Age = Age,
@@ -443,7 +449,7 @@ smooth_age_5_zigzag <- function(Value,
   )
   # put NAs in for unadjusted ages,
   Smoothed[Smoothed == Value] <- NA
-  
+
   Smoothed
 }
 
@@ -482,19 +488,20 @@ smooth_age_5_mav <- function(Value,
                      Age,
                      OAG = TRUE,
                      n = 3) {
-  if (as.character(match.call()[[1]]) == "mav_smth") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("mav_smth$", fn_call)) {
     warning("please use smooth_age_5_mav() instead of mav_smth().", call. = FALSE)
   }
   Value <- groupAges(Value, Age = Age, N = 5)
   Age   <- as.integer(names(Value))
-  
+
   Smoothed <- mav(
     Value = Value,
     Age = Age,
     OAG = OAG,
     n = n
   )
-  
+
   Smoothed
 }
 
@@ -560,14 +567,15 @@ smooth_age_5_feeney          <- function(Value,
                                          Age,
                                          maxit = 200,
                                          OAG = FALSE) {
-  if (as.character(match.call()[[1]]) == "T9R5L") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("T9R5L$", fn_call)) {
     warning("please use smooth_age_5_feeney() instead of T9R5L().", call. = FALSE)
   }
-  
+
   # ages need to be single to use this method.
   stopifnot(is_single(Age))
   TOT          <- sum(Value, na.rm = TRUE)
-  
+
   # handle OAG with care
   if (OAG) {
     NN         <- length(Value)
@@ -575,18 +583,18 @@ smooth_age_5_feeney          <- function(Value,
     OA         <- Age[NN]
     Value      <- Value[-NN]
     Age        <- Age[-NN]
-    
+
   }
-  
+
   V5           <- groupAges(Value, Age, N = 5)
   A5           <- names2age(V5)
   i5           <- Age %% 5 == 0
-  
+
   # TR: is this length-vulnerable?
   V50          <- Value[i5]
   V54          <- V5 - V50
-  
-  
+
+
   # need N anyway
   N            <- length(V5)
   # internal function used iteratively
@@ -602,8 +610,8 @@ smooth_age_5_feeney          <- function(Value,
     aj         <- list(FC, POB1, POB2)
     aj
   }
-  
-  
+
+
   # adjustment loop
   for (i in 1:maxit) {
     adjust     <- f_adjust(v5 = V50, v4 = V54)
@@ -613,16 +621,16 @@ smooth_age_5_feeney          <- function(Value,
       break
     }
   }
-  
+
   G            <- (V50 * .6)[c(2:(N - 1))]
   H            <- (V50 * .4)[c(3:N)]
   I            <- G + H #f(x+2.5)
-  
+
   # corrected, but unknowns still need to be redistributed
   #I5          <- rescale_vector(I * 5,sum(V5[2:(N-1)]))
   I5           <- I * 5
   out          <- c(V5[1], I5, V5[N])
-  
+
   if (OAG) {
     A5         <- c(A5, OA)
     out        <- c(out, OAvalue)
@@ -783,10 +791,11 @@ smooth_age_5 <- function(Value,
                     n = 3,
                     young.tail = c("Original", "Arriaga", "Strong", NA),
                     old.tail = young.tail) {
-  if (as.character(match.call()[[1]]) == "agesmth") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("agesmth$", fn_call)) {
     warning("please use smooth_age_5() instead of agesmth().", call. = FALSE)
   }
-  
+
   method <- match.arg(method, c("Carrier-Farrag",
                                 "KKN",
                                 "Arriaga",
@@ -796,13 +805,13 @@ smooth_age_5 <- function(Value,
                                 "MAV"))
   young.tail <- match.arg(young.tail, c("Original", "Arriaga", "Strong", NA))
   old.tail   <- match.arg(old.tail, c("Original", "Arriaga", "Strong", NA))
-  
+
   method     <- simplify.text(method)
   young.tail <- simplify.text(young.tail)
   old.tail   <- simplify.text(old.tail)
- 
-  
-   
+
+
+
   if (missing(Age)) {
     Age      <- as.integer(names(Value))
   }
@@ -813,7 +822,7 @@ smooth_age_5 <- function(Value,
                                Age = Age,
                                OAG = OAG)
   }
-  
+
   # stong
   if (method == "strong") {
     out <-
@@ -825,21 +834,21 @@ smooth_age_5 <- function(Value,
         ageMax = ageMax
       )
   }
-  
+
   # un or unitednations
   if (method %in% c("un", "unitednations")) {
     out <- smooth_age_5_un(Value = Value,
                                Age = Age,
                                OAG = OAG)
   }
-  
+
   # arriaga
   if (method  == "arriaga") {
     out <- smooth_age_5_arriaga(Value = Value,
                         Age = Age,
                         OAG = OAG)
   }
-  
+
   # kkn kkingnewton karupkingnewton
   if (method %in% c("kkn", "kkingnewton", "karupkingnewton")) {
     out <- smooth_age_5_kkn(Value = Value,
@@ -868,7 +877,7 @@ smooth_age_5 <- function(Value,
              OAG = OAG,
              maxit = 200)
   }
-  
+
   if (method %in% c("mav", "ma", "movingaverage")) {
     # however, need to make it so NAs returned in unaffected ages?
     # or make the user call it in various runs and graft together.
@@ -905,7 +914,7 @@ smooth_age_5 <- function(Value,
         stopifnot(length(strong) == length(out))
         out[old.ind] <- strong[old.ind]
       }
-      
+
     }
     nrle             <- rle(as.integer(nas))
     # take care of young tail
@@ -913,7 +922,7 @@ smooth_age_5 <- function(Value,
       nrle$values[length(nrle$values)] <- 0
       young.ind        <-
         as.logical(rep(nrle$values, times = nrle$lengths))
-      
+
       if (young.tail %in% c("o", "orig", "original")) {
         stopifnot(length(original) == length(out))
         out[young.ind] <- original[young.ind]
@@ -930,7 +939,7 @@ smooth_age_5 <- function(Value,
       }
     }
   } # end tail operations
-  
+
   out
 }
 

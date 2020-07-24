@@ -89,18 +89,19 @@
 #' text(1, c(M0, M1_4, M0_4), c("M0", "M1_4", "M0_4"), pos = 3)
 #' }
 lt_rule_4m0_D0 <- function(D04, M04, P04, Sex = c("m", "f")) {
-  if (as.character(match.call()[[1]]) == "M04_2_D0") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("M04_2_D0$", fn_call)) {
     warning("please use lt_rule_4m0_D0() instead of M04_2_D0().", call. = FALSE)
   }
-  
+
   if (missing(M04)) {
     M5 <- D04 / P04
   } else {
     M5 <- M04
   }
-  
+
   lM5   <- log(M5)
-  
+
   if (length(Sex)  == 1 & length(lM5) > 1) {
     Sex   <- rep(Sex, length(lM5))
   }
@@ -234,24 +235,25 @@ M04_2_D0 <- lt_rule_4m0_D0
 #' }
 
 lt_rule_4m0_m0 <- function(M04, D04, P04, Sex = c("m", "f")) {
-  if (as.character(match.call()[[1]]) == "M04_2_M0") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("M04_2_M0$", fn_call)) {
     warning("please use lt_rule_4m0_m0() instead of M04_2_M0().", call. = FALSE)
   }
-  
-  
+
+
   if (missing(M04)) {
     M5 <- D04 / P04
   } else {
     M5 <- M04
   }
-  
+
   lM5   <- log(M5)
-  
+
   # handle lengths
   if (length(Sex)  == 1 & length(lM5) > 1) {
     Sex   <- rep(Sex, length(lM5))
   }
-  
+
   # ------------------------------
   # get coefs created
   coefs  <-
@@ -273,7 +275,7 @@ lt_rule_4m0_m0 <- function(M04, D04, P04, Sex = c("m", "f")) {
     coefs["int1", ] + coefs["s1", ] * coefs["brk", ] - s2 * coefs["brk", ]
   coefs  <- rbind(coefs, s2, int2)
   # ------------------------------
-  
+
   # based on a segmented regression of log(1D0/5D0)~log(5M0)
   lm0  <- ifelse(
     Sex == "m",
@@ -286,7 +288,7 @@ lt_rule_4m0_m0 <- function(M04, D04, P04, Sex = c("m", "f")) {
            coefs["int1", "f"] + lM5 * coefs["s1", "f"],
            coefs["int2", "f"] + lM5 * coefs["s2", "f"])
   )
-  
+
   # back to rate
   exp(lm0)
 }

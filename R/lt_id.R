@@ -17,7 +17,8 @@
 #' @return nMx vector of age specific death rates derived via identity.
 #' @export
 lt_id_qa_m <- function(nqx, nax, AgeInt) {
-  if (as.character(match.call()[[1]]) == "qxax2mx") {
+  fn_call <- deparse(match.call()[[1]])
+        if (identical(length(fn_call), 1L) && grepl("qxax2mx$", fn_call)) {
     warning("please use lt_id_qa_m() instead of qxax2mx().", call. = FALSE)
   }
   nqx / (AgeInt - (AgeInt - nax) * nqx)
@@ -42,7 +43,7 @@ qxax2mx <- lt_id_qa_m
 #'   if (as.character(match.call()[[1]]) == "mx2qx") {
 #'     warning("please use lt_id_m_q() instead of mx2qx().", call. = FALSE)
 #'   }
-#'   
+#'
 #'   qx <- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
 #'   ind <- qx > 1 | is.na(qx)
 #'   if (sum(ind) > 0) {
@@ -67,10 +68,11 @@ qxax2mx <- lt_id_qa_m
 #' @return nax numeric vector of average time spent in interval by those dying in interval via identity.
 #' @export
 lt_id_qm_a <- function(nqx, nMx, AgeInt) {
-  if (as.character(match.call()[[1]]) == "qxmx2ax") {
+  fn_call <- deparse(match.call()[[1]])
+        if (identical(length(fn_call), 1L) && grepl("qxmx2ax$", fn_call)) {
     warning("please use lt_id_qm_a() instead of qxmx2ax().", call. = FALSE)
   }
-  
+
   1 / nMx - AgeInt / nqx + AgeInt
 }
 
@@ -98,7 +100,7 @@ qxmx2ax <- lt_id_qm_a
 #   if (as.character(match.call()[[1]]) == "mxax2qx") {
 #     warning("please use lt_id_ma_q() instead of mxax2qx().", call. = FALSE)
 #   }
-#   
+#
 #   qx <- lt_id_m_q(nMx, nax, AgeInt)
 #   if (closeout) {
 #     qx[length(qx)] <- 1
@@ -108,7 +110,7 @@ qxmx2ax <- lt_id_qm_a
 #       )
 #     }
 #   }
-#   # no Age argument, so strong assumption that if 
+#   # no Age argument, so strong assumption that if
 #   # IMR enters then we're actually starting at age 0!
 #   if (!missing(IMR)) {
 #     if ( !is.na(IMR)){
@@ -141,7 +143,8 @@ qxmx2ax <- lt_id_qm_a
 #' @return lx vector of lifetable survivorship.
 #' @export
 lt_id_q_l <- function(nqx, radix = 1e5) {
-  if (as.character(match.call()[[1]]) == "qx2lx") {
+  fn_call <- deparse(match.call()[[1]])
+        if (identical(length(fn_call), 1L) && grepl("qx2lx$", fn_call)) {
     warning("please use lt_id_q_l() instead of qx2lx().", call. = FALSE)
   }
   radix * cumprod(c(1, 1 - nqx[-length(nqx)]))
@@ -163,7 +166,8 @@ qx2lx <- lt_id_q_l
 #' @return ndx vector of lifetable deaths.
 #' @export
 lt_id_l_d <- function(lx) {
-  if (as.character(match.call()[[1]]) == "lx2dx") {
+  fn_call <- deparse(match.call()[[1]])
+        if (identical(length(fn_call), 1L) && grepl("lx2dx$", fn_call)) {
     warning("please use lt_id_l_d() instead of lx2dx().", call. = FALSE)
   }
   diff(-c(lx, 0))
@@ -187,10 +191,11 @@ lx2dx <- lt_id_l_d
 #' @return nLx numeric vector of lifetable exposure.
 #' @export
 lt_id_lda_L <- function(lx, ndx, nax, AgeInt) {
-  if (as.character(match.call()[[1]]) == "lxdxax2Lx") {
+  fn_call <- deparse(match.call()[[1]])
+        if (identical(length(fn_call), 1L) && grepl("lxdxax2Lx$", fn_call)) {
     warning("please use lt_id_lda_L() instead of lxdxax2Lx().", call. = FALSE)
   }
-  
+
   N                   <- length(lx)
   nLx                 <- rep(0, N)
   nLx[1:(N - 1)]      <-
@@ -215,7 +220,8 @@ lxdxax2Lx <- lt_id_lda_L
 #' @return Tx total years left to live above age x.
 #' @export
 lt_id_L_T <- function(Lx) {
-  if (as.character(match.call()[[1]]) == "Lx2Tx") {
+  fn_call <- deparse(match.call()[[1]])
+        if (identical(length(fn_call), 1L) && grepl("Lx2Tx$", fn_call)) {
     warning("please use lt_id_L_T() instead of Lx2Tx().", call. = FALSE)
   }
   rev(cumsum(rev(Lx)))
@@ -250,26 +256,29 @@ Lx2Tx <- lt_id_L_T
 #' (lt_id_ma_q(2.1, ax, AgeInt, closeout = FALSE))
 
 lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
-  
-  if (as.character(match.call()[[1]]) == "mxax2qx_Backstop") {
+
+  fn_call <- deparse(match.call()[[1]])
+        if (identical(length(fn_call), 1L) && grepl("mxax2qx_Backstop$", fn_call)) {
     warning("please use lt_id_ma_q() instead of mxax2qx_Backstop().", call. = FALSE)
   }
 
-  if (as.character(match.call()[[1]]) == "mx2qx") {
+  fn_call <- deparse(match.call()[[1]])
+        if (identical(length(fn_call), 1L) && grepl("mx2qx$", fn_call)) {
     warning("please use lt_id_ma_q() instead of mx2qx().", call. = FALSE)
   }
-  if (as.character(match.call()[[1]]) == "mxax2qx") {
+  fn_call <- deparse(match.call()[[1]])
+        if (identical(length(fn_call), 1L) && grepl("mxax2qx$", fn_call)) {
     warning("please use lt_id_ma_q() instead of mxax2qx().", call. = FALSE)
   }
-  
+
   n <- length(nMx)
   stopifnot(n == length(nax))
   stopifnot(n == length(AgeInt))
-  
+
   # sometime assuming mid interval nAx causes the world
   # to turn upside down.
   qx <- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
-  
+
   if (closeout) {
     qx[length(qx)] <- 1
     if (length(nMx) == 1) {
@@ -278,14 +287,14 @@ lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
       )
     }
   }
-  # no Age argument, so strong assumption that if 
+  # no Age argument, so strong assumption that if
   # IMR enters then we're actually starting at age 0!
   if (!missing(IMR)) {
     if ( !is.na(IMR)){
       qx[1] <- IMR
     }
   }
-  
+
   # for cases where qx > 1 let's assume flat hazard inside interval,
   # in essence this overrides the nax given
   ind <- qx > 1
@@ -326,11 +335,12 @@ mxax2qx_Backstop <- lt_id_ma_q
 #' @param N integer, the age width for survivor ratios, either 5 or 1. Default 5.
 #' @export
 lt_id_Ll_S      <- function(nLx, lx, AgeInt, N = c(5, 1)) {
-  
-  if (as.character(match.call()[[1]]) == "Lxlx2Sx") {
+
+  fn_call <- deparse(match.call()[[1]])
+        if (identical(length(fn_call), 1L) && grepl("Lxlx2Sx$", fn_call)) {
     warning("please use lt_id_Ll_S() instead of Lxlx2Sx().", call. = FALSE)
   }
-  
+
   n               <- length(nLx)
   stopifnot(length(lx) == n)
   # either we're in 1 or 5 year age groups
@@ -362,9 +372,9 @@ lt_id_Ll_S      <- function(nLx, lx, AgeInt, N = c(5, 1)) {
     # closeout
     Sx[n]           <- nLx[n] / (nLx[n - 1] + nLx[n])
   }
-  
-  
-  
+
+
+
   Sx
 }
 #' @export

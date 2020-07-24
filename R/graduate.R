@@ -26,11 +26,12 @@ graduate_uniform <-
            Age,
            OAG = TRUE,
            OAvalue = 1) {
-    
-    if (as.character(match.call()[[1]]) == "splitUniform") {
+
+    fn_call <- deparse(match.call()[[1]])
+    if (identical(length(fn_call), 1L) && grepl("splitUniform$", fn_call)) {
       warning("please use graduate_uniform() instead of splitUniform().", call. = FALSE)
     }
-    
+
     if (missing(Age) & missing(AgeInt)) {
       Age      <- names2age(Value)
     }
@@ -47,7 +48,7 @@ graduate_uniform <-
     out
   }
 
-#' @export  
+#' @export
 #' @rdname graduate_uniform
 splitUniform <- graduate_uniform
 
@@ -89,7 +90,7 @@ splitUniform <- graduate_uniform
 #' \dontrun{
 #'   plot(seq(0,100,by=5), pop5_mat[,1]/5, type = 's')
 #'   lines(0:100,
-#'     p1, 
+#'     p1,
 #'     lty = 1,
 #'     col = "red")
 #'
@@ -98,42 +99,43 @@ splitUniform <- graduate_uniform
 graduate_sprague <- function(Value,
                              Age,
                              OAG = TRUE) {
-  
-  if (as.character(match.call()[[1]]) == "sprague") {
+
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("sprague$", fn_call)) {
     warning("please use graduate_sprague() instead of sprague().", call. = FALSE)
   }
-  
+
   punif1       <- graduate_uniform(
-    Value = Value, 
-    Age = Age, 
+    Value = Value,
+    Age = Age,
     OAG = OAG)
   # this is innocuous if ages are already grouped
   a1           <- as.integer(names(punif1))
   pop5         <- groupAges(
-    punif1, 
+    punif1,
     Age = a1,
     N = 5,
     shiftdown = 0
   )
   # depending on OAG, highest age may shift down.
   a5           <- as.integer(names(pop5))
-  
+
   # generate coefficient matrix
   scm          <- graduate_sprague_expand(
-    Value = pop5, 
+    Value = pop5,
     Age = a5,
     OAG = OAG)
-  
+
   # redistribute
   pop1         <- scm %*% pop5
-  
+
   dim(pop1)    <- NULL
   # label and return
   names(pop1)  <- min(Age):(length(pop1) - 1)
-  
+
   # no sense adding closeout behavior here, when it isn't offered
   # in grabill or beers. Better make wrapper with this sugar.
-  
+
   #	# default closeout with monoCloseout().
   #	# set to FALSE to turn off, write "mono"
   #	if (is.logical(closeout)){
@@ -188,37 +190,37 @@ sprague <- graduate_sprague
 #' dim(coefsclosed)
 
 graduate_sprague_expand    <- function(
-  Value, 
-  Age, 
+  Value,
+  Age,
   OAG = TRUE) {
   popmat                         <- as.matrix(Value)
-  
+
   # figure out ages and years
   Age5                           <- Age
   Age1                           <- min(Age5):max(Age5)
-  
+
   # nr 5-year age groups
   m                              <- length(Value)
   # nr rows in coef mat.
   n                              <- m * 5 - ifelse(OAG, 4, 0)
   # number of middle blocks
   MP                             <- m - ifelse(OAG, 5, 4)
-  
+
   # get the split coefficients
   # block for ages 0-9
   g1g2                           <- matrix(
-    c( 0.3616, -0.2768, 0.1488, -0.0336, 
-       0.0000, 0.2640, -0.0960, 0.0400, 
-       -0.0080, 0.0000, 0.1840, 0.0400, 
-       -0.0320, 0.0080, 0.0000, 0.1200, 
-       0.1360, -0.0720, 0.0160, 0.0000, 
-       0.0704, 0.1968, -0.0848, 0.0176, 
-       0.0000, 0.0336, 0.2272, -0.0752, 
-       0.0144, 0.0000, 0.0080, 0.2320, 
-       -0.0480, 0.0080, 0.0000,-0.0080, 
+    c( 0.3616, -0.2768, 0.1488, -0.0336,
+       0.0000, 0.2640, -0.0960, 0.0400,
+       -0.0080, 0.0000, 0.1840, 0.0400,
+       -0.0320, 0.0080, 0.0000, 0.1200,
+       0.1360, -0.0720, 0.0160, 0.0000,
+       0.0704, 0.1968, -0.0848, 0.0176,
+       0.0000, 0.0336, 0.2272, -0.0752,
+       0.0144, 0.0000, 0.0080, 0.2320,
+       -0.0480, 0.0080, 0.0000,-0.0080,
        0.2160, -0.0080, 0.0000, 0.0000,
-       -0.0160, 0.1840, 0.0400, -0.0080, 
-       0.0000,-0.0176, 0.1408, 0.0912, 
+       -0.0160, 0.1840, 0.0400, -0.0080,
+       0.0000,-0.0176, 0.1408, 0.0912,
        -0.0144, 0.0000
     ),
     nrow = 10,
@@ -226,14 +228,14 @@ graduate_sprague_expand    <- function(
     byrow = TRUE
   )
   # block for middle ages
-  
-  
+
+
   g3                             <- matrix(
-    c( -0.0128, 0.0848, 0.1504, -0.0240, 
-       0.0016,-0.0016, 0.0144, 0.2224, 
-       -0.0416, 0.0064, 0.0064, -0.0336, 
-       0.2544, -0.0336, 0.0064, 0.0064, 
-       -0.0416, 0.2224, 0.0144, -0.0016, 
+    c( -0.0128, 0.0848, 0.1504, -0.0240,
+       0.0016,-0.0016, 0.0144, 0.2224,
+       -0.0416, 0.0064, 0.0064, -0.0336,
+       0.2544, -0.0336, 0.0064, 0.0064,
+       -0.0416, 0.2224, 0.0144, -0.0016,
        0.0016, -0.0240, 0.1504, 0.0848,
        -0.0128
     ),
@@ -241,7 +243,7 @@ graduate_sprague_expand    <- function(
     5,
     byrow = TRUE
   )
-  
+
   # block prior to closeout
   g4g5                           <- matrix(
     c(0.0000,-0.0144,0.0912,0.1408,
@@ -262,12 +264,12 @@ graduate_sprague_expand    <- function(
     ncol = 5,
     byrow = TRUE
   )
-  
+
   ## create a Sprague coefficient matrix for 5-year age groups
   bm                             <- matrix(0, nrow = n, ncol =  m)
   ## insert upper left block
   bm[1:10, 1:5]                  <- g1g2
-  
+
   # determine positions of middle blocks
   rowpos                         <-
     matrix(11:((MP * 5) + 10), ncol = 5, byrow = TRUE)
@@ -276,20 +278,20 @@ graduate_sprague_expand    <- function(
     # calculate the slices and add middle panels accordingly
     bm[rowpos[i,], colpos[i,]]   <- g3
   }
-  
+
   ## insert last two panels
-  
+
   fr                             <- nrow(bm) - ifelse(OAG, 10, 9)
   lr                             <- fr + 9
   fc                             <- ncol(bm) - ifelse(OAG, 5, 4)
   lc                             <- fc + 4
   bm[fr:lr, fc:lc]               <- g4g5
-  
+
   if (OAG) {
     # preserve open ended age group
     bm[nrow(bm), ncol(bm)]       <- 1
   }
-  
+
   bm
 }
 
@@ -318,22 +320,22 @@ graduate_grabill_expand <- function(Value, Age, OAG = TRUE) {
   # figure out ages and years
   Age5   <- Age
   Age1   <- min(Age5):max(Age5)
-  
+
   # nr 5-year age groups
   m      <- length(Value)
   # nr rows in coef mat.
   n      <- m * 5 - ifelse(OAG, 4, 0)
   # number of middle blocks
   MP     <- m - ifelse(OAG, 5, 4)
-  
+
   # primary grabill coef block
   g3g    <- matrix(
-    c( 0.0111, 0.0816, 0.0826, 0.0256, 
-       -0.0009, 0.0049, 0.0673, 0.0903, 
-       0.0377, -0.0002, 0.0015, 0.0519, 
-       0.0932, 0.0519, 0.0015,-0.0002, 
+    c( 0.0111, 0.0816, 0.0826, 0.0256,
+       -0.0009, 0.0049, 0.0673, 0.0903,
+       0.0377, -0.0002, 0.0015, 0.0519,
+       0.0932, 0.0519, 0.0015,-0.0002,
        0.0377, 0.0903, 0.0673, 0.0049,
-       -0.0009, 0.0256, 0.0826, 0.0816, 
+       -0.0009, 0.0256, 0.0826, 0.0816,
        0.0111
     ),
     5,
@@ -342,12 +344,12 @@ graduate_grabill_expand <- function(Value, Age, OAG = TRUE) {
   )
   ## create a Grabill coefficient matrix for 5-year age groups
   gm                <- matrix(0, nrow = n, ncol =  m)
-  
+
   fr                <- nrow(gm) - ifelse(OAG, 10, 9)
   lr                <- fr + 9
   fc                <- ncol(gm) - ifelse(OAG, 5, 4)
   lc                <- fc + 4
-  
+
   # ----------------------------------------------------------
   # Note: for the boundary ages we keep shuffling in g3g, the same grabill
   # coefs. The columns on the boundaries will NOT sum to 1. These coefs are
@@ -362,11 +364,11 @@ graduate_grabill_expand <- function(Value, Age, OAG = TRUE) {
   g4g5g              <- matrix(0, nrow = 10, ncol = 5)
   g4g5g[1:5, 2:5]    <- g3g[, 1:4]
   g4g5g[6:10, 3:5]   <- g3g[, 1:3]
-  
+
   gm[1:10, 1:5]      <- g1g2g
   gm[fr:lr, fc:lc]   <- g4g5g
-  
-  
+
+
   # determine positions of middle blocks
   rowpos             <- matrix(11:((MP * 5) + 10), ncol = 5, byrow = TRUE)
   colpos             <- row(rowpos) + col(rowpos) - 1
@@ -374,12 +376,12 @@ graduate_grabill_expand <- function(Value, Age, OAG = TRUE) {
     # calculate the slices and add middle panels accordingly
     gm[rowpos[i, ], colpos[i,]] <- g3g
   }
-  
+
   if (OAG) {
     # preserve open ended age group
     gm[nrow(gm), ncol(gm)]    <- 1
   }
-  
+
   # return coefficient matrix
   gm
 }
@@ -426,19 +428,20 @@ graduate_grabill <- function(
   Value,
   Age,
   OAG = TRUE) {
-  
-  if (as.character(match.call()[[1]]) == "grabill") {
+
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("grabill$", fn_call)) {
     warning("please use graduate_grabill() instead of grabill().", call. = FALSE)
   }
-  
+
   punif1       <- graduate_uniform(
-    Value = Value, 
-    Age = Age, 
+    Value = Value,
+    Age = Age,
     OAG = OAG)
   # this is innocuous if ages are already grouped
   a1           <- as.integer(names(punif1))
   pop5         <- groupAges(
-    punif1, 
+    punif1,
     Age = a1,
     N = 5,
     shiftdown = 0
@@ -449,16 +452,16 @@ graduate_grabill <- function(
   #                   pop5,
   #                   Age = a5,
   #                   OAG = OAG)
-  
-  
+
+
   # get coefficient matrices for Sprague and Grabill
   scmg              <- graduate_grabill_expand(pop5, Age = a5, OAG = OAG)
   scm               <- graduate_sprague_expand(pop5, Age = a5, OAG = OAG)
-  
+
   # split pop counts
   pops              <- scm %*% pop5
   popg              <- scmg %*% pop5
-  
+
   # ---------------------------------------------
   # now we graft the two estimates together,
   # preserving the middle part for grabill, and blending
@@ -467,16 +470,16 @@ graduate_grabill <- function(
   m                 <- nrow(pops)
   lr                <- m - 1
   fr                <- lr - 9
-  
+
   # these weights do much better than linear weights.
   w10               <- exp(row(pops[1:10, , drop = FALSE])) / exp(10.1)
-  
+
   # blend together young ages
   popg[1:10,]       <- w10 * popg[1:10,] + (1 - w10) * pops[1:10,]
-  
+
   # blend together old ages
   popg[fr:lr,]      <- w10[10:1,] * popg[fr:lr,] + (1 - w10[10:1,]) * pops[fr:lr,]
-  
+
   # ---------------------------------------------
   # now we take care of the marginal constraint problem
   # make weighting matrix
@@ -484,12 +487,12 @@ graduate_grabill <- function(
   wr[1:10,]         <- w10
   wr[fr:lr,]        <- w10[10:1,]
   wr[nrow(wr),]     <- 0
-  
+
   # weighted marginal sums. The difference we need to redistribute
   redist            <- colSums(pops) - colSums(popg)
-  
+
   middle.part       <- popg * wr
-  
+
   # the difference to redistribute
   add.in            <- t(t(prop.table(middle.part, 2)) * redist)
   popg              <- popg + add.in
@@ -497,10 +500,10 @@ graduate_grabill <- function(
   # label dims and return
   AgeOut            <- min(Age):(min(Age) + nrow(popg) - 1)
   dim(popg)         <- NULL
-  # TR: this is necessary if final age group is open, 
+  # TR: this is necessary if final age group is open,
   # but not in an age evenly divisible by 5
   names(popg)       <- min(Age):(length(popg) - 1)
-  
+
   popg
 }
 
@@ -556,63 +559,63 @@ graduate_beers_expand <- function(Value,
                                   method = "Mod") {
   method <- tolower(method)
   stopifnot(method %in% c("mod", "ord"))
-  
+
   # nr 5-year age groups
   m      <- length(Value)
   # nr rows in coef mat.
   n      <- m * 5 - ifelse(OAG, 4, 0)
   # number of middle blocks
   MP     <- m - ifelse(OAG, 5, 4)
-  
+
   if (method == "mod") {
     ## Beers Modified Split
     g1g2 <- matrix(
-      c( 0.3332, -0.1938, 0.0702, -0.0118, 
-         0.0022 , 0.2569, -0.0753, 0.0205, 
-         -0.0027, 0.0006 , 0.1903, 0.0216, 
-         -0.0146, 0.0032, -0.0005 , 0.1334, 
-         0.0969, -0.0351, 0.0059, -0.0011 , 
+      c( 0.3332, -0.1938, 0.0702, -0.0118,
+         0.0022 , 0.2569, -0.0753, 0.0205,
+         -0.0027, 0.0006 , 0.1903, 0.0216,
+         -0.0146, 0.0032, -0.0005 , 0.1334,
+         0.0969, -0.0351, 0.0059, -0.0011 ,
          0.0862, 0.1506, -0.0410, 0.0054,
-         -0.0012 , 0.0486, 0.1831, -0.0329, 
-         0.0021, -0.0009 , 0.0203, 0.1955, 
-         -0.0123, -0.0031, -0.0004 , 0.0008, 
+         -0.0012 , 0.0486, 0.1831, -0.0329,
+         0.0021, -0.0009 , 0.0203, 0.1955,
+         -0.0123, -0.0031, -0.0004 , 0.0008,
          0.1893, 0.0193, -0.0097, 0.0003 ,
-         -0.0108, 0.1677, 0.0577, -0.0153, 
-         0.0007 ,-0.0159, 0.1354, 0.0972, 
+         -0.0108, 0.1677, 0.0577, -0.0153,
+         0.0007 ,-0.0159, 0.1354, 0.0972,
          -0.0170, 0.0003
       ),
       nrow = 10,
       ncol = 5,
       byrow = TRUE
     )
-    
+
     g3 <- matrix(
-      c( -0.0160, 0.0973, 0.1321, -0.0121, 
-         -0.0013 ,-0.0129, 0.0590, 0.1564, 
-         0.0018, -0.0043 ,-0.0085, 0.0260, 
-         0.1650, 0.0260, -0.0085 ,-0.0043, 
+      c( -0.0160, 0.0973, 0.1321, -0.0121,
+         -0.0013 ,-0.0129, 0.0590, 0.1564,
+         0.0018, -0.0043 ,-0.0085, 0.0260,
+         0.1650, 0.0260, -0.0085 ,-0.0043,
          0.0018, 0.1564, 0.0590, -0.0129 ,
-         -0.0013, -0.0121, 0.1321, 0.0973, 
+         -0.0013, -0.0121, 0.1321, 0.0973,
          -0.0160
       ),
       5,
       5,
       byrow = TRUE
     )
-    
+
     g4g5 <- matrix(
-      c( 0.0003, -0.0170, 0.0972, 0.1354, 
-         -0.0159 , 0.0007, -0.0153, 0.0577, 
-         0.1677, -0.0108 , 0.0003, -0.0097, 
-         0.0193, 0.1893, 0.0008 ,-0.0004, 
+      c( 0.0003, -0.0170, 0.0972, 0.1354,
+         -0.0159 , 0.0007, -0.0153, 0.0577,
+         0.1677, -0.0108 , 0.0003, -0.0097,
+         0.0193, 0.1893, 0.0008 ,-0.0004,
          -0.0031, -0.0123, 0.1955, 0.0203 ,
-         -0.0009, 0.0021, -0.0329, 0.1831, 
-         0.0486 ,-0.0012, 0.0054, -0.0410, 
-         0.1506, 0.0862 ,-0.0011, 0.0059, 
-         -0.0351, 0.0969, 0.1334 ,-0.0005, 
-         0.0032, -0.0146, 0.0216, 0.1903 , 
-         0.0006, -0.0027, 0.0205, -0.0753, 
-         0.2569 , 0.0022, -0.0118, 0.0702, 
+         -0.0009, 0.0021, -0.0329, 0.1831,
+         0.0486 ,-0.0012, 0.0054, -0.0410,
+         0.1506, 0.0862 ,-0.0011, 0.0059,
+         -0.0351, 0.0969, 0.1334 ,-0.0005,
+         0.0032, -0.0146, 0.0216, 0.1903 ,
+         0.0006, -0.0027, 0.0205, -0.0753,
+         0.2569 , 0.0022, -0.0118, 0.0702,
          -0.1938, 0.3332
       ),
       nrow = 10,
@@ -623,50 +626,50 @@ graduate_beers_expand <- function(Value,
   if (method == "ord") {
     ## Beers Oscillatory (Johnson spreadsheet)
     g1g2 <- matrix(
-      c( 0.3333, -0.1636, -0.021, 0.0796, 
-         -0.0283, 0.2595, -0.078, 0.013, 
-         0.01, -0.0045, 0.1924, 0.0064, 
-         0.0184, -0.0256, 0.0084, 0.1329, 
-         0.0844, 0.0054, -0.0356, 0.0129, 
-         0.0819, 0.1508, -0.0158, -0.0284, 
-         0.0115, 0.0404, 0.2, -0.0344, 
-         -0.0128, 0.0068, 0.0093, 0.2268, 
-         -0.0402, 0.0028, 0.0013,-0.0108, 
+      c( 0.3333, -0.1636, -0.021, 0.0796,
+         -0.0283, 0.2595, -0.078, 0.013,
+         0.01, -0.0045, 0.1924, 0.0064,
+         0.0184, -0.0256, 0.0084, 0.1329,
+         0.0844, 0.0054, -0.0356, 0.0129,
+         0.0819, 0.1508, -0.0158, -0.0284,
+         0.0115, 0.0404, 0.2, -0.0344,
+         -0.0128, 0.0068, 0.0093, 0.2268,
+         -0.0402, 0.0028, 0.0013,-0.0108,
          0.2272, -0.0248, 0.0112, -0.0028,
-         -0.0198, 0.1992, 0.0172, 0.0072, 
-         -0.0038,-0.0191, 0.1468, 0.0822, 
+         -0.0198, 0.1992, 0.0172, 0.0072,
+         -0.0038,-0.0191, 0.1468, 0.0822,
          -0.0084, -0.0015),
       nrow = 10,
       ncol = 5,
       byrow = TRUE
     )
-    
+
     g3 <- matrix(
-      c( -0.0117, 0.0804, 0.157, -0.0284, 
-         0.0027,-0.002, 0.016, 0.22, 
-         -0.04, 0.006, 0.005, -0.028, 
-         0.246, -0.028, 0.005, 0.006, 
-         -0.04, 0.22, 0.016, -0.002, 
-         0.0027, -0.0284, 0.157, 0.0804, 
+      c( -0.0117, 0.0804, 0.157, -0.0284,
+         0.0027,-0.002, 0.016, 0.22,
+         -0.04, 0.006, 0.005, -0.028,
+         0.246, -0.028, 0.005, 0.006,
+         -0.04, 0.22, 0.016, -0.002,
+         0.0027, -0.0284, 0.157, 0.0804,
          -0.0117),
       5,
       5,
       byrow = TRUE
     )
-    
+
     g4g5 <- matrix(
-      c( -0.0015, -0.0084, 0.0822, 0.1468, 
-         -0.0191,-0.0038, 0.0072, 0.0172, 
-         0.1992, -0.0198,-0.0028, 0.0112, 
-         -0.0248, 0.2272, -0.0108, 0.0013, 
-         0.0028, -0.0402, 0.2268, 0.0093, 
-         0.0068, -0.0128, -0.0344, 0.2, 
-         0.0404, 0.0115, -0.0284, -0.0158, 
-         0.1508, 0.0819, 0.0129, -0.0356, 
-         0.0054, 0.0844, 0.1329, 0.0084, 
+      c( -0.0015, -0.0084, 0.0822, 0.1468,
+         -0.0191,-0.0038, 0.0072, 0.0172,
+         0.1992, -0.0198,-0.0028, 0.0112,
+         -0.0248, 0.2272, -0.0108, 0.0013,
+         0.0028, -0.0402, 0.2268, 0.0093,
+         0.0068, -0.0128, -0.0344, 0.2,
+         0.0404, 0.0115, -0.0284, -0.0158,
+         0.1508, 0.0819, 0.0129, -0.0356,
+         0.0054, 0.0844, 0.1329, 0.0084,
          -0.0256, 0.0184, 0.0064, 0.1924,
-         -0.0045, 0.01, 0.013, -0.078, 
-         0.2595,-0.0283, 0.0796, -0.021, 
+         -0.0045, 0.01, 0.013, -0.078,
+         0.2595,-0.0283, 0.0796, -0.021,
          -0.1636, 0.3333
       ),
       nrow = 10,
@@ -674,12 +677,12 @@ graduate_beers_expand <- function(Value,
       byrow = TRUE
     )
   }
-  
+
   ## create a Beers coefficient matrix for 5-year age groups
   bm               <- matrix(0, nrow = n, ncol =  m)
   ## insert upper left block
   bm[1:10, 1:5]    <- g1g2
-  
+
   # determine positions of middle blocks
   rowpos           <-
     matrix(11:((MP * 5) + 10), ncol = 5, byrow = TRUE)
@@ -689,21 +692,21 @@ graduate_beers_expand <- function(Value,
     bm[rowpos[i,], colpos[i,]] <- g3
   }
   ## standard format for Beers coefficients
-  
+
   ## insert last two panels
-  
+
   fr                <- nrow(bm) - ifelse(OAG, 10, 9)
   lr                <- fr + 9
   fc                <- ncol(bm) - ifelse(OAG, 5, 4)
   lc                <- fc + 4
   bm[fr:lr, fc:lc]   <- g4g5
-  
-  
+
+
   if (OAG) {
     # preserve open ended age group
     bm[nrow(bm), ncol(bm)]    <- 1
   }
-  
+
   bm
 }
 
@@ -779,24 +782,25 @@ graduate_beers <- function(Value,
                            OAG = TRUE,
                            method = "mod",
                            johnson = FALSE) {
-  if (as.character(match.call()[[1]]) == "beers") {
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("beers$", fn_call)) {
     warning("please use graduate_beers() instead of beers().", call. = FALSE)
   }
-  
+
   if (missing(AgeInt)){
     AgeInt <- age2int(Age, OAG = OAG, OAvalue = 1)
   }
-  
+
   punif1       <- graduate_uniform(
-    Value = Value, 
+    Value = Value,
     AgeInt = AgeInt,
-    Age = Age, 
+    Age = Age,
     OAG = OAG)
-  
+
   # this is innocuous if ages are already grouped
   a1           <- as.integer(names(punif1))
   pop5         <- groupAges(
-    punif1, 
+    punif1,
     Age = a1,
     N = 5,
     shiftdown = 0)
@@ -806,10 +810,10 @@ graduate_beers <- function(Value,
   #                   pop5,
   #                   Age = a5,
   #                   OAG = OAG)
-  
+
   # generate coefficient matrix
   bm                <- graduate_beers_expand(pop5, OAG = OAG, method = method)
-  
+
   # redistribute
   pop1              <- bm %*% pop5
   dim(pop1)         <- NULL
@@ -821,7 +825,7 @@ graduate_beers <- function(Value,
                                    pop5 = pop5,
                                    pop1 = pop1)
   }
-  
+
   # TR will this fail if Age starts with 1?
   zero              <- min(Age)
   ages              <- zero:(nrow(bm) - 1 + zero)
@@ -848,7 +852,7 @@ beers <- graduate_beers
 #' @references
 #' \insertRef{stover2008spectrum}{DemoTools}
 graduate_beers_johnson <- function(Age0, pop5, pop1) {
-  
+
   # coefficient matrix
   DAPPSmod <- matrix(
     c(
@@ -919,7 +923,7 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
     o5     <- length(Value) == lo
     stopifnot(o1 | o5)
   }
-  
+
   A        <- pclm(x = Age, y = Value, nlast = nlast, ...)
   B        <- A$fitted
   names(B) <- min(Age):OAnew
@@ -963,15 +967,16 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
 #' 		}
 
 graduate_mono   <- function(
-  Value, 
-  AgeInt, 
-  Age, 
+  Value,
+  AgeInt,
+  Age,
   OAG = TRUE) {
-  
-  if (as.character(match.call()[[1]]) == "splitMono") {
+
+  fn_call <- deparse(match.call()[[1]])
+  if (identical(length(fn_call), 1L) && grepl("splitMono$", fn_call)) {
     warning("please use graduate_mono() instead of splitMono().", call. = FALSE)
   }
-  
+
   if (missing(Age) & missing(AgeInt)) {
     Age                 <- names2age(Value)
   }
@@ -982,12 +987,12 @@ graduate_mono   <- function(
   if (missing(Age)) {
     Age                 <- int2age(AgeInt)
   }
-  
+
   # if age is single return as-is
   if (is_single(Age)) {
     return(Value)
   }
-  
+
   # if last age Open, we preserve it
   if (OAG) {
     N                   <- length(Value)
@@ -998,20 +1003,20 @@ graduate_mono   <- function(
   }
   # if the final age is Open, then we should remove it and then
   # stick it back on
-  
+
   AgePred               <- c(min(Age), cumsum(AgeInt))
   y                     <- c(0, cumsum(Value))
   AgeS                  <- min(Age):sum(AgeInt)
   y1                    <- splinefun(y ~ AgePred, method = "monoH.FC")(AgeS)
   out                   <- diff(y1)
   names(out)            <- AgeS[-length(AgeS)]
-  
+
   # The open age group is maintained as-is.
   if (OAG) {
     out                 <- c(out, OAvalue)
     names(out)          <- AgeS
   }
-  
+
   out
 }
 
@@ -1076,11 +1081,12 @@ graduate_mono_closeout <-
            splitfun = graduate_sprague,
            OAG = TRUE,
            ...) {
-    if (as.character(match.call()[[1]]) == "monoCloseout") {
+    fn_call <- deparse(match.call()[[1]])
+    if (identical(length(fn_call), 1L) && grepl("monoCloseout$", fn_call)) {
       warning("please use graduate_mono_closeout() instead of monoCloseout().", call. = FALSE)
     }
     names(Value)        <- Age
-    
+
     if (missing(pops)) {
       pops              <- splitfun(Value, Age = Age, OAG = OAG, ...)
     }
@@ -1088,10 +1094,10 @@ graduate_mono_closeout <-
     AgeIn               <- Age
     # this does not smooth single ages, it only splits to single
     popmono             <- graduate_mono(Value, OAG = OAG, Age = AgeIn)
-    
+
     # some age pars
     Age                 <- as.integer(names(popmono))
-    
+
     # some checks on pivotAge...
     if (!(max(Age) - 10) >= pivotAge) {
       pivotAge          <- max(Age) - 10
@@ -1114,8 +1120,8 @@ graduate_mono_closeout <-
     if (ind){
       pop.c[1]       <- pops[p.i]
     }
-    
-    
+
+
     ## adjust back on initial pop 5x5 for age 90-94
     ## proportional distribution
     pop.c[is.na(pop.c)] <- 0
@@ -1128,14 +1134,14 @@ graduate_mono_closeout <-
     pop.c               <- c(pop.c, popmono[(p.i + 5):m])
     ## append Sprague interpolation before age 90
     pop.c               <- c(pops[1:(p.i - 1)], pop.c)
-    
+
     ## deal with negative values if applicable (but in principle should not be happening)
     pop.c[pop.c < 0]    <- 0
-    
+
     # label and return
     #dimnames(pop.c)    <- list(Age1, colnames(popmat))
     names(pop.c)     <- Age
-    
+
     pop.c
   }
 
@@ -1158,9 +1164,9 @@ monoCloseout <- graduate_mono_closeout
 #' This wrapper standardizes some inconsistencies in how open ages are dealt with. For example, with the \code{"pclm"} method, the last age group can be redistributed over a specified interval implied by increase \code{OAnew} beyond the range of \code{Age}. To get this same behavior from \code{"mono"}, or \code{"uniform"} specify \code{OAG = FALSE} along with an appropriately high \code{OAnew} (or integer final value of \code{AgeInt}.
 #'
 #' \code{OAnew} cannot be higher than \code{max(Age)+4} for \code{"sprague"} or \code{"beers"} methods. For \code{"uniform","mono","pclm"} it can be higher than this, and in each case the open age group is completely redistributed within this range, meaning it's not really open anymore.
-#' 
+#'
 #' For all methods, negative values are detected in output. If present, we deal with these in the following way: we take the geometric mean between the given output (with negative imputed with 0s) and the output of \code{graduate_mono()}, which is guaranteed non-negative. This only affects age groups where negatives were produced in the first pass. In our experience this only arises when using sprague, beers, or grabill methods, whereas all others are guarateed non-negative.
-#' 
+#'
 #' For any case where input data are in single ages, constraining results to sum to values in the original age groups will simply return the original input data, which is clearly not your intent. This might arise when using graduation as an implicit two-step smoother (group + graduate). In this case, separate the steps, first group using \code{groupAges()} then use \code{graduate(..., constrain = TRUE)}.
 #'
 #' @param Value numeric vector, presumably counts in grouped ages
@@ -1172,7 +1178,7 @@ monoCloseout <- graduate_mono_closeout
 #' @param keep0 logical. Default \code{FALSE}. If available, should the value in the infant age group be maintained, and ages 1-4 constrained?
 #' @param constrain logical. Default \code{FALSE}. Should output be constrained to sum within the input age groups?
 #' @param ... extra arguments passed to \code{graduate_beers()} or \code{graduate_pclm()}
-#' @seealso \code{\link{graduate_sprague}}, \code{\link{graduate_beers}}, \code{\link{graduate_uniform}}, \code{\link{graduate_mono}}, \code{\link{graduate_pclm}}, \code{\link{graduate_grabill}} 
+#' @seealso \code{\link{graduate_sprague}}, \code{\link{graduate_beers}}, \code{\link{graduate_uniform}}, \code{\link{graduate_mono}}, \code{\link{graduate_pclm}}, \code{\link{graduate_grabill}}
 #' @export
 #' @references
 #' \insertRef{pascariu2018ungroup}{DemoTools}
@@ -1265,7 +1271,7 @@ graduate <- function(Value,
   }
   # validate method choice
   method <- match.arg(method)
-  
+
   # TR: those methods that require AgeInt may depend on final value not being NA
   # even if it's an open age, in essence, keep all value inside this same "single"
   # age. NA coding isn't the best choice here, but we anticipate this and assign
@@ -1276,12 +1282,12 @@ graduate <- function(Value,
     nlast     <- OAnew - max(Age) + 1
     AgeInt[N] <- nlast
   }
-  
+
   # Sprague in strict 5-year age groups
   if (method == "sprague") {
     out <- graduate_sprague(Value, Age = Age, OAG = OAG)
   }
-  
+
   # Grabill in strict 5-year age groups
   if (method == "grabill") {
     out <- graduate_grabill(Value, Age = Age, OAG = OAG)
@@ -1303,7 +1309,7 @@ graduate <- function(Value,
                    ...)
     }
   }
-  
+
   # inconsistent ways of dealing with top age group.
   # if !OAG, then there is potential for inconsistency
   # between (min(Age) + sum(AgeInt)) and OAnew,
@@ -1313,8 +1319,8 @@ graduate <- function(Value,
   # TR: preference should go to AgeInt, because it refers
   # to data observations, whereas OAnew refers to a desired
   # change. So actually no change is needed?
-  
-  
+
+
   # Uniform respects irregular intervals
   if (method == "uniform") {
     OAvalue <- OAnew - max(Age) + 1
@@ -1327,7 +1333,7 @@ graduate <- function(Value,
     ) # OAvalue only if OAG and
     # extrapolation desired?
   }
-  
+
   # Mono respects irregular intervals
   if (method == "mono") {
     out <- graduate_mono(
@@ -1338,7 +1344,7 @@ graduate <- function(Value,
     ) # doesn't allow for extension?
     # actually it does IFF !OAG & !is.na(AgeInt[length(AgeInt)])
   }
-  
+
   # PCLM respects irregular intervals
   if (method == "pclm") {
     out <- graduate_pclm(Value = Value,
@@ -1346,7 +1352,7 @@ graduate <- function(Value,
                          OAnew = OAnew,
                          ...)
   }
-  
+
   # handle infant age for sprague and beers, if required.
   if (keep0) {
     if (Age[1] == 0 & AgeInt[1] == 1) {
@@ -1359,10 +1365,10 @@ graduate <- function(Value,
       out[1]   <- V0
     }
   }
-  
+
   n  <- length(out)
   a1 <- min(Age):(n - 1)
-  
+
   # detect negatives. Have default option to replace.
   # Favor quick over perfect, since this only can arise
   # in Sprague, Beers, or Grabill, which are quick. In this
@@ -1370,33 +1376,33 @@ graduate <- function(Value,
   # to sum to the same original value.
   ind0 <- out < 0
   if (any(ind0)){
-    # which 
+    # which
     agen         <- rep(Age, times = AgeInt)
     problem.ages <- agen[ind0]
     out[ind0]    <- 0
-    # well, this is maybe to complicated, can swap w 
+    # well, this is maybe to complicated, can swap w
     # different trick
     outm <- graduate_mono(
               Value = Value,
               Age = Age,
               AgeInt = AgeInt,
               OAG = OAG)
-    
+
     swap <- agen %in% problem.ages
-    
-    out.swap <- interp(cbind(out[swap],outm[swap]), 
-                       datesIn = c(10,20), 
-                       datesOut = 15, 
-                       method = "power", 
+
+    out.swap <- interp(cbind(out[swap],outm[swap]),
+                       datesIn = c(10,20),
+                       datesOut = 15,
+                       method = "power",
                        power = 1/2)
-    
+
     out[swap] <- out.swap
     dim(out)  <- NULL
   }
-  
+
   # option to contrain to sum to original age groups
   if (constrain){
-    out <- rescaleAgeGroups(Value1 = out, 
+    out <- rescaleAgeGroups(Value1 = out,
                             AgeInt1 = rep(1, n),
                             Value2 = Value,
                             AgeInt2 = AgeInt,
@@ -1404,9 +1410,9 @@ graduate <- function(Value,
                             recursive = FALSE)
     out[is.nan(out)] <- 0
   }
-  
+
   # last min names assure
   names(out) <- a1
-  
+
   out
 }
