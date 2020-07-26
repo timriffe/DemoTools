@@ -89,17 +89,8 @@ ma <- function(x, n = 5) {
 #' @export
 
 rescale_vector <- function(x, scale = 1) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("adjustAge$", fn_call)) {
-    warning("please use rescale_vector() instead of adjustAge().", call. = FALSE)
-  }
-
-  scale * x / sum(x, na.rm = TRUE)
+   scale * x / sum(x, na.rm = TRUE)
 }
-
-#' @export
-#' @rdname rescale_vector
-adjustAge <- rescale_vector
 
 #' @title Determine whether a year is a leap year.
 #'

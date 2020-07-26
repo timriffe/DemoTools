@@ -2,12 +2,9 @@
 % Please edit documentation in R/check_heaping.R
 \name{check_heaping_myers}
 \alias{check_heaping_myers}
-\alias{Myers}
 \title{Calculate Myer's blended index of age heaping}
 \usage{
 check_heaping_myers(Value, Age, ageMin = 10, ageMax = 89)
-
-Myers(Value, Age, ageMin = 10, ageMax = 89)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}

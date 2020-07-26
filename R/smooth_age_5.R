@@ -28,10 +28,6 @@
 smooth_age_5_cf <- function(Value,
                                 Age,
                                 OAG = TRUE) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("carrier_farrag_smth$", fn_call)) {
-    warning("please use smooth_age_5_cf() instead of carrier_farrag_smth().", call. = FALSE)
-  }
 
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
@@ -67,10 +63,6 @@ smooth_age_5_cf <- function(Value,
   # tail behavior will be controlled in top level function.
 }
 
-#' @export
-#' @rdname smooth_age_5_cf
-carrier_farrag_smth <- smooth_age_5_cf
-
 #' Karup-King-Newton method of population count smoothing
 #' @description Smooth population counts in 5-year age groups.
 #' @details This method does not account for ages < 10 nor for the 10 year age interval prior to the open age group. These are returned imputed with \code{NA}. Age classes must be cleanly groupable to 5-year age groups. Smoothed counts are constrained to sum to original totals in 10-year age groups.
@@ -97,10 +89,6 @@ carrier_farrag_smth <- smooth_age_5_cf
 smooth_age_5_kkn <- function(Value,
                      Age,
                      OAG = TRUE) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("kkn_smth$", fn_call)) {
-    warning("please use smooth_age_5_kkn() instead of kkn_smth().", call. = FALSE)
-  }
 
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
@@ -137,10 +125,6 @@ smooth_age_5_kkn <- function(Value,
 
   out
 }
-#' @export
-#' @rdname smooth_age_5_kkn
-kkn_smth <- smooth_age_5_kkn
-
 
 #' E. Arriaga's method of population count smoothing
 #' @description Smooth population counts in 5-year age groups.
@@ -170,10 +154,6 @@ kkn_smth <- smooth_age_5_kkn
 smooth_age_5_arriaga <- function(Value,
                          Age,
                          OAG = TRUE) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("arriaga_smth$", fn_call)) {
-    warning("please use smooth_age_5_arriaga() instead of arriaga_smth().", call. = FALSE)
-  }
 
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
@@ -228,9 +208,6 @@ smooth_age_5_arriaga <- function(Value,
 
   out
 }
-#' @export
-#' @rdname smooth_age_5_arriaga
-arriaga_smth <- smooth_age_5_arriaga
 
 #' The old United Nations method of population count smoothing
 #' @description Smooth population counts in 5-year age groups.
@@ -258,10 +235,6 @@ arriaga_smth <- smooth_age_5_arriaga
 smooth_age_5_un <- function(Value,
                                 Age,
                                 OAG = TRUE) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("united_nations_smth$", fn_call)) {
-    warning("please use smooth_age_5_un() instead of united_nations_smth().", call. = FALSE)
-  }
 
   N <- length(Value)
   if (OAG) {
@@ -287,10 +260,6 @@ smooth_age_5_un <- function(Value,
   names(out) <- Age5
   out
 }
-
-#' @export
-#' @rdname smooth_age_5_un
-united_nations_smth <- smooth_age_5_un
 
 #' A strong method of population count smoothing
 #' @description Smooth population counts in 5-year age groups.
@@ -323,10 +292,6 @@ smooth_age_5_strong <- function(Value,
                         OAG = TRUE,
                         ageMin = 10,
                         ageMax = 65) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("strong_smth$", fn_call)) {
-    warning("please use smooth_age_5_strong() instead of strong_smth().", call. = FALSE)
-  }
 
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
@@ -402,9 +367,6 @@ smooth_age_5_strong <- function(Value,
   # what if OAis e.g. 85?
   out
 }
-#' @export
-#' @rdname smooth_age_5_strong
-strong_smth <- smooth_age_5_strong
 
 #' G. Feeney's method of smoothing counts in 5-year age groups.
 #' @description If age heaping is much worse on 0's than on 5's then even counts in 5-year age bins can preserve a sawtooth pattern. Most graduation techniques translate the zig-zag/sawtooth pattern to a wave pattern. It is not typically desired. This method redistributes counts 'from' every second 5-year age group in a specified range 'to' the adjacent age groups. How much to redistribute depends on a detection of roughness in the 5-year binned data, which follows the formulas recommended by Feeney. This method does not alter the total population count, counts in the youngest 10 ages, nor in old ages. 10-year age groups in the middle age range are not constrained.
@@ -432,10 +394,6 @@ smooth_age_5_zigzag <- function(Value,
                         ageMin = 40,
                         ageMax = max(Age) - max(Age) %% 10 - 5) {
 
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("zigzag_smth$", fn_call)) {
-    warning("please use smooth_age_5_zigzag() instead of zigzag_smth().", call. = FALSE)
-  }
   # insist on 5-year age groups
   Value <- groupAges(Value, Age = Age, N = 5)
   Age   <- as.integer(names(Value))
@@ -452,11 +410,6 @@ smooth_age_5_zigzag <- function(Value,
 
   Smoothed
 }
-
-#' @export
-#' @rdname smooth_age_5_zigzag
-zigzag_smth <- smooth_age_5_zigzag
-
 
 #' Smooth in 5-year age groups using a moving average
 #' @description Smooth data in 5-year age groups.
@@ -488,10 +441,7 @@ smooth_age_5_mav <- function(Value,
                      Age,
                      OAG = TRUE,
                      n = 3) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("mav_smth$", fn_call)) {
-    warning("please use smooth_age_5_mav() instead of mav_smth().", call. = FALSE)
-  }
+
   Value <- groupAges(Value, Age = Age, N = 5)
   Age   <- as.integer(names(Value))
 
@@ -504,11 +454,6 @@ smooth_age_5_mav <- function(Value,
 
   Smoothed
 }
-
-#' @export
-#' @rdname smooth_age_5_mav
-mav_smth <- smooth_age_5_mav
-
 
 # Author: Juan Galeano
 # handle OAG with care.
@@ -567,10 +512,6 @@ smooth_age_5_feeney          <- function(Value,
                                          Age,
                                          maxit = 200,
                                          OAG = FALSE) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("T9R5L$", fn_call)) {
-    warning("please use smooth_age_5_feeney() instead of T9R5L().", call. = FALSE)
-  }
 
   # ages need to be single to use this method.
   stopifnot(is_single(Age))
@@ -640,10 +581,6 @@ smooth_age_5_feeney          <- function(Value,
   out          <- rescale_vector(out, TOT)
   out
 }
-
-#' @export
-#' @rdname smooth_age_5_feeney
-T9R5L <- smooth_age_5_feeney
 
 #' Smooth populations in 5-year age groups using various methods
 #'
@@ -791,10 +728,6 @@ smooth_age_5 <- function(Value,
                     n = 3,
                     young.tail = c("Original", "Arriaga", "Strong", NA),
                     old.tail = young.tail) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("agesmth$", fn_call)) {
-    warning("please use smooth_age_5() instead of agesmth().", call. = FALSE)
-  }
 
   method <- match.arg(method, c("Carrier-Farrag",
                                 "KKN",
@@ -942,8 +875,3 @@ smooth_age_5 <- function(Value,
 
   out
 }
-
-
-#' @export
-#' @rdname smooth_age_5
-agesmth <- smooth_age_5

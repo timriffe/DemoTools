@@ -19,7 +19,7 @@ Description: A collection of classic demographic methods used to evaluate, adjus
 License: file LICENSE
 LazyLoad: yes
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Depends:
     R (>= 3.6),
     Rcpp

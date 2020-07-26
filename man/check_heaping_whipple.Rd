@@ -2,12 +2,9 @@
 % Please edit documentation in R/check_heaping.R
 \name{check_heaping_whipple}
 \alias{check_heaping_whipple}
-\alias{Whipple}
 \title{Calculate Whipple's index of age heaping}
 \usage{
 check_heaping_whipple(Value, Age, ageMin = 25, ageMax = 65, digit = c(0, 5))
-
-Whipple(Value, Age, ageMin = 25, ageMax = 65, digit = c(0, 5))
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}
@@ -32,7 +29,7 @@ Implementation following the PASEX spreadsheet SINGAGE, with some extra options 
 \examples{
  Age <- 0:99
 # 2.34,replicates SINGAGE males
- (w05 <- check_heaping_whipple(pop1m_pasex, Age, 25, 60, digit = c(0,5))) 
+ (w05 <- check_heaping_whipple(pop1m_pasex, Age, 25, 60, digit = c(0,5)))
 
  # implements formula from Roger et al. (1981, p. 148)
  (w0 <- check_heaping_whipple(pop1m_pasex, Age, 25, 60, digit = 0))

@@ -89,11 +89,7 @@
 #' text(1, c(M0, M1_4, M0_4), c("M0", "M1_4", "M0_4"), pos = 3)
 #' }
 lt_rule_4m0_D0 <- function(D04, M04, P04, Sex = c("m", "f")) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("M04_2_D0$", fn_call)) {
-    warning("please use lt_rule_4m0_D0() instead of M04_2_D0().", call. = FALSE)
-  }
-
+  
   if (missing(M04)) {
     M5 <- D04 / P04
   } else {
@@ -142,11 +138,6 @@ lt_rule_4m0_D0 <- function(D04, M04, P04, Sex = c("m", "f")) {
   # return D0
   prop0 * D04
 }
-
-#' @export
-#' @rdname lt_rule_4m0_D0
-M04_2_D0 <- lt_rule_4m0_D0
-
 
 #' rule of thumb for estimating infant mortality rate from under 5 mortality
 #' @description Given the log crude death rate for ages 0-5, \eqn{log(M(0,5)} there is a strong 2-slope linear relationship with the log of the infant death rate. With this method the user supplies the under 5 death rate and the infant death rate is returned. This method could be invoked if either population or (exclusive or) deaths are tabulated for infants, or if only the under 5 mortality rate is available
@@ -235,11 +226,6 @@ M04_2_D0 <- lt_rule_4m0_D0
 #' }
 
 lt_rule_4m0_m0 <- function(M04, D04, P04, Sex = c("m", "f")) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("M04_2_M0$", fn_call)) {
-    warning("please use lt_rule_4m0_m0() instead of M04_2_M0().", call. = FALSE)
-  }
-
 
   if (missing(M04)) {
     M5 <- D04 / P04
@@ -292,7 +278,3 @@ lt_rule_4m0_m0 <- function(M04, D04, P04, Sex = c("m", "f")) {
   # back to rate
   exp(lm0)
 }
-
-#' @export
-#' @rdname lt_rule_4m0_m0
-M04_2_M0 <- lt_rule_4m0_m0

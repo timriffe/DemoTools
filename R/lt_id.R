@@ -17,17 +17,8 @@
 #' @return nMx vector of age specific death rates derived via identity.
 #' @export
 lt_id_qa_m <- function(nqx, nax, AgeInt) {
-  fn_call <- deparse(match.call()[[1]])
-        if (identical(length(fn_call), 1L) && grepl("qxax2mx$", fn_call)) {
-    warning("please use lt_id_qa_m() instead of qxax2mx().", call. = FALSE)
-  }
   nqx / (AgeInt - (AgeInt - nax) * nqx)
 }
-
-#' @export
-#' @rdname lt_id_qa_m
-qxax2mx <- lt_id_qa_m
-
 
 #' #' @title Derive nqx from nMx and nax.
 #' #' @description This is the standard identity to derive nqx from nax and nMx.
@@ -68,18 +59,8 @@ qxax2mx <- lt_id_qa_m
 #' @return nax numeric vector of average time spent in interval by those dying in interval via identity.
 #' @export
 lt_id_qm_a <- function(nqx, nMx, AgeInt) {
-  fn_call <- deparse(match.call()[[1]])
-        if (identical(length(fn_call), 1L) && grepl("qxmx2ax$", fn_call)) {
-    warning("please use lt_id_qm_a() instead of qxmx2ax().", call. = FALSE)
-  }
-
   1 / nMx - AgeInt / nqx + AgeInt
 }
-
-#' @export
-#' @rdname lt_id_qm_a
-qxmx2ax <- lt_id_qm_a
-
 
 # #' Derive nqx from nMx and nax.
 # #' @description This is the standard identity to derive nqx from nax and nMx.
@@ -143,16 +124,8 @@ qxmx2ax <- lt_id_qm_a
 #' @return lx vector of lifetable survivorship.
 #' @export
 lt_id_q_l <- function(nqx, radix = 1e5) {
-  fn_call <- deparse(match.call()[[1]])
-        if (identical(length(fn_call), 1L) && grepl("qx2lx$", fn_call)) {
-    warning("please use lt_id_q_l() instead of qx2lx().", call. = FALSE)
-  }
   radix * cumprod(c(1, 1 - nqx[-length(nqx)]))
 }
-
-#' @export
-#' @rdname lt_id_q_l
-qx2lx <- lt_id_q_l
 
 #' @title Derive lifetable deaths from survivorship.
 #' @description This lifetable identity is the same no matter what kind of lifetable is required.
@@ -166,16 +139,8 @@ qx2lx <- lt_id_q_l
 #' @return ndx vector of lifetable deaths.
 #' @export
 lt_id_l_d <- function(lx) {
-  fn_call <- deparse(match.call()[[1]])
-        if (identical(length(fn_call), 1L) && grepl("lx2dx$", fn_call)) {
-    warning("please use lt_id_l_d() instead of lx2dx().", call. = FALSE)
-  }
   diff(-c(lx, 0))
 }
-
-#' @export
-#' @rdname lt_id_l_d
-lx2dx <- lt_id_l_d
 
 #' @title Derive lifetable exposure from lx, ndx and nax.
 #' @description This is a common approximation of lifetable exposure:
@@ -191,11 +156,6 @@ lx2dx <- lt_id_l_d
 #' @return nLx numeric vector of lifetable exposure.
 #' @export
 lt_id_lda_L <- function(lx, ndx, nax, AgeInt) {
-  fn_call <- deparse(match.call()[[1]])
-        if (identical(length(fn_call), 1L) && grepl("lxdxax2Lx$", fn_call)) {
-    warning("please use lt_id_lda_L() instead of lxdxax2Lx().", call. = FALSE)
-  }
-
   N                   <- length(lx)
   nLx                 <- rep(0, N)
   nLx[1:(N - 1)]      <-
@@ -203,11 +163,6 @@ lt_id_lda_L <- function(lx, ndx, nax, AgeInt) {
   nLx[N]		        <- lx[N] * nax[N]
   nLx
 }
-
-#' @export
-#' @rdname lt_id_lda_L
-lxdxax2Lx <- lt_id_lda_L
-
 
 #' @title Derive lifetable total person years left to live from exposure.
 #' @description A lifetable identity. Tx is interpreted as the total years
@@ -220,16 +175,8 @@ lxdxax2Lx <- lt_id_lda_L
 #' @return Tx total years left to live above age x.
 #' @export
 lt_id_L_T <- function(Lx) {
-  fn_call <- deparse(match.call()[[1]])
-        if (identical(length(fn_call), 1L) && grepl("Lx2Tx$", fn_call)) {
-    warning("please use lt_id_L_T() instead of Lx2Tx().", call. = FALSE)
-  }
   rev(cumsum(rev(Lx)))
 }
-
-#' @export
-#' @rdname lt_id_L_T
-Lx2Tx <- lt_id_L_T
 
 #' @title Calculate conditional death probabilities from nMx and nax
 #' @description Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages.
@@ -256,21 +203,6 @@ Lx2Tx <- lt_id_L_T
 #' (lt_id_ma_q(2.1, ax, AgeInt, closeout = FALSE))
 
 lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
-
-  fn_call <- deparse(match.call()[[1]])
-        if (identical(length(fn_call), 1L) && grepl("mxax2qx_Backstop$", fn_call)) {
-    warning("please use lt_id_ma_q() instead of mxax2qx_Backstop().", call. = FALSE)
-  }
-
-  fn_call <- deparse(match.call()[[1]])
-        if (identical(length(fn_call), 1L) && grepl("mx2qx$", fn_call)) {
-    warning("please use lt_id_ma_q() instead of mx2qx().", call. = FALSE)
-  }
-  fn_call <- deparse(match.call()[[1]])
-        if (identical(length(fn_call), 1L) && grepl("mxax2qx$", fn_call)) {
-    warning("please use lt_id_ma_q() instead of mxax2qx().", call. = FALSE)
-  }
-
   n <- length(nMx)
   stopifnot(n == length(nax))
   stopifnot(n == length(AgeInt))
@@ -311,22 +243,6 @@ lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
   qx
 }
 
-#' @export
-#' @rdname lt_id_ma_q
-lt_id_m_q <- lt_id_ma_q
-
-#' @export
-#' @rdname lt_id_ma_q
-mxax2qx   <- lt_id_ma_q
-
-#' @export
-#' @rdname lt_id_ma_q
-mx2qx    <- lt_id_ma_q
-
-#' @export
-#' @rdname lt_id_ma_q
-mxax2qx_Backstop <- lt_id_ma_q
-
 #' @title Calculate survivor ratios
 #' @description An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age (\code{N=1}) or five-year ages (\code{N=5}). Input vectors are assumed to come from either single or standard abridged ages.
 #' @details This function does not account for \code{nLx} having been pre-binned into uniform 5-year age widths, which will throw an error. Just leave them in abridged ages instead. Note that in the case of abridged ages, the interpretation for the first and second value don't follow the original abridged age intervals: the first value in the probability of surviving from birth into ages 0-4 in the first five years, and the second value is the probability of surviving from 0-4 to 5-9. This represents a slight misalignment with the rest of the lifetable, user beware.
@@ -335,12 +251,6 @@ mxax2qx_Backstop <- lt_id_ma_q
 #' @param N integer, the age width for survivor ratios, either 5 or 1. Default 5.
 #' @export
 lt_id_Ll_S      <- function(nLx, lx, AgeInt, N = c(5, 1)) {
-
-  fn_call <- deparse(match.call()[[1]])
-        if (identical(length(fn_call), 1L) && grepl("Lxlx2Sx$", fn_call)) {
-    warning("please use lt_id_Ll_S() instead of Lxlx2Sx().", call. = FALSE)
-  }
-
   n               <- length(nLx)
   stopifnot(length(lx) == n)
   # either we're in 1 or 5 year age groups
@@ -377,6 +287,3 @@ lt_id_Ll_S      <- function(nLx, lx, AgeInt, N = c(5, 1)) {
 
   Sx
 }
-#' @export
-#' @rdname lt_id_Ll_S
-Lxlx2Sx <- lt_id_Ll_S

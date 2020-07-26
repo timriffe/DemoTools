@@ -2,12 +2,9 @@
 % Please edit documentation in R/check_heaping.R
 \name{check_heaping_kannisto}
 \alias{check_heaping_kannisto}
-\alias{KannistoHeap}
 \title{Kannisto's age heaping index}
 \usage{
 check_heaping_kannisto(Value, Age, Agei = 90, pow = "exp")
-
-KannistoHeap(Value, Age, Agei = 90, pow = "exp")
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts or rates by single age.}

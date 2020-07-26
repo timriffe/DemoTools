@@ -182,10 +182,6 @@ lt_abridged <- function(Deaths = NULL,
                   extrapFrom = max(Age),
                   extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
                   ...) {
-  fn_call <- deparse(match.call()[[1]])
-        if (identical(length(fn_call), 1L) && grepl("LTabr$", fn_call)) {
-    warning("please use lt_abridged() instead of LTabr().", call. = FALSE)
-  }
 
   # ages must be abridged.
   stopifnot(is_abridged(Age))
@@ -396,7 +392,3 @@ lt_abridged <- function(Deaths = NULL,
   )
   return(out)
 }
-
-#' @export
-#' @rdname lt_abridged
-LTabr <- lt_abridged

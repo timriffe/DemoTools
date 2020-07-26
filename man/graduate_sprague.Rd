@@ -2,12 +2,9 @@
 % Please edit documentation in R/graduate.R
 \name{graduate_sprague}
 \alias{graduate_sprague}
-\alias{sprague}
 \title{The basic Sprague age-splitting method.}
 \usage{
 graduate_sprague(Value, Age, OAG = TRUE)
-
-sprague(Value, Age, OAG = TRUE)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}
@@ -44,7 +41,7 @@ pops  <- graduate_sprague(Value = pop1m_ind, Age = Age, OAG = TRUE)
 \dontrun{
   plot(seq(0,100,by=5), pop5_mat[,1]/5, type = 's')
   lines(0:100,
-    p1, 
+    p1,
     lty = 1,
     col = "red")
 

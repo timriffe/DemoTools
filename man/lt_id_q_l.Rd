@@ -2,12 +2,9 @@
 % Please edit documentation in R/lt_id.R
 \name{lt_id_q_l}
 \alias{lt_id_q_l}
-\alias{qx2lx}
 \title{Derive lifetable survivorship (lx) from death probabilities.}
 \usage{
 lt_id_q_l(nqx, radix = 1e+05)
-
-qx2lx(nqx, radix = 1e+05)
 }
 \arguments{
 \item{nqx}{numeric. Vector of age specific death probabilities.}

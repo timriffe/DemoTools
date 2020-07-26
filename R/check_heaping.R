@@ -39,11 +39,6 @@ check_heaping_whipple <-
            ageMax = 65,
            digit = c(0, 5)) {
 
-    fn_call <- deparse(match.call()[[1]])
-      if (identical(length(fn_call), 1L) && grepl("Whipple$", fn_call)) {
-      warning("please use check_heaping_whipple() instead of Whipple().", call. = FALSE)
-    }
-
     stopifnot(length(digit) == 1 ||
                 (all(c(0, 5) %in% digit) & length(digit == 2)))
     stopifnot(length(Value) == length(Age))
@@ -65,10 +60,6 @@ check_heaping_whipple <-
 
     return(whip)
   }
-#' @export
-#' @rdname check_heaping_whipple
-Whipple <- check_heaping_whipple
-
 
 # test to see if can override inheritParams
 #' Calculate Myer's blended index of age heaping
@@ -96,10 +87,6 @@ check_heaping_myers <- function(Value,
                   Age,
                   ageMin = 10,
                   ageMax = 89) {
-  fn_call <- deparse(match.call()[[1]])
-      if (identical(length(fn_call), 1L) && grepl("Myers$", fn_call)) {
-    warning("please use check_heaping_myers() instead of Myers().", call. = FALSE)
-  }
 
   # hard code period to 10 for digits
   period  <- 10
@@ -138,9 +125,6 @@ check_heaping_myers <- function(Value,
   my      <- sum(abs(TAB / sum(TAB) - 1 / period)) * 50
   return(my)
 }
-#' @export
-#' @rdname check_heaping_myers
-Myers <- check_heaping_myers
 
 #' calculate Bachi's index of age heaping
 
@@ -170,10 +154,6 @@ check_heaping_bachi <-
            ageMin = 30,
            ageMax = 79,
            pasex = FALSE) {
-    fn_call <- deparse(match.call()[[1]])
-      if (identical(length(fn_call), 1L) && grepl("Bachi$", fn_call)) {
-      warning("please use check_heaping_bachi() instead of Bachi().", call. = FALSE)
-    }
 
     stopifnot(length(Age) == length(Value))
     stopifnot(is_single(Age[Age >= (ageMin - 5) & Age <= ageMax]))
@@ -246,10 +226,6 @@ check_heaping_bachi <-
     sum(abs(ratioeq))  / 2
   }
 
-#' @export
-#' @rdname check_heaping_bachi
-Bachi <- check_heaping_bachi
-
 # ----------------------------
 # Coale, A. and S. Li (1991) The effect of age misreporting in China on
 # the calculation of mortality rates at very high ages. Demography 28(2)
@@ -290,10 +266,6 @@ check_heaping_coale_li <-
            ageMax = max(Age),
            terms = 5,
            digit = 0) {
-    fn_call <- deparse(match.call()[[1]])
-      if (identical(length(fn_call), 1L) && grepl("CoaleLi$", fn_call)) {
-      warning("please use check_heaping_coale_li() instead of CoaleLi().", call. = FALSE)
-    }
 
     stopifnot(length(Age) == length(Value))
     reference <- ma(ma(Value, n = terms), n = terms)
@@ -316,10 +288,6 @@ check_heaping_coale_li <-
     # return avg deviation for specified digit(s)
     mean(avgRatios[as.character(digit)])
   }
-#' @export
-#' @rdname check_heaping_coale_li
-CoaleLi <- check_heaping_coale_li
-
 
 #' calculate Noumbissi's digit heaping index
 #'
@@ -354,10 +322,6 @@ check_heaping_noumbissi <-
            ageMin = 20,
            ageMax = 64,
            digit = 0) {
-    fn_call <- deparse(match.call()[[1]])
-      if (identical(length(fn_call), 1L) && grepl("Noumbissi$", fn_call)) {
-      warning("please use check_heaping_noumbissi() instead of Noumbissi().", call. = FALSE)
-    }
 
     stopifnot(is_single(Age[Age >= (ageMin - 2) & Age <= (ageMax + 2)]))
     stopifnot(length(Age) == length(Value))
@@ -372,10 +336,6 @@ check_heaping_noumbissi <-
 
     5 * sum(Value[numi]) / sum(Value[denomi])
   }
-
-#' @export
-#' @rdname check_heaping_noumbissi
-Noumbissi <- check_heaping_noumbissi
 
 #' Spoorenberg's total modified Whipple index
 
@@ -396,10 +356,6 @@ check_heaping_spoorenberg <- function(Value,
                         Age,
                         ageMin = 20,
                         ageMax = 64) {
-  fn_call <- deparse(match.call()[[1]])
-      if (identical(length(fn_call), 1L) && grepl("Spoorenberg$", fn_call)) {
-    warning("please use check_heaping_spoorenberg() instead of Spoorenberg().", call. = FALSE)
-  }
 
   stopifnot(length(Age) == length(Value))
   stopifnot(is_single(Age[Age >= (ageMin - 2) & Age <= (ageMax + 2)]))
@@ -416,10 +372,6 @@ check_heaping_spoorenberg <- function(Value,
   Wtot <- sum(abs(1 - Wi))
   return(Wtot)
 }
-#' @export
-#' @rdname check_heaping_spoorenberg
-Spoorenberg <- check_heaping_spoorenberg
-
 
 #' Kannisto's age heaping index
 #'
@@ -449,10 +401,7 @@ check_heaping_kannisto <- function(Value,
                          Age,
                          Agei = 90,
                          pow = "exp") {
-  fn_call <- deparse(match.call()[[1]])
-      if (identical(length(fn_call), 1L) && grepl("KannistoHeap$", fn_call)) {
-    warning("please use check_heaping_kannisto() instead of KannistoHeap().", call. = FALSE)
-  }
+
   stopifnot(length(Agei) == 1)
   stopifnot(is_single(Age[Age >= (Agei - 2) & Age <= (Agei + 2)]))
   denomi   <- Age %in% ((Agei - 2):(Agei + 2))
@@ -467,10 +416,6 @@ check_heaping_kannisto <- function(Value,
   }
   Value[Age == Agei] / denom
 }
-
-#' @export
-#' @rdname check_heaping_kannisto
-KannistoHeap <- check_heaping_kannisto
 
 # removed from vignette until this is further investigated.
 #### Kannisto
@@ -521,10 +466,6 @@ KannistoHeap <- check_heaping_kannisto
 #'check_heaping_jdanov(Value, Age, Agei = c(95,100,105))
 
 check_heaping_jdanov <- function(Value, Age, Agei = seq(95, 105, by = 5)) {
-  fn_call <- deparse(match.call()[[1]])
-      if (identical(length(fn_call), 1L) && grepl("Jdanov$", fn_call)) {
-    warning("please use check_heaping_jdanov() instead of Jdanov().", call. = FALSE)
-  }
 
   stopifnot(is_single(Age[Age >= (min(Agei) - 2) &
                             Age <= (max(Agei) + 2)]))
@@ -542,10 +483,6 @@ check_heaping_jdanov <- function(Value, Age, Agei = seq(95, 105, by = 5)) {
   500 * sum(Value[numi]) / denom
 
 }
-#' @export
-#' @rdname check_heaping_jdanov
-Jdanov <- check_heaping_jdanov
-
 
 #' Induce heaping on terminal digits 0 and 5
 #' @description For single age count data, perturb the data in such a way as to induce heaping on ages ending in 0 and 5. This is a common phenomenon that several age heaping evaluation methods are designed to test for. In order to estimate how these methods respond to different degrees of heaping in a systematic way, a function such as  this may be useful. The way this works is purely a guess, and no checks are in place, so use with caution.
@@ -672,10 +609,6 @@ check_heaping_sawtooth <-
            Age,
            ageMin = 40,
            ageMax = max(Age[Age %% 5 == 0]) - 10) {
-    fn_call <- deparse(match.call()[[1]])
-      if (identical(length(fn_call), 1L) && grepl("zero_pref_sawtooth$", fn_call)) {
-      warning("please use check_heaping_sawtooth() instead of zero_pref_sawtooth().", call. = FALSE)
-    }
 
     # rather than stopifnot() check, just make it work.
     ageMin   <- ageMin - ageMin %% 10
@@ -705,11 +638,6 @@ check_heaping_sawtooth <-
     # mean of 0s divided by mean of 5s, that simple.
     1 / ratx(rowMeans(m05, na.rm = TRUE))
   }
-
-#' @export
-#' @rdname check_heaping_sawtooth
-zero_pref_sawtooth <- check_heaping_sawtooth
-
 
 #' Evaluate roughness of data in 5-year age groups
 #' @description For a given age-structured vector of counts, how rough is data after grouping to 5-year age bins? Data may require smoothing even if there is no detectable sawtooth pattern. It is best to use the value in this method together with visual evidence to gauage whether use of \code{smooth_age_5()} is recommended.
@@ -764,10 +692,6 @@ check_heaping_roughness <-
            Age,
            ageMin = 20,
            ageMax = max(Age[Age %% 5 == 0])) {
-    fn_call <- deparse(match.call()[[1]])
-      if (identical(length(fn_call), 1L) && grepl("five_year_roughness$", fn_call)) {
-      warning("please use check_heaping_roughness() instead of five_year_roughness().", call. = FALSE)
-    }
 
     # rather than stopifnot() check, just make it work.
     ageMin <- ageMin - ageMin %% 5
@@ -785,7 +709,4 @@ check_heaping_roughness <-
 
     mean(abs(d1 - d1s) / abs(d1s))
   }
-#' @export
-#' @rdname check_heaping_roughness
-five_year_roughness <- check_heaping_roughness
 

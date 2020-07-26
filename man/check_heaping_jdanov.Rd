@@ -2,12 +2,9 @@
 % Please edit documentation in R/check_heaping.R
 \name{check_heaping_jdanov}
 \alias{check_heaping_jdanov}
-\alias{Jdanov}
 \title{Calculate Jdanov's old-age heaping index}
 \usage{
 check_heaping_jdanov(Value, Age, Agei = seq(95, 105, by = 5))
-
-Jdanov(Value, Age, Agei = seq(95, 105, by = 5))
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}

@@ -154,10 +154,6 @@ lt_rule_m_extrapolate <- function(mx,
                                                  "LF4", "LF5", "LF6",
                                                  "poissonL", "binomialL"),
                                   ...) {
-    fn_call <- deparse(match.call()[[1]])
-    if (identical(length(fn_call), 1L) && grepl("extra.mortality$", fn_call)) {
-        warning("please use lt_rule_m_extrapolate() instead of extra_mortality().", call. = FALSE)
-  }
 
   # Save the input
   input <- as.list(environment())
@@ -198,32 +194,29 @@ lt_rule_m_extrapolate <- function(mx,
   out <- structure(class = "lt_rule_m_extrapolate", out)
   return(out)
 }
-#' @export
-#' @rdname lt_rule_m_extrapolate
-extra.mortality <- lt_rule_m_extrapolate
 
 
 # Not used internally, so deprecating without notice
-#' #' Print function for extra_mortality method
-#' #' @param x An object of the class \code{"extra_mortality"}.
-#' #' @param ... Further arguments passed to or from other methods.
-#' #' @keywords internal
-#' #' @export
-#' print.extra_mortality <- function(x, ...) {
-#'   info <- as.matrix(x$fitted.model$info$model.info[, c(2, 3)])
-#'   message(paste(info, collapse = " model: "))
-#'   message("\nAges in input:", paste(range(x$input$x), collapse = " - "))
-#'   message("\nAges in fit  :", paste(range(x$input$x_fit), collapse = " - "))
-#'   message("\nAges in extrapolation:", paste(range(x$input$x_extr), collapse = " - "))
-#' }
-#'
-#'
-#' #' coef function for extra_mortality method
-#' #' @param object An object of the class \code{"extra_mortality"}.
-#' #' @inheritParams print.extra_mortality
-#' #' @aliases coefficients.extra_mortality
-#' #' @keywords internal
-#' #' @export
-#' coef.extra_mortality <- function(object, ...) {
-#'   coef(object$fitted.model)
-#' }
+# #' Print function for extra_mortality method
+# #' @param x An object of the class \code{"extra_mortality"}.
+# #' @param ... Further arguments passed to or from other methods.
+# #' @keywords internal
+# #' @export
+# print.extra_mortality <- function(x, ...) {
+#   info <- as.matrix(x$fitted.model$info$model.info[, c(2, 3)])
+#   message(paste(info, collapse = " model: "))
+#   message("\nAges in input:", paste(range(x$input$x), collapse = " - "))
+#   message("\nAges in fit  :", paste(range(x$input$x_fit), collapse = " - "))
+#   message("\nAges in extrapolation:", paste(range(x$input$x_extr), collapse = " - "))
+# }
+#
+#
+# #' coef function for extra_mortality method
+# #' @param object An object of the class \code{"extra_mortality"}.
+# #' @inheritParams print.extra_mortality
+# #' @aliases coefficients.extra_mortality
+# #' @keywords internal
+# #' @export
+# coef.extra_mortality <- function(object, ...) {
+#   coef(object$fitted.model)
+# }

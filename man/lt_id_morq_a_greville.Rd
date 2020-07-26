@@ -2,28 +2,9 @@
 % Please edit documentation in R/nAx.R
 \name{lt_id_morq_a_greville}
 \alias{lt_id_morq_a_greville}
-\alias{ax.greville.mortpak}
 \title{UN version of the Greville formula for a(x) from M(x)}
 \usage{
 lt_id_morq_a_greville(
-  nMx,
-  nqx,
-  lx,
-  Age,
-  AgeInt = age2int(Age, OAvalue = 5),
-  IMR = NA,
-  Sex = "m",
-  region = "w",
-  mod = TRUE,
-  closeout = TRUE,
-  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
-    "beard_makeham", "quadratic"),
-  extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60],
-  ...
-)
-
-ax.greville.mortpak(
   nMx,
   nqx,
   lx,

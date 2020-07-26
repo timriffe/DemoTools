@@ -2,12 +2,9 @@
 % Please edit documentation in R/check_heaping.R
 \name{check_heaping_bachi}
 \alias{check_heaping_bachi}
-\alias{Bachi}
 \title{calculate Bachi's index of age heaping}
 \usage{
 check_heaping_bachi(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE)
-
-Bachi(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}
@@ -33,9 +30,9 @@ Bachi's index involves applying the Whipple method repeatedly to determine the e
 \examples{
 Age <- 0:99
 # reproduces PASEX SINGAGE
-check_heaping_bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79, pasex = TRUE) 
+check_heaping_bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79, pasex = TRUE)
 # default simpler
-check_heaping_bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79) 
+check_heaping_bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79)
 }
 \references{
 \insertRef{PAS}{DemoTools}

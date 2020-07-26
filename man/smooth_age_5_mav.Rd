@@ -2,12 +2,9 @@
 % Please edit documentation in R/smooth_age_5.R
 \name{smooth_age_5_mav}
 \alias{smooth_age_5_mav}
-\alias{mav_smth}
 \title{Smooth in 5-year age groups using a moving average}
 \usage{
 smooth_age_5_mav(Value, Age, OAG = TRUE, n = 3)
-
-mav_smth(Value, Age, OAG = TRUE, n = 3)
 }
 \arguments{
 \item{Value}{numeric vector of (presumably) counts in 5-year age groups.}

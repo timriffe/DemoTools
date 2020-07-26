@@ -2,12 +2,9 @@
 % Please edit documentation in R/lt_id.R
 \name{lt_id_qm_a}
 \alias{lt_id_qm_a}
-\alias{qxmx2ax}
 \title{Derive nax from nqx and nMx.}
 \usage{
 lt_id_qm_a(nqx, nMx, AgeInt)
-
-qxmx2ax(nqx, nMx, AgeInt)
 }
 \arguments{
 \item{nqx}{numeric. Vector of age specific death probabilities.}
@@ -37,7 +34,7 @@ lt_id_m_q <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
   if (as.character(match.call()[[1]]) == "mx2qx") {
     warning("please use lt_id_m_q() instead of mx2qx().", call. = FALSE)
   }
-  
+
   qx <- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
   ind <- qx > 1 | is.na(qx)
   if (sum(ind) > 0) {

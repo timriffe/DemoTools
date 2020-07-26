@@ -60,11 +60,7 @@ lt_rule_1a0_cd <- function(M0,
                     IMR = NA,
                     Sex = "m",
                     region = "w") {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("geta0CD$", fn_call)) {
-    warning("please use lt_rule_1a0_cd() instead of geta0CD().", call. = FALSE)
-  }
-
+ 
   # sex can be "m", "f", or "b"
   # region can be "n","e","s","w",or
   Sex       <- tolower(Sex)
@@ -112,9 +108,6 @@ lt_rule_1a0_cd <- function(M0,
     {Alpha + Beta * IMR})
 }
 
-#' @export
-#' @rdname lt_rule_1a0_cd
-geta0CD <- lt_rule_1a0_cd
 # Separate estimate of IMR optional
 # TR: I think it's funny that a1-4 doesn't depend at all on m1-4
 
@@ -162,10 +155,6 @@ lt_rule_4a1_cd <- function(M0,
                       IMR = NA,
                       Sex = "m",
                       region = "w") {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("geta1_4CD$", fn_call)) {
-    warning("please use lt_rule_4a1_cd() instead of geta1_4CD().", call. = FALSE)
-  }
 
   # sex can be "m", "f", or "b"
   # region can be "n","e","s","w",or
@@ -208,9 +197,7 @@ lt_rule_4a1_cd <- function(M0,
   }
   ifelse(IMR > .1, Age1_4Const[region, Sex], Intercept[region, Sex] - Slope[Sex] * IMR)
 }
-#' @export
-#' @rdname lt_rule_4a1_cd
-geta1_4CD <- lt_rule_4a1_cd
+
 #' PAS a(x) rule of thumb.
 #'
 #' @description a(x) is calculated following the Coale-Demeny rules for ages 0 and 1-4, and assumes interval midpoints in higher ages.
@@ -250,10 +237,7 @@ lt_a_pas <-
            Sex = "m",
            region = "w",
            OAG = TRUE) {
-    fn_call <- deparse(match.call()[[1]])
-    if (identical(length(fn_call), 1L) && grepl("axPAS$", fn_call)) {
-      warning("please use lt_a_pas() instead of axPAS().", call. = FALSE)
-    }
+
     # sex can be "m", "f", or "b"
     # region can be "n","e","s","w",or
     Sex    <- tolower(Sex)
@@ -308,10 +292,6 @@ lt_a_pas <-
 
     ax
   }
-
-#' @export
-#' @rdname lt_a_pas
-axPAS <- lt_a_pas
 
 #' UN version of the Greville formula for a(x) from M(x)
 #'
@@ -390,10 +370,6 @@ lt_id_morq_a_greville <- function(nMx,
                                   extrapFrom = max(Age),
                                   extrapFit = Age[Age >= 60],
                                   ...) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("ax.greville.mortpak$", fn_call)) {
-    warning("please use lt_id_morq_a_greville() instead of ax.greville.mortpak().", call. = FALSE)
-  }
 
   Sex     <- tolower(Sex)
   region  <- tolower(region)
@@ -524,9 +500,6 @@ lt_id_morq_a_greville <- function(nMx,
   #
   ax
 }
-#' @export
-#' @rdname lt_id_morq_a_greville
-ax.greville.mortpak <- lt_id_morq_a_greville
 
 #' UN a(x) estimates from either M(x), q(x), or both
 #'
@@ -608,10 +581,6 @@ lt_a_un <- function(nMx,
                  extrapFrom = max(Age),
                  extrapFit = Age[Age >= 60],
                  ...) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("axUN$", fn_call)) {
-    warning("please use lt_a_un() instead of axUN().", call. = FALSE)
-  }
 
   stopifnot(!missing(nqx) | !missing(nMx))
   smsq    <- 99999
@@ -736,9 +705,6 @@ lt_a_un <- function(nMx,
   # if mx, qx, or both are given, then by now we have ax
   axi
 }
-#' @export
-#' @rdname lt_a_un
-axUN <- lt_a_un
 
 #' Life expectancy in the open age group.
 #'
@@ -783,10 +749,6 @@ lt_a_closeout <- function(mx,
                           extrapFrom = max(Age),
                           extrapFit = Age[Age >= 40],
                           ...) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("aomegaMortalityLaws$", fn_call)) {
-    warning("please use lt_a_closeout() instead of aomegaMortalityLaws().", call. = FALSE)
-  }
 
   extrapLaw <- tolower(law)
   OA        <- max(Age)
@@ -809,10 +771,6 @@ lt_a_closeout <- function(mx,
   sum(shift.vector(lx, -1) + lx) / 20
 
 }
-
-#' @export
-#' @rdname lt_a_closeout
-aomegaMortalityLaws <- lt_a_closeout
 
 #' wrapper to invoke PAS or UN ax methods given qx or mx
 #' @description Given either mx or qx, call either the \code{lt_a_un()} or \code{lt_a_pas()} functions.
@@ -850,10 +808,6 @@ lt_id_morq_a <- function(nMx,
                       extrapFrom = max(Age),
                       extrapFit = Age[Age >= 60],
                       ...) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("mxorqx2ax$", fn_call)) {
-    warning("please use lt_id_morq_a() instead of mxorqx2ax().", call. = FALSE)
-  }
 
   N <- length(AgeInt)
   if (is.na(AgeInt[N]) | is.infinite(AgeInt[N])) {
@@ -918,10 +872,6 @@ lt_id_morq_a <- function(nMx,
   }
   nAx
 }
-
-#' @export
-#' @rdname lt_id_morq_a
-mxorqx2ax <- lt_id_morq_a
 
 # deprecated.
 ##' Life expectancy in the open age group.

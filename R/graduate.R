@@ -27,11 +27,6 @@ graduate_uniform <-
            OAG = TRUE,
            OAvalue = 1) {
 
-    fn_call <- deparse(match.call()[[1]])
-    if (identical(length(fn_call), 1L) && grepl("splitUniform$", fn_call)) {
-      warning("please use graduate_uniform() instead of splitUniform().", call. = FALSE)
-    }
-
     if (missing(Age) & missing(AgeInt)) {
       Age      <- names2age(Value)
     }
@@ -47,10 +42,6 @@ graduate_uniform <-
     names(out) <- min(Age):(min(Age) + length(out) - 1)
     out
   }
-
-#' @export
-#' @rdname graduate_uniform
-splitUniform <- graduate_uniform
 
 # -------------------------------------------------------------------------- #
 # Sprague                                                                    #
@@ -99,11 +90,6 @@ splitUniform <- graduate_uniform
 graduate_sprague <- function(Value,
                              Age,
                              OAG = TRUE) {
-
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("sprague$", fn_call)) {
-    warning("please use graduate_sprague() instead of sprague().", call. = FALSE)
-  }
 
   punif1       <- graduate_uniform(
     Value = Value,
@@ -163,10 +149,6 @@ graduate_sprague <- function(Value,
   #	}
   pop1
 }
-
-#' @export
-#' @rdname graduate_sprague
-sprague <- graduate_sprague
 
 #' Create the Sprague coefficient matrix.
 #'
@@ -429,11 +411,6 @@ graduate_grabill <- function(
   Age,
   OAG = TRUE) {
 
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("grabill$", fn_call)) {
-    warning("please use graduate_grabill() instead of grabill().", call. = FALSE)
-  }
-
   punif1       <- graduate_uniform(
     Value = Value,
     Age = Age,
@@ -506,10 +483,6 @@ graduate_grabill <- function(
 
   popg
 }
-
-#' @export
-#' @rdname graduate_grabill
-grabill <- graduate_grabill
 
 
 # -------------------------------------------------------------------------- #
@@ -782,10 +755,6 @@ graduate_beers <- function(Value,
                            OAG = TRUE,
                            method = "mod",
                            johnson = FALSE) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("beers$", fn_call)) {
-    warning("please use graduate_beers() instead of beers().", call. = FALSE)
-  }
 
   if (missing(AgeInt)){
     AgeInt <- age2int(Age, OAG = OAG, OAvalue = 1)
@@ -832,10 +801,6 @@ graduate_beers <- function(Value,
   names(pop1)       <- ages
   pop1
 }
-
-#' @export
-#' @rdname graduate_beers
-beers <- graduate_beers
 
 #' Adjust ages under 10 using a modification of Beers
 #' @description Assuming we have an external estimate of age 0, this method
@@ -972,11 +937,6 @@ graduate_mono   <- function(
   Age,
   OAG = TRUE) {
 
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("splitMono$", fn_call)) {
-    warning("please use graduate_mono() instead of splitMono().", call. = FALSE)
-  }
-
   if (missing(Age) & missing(AgeInt)) {
     Age                 <- names2age(Value)
   }
@@ -1019,10 +979,6 @@ graduate_mono   <- function(
 
   out
 }
-
-#' @export
-#' @rdname graduate_mono
-splitMono <- graduate_mono
 
 #' blend the Sprague upper boundary age estimates into monotonic spline estimates
 #'
@@ -1081,10 +1037,7 @@ graduate_mono_closeout <-
            splitfun = graduate_sprague,
            OAG = TRUE,
            ...) {
-    fn_call <- deparse(match.call()[[1]])
-    if (identical(length(fn_call), 1L) && grepl("monoCloseout$", fn_call)) {
-      warning("please use graduate_mono_closeout() instead of monoCloseout().", call. = FALSE)
-    }
+ 
     names(Value)        <- Age
 
     if (missing(pops)) {
@@ -1144,12 +1097,6 @@ graduate_mono_closeout <-
 
     pop.c
   }
-
-#' @export
-#' @rdname graduate_mono_closeout
-monoCloseout <- graduate_mono_closeout
-
-
 
 #' Graduate grouped data
 #'

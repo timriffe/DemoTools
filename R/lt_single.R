@@ -40,10 +40,6 @@ lt_single_mx <- function(nMx,
                              extrapFrom = max(Age),
                              extrapFit = Age[Age >= 60],
                              ...) {
-  fn_call <- deparse(match.call()[[1]])
-  if (identical(length(fn_call), 1L) && grepl("lt_single_simple$", fn_call)) {
-    warning("please use lt_single_mx() instead of lt_single_simple().", call. = FALSE)
-  }
 
   stopifnot(extrapFrom <= max(Age))
 
@@ -159,6 +155,3 @@ lt_single_mx <- function(nMx,
   )
   return(out)
 }
-#' @export
-#' @rdname lt_single_mx
-lt_single_simple <- lt_single_mx

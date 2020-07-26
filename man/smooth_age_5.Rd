@@ -2,23 +2,9 @@
 % Please edit documentation in R/smooth_age_5.R
 \name{smooth_age_5}
 \alias{smooth_age_5}
-\alias{agesmth}
 \title{Smooth populations in 5-year age groups using various methods}
 \usage{
 smooth_age_5(
-  Value,
-  Age,
-  method = c("Carrier-Farrag", "KKN", "Arriaga", "United Nations", "Strong", "Zigzag",
-    "MAV"),
-  OAG = TRUE,
-  ageMin = 10,
-  ageMax = 65,
-  n = 3,
-  young.tail = c("Original", "Arriaga", "Strong", NA),
-  old.tail = young.tail
-)
-
-agesmth(
   Value,
   Age,
   method = c("Carrier-Farrag", "KKN", "Arriaga", "United Nations", "Strong", "Zigzag",

@@ -2,21 +2,9 @@
 % Please edit documentation in R/extra_mortality.R
 \name{lt_rule_m_extrapolate}
 \alias{lt_rule_m_extrapolate}
-\alias{extra.mortality}
 \title{Extrapolate old-age human mortality curve using mortality laws}
 \usage{
 lt_rule_m_extrapolate(
-  mx,
-  x,
-  x_fit = x,
-  x_extr,
-  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
-    "beard_makeham", "quadratic"),
-  opt.method = c("LF2", "LF1", "LF3", "LF4", "LF5", "LF6", "poissonL", "binomialL"),
-  ...
-)
-
-extra.mortality(
   mx,
   x,
   x_fit = x,

@@ -2,12 +2,9 @@
 % Please edit documentation in R/lt_id.R
 \name{lt_id_qa_m}
 \alias{lt_id_qa_m}
-\alias{qxax2mx}
 \title{Derive nMx from nqx and nax.}
 \usage{
 lt_id_qa_m(nqx, nax, AgeInt)
-
-qxax2mx(nqx, nax, AgeInt)
 }
 \arguments{
 \item{nqx}{numeric. Vector of age specific death probabilities.}

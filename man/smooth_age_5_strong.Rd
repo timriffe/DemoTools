@@ -2,12 +2,9 @@
 % Please edit documentation in R/smooth_age_5.R
 \name{smooth_age_5_strong}
 \alias{smooth_age_5_strong}
-\alias{strong_smth}
 \title{A strong method of population count smoothing}
 \usage{
 smooth_age_5_strong(Value, Age, OAG = TRUE, ageMin = 10, ageMax = 65)
-
-strong_smth(Value, Age, OAG = TRUE, ageMin = 10, ageMax = 65)
 }
 \arguments{
 \item{Value}{numeric vector of counts in single, abridged, or 5-year age groups.}
