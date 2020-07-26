@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.06.01</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.06.02</span>
       </span>
     </div>
 
@@ -159,7 +159,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits. This method is a bit smoother than the standard Sprague or Beers methods, but not as smooth as <code><a href='graduate_grabill.html'>grabill()</a></code>.</p>
+    <p>Single ages can be grouped into 5-year age groups in 5 ways by staggering terminal digits. This method is a bit smoother than the standard Sprague or Beers methods, but not as smooth as <code>grabill()</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>splitOscillate</span>(
@@ -189,7 +189,7 @@
     </tr>
     <tr>
       <th>splitfun</th>
-      <td><p>function used to split at each digit grouping. Default <code><a href='graduate_sprague.html'>sprague()</a></code>.</p></td>
+      <td><p>function used to split at each digit grouping. Default <code>sprague()</code>.</p></td>
     </tr>
     <tr>
       <th>closeout</th>
@@ -210,7 +210,7 @@
     <p>Numeric vector of smoothed counts.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function works on a single vector of single-age counts, not on a matrix. Results are not constrained to any particular age group, but are constrained to the total count. Negatives, <code>NA</code>, or <code>NaN</code> values are ignored in averaging. This can happen in older ages . It is recommended to run <code><a href='graduate_mono_closeout.html'>monoCloseout()</a></code> or
+    <p>This function works on a single vector of single-age counts, not on a matrix. Results are not constrained to any particular age group, but are constrained to the total count. Negatives, <code>NA</code>, or <code>NaN</code> values are ignored in averaging. This can happen in older ages . It is recommended to run <code>monoCloseout()</code> or
 similar after the oscillatory split in such situations.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
