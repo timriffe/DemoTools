@@ -23,6 +23,9 @@ addons:
  homebrew:
    packages:
    - llvm
+ apt:
+   packages:
+   - libv8-dev
 
 before_install:
  - |
