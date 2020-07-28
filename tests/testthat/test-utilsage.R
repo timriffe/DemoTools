@@ -133,11 +133,16 @@ test_that("rescaleAgeGroups works",{
     # note if pop1 is in single ages and pop2 is in groups things work much cleaner.
     set.seed(3)
 	AgeIntRandom <- sample(1:5, size = 15,replace = TRUE)
+	AgeRandom    <- c(0,cumsum(AgeIntRandom))
+	AgeRandom    <- AgeRandom[AgeRandom<45]
+	AgeIntRandom <- age2int(AgeRandom, OAvalue = 45-max(AgeRandom))
+	AgeNRandom   <- rep(AgeRandom,AgeIntRandom)
     AgeInt5      <- rep(5, 9)
     original     <- runif(45, min = 0, max = 100)
+    
 
-    pop1         <- groupAges(original, 0:45, AgeN = int2ageN(AgeIntRandom, FALSE))
-    pop2         <- groupAges(original, 0:45, AgeN = int2ageN(AgeInt5, FALSE))
+    pop1         <- groupAges(original, 0:44, AgeN = AgeNRandom)
+    pop2         <- groupAges(original, 0:44, N=5)
     # inflate (in this case) pop2
     perturb      <- runif(length(pop2), min = 1.05, max = 1.2)
     pop2         <- pop2 * perturb
@@ -147,17 +152,17 @@ test_that("rescaleAgeGroups works",{
                                   AgeInt1 = AgeIntRandom,
                                   Value2 = pop2,
                                   AgeInt2 = AgeInt5,
-                                  splitfun = splitUniform,
+                                  splitfun = graduate_uniform,
                                   recursive = TRUE)
     # a single pass adjustment (no recursion)
     pop1resc1 <- rescaleAgeGroups(Value1 = pop1,
                                    AgeInt1 = AgeIntRandom,
                                    Value2 = pop2,
                                    AgeInt2 = AgeInt5,
-                                   splitfun = splitUniform,
+                                   splitfun = graduate_uniform,
                                    recursive = FALSE)
     
-    newN        <- splitUniform(pop1resc, AgeInt = AgeIntRandom)
+    newN        <- graduate_uniform(pop1resc, AgeInt = AgeIntRandom)
     AgeS        <- names2age(newN)
     AgeN2       <- rep(int2age(AgeInt5), times = AgeInt5)
     check       <- groupAges(newN, AgeS, AgeN = AgeN2)
