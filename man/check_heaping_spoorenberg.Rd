@@ -2,12 +2,9 @@
 % Please edit documentation in R/check_heaping.R
 \name{check_heaping_spoorenberg}
 \alias{check_heaping_spoorenberg}
-\alias{Spoorenberg}
 \title{Spoorenberg's total modified Whipple index}
 \usage{
 check_heaping_spoorenberg(Value, Age, ageMin = 20, ageMax = 64)
-
-Spoorenberg(Value, Age, ageMin = 20, ageMax = 64)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}

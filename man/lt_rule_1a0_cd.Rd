@@ -2,12 +2,9 @@
 % Please edit documentation in R/nAx.R
 \name{lt_rule_1a0_cd}
 \alias{lt_rule_1a0_cd}
-\alias{geta0CD}
 \title{Coale-Demeny a(0) as function of m(0), region, and sex.}
 \usage{
 lt_rule_1a0_cd(M0, IMR = NA, Sex = "m", region = "w")
-
-geta0CD(M0, IMR = NA, Sex = "m", region = "w")
 }
 \arguments{
 \item{M0}{numeric. Event exposure infant mortality rate.}

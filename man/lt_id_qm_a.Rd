@@ -2,12 +2,9 @@
 % Please edit documentation in R/lt_id.R
 \name{lt_id_qm_a}
 \alias{lt_id_qm_a}
-\alias{qxmx2ax}
 \title{Derive nax from nqx and nMx.}
 \usage{
 lt_id_qm_a(nqx, nMx, AgeInt)
-
-qxmx2ax(nqx, nMx, AgeInt)
 }
 \arguments{
 \item{nqx}{numeric. Vector of age specific death probabilities.}
@@ -21,34 +18,6 @@ nax numeric vector of average time spent in interval by those dying in interval 
 }
 \description{
 This is the standard identity to derive nax from nqx and nMx.
-}
-\details{
-#' @title Derive nqx from nMx and nax.
-#' @description This is the standard identity to derive nqx from nax and nMx.
-#' @details qx values calculated as greater than 1 are imputed with 1.
-#' @param nMx numeric. Vector of age-specific death rates.
-#' @param nax numeric. Vector of average time spent in interval by those dying in interval.
-#' @param AgeInt integer. Vector of age class widths.
-#' @references
-#' \insertRef{preston2000demography}{DemoTools}
-#' @return nqx vector of age specific death probabilities derived via identity.
-#' @export
-lt_id_m_q <- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) {
-  if (as.character(match.call()[[1]]) == "mx2qx") {
-    warning("please use lt_id_m_q() instead of mx2qx().", call. = FALSE)
-  }
-  
-  qx <- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
-  ind <- qx > 1 | is.na(qx)
-  if (sum(ind) > 0) {
-    #cat("at least 1 q(x) > 1, imputed as 1")
-    qx[ind] <- 1
-  }
-  qx
-}
-#' @export
-#' @rdname lt_id_ma_q
-mx2qx <- lt_id_ma_q
 }
 \references{
 \insertRef{preston2000demography}{DemoTools}

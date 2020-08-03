@@ -2,12 +2,9 @@
 % Please edit documentation in R/smooth_age_5.R
 \name{smooth_age_5_cf}
 \alias{smooth_age_5_cf}
-\alias{carrier_farrag_smth}
 \title{The Carrier-Farrag method of population count smoothing}
 \usage{
 smooth_age_5_cf(Value, Age, OAG = TRUE)
-
-carrier_farrag_smth(Value, Age, OAG = TRUE)
 }
 \arguments{
 \item{Value}{numeric vector of counts in single, abridged, or 5-year age groups.}

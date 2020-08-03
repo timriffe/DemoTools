@@ -2,17 +2,9 @@
 % Please edit documentation in R/check_heaping.R
 \name{check_heaping_sawtooth}
 \alias{check_heaping_sawtooth}
-\alias{zero_pref_sawtooth}
 \title{Detect if heaping is worse on terminal digits 0s than on 5s}
 \usage{
 check_heaping_sawtooth(
-  Value,
-  Age,
-  ageMin = 40,
-  ageMax = max(Age[Age\%\%5 == 0]) - 10
-)
-
-zero_pref_sawtooth(
   Value,
   Age,
   ageMin = 40,

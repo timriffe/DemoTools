@@ -2,12 +2,9 @@
 % Please edit documentation in R/lt_id.R
 \name{lt_id_l_d}
 \alias{lt_id_l_d}
-\alias{lx2dx}
 \title{Derive lifetable deaths from survivorship.}
 \usage{
 lt_id_l_d(lx)
-
-lx2dx(lx)
 }
 \arguments{
 \item{lx}{numeric.  Vector of age-specific lifetable survivorship.}

@@ -40,16 +40,13 @@ lt_single_mx <- function(nMx,
                              extrapFrom = max(Age),
                              extrapFit = Age[Age >= 60],
                              ...) {
-  if (as.character(match.call()[[1]]) == "lt_single_simple") {
-    warning("please use lt_single_mx() instead of lt_single_simple().", call. = FALSE)
-  }
-  
+
   stopifnot(extrapFrom <= max(Age))
-  
+
   Sex           <- tolower(Sex)
   region        <- tolower(region)
   extrapLaw     <- tolower(extrapLaw)
-  
+
   # setup Open Age handling
   OA            <- max(Age)
   # TR: save for later, in case OAG preserved
@@ -66,19 +63,19 @@ lt_single_mx <- function(nMx,
               x_extr = x_extr,
               law = extrapLaw,
               ...)
-  
+
   nMxext        <- Mxnew$values
   Age2          <- names2age(nMxext)
-  
+
   keepi         <- Age2 < extrapFrom
   nMxext[keepi] <- nMx[Age < extrapFrom]
-  
+
   # overwrite some variables:
   nMx           <- nMxext
   Age           <- Age2
   N             <- length(Age)
   AgeInt        <- rep(1, N)
-  
+
   # get ax:
   nAx           <- rep(.5, N)
   nAx[1]        <- lt_rule_1a0_cd(
@@ -86,14 +83,14 @@ lt_single_mx <- function(nMx,
                      IMR = IMR,
                      Sex = Sex,
                      region = region)
-  
+
   # get qx (if pathological qx > 1, ax replaced, assumed constant hazard)
   qx            <- lt_id_ma_q(
                      nMx = nMx,
                      nax = nAx,
-                     AgeInt = AgeInt, 
+                     AgeInt = AgeInt,
                      closeout = TRUE)
-  
+
   lx            <- lt_id_q_l(qx, radix = radix)
   ndx           <- lt_id_l_d(lx)
   nLx           <- lt_id_lda_L(
@@ -103,7 +100,7 @@ lt_single_mx <- function(nMx,
                      AgeInt = AgeInt)
   Tx            <- lt_id_L_T(nLx)
   ex            <- Tx / lx
-  
+
   # TR: now cut down due to closeout method (added 11 Oct 2018)
   ind           <- Age <= OAnew
   Age           <- Age[ind]
@@ -111,24 +108,25 @@ lt_single_mx <- function(nMx,
   nAx           <- nAx[ind]
   nMx           <- nMx[ind]
   qx            <- qx[ind]
-  
+
   lx            <- lx[ind]
-  
+
   # recalc dx from chopped lx
   ndx           <- lt_id_l_d(lx)
   nLx           <- nLx[ind]
   Tx            <- Tx[ind]
   ex            <- ex[ind]
-  
-  Sx            <- lt_id_Ll_S(nLx, lx, AgeInt = AgeInt, N = 1)
-  
+
   # some closeout considerations
   N             <- length(qx)
   qx[N]         <- 1
   nLx[N]        <- Tx[N]
   nAx[N]        <- ex[N]
   AgeInt[N]     <- NA
-  
+
+  # Survival ratios computed only after  nLx is closed out
+  Sx            <- lt_id_Ll_S(nLx, lx, AgeInt = AgeInt, N = 1)
+
   if (OAG) {
     if (OAnew == OA) {
       # keep first estimate if it was open and if we didn't extend
@@ -140,7 +138,7 @@ lt_single_mx <- function(nMx,
   } else {
     nMx[N]      <-  lx[N] / Tx[N]
   }
-  
+
   # output is an unrounded, unsmoothed lifetable
   out <- data.frame(
            Age = Age,
@@ -157,6 +155,3 @@ lt_single_mx <- function(nMx,
   )
   return(out)
 }
-#' @export
-#' @rdname lt_single_mx
-lt_single_simple <- lt_single_mx

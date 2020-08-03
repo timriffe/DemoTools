@@ -18,7 +18,7 @@
 #' @export
 shift.vector <- function(x, shift = 0, fill = FALSE) {
   n          <- length(x)
-  
+
   if (shift > 0) {
     x        <- c(rep(fill, shift), x[-((n - shift + 1):n)])
   }
@@ -89,16 +89,8 @@ ma <- function(x, n = 5) {
 #' @export
 
 rescale_vector <- function(x, scale = 1) {
-  if (as.character(match.call()[[1]]) == "adjustAge") {
-    warning("please use rescale_vector() instead of adjustAge().", call. = FALSE)
-  }
-  
-  scale * x / sum(x, na.rm = TRUE)
+   scale * x / sum(x, na.rm = TRUE)
 }
-
-#' @export
-#' @rdname rescale_vector
-adjustAge <- rescale_vector
 
 #' @title Determine whether a year is a leap year.
 #'
@@ -151,7 +143,7 @@ ypart           <-
            detect.mid.year = TRUE,
            detect.start.end = TRUE) {
     M           <- c(0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334)
-    
+
     if (detect.mid.year) {
       .d        <- as.integer(Day)
       .m        <- as.integer(Month)
@@ -159,7 +151,7 @@ ypart           <-
         return(.5)
       }
     }
-    
+
     if (detect.start.end) {
       .d        <- as.integer(Day)
       .m        <- as.integer(Month)
@@ -170,12 +162,12 @@ ypart           <-
         return(1)
       }
     }
-    
+
     monthdur    <- diff(c(M, 365))
     monthdur[2] <- monthdur[2] + is_LeapYear(Year)
     M           <- cumsum(monthdur) - 31
     return((M[Month] + Day) / sum(monthdur))
-    
+
   }
 
 
@@ -250,12 +242,12 @@ ratx   <- function(fx, k = 1) {
 #' @export
 getModelLifeTable <- function(ModelName, Sex) {
   Sex             <- toupper(substr(Sex, 1, 1))
-  
+
   stopifnot(Sex %in% c("M", "F"))
   stopifnot(ModelName == "coale-demeny west")
-  
+
   outputLT        <- demogR::cdmltw(sex = Sex)
-  
+
   return(outputLT)
 }
 

@@ -2,7 +2,6 @@
 % Please edit documentation in R/check_heaping.R
 \name{check_heaping_roughness}
 \alias{check_heaping_roughness}
-\alias{five_year_roughness}
 \title{Evaluate roughness of data in 5-year age groups}
 \usage{
 check_heaping_roughness(
@@ -11,8 +10,6 @@ check_heaping_roughness(
   ageMin = 20,
   ageMax = max(Age[Age\%\%5 == 0])
 )
-
-five_year_roughness(Value, Age, ageMin = 20, ageMax = max(Age[Age\%\%5 == 0]))
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}
@@ -54,7 +51,7 @@ h5 <- heapify(smoothed, Age, p0 = 2.5, p5 = 2)
 \dontrun{
 #cols <- RColorBrewer::brewer.pal(7,"Reds")[3:7]
  cols <-  c("#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#99000D")
- 
+
 	plot(A5, groupAges(smoothed), type='l',xlim=c(20,80),ylim=c(0,3e5))
 lines(A5, groupAges(h1),col=cols[1])
 	lines(A5, groupAges(h2),col=cols[2])

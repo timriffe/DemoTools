@@ -2,12 +2,9 @@
 % Please edit documentation in R/check_heaping.R
 \name{check_heaping_noumbissi}
 \alias{check_heaping_noumbissi}
-\alias{Noumbissi}
 \title{calculate Noumbissi's digit heaping index}
 \usage{
 check_heaping_noumbissi(Value, Age, ageMin = 20, ageMax = 64, digit = 0)
-
-Noumbissi(Value, Age, ageMin = 20, ageMax = 64, digit = 0)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}

@@ -2,12 +2,9 @@
 % Please edit documentation in R/graduate.R
 \name{graduate_mono}
 \alias{graduate_mono}
-\alias{splitMono}
 \title{Graduate age groups using a monotonic spline.}
 \usage{
 graduate_mono(Value, AgeInt, Age, OAG = TRUE)
-
-splitMono(Value, AgeInt, Age, OAG = TRUE)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}

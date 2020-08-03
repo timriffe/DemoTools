@@ -2,12 +2,9 @@
 % Please edit documentation in R/graduate.R
 \name{graduate_beers}
 \alias{graduate_beers}
-\alias{beers}
 \title{The ordinary modified Beers splitting methods}
 \usage{
 graduate_beers(Value, Age, AgeInt, OAG = TRUE, method = "mod", johnson = FALSE)
-
-beers(Value, Age, AgeInt, OAG = TRUE, method = "mod", johnson = FALSE)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}

@@ -1,8 +1,8 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.06.01
-Date: 2020-05-04
+Version: 01.07.000
+Date: 2020-07-26
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
           email = "tim.riffe@gmail.com", comment = c(ORCID = "0000-0002-2673-4622")),
@@ -19,7 +19,7 @@ Description: A collection of classic demographic methods used to evaluate, adjus
 License: file LICENSE
 LazyLoad: yes
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Depends:
     R (>= 3.6),
     Rcpp

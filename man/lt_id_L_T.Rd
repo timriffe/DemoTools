@@ -2,12 +2,9 @@
 % Please edit documentation in R/lt_id.R
 \name{lt_id_L_T}
 \alias{lt_id_L_T}
-\alias{Lx2Tx}
 \title{Derive lifetable total person years left to live from exposure.}
 \usage{
 lt_id_L_T(Lx)
-
-Lx2Tx(Lx)
 }
 \arguments{
 \item{Lx}{numeric. Vector of lifetable exposure.}

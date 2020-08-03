@@ -2,20 +2,9 @@
 % Please edit documentation in R/nAx.R
 \name{lt_a_closeout}
 \alias{lt_a_closeout}
-\alias{aomegaMortalityLaws}
 \title{Life expectancy in the open age group.}
 \usage{
 lt_a_closeout(
-  mx,
-  Age,
-  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
-    "beard_makeham", "quadratic"),
-  extrapFrom = max(Age),
-  extrapFit = Age[Age >= 40],
-  ...
-)
-
-aomegaMortalityLaws(
   mx,
   Age,
   law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",

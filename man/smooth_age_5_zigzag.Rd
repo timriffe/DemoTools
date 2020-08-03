@@ -2,18 +2,9 @@
 % Please edit documentation in R/smooth_age_5.R
 \name{smooth_age_5_zigzag}
 \alias{smooth_age_5_zigzag}
-\alias{zigzag_smth}
 \title{G. Feeney's method of smoothing counts in 5-year age groups.}
 \usage{
 smooth_age_5_zigzag(
-  Value,
-  Age,
-  OAG = TRUE,
-  ageMin = 40,
-  ageMax = max(Age) - max(Age)\%\%10 - 5
-)
-
-zigzag_smth(
   Value,
   Age,
   OAG = TRUE,

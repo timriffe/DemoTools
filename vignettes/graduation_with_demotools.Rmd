@@ -203,7 +203,7 @@ pop1resc <- rescaleAgeGroups(Value1 = pop1,
 					AgeInt1 = AgeIntRandom,
 					Value2 = pop2, 
 					AgeInt2 = AgeInt5, 
-					splitfun = splitUniform, 
+					splitfun = graduate_uniform, 
                  recursive = TRUE)
 pop1resc
 

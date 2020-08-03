@@ -2,12 +2,9 @@
 % Please edit documentation in R/smooth_age_5.R
 \name{smooth_age_5_feeney}
 \alias{smooth_age_5_feeney}
-\alias{T9R5L}
 \title{Feeney'S formula on 9 years to correct for heaping on multiples of 5.}
 \usage{
 smooth_age_5_feeney(Value, Age, maxit = 200, OAG = FALSE)
-
-T9R5L(Value, Age, maxit = 200, OAG = FALSE)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in single age groups.}
