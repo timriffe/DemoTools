@@ -76,7 +76,7 @@ jobs:
 
       - name: "Set CRAN repo in .Rprofile"
         run: echo "options(repos = c(CRAN = 'https://cran.rstudio.com'))" >.Rprofile
-
+          
       - name: "Install XQuartz on macOS"
         if: runner.os == 'macOS'
         run: brew cask install xquartz
@@ -109,10 +109,11 @@ jobs:
           sudo apt install ccache libcurl4-openssl-dev
           mkdir -p ~/.R && echo -e 'CC=ccache gcc -std=gnu99\nCXX=ccache g++\nFC=ccache gfortran\nF77=ccache gfortran' > $HOME/.R/Makevars
 
-      - name: "[Linux] rgl external software"
+      # This is for rgl and x8
+      - name: "[Linux] external software"
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get install libglu1-mesa-dev
+          sudo apt-get install libglu1-mesa-dev libv8-dev
 
       # install ccache and write config file
       # mirror the setup described in https://github.com/rmacoslib/r-macos-rtools
