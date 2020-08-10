@@ -35,7 +35,7 @@ shhh(load_all())
 
 # usethis::use_build_ignore(c("docs"))
 # do this whenever major changes happen
-devtools::check(force_suggests = TRUE, manual = FALSE)
+devtools::check(force_suggests = TRUE)
 
   #build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
 #?devtools::build
@@ -69,18 +69,6 @@ versionIncrement(
 		minor = FALSE,        # whenever documentation renewed, any patch, tweak, or fix
 		maxdigits = c(2,2,3), # maybe 4 required?
 		README = TRUE)  
-# -----------------------------------------
-# visualize function dependencies in DemoTools
-#install.packages("yaml")
-#install.packages("visNetwork")
-#devtools::install_github("datastorm-open/DependenciesGraphs")
-library(DependenciesGraphs)
-
-library(DemoTools) # The package we want to explore
-# before tinkering with an older function, note which functions depend on it
-deps <- funDependencies("package:DemoTools","inferAgeIntAbr")
-plot(deps)
-
 
 # for setting options
 #candidates <- c( Sys.getenv("R_PROFILE"),
@@ -92,3 +80,20 @@ plot(deps)
 
 # NOTE TO SELF
 # try goodpractice package
+
+# Extra once-off checks
+
+# checks run Aug 13, 2018
+check_win_devel()      # OK
+check_win_release()    # OK
+check_win_oldrelease() # OK
+
+check_rhub(email = "tim.riffe@gmail.com", interactive = FALSE)  # sent
+
+library(spelling)
+spell_check()
+
+# for notable moments of stability and cleanliness:
+release()
+
+

@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -43,10 +47,8 @@
 
 
 <meta property="og:title" content="Index of relative difference. — IRD" />
-<meta property="og:description" content="Calculate the relative percent difference between two population structures. A returned
-value of zero means that the two population have identical structure." />
+<meta property="og:description" content="Calculate the relative percent difference between two population structures. A returned value of zero means that the two population have identical structure." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -64,7 +66,7 @@ value of zero means that the two population have identical structure." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -78,7 +80,7 @@ value of zero means that the two population have identical structure." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.06.02</span>
       </span>
     </div>
 
@@ -152,16 +154,15 @@ value of zero means that the two population have identical structure." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Index of relative difference.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/timriffe/DemoTools/blob/master/R/IRDID.R'><code>R/IRDID.R</code></a></small>
     <div class="hidden name"><code>IRD.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate the relative percent difference between two population structures. A returned
-value of zero means that the two population have identical structure.</p>
+    <p>Calculate the relative percent difference between two population structures. A returned value of zero means that the two population have identical structure.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>IRD</span>(<span class='no'>pop1</span>, <span class='no'>pop2</span>)</pre>
+    <pre class="usage"><span class='fu'>IRD</span>(<span class='no'>pop1</span>, <span class='no'>pop2</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,6 +175,10 @@ value of zero means that the two population have identical structure.</p>
       <th>pop2</th>
       <td><p>numeric. Vector of counts from population 2.</p></td>
     </tr>
+    <tr>
+      <th>log</th>
+      <td><p>logical. Default <code>FALSE</code>. Shall we take the mean of the natural log of ratios?</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -181,11 +186,8 @@ value of zero means that the two population have identical structure.</p>
     <p>The value of the index ranging from 0 to infinity.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Input populations are assumed to be ordered in the same way prior to calling the function.
-It is only checked  that the vectors are of the same length. The input arguments could indeed be populations structured on multiple
-variables (more than just age), as long as they are ordered in the same way. It is advised to lower
-the open age group for this method because each age has the same weight. Ages where one population
-has a zero count and the other does not are thrown out.</p>
+    <p>Input populations are assumed to be ordered in the same way prior to calling the function. It is only checked  that the vectors are of the same length. The input arguments could indeed be populations structured on multiple variables (more than just age), as long as they are ordered in the same way. It is advised to lower the open age group for this method because each age has the same weight. Ages where one population has a zero count and the other does not are thrown out.</p>
+<p>If <code>log = TRUE</code> then we return a simple mean of the absolute of the log of the element-wise ratios between <code>pop1</code> and <code>pop2</code>. In this case it doesn't matter which vector is which. This result is also on a percent scale, and the max is greater than 100.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>pop1</span>                     <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7.38</span>,<span class='fl'>14.16</span>,<span class='fl'>14.79</span>,<span class='fl'>17.36</span>,<span class='fl'>15.11</span>,<span class='fl'>10.14</span>,<span class='fl'>8.50</span>,<span class='fl'>7.28</span>,<span class='fl'>5.28</span>)
@@ -195,25 +197,20 @@ has a zero count and the other does not are thrown out.</p>
 <span class='fu'>IRD</span>(<span class='no'>pop1</span>, <span class='no'>pop3</span>)     <span class='co'># theoretical max &gt; 100</span></div><div class='output co'>#&gt; [1] 116.242</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Marius D. Pascariu, Monica Alexander, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

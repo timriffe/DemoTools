@@ -2,12 +2,9 @@
 % Please edit documentation in R/graduate.R
 \name{graduate_grabill}
 \alias{graduate_grabill}
-\alias{grabill}
 \title{The basic Grabill age-splitting method}
 \usage{
 graduate_grabill(Value, Age, OAG = TRUE)
-
-grabill(Value, Age, OAG = TRUE)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}

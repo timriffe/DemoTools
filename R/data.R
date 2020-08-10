@@ -24,7 +24,7 @@
 #' Indian male population 1991
 #'
 #' Indian male population 1991
-#'
+#' @docType data
 #' @format
 #'   A numeric vector of length 101
 #'
@@ -38,7 +38,7 @@
 #' Matrix of population over 5 years
 #'
 #' Matrix of population over 5 years, 5 year age groups, some population 1950-1954
-#'
+#' @docType data
 #' @format
 #'   A matrix of 21 rows and 5 columns
 #'
@@ -51,7 +51,7 @@
 #' Male population by 5 year age groups
 #'
 #' Male population by 5 year age groups from PASEX AGESMTH
-#'
+#' @docType data
 #' @format
 #'   A numeric vector of length 17
 #'
@@ -64,7 +64,7 @@
 #' Male population by 1 year age groups
 #'
 #' Male population by 1 year age groups from PASEX SINGAGE
-#'
+#' @docType data
 #' @format
 #'   A numeric vector of length 100
 #'
@@ -77,7 +77,7 @@
 #' Deaths by 5 year age groups
 #'
 #' Deaths by 5 year age groups in South Africa 1997, from Feeney Zigzag 2013
-#'
+#' @docType data
 #' @format
 #'   A numeric vector of length 20
 #'
@@ -91,7 +91,7 @@
 #' Abridged population from PAS AGEINT -- earlier
 #'
 #' Abridged population from PAS AGEINT -- earlier, 1980
-#'
+#' @docType data
 #' @format
 #'   A numeric vector of length 18
 #'
@@ -104,7 +104,7 @@
 #' Abridged population from PAS AGEINT -- later
 #'
 #' Abridged population from PAS AGEINT -- later, 1990
-#'
+#' @docType data
 #' @format
 #'   A numeric vector of length 18
 #'
@@ -115,11 +115,11 @@
 
 
 # model life tables --fitted LogQuad models -------------------------------
-
+ 
 #' LogQuad model for BOTH SEX fitted for all HMD life tables
 #'
 #' LogQuad model fitted using \code{MortalityEstimate::wilmoth} for all BOTH SEX period life tables present in Human Mortality Database (\url{https://mortality.org}) in December 2019 (968 life tables). Object of class \code{wilmoth}.
-#'
+#' @docType data
 #' @format
 #'   List of 6:
 #'   \describe{
@@ -138,7 +138,7 @@
 #' LogQuad model for FEMALES fitted for all HMD life tables
 #'
 #' LogQuad model fitted using \code{MortalityEstimate::wilmoth} for all FEMALE period life tables present in Human Mortality Database (\url{https://mortality.org}) in December 2019 (968 life tables). Object of class \code{wilmoth}.
-#'
+#' @docType data
 #' @format
 #'   List of 6:
 #'   \describe{
@@ -153,11 +153,11 @@
 #'   Human Mortality Database [Portal]. Retrieved 2019-11-28, from 
 #'   \url{https://mortality.org}
 "fitted_logquad_f"
-
+#' 
 #' LogQuad model for MALES fitted for all HMD life tables
 #'
 #' LogQuad model fitted using \code{MortalityEstimate::wilmoth} for all MALE period life tables present in Human Mortality Database (\url{https://mortality.org}) in December 2019 (968 life tables). Object of class \code{wilmoth}.
-#'
+#' @docType data
 #' @format
 #'   List of 6:
 #'   \describe{

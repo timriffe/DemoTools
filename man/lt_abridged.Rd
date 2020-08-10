@@ -2,15 +2,14 @@
 % Please edit documentation in R/lt_abridged.R
 \name{lt_abridged}
 \alias{lt_abridged}
-\alias{LTabr}
 \title{Calculate an abridged-age lifetable.}
 \usage{
 lt_abridged(
-  Deaths,
-  Exposures,
-  nMx,
-  nqx,
-  lx,
+  Deaths = NULL,
+  Exposures = NULL,
+  nMx = NULL,
+  nqx = NULL,
+  lx = NULL,
   Age,
   AgeInt = age2int(Age = Age, OAvalue = 5),
   radix = 1e+05,
@@ -21,33 +20,10 @@ lt_abridged(
   mod = TRUE,
   OAG = TRUE,
   OAnew = max(Age),
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
-    "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "Ggompertz",
+    "Beard", "Beard_Makeham", "Quadratic"),
   extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60],
-  ...
-)
-
-LTabr(
-  Deaths,
-  Exposures,
-  nMx,
-  nqx,
-  lx,
-  Age,
-  AgeInt = age2int(Age = Age, OAvalue = 5),
-  radix = 1e+05,
-  axmethod = "pas",
-  Sex = "m",
-  region = "w",
-  IMR = NA,
-  mod = TRUE,
-  OAG = TRUE,
-  OAnew = max(Age),
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
-    "Beard", "Beard_Makeham", "Quadratic")[1],
-  extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60],
+  extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
   ...
 )
 }
@@ -109,26 +85,26 @@ Lifetable in data.frame with columns
 }
 }
 \description{
-Given vectors for Deaths and Exposures, or Mx, or qx, or lx, 
+Given vectors for Deaths and Exposures, or Mx, or qx, or lx,
 calculate a full abridged lifetable.
 }
 \details{
-The main variations here are in the treatment of \code{nAx}. 
-In all cases, the lifetable is extended and closed out using one from a 
+The main variations here are in the treatment of \code{nAx}.
+In all cases, the lifetable is extended and closed out using one from a
 selection of mortality age extrapolation methods implemented in the
- \code{MortalityLaws} package rather than the common practice of taking 
- the inverse of the final \code{nMx} value (if it's an open interval). 
- For this, a desired open age must be specified, defaulting to the present 
- open age group, but which can not exceed 110 in the present implementation. 
- By default, the extrapolation model is fit to ages 60 and higher, but you 
- can control this using the \code{extrapFit} argument (give the vector of ages, 
- which must be a subset of \code{Age}). By default extrapolated values are used 
- starting with the input open age, but you can lower this age using the 
- \code{extrapFrom} argument. The \code{Sx} output column (survivor ratios) 
- is aligned with the other columns in all 5-year age groups, but note the 
- first two values have a slightly different age-interval interpretation: 
- In Age 0, the interpretation is survival from birth until interval 0-4. 
- In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align. 
+ \code{MortalityLaws} package rather than the common practice of taking
+ the inverse of the final \code{nMx} value (if it's an open interval).
+ For this, a desired open age must be specified, defaulting to the present
+ open age group, but which can not exceed 110 in the present implementation.
+ By default, the extrapolation model is fit to ages 60 and higher, but you
+ can control this using the \code{extrapFit} argument (give the vector of ages,
+ which must be a subset of \code{Age}). By default extrapolated values are used
+ starting with the input open age, but you can lower this age using the
+ \code{extrapFrom} argument. The \code{Sx} output column (survivor ratios)
+ is aligned with the other columns in all 5-year age groups, but note the
+ first two values have a slightly different age-interval interpretation:
+ In Age 0, the interpretation is survival from birth until interval 0-4.
+ In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align.
  This column is required for population projections.
 }
 \examples{

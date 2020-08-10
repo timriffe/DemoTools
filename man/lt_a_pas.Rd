@@ -2,12 +2,9 @@
 % Please edit documentation in R/nAx.R
 \name{lt_a_pas}
 \alias{lt_a_pas}
-\alias{axPAS}
 \title{PAS a(x) rule of thumb.}
 \usage{
 lt_a_pas(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE)
-
-axPAS(nMx, AgeInt, IMR = NA, Sex = "m", region = "w", OAG = TRUE)
 }
 \arguments{
 \item{nMx}{numeric. Event exposure mortality rates.}

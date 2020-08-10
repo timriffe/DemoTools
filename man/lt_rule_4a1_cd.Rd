@@ -2,12 +2,9 @@
 % Please edit documentation in R/nAx.R
 \name{lt_rule_4a1_cd}
 \alias{lt_rule_4a1_cd}
-\alias{geta1_4CD}
 \title{Coale-Demeny 4a1 as function of M(0), region, and sex.}
 \usage{
 lt_rule_4a1_cd(M0, IMR = NA, Sex = "m", region = "w")
-
-geta1_4CD(M0, IMR = NA, Sex = "m", region = "w")
 }
 \arguments{
 \item{M0}{numeric. Event exposure infant mortality rate.}

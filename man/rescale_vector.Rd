@@ -2,12 +2,9 @@
 % Please edit documentation in R/utils.R
 \name{rescale_vector}
 \alias{rescale_vector}
-\alias{adjustAge}
 \title{Rescale a vector proportionally to a new sum.}
 \usage{
 rescale_vector(x, scale = 1)
-
-adjustAge(x, scale = 1)
 }
 \arguments{
 \item{x}{numeric vector.}

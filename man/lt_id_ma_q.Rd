@@ -2,21 +2,9 @@
 % Please edit documentation in R/lt_id.R
 \name{lt_id_ma_q}
 \alias{lt_id_ma_q}
-\alias{lt_id_m_q}
-\alias{mxax2qx}
-\alias{mx2qx}
-\alias{mxax2qx_Backstop}
 \title{Calculate conditional death probabilities from nMx and nax}
 \usage{
 lt_id_ma_q(nMx, nax, AgeInt, closeout = TRUE, IMR)
-
-lt_id_m_q(nMx, nax, AgeInt, closeout = TRUE, IMR)
-
-mxax2qx(nMx, nax, AgeInt, closeout = TRUE, IMR)
-
-mx2qx(nMx, nax, AgeInt, closeout = TRUE, IMR)
-
-mxax2qx_Backstop(nMx, nax, AgeInt, closeout = TRUE, IMR)
 }
 \arguments{
 \item{nMx}{numeric. Vector of mortality rates in abridged age classes.}

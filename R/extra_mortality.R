@@ -58,6 +58,7 @@
 #' f8 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "quadratic")
 #'
 #' # Plot the results
+#' \dontrun{
 #' par(mfrow = c(1, 2))
 #' plot(x, mx, pch = 16, xlim = c(60, 110), ylim = c(0, 0.6), cex = 1.5)
 #' points(x_fit, mx[paste(x_fit)], pch = 16, col = 4, cex = 1.5)
@@ -76,7 +77,7 @@
 #'                   "Makeham", "Beard", "Beard-Makeham", "Quadratic"),
 #'        lty = c(NA, NA, 1:8), pch = c(16, 16, rep(NA, 8)),
 #'        col = c(1, 4, 2:9), lwd = 2, pt.cex = 2)
-#'
+#'}
 #'
 #' # ----------------------------------------------
 #' # Example 2 - 1-year age data
@@ -103,6 +104,7 @@
 #' g8 <- lt_rule_m_extrapolate(mx1, x1, x_fit, x_extr, law = "quadratic")
 #'
 #' # Plot
+#' \dontrun{
 #' plot(x1, mx1, log = "y", ylim = c(0.001, 5),
 #'      pch = 16, xlim = c(65, 125), cex = 1.3)
 #' points(x_fit, mx1[paste(x_fit)], pch = 16, col = 4, cex = 1.5)
@@ -121,7 +123,7 @@
 #'                   "Makeham", "Beard", "Beard-Makeham", "Quadratic"),
 #'        lty = c(NA, NA, 1:8), pch = c(16, 16, rep(NA, 8)),
 #'        col = c(1, 4, 2:9), lwd = 2, pt.cex = 2)
-#'
+#'}
 #' # ----------------------------------------------
 #' # Example 3 - Extrapolate mortality for multiple years at once
 #'
@@ -136,30 +138,26 @@
 #' @author Marius D. Pascariu <rpascariu@@outlook.com>
 #' @export
 lt_rule_m_extrapolate <- function(mx,
-                            x,
-                            x_fit = x,
-                            x_extr,
-                            law = c(
-                              "kannisto",
-                              "kannisto_makeham",
-                              "gompertz",
-                              "ggompertz",
-                              "makeham",
-                              "beard",
-                              "beard_makeham",
-                              "quadratic"
-                            ),
-                            opt.method = c("LF2", "LF1", "LF3",
-                                           "LF4", "LF5", "LF6",
-                                           "poissonL", "binomialL"),
-                            ...) {
-  if (as.character(match.call()[[1]]) == "extra.mortality") {
-    warning("please use lt_rule_m_extrapolate() instead of extra_mortality().", call. = FALSE)
-  }
-  
+                                  x,
+                                  x_fit = x,
+                                  x_extr,
+                                  law = c("kannisto",
+                                          "kannisto_makeham",
+                                          "makeham",
+                                          "gompertz",
+                                          "ggompertz",
+                                          "beard",
+                                          "beard_makeham",
+                                          "quadratic"
+                                          ),
+                                  opt.method = c("LF2", "LF1", "LF3",
+                                                 "LF4", "LF5", "LF6",
+                                                 "poissonL", "binomialL"),
+                                  ...) {
+
   # Save the input
   input <- as.list(environment())
-  
+
   # Fit the mortality model
   M <- MortalityLaw(
     x = x,
@@ -169,23 +167,23 @@ lt_rule_m_extrapolate <- function(mx,
     opt.method = match.arg(opt.method),
     ...
   )
-  
+
   pv <- predict(object = M,
                 x = x_extr)
-  
+
   # which ages are not to be replaced with fitted values?
   L  <- !(x %in% x_extr)
-  
+
   # Create the output object
   if (is.vector(mx)) {
     names(mx)    <- x
     values       <- c(mx[L], pv)
-    
+
   } else {
     rownames(mx) <- x
     values       <- rbind(mx[L, ], pv)
   }
-  
+
   # Exit
   out <- list(
     input = input,
@@ -196,32 +194,29 @@ lt_rule_m_extrapolate <- function(mx,
   out <- structure(class = "lt_rule_m_extrapolate", out)
   return(out)
 }
-#' @export
-#' @rdname lt_rule_m_extrapolate
-extra.mortality <- lt_rule_m_extrapolate
 
 
 # Not used internally, so deprecating without notice
-#' #' Print function for extra_mortality method
-#' #' @param x An object of the class \code{"extra_mortality"}.
-#' #' @param ... Further arguments passed to or from other methods.
-#' #' @keywords internal
-#' #' @export
-#' print.extra_mortality <- function(x, ...) {
-#'   info <- as.matrix(x$fitted.model$info$model.info[, c(2, 3)])
-#'   message(paste(info, collapse = " model: "))
-#'   message("\nAges in input:", paste(range(x$input$x), collapse = " - "))
-#'   message("\nAges in fit  :", paste(range(x$input$x_fit), collapse = " - "))
-#'   message("\nAges in extrapolation:", paste(range(x$input$x_extr), collapse = " - "))
-#' }
-#' 
-#' 
-#' #' coef function for extra_mortality method
-#' #' @param object An object of the class \code{"extra_mortality"}.
-#' #' @inheritParams print.extra_mortality
-#' #' @aliases coefficients.extra_mortality
-#' #' @keywords internal
-#' #' @export
-#' coef.extra_mortality <- function(object, ...) {
-#'   coef(object$fitted.model)
-#' }
+# #' Print function for extra_mortality method
+# #' @param x An object of the class \code{"extra_mortality"}.
+# #' @param ... Further arguments passed to or from other methods.
+# #' @keywords internal
+# #' @export
+# print.extra_mortality <- function(x, ...) {
+#   info <- as.matrix(x$fitted.model$info$model.info[, c(2, 3)])
+#   message(paste(info, collapse = " model: "))
+#   message("\nAges in input:", paste(range(x$input$x), collapse = " - "))
+#   message("\nAges in fit  :", paste(range(x$input$x_fit), collapse = " - "))
+#   message("\nAges in extrapolation:", paste(range(x$input$x_extr), collapse = " - "))
+# }
+#
+#
+# #' coef function for extra_mortality method
+# #' @param object An object of the class \code{"extra_mortality"}.
+# #' @inheritParams print.extra_mortality
+# #' @aliases coefficients.extra_mortality
+# #' @keywords internal
+# #' @export
+# coef.extra_mortality <- function(object, ...) {
+#   coef(object$fitted.model)
+# }

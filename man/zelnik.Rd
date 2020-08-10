@@ -4,12 +4,12 @@
 \alias{zelnik}
 \title{Zelnik 11-term moving average to adjust for digit preference.}
 \usage{
-zelnik(Value, q, Age)
+zelnik(Value, p, Age)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in single age groups.}
 
-\item{q}{integer. Perturbation vector used, 1 or 2. Default 1.}
+\item{p}{integer. Perturbation vector used, 1 or 2. Default 1.}
 
 \item{Age}{integer. Vector of lower bound of age classes.}
 }
@@ -51,7 +51,7 @@ perturb <- function(x, pert = 0, pos = 45){
 	x[pos] <- x[pos] + pert
 	x
 }
- q1_answer <- c(rep(NA,10),1151172,1077888,982103,891354,
+ p1_answer <- c(rep(NA,10),1151172,1077888,982103,891354,
  		828173,762583,718528,649206,579004,535521,552769,572789,
  		543715,504766,456185,484627,516545,487585,458525,437117,
  		442480,456052,440706,415651,400515,403565,409668,402329,
@@ -60,7 +60,7 @@ perturb <- function(x, pert = 0, pos = 45){
  		208499,191717,173916,173882,172936,176417,158124,138487,
  		141009,142779,145479,rep(NA,11))
 
- q2_answer <- c(rep(NA,15),769826,711733,663995,623069,
+ p2_answer <- c(rep(NA,15),769826,711733,663995,623069,
  		584797,552352,530538,515578,505073,497808,489977,479740,
  		469326,460446,454699,449240,439744,429856,422980,419200,
  		414487,403537,389871,378716,370274,361289,348796,334849,
@@ -70,21 +70,21 @@ perturb <- function(x, pert = 0, pos = 45){
  \dontrun{
  	# using census as given in table. Symmetry makes TR suspect this
  	# is due to a single value. Trial and error ensued.
- plot(Age,zelnik(Pop,1,Age) - q1_answer,xlim=c(32,54),type='l')
+ plot(Age,zelnik(Pop,1,Age) - p1_answer,xlim=c(32,54),type='l')
      # change value of age 44 by removing 40 individuals. Suspected
  	# error in original table (or in value used by original authors to carry out calcs)
  	# 54995 now is 54955, and we get a match.
- lines(Age,round(zelnik(perturb(Pop,-40,45),1,Age)) - q1_answer, col = "blue")
+ lines(Age,round(zelnik(perturb(Pop,-40,45),1,Age)) - p1_answer, col = "blue")
 
- # that the same adjustment works for q2 makes me suspect that the error
+ # that the same adjustment works for p2 makes me suspect that the error
  # is indeed in the value given for the census count at age 44.
- plot(Age,round(zelnik(Pop,2,Age)) - q2_answer,xlim=c(30,55),type='l')
- lines(Age,round(zelnik(perturb(Pop,-40, 45), 2, Age)) - q2_answer, col = "blue")
+ plot(Age,round(zelnik(Pop,2,Age)) - p2_answer,xlim=c(30,55),type='l')
+ lines(Age,round(zelnik(perturb(Pop,-40, 45), 2, Age)) - p2_answer, col = "blue")
  }
  # we use this for the de facto unit test:
 
-d1 <- round(zelnik(perturb(Pop,-40,45),1,Age)) - q1_answer
-d2 <- round(zelnik(perturb(Pop,-40,45),2,Age)) - q2_answer
+d1 <- round(zelnik(perturb(Pop,-40,45),1,Age)) - p1_answer
+d2 <- round(zelnik(perturb(Pop,-40,45),2,Age)) - p2_answer
 stopifnot(all(d1[!is.na(d1)] == 0))
 stopifnot(all(d2[!is.na(d2)] == 0))
 }

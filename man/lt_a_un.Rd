@@ -2,7 +2,6 @@
 % Please edit documentation in R/nAx.R
 \name{lt_a_un}
 \alias{lt_a_un}
-\alias{axUN}
 \title{UN a(x) estimates from either M(x), q(x), or both}
 \usage{
 lt_a_un(
@@ -17,27 +16,8 @@ lt_a_un(
   tol = .Machine$double.eps,
   maxit = 1000,
   mod = TRUE,
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
-    "Beard", "Beard_Makeham", "Quadratic")[1],
-  extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60],
-  ...
-)
-
-axUN(
-  nMx,
-  nqx,
-  lx,
-  IMR = NA,
-  Age,
-  AgeInt,
-  Sex = "m",
-  region = "w",
-  tol = .Machine$double.eps,
-  maxit = 1000,
-  mod = TRUE,
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
-    "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "Ggompertz",
+    "Beard", "Beard_Makeham", "Quadratic"),
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...
@@ -108,11 +88,11 @@ nAx2       <- lt_a_un(nMx = Mx,
 				          region = "w",
 		                mod = TRUE)
 # this is acceptable...
-round(nAx2,3) - ax # only different in ages 5-9 and 10-14, and open age
+round(nAx2,3) - ax # only different in ages 5-9 and 10-14, and last two ages
 # ignore open age, which is treated differently
 N <- length(ax)
 # default unit test...
-stopifnot(all(round(nAx1[-N],3) - ax[-N] == 0)) # spot on
+stopifnot(all(round(nAx1[Age<80],3) - ax[Age<80] == 0)) # spot on
 }
 \references{
 \insertRef{greville1977short}{DemoTools}

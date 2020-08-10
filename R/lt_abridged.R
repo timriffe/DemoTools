@@ -2,25 +2,25 @@
 ###############################################################################
 
 #' Calculate an abridged-age lifetable.
-#' @description Given vectors for Deaths and Exposures, or Mx, or qx, or lx, 
+#' @description Given vectors for Deaths and Exposures, or Mx, or qx, or lx,
 #' calculate a full abridged lifetable.
 #'
-#' @details The main variations here are in the treatment of \code{nAx}. 
-#' In all cases, the lifetable is extended and closed out using one from a 
+#' @details The main variations here are in the treatment of \code{nAx}.
+#' In all cases, the lifetable is extended and closed out using one from a
 #' selection of mortality age extrapolation methods implemented in the
-#'  \code{MortalityLaws} package rather than the common practice of taking 
-#'  the inverse of the final \code{nMx} value (if it's an open interval). 
-#'  For this, a desired open age must be specified, defaulting to the present 
-#'  open age group, but which can not exceed 110 in the present implementation. 
-#'  By default, the extrapolation model is fit to ages 60 and higher, but you 
-#'  can control this using the \code{extrapFit} argument (give the vector of ages, 
-#'  which must be a subset of \code{Age}). By default extrapolated values are used 
-#'  starting with the input open age, but you can lower this age using the 
-#'  \code{extrapFrom} argument. The \code{Sx} output column (survivor ratios) 
-#'  is aligned with the other columns in all 5-year age groups, but note the 
-#'  first two values have a slightly different age-interval interpretation: 
-#'  In Age 0, the interpretation is survival from birth until interval 0-4. 
-#'  In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align. 
+#'  \code{MortalityLaws} package rather than the common practice of taking
+#'  the inverse of the final \code{nMx} value (if it's an open interval).
+#'  For this, a desired open age must be specified, defaulting to the present
+#'  open age group, but which can not exceed 110 in the present implementation.
+#'  By default, the extrapolation model is fit to ages 60 and higher, but you
+#'  can control this using the \code{extrapFit} argument (give the vector of ages,
+#'  which must be a subset of \code{Age}). By default extrapolated values are used
+#'  starting with the input open age, but you can lower this age using the
+#'  \code{extrapFrom} argument. The \code{Sx} output column (survivor ratios)
+#'  is aligned with the other columns in all 5-year age groups, but note the
+#'  first two values have a slightly different age-interval interpretation:
+#'  In Age 0, the interpretation is survival from birth until interval 0-4.
+#'  In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align.
 #'  This column is required for population projections.
 #'
 #' @param Deaths numeric. Vector of death counts in abridged age classes.
@@ -155,11 +155,11 @@
 #' 		mod = FALSE,
 #' 		OAnew = 60)
 
-lt_abridged <- function(Deaths,
-                  Exposures,
-                  nMx,
-                  nqx,
-                  lx,
+lt_abridged <- function(Deaths = NULL,
+                  Exposures = NULL,
+                  nMx = NULL,
+                  nqx = NULL,
+                  lx = NULL,
                   Age,
                   AgeInt = age2int(Age = Age, OAvalue = 5),
                   radix = 1e5,
@@ -170,26 +170,22 @@ lt_abridged <- function(Deaths,
                   mod = TRUE,
                   OAG = TRUE,
                   OAnew = max(Age),
-                  extrapLaw = c(
-                    "Kannisto",
-                    "Kannisto_Makeham",
-                    "Makeham",
-                    "Gompertz",
-                    "GGompertz",
-                    "Beard",
-                    "Beard_Makeham",
-                    "Quadratic"
-                  )[1],
+                  extrapLaw = c("Kannisto",
+                                "Kannisto_Makeham",
+                                "Makeham",
+                                "Gompertz",
+                                "Ggompertz",
+                                "Beard",
+                                "Beard_Makeham",
+                                "Quadratic"
+                                ),
                   extrapFrom = max(Age),
-                  extrapFit = Age[Age >= 60],
+                  extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
                   ...) {
-  if (as.character(match.call()[[1]]) == "LTabr") {
-    warning("please use lt_abridged() instead of LTabr().", call. = FALSE)
-  }
-  
+
   # ages must be abridged.
   stopifnot(is_abridged(Age))
-  
+
   # now overwriting raw nMx is allowed by lowering this
   # arbitrary lower bound to accept the fitted model. Really
   # this functionality is intended for extrapolation and not
@@ -198,86 +194,97 @@ lt_abridged <- function(Deaths,
   # TR: should we really be this strict?
   stopifnot(OAnew <= 110)
   # need to make it possible to start w (D,E), M, q or l...
-  
-  # 1) if lx given but not qx:
-  if (missing(nqx) & !missing(lx)) {
+
+  # TR: make sure IMR propagates
+  imr_flag <- !is.na(IMR)
+  # and use more consistent flags
+  mxflag   <- !is.null(nMx)
+  qxflag   <- !is.null(nqx)
+  # 1) if lx given but not qx:9
+  if ((!qxflag) & (!is.null(lx))) {
     nqx          <- lt_id_l_d(lx) / lx
+    nqx[1]       <- ifelse(imr_flag, IMR, nqx[1])
+    qxflag       <- TRUE
   }
   # 2) if still no nqx then make sure we have or can get nMx
-  if (missing(nqx) & missing(nMx)) {
-    stopifnot((!missing(Deaths)) & (!missing(Exposures)))
+  if ((!qxflag) & (!mxflag)) {
+    stopifnot((!is.null(Deaths)) & (!is.null(Exposures)))
     nMx          <- Deaths / Exposures
+    mxflag       <- TRUE
   }
-  
+
   axmethod       <- tolower(axmethod)
   Sex            <- tolower(Sex)
   region         <- tolower(region)
   extrapLaw      <- tolower(extrapLaw)
-  
+
   # take care of ax first, two ways presently
-  if (missing(nMx)) {
+  if (!mxflag) {
+    nqx[1]       <- ifelse(imr_flag, IMR, nqx[1])
+
     # TR: expedient hack
     nqx[nqx > 1] <- 1
-    
+
+    # TR: note q0 likely different from IMR. In this case use IMR
     nAx          <- lt_id_morq_a(
-      nqx = nqx,
-      axmethod = axmethod,
-      Age = Age,
-      AgeInt = AgeInt,
-      Sex = Sex,
-      region = region,
-      OAG = OAG,
-      mod = mod,
-      IMR = IMR
-    )
+                      nqx = nqx,
+                      axmethod = axmethod,
+                      Age = Age,
+                      AgeInt = AgeInt,
+                      Sex = Sex,
+                      region = region,
+                      OAG = OAG,
+                      mod = mod,
+                      IMR = IMR)
   } else {
     nAx          <- lt_id_morq_a(
-      nMx = nMx,
-      axmethod = axmethod,
-      Age = Age,
-      AgeInt = AgeInt,
-      Sex = Sex,
-      region = region,
-      OAG = OAG,
-      mod = mod,
-      IMR = IMR
-    )
+                      nMx = nMx,
+                      axmethod = axmethod,
+                      Age = Age,
+                      AgeInt = AgeInt,
+                      Sex = Sex,
+                      region = region,
+                      OAG = OAG,
+                      mod = mod,
+                      IMR = IMR)
   }
-  
+  # TR, these nAx ought to turn out to be the same...
+
   #	# as of here we have nAx either way. And we have either mx or qx.
-  
-  if (missing(nqx)) {
-    nqx          <-
-      lt_id_ma_q(
-        nMx = nMx,
-        nax = nAx,
-        AgeInt = AgeInt,
-        closeout = TRUE,
-        IMR = IMR
-      )
-  }
-  if (missing(nMx)) {
+  # TR: 31-12-2019 comment out, code chunk appears pointless, since
+  # qx redefined
+  # if (missing(nqx)) {
+  #   nqx          <- lt_id_ma_q(
+  #                     nMx = nMx,
+  #                     nax = nAx,
+  #                     AgeInt = AgeInt,
+  #                     closeout = TRUE,
+  #                     IMR = IMR)
+  # }
+  # TR: in the case that nMx is missing, then we must have nqx by now
+  if (!mxflag){
+    # TR note, if OAG, then final nMx is NA here!
     nMx          <- lt_id_qa_m(nqx = nqx,
-                   nax = nAx,
-                   AgeInt = AgeInt)
+                               nax = nAx,
+                               AgeInt = AgeInt)
   }
   # now we have all three, [mx,ax,qx] guaranteed.
-  
+
   OA             <- max(Age)
   # TR: save for later, in case OAG preserved
-  if (OAG & OAnew == OA) {
+  # TR: 5-1-2020, having doubts re this, can also
+  # back out momega from extrapolation, and this would
+  # handle closeout agreement in case of nqx inputs
+  if (OAG & OAnew == OA & mxflag) {
     momega       <- nMx[length(nMx)]
   }
   # --------------------------------
   # begin extrapolation:
-  
-  # TR: Oct 11, 2018: Deprecate abacus code, too hard to maintain. Variety of laws now avail
-  # no guarantee of monotonicity in old age however.
-  
-  # TR: 13 Oct 2018. NOTE switch to always extrapolate to 130 no matter what,
+  # TR: 13 Oct 2018. always extrapolate to 130 no matter what,
   # then truncate to OAnew in all cases. This will ensure more robust closeouts
-  # and an e(x) that doesn't depend on OAnew. 130 used in same way by HMD by the way.
+  # and an e(x) that doesn't depend on OAnew. 130 is used similarly by HMD.
   x_extr         <- seq(extrapFrom, 130, by = 5)
+
   Mxnew          <- lt_rule_m_extrapolate(
                       x = Age,
                       mx = nMx,
@@ -285,52 +292,55 @@ lt_abridged <- function(Deaths,
                       x_extr = x_extr,
                       law = extrapLaw,
                       ...)
-  
+
   nMxext         <- Mxnew$values
   Age2           <- names2age(nMxext)
-  
+
   keepi          <- Age2 < extrapFrom
   nMxext[keepi]  <- nMx[Age < extrapFrom]
   nMx            <- nMxext
   Age            <- Age2
-  AgeInt         <-
-    age2int(Age, OAG = TRUE, OAvalue = max(AgeInt, na.rm = TRUE))
+  AgeInt         <- age2int(
+                      Age,
+                      OAG = TRUE,
+                      OAvalue = max(AgeInt, na.rm = TRUE))
   # redo ax and qx for extended ages
   nAx            <- lt_id_morq_a(
-    nMx = nMx,
-    axmethod = axmethod,
-    Age = Age,
-    AgeInt = AgeInt,
-    Sex = Sex,
-    region = region,
-    OAG = TRUE,
-    mod = mod,
-    IMR = IMR
-  )
-  
+                      nMx = nMx,
+                      axmethod = axmethod,
+                      Age = Age,
+                      AgeInt = AgeInt,
+                      Sex = Sex,
+                      region = region,
+                      OAG = TRUE,
+                      mod = mod,
+                      IMR = IMR)
+
   nqx            <- lt_id_ma_q(
-    nMx = nMx,
-    nax = nAx,
-    AgeInt = AgeInt,
-    closeout = TRUE,
-    IMR = IMR
-  )
-  
+                      nMx = nMx,
+                      nax = nAx,
+                      AgeInt = AgeInt,
+                      closeout = TRUE,
+                      IMR = IMR)
+
+  # one more step: make sure M0 agrees with
+  # q0 and a0, which may have been determined by IMR parameter
+  nMx[1] <- lt_id_qa_m(nqx = nqx[1], nax = nAx[1], AgeInt = 1)
+
+
   # end extrapolation
   # ---------------------------------
-  
+
   # TR: the lifetable is the shortest part of this code!
-  lx             <- lt_id_q_l(nqx, radix = radix)
-  ndx            <- lt_id_l_d(lx)
-  nLx            <- lt_id_lda_L(
-    lx = lx,
-    ndx = ndx,
-    nax = nAx,
-    AgeInt = AgeInt
-  )
+  lx            <- lt_id_q_l(nqx, radix = radix)
+  ndx           <- lt_id_l_d(lx)
+  nLx           <- lt_id_lda_L(lx = lx,
+                               ndx = ndx,
+                               nax = nAx,
+                               AgeInt = AgeInt)
   Tx            <- lt_id_L_T(nLx)
   ex            <- Tx / lx
-  
+
   # TR: now cut down due to closeout method (added 11 Oct 2018)
   ind           <- Age <= OAnew
   Age           <- Age[ind]
@@ -338,14 +348,14 @@ lt_abridged <- function(Deaths,
   nAx           <- nAx[ind]
   nMx           <- nMx[ind]
   nqx           <- nqx[ind]
-  
+
   lx            <- lx[ind]
   # recalc dx from chopped lx
   ndx           <- lt_id_l_d(lx)
   nLx           <- nLx[ind]
   Tx            <- Tx[ind]
   ex            <- ex[ind]
-  
+
   # some closeout considerations
   N          <- length(nqx)
   nqx[N]     <- 1
@@ -355,7 +365,7 @@ lt_abridged <- function(Deaths,
   # TR: https://github.com/timriffe/DemoTools/issues/83
   # (Added 3 Oct 2019)
   if (OAG) {
-    if (OAnew == OA) {
+    if (OAnew == OA & mxflag) {
       nMx[N] <- momega
     } else {
       # Otherwise inner coherence
@@ -364,7 +374,7 @@ lt_abridged <- function(Deaths,
   } else {
     nMx[N]   <-  lx[N] / Tx[N]
   }
-  
+
   Sx <- lt_id_Ll_S(nLx, lx, AgeInt, N = 5)
   # output is an unrounded, unsmoothed lifetable
   out <- data.frame(
@@ -382,7 +392,3 @@ lt_abridged <- function(Deaths,
   )
   return(out)
 }
-
-#' @export
-#' @rdname lt_abridged
-LTabr <- lt_abridged

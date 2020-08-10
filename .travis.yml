@@ -1,23 +1,53 @@
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
+sudo: true
 language: r
-sudo: false
-cache: packages
+warnings_are_errors: true
+
+# Use Xenial whenever running in Linux (ignored for OS X)
+dist: xenial
+
+# dont check for rgl used by dependencies here and there
+env: RGL_USE_NULL=TRUE
+
+# Construct the matrix of OS and R versions
+# this is a 2x2 matrix
+os:
+ - linux
+ - osx
+r:
+ - release
+# - devel
+
+# Specify any additional packages that might be needed
+addons:
+ homebrew:
+   packages:
+   - llvm
+ apt:
+   packages:
+   - libv8-dev
+
+before_install:
+ - |
+   if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
+     mkdir -p ~/.R
+     # Ensure that R will use clang from homebrew llvm (which includes openmp support)
+     echo "CC=$(brew --prefix llvm)/bin/clang" >> ~/.R/Makevars
+     echo "CXX=$(brew --prefix llvm)/bin/clang++" >> ~/.R/Makevars
+     echo "LDFLAGS=-L$(brew --prefix llvm)/lib" >> ~/.R/Makevars
+   fi
+ - |
+   if [ "${TRAVIS_OS_NAME}" == "linux" ]; then
+     sudo apt-get install libfreetype6-dev 
+     sudo apt-get install libftgl-dev
+     sudo apt-get install mesa-common-dev 
+     sudo apt-get install libglu1-mesa-dev
+   fi
+
+# Add R packages from CRAN. If newer versions are needed, r_github_packages
+# can be used instead
+r_packages:
+ - covr
 
 after_success:
-  - Rscript -e 'covr::codecov()'
-  
-r:
-  - oldrel
-  - release
-  - devel
-  
-before_install:
-  - sudo apt-get install libfreetype6-dev 
-  - sudo apt-get install libftgl-dev
-  - sudo apt-get install mesa-common-dev 
-  - sudo apt-get install libglu1-mesa-dev
-  
-env:
-  - RGL_USE_NULL=TRUE
-  
+ - Rscript -e 'covr::codecov()'

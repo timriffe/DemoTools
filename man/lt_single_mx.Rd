@@ -2,7 +2,6 @@
 % Please edit documentation in R/lt_single.R
 \name{lt_single_mx}
 \alias{lt_single_mx}
-\alias{lt_single_simple}
 \title{calculate a single age lifetable}
 \usage{
 lt_single_mx(
@@ -15,25 +14,8 @@ lt_single_mx(
   mod = TRUE,
   OAG = TRUE,
   OAnew = max(Age),
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
-    "Beard", "Beard_Makeham", "Quadratic")[1],
-  extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60],
-  ...
-)
-
-lt_single_simple(
-  nMx,
-  Age = 1:length(nMx) - 1,
-  radix = 1e+05,
-  Sex = "m",
-  region = "w",
-  IMR = NA,
-  mod = TRUE,
-  OAG = TRUE,
-  OAnew = max(Age),
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
-    "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "Ggompertz",
+    "Beard", "Beard_Makeham", "Quadratic"),
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...

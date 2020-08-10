@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -43,10 +47,9 @@
 
 
 <meta property="og:title" content="Estimate Rogers-Castro migration age schedule — mig_estimate_rc" />
-<meta property="og:description" content="Given a set of ages and observed age-specific migration rates, estimate the parameters of a Rogers-Castro model migration schedule. 
+<meta property="og:description" content="Given a set of ages and observed age-specific migration rates, estimate the parameters of a Roger-Castro model migration schedule. 
 Choose between a 7,9,11 or 13 parameter model." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -64,7 +67,7 @@ Choose between a 7,9,11 or 13 parameter model." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -78,7 +81,7 @@ Choose between a 7,9,11 or 13 parameter model." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.06.02</span>
       </span>
     </div>
 
@@ -152,12 +155,12 @@ Choose between a 7,9,11 or 13 parameter model." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Estimate Rogers-Castro migration age schedule</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/timriffe/DemoTools/blob/master/R/mig_rc.R'><code>R/mig_rc.R</code></a></small>
     <div class="hidden name"><code>mig_estimate_rc.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Given a set of ages and observed age-specific migration rates, estimate the parameters of a Rogers-Castro model migration schedule. 
+    <p>Given a set of ages and observed age-specific migration rates, estimate the parameters of a Roger-Castro model migration schedule. 
 Choose between a 7,9,11 or 13 parameter model.</p>
     </div>
 
@@ -185,24 +188,142 @@ Choose between a 7,9,11 or 13 parameter model.</p>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># define ages and migration rates</span>
+<span class='no'>ages</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>75</span>
+<span class='no'>mig_rate</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.1014</span>,<span class='fl'>0.0984</span>,<span class='fl'>0.0839</span>,<span class='fl'>0.0759</span>,<span class='fl'>0.0679</span>,<span class='fl'>0.0616</span>,
+<span class='fl'>0.055</span>,<span class='fl'>0.0518</span>,<span class='fl'>0.0438</span>,<span class='fl'>0.0399</span>,<span class='fl'>0.0363</span>,<span class='fl'>0.0342</span>,<span class='fl'>0.0307</span>,<span class='fl'>0.0289</span>,
+<span class='fl'>0.0267</span>,<span class='fl'>0.0237</span>,<span class='fl'>0.0283</span>,<span class='fl'>0.0294</span>,<span class='fl'>0.0392</span>,<span class='fl'>0.0547</span>,<span class='fl'>0.068</span>,<span class='fl'>0.0933</span>,
+<span class='fl'>0.1187</span>,<span class='fl'>0.1282</span>,<span class='fl'>0.1303</span>,<span class='fl'>0.1293</span>,<span class='fl'>0.1247</span>,<span class='fl'>0.1163</span>,<span class='fl'>0.1059</span>,<span class='fl'>0.0976</span>,
+<span class='fl'>0.09</span>,<span class='fl'>0.0817</span>,<span class='fl'>0.0749</span>,<span class='fl'>0.0683</span>,<span class='fl'>0.0626</span>,<span class='fl'>0.058</span>,<span class='fl'>0.0536</span>,<span class='fl'>0.0493</span>,
+<span class='fl'>0.0459</span>,<span class='fl'>0.0418</span>,<span class='fl'>0.0393</span>,<span class='fl'>0.0358</span>,<span class='fl'>0.0343</span>,<span class='fl'>0.0322</span>,<span class='fl'>0.0298</span>,<span class='fl'>0.0281</span>,
+<span class='fl'>0.0266</span>,<span class='fl'>0.0248</span>,<span class='fl'>0.0235</span>,<span class='fl'>0.0222</span>,<span class='fl'>0.0208</span>,<span class='fl'>0.0191</span>,<span class='fl'>0.0178</span>,<span class='fl'>0.0171</span>,
+<span class='fl'>0.0157</span>,<span class='fl'>0.0149</span>,<span class='fl'>0.0139</span>,<span class='fl'>0.0132</span>,<span class='fl'>0.012</span>,<span class='fl'>0.0112</span>,<span class='fl'>0.0116</span>,<span class='fl'>0.0106</span>,
+<span class='fl'>0.0102</span>,<span class='fl'>0.0109</span>,<span class='fl'>0.0107</span>,<span class='fl'>0.0143</span>,<span class='fl'>0.0135</span>,<span class='fl'>0.0134</span>,<span class='fl'>0.0116</span>,<span class='fl'>0.0099</span>,
+<span class='fl'>0.0093</span>,<span class='fl'>0.0083</span>,<span class='fl'>0.0078</span>,<span class='fl'>0.0067</span>,<span class='fl'>0.0069</span>,<span class='fl'>0.0054</span>)
+<span class='co'># fit the model</span>
+
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>mig_estimate_rc</span>(<span class='no'>ages</span>, <span class='no'>mig_rate</span>, <span class='kw'>num_pars</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt; 
+#&gt; SAMPLING FOR MODEL '12623aefde970f045d7caf398c46bcc1' NOW (CHAIN 1).
+#&gt; Chain 1: 
+#&gt; Chain 1: Gradient evaluation took 4.7e-05 seconds
+#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.47 seconds.
+#&gt; Chain 1: Adjust your expectations accordingly!
+#&gt; Chain 1: 
+#&gt; Chain 1: 
+#&gt; Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+#&gt; Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+#&gt; Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+#&gt; Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+#&gt; Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+#&gt; Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+#&gt; Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+#&gt; Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+#&gt; Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+#&gt; Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+#&gt; Chain 1: 
+#&gt; Chain 1:  Elapsed Time: 0.505587 seconds (Warm-up)
+#&gt; Chain 1:                0.463076 seconds (Sampling)
+#&gt; Chain 1:                0.968663 seconds (Total)
+#&gt; Chain 1: 
+#&gt; 
+#&gt; SAMPLING FOR MODEL '12623aefde970f045d7caf398c46bcc1' NOW (CHAIN 2).
+#&gt; Chain 2: 
+#&gt; Chain 2: Gradient evaluation took 2.1e-05 seconds
+#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.21 seconds.
+#&gt; Chain 2: Adjust your expectations accordingly!
+#&gt; Chain 2: 
+#&gt; Chain 2: 
+#&gt; Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+#&gt; Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+#&gt; Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+#&gt; Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+#&gt; Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+#&gt; Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+#&gt; Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+#&gt; Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+#&gt; Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+#&gt; Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+#&gt; Chain 2: 
+#&gt; Chain 2:  Elapsed Time: 0.461443 seconds (Warm-up)
+#&gt; Chain 2:                0.450618 seconds (Sampling)
+#&gt; Chain 2:                0.912061 seconds (Total)
+#&gt; Chain 2: 
+#&gt; 
+#&gt; SAMPLING FOR MODEL '12623aefde970f045d7caf398c46bcc1' NOW (CHAIN 3).
+#&gt; Chain 3: 
+#&gt; Chain 3: Gradient evaluation took 2e-05 seconds
+#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.
+#&gt; Chain 3: Adjust your expectations accordingly!
+#&gt; Chain 3: 
+#&gt; Chain 3: 
+#&gt; Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+#&gt; Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+#&gt; Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+#&gt; Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+#&gt; Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+#&gt; Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+#&gt; Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+#&gt; Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+#&gt; Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+#&gt; Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+#&gt; Chain 3: 
+#&gt; Chain 3:  Elapsed Time: 0.515928 seconds (Warm-up)
+#&gt; Chain 3:                0.42494 seconds (Sampling)
+#&gt; Chain 3:                0.940868 seconds (Total)
+#&gt; Chain 3: 
+#&gt; 
+#&gt; SAMPLING FOR MODEL '12623aefde970f045d7caf398c46bcc1' NOW (CHAIN 4).
+#&gt; Chain 4: 
+#&gt; Chain 4: Gradient evaluation took 2e-05 seconds
+#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.
+#&gt; Chain 4: Adjust your expectations accordingly!
+#&gt; Chain 4: 
+#&gt; Chain 4: 
+#&gt; Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+#&gt; Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+#&gt; Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+#&gt; Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+#&gt; Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+#&gt; Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+#&gt; Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+#&gt; Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+#&gt; Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+#&gt; Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+#&gt; Chain 4: 
+#&gt; Chain 4:  Elapsed Time: 0.529655 seconds (Warm-up)
+#&gt; Chain 4:                0.481337 seconds (Sampling)
+#&gt; Chain 4:                1.01099 seconds (Total)
+#&gt; Chain 4: </div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='co'># plot the results and data</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>ages</span>, <span class='no'>mig_rate</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"migration rate"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"age"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>ages</span>, <span class='no'>res</span><span class='kw'>[[</span><span class='st'>"fit_df"</span>]]$<span class='no'>median</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"topright"</span>, <span class='kw'>legend</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"data"</span>, <span class='st'>"fit"</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>, <span class='st'>"red"</span>), <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Marius D. Pascariu, Monica Alexander, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

@@ -2,7 +2,6 @@
 % Please edit documentation in R/nAx.R
 \name{lt_id_morq_a_greville}
 \alias{lt_id_morq_a_greville}
-\alias{ax.greville.mortpak}
 \title{UN version of the Greville formula for a(x) from M(x)}
 \usage{
 lt_id_morq_a_greville(
@@ -16,26 +15,8 @@ lt_id_morq_a_greville(
   region = "w",
   mod = TRUE,
   closeout = TRUE,
-  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
-    "beard_makeham", "quadratic")[1],
-  extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60],
-  ...
-)
-
-ax.greville.mortpak(
-  nMx,
-  nqx,
-  lx,
-  Age,
-  AgeInt = age2int(Age, OAvalue = 5),
-  IMR = NA,
-  Sex = "m",
-  region = "w",
-  mod = TRUE,
-  closeout = TRUE,
-  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
-    "beard_makeham", "quadratic")[1],
+  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
+    "beard_makeham", "quadratic"),
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...
@@ -110,17 +91,12 @@ AgeInt <- age2int(Age, OAvalue = 5)
 # two quite different results depending whether you start with mx or qx
 lt_id_morq_a_greville(nMx = nMx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 lt_id_morq_a_greville(nqx = nqx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
-# same, qx comes from lx
+# same, qx comes from lx (Except OAG, because qx closed above w NA)
 lt_id_morq_a_greville(lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
-# both qx and lx given, but lx not used for anything = same
+# both qx and lx given, but lx not used for anything = same as qx
 lt_id_morq_a_greville(nqx = nqx, lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
 
-# if both qx and mx given, then same as lt_id_qm_a identity,
-# except young ages follow Coale-Demeny, and greville uses
-# MortalityLaws closeout.
-lt_id_morq_a_greville(nMx = nMx, nqx = nqx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')-
-		lt_id_qm_a(nqx,nMx,age2int(Age,TRUE,5))
-# same (qx comes from lx)
+# nMx taken over lx.
 lt_id_morq_a_greville(nMx = nMx, lx = lx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')
 }
 \references{

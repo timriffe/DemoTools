@@ -10,12 +10,6 @@
     <loc>https://timriffe.github.io/DemoTools//reference/AGEN.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/Bachi.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/CoaleLi.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/DemoTools-package.html</loc>
   </url>
   <url>
@@ -28,28 +22,10 @@
     <loc>https://timriffe.github.io/DemoTools//reference/IRD.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/Jdanov.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/KannistoHeap.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/Myers.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/Noumbissi.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/OPAG_simple.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/RDM.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/Spoorenberg.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/Whipple.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/age2ageN.html</loc>
@@ -76,6 +52,9 @@
     <loc>https://timriffe.github.io/DemoTools//reference/avg_adj.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/basepop.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/birthCohorts.html</loc>
   </url>
   <url>
@@ -83,6 +62,36 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/calcAgeN.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_bachi.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_coale_li.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_jdanov.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_kannisto.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_myers.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_noumbissi.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_roughness.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_sawtooth.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_spoorenberg.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_whipple.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/dec.date.html</loc>
@@ -101,9 +110,6 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/fitted_logquad_m.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/five_year_roughness.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/getModelLifeTable.html</loc>
@@ -377,9 +383,6 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/zelnik.html</loc>
-  </url>
-  <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/zero_pref_sawtooth.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//articles/Age-heaping_quality_with_Demotools.html</loc>

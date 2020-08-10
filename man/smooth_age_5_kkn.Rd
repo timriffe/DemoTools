@@ -2,12 +2,9 @@
 % Please edit documentation in R/smooth_age_5.R
 \name{smooth_age_5_kkn}
 \alias{smooth_age_5_kkn}
-\alias{kkn_smth}
 \title{Karup-King-Newton method of population count smoothing}
 \usage{
 smooth_age_5_kkn(Value, Age, OAG = TRUE)
-
-kkn_smth(Value, Age, OAG = TRUE)
 }
 \arguments{
 \item{Value}{numeric vector of counts in single, abridged, or 5-year age groups.}

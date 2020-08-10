@@ -2,13 +2,12 @@
 % Please edit documentation in R/nAx.R
 \name{lt_id_morq_a}
 \alias{lt_id_morq_a}
-\alias{mxorqx2ax}
 \title{wrapper to invoke PAS or UN ax methods given qx or mx}
 \usage{
 lt_id_morq_a(
   nMx,
   nqx,
-  axmethod = c("pas", "un")[1],
+  axmethod = c("pas", "un"),
   Age,
   AgeInt,
   IMR = NA,
@@ -16,26 +15,8 @@ lt_id_morq_a(
   region,
   OAG = TRUE,
   mod = TRUE,
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
-    "Beard", "Beard_Makeham", "Quadratic")[1],
-  extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60],
-  ...
-)
-
-mxorqx2ax(
-  nMx,
-  nqx,
-  axmethod = c("pas", "un")[1],
-  Age,
-  AgeInt,
-  IMR = NA,
-  Sex,
-  region,
-  OAG = TRUE,
-  mod = TRUE,
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz",
-    "Beard", "Beard_Makeham", "Quadratic")[1],
+  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "Ggompertz",
+    "Beard", "Beard_Makeham", "Quadratic"),
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...

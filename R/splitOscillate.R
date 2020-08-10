@@ -35,7 +35,7 @@
 #' #pop1     <- splitOscillate(Value, OAG = TRUE, splitfun = graduate_sprague)
 #' pop2      <- splitOscillate(Value, OAG = TRUE, splitfun = beers)
 #' # what's smoother, splitOscillate() or graduate_grabill()?
-#' # note, same closeout problem, can be handled by monoCloseout()
+#' # note, same closeout problem, can be handled by graduate_mono_closeout()
 #' pop3      <- graduate_grabill(Value, OAG = TRUE)
 #' # and technically you could give grabill as splitfun too
 #' pop4      <- splitOscillate(Value, OAG = TRUE, splitfun = graduate_grabill)

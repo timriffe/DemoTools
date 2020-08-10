@@ -116,12 +116,12 @@ and
 _{5}P_{x+5} = _{10}P_{x} - _{5}P_{x}.
 \end{equation*}
 
-To implement this smoothing process select the `Karup-King-Newton` inthe `agesmth` function.
+To implement this smoothing process select the `KKN` inthe `agesmth` function.
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
 cf <- smooth_age_5(Value = Value, 
 	Age = Age, 
-	method = "Karup-King-Newton", 
+	method = "KKN", 
 	OAG = TRUE)
 
 plot(seq(0,100,5),cf/sum(cf), type= 'l',
@@ -137,10 +137,10 @@ The United Nations [@carrier1959reduction] developed the following formula to sm
 _5\hat{P}_x = \frac{- _5P_{x-10} + 4\, _5P_{x-5} + 10\, _5P_{x} +4\, _5P_{x+5} - _5P_{x+10}}{16}
 \end{equation}
 
-where $_5\hat{P}_x$ represents the smoothed population between ages $x$ and $x+4$. This method can be applied in `DemoTools` with the function `united_nations_smth` as follows
+where $_5\hat{P}_x$ represents the smoothed population between ages $x$ and $x+4$. This method can be applied in `DemoTools` using the `"United Nations` method of `smooth_age_5()` as follows
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
- un_result <- united_nations_smth(Value = Value,Age = Age,OAG = T)
+ un_result <- smooth_age_5(Value = Value,Age = Age,method="United Nations",OAG = T)
 plot(seq(0,100,5),un_result/sum(un_result,na.rm = T), type= 'l',
     ylab = 'Proportion of population',
      xlab = 'Age-group',main = 'Smoothed population with UN Method',xaxt='n')
@@ -158,7 +158,7 @@ where $_{10}\hat{P}_x$ represents the smoothed poopulation ages $x$ to $x+9$. It
 
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
- strong_result <- strong_smth(Value = Value,Age = Age,OAG = T)
+ strong_result <- smooth_age_5(Value = Value,Age = Age,method="Strong",OAG = T)
 plot(seq(0,100,5),strong_result/sum(strong_result,na.rm = T), type= 'l',
     ylab = 'Proportion of population',
      xlab = 'Age-group',main = 'Smoothed population with Strong formula',xaxt='n')
@@ -176,8 +176,8 @@ the measure of roughness [@feeney2013]. It can be implemented in `DemoTools` as 
 
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
- zz_result <- zigzag_smth(Value, Age, OAG = TRUE, ageMin = 0, ageMax = 100)
-plot(seq(0,100,5),strong_result/sum(strong_result,na.rm = T), type= 'l',
+ zz_result <- smooth_age_5(Value, Age, method = "Zigzag",OAG = TRUE, ageMin = 0, ageMax = 100)
+plot(seq(0,100,5),zz_result/sum(zz_result,na.rm = T), type= 'l',
     ylab = 'Proportion of population',
      xlab = 'Age-group',main = 'Smoothed population with Zig Zag formula',xaxt='n')
 axis(1, labels = paste0(seq(0,100,5),'-',seq(4,104,5)), at =seq(0,100,5))

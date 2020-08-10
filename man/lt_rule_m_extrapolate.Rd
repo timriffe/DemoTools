@@ -2,7 +2,6 @@
 % Please edit documentation in R/extra_mortality.R
 \name{lt_rule_m_extrapolate}
 \alias{lt_rule_m_extrapolate}
-\alias{extra.mortality}
 \title{Extrapolate old-age human mortality curve using mortality laws}
 \usage{
 lt_rule_m_extrapolate(
@@ -10,18 +9,7 @@ lt_rule_m_extrapolate(
   x,
   x_fit = x,
   x_extr,
-  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
-    "beard_makeham", "quadratic"),
-  opt.method = c("LF2", "LF1", "LF3", "LF4", "LF5", "LF6", "poissonL", "binomialL"),
-  ...
-)
-
-extra.mortality(
-  mx,
-  x,
-  x_fit = x,
-  x_extr,
-  law = c("kannisto", "kannisto_makeham", "gompertz", "ggompertz", "makeham", "beard",
+  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
     "beard_makeham", "quadratic"),
   opt.method = c("LF2", "LF1", "LF3", "LF4", "LF5", "LF6", "poissonL", "binomialL"),
   ...
@@ -93,6 +81,7 @@ f7 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "beard_makeham")
 f8 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "quadratic")
 
 # Plot the results
+\dontrun{
 par(mfrow = c(1, 2))
 plot(x, mx, pch = 16, xlim = c(60, 110), ylim = c(0, 0.6), cex = 1.5)
 points(x_fit, mx[paste(x_fit)], pch = 16, col = 4, cex = 1.5)
@@ -111,7 +100,7 @@ legend("topleft", bty = "n",
                   "Makeham", "Beard", "Beard-Makeham", "Quadratic"),
        lty = c(NA, NA, 1:8), pch = c(16, 16, rep(NA, 8)),
        col = c(1, 4, 2:9), lwd = 2, pt.cex = 2)
-
+}
 
 # ----------------------------------------------
 # Example 2 - 1-year age data
@@ -138,6 +127,7 @@ g7 <- lt_rule_m_extrapolate(mx1, x1, x_fit, x_extr, law = "beard_makeham")
 g8 <- lt_rule_m_extrapolate(mx1, x1, x_fit, x_extr, law = "quadratic")
 
 # Plot
+\dontrun{
 plot(x1, mx1, log = "y", ylim = c(0.001, 5),
      pch = 16, xlim = c(65, 125), cex = 1.3)
 points(x_fit, mx1[paste(x_fit)], pch = 16, col = 4, cex = 1.5)
@@ -156,7 +146,7 @@ legend("topleft", bty = "n",
                   "Makeham", "Beard", "Beard-Makeham", "Quadratic"),
        lty = c(NA, NA, 1:8), pch = c(16, 16, rep(NA, 8)),
        col = c(1, 4, 2:9), lwd = 2, pt.cex = 2)
-
+}
 # ----------------------------------------------
 # Example 3 - Extrapolate mortality for multiple years at once
 

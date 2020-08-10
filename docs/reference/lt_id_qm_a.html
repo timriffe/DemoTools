@@ -6,36 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>#' Derive nqx from nMx and nax.
-#' @description This is the standard identity to derive nqx from nax and nMx.
-#' @details qx values calculated as greater than 1 are imputed with 1.
-#' @param nMx numeric. Vector of age-specific death rates.
-#' @param nax numeric. Vector of average time spent in interval by those dying in interval.
-#' @param AgeInt integer. Vector of age class widths.
-#' @references
-#' Preston S, Heuveline P, Guillot M (2000).
-<em>Demography: measuring and modeling population processes</em>.
-Wiley-Blackwell.
-
-#' @return nqx vector of age specific death probabilities derived via identity.
-#' @export
-lt_id_m_q &lt;- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) 
-  if (as.character(match.call()[[1]]) == "mx2qx") 
-    warning("please use lt_id_m_q() instead of mx2qx().", call. = FALSE)
-  
-  
-  qx &lt;- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
-  ind &lt;- qx &gt; 1 | is.na(qx)
-  if (sum(ind) &gt; 0) 
-    #cat("at least 1 q(x) &gt; 1, imputed as 1")
-    qx[ind] &lt;- 1
-  
-  qx
-
-#' @export
-#' @rdname lt_id_ma_q
-mx2qx &lt;- lt_id_ma_q
-Derive nax from nqx and nMx. — lt_id_qm_a • DemoTools</title>
+<title>Derive nax from nqx and nMx. — lt_id_qm_a • DemoTools</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,23 +17,27 @@ Derive nax from nqx and nMx. — lt_id_qm_a • DemoTools</title>
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -71,39 +46,9 @@ Derive nax from nqx and nMx. — lt_id_qm_a • DemoTools</title>
 
 
 
-<meta property="og:title" content="#' Derive nqx from nMx and nax.
-#' @description This is the standard identity to derive nqx from nax and nMx.
-#' @details qx values calculated as greater than 1 are imputed with 1.
-#' @param nMx numeric. Vector of age-specific death rates.
-#' @param nax numeric. Vector of average time spent in interval by those dying in interval.
-#' @param AgeInt integer. Vector of age class widths.
-#' @references
-#' Preston S, Heuveline P, Guillot M (2000).
-<em>Demography: measuring and modeling population processes</em>.
-Wiley-Blackwell.
-
-#' @return nqx vector of age specific death probabilities derived via identity.
-#' @export
-lt_id_m_q &lt;- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) 
-  if (as.character(match.call()[[1]]) == "mx2qx") 
-    warning("please use lt_id_m_q() instead of mx2qx().", call. = FALSE)
-  
-  
-  qx &lt;- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
-  ind &lt;- qx &gt; 1 | is.na(qx)
-  if (sum(ind) &gt; 0) 
-    #cat("at least 1 q(x) &gt; 1, imputed as 1")
-    qx[ind] &lt;- 1
-  
-  qx
-
-#' @export
-#' @rdname lt_id_ma_q
-mx2qx &lt;- lt_id_ma_q
-Derive nax from nqx and nMx. — lt_id_qm_a" />
+<meta property="og:title" content="Derive nax from nqx and nMx. — lt_id_qm_a" />
 <meta property="og:description" content="This is the standard identity to derive nax from nqx and nMx." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -121,7 +66,7 @@ Derive nax from nqx and nMx. — lt_id_qm_a" />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -135,7 +80,7 @@ Derive nax from nqx and nMx. — lt_id_qm_a" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.06.02</span>
       </span>
     </div>
 
@@ -208,37 +153,8 @@ Derive nax from nqx and nMx. — lt_id_qm_a" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>#' Derive nqx from nMx and nax.
-#' @description This is the standard identity to derive nqx from nax and nMx.
-#' @details qx values calculated as greater than 1 are imputed with 1.
-#' @param nMx numeric. Vector of age-specific death rates.
-#' @param nax numeric. Vector of average time spent in interval by those dying in interval.
-#' @param AgeInt integer. Vector of age class widths.
-#' @references
-#' Preston S, Heuveline P, Guillot M (2000).
-<em>Demography: measuring and modeling population processes</em>.
-Wiley-Blackwell.
-
-#' @return nqx vector of age specific death probabilities derived via identity.
-#' @export
-lt_id_m_q &lt;- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) 
-  if (as.character(match.call()[[1]]) == "mx2qx") 
-    warning("please use lt_id_m_q() instead of mx2qx().", call. = FALSE)
-  
-  
-  qx &lt;- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
-  ind &lt;- qx &gt; 1 | is.na(qx)
-  if (sum(ind) &gt; 0) 
-    #cat("at least 1 q(x) &gt; 1, imputed as 1")
-    qx[ind] &lt;- 1
-  
-  qx
-
-#' @export
-#' @rdname lt_id_ma_q
-mx2qx &lt;- lt_id_ma_q
-Derive nax from nqx and nMx.</h1>
-    
+    <h1>Derive nax from nqx and nMx.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/timriffe/DemoTools/blob/master/R/lt_id.R'><code>R/lt_id.R</code></a></small>
     <div class="hidden name"><code>lt_id_qm_a.Rd</code></div>
     </div>
 
@@ -246,9 +162,7 @@ Derive nax from nqx and nMx.</h1>
     <p>This is the standard identity to derive nax from nqx and nMx.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lt_id_qm_a</span>(<span class='no'>nqx</span>, <span class='no'>nMx</span>, <span class='no'>AgeInt</span>)
-
-<span class='fu'>qxmx2ax</span>(<span class='no'>nqx</span>, <span class='no'>nMx</span>, <span class='no'>AgeInt</span>)</pre>
+    <pre class="usage"><span class='fu'>lt_id_qm_a</span>(<span class='no'>nqx</span>, <span class='no'>nMx</span>, <span class='no'>AgeInt</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -270,6 +184,32 @@ Derive nax from nqx and nMx.</h1>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>nax numeric vector of average time spent in interval by those dying in interval via identity.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>#' @title Derive nqx from nMx and nax.
+#' @description This is the standard identity to derive nqx from nax and nMx.
+#' @details qx values calculated as greater than 1 are imputed with 1.
+#' @param nMx numeric. Vector of age-specific death rates.
+#' @param nax numeric. Vector of average time spent in interval by those dying in interval.
+#' @param AgeInt integer. Vector of age class widths.
+#' @references
+#' Preston S, Heuveline P, Guillot M (2000).
+<em>Demography: measuring and modeling population processes</em>.
+Wiley-Blackwell.
+
+#' @return nqx vector of age specific death probabilities derived via identity.
+#' @export
+lt_id_m_q &lt;- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) 
+  if (as.character(match.call()[[1]]) == "mx2qx") 
+    warning("please use lt_id_m_q() instead of mx2qx().", call. = FALSE)  qx &lt;- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
+  ind &lt;- qx &gt; 1 | is.na(qx)
+  if (sum(ind) &gt; 0) 
+    #cat("at least 1 q(x) &gt; 1, imputed as 1")
+    qx[ind] &lt;- 1  qx
+
+#' @export
+#' @rdname lt_id_ma_q
+mx2qx &lt;- lt_id_ma_q</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Preston S, Heuveline P, Guillot M (2000).
@@ -278,24 +218,20 @@ Wiley-Blackwell.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Marius D. Pascariu, Monica Alexander, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

@@ -10,9 +10,7 @@
 
 #' Mean absolute difference in survival rates.
 #'
-#' @description The mean absolute difference between 5-year survival
-#' ratios with optional age trimming.
-#' Based on LIFIT program from the MPCDA code base.
+#' @description The mean absolute difference between 5-year survival ratios with optional age trimming. Based on LIFIT program from the MPCDA code base.
 #'
 #' @param lx1 numeric. Vector of the first survival function, any radix size.
 #' @param lx2 numeric. Vector of the first survival function, any radix size.
@@ -21,15 +19,7 @@
 #' @param ageMin integer. Optional lower age bound for calculations.
 #' @param ageMax integer. Optional upper age bound for calculations.
 #' @export
-#' @details \code{lx1} and \code{lx2} can be of different lengths and grouped differently.
-#' For example, either or both input vectors could be in single or five-year age groups
-#' for this function. Results are selected internally for 5-year age groups, and vector lengths are matched.
-#' \code{ageMax} is an inclusive upper bound, treated as interval.
-#'  If you want the age-group 70-74 to be included in calculations, then give \code{ageMax = 70}, not 75.
-#' The input vectors can also be of different lifetable radices. As with the original Fortran code,
-#' the open age group must be included in input vectors, even though it is not included in calcs.
-#' If your final age group is not open, then tack an extra element to it to simulate an open element,
-#' and just make sure to match ages.
+#' @details \code{lx1} and \code{lx2} can be of different lengths and grouped differently. For example, either or both input vectors could be in single or five-year age groups for this function. Results are selected internally for 5-year age groups, and vector lengths are matched. \code{ageMax} is an inclusive upper bound, treated as interval. If you want the age-group 70-74 to be included in calculations, then give \code{ageMax = 70}, not 75. The input vectors can also be of different lifetable radices. As with the original Fortran code, the open age group must be included in input vectors, even though it is not included in calcs. If your final age group is not open, then tack an extra element to it to simulate an open element, and just make sure to match ages.
 #' @return The mean absolute difference in survival ratios.
 #' @references
 #' \insertRef{arriaga1976}{DemoTools}

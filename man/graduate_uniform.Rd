@@ -2,12 +2,9 @@
 % Please edit documentation in R/graduate.R
 \name{graduate_uniform}
 \alias{graduate_uniform}
-\alias{splitUniform}
 \title{Convert arbitrary age groupings into single years of age.}
 \usage{
 graduate_uniform(Value, AgeInt, Age, OAG = TRUE, OAvalue = 1)
-
-splitUniform(Value, AgeInt, Age, OAG = TRUE, OAvalue = 1)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}

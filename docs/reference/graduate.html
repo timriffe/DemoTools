@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -45,7 +49,6 @@
 <meta property="og:title" content="Graduate grouped data — graduate" />
 <meta property="og:description" content="A wrapper function for several graduation methods, primarily for count data (&quot;sprague&quot;, &quot;beers(ord)&quot;, &quot;beers(mod)&quot;, &quot;grabill&quot;, &quot;mono&quot; (Monotonic spline), &quot;uniform&quot;, &quot;pclm&quot;), but also with one (&quot;pclm&quot;) with an option for graduating rates if both event counts and population at risk are available." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -63,7 +66,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -77,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.06.02</span>
       </span>
     </div>
 
@@ -151,7 +154,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Graduate grouped data</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/timriffe/DemoTools/blob/master/R/graduate.R'><code>R/graduate.R</code></a></small>
     <div class="hidden name"><code>graduate.Rd</code></div>
     </div>
 
@@ -168,6 +171,7 @@
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"sprague"</span>, <span class='st'>"beers(ord)"</span>, <span class='st'>"beers(mod)"</span>, <span class='st'>"grabill"</span>, <span class='st'>"pclm"</span>, <span class='st'>"mono"</span>,
     <span class='st'>"uniform"</span>),
   <span class='kw'>keep0</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>constrain</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -203,6 +207,10 @@
       <td><p>logical. Default <code>FALSE</code>. If available, should the value in the infant age group be maintained, and ages 1-4 constrained?</p></td>
     </tr>
     <tr>
+      <th>constrain</th>
+      <td><p>logical. Default <code>FALSE</code>. Should output be constrained to sum within the input age groups?</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>extra arguments passed to <code><a href='graduate_beers.html'>graduate_beers()</a></code> or <code><a href='graduate_pclm.html'>graduate_pclm()</a></code></p></td>
     </tr>
@@ -215,6 +223,8 @@
 <p>Beers may either be ordinary <code>"beers(ord)"</code> or modified <code>"beers(mod)"</code>, and either can pass on the optional argument <code>johnson = TRUE</code> if desired (this has a different distribution pattern for young ages, <code>FALSE</code> by default). If <code>method = "beers"</code> is given, then <code>"beers(ord)"</code> is used.</p>
 <p>This wrapper standardizes some inconsistencies in how open ages are dealt with. For example, with the <code>"pclm"</code> method, the last age group can be redistributed over a specified interval implied by increase <code>OAnew</code> beyond the range of <code>Age</code>. To get this same behavior from <code>"mono"</code>, or <code>"uniform"</code> specify <code>OAG = FALSE</code> along with an appropriately high <code>OAnew</code> (or integer final value of <code>AgeInt</code>.</p>
 <p><code>OAnew</code> cannot be higher than <code>max(Age)+4</code> for <code>"sprague"</code> or <code>"beers"</code> methods. For <code>"uniform","mono","pclm"</code> it can be higher than this, and in each case the open age group is completely redistributed within this range, meaning it's not really open anymore.</p>
+<p>For all methods, negative values are detected in output. If present, we deal with these in the following way: we take the geometric mean between the given output (with negative imputed with 0s) and the output of <code><a href='graduate_mono.html'>graduate_mono()</a></code>, which is guaranteed non-negative. This only affects age groups where negatives were produced in the first pass. In our experience this only arises when using sprague, beers, or grabill methods, whereas all others are guarateed non-negative.</p>
+<p>For any case where input data are in single ages, constraining results to sum to values in the original age groups will simply return the original input data, which is clearly not your intent. This might arise when using graduation as an implicit two-step smoother (group + graduate). In this case, separate the steps, first group using <code><a href='groupAges.html'>groupAges()</a></code> then use <code>graduate(..., constrain = TRUE)</code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Pascariu MD, Dańko MJ, Schöley J, Rizzi S (2018).
@@ -663,26 +673,20 @@ Beers H (1945).
   }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Marius D. Pascariu, Monica Alexander, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -45,7 +49,6 @@
 <meta property="og:title" content="UN version of the Greville formula for a(x) from M(x) — lt_id_morq_a_greville" />
 <meta property="og:description" content="The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 for ages 5-9 and 10-14, and the Greville formula thereafter. In the original sources these are referred to as separation factors." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -63,7 +66,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -77,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.06.02</span>
       </span>
     </div>
 
@@ -151,7 +154,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>UN version of the Greville formula for a(x) from M(x)</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/timriffe/DemoTools/blob/master/R/nAx.R'><code>R/nAx.R</code></a></small>
     <div class="hidden name"><code>lt_id_morq_a_greville.Rd</code></div>
     </div>
 
@@ -170,26 +173,8 @@
   <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
   <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>closeout</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>,
-    <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>)[<span class='fl'>1</span>],
-  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
-  <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>],
-  <span class='no'>...</span>
-)
-
-<span class='fu'>ax.greville.mortpak</span>(
-  <span class='no'>nMx</span>,
-  <span class='no'>nqx</span>,
-  <span class='no'>lx</span>,
-  <span class='no'>Age</span>,
-  <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='no'>Age</span>, <span class='kw'>OAvalue</span> <span class='kw'>=</span> <span class='fl'>5</span>),
-  <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
-  <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
-  <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>closeout</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"makeham"</span>, <span class='st'>"beard"</span>,
-    <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>)[<span class='fl'>1</span>],
+  <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"beard"</span>,
+    <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>),
   <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
   <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>],
   <span class='no'>...</span>
@@ -314,49 +299,35 @@ United Nations Department of International Economic and Social Affairs.</p>
 <span class='co'># two quite different results depending whether you start with mx or qx</span>
 <span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>nMx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.350000 1.361000 1.971728 2.427513 2.635291 2.604932 2.567799 2.557820
 #&gt;  [9] 2.544030 2.547217 2.570674 2.596676 2.612155 2.608886 2.584268 2.540573
-#&gt; [17] 2.541591 2.390445 3.537193</div><div class='input'><span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nqx</span> <span class='kw'>=</span> <span class='no'>nqx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.350000 1.361000 1.998436 2.410337 2.610435 2.569726 2.524739 2.506789
+#&gt; [17] 2.541591 2.419688 3.537193</div><div class='input'><span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nqx</span> <span class='kw'>=</span> <span class='no'>nqx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.350000 1.361000 1.998436 2.410337 2.610435 2.569726 2.524739 2.506789
 #&gt;  [9] 2.484742 2.480395 2.489952 2.492398 2.467590 2.402247 2.286868 2.126399
-#&gt; [17] 1.965579 1.572463 1.560036</div><div class='input'><span class='co'># same, qx comes from lx</span>
+#&gt; [17] 1.829551 1.480824 1.560036</div><div class='input'><span class='co'># same, qx comes from lx (Except OAG, because qx closed above w NA)</span>
 <span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>lx</span> <span class='kw'>=</span> <span class='no'>lx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.350000 1.361000 1.998275 2.410401 2.610450 2.569538 2.524848 2.506840
 #&gt;  [9] 2.484738 2.480358 2.489988 2.492376 2.467577 2.402272 2.286855 2.126381
-#&gt; [17] 1.965595 1.572476 1.384313</div><div class='input'><span class='co'># both qx and lx given, but lx not used for anything = same</span>
+#&gt; [17] 1.829564 1.480808 1.384313</div><div class='input'><span class='co'># both qx and lx given, but lx not used for anything = same as qx</span>
 <span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nqx</span> <span class='kw'>=</span> <span class='no'>nqx</span>, <span class='kw'>lx</span> <span class='kw'>=</span> <span class='no'>lx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.350000 1.361000 1.998436 2.410337 2.610435 2.569726 2.524739 2.506789
 #&gt;  [9] 2.484742 2.480395 2.489952 2.492398 2.467590 2.402247 2.286868 2.126399
-#&gt; [17] 1.965579 1.572463 1.560036</div><div class='input'>
-<span class='co'># if both qx and mx given, then same as lt_id_qm_a identity,</span>
-<span class='co'># except young ages follow Coale-Demeny, and greville uses</span>
-<span class='co'># MortalityLaws closeout.</span>
-<span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>nMx</span>, <span class='kw'>nqx</span> <span class='kw'>=</span> <span class='no'>nqx</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)-
-                <span class='fu'><a href='lt_id_qm_a.html'>lt_id_qm_a</a></span>(<span class='no'>nqx</span>,<span class='no'>nMx</span>,<span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='no'>Age</span>,<span class='fl'>TRUE</span>,<span class='fl'>5</span>))</div><div class='output co'>#&gt;  [1] 0.01015309 0.03103813 0.00000000 0.00000000 0.00000000 0.00000000
-#&gt;  [7] 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-#&gt; [13] 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-#&gt; [19]         NA</div><div class='input'><span class='co'># same (qx comes from lx)</span>
-<span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>nMx</span>, <span class='kw'>lx</span> <span class='kw'>=</span> <span class='no'>lx</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.350000 1.361000 2.744392 1.525699 2.519320 2.681443 2.630929 2.477929
-#&gt;  [9] 2.499721 2.436179 2.538803 2.503238 2.478849 2.506017 2.504206 2.498433
-#&gt; [17] 2.499301 2.376638 3.537193</div></pre>
+#&gt; [17] 1.829551 1.480824 1.560036</div><div class='input'>
+<span class='co'># nMx taken over lx.</span>
+<span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>nMx</span>, <span class='kw'>lx</span> <span class='kw'>=</span> <span class='no'>lx</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.350000 1.361000 1.971728 2.427513 2.635291 2.604932 2.567799 2.557820
+#&gt;  [9] 2.544030 2.547217 2.570674 2.596676 2.612155 2.608886 2.584268 2.540573
+#&gt; [17] 2.541591 2.419688 3.537193</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Marius D. Pascariu, Monica Alexander, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

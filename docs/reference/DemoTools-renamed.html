@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/yeti/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -45,7 +49,6 @@
 <meta property="og:title" content="Renamed functions in DemoTools — DemoTools-renamed" />
 <meta property="og:description" content="These functions still work but will be removed (defunct) in the next version." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -63,7 +66,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -77,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.06.02</span>
       </span>
     </div>
 
@@ -151,7 +154,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Renamed functions in DemoTools</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/timriffe/DemoTools/blob/master/R/Defunct.R'><code>R/Defunct.R</code></a></small>
     <div class="hidden name"><code>DemoTools-renamed.Rd</code></div>
     </div>
 
@@ -165,63 +168,71 @@
 
     
 <ul>
-<li><p><code><a href='graduate_mono_closeout.html'>monoCloseout</a></code>: This function is now called <code><a href='graduate_mono_closeout.html'>graduate_mono_closeout</a></code>.</p></li>
-<li><p><code><a href='graduate_mono.html'>splitMono</a></code>: This function is now called <code><a href='graduate_mono.html'>graduate_mono</a></code>.</p></li>
-<li><p><code><a href='graduate_grabill.html'>grabill</a></code>: This function is now called <code><a href='graduate_grabill.html'>graduate_grabill</a></code>.</p></li>
-<li><p><code><a href='graduate_sprague.html'>sprague</a></code>: This function is now called <code><a href='graduate_sprague.html'>graduate_sprague</a></code>.</p></li>
-<li><p><code><a href='graduate_beers.html'>beers</a></code>: This function is now called <code><a href='graduate_beers.html'>graduate_beers</a></code>.</p></li>
-<li><p><code><a href='graduate_uniform.html'>splitUniform</a></code>: This function is now called <code><a href='graduate_uniform.html'>graduate_uniform</a></code>.</p></li>
-<li><p><code><a href='lt_a_closeout.html'>aomegaMortalityLaws</a></code>: This function is now called <code><a href='lt_a_closeout.html'>lt_a_closeout</a></code>.</p></li>
-<li><p><code><a href='lt_id_l_d.html'>lx2dx</a></code>: This function is now called <code><a href='lt_id_l_d.html'>lt_id_l_d</a></code>.</p></li>
-<li><p><code><a href='lt_id_L_T.html'>Lx2Tx</a></code>: This function is now called <code><a href='lt_id_L_T.html'>lt_id_L_T</a></code>.</p></li>
-<li><p><code><a href='lt_id_L_T.html'>Lx2Tx</a></code>: This function is now called <code><a href='lt_id_L_T.html'>lt_id_L_T</a></code>.</p></li>
-<li><p><code><a href='lt_id_Ll_S.html'>Lxlx2Sx</a></code>: This function is now called <code><a href='lt_id_Ll_S.html'>lt_id_Ll_S</a></code>.</p></li>
-<li><p><code><a href='lt_id_q_l.html'>qx2lx</a></code>: This function is now called <code><a href='lt_id_q_l.html'>lt_id_q_l</a></code>.</p></li>
-<li><p><code><a href='lt_id_ma_q.html'>mxax2qx</a></code>: This function is now called <code><a href='lt_id_ma_q.html'>lt_id_ma_q</a></code>.</p></li>
-<li><p><code><a href='lt_id_ma_q.html'>mx2qx</a></code>: This function is now called <code><a href='lt_id_ma_q.html'>lt_id_ma_q</a></code>.</p></li>
-<li><p><code><a href='lt_id_ma_q.html'>mxax2qx_Backstop</a></code>: This function is now called <code><a href='lt_id_ma_q.html'>lt_id_ma_q</a></code>.</p></li>
-<li><p><code><a href='lt_id_qa_m.html'>qxax2mx</a></code>: This function is now called <code><a href='lt_id_qa_m.html'>lt_id_qa_m</a></code>.</p></li>
-<li><p><code><a href='lt_id_morq_a.html'>mxorqx2ax</a></code>: This function is now called <code><a href='lt_id_morq_a.html'>lt_id_morq_a</a></code>.</p></li>
-<li><p><code><a href='lt_a_un.html'>axUN</a></code>: This function is now called <code><a href='lt_a_un.html'>lt_a_un</a></code>.</p></li>
-<li><p><code><a href='lt_a_pas.html'>axPAS</a></code>: This function is now called <code><a href='lt_a_pas.html'>lt_a_pas</a></code>.</p></li>
-<li><p><code><a href='lt_id_morq_a_greville.html'>ax.greville.mortpak</a></code>: This function is now called <code><a href='lt_id_morq_a_greville.html'>lt_id_morq_a_greville</a></code>.</p></li>
-<li><p><code><a href='lt_abridged.html'>LTabr</a></code>: This function is now called <code><a href='lt_abridged.html'>lt_abridged</a></code>.</p></li>
-<li><p><code><a href='lt_single_mx.html'>lt_single_simple</a></code>: This function is now called <code><a href='lt_single_mx.html'>lt_single_mx</a></code>.</p></li>
-<li><p><code><a href='lt_rule_m_extrapolate.html'>extra.mortality</a></code>: This function is now called <code><a href='lt_rule_m_extrapolate.html'>lt_rule_m_extrapolate</a></code>.</p></li>
-<li><p><code><a href='lt_rule_1a0_cd.html'>geta0CD</a></code>: This function is now called <code><a href='lt_rule_1a0_cd.html'>lt_rule_1a0_cd</a></code>.</p></li>
-<li><p><code><a href='lt_rule_4a1_cd.html'>geta1_4CD</a></code>: This function is now called <code><a href='lt_rule_4a1_cd.html'>lt_rule_4a1_cd</a></code>.</p></li>
-<li><p><code><a href='lt_rule_4m0_D0.html'>M04_2_D0</a></code>: This function is now called <code><a href='lt_rule_4m0_D0.html'>lt_rule_4m0_D0</a></code>.</p></li>
-<li><p><code><a href='smooth_age_5.html'>agesmth</a></code>: This function is now called <code><a href='smooth_age_5.html'>smooth_age_5</a></code>.</p></li>
-<li><p><code><a href='smooth_age_5_feeney.html'>T9R5L</a></code>: This function is now called <code><a href='smooth_age_5_feeney.html'>smooth_age_5_feeney</a></code>.</p></li>
-<li><p><code><a href='smooth_age_5_cf.html'>carrier_farrag_smth</a></code>: This function is now called <code><a href='smooth_age_5_cf.html'>smooth_age_5_cf</a></code>.</p></li>
-<li><p><code><a href='smooth_age_5_kkn.html'>kkn_smth</a></code>: This function is now called <code><a href='smooth_age_5_kkn.html'>smooth_age_5_kkn</a></code>.</p></li>
-<li><p><code><a href='smooth_age_5_arriaga.html'>arriaga_smth</a></code>: This function is now called <code><a href='smooth_age_5_arriaga.html'>smooth_age_5_arriaga</a></code>.</p></li>
-<li><p><code><a href='smooth_age_5_mav.html'>mav_smth</a></code>: This function is now called <code><a href='smooth_age_5_mav.html'>smooth_age_5_mav</a></code>.</p></li>
-<li><p><code><a href='smooth_age_5_zigzag.html'>zigzag_smth</a></code>: This function is now called <code><a href='smooth_age_5_zigzag.html'>smooth_age_5_zigzag</a></code>.</p></li>
-<li><p><code><a href='smooth_age_5_strong.html'>strong_smth</a></code>: This function is now called <code><a href='smooth_age_5_strong.html'>smooth_age_5_strong</a></code>.</p></li>
-<li><p><code><a href='smooth_age_5_un.html'>united_nations_smth</a></code>: This function is now called <code><a href='smooth_age_5_un.html'>smooth_age_5_un</a></code>.</p></li>
-<li><p><code><a href='rescale_vector.html'>adjustAge</a></code>: This function is now called <code><a href='rescale_vector.html'>rescale_vector</a></code>.</p></li>
+<li><p><code>monoCloseout</code>: This function is now called <code><a href='graduate_mono_closeout.html'>graduate_mono_closeout</a></code>.</p></li>
+<li><p><code>splitMono</code>: This function is now called <code><a href='graduate_mono.html'>graduate_mono</a></code>.</p></li>
+<li><p><code>grabill</code>: This function is now called <code><a href='graduate_grabill.html'>graduate_grabill</a></code>.</p></li>
+<li><p><code>sprague</code>: This function is now called <code><a href='graduate_sprague.html'>graduate_sprague</a></code>.</p></li>
+<li><p><code>beers</code>: This function is now called <code><a href='graduate_beers.html'>graduate_beers</a></code>.</p></li>
+<li><p><code>splitUniform</code>: This function is now called <code><a href='graduate_uniform.html'>graduate_uniform</a></code>.</p></li>
+<li><p><code>aomegaMortalityLaws</code>: This function is now called <code><a href='lt_a_closeout.html'>lt_a_closeout</a></code>.</p></li>
+<li><p><code>lx2dx</code>: This function is now called <code><a href='lt_id_l_d.html'>lt_id_l_d</a></code>.</p></li>
+<li><p><code>Lx2Tx</code>: This function is now called <code><a href='lt_id_L_T.html'>lt_id_L_T</a></code>.</p></li>
+<li><p><code>Lx2Tx</code>: This function is now called <code><a href='lt_id_L_T.html'>lt_id_L_T</a></code>.</p></li>
+<li><p><code>Lxlx2Sx</code>: This function is now called <code><a href='lt_id_Ll_S.html'>lt_id_Ll_S</a></code>.</p></li>
+<li><p><code>qx2lx</code>: This function is now called <code><a href='lt_id_q_l.html'>lt_id_q_l</a></code>.</p></li>
+<li><p><code>mxax2qx</code>: This function is now called <code><a href='lt_id_ma_q.html'>lt_id_ma_q</a></code>.</p></li>
+<li><p><code>mx2qx</code>: This function is now called <code><a href='lt_id_ma_q.html'>lt_id_ma_q</a></code>.</p></li>
+<li><p><code>mxax2qx_Backstop</code>: This function is now called <code><a href='lt_id_ma_q.html'>lt_id_ma_q</a></code>.</p></li>
+<li><p><code>qxax2mx</code>: This function is now called <code><a href='lt_id_qa_m.html'>lt_id_qa_m</a></code>.</p></li>
+<li><p><code>mxorqx2ax</code>: This function is now called <code><a href='lt_id_morq_a.html'>lt_id_morq_a</a></code>.</p></li>
+<li><p><code>axUN</code>: This function is now called <code><a href='lt_a_un.html'>lt_a_un</a></code>.</p></li>
+<li><p><code>axPAS</code>: This function is now called <code><a href='lt_a_pas.html'>lt_a_pas</a></code>.</p></li>
+<li><p><code>ax.greville.mortpak</code>: This function is now called <code><a href='lt_id_morq_a_greville.html'>lt_id_morq_a_greville</a></code>.</p></li>
+<li><p><code>LTabr</code>: This function is now called <code><a href='lt_abridged.html'>lt_abridged</a></code>.</p></li>
+<li><p><code>lt_single_simple</code>: This function is now called <code><a href='lt_single_mx.html'>lt_single_mx</a></code>.</p></li>
+<li><p><code>extra.mortality</code>: This function is now called <code><a href='lt_rule_m_extrapolate.html'>lt_rule_m_extrapolate</a></code>.</p></li>
+<li><p><code>geta0CD</code>: This function is now called <code><a href='lt_rule_1a0_cd.html'>lt_rule_1a0_cd</a></code>.</p></li>
+<li><p><code>geta1_4CD</code>: This function is now called <code><a href='lt_rule_4a1_cd.html'>lt_rule_4a1_cd</a></code>.</p></li>
+<li><p><code>M04_2_D0</code>: This function is now called <code><a href='lt_rule_4m0_D0.html'>lt_rule_4m0_D0</a></code>.</p></li>
+<li><p><code>agesmth</code>: This function is now called <code><a href='smooth_age_5.html'>smooth_age_5</a></code>.</p></li>
+<li><p><code>T9R5L</code>: This function is now called <code><a href='smooth_age_5_feeney.html'>smooth_age_5_feeney</a></code>.</p></li>
+<li><p><code>carrier_farrag_smth</code>: This function is now called <code><a href='smooth_age_5_cf.html'>smooth_age_5_cf</a></code>.</p></li>
+<li><p><code>kkn_smth</code>: This function is now called <code><a href='smooth_age_5_kkn.html'>smooth_age_5_kkn</a></code>.</p></li>
+<li><p><code>arriaga_smth</code>: This function is now called <code><a href='smooth_age_5_arriaga.html'>smooth_age_5_arriaga</a></code>.</p></li>
+<li><p><code>mav_smth</code>: This function is now called <code><a href='smooth_age_5_mav.html'>smooth_age_5_mav</a></code>.</p></li>
+<li><p><code>zigzag_smth</code>: This function is now called <code><a href='smooth_age_5_zigzag.html'>smooth_age_5_zigzag</a></code>.</p></li>
+<li><p><code>strong_smth</code>: This function is now called <code><a href='smooth_age_5_strong.html'>smooth_age_5_strong</a></code>.</p></li>
+<li><p><code>united_nations_smth</code>: This function is now called <code><a href='smooth_age_5_un.html'>smooth_age_5_un</a></code>.</p></li>
+<li><p><code>adjustAge</code>: This function is now called <code><a href='rescale_vector.html'>rescale_vector</a></code>.</p></li>
+<li><p><code>Whipple</code>: This function is now called <code><a href='check_heaping_whipple.html'>check_heaping_whipple</a></code>.</p></li>
+<li><p><code>Myers</code>: This function is now called <code><a href='check_heaping_myers.html'>check_heaping_myers</a></code>.</p></li>
+<li><p><code>Bachi</code>: This function is now called <code><a href='check_heaping_bachi.html'>check_heaping_bachi</a></code>.</p></li>
+<li><p><code>CoaleLi</code>: This function is now called <code><a href='check_heaping_coale_li.html'>check_heaping_coale_li</a></code>.</p></li>
+<li><p><code>Noumbissi</code>: This function is now called <code><a href='check_heaping_noumbissi.html'>check_heaping_noumbissi</a></code>.</p></li>
+<li><p><code>Spoorenberg</code>: This function is now called <code><a href='check_heaping_spoorenberg.html'>check_heaping_spoorenberg</a></code>.</p></li>
+<li><p><code>KannistoHeap</code>: This function is now called <code><a href='check_heaping_kannisto.html'>check_heaping_kannisto</a></code>.</p></li>
+<li><p><code>Jdanov</code>: This function is now called <code><a href='check_heaping_jdanov.html'>check_heaping_jdanov</a></code>.</p></li>
+<li><p><code>zero_pref_sawtooth</code>: This function is now called <code><a href='check_heaping_sawtooth.html'>check_heaping_sawtooth</a></code>.</p></li>
+<li><p><code>five_year_roughness</code>: This function is now called <code><a href='check_heaping_roughness.html'>check_heaping_roughness</a></code>.</p></li>
 </ul>
 
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#details">Details</a></li>
-    </ul>
-
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Marius D. Pascariu, Monica Alexander, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

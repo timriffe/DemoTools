@@ -20,3 +20,8 @@ LICENSE-text.html
 authors.html
 index.html
 logo.png
+DemoToolsHexTests
+Spreadsheets
+^\.ccache$
+^\.github$
+^tic\.R$

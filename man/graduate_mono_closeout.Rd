@@ -2,20 +2,9 @@
 % Please edit documentation in R/graduate.R
 \name{graduate_mono_closeout}
 \alias{graduate_mono_closeout}
-\alias{monoCloseout}
 \title{blend the Sprague upper boundary age estimates into monotonic spline estimates}
 \usage{
 graduate_mono_closeout(
-  Value,
-  Age,
-  pops,
-  pivotAge = 90,
-  splitfun = graduate_sprague,
-  OAG = TRUE,
-  ...
-)
-
-monoCloseout(
   Value,
   Age,
   pops,

@@ -2,12 +2,9 @@
 % Please edit documentation in R/smooth_age_5.R
 \name{smooth_age_5_arriaga}
 \alias{smooth_age_5_arriaga}
-\alias{arriaga_smth}
 \title{E. Arriaga's method of population count smoothing}
 \usage{
 smooth_age_5_arriaga(Value, Age, OAG = TRUE)
-
-arriaga_smth(Value, Age, OAG = TRUE)
 }
 \arguments{
 \item{Value}{numeric vector of counts in single, abridged, or 5-year age groups.}

@@ -19,13 +19,7 @@ reference:
   - title: "Evaluate age structure"
     desc: Indicators to evaluate the degreee of age heaping
     contents: 
-          - '`Whipple`'
-          - '`Myers`'
-          - '`Bachi`'
-          - '`Noumbissi`'
-          - '`Spoorenberg`'
-          - '`CoaleLi`'
-          - '`Jdanov`'
+          - starts_with("check_heaping")
   - title: "Evaluate consitenty of age structures"
     desc: Methods to assess the consistency of age structures
     contents:           
@@ -35,11 +29,11 @@ reference:
           - '`IRD`'
           - '`ID`'
           - '`survRatioError`'
-  - title: "Evaluate patterns heaping"
+  - title: "Evaluate patterns of heaping"
     desc: Methods to assess in which ages heaping happens
     contents:                     
-          - '`zero_pref_sawtooth`'
-          - '`five_year_roughness`'
+          - '`check_heaping_sawtooth`'
+          - '`check_heaping_roughness`'
   - title: "Graduation"
     desc: Functions to graduate demographic counts. Methods include Sprague, Beers ordinary, Beers modified, monotone spline, PCLM and uniform.
     contents:
@@ -61,6 +55,7 @@ reference:
     desc: Functions for migration models
     contents:
       - '`mig_calculate_rc`'
+      - '`mig_estimate_rc`'
   - title: "Miscelaneous data operations"
     contents:
       - '`groupAges`'
@@ -75,16 +70,16 @@ reference:
       - ends_with("smth1")
       - '`spencer`'
       - '`zelnik`'
-  - title: "Auxiliar lifetable functions"
+  - title: "Auxiliary lifetable functions"
     contents:      
       - starts_with("lt_")
-  - title: "Auxiliar checking functions"
+  - title: "Auxiliary checking functions"
     contents:      
       - starts_with("is_")
-  - title: "Auxiliar population structure functions"
+  - title: "Datasets"
     contents:      
       - starts_with("pop")
-  - title: "Datasets"
+  - title: "Auxiliary population structure functions"
     contents:      
       - '`calcAgeN`'
       - '`dec.date`'

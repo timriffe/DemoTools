@@ -4,7 +4,8 @@
 \name{fitted_logquad_b}
 \alias{fitted_logquad_b}
 \title{LogQuad model for BOTH SEX fitted for all HMD life tables}
-\format{List of 6:
+\format{
+List of 6:
   \describe{
     \item{input}{List of parameters passed to \code{MortalityEstimate::wilmoth}.}
     \item{call}{R code call line used for fitting.}
@@ -12,7 +13,8 @@
     \item{k}{\code{k} fitting parameter of the LogQuag model, a vector of 968 values.}
     \item{fitted.values}{Fitted death rates, a matrix 968x24.}
     \item{model.info}{Model formula.}
- }}
+ }
+}
 \source{
 Human Mortality Database [Portal]. Retrieved 2019-11-28, from 
   \url{https://mortality.org}

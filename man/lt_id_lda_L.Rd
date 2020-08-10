@@ -2,12 +2,9 @@
 % Please edit documentation in R/lt_id.R
 \name{lt_id_lda_L}
 \alias{lt_id_lda_L}
-\alias{lxdxax2Lx}
 \title{Derive lifetable exposure from lx, ndx and nax.}
 \usage{
 lt_id_lda_L(lx, ndx, nax, AgeInt)
-
-lxdxax2Lx(lx, ndx, nax, AgeInt)
 }
 \arguments{
 \item{lx}{numeric.  Vector of age-specific lifetable survivorship.}

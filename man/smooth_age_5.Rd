@@ -2,32 +2,18 @@
 % Please edit documentation in R/smooth_age_5.R
 \name{smooth_age_5}
 \alias{smooth_age_5}
-\alias{agesmth}
 \title{Smooth populations in 5-year age groups using various methods}
 \usage{
 smooth_age_5(
   Value,
   Age,
   method = c("Carrier-Farrag", "KKN", "Arriaga", "United Nations", "Strong", "Zigzag",
-    "MAV")[1],
+    "MAV"),
   OAG = TRUE,
   ageMin = 10,
   ageMax = 65,
   n = 3,
-  young.tail = c("Original", "Arriaga", "Strong", NA)[1],
-  old.tail = young.tail
-)
-
-agesmth(
-  Value,
-  Age,
-  method = c("Carrier-Farrag", "KKN", "Arriaga", "United Nations", "Strong", "Zigzag",
-    "MAV")[1],
-  OAG = TRUE,
-  ageMin = 10,
-  ageMax = 65,
-  n = 3,
-  young.tail = c("Original", "Arriaga", "Strong", NA)[1],
+  young.tail = c("Original", "Arriaga", "Strong", NA),
   old.tail = young.tail
 )
 }
@@ -36,7 +22,7 @@ agesmth(
 
 \item{Age}{integer vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{method}{character string. Options include \code{"Carrier-Farrag"},\code{"Arriaga"},\code{"Karup-King-Newton"},\code{"United Nations"}, \code{"Strong"}, and \code{"Zigzag"}. See details. Default \code{"Carrier-Farrag"}.}
+\item{method}{character string. Options include \code{"Carrier-Farrag"},\code{"Arriaga"},\code{"KKN"},\code{"United Nations"}, \code{"Strong"}, and \code{"Zigzag"}. See details. Default \code{"Carrier-Farrag"}.}
 
 \item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
 
@@ -60,7 +46,7 @@ of values in the youngest and oldest age groups for the Carrier-Farrag, Karup-Ki
 and United Nations methods.
 }
 \details{
-The Carrier-Farrag, Karup-King-Newton, and Arriaga methods do not modify the totals
+The Carrier-Farrag, Karup-King-Newton (KKN), and Arriaga methods do not modify the totals
 in each 10-year age group, whereas the United Nations, Strong, Zigzag, and moving average (MAV) methods do. The age intervals
 of input data could be any integer structure (single, abridged, 5-year, other), but
 output is always in 5-year age groups. All methods except the United Nations and MAV methods
@@ -106,7 +92,7 @@ un <- smooth_age_5(Value = pop5m_pasex,
 	OAG = TRUE)
 kkn <- smooth_age_5(Value = pop5m_pasex,
 	Age = Ages,
-	method = "Karup-King-Newton",
+	method = "KKN",
 	OAG = TRUE)
 # zigzag, not plotted.
 zz <- smooth_age_5(pop5m_pasex,Ages,OAG=TRUE,method="Zigzag",ageMin = 30, ageMax = 80)
