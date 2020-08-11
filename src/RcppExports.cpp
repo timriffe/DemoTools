@@ -7,16 +7,10 @@
 using namespace Rcpp;
 
 
-RcppExport SEXP _rcpp_module_boot_stan_fit4rc_11_mod();
-RcppExport SEXP _rcpp_module_boot_stan_fit4rc_13_mod();
-RcppExport SEXP _rcpp_module_boot_stan_fit4rc_7_mod();
-RcppExport SEXP _rcpp_module_boot_stan_fit4rc_9_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4rc_flexible_mod();
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rcpp_module_boot_stan_fit4rc_11_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4rc_11_mod, 0},
-    {"_rcpp_module_boot_stan_fit4rc_13_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4rc_13_mod, 0},
-    {"_rcpp_module_boot_stan_fit4rc_7_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4rc_7_mod, 0},
-    {"_rcpp_module_boot_stan_fit4rc_9_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4rc_9_mod, 0},
+    {"_rcpp_module_boot_stan_fit4rc_flexible_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4rc_flexible_mod, 0},
     {NULL, NULL, 0}
 };
 

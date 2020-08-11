@@ -2,7 +2,6 @@ Meta
 doc
 /.settings/
 /.project
-/src/
 /devdata/
 *.Rhistory
 /inst/REFERENCES.bib.bak
