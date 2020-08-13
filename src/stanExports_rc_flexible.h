@@ -314,7 +314,7 @@ public:
         size_t a3_i_0_max__ = (1 * retirement);
         for (size_t i_0__ = 0; i_0__ < a3_i_0_max__; ++i_0__) {
             try {
-                writer__.scalar_lb_unconstrain(0, a3[i_0__]);
+                writer__.scalar_lub_unconstrain(0, 1, a3[i_0__]);
             } catch (const std::exception& e) {
                 stan::lang::rethrow_located(std::runtime_error(std::string("Error transforming variable a3: ") + e.what()), current_statement_begin__, prog_reader__());
             }
@@ -334,7 +334,7 @@ public:
         size_t a4_i_0_max__ = (1 * post_retirement);
         for (size_t i_0__ = 0; i_0__ < a4_i_0_max__; ++i_0__) {
             try {
-                writer__.scalar_lb_unconstrain(0, a4[i_0__]);
+                writer__.scalar_lub_unconstrain(0, 1, a4[i_0__]);
             } catch (const std::exception& e) {
                 stan::lang::rethrow_located(std::runtime_error(std::string("Error transforming variable a4: ") + e.what()), current_statement_begin__, prog_reader__());
             }
@@ -434,7 +434,7 @@ public:
         size_t lambda4_i_0_max__ = (1 * post_retirement);
         for (size_t i_0__ = 0; i_0__ < lambda4_i_0_max__; ++i_0__) {
             try {
-                writer__.scalar_lb_unconstrain(0, lambda4[i_0__]);
+                writer__.scalar_lub_unconstrain(0, 0.05, lambda4[i_0__]);
             } catch (const std::exception& e) {
                 stan::lang::rethrow_located(std::runtime_error(std::string("Error transforming variable lambda4: ") + e.what()), current_statement_begin__, prog_reader__());
             }
@@ -546,9 +546,9 @@ public:
             a3.reserve(a3_d_0_max__);
             for (size_t d_0__ = 0; d_0__ < a3_d_0_max__; ++d_0__) {
                 if (jacobian__)
-                    a3.push_back(in__.scalar_lb_constrain(0, lp__));
+                    a3.push_back(in__.scalar_lub_constrain(0, 1, lp__));
                 else
-                    a3.push_back(in__.scalar_lb_constrain(0));
+                    a3.push_back(in__.scalar_lub_constrain(0, 1));
             }
             current_statement_begin__ = 17;
             std::vector<local_scalar_t__> a4;
@@ -556,9 +556,9 @@ public:
             a4.reserve(a4_d_0_max__);
             for (size_t d_0__ = 0; d_0__ < a4_d_0_max__; ++d_0__) {
                 if (jacobian__)
-                    a4.push_back(in__.scalar_lb_constrain(0, lp__));
+                    a4.push_back(in__.scalar_lub_constrain(0, 1, lp__));
                 else
-                    a4.push_back(in__.scalar_lb_constrain(0));
+                    a4.push_back(in__.scalar_lub_constrain(0, 1));
             }
             current_statement_begin__ = 18;
             std::vector<local_scalar_t__> mu2;
@@ -606,9 +606,9 @@ public:
             lambda4.reserve(lambda4_d_0_max__);
             for (size_t d_0__ = 0; d_0__ < lambda4_d_0_max__; ++d_0__) {
                 if (jacobian__)
-                    lambda4.push_back(in__.scalar_lb_constrain(0, lp__));
+                    lambda4.push_back(in__.scalar_lub_constrain(0, 0.05, lp__));
                 else
-                    lambda4.push_back(in__.scalar_lb_constrain(0));
+                    lambda4.push_back(in__.scalar_lub_constrain(0, 0.05));
             }
             current_statement_begin__ = 23;
             local_scalar_t__ c;
@@ -766,9 +766,9 @@ public:
             current_statement_begin__ = 66;
             if (as_bool(logical_eq(post_retirement, 1))) {
                 current_statement_begin__ = 67;
-                lp_accum__.add(normal_log<propto__>(a4, 0, 1));
+                lp_accum__.add(normal_log<propto__>(a4, 0, 0.1));
                 current_statement_begin__ = 68;
-                lp_accum__.add(normal_log<propto__>(lambda4, 0, 0.1));
+                lp_accum__.add(normal_log<propto__>(lambda4, 0, 0.01));
             }
             current_statement_begin__ = 70;
             lp_accum__.add(normal_log<propto__>(c, 0, 1));
@@ -945,7 +945,7 @@ public:
         size_t a3_d_0_max__ = (1 * retirement);
         a3.reserve(a3_d_0_max__);
         for (size_t d_0__ = 0; d_0__ < a3_d_0_max__; ++d_0__) {
-            a3.push_back(in__.scalar_lb_constrain(0));
+            a3.push_back(in__.scalar_lub_constrain(0, 1));
         }
         size_t a3_k_0_max__ = (1 * retirement);
         for (size_t k_0__ = 0; k_0__ < a3_k_0_max__; ++k_0__) {
@@ -955,7 +955,7 @@ public:
         size_t a4_d_0_max__ = (1 * post_retirement);
         a4.reserve(a4_d_0_max__);
         for (size_t d_0__ = 0; d_0__ < a4_d_0_max__; ++d_0__) {
-            a4.push_back(in__.scalar_lb_constrain(0));
+            a4.push_back(in__.scalar_lub_constrain(0, 1));
         }
         size_t a4_k_0_max__ = (1 * post_retirement);
         for (size_t k_0__ = 0; k_0__ < a4_k_0_max__; ++k_0__) {
@@ -1005,7 +1005,7 @@ public:
         size_t lambda4_d_0_max__ = (1 * post_retirement);
         lambda4.reserve(lambda4_d_0_max__);
         for (size_t d_0__ = 0; d_0__ < lambda4_d_0_max__; ++d_0__) {
-            lambda4.push_back(in__.scalar_lb_constrain(0));
+            lambda4.push_back(in__.scalar_lub_constrain(0, 0.05));
         }
         size_t lambda4_k_0_max__ = (1 * post_retirement);
         for (size_t k_0__ = 0; k_0__ < lambda4_k_0_max__; ++k_0__) {

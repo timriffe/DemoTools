@@ -13,13 +13,13 @@ parameters {
      real<lower=0> alpha3[1*retirement];
      real<lower=0, upper=1> a1[1*pre_working_age];
      real<lower=0, upper=1> a2[1*working_age];
-     real<lower=0> a3[1*retirement];
-     real<lower=0> a4[1*post_retirement];
+     real<lower=0, upper=1> a3[1*retirement];
+     real<lower=0, upper=1> a4[1*post_retirement];
      real<lower=0> mu2[1*working_age];
      real<lower=0, upper=max(x)> mu3[1*retirement];
      real<lower=0> lambda2[1*working_age];
      real<lower=0> lambda3[1*retirement];
-     real<lower=0> lambda4[1*post_retirement];
+     real<lower=0, upper=0.05> lambda4[1*post_retirement];
      real<lower=0, upper=1> c;
      real<lower=0> sigma;
 }
@@ -64,8 +64,8 @@ model {
       lambda3 ~ normal(0,1);
      }
      if(post_retirement==1){
-      a4 ~ normal(0,1);
-      lambda4 ~ normal(0,0.1);
+      a4 ~ normal(0,0.1);
+      lambda4 ~ normal(0,0.01);
      }
      c ~ normal(0,1);
      sigma ~ normal(0,1);

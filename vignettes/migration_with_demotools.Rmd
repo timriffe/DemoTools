@@ -18,8 +18,9 @@ header-includes:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
+  message = FALSE,
   fig.width = 6, 
-  fig.height = 6,
+  fig.height = 4,
   fig.align = "center"
 )
 
@@ -27,21 +28,117 @@ knitr::opts_chunk$set(
 
 ## How to use `DemoTools` to model migration
 
-### Why modeling migration
-Migrations happens with multiple transitions over the life course such as entry to education, new job or retirement  [@preston2000demography]. These transitions happen more frequently at some ages and come in parallel often with migration. Adult migration usually peaks at youn adult ages. Around age at retirement there is a second peak. Because of these regularities it is, therefore, possible to model migration by age, which is very important for policy makers and for demographers in estimating population dynamics. 
+### Why model migration
+Migration happens with multiple transitions over the life course such as entry to education, new job or retirement  [@preston2000demography]. These transitions happen more frequently at some ages and come in parallel often with migration. Adult migration usually peaks at young adult ages. Around age at retirement there is a second peak. Because of these regularities it is, therefore, possible to model migration by age, which is very important for policy makers and for demographers in estimating population dynamics. Age-specific migration models can help to estimate missing data, smooth noisy data, project trends into the future, and to generalize migration patterns across different populuations. 
+
+`DemoTools` has the functionality to fit and estimate age-specific migration schedules based on the Rogers-Castro migration model. This vignette briefly introduces the Rogers-Castro model and then gives examples of both calculating age-specific migration curves given a set of parameters, and fitting the Rogers-Castro model given a set of age-specific migration rates. 
 
 ### The Rogers and Castro model
-@rogers1981model developed a mathematical model of migration with 11 parameter. Seven of these parameters explain the shape of migration by age, while the rest of parameters represent the intensity of migration. The original formula for the migration rate at age $x$ is:
+@rogers1981model developed a mathematical model of migration with up to 13 parameters. Seven of these parameters explain the shape of migration by age, while the rest of parameters represent the intensity of migration. The original formula for the migration rate at age $x$ is:
 
 \begin{equation*}
-m(x)= a_1 \exp{[ \alpha_1 x ]} + a_2 \exp{[ -\alpha_2 (x - \mu_2) - \exp{ [ -\lambda_2(x - \mu_2) ]}  ]}+ a_3 \exp{[ - \alpha_3(x-\mu_3) - \exp{[-\lambda_3 (x-\mu_3)]} ]} + c
+m(x)= a_1 \exp{[ \alpha_1 x ]} + a_2 \exp{[ -\alpha_2 (x - \mu_2) - \exp{ [ -\lambda_2(x - \mu_2) ]}  ]}+ a_3 \exp{[ - \alpha_3(x-\mu_3) - \exp{[-\lambda_3 (x-\mu_3)]} ]} + a_4\exp{[\lambda_4x ]}+ c
 \end{equation*}
 
-@ Monica: some interpretation of the coefficients?
- 
+The $c$ parameter describes the baseline level of migration. There are four other distinct parts to the equation, which each describe the shape and intensity of migration at different ages:
+
+- pre-working age: $a_1 \exp{[ \alpha_1 x ]}$ (Group 1)
+- working age: $a_2 \exp{[ -\alpha_2 (x - \mu_2) - \exp{ [ -\lambda_2(x - \mu_2) ]}  ]}$ (Group 2)
+- retirement age: $a_3 \exp{[ - \alpha_3(x-\mu_3) - \exp{[-\lambda_3 (x-\mu_3)]} ]}$ (Group 3)
+- post-retirement age: $a_4 \exp{[\lambda_4x ]}$ (Group 4)
+
+For each of the components, the $a_k$ terms describe the heights of the peaks of migration rates. The $\alpha_k$ and $\lambda_k$ parameters describe the shape of each of the components, in terms of the rate of change over age. And $\mu_2$ and $\mu_3$ give the ages at the labour force peak and at the retirement peak, respectively. 
+
+The migration model need not have all the 'families' of migration at different age stages. In practice, there are four combinations of families that are the most common [@rogers2010indirect]:
+
+- The 7 parameter model, which has the pre-working and working age components
+- The 9 parameter model, which has the pre-working, working and post-retirement age components
+- The 11 parameter model, which has the pre-working, working and retirement age components
+- The 13 parameter model, which has all components. 
+
+The migration model-related functions in `DemoTools` allow for any combination of the components to be included in the model. 
+
 ### Example with `DemoTools`
-An example, flexibility of parameters in R, and interpretation of results
-@ Monica: could you help with this section?
+
+`DemoTools` includes two migration model-related functions: `mig_calculate_rc`, which returns age-specific migration rates calculated based on an age range and set of parameter inputs, and `mig_estimate_rc`, which estimates parameter values and age-specific migration rates $m(x)$ based on an observed age range and migration rates. This section gives examples of both functions. 
+
+#### Calculating Rogers-Castro migration schedules
+
+We can calculate the implied age-specific rates from a set of parameter inputs. Parameters are defined the same way as in the equation above, that is, `c` is the overall intensity, the `a`'s are the intensities at each age family, the `alpha`s and `lambda`s are the rate of decrease and increase of the shape at each age family, and the `mu`s are the age of peak migration for working age and retirement. 
+
+The following is an example specifying values for each of the 13 possible parameters, with values calculated for each age up to age 100:
+
+```{r}
+library(DemoTools)
+library(tidyverse)
+
+pars <- c(a1= 0.09, alpha1= 0.1, 
+          a2= 0.2, alpha2= 0.1, mu2= 21, lambda2= 0.4, 
+          a3= 0.02, alpha3= 0.25, mu3= 67, lambda3= 0.6, 
+          a4 = 0.01, lambda4 = 0.01,
+          c= 0.01)
+
+ages <- 0:100
+mx <- mig_calculate_rc(ages = ages, pars = pars)
+
+# plot to see what the schedule looks like
+df <- tibble(age = ages, mx = mx)
+df %>% 
+  ggplot(aes(age, mx)) + 
+  geom_line() + 
+  ggtitle("Rogers-Castro age-specific migration schedule (13-parameter)")
+  
+```
+
+Not all parameters need to be specified. The following shows an example of the 9 parameter specification:
+
+```{r}
+pars <- c(a1= 0.09, alpha1= 0.1, 
+          a2= 0.2, alpha2= 0.05, mu2= 25, lambda2= 0.4,
+          c= 0.01)
+
+ages <- 0:100
+mx <- mig_calculate_rc(ages = ages, pars = pars)
+
+# plot to see what the schedule looks like
+df <- tibble(age = ages, mx = mx)
+df %>% 
+  ggplot(aes(age, mx)) + 
+  geom_line() + 
+  ggtitle("Rogers-Castro age-specific migration schedule (9-parameter)")
+```
+
+Note, however, that all parameters within a particular component family must be specified. So for example, if one of the working-age family parameters is specified (Group 2), then all must be specified, otherwise an error occurs.
+
+
+#### Estimating migration age schedules using the Rogers-Castro model
+
+```{r}
+# ages <- seq(0, 80, by = 5)
+# mx_FL <- c(0.02613247, 0.02075862, 0.01993611, 0.02994867, 0.04048538, 0.04470616, 0.03498595,
+#            0.02752243, 0.02554334, 0.02281443, 0.02363378, 0.02865692, 0.02881580, 0.02986224, 0.02643239, 0.02243364, 0.02280693)
+# 
+# ggplot(data = tibble(age = ages, mx = mx_FL), aes(age, mx)) + geom_point()
+
+```
+
+
+```{r}
+res <- mig_estimate_rc(ages, mx, 
+                       pre_working_age = TRUE, 
+                       working_age = TRUE, 
+                       retirement = FALSE, 
+                       post_retirement = FALSE,
+                       # (optional) arguments for Stan
+                       iter = 2000,
+                       control = list(adapt_delta = 0.8, max_treedepth = 10))
+res[["fit_df"]] %>% 
+  ggplot(aes(ages, data)) + 
+  geom_point(color = "red") + 
+  geom_line(aes(x = age, y = median)) + 
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2) 
+
+```
 
 
 ## References
