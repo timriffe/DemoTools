@@ -33,7 +33,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_rc_flexible");
-    reader.add_event(74, 72, "end", "model_rc_flexible");
+    reader.add_event(75, 73, "end", "model_rc_flexible");
     return reader;
 }
 #include <stan_meta_header.hpp>
@@ -314,7 +314,7 @@ public:
         size_t a3_i_0_max__ = (1 * retirement);
         for (size_t i_0__ = 0; i_0__ < a3_i_0_max__; ++i_0__) {
             try {
-                writer__.scalar_lb_unconstrain(0, a3[i_0__]);
+                writer__.scalar_lub_unconstrain(0, 1, a3[i_0__]);
             } catch (const std::exception& e) {
                 stan::lang::rethrow_located(std::runtime_error(std::string("Error transforming variable a3: ") + e.what()), current_statement_begin__, prog_reader__());
             }
@@ -334,7 +334,7 @@ public:
         size_t a4_i_0_max__ = (1 * post_retirement);
         for (size_t i_0__ = 0; i_0__ < a4_i_0_max__; ++i_0__) {
             try {
-                writer__.scalar_lb_unconstrain(0, a4[i_0__]);
+                writer__.scalar_lub_unconstrain(0, 1, a4[i_0__]);
             } catch (const std::exception& e) {
                 stan::lang::rethrow_located(std::runtime_error(std::string("Error transforming variable a4: ") + e.what()), current_statement_begin__, prog_reader__());
             }
@@ -434,7 +434,7 @@ public:
         size_t lambda4_i_0_max__ = (1 * post_retirement);
         for (size_t i_0__ = 0; i_0__ < lambda4_i_0_max__; ++i_0__) {
             try {
-                writer__.scalar_lb_unconstrain(0, lambda4[i_0__]);
+                writer__.scalar_ub_unconstrain(0.05, lambda4[i_0__]);
             } catch (const std::exception& e) {
                 stan::lang::rethrow_located(std::runtime_error(std::string("Error transforming variable lambda4: ") + e.what()), current_statement_begin__, prog_reader__());
             }
@@ -546,9 +546,9 @@ public:
             a3.reserve(a3_d_0_max__);
             for (size_t d_0__ = 0; d_0__ < a3_d_0_max__; ++d_0__) {
                 if (jacobian__)
-                    a3.push_back(in__.scalar_lb_constrain(0, lp__));
+                    a3.push_back(in__.scalar_lub_constrain(0, 1, lp__));
                 else
-                    a3.push_back(in__.scalar_lb_constrain(0));
+                    a3.push_back(in__.scalar_lub_constrain(0, 1));
             }
             current_statement_begin__ = 17;
             std::vector<local_scalar_t__> a4;
@@ -556,9 +556,9 @@ public:
             a4.reserve(a4_d_0_max__);
             for (size_t d_0__ = 0; d_0__ < a4_d_0_max__; ++d_0__) {
                 if (jacobian__)
-                    a4.push_back(in__.scalar_lb_constrain(0, lp__));
+                    a4.push_back(in__.scalar_lub_constrain(0, 1, lp__));
                 else
-                    a4.push_back(in__.scalar_lb_constrain(0));
+                    a4.push_back(in__.scalar_lub_constrain(0, 1));
             }
             current_statement_begin__ = 18;
             std::vector<local_scalar_t__> mu2;
@@ -606,9 +606,9 @@ public:
             lambda4.reserve(lambda4_d_0_max__);
             for (size_t d_0__ = 0; d_0__ < lambda4_d_0_max__; ++d_0__) {
                 if (jacobian__)
-                    lambda4.push_back(in__.scalar_lb_constrain(0, lp__));
+                    lambda4.push_back(in__.scalar_ub_constrain(0.05, lp__));
                 else
-                    lambda4.push_back(in__.scalar_lb_constrain(0));
+                    lambda4.push_back(in__.scalar_ub_constrain(0.05));
             }
             current_statement_begin__ = 23;
             local_scalar_t__ c;
@@ -664,15 +664,15 @@ public:
                             0, 
                             "assigning variable zero");
             }
-            current_statement_begin__ = 38;
-            stan::math::assign(mu_rc_1, (logical_eq(pre_working_age, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a1, 1, "a1", 1), stan::math::exp(multiply(-(get_base1(alpha1, 1, "alpha1", 1)), x)))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
             current_statement_begin__ = 39;
-            stan::math::assign(mu_rc_2, (logical_eq(working_age, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a2, 1, "a2", 1), stan::math::exp(subtract(multiply(-(get_base1(alpha2, 1, "alpha2", 1)), subtract(x, get_base1(mu2, 1, "mu2", 1))), stan::math::exp(multiply(-(get_base1(lambda2, 1, "lambda2", 1)), subtract(x, get_base1(mu2, 1, "mu2", 1)))))))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
+            stan::math::assign(mu_rc_1, (logical_eq(pre_working_age, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a1, 1, "a1", 1), stan::math::exp(multiply(-(get_base1(alpha1, 1, "alpha1", 1)), x)))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
             current_statement_begin__ = 40;
-            stan::math::assign(mu_rc_3, (logical_eq(retirement, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a3, 1, "a3", 1), stan::math::exp(subtract(multiply(-(get_base1(alpha3, 1, "alpha3", 1)), subtract(x, get_base1(mu3, 1, "mu3", 1))), stan::math::exp(multiply(-(get_base1(lambda3, 1, "lambda3", 1)), subtract(x, get_base1(mu3, 1, "mu3", 1)))))))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
+            stan::math::assign(mu_rc_2, (logical_eq(working_age, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a2, 1, "a2", 1), stan::math::exp(subtract(multiply(-(get_base1(alpha2, 1, "alpha2", 1)), subtract(x, get_base1(mu2, 1, "mu2", 1))), stan::math::exp(multiply(-(get_base1(lambda2, 1, "lambda2", 1)), subtract(x, get_base1(mu2, 1, "mu2", 1)))))))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
             current_statement_begin__ = 41;
-            stan::math::assign(mu_rc_4, (logical_eq(post_retirement, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a4, 1, "a4", 1), stan::math::exp(multiply(get_base1(lambda4, 1, "lambda4", 1), x)))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
+            stan::math::assign(mu_rc_3, (logical_eq(retirement, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a3, 1, "a3", 1), stan::math::exp(subtract(multiply(-(get_base1(alpha3, 1, "alpha3", 1)), subtract(x, get_base1(mu3, 1, "mu3", 1))), stan::math::exp(multiply(-(get_base1(lambda3, 1, "lambda3", 1)), subtract(x, get_base1(mu3, 1, "mu3", 1)))))))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
             current_statement_begin__ = 42;
+            stan::math::assign(mu_rc_4, (logical_eq(post_retirement, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a4, 1, "a4", 1), stan::math::exp(multiply(get_base1(lambda4, 1, "lambda4", 1), x)))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
+            current_statement_begin__ = 43;
             stan::math::assign(mu_rc, add(add(add(add(mu_rc_1, mu_rc_2), mu_rc_3), mu_rc_4), c));
             // validate transformed parameters
             const char* function__ = "validate transformed params";
@@ -732,47 +732,47 @@ public:
                 }
             }
             // model body
-            current_statement_begin__ = 46;
+            current_statement_begin__ = 47;
             lp_accum__.add(normal_log<propto__>(y, mu_rc, sigma));
-            current_statement_begin__ = 50;
+            current_statement_begin__ = 51;
             if (as_bool(logical_eq(pre_working_age, 1))) {
-                current_statement_begin__ = 51;
-                lp_accum__.add(normal_log<propto__>(alpha1, 0, 1));
                 current_statement_begin__ = 52;
-                lp_accum__.add(normal_log<propto__>(a1, 0, 1));
+                lp_accum__.add(normal_log<propto__>(alpha1, 0, 1));
+                current_statement_begin__ = 53;
+                lp_accum__.add(normal_log<propto__>(a1, 0, 0.1));
             }
-            current_statement_begin__ = 54;
+            current_statement_begin__ = 55;
             if (as_bool(logical_eq(working_age, 1))) {
-                current_statement_begin__ = 55;
-                lp_accum__.add(normal_log<propto__>(alpha2, 0, 1));
                 current_statement_begin__ = 56;
-                lp_accum__.add(normal_log<propto__>(a2, 0, 1));
+                lp_accum__.add(normal_log<propto__>(alpha2, 0, 1));
                 current_statement_begin__ = 57;
-                lp_accum__.add(normal_log<propto__>(mu2, 25, 1));
+                lp_accum__.add(normal_log<propto__>(a2, 0, 0.1));
                 current_statement_begin__ = 58;
+                lp_accum__.add(normal_log<propto__>(mu2, 25, 1));
+                current_statement_begin__ = 59;
                 lp_accum__.add(normal_log<propto__>(lambda2, 0, 1));
             }
-            current_statement_begin__ = 60;
+            current_statement_begin__ = 61;
             if (as_bool(logical_eq(retirement, 1))) {
-                current_statement_begin__ = 61;
-                lp_accum__.add(normal_log<propto__>(alpha3, 0, 1));
                 current_statement_begin__ = 62;
-                lp_accum__.add(normal_log<propto__>(a3, 0, 1));
+                lp_accum__.add(normal_log<propto__>(alpha3, 0, 1));
                 current_statement_begin__ = 63;
-                lp_accum__.add(normal_log<propto__>(mu3, 65, 1));
+                lp_accum__.add(normal_log<propto__>(a3, 0, 0.1));
                 current_statement_begin__ = 64;
+                lp_accum__.add(normal_log<propto__>(mu3, 65, 1));
+                current_statement_begin__ = 65;
                 lp_accum__.add(normal_log<propto__>(lambda3, 0, 1));
             }
-            current_statement_begin__ = 66;
+            current_statement_begin__ = 67;
             if (as_bool(logical_eq(post_retirement, 1))) {
-                current_statement_begin__ = 67;
-                lp_accum__.add(normal_log<propto__>(a4, 0, 1));
                 current_statement_begin__ = 68;
-                lp_accum__.add(normal_log<propto__>(lambda4, 0, 0.1));
+                lp_accum__.add(normal_log<propto__>(a4, 0, 0.05));
+                current_statement_begin__ = 69;
+                lp_accum__.add(normal_log<propto__>(lambda4, 0, 0.01));
             }
-            current_statement_begin__ = 70;
-            lp_accum__.add(normal_log<propto__>(c, 0, 1));
             current_statement_begin__ = 71;
+            lp_accum__.add(normal_log<propto__>(c, min(y), 0.1));
+            current_statement_begin__ = 72;
             lp_accum__.add(normal_log<propto__>(sigma, 0, 1));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -945,7 +945,7 @@ public:
         size_t a3_d_0_max__ = (1 * retirement);
         a3.reserve(a3_d_0_max__);
         for (size_t d_0__ = 0; d_0__ < a3_d_0_max__; ++d_0__) {
-            a3.push_back(in__.scalar_lb_constrain(0));
+            a3.push_back(in__.scalar_lub_constrain(0, 1));
         }
         size_t a3_k_0_max__ = (1 * retirement);
         for (size_t k_0__ = 0; k_0__ < a3_k_0_max__; ++k_0__) {
@@ -955,7 +955,7 @@ public:
         size_t a4_d_0_max__ = (1 * post_retirement);
         a4.reserve(a4_d_0_max__);
         for (size_t d_0__ = 0; d_0__ < a4_d_0_max__; ++d_0__) {
-            a4.push_back(in__.scalar_lb_constrain(0));
+            a4.push_back(in__.scalar_lub_constrain(0, 1));
         }
         size_t a4_k_0_max__ = (1 * post_retirement);
         for (size_t k_0__ = 0; k_0__ < a4_k_0_max__; ++k_0__) {
@@ -1005,7 +1005,7 @@ public:
         size_t lambda4_d_0_max__ = (1 * post_retirement);
         lambda4.reserve(lambda4_d_0_max__);
         for (size_t d_0__ = 0; d_0__ < lambda4_d_0_max__; ++d_0__) {
-            lambda4.push_back(in__.scalar_lb_constrain(0));
+            lambda4.push_back(in__.scalar_ub_constrain(0.05));
         }
         size_t lambda4_k_0_max__ = (1 * post_retirement);
         for (size_t k_0__ = 0; k_0__ < lambda4_k_0_max__; ++k_0__) {
@@ -1062,15 +1062,15 @@ public:
                             0, 
                             "assigning variable zero");
             }
-            current_statement_begin__ = 38;
-            stan::math::assign(mu_rc_1, (logical_eq(pre_working_age, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a1, 1, "a1", 1), stan::math::exp(multiply(-(get_base1(alpha1, 1, "alpha1", 1)), x)))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
             current_statement_begin__ = 39;
-            stan::math::assign(mu_rc_2, (logical_eq(working_age, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a2, 1, "a2", 1), stan::math::exp(subtract(multiply(-(get_base1(alpha2, 1, "alpha2", 1)), subtract(x, get_base1(mu2, 1, "mu2", 1))), stan::math::exp(multiply(-(get_base1(lambda2, 1, "lambda2", 1)), subtract(x, get_base1(mu2, 1, "mu2", 1)))))))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
+            stan::math::assign(mu_rc_1, (logical_eq(pre_working_age, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a1, 1, "a1", 1), stan::math::exp(multiply(-(get_base1(alpha1, 1, "alpha1", 1)), x)))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
             current_statement_begin__ = 40;
-            stan::math::assign(mu_rc_3, (logical_eq(retirement, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a3, 1, "a3", 1), stan::math::exp(subtract(multiply(-(get_base1(alpha3, 1, "alpha3", 1)), subtract(x, get_base1(mu3, 1, "mu3", 1))), stan::math::exp(multiply(-(get_base1(lambda3, 1, "lambda3", 1)), subtract(x, get_base1(mu3, 1, "mu3", 1)))))))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
+            stan::math::assign(mu_rc_2, (logical_eq(working_age, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a2, 1, "a2", 1), stan::math::exp(subtract(multiply(-(get_base1(alpha2, 1, "alpha2", 1)), subtract(x, get_base1(mu2, 1, "mu2", 1))), stan::math::exp(multiply(-(get_base1(lambda2, 1, "lambda2", 1)), subtract(x, get_base1(mu2, 1, "mu2", 1)))))))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
             current_statement_begin__ = 41;
-            stan::math::assign(mu_rc_4, (logical_eq(post_retirement, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a4, 1, "a4", 1), stan::math::exp(multiply(get_base1(lambda4, 1, "lambda4", 1), x)))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
+            stan::math::assign(mu_rc_3, (logical_eq(retirement, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a3, 1, "a3", 1), stan::math::exp(subtract(multiply(-(get_base1(alpha3, 1, "alpha3", 1)), subtract(x, get_base1(mu3, 1, "mu3", 1))), stan::math::exp(multiply(-(get_base1(lambda3, 1, "lambda3", 1)), subtract(x, get_base1(mu3, 1, "mu3", 1)))))))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
             current_statement_begin__ = 42;
+            stan::math::assign(mu_rc_4, (logical_eq(post_retirement, 1) ? stan::math::promote_scalar<local_scalar_t__>(multiply(get_base1(a4, 1, "a4", 1), stan::math::exp(multiply(get_base1(lambda4, 1, "lambda4", 1), x)))) : stan::math::promote_scalar<local_scalar_t__>(zero) ));
+            current_statement_begin__ = 43;
             stan::math::assign(mu_rc, add(add(add(add(mu_rc_1, mu_rc_2), mu_rc_3), mu_rc_4), c));
             if (!include_gqs__ && !include_tparams__) return;
             // validate transformed parameters
