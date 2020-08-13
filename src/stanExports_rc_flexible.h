@@ -771,7 +771,7 @@ public:
                 lp_accum__.add(normal_log<propto__>(lambda4, 0, 0.01));
             }
             current_statement_begin__ = 71;
-            lp_accum__.add(normal_log<propto__>(c, 0, 1));
+            lp_accum__.add(normal_log<propto__>(c, min(y), 0.1));
             current_statement_begin__ = 72;
             lp_accum__.add(normal_log<propto__>(sigma, 0, 1));
         } catch (const std::exception& e) {

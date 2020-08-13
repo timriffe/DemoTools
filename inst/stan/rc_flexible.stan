@@ -68,6 +68,6 @@ model {
       a4 ~ normal(0,0.05);
       lambda4 ~ normal(0,0.01);
      }
-     c ~ normal(0,1);
+     c ~ normal(min(y),0.1);
      sigma ~ normal(0,1);
 }
