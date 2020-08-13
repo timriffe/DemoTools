@@ -739,14 +739,14 @@ public:
                 current_statement_begin__ = 52;
                 lp_accum__.add(normal_log<propto__>(alpha1, 0, 1));
                 current_statement_begin__ = 53;
-                lp_accum__.add(normal_log<propto__>(a1, 0, 1));
+                lp_accum__.add(normal_log<propto__>(a1, 0, 0.1));
             }
             current_statement_begin__ = 55;
             if (as_bool(logical_eq(working_age, 1))) {
                 current_statement_begin__ = 56;
                 lp_accum__.add(normal_log<propto__>(alpha2, 0, 1));
                 current_statement_begin__ = 57;
-                lp_accum__.add(normal_log<propto__>(a2, 0, 1));
+                lp_accum__.add(normal_log<propto__>(a2, 0, 0.1));
                 current_statement_begin__ = 58;
                 lp_accum__.add(normal_log<propto__>(mu2, 25, 1));
                 current_statement_begin__ = 59;
@@ -757,7 +757,7 @@ public:
                 current_statement_begin__ = 62;
                 lp_accum__.add(normal_log<propto__>(alpha3, 0, 1));
                 current_statement_begin__ = 63;
-                lp_accum__.add(normal_log<propto__>(a3, 0, 1));
+                lp_accum__.add(normal_log<propto__>(a3, 0, 0.1));
                 current_statement_begin__ = 64;
                 lp_accum__.add(normal_log<propto__>(mu3, 65, 1));
                 current_statement_begin__ = 65;
@@ -766,7 +766,7 @@ public:
             current_statement_begin__ = 67;
             if (as_bool(logical_eq(post_retirement, 1))) {
                 current_statement_begin__ = 68;
-                lp_accum__.add(normal_log<propto__>(a4, 0, 0.1));
+                lp_accum__.add(normal_log<propto__>(a4, 0, 0.05));
                 current_statement_begin__ = 69;
                 lp_accum__.add(normal_log<propto__>(lambda4, 0, 0.01));
             }

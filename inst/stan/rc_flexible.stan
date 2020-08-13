@@ -50,22 +50,22 @@ model {
      
      if(pre_working_age==1){
       alpha1 ~ normal(0,1);
-      a1 ~ normal(0,1);
+      a1 ~ normal(0,0.1);
      }
      if(working_age==1){
       alpha2 ~ normal(0,1);
-      a2 ~ normal(0,1);
+      a2 ~ normal(0,0.1);
       mu2 ~ normal(25,1);
       lambda2 ~ normal(0,1);
      }
      if(retirement==1){
       alpha3 ~ normal(0,1);
-      a3 ~ normal(0,1);
+      a3 ~ normal(0,0.1);
       mu3 ~ normal(65,1);
       lambda3 ~ normal(0,1);
      }
      if(post_retirement==1){
-      a4 ~ normal(0,0.1);
+      a4 ~ normal(0,0.05);
       lambda4 ~ normal(0,0.01);
      }
      c ~ normal(0,1);
