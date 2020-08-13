@@ -19,7 +19,7 @@ parameters {
      real<lower=0, upper=max(x)> mu3[1*retirement];
      real<lower=0> lambda2[1*working_age];
      real<lower=0> lambda3[1*retirement];
-     real<lower=0, upper=0.05> lambda4[1*post_retirement];
+     real<upper=0.05> lambda4[1*post_retirement];
      real<lower=0, upper=1> c;
      real<lower=0> sigma;
 }
@@ -34,11 +34,12 @@ transformed parameters {
      for(i in 1:N){
         zero[i] = 0;
      }
+     
 
-     mu_rc_1 = pre_working_age==1?a1[1]*exp(-alpha1[1]*x):zero; 
+     mu_rc_1 = pre_working_age==1?a1[1]*exp(-alpha1[1]*x):zero;
      mu_rc_2 = working_age==1?a2[1]*exp(-alpha2[1]*(x - mu2[1]) - exp(-lambda2[1]*(x - mu2[1]))):zero;
-     mu_rc_3 = retirement==1?a3[1]*exp(-alpha3[1]*(x - mu3[1]) - exp(-lambda3[1]*(x - mu3[1]))):zero; 
-     mu_rc_4 = post_retirement==1?a4[1]*exp(lambda4[1]*(x)):zero; 
+     mu_rc_3 = retirement==1?a3[1]*exp(-alpha3[1]*(x - mu3[1]) - exp(-lambda3[1]*(x - mu3[1]))):zero;
+     mu_rc_4 = post_retirement==1?a4[1]*exp(lambda4[1]*(x)):zero;
      mu_rc = mu_rc_1 + mu_rc_2 + mu_rc_3 + mu_rc_4 + c;
 }
 model {
