@@ -14,5 +14,7 @@ doc
 inst/doc
 DemoToolsHexTests
 Spreadsheets
-
+*.cc
+*.cpp
+*.h
 docs/
