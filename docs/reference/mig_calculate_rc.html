@@ -81,7 +81,7 @@ Choose between a 7,9,11 or 13 parameter model." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.06.02</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.07.000</span>
       </span>
     </div>
 
@@ -175,7 +175,7 @@ Choose between a 7,9,11 or 13 parameter model.</p>
     </tr>
     <tr>
       <th>pars</th>
-      <td><p>numeric. A named list of parameters. Must have 7, 9, 11 or 13 values.</p></td>
+      <td><p>numeric. A named list of parameters. See below for details.</p></td>
     </tr>
     </table>
 
@@ -183,7 +183,13 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 
     <p>In the full 13 parameter model, the migration rate at age x, \(m(x)\) is defined as
 $$m(x) = a1*exp(-1*alpha1*x) + a2*exp(-1*alpha2*(x - mu2) - exp(-1*lambda2*(x - mu2))) + a3*exp(-1*alpha3*(x - 3) - exp(-1*lambda3*(x - mu3))) + a4*exp(lambda4*x) + c$$</p>
-<p>The first, second, third and fourth pieces of the equation represent pre-labour force, working age, retirement and post retirement age patterns, respectively. Models with less parameters gradually remove terms at the older ages.</p>
+<p>The first, second, third and fourth pieces of the equation represent pre-working age, working age, retirement and post-retirement age patterns, respectively. 
+Models with less parameters gradually remove terms at the older ages. Parameters in each family are:</p><ul>
+<li><p>pre-working age: a1, alpha1</p></li>
+<li><p>working age: a2, alpha2, mu2, lambda2</p></li>
+<li><p>retirement: a3, alpha3, mu3, lambda3</p></li>
+<li><p>post retirement: a4, lambda4</p></li>
+</ul><p>For a specific family to be included, values for all parameters in that family must be specified.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Rogers A, Castro LJ (1981).

@@ -25,3 +25,5 @@ Spreadsheets
 ^\.ccache$
 ^\.github$
 ^tic\.R$
+rcppExports.cpp
+stanExports_*
