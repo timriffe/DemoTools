@@ -16,5 +16,7 @@ DemoToolsHexTests
 Spreadsheets
 *.cc
 *.cpp
-*.h
+*.hpp
+*.o
+*.so
 docs/
