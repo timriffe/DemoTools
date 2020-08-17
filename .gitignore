@@ -17,4 +17,6 @@ Spreadsheets
 *.cc
 *.cpp
 *.h
+*.o
+*.so
 docs/
