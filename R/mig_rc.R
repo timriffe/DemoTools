@@ -133,7 +133,11 @@
 #' 0.0093,0.0083,0.0078,0.0067,0.0069,0.0054)
 #' # fit the model
 #' 
-#' res <- mig_estimate_rc(ages, mig_rate, pre_working_age = TRUE, working_age = TRUE, retirement = FALSE, post_retirement = FALSE)
+#' res <- mig_estimate_rc(ages, mig_rate, 
+#' pre_working_age = TRUE, 
+#' working_age = TRUE, 
+#' retirement = FALSE, 
+#' post_retirement = FALSE)
 #' \dontrun{
 #' # plot the results and data
 #' plot(ages, mig_rate, ylab = "migration rate", xlab = "age")
@@ -199,7 +203,7 @@ mig_estimate_rc <- function(ages,
                       lower = quantile(!!sym(".value"), 0.025),
                       upper = quantile(!!sym(".value"), 0.975)) %>% 
             dplyr::rename("variable" = !!sym(".variable")) %>% 
-            mutate(variable = gsub("\\[1\\]", "", variable))
+            mutate("variable" = gsub("\\[1\\]", "", "variable"))
  
  return(list(pars_df = pars_df, fit_df = dfit))
  
