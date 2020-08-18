@@ -8,6 +8,7 @@ vignette: >
   %\VignetteIndexEntry{Migration with DemoTools}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteDepends{tidyverse}
 header-includes:
 - \usepackage{amsmath}
 - \usepackage{amssymb}
