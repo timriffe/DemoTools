@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.06.02</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.07.000</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
       <h1 data-toc-skip>Migration models with DemoTools</h1>
                         <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
-            <h4 class="date">2020-07-26</h4>
+            <h4 class="date">2020-08-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/migration_with_demotools.Rmd"><code>vignettes/migration_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>migration_with_demotools.Rmd</code></div>
@@ -123,41 +123,298 @@
 
     
     
-<div id="how-to-use-demotools-to-model-migration" class="section level2">
+<div id="why-model-migration" class="section level2">
 <h2 class="hasAnchor">
-<a href="#how-to-use-demotools-to-model-migration" class="anchor"></a>How to use <code>DemoTools</code> to model migration</h2>
-<div id="why-modeling-migration" class="section level3">
-<h3 class="hasAnchor">
-<a href="#why-modeling-migration" class="anchor"></a>Why modeling migration</h3>
-<p>Migrations happens with multiple transitions over the life course such as entry to education, new job or retirement <span class="citation">(Preston, Heuveline, and Guillot 2000)</span>. These transitions happen more frequently at some ages and come in parallel often with migration. Adult migration usually peaks at youn adult ages. Around age at retirement there is a second peak. Because of these regularities it is, therefore, possible to model migration by age, which is very important for policy makers and for demographers in estimating population dynamics.</p>
+<a href="#why-model-migration" class="anchor"></a>Why model migration</h2>
+<p>Migration happens with multiple transitions over the life course such as entry to education, new job or retirement <span class="citation">(Preston, Heuveline, and Guillot 2000)</span>. These transitions happen more frequently at some ages and come in parallel often with migration. Adult migration usually peaks at young adult ages. Around age at retirement there is a second peak. Because of these regularities it is, therefore, possible to model migration by age, which is very important for policy makers and for demographers in estimating population dynamics. Age-specific migration models can help to estimate missing data, smooth noisy data, project trends into the future, and to generalize migration patterns across different populations.</p>
+<p><code>DemoTools</code> has the functionality to fit and estimate age-specific migration schedules based on the Rogers-Castro migration model. This vignette briefly introduces the Rogers-Castro model and then gives examples of both calculating age-specific migration curves given a set of parameters, and fitting the Rogers-Castro model given a set of age-specific migration rates.</p>
 </div>
-<div id="the-rogers-and-castro-model" class="section level3">
-<h3 class="hasAnchor">
-<a href="#the-rogers-and-castro-model" class="anchor"></a>The Rogers and Castro model</h3>
-<p><span class="citation">Rogers and Castro (1981)</span> developed a mathematical model of migration with 11 parameter. Seven of these parameters explain the shape of migration by age, while the rest of parameters represent the intensity of migration. The original formula for the migration rate at age <span class="math inline">\(x\)</span> is:</p>
+<div id="the-rogers-and-castro-model" class="section level2">
+<h2 class="hasAnchor">
+<a href="#the-rogers-and-castro-model" class="anchor"></a>The Rogers and Castro model</h2>
+<p><span class="citation">Rogers and Castro (1981)</span> developed a mathematical model of migration with up to 13 parameters. Seven of these parameters explain the shape of migration by age, while the rest of parameters represent the intensity of migration. The original formula for the migration rate at age <span class="math inline">\(x\)</span> is:</p>
 <p><span class="math display">\[\begin{equation*}
-m(x)= a_1 \exp{[ \alpha_1 x ]} + a_2 \exp{[ -\alpha_2 (x - \mu_2) - \exp{ [ -\lambda_2(x - \mu_2) ]}  ]}+ a_3 \exp{[ - \alpha_3(x-\mu_3) - \exp{[-\lambda_3 (x-\mu_3)]} ]} + c
+m(x)= a_1 \exp{[ \alpha_1 x ]} + a_2 \exp{[ -\alpha_2 (x - \mu_2) - \exp{ [ -\lambda_2(x - \mu_2) ]}  ]}+ a_3 \exp{[ - \alpha_3(x-\mu_3) - \exp{[-\lambda_3 (x-\mu_3)]} ]} + a_4\exp{[\lambda_4x ]}+ c
 \end{equation*}\]</span></p>
-<p>@ Monica: some interpretation of the coefficients?</p>
+<p>The <span class="math inline">\(c\)</span> parameter describes the baseline level of migration. There are four other distinct parts to the equation, which each describe the shape and intensity of migration at different ages:</p>
+<ul>
+<li>pre-working age: <span class="math inline">\(a_1 \exp{[ \alpha_1 x ]}\)</span> (Group 1)</li>
+<li>working age: <span class="math inline">\(a_2 \exp{[ -\alpha_2 (x - \mu_2) - \exp{ [ -\lambda_2(x - \mu_2) ]} ]}\)</span> (Group 2)</li>
+<li>retirement age: <span class="math inline">\(a_3 \exp{[ - \alpha_3(x-\mu_3) - \exp{[-\lambda_3 (x-\mu_3)]} ]}\)</span> (Group 3)</li>
+<li>post-retirement age: <span class="math inline">\(a_4 \exp{[\lambda_4x ]}\)</span> (Group 4)</li>
+</ul>
+<p>For each of the components, the <span class="math inline">\(a_k\)</span> terms describe the heights of the peaks of migration rates. The <span class="math inline">\(\alpha_k\)</span> and <span class="math inline">\(\lambda_k\)</span> parameters describe the shape of each of the components, in terms of the rate of change over age. And <span class="math inline">\(\mu_2\)</span> and <span class="math inline">\(\mu_3\)</span> give the ages at the labour force peak and at the retirement peak, respectively.</p>
+<p>The migration model need not have all the ‘families’ of migration at different age stages. In practice, there are four combinations of families that are the most common <span class="citation">(Rogers, Little, and Raymer 2010)</span>:</p>
+<ul>
+<li>The 7 parameter model, which has the pre-working and working age components</li>
+<li>The 9 parameter model, which has the pre-working, working and post-retirement age components</li>
+<li>The 11 parameter model, which has the pre-working, working and retirement age components</li>
+<li>The 13 parameter model, which has all components.</li>
+</ul>
+<p>The migration model-related functions in <code>DemoTools</code> allow for any combination of the components to be included in the model.</p>
 </div>
-<div id="example-with-demotools" class="section level3">
+<div id="examples-with-demotools" class="section level2">
+<h2 class="hasAnchor">
+<a href="#examples-with-demotools" class="anchor"></a>Examples with <code>DemoTools</code>
+</h2>
+<p><code>DemoTools</code> includes two migration model-related functions: <code>mig_calculate_rc</code>, which returns age-specific migration rates calculated based on an age range and set of parameter inputs, and <code>mig_estimate_rc</code>, which estimates parameter values and age-specific migration rates <span class="math inline">\(m(x)\)</span> based on an observed age range and migration rates. This section gives examples of both functions.</p>
+<div id="calculating-rogers-castro-migration-schedules" class="section level3">
 <h3 class="hasAnchor">
-<a href="#example-with-demotools" class="anchor"></a>Example with <code>DemoTools</code>
-</h3>
-<p>An example, flexibility of parameters in R, and interpretation of results @ Monica: could you help with this section?</p>
+<a href="#calculating-rogers-castro-migration-schedules" class="anchor"></a>Calculating Rogers-Castro migration schedules</h3>
+<p>We can calculate the implied age-specific rates from a set of parameter inputs. Parameters are defined the same way as in the equation above, that is, <code>c</code> is the overall intensity, the <code>a</code>’s are the intensities at each age family, the <code>alpha</code>s and <code>lambda</code>s are the rate of decrease and increase of the shape at each age family, and the <code>mu</code>s are the age of peak migration for working age and retirement.</p>
+<p>The following is an example specifying values for each of the 13 possible parameters, with values calculated for each age up to age 100:</p>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">DemoTools</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyverse</span>)
+
+<span class="no">pars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">a1</span><span class="kw">=</span> <span class="fl">0.09</span>, <span class="kw">alpha1</span><span class="kw">=</span> <span class="fl">0.1</span>,
+          <span class="kw">a2</span><span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">alpha2</span><span class="kw">=</span> <span class="fl">0.1</span>, <span class="kw">mu2</span><span class="kw">=</span> <span class="fl">21</span>, <span class="kw">lambda2</span><span class="kw">=</span> <span class="fl">0.4</span>,
+          <span class="kw">a3</span><span class="kw">=</span> <span class="fl">0.02</span>, <span class="kw">alpha3</span><span class="kw">=</span> <span class="fl">0.25</span>, <span class="kw">mu3</span><span class="kw">=</span> <span class="fl">67</span>, <span class="kw">lambda3</span><span class="kw">=</span> <span class="fl">0.6</span>,
+          <span class="kw">a4</span> <span class="kw">=</span> <span class="fl">0.01</span>, <span class="kw">lambda4</span> <span class="kw">=</span> <span class="fl">0.01</span>,
+          <span class="kw">c</span><span class="kw">=</span> <span class="fl">0.01</span>)
+
+<span class="no">ages</span> <span class="kw">&lt;-</span> <span class="fl">0</span>:<span class="fl">100</span>
+<span class="no">mx</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mig_calculate_rc.html">mig_calculate_rc</a></span>(<span class="kw">ages</span> <span class="kw">=</span> <span class="no">ages</span>, <span class="kw">pars</span> <span class="kw">=</span> <span class="no">pars</span>)
+
+<span class="co"># plot to see what the schedule looks like</span>
+<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu">tibble</span>(<span class="kw">age</span> <span class="kw">=</span> <span class="no">ages</span>, <span class="kw">mx</span> <span class="kw">=</span> <span class="no">mx</span>)
+<span class="no">df</span> <span class="kw">%&gt;%</span>
+  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="no">age</span>, <span class="no">mx</span>)) +
+  <span class="fu">geom_line</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Rogers-Castro age-specific migration schedule (13-parameter)"</span>)</pre></body></html></div>
+<p><img src="migration_with_demotools_files/figure-html/unnamed-chunk-1-1.png" width="576" style="display: block; margin: auto;"></p>
+<p>Not all parameters need to be specified. The following shows an example of the 9 parameter specification:</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">pars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">a1</span><span class="kw">=</span> <span class="fl">0.09</span>, <span class="kw">alpha1</span><span class="kw">=</span> <span class="fl">0.1</span>,
+          <span class="kw">a2</span><span class="kw">=</span> <span class="fl">0.2</span>, <span class="kw">alpha2</span><span class="kw">=</span> <span class="fl">0.05</span>, <span class="kw">mu2</span><span class="kw">=</span> <span class="fl">25</span>, <span class="kw">lambda2</span><span class="kw">=</span> <span class="fl">0.4</span>,
+          <span class="kw">c</span><span class="kw">=</span> <span class="fl">0.01</span>)
+
+<span class="no">ages</span> <span class="kw">&lt;-</span> <span class="fl">0</span>:<span class="fl">100</span>
+<span class="no">mx</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mig_calculate_rc.html">mig_calculate_rc</a></span>(<span class="kw">ages</span> <span class="kw">=</span> <span class="no">ages</span>, <span class="kw">pars</span> <span class="kw">=</span> <span class="no">pars</span>)
+
+<span class="co"># plot to see what the schedule looks like</span>
+<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu">tibble</span>(<span class="kw">age</span> <span class="kw">=</span> <span class="no">ages</span>, <span class="kw">mx</span> <span class="kw">=</span> <span class="no">mx</span>)
+<span class="no">df</span> <span class="kw">%&gt;%</span>
+  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="no">age</span>, <span class="no">mx</span>)) +
+  <span class="fu">geom_line</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Rogers-Castro age-specific migration schedule (9-parameter)"</span>)</pre></body></html></div>
+<p><img src="migration_with_demotools_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;"></p>
+<p>Note, however, that all parameters within a particular component family must be specified. So for example, if one of the working-age family parameters is specified (Group 2), then all must be specified, otherwise an error occurs.</p>
+</div>
+<div id="estimating-migration-age-schedules-using-the-rogers-castro-model" class="section level3">
+<h3 class="hasAnchor">
+<a href="#estimating-migration-age-schedules-using-the-rogers-castro-model" class="anchor"></a>Estimating migration age schedules using the Rogers-Castro model</h3>
+<div id="overview" class="section level4">
+<h4 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h4>
+<p>The <code>mig_estimate_rc</code> function returns estimated Rogers-Castro parameters and <span class="math inline">\(m(x)\)</span> values, based on observed age-specific mortality rates, and age range, and the Rogers-Castro components to be included in the model. The function has the capability of estimating a Rogers-Castro age schedule with any combination of the components <code>pre_working_age</code>, <code>working_age</code>, <code>retirement</code> and <code>post_retirement</code>. These are specified as logicals (either <code>TRUE</code> or <code>FALSE</code>) in the function.</p>
+<p>As illustrated above, Rogers-Castro migration age schedules are highly non-linear, as so are not necessarily straight forward to estimate. Previous approaches have used, for example, Excel’s Solver function or the <code>optim</code> function in <code>R</code>.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> However, the estimated parameters and schedules are highly sensitive to the initial values chosen for the parameter values, and convergence is difficult to achieve for the 11 and 13 parameter models.</p>
+<p>In <code>DemoTools</code>, we estimate Rogers-Castro schedules in a Bayesian framework using a Markov Chain Monte Carlo (MCMC) algorithm, via the Stan programming language <span class="citation">(Carpenter et al. 2017)</span>. The use of Bayesian methods allows for priors to be set on parameters, which helps convergence in the estimation process.</p>
+</div>
+<div id="example-estimating-migration-rates-for-population-with-large-retirement-peak" class="section level4">
+<h4 class="hasAnchor">
+<a href="#example-estimating-migration-rates-for-population-with-large-retirement-peak" class="anchor"></a>Example: Estimating migration rates for population with large retirement peak</h4>
+<p>In this example, we will fill an 11-parameter model to a set of observed age-specific rates from a population that resembles Florida in the United States. First, we can plot the observed rates to get a sense of what the age schedule looks like</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">ages</span> <span class="kw">&lt;-</span> <span class="fl">0</span>:<span class="fl">80</span>
+<span class="no">mx_FL</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.02345</span>, <span class="fl">0.02195</span>,    <span class="fl">0.0212</span>, <span class="fl">0.02185</span>,    <span class="fl">0.02095</span>,    <span class="fl">0.02075</span>,    <span class="fl">0.0198</span>, <span class="fl">0.02065</span>,    <span class="fl">0.01815</span>,    <span class="fl">0.01865</span>,
+<span class="fl">0.01945</span>,    <span class="fl">0.02165</span>,    <span class="fl">0.0224</span>, <span class="fl">0.02255</span>,    <span class="fl">0.02665</span>,    <span class="fl">0.02875</span>,    <span class="fl">0.02915</span>,    <span class="fl">0.03335</span>,    <span class="fl">0.0355</span>, <span class="fl">0.03755</span>,
+<span class="fl">0.0404</span>, <span class="fl">0.0411</span>, <span class="fl">0.04205</span>,    <span class="fl">0.04355</span>,    <span class="fl">0.04275</span>,    <span class="fl">0.0423</span>, <span class="fl">0.04075</span>,    <span class="fl">0.0387</span>, <span class="fl">0.0392</span>, <span class="fl">0.0374</span>,
+<span class="fl">0.0336</span>, <span class="fl">0.03185</span>,    <span class="fl">0.02975</span>,    <span class="fl">0.0295</span>, <span class="fl">0.02855</span>,    <span class="fl">0.02685</span>,    <span class="fl">0.0251</span>, <span class="fl">0.0246</span>, <span class="fl">0.02425</span>,    <span class="fl">0.0241</span>,
+<span class="fl">0.02285</span>,    <span class="fl">0.02165</span>,    <span class="fl">0.0236</span>, <span class="fl">0.02085</span>,    <span class="fl">0.02145</span>,    <span class="fl">0.0204</span>, <span class="fl">0.02025</span>,    <span class="fl">0.02125</span>,    <span class="fl">0.0229</span>, <span class="fl">0.01985</span>,
+<span class="fl">0.0234</span>, <span class="fl">0.02175</span>,    <span class="fl">0.02185</span>,    <span class="fl">0.02385</span>,    <span class="fl">0.0248</span>, <span class="fl">0.0259</span>, <span class="fl">0.02545</span>,    <span class="fl">0.0271</span>, <span class="fl">0.02605</span>,    <span class="fl">0.0277</span>,
+<span class="fl">0.0296</span>, <span class="fl">0.0278</span>, <span class="fl">0.02945</span>,    <span class="fl">0.0288</span>, <span class="fl">0.02775</span>,    <span class="fl">0.0296</span>, <span class="fl">0.02615</span>,    <span class="fl">0.0234</span>, <span class="fl">0.0259</span>, <span class="fl">0.02635</span>,
+<span class="fl">0.0256</span>, <span class="fl">0.0248</span>, <span class="fl">0.0221</span>, <span class="fl">0.0234</span>, <span class="fl">0.0233</span>, <span class="fl">0.02245</span>,    <span class="fl">0.02235</span>,    <span class="fl">0.0212</span>, <span class="fl">0.02075</span>,    <span class="fl">0.01915</span>,
+<span class="fl">0.01995</span>)
+
+<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu">tibble</span>(<span class="kw">age</span> <span class="kw">=</span> <span class="no">ages</span>, <span class="kw">mx</span> <span class="kw">=</span> <span class="no">mx_FL</span>)
+<span class="no">df</span> <span class="kw">%&gt;%</span>
+  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="no">age</span>, <span class="no">mx</span>)) +
+  <span class="fu">geom_point</span>() +
+  <span class="fu">ggtitle</span>(<span class="st">"Observed migration rates"</span>)</pre></body></html></div>
+<p><img src="migration_with_demotools_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;"></p>
+<p>Let’s fit a Rogers-Castro migration age schedule to these data. Below, we choose to estimate parameters associated with the pre-working age, working and retirement components (but not post retirement).</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">rc_res</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mig_estimate_rc.html">mig_estimate_rc</a></span>(<span class="no">ages</span>, <span class="no">mx_FL_sim</span>,
+                       <span class="kw">pre_working_age</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+                       <span class="kw">working_age</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+                       <span class="kw">retirement</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+                       <span class="kw">post_retirement</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
+                       <span class="co"># (optional) arguments for Stan</span>
+                       <span class="kw">chains</span> <span class="kw">=</span> <span class="fl">4</span>,
+                       <span class="kw">iter</span> <span class="kw">=</span> <span class="fl">2000</span>,
+                       <span class="kw">control</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">adapt_delta</span> <span class="kw">=</span> <span class="fl">0.8</span>, <span class="kw">max_treedepth</span> <span class="kw">=</span> <span class="fl">10</span>))
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SAMPLING FOR MODEL 'rc_flexible' NOW (CHAIN 1).</span>
+<span class="co">#&gt; Chain 1: </span>
+<span class="co">#&gt; Chain 1: Gradient evaluation took 9.8e-05 seconds</span>
+<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.98 seconds.</span>
+<span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span>
+<span class="co">#&gt; Chain 1: </span>
+<span class="co">#&gt; Chain 1: </span>
+<span class="co">#&gt; Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
+<span class="co">#&gt; Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
+<span class="co">#&gt; Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
+<span class="co">#&gt; Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
+<span class="co">#&gt; Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
+<span class="co">#&gt; Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
+<span class="co">#&gt; Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
+<span class="co">#&gt; Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
+<span class="co">#&gt; Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
+<span class="co">#&gt; Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
+<span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
+<span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
+<span class="co">#&gt; Chain 1: </span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 3.21207 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                2.51522 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                5.72728 seconds (Total)</span>
+<span class="co">#&gt; Chain 1: </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SAMPLING FOR MODEL 'rc_flexible' NOW (CHAIN 2).</span>
+<span class="co">#&gt; Chain 2: </span>
+<span class="co">#&gt; Chain 2: Gradient evaluation took 5.5e-05 seconds</span>
+<span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.55 seconds.</span>
+<span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span>
+<span class="co">#&gt; Chain 2: </span>
+<span class="co">#&gt; Chain 2: </span>
+<span class="co">#&gt; Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
+<span class="co">#&gt; Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
+<span class="co">#&gt; Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
+<span class="co">#&gt; Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
+<span class="co">#&gt; Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
+<span class="co">#&gt; Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
+<span class="co">#&gt; Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
+<span class="co">#&gt; Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
+<span class="co">#&gt; Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
+<span class="co">#&gt; Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
+<span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
+<span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
+<span class="co">#&gt; Chain 2: </span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 3.13686 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                2.15137 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                5.28823 seconds (Total)</span>
+<span class="co">#&gt; Chain 2: </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SAMPLING FOR MODEL 'rc_flexible' NOW (CHAIN 3).</span>
+<span class="co">#&gt; Chain 3: </span>
+<span class="co">#&gt; Chain 3: Gradient evaluation took 5.2e-05 seconds</span>
+<span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.52 seconds.</span>
+<span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span>
+<span class="co">#&gt; Chain 3: </span>
+<span class="co">#&gt; Chain 3: </span>
+<span class="co">#&gt; Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
+<span class="co">#&gt; Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
+<span class="co">#&gt; Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
+<span class="co">#&gt; Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
+<span class="co">#&gt; Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
+<span class="co">#&gt; Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
+<span class="co">#&gt; Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
+<span class="co">#&gt; Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
+<span class="co">#&gt; Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
+<span class="co">#&gt; Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
+<span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
+<span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
+<span class="co">#&gt; Chain 3: </span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 2.89182 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                2.53222 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                5.42405 seconds (Total)</span>
+<span class="co">#&gt; Chain 3: </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; SAMPLING FOR MODEL 'rc_flexible' NOW (CHAIN 4).</span>
+<span class="co">#&gt; Chain 4: </span>
+<span class="co">#&gt; Chain 4: Gradient evaluation took 5.1e-05 seconds</span>
+<span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.51 seconds.</span>
+<span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span>
+<span class="co">#&gt; Chain 4: </span>
+<span class="co">#&gt; Chain 4: </span>
+<span class="co">#&gt; Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
+<span class="co">#&gt; Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
+<span class="co">#&gt; Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
+<span class="co">#&gt; Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
+<span class="co">#&gt; Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
+<span class="co">#&gt; Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
+<span class="co">#&gt; Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
+<span class="co">#&gt; Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
+<span class="co">#&gt; Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
+<span class="co">#&gt; Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
+<span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
+<span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
+<span class="co">#&gt; Chain 4: </span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 2.59547 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                2.36788 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                4.96334 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:</span></pre></body></html></div>
+<p>The <code>mig_estimate_rc</code> function also allows for addition arguments that are related to the Stan model. In the example above, the values listed for <code>chains</code>, <code>iter</code>, <code>adapt_delta</code> and <code>max_treedepth</code> are the default values, so need have not been specified. However, depending on the context, it may make sense to increase the value of each of these components to ensure convergence. More details about these arguments can be found in the <code>R</code> help files for <code><a href="https://mc-stan.org/rstan/reference/stan.html">rstan::stan</a></code>, and also by referring to the <a href="https://mc-stan.org/users/documentation/">Stan documentation</a>.</p>
+<p>The resulting <code>rc_res</code> object is shown below. The <code>pars_df</code> shows the median estimate and lower and upper bound of a 95% credible interval for the Rogers-Castro parameters. In this example, the working age peak was estimated to be at 25.3 years (95% CI: [23.5, 27.2]).</p>
+<p>The <code>fit_df</code> object in <code>rc_res</code> shows the data and estimated median <span class="math inline">\(m(x)\)</span> values at each age <span class="math inline">\(x\)</span>, along with the lower and upper bound of the 95% credible interval of the fits, and the squared difference between data and the median estimate.</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">rc_res</span>
+<span class="co">#&gt; $pars_df</span>
+<span class="co">#&gt; # A tibble: 11 x 4</span>
+<span class="co">#&gt;    variable   median    lower    upper</span>
+<span class="co">#&gt;    &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 a1        0.00425  0.00231  0.00616</span>
+<span class="co">#&gt;  2 a2        0.0599   0.0527   0.0657 </span>
+<span class="co">#&gt;  3 a3        0.0221   0.0177   0.0266 </span>
+<span class="co">#&gt;  4 alpha1    0.299    0.113    0.986  </span>
+<span class="co">#&gt;  5 alpha2    0.180    0.157    0.204  </span>
+<span class="co">#&gt;  6 alpha3    0.169    0.135    0.209  </span>
+<span class="co">#&gt;  7 c         0.0192   0.0177   0.0202 </span>
+<span class="co">#&gt;  8 lambda2   0.130    0.118    0.145  </span>
+<span class="co">#&gt;  9 lambda3   0.110    0.0933   0.129  </span>
+<span class="co">#&gt; 10 mu2      25.3     23.6     27.1    </span>
+<span class="co">#&gt; 11 mu3      65.1     63.1     67.1    </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $fit_df</span>
+<span class="co">#&gt; # A tibble: 81 x 6</span>
+<span class="co">#&gt;      age   data median  lower  upper       diff_sq</span>
+<span class="co">#&gt;    &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;         &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     0 0.0234 0.0234 0.0218 0.0251 0.00000000320</span>
+<span class="co">#&gt;  2     1 0.0220 0.0222 0.0210 0.0233 0.0000000775 </span>
+<span class="co">#&gt;  3     2 0.0212 0.0215 0.0204 0.0223 0.0000000628 </span>
+<span class="co">#&gt;  4     3 0.0218 0.0209 0.0200 0.0217 0.000000906  </span>
+<span class="co">#&gt;  5     4 0.0210 0.0205 0.0197 0.0213 0.000000213  </span>
+<span class="co">#&gt;  6     5 0.0208 0.0202 0.0195 0.0209 0.000000301  </span>
+<span class="co">#&gt;  7     6 0.0198 0.0200 0.0193 0.0207 0.0000000374 </span>
+<span class="co">#&gt;  8     7 0.0207 0.0199 0.0192 0.0205 0.000000624  </span>
+<span class="co">#&gt;  9     8 0.0182 0.0198 0.0192 0.0205 0.00000272   </span>
+<span class="co">#&gt; 10     9 0.0186 0.0199 0.0192 0.0205 0.00000149   </span>
+<span class="co">#&gt; # … with 71 more rows</span></pre></body></html></div>
+<p>We can plot the observed data and estimated fit using the <code>fit_df</code> object:</p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">rc_res</span><span class="kw">[[</span><span class="st">"fit_df"</span>]] <span class="kw">%&gt;%</span>
+  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="no">ages</span>, <span class="no">data</span>)) +
+  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">"data"</span>)) +
+  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">age</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">median</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="st">"fit"</span>)) +
+  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="kw">ymin</span> <span class="kw">=</span> <span class="no">lower</span>, <span class="kw">ymax</span> <span class="kw">=</span> <span class="no">upper</span>), <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.2</span>) +
+  <span class="fu">scale_color_manual</span>(<span class="kw">name</span> <span class="kw">=</span> <span class="st">""</span>, <span class="kw">values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="st">"red"</span>, <span class="kw">fit</span> <span class="kw">=</span> <span class="st">"black"</span>)) +
+  <span class="fu">ylab</span>(<span class="st">"migration rate"</span>)</pre></body></html></div>
+<p><img src="migration_with_demotools_files/figure-html/unnamed-chunk-7-1.png" width="576" style="display: block; margin: auto;"></p>
+</div>
+<div id="comments-about-warnings" class="section level4">
+<h4 class="hasAnchor">
+<a href="#comments-about-warnings" class="anchor"></a>Comments about warnings</h4>
+<p>When running <code>mc_estimate_rc</code> it is common to see warnings from Stan, particularly when the retirement and post-retirement families are included in the model. Warnings about divergent transitions, low ESS and maximum treedepth can often be eliminated by changing the Stan settings to have a larger <code>adapt_delta</code>, <code>iter</code> and <code>maximum_treedepth</code>, respectively. If warnings persist it is not the end of the world; the results are probably still fine. The warnings are largely a consequence of the complexity of the function being fitted and the strong correlations that exist between estimates of different parameters. Work is still on going investigating different prior set-ups to improve the efficiency of fit.</p>
+</div>
 </div>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
 <div id="refs" class="references">
+<div id="ref-carpenter2017stan">
+<p>Carpenter, Bob, Andrew Gelman, Matthew D Hoffman, Daniel Lee, Ben Goodrich, Michael Betancourt, Marcus Brubaker, Jiqiang Guo, Peter Li, and Allen Riddell. 2017. “Stan: A Probabilistic Programming Language.” <em>Journal of Statistical Software</em> 76 (1). Columbia Univ., New York, NY (United States); Harvard Univ., Cambridge, MA.</p>
+</div>
 <div id="ref-preston2000demography">
 <p>Preston, Samuel, Patrick Heuveline, and Michel Guillot. 2000. <em>Demography: Measuring and Modeling Population Processes</em>. Wiley-Blackwell.</p>
 </div>
 <div id="ref-rogers1981model">
 <p>Rogers, Andrei, and Luis J Castro. 1981. “Model Migration Schedules.” <em>IIASA Working Papers</em>.</p>
 </div>
+<div id="ref-rogers2010indirect">
+<p>Rogers, Andrei, Jani Little, and James Raymer. 2010. <em>The Indirect Estimation of Migration: Methods for Dealing with Irregular, Inadequate, and Missing Data</em>. Vol. 26. Springer Science &amp; Business Media.</p>
 </div>
+</div>
+</div>
+<div class="footnotes">
+<hr>
+<ol>
+<li id="fn1"><p><a href="http://demographicestimation.iussp.org/content/multi-exponential-model-migration-schedule" class="uri">http://demographicestimation.iussp.org/content/multi-exponential-model-migration-schedule</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
 </div>
   </div>
 

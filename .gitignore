@@ -2,7 +2,6 @@ Meta
 doc
 /.settings/
 /.project
-/src/
 /devdata/
 *.Rhistory
 /inst/REFERENCES.bib.bak
@@ -15,5 +14,9 @@ doc
 inst/doc
 DemoToolsHexTests
 Spreadsheets
-
+*.cc
+*.cpp
+*.h
+*.o
+*.so
 docs/

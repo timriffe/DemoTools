@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.06.02</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.07.000</span>
       </span>
     </div>
 
@@ -184,32 +184,6 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>nax numeric vector of average time spent in interval by those dying in interval via identity.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>#' @title Derive nqx from nMx and nax.
-#' @description This is the standard identity to derive nqx from nax and nMx.
-#' @details qx values calculated as greater than 1 are imputed with 1.
-#' @param nMx numeric. Vector of age-specific death rates.
-#' @param nax numeric. Vector of average time spent in interval by those dying in interval.
-#' @param AgeInt integer. Vector of age class widths.
-#' @references
-#' Preston S, Heuveline P, Guillot M (2000).
-<em>Demography: measuring and modeling population processes</em>.
-Wiley-Blackwell.
-
-#' @return nqx vector of age specific death probabilities derived via identity.
-#' @export
-lt_id_m_q &lt;- function(nMx, nax, AgeInt = inferAgeIntAbr(vec = nMx)) 
-  if (as.character(match.call()[[1]]) == "mx2qx") 
-    warning("please use lt_id_m_q() instead of mx2qx().", call. = FALSE)  qx &lt;- (AgeInt * nMx) / (1 + (AgeInt - nax) * nMx)
-  ind &lt;- qx &gt; 1 | is.na(qx)
-  if (sum(ind) &gt; 0) 
-    #cat("at least 1 q(x) &gt; 1, imputed as 1")
-    qx[ind] &lt;- 1  qx
-
-#' @export
-#' @rdname lt_id_ma_q
-mx2qx &lt;- lt_id_ma_q</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Preston S, Heuveline P, Guillot M (2000).

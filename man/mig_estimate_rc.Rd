@@ -4,14 +4,28 @@
 \alias{mig_estimate_rc}
 \title{Estimate Rogers-Castro migration age schedule}
 \usage{
-mig_estimate_rc(ages, mx, num_pars, ...)
+mig_estimate_rc(
+  ages,
+  mx,
+  pre_working_age,
+  working_age,
+  retirement,
+  post_retirement,
+  ...
+)
 }
 \arguments{
 \item{ages}{numeric. A vector of ages.}
 
 \item{mx}{numeric. A vector of observed age-specific migration rates.}
 
-\item{num_pars}{integer. Number of parameters to be estimated in the model.}
+\item{pre_working_age}{logical (TRUE/FALSE). Whether or not to include pre working age component.}
+
+\item{working_age}{logical (TRUE/FALSE). Whether or not to include working age component.}
+
+\item{retirement}{logical (TRUE/FALSE). Whether or not to include retirement age component.}
+
+\item{post_retirement}{logical (TRUE/FALSE). Whether or not to include post retirement age component.}
 
 \item{...}{additional inputs to stan, see ?rstan::stan for details.}
 }
@@ -34,7 +48,11 @@ mig_rate <- c(0.1014,0.0984,0.0839,0.0759,0.0679,0.0616,
 0.0093,0.0083,0.0078,0.0067,0.0069,0.0054)
 # fit the model
 
-res <- mig_estimate_rc(ages, mig_rate, num_pars = 7)
+res <- mig_estimate_rc(ages, mig_rate, 
+pre_working_age = TRUE, 
+working_age = TRUE, 
+retirement = FALSE, 
+post_retirement = FALSE)
 \dontrun{
 # plot the results and data
 plot(ages, mig_rate, ylab = "migration rate", xlab = "age")
