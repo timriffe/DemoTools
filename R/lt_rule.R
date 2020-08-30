@@ -337,10 +337,12 @@ lt_rule_ak_m0_a0 <- function(m0, Sex ){
 #' @export
 
 lt_rule_ak <- function(m0 = NULL, q0 = NULL, Sex){
-  if (is.null(m0) & !is.null(q0)){}
+  if (is.null(m0) & !is.null(q0)){
     a0 <- lt_rule_ak_q0_a0(q0,Sex)
-} if (is.null(q0) & !is.null(m0)){
-  a0 <- lt_rule_ak_q0_a0(m0,Sex)
-}
+  } 
+  if (is.null(q0) & !is.null(m0)){
+    a0 <- lt_rule_ak_q0_a0(m0,Sex)
+  }
+  a0
 }
 
