@@ -303,9 +303,9 @@ lt_rule_ak_q0_a0 <- function(q0, Sex ){
 
 #' @title estimates a0 using the Andreev-Kingkade rule of thumb starting with an event exposure rate
 #'
-#' @description These formulas and cutpoints are based on a supplementary analysis from Andreev & Kingkade. The original formulation was in terms of IMR. There is also an analytic path to convert m0 to q0 and then use the original q0 cutpoints. Code ported from HMD code base.
+#' @description These formulas and cutpoints are based on a supplementary analysis from Andreev & Kingkade. The original formulation was in terms of IMR. There is also an analytic path to convert M0 to q0 and then use the original q0 cutpoints. Code ported from HMD code base.
 #'
-#' @param m0 a value or vector of values of m0, the death risk in the first year of life.
+#' @param M0 a value or vector of values of m0, the death risk in the first year of life.
 #' @param Sex either "m" or "f"
 #' 
 #' @return a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of values.
@@ -313,14 +313,14 @@ lt_rule_ak_q0_a0 <- function(q0, Sex ){
 #' @export
 
 
-lt_rule_ak_m0_a0 <- function(m0, Sex ){
-  Sex <- rep(Sex, length(m0))
+lt_rule_ak_m0_a0 <- function(M0, Sex ){
+  Sex <- rep(Sex, length(M0))
   ifelse(Sex == "m", 
-         ifelse(m0 < .0230, {0.14929 - 1.99545 * m0},
-                ifelse(m0 < 0.08307, {0.02832 + 3.26021 * m0},.29915)),
+         ifelse(m0 < .0230, {0.14929 - 1.99545 * M0},
+                ifelse(m0 < 0.08307, {0.02832 + 3.26021 * M0},.29915)),
          # f
-         ifelse(m0 < 0.01724, {0.14903 - 2.05527 * m0},
-                ifelse(m0 < 0.06891, {0.04667 + 3.88089 * m0}, 0.31411))
+         ifelse(m0 < 0.01724, {0.14903 - 2.05527 * M0},
+                ifelse(m0 < 0.06891, {0.04667 + 3.88089 * M0}, 0.31411))
   )
 }
 
@@ -336,13 +336,39 @@ lt_rule_ak_m0_a0 <- function(m0, Sex ){
 #' 
 #' @export
 
-lt_rule_ak <- function(m0 = NULL, q0 = NULL, Sex){
-  if (is.null(m0) & !is.null(q0)){
+lt_rule_1a0_ak <- function(M0 = NULL, q0 = NULL, Sex){
+  
+  stopifnot(sum(c(is.null(M0),is.null(q0))) == 1)
+  if (is.null(M0) & !is.null(q0)){
     a0 <- lt_rule_ak_q0_a0(q0,Sex)
   } 
-  if (is.null(q0) & !is.null(m0)){
-    a0 <- lt_rule_ak_q0_a0(m0,Sex)
+  if (is.null(q0) & !is.null(M0)){
+    a0 <- lt_rule_ak_q0_a0(M0,Sex)
   }
   a0
 }
-
+# list(method = "pas", a0rule = "ak", Sex = "m", IMR = NA, region = "w", mod = TRUE)
+lt_rule_1a0 <- function(rule = c("ak","cd"),
+                        M0 = NULL,
+                        q0 = NULL,
+                        Sex = "m",
+                        IMR = NA,
+                        region = "w",
+                        mod = TRUE){
+  
+  if (rule == "cd"){
+    a0 <- lt_rule_1a0_cd(M0 = nMx[1],
+                         IMR = IMR,
+                         Sex = Sex,
+                         region = region)
+  }
+  if (rule = "ak"){
+    if (is.null(M0) & is.null(q0) & !is.na(IMR)){
+      q0 <- IMR
+    }
+    a0 <- lt_rule_1a0_ak(M0 = M0,
+                         q0 = q0,
+                         Sex = Sex)
+  }
+  a0
+}

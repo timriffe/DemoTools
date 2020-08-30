@@ -789,6 +789,7 @@ lt_a_closeout <- function(mx,
 lt_id_morq_a <- function(nMx,
                       nqx,
                       axmethod = c("pas", "un"),
+                      a0rule = c("ak","cd"), # TR: new.
                       Age,
                       AgeInt,
                       IMR = NA,
@@ -870,6 +871,11 @@ lt_id_morq_a <- function(nMx,
     }
 
   }
+  
+  # TR: shall we do ak patch just here at the end?
+  # the alternative would be to mesh it in everywhere a0 happens.
+  # ergo lt_rule_a0() as a new function 
+  
   nAx
 }
 

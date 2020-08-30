@@ -163,11 +163,8 @@ lt_abridged <- function(Deaths = NULL,
                   Age,
                   AgeInt = age2int(Age = Age, OAvalue = 5),
                   radix = 1e5,
-                  axmethod = "pas",
-                  Sex = "m",
-                  region = "w",
-                  IMR = NA,
-                  mod = TRUE,
+                  # redesign backwards from the ax args. Possibly add some options here?
+                  axcontrol = list(method = "pas", a0rule = "ak", Sex = "m", IMR = NA, region = "w", mod = TRUE),
                   OAG = TRUE,
                   OAnew = max(Age),
                   extrapLaw = c("Kannisto",
@@ -200,7 +197,7 @@ lt_abridged <- function(Deaths = NULL,
   # and use more consistent flags
   mxflag   <- !is.null(nMx)
   qxflag   <- !is.null(nqx)
-  # 1) if lx given but not qx:9
+  # 1) if lx given but not qx:
   if ((!qxflag) & (!is.null(lx))) {
     nqx          <- lt_id_l_d(lx) / lx
     nqx[1]       <- ifelse(imr_flag, IMR, nqx[1])
@@ -213,10 +210,10 @@ lt_abridged <- function(Deaths = NULL,
     mxflag       <- TRUE
   }
 
-  axmethod       <- tolower(axmethod)
-  Sex            <- tolower(Sex)
-  region         <- tolower(region)
-  extrapLaw      <- tolower(extrapLaw)
+  # axmethod       <- tolower(axmethod)
+  # Sex            <- tolower(Sex)
+  # region         <- tolower(region)
+  # extrapLaw      <- tolower(extrapLaw)
 
   # take care of ax first, two ways presently
   if (!mxflag) {
