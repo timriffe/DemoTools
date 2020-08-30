@@ -278,3 +278,69 @@ lt_rule_4m0_m0 <- function(M04, D04, P04, Sex = c("m", "f")) {
   # back to rate
   exp(lm0)
 }
+
+
+#' @title estimates a0 using the Andreev-Kingkade rule of thumb starting with IMR
+#'
+#' @description \code{AKq02a0} Andreev Kingkade a0 method. This version has a 3-part segemented linear model, based on cutpoints in q0. Code ported from HMDLifeTables.
+#'
+#' @param q0 a value or vector of values of q0, the death probability in the first year of life.
+#' @param Sex either "m" or "f"
+#' 
+#' @return a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of a_0 values.
+#' 
+#' @export
+
+lt_rule_ak_q0_a0 <- function(q0, Sex ){
+  Sex <- rep(Sex, length(q0))
+  ifelse(Sex == "m", 
+         ifelse(q0 < .0226, {0.1493 - 2.0367 * q0},
+                ifelse(q0 < 0.0785, {0.0244 + 3.4994 * q0},.2991)),
+         ifelse(q0 < 0.0170, {0.1490 - 2.0867 * q0},
+                ifelse(q0 < 0.0658, {0.0438 + 4.1075 * q0}, 0.3141))
+  )
+}
+
+#' @title estimates a0 using the Andreev-Kingkade rule of thumb starting with an event exposure rate
+#'
+#' @description These formulas and cutpoints are based on a supplementary analysis from Andreev & Kingkade. The original formulation was in terms of IMR. There is also an analytic path to convert m0 to q0 and then use the original q0 cutpoints. Code ported from HMD code base.
+#'
+#' @param m0 a value or vector of values of m0, the death risk in the first year of life.
+#' @param Sex either "m" or "f"
+#' 
+#' @return a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of values.
+#' 
+#' @export
+
+
+lt_rule_ak_m0_a0 <- function(m0, Sex ){
+  Sex <- rep(Sex, length(m0))
+  ifelse(Sex == "m", 
+         ifelse(m0 < .0230, {0.14929 - 1.99545 * m0},
+                ifelse(m0 < 0.08307, {0.02832 + 3.26021 * m0},.29915)),
+         # f
+         ifelse(m0 < 0.01724, {0.14903 - 2.05527 * m0},
+                ifelse(m0 < 0.06891, {0.04667 + 3.88089 * m0}, 0.31411))
+  )
+}
+
+#' @title Andreev-Kingkade approximation for a0
+#'
+#' @description This function wraps the two approximations for a0 based on either q0 (IMR) or m0.
+#'
+#' @param m0 a value or vector of values of m0, the death probability in the first year of life.
+#' @param q0 a value or vector of values of m0, the death risk in the first year of life.
+#' @param Sex either "m" or "f"
+#' 
+#' @return a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of values.
+#' 
+#' @export
+
+lt_rule_ak <- function(m0 = NULL, q0 = NULL, Sex){
+  if (is.null(m0) & !is.null(q0)){}
+    a0 <- lt_rule_ak_q0_a0(q0,Sex)
+} if (is.null(q0) & !is.null(m0)){
+  a0 <- lt_rule_ak_q0_a0(m0,Sex)
+}
+}
+
