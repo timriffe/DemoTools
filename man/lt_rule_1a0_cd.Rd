@@ -11,7 +11,7 @@ lt_rule_1a0_cd(M0, IMR = NA, Sex = "m", region = "w")
 
 \item{IMR}{numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.}
 
-\item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
+\item{Sex}{character. \code{"m"} or \code{"f"}  for male or female,}
 
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 }
@@ -23,7 +23,7 @@ Coale-Demeny a(0) from Manual X Table 164. This is a rule of thumb.
 In this and some other older texts, a(0) is known as a 'separation factor'.
 }
 \details{
-If sex is given as both, \code{"b"}, then female values are taken, per the PAS spreadsheet. This function is not vectorized. Formulas for North, South, and West are identical- only East is different. If \code{IMR} is not given, then \code{M0} is converted to q(0) using the following approximation:
+If \code{IMR} is not given, then \code{M0} is converted to q(0) using the following approximation:
 \enumerate{
 \item{Find \eqn{\alpha , \beta}.}{ Look up the appropriate slope and intercept for the given sex and region.}
 \item{calculate \eqn{a} as: }{\ifelse{html}{\out{a = M<sub>0</sub> * &beta;}}{\eqn{a = M_0 * \beta}}}

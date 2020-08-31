@@ -10,13 +10,14 @@ lt_id_morq_a_greville(
   lx,
   Age,
   AgeInt = age2int(Age, OAvalue = 5),
+  a0rule = "ak",
   IMR = NA,
   Sex = "m",
   region = "w",
   mod = TRUE,
+  SRB = 1.05,
   closeout = TRUE,
-  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
-    "beard_makeham", "quadratic"),
+  extrapLaw = "kannisto",
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...
@@ -33,6 +34,8 @@ lt_id_morq_a_greville(
 
 \item{AgeInt}{integer. Vector of age group intervals.}
 
+\item{a0rule}{character. Either \code{"ak"} (default) or \code{"cd"}.}
+
 \item{IMR}{numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.}
 
 \item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
@@ -41,19 +44,20 @@ lt_id_morq_a_greville(
 
 \item{mod}{logical. Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.}
 
+\item{SRB}{numeric. The sex ratio at birth (boys/girls), default 1.05.}
+
 \item{closeout}{logical. Whether or not to estimate open age a(x) via extrapolation. Default \code{TRUE}.}
 
-\item{law}{The name of the mortality law/model to be used.
-The following options are available: \itemize{
-  \item{\code{"kannisto"}} -- The Kannisto model;
-  \item{\code{"kannisto_makeham"}} -- The Kannisto-Makeham model;
-  \item{\code{"gompertz"}} -- The Gompertz model;
-  \item{\code{"ggompertz"}} -- The Gamma-Gompertz model;
-  \item{\code{"makeham"}} -- The Makeham model;
-  \item{\code{"beard"}} -- The Beard model;
-  \item{\code{"beard_makeham"}} -- The Beard-Makeham model;
-  \item{\code{"quadratic"}} -- The Quadratic model.
-  }}
+\item{extrapLaw}{character. The following options are available: \itemize{
+\item{\code{"kannisto"}} -- The Kannisto model;
+\item{\code{"kannisto_makeham"}} -- The Kannisto-Makeham model;
+\item{\code{"gompertz"}} -- The Gompertz model;
+\item{\code{"ggompertz"}} -- The Gamma-Gompertz model;
+\item{\code{"makeham"}} -- The Makeham model;
+\item{\code{"beard"}} -- The Beard model;
+\item{\code{"beard_makeham"}} -- The Beard-Makeham model;
+\item{\code{"quadratic"}} -- The Quadratic model.
+}}
 
 \item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
 

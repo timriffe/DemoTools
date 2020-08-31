@@ -31,10 +31,12 @@
 #' @param AgeInt integer. Vector of age class widths. Default \code{inferAgeIntAbr(Age = Age)}.
 #' @param radix numeric. Lifetable radix, \ifelse{html}{\out{l<sub>0}}{\eqn{l_0}}. Default 100000.
 #' @param axmethod character. Either \code{"pas"} or \code{"un"}.
+#' @param a0rule character. Either \code{"ak"} (default) or \code{"cd"}.
 #' @param Sex character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}.
 #' @param region character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.
 #' @param IMR numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.
 #' @param mod logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.
+#' @param SRB the sex ratio at birth (boys / girls), detault 1.05
 #' @param OAnew integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.
 #' @param OAG logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include
@@ -82,7 +84,8 @@
 #' 		axmethod = "pas",
 #' 		IMR = .1,
 #' 		region = "n",
-#' 		Sex = "m")
+#' 		Sex = "m",
+#'		a0rule ="cd")
 #'
 #' # examples based on UN 1982 (p. 34)
 #' Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
@@ -133,7 +136,8 @@
 #'  		axmethod = "un",
 #'  		Sex = "f",
 #'  		mod = FALSE,
-#'  		OAnew = 100)
+#'  		OAnew = 100,
+#'  		a0rule ="cd")
 #' #'
 #' #' # lifetable to original open age group
 #'  MP_UNLT80 <- lt_abridged(
@@ -143,7 +147,8 @@
 #'  		axmethod = "un",
 #'  		Sex = "f",
 #'  		mod = FALSE,
-#'  		OAnew = 80)
+#'  		OAnew = 80,
+#'  		a0rule ="cd")
 #'
 #' # same, but truncated at 60
 #' MP_UNLT60 <- lt_abridged(
@@ -153,7 +158,8 @@
 #' 		axmethod = "un",
 #' 		Sex = "f",
 #' 		mod = FALSE,
-#' 		OAnew = 60)
+#' 		OAnew = 60,
+#'  		a0rule ="cd")
 
 lt_abridged <- function(Deaths = NULL,
                   Exposures = NULL,
@@ -164,22 +170,32 @@ lt_abridged <- function(Deaths = NULL,
                   AgeInt = age2int(Age = Age, OAvalue = 5),
                   radix = 1e5,
                   # redesign backwards from the ax args. Possibly add some options here?
-                  axcontrol = list(method = "pas", a0rule = "ak", Sex = "m", IMR = NA, region = "w", mod = TRUE),
+                  axmethod = "pas", 
+                  a0rule = "ak", 
+                  Sex = "m", 
+                  IMR = NA, 
+                  region = "w", 
+                  mod = TRUE,
+                  SRB = 1.05,
                   OAG = TRUE,
                   OAnew = max(Age),
-                  extrapLaw = c("Kannisto",
-                                "Kannisto_Makeham",
-                                "Makeham",
-                                "Gompertz",
-                                "Ggompertz",
-                                "Beard",
-                                "Beard_Makeham",
-                                "Quadratic"
-                                ),
+                  extrapLaw = "kannisto",
                   extrapFrom = max(Age),
                   extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
                   ...) {
-
+  axmethod <- match.arg(axmethod, choices = c("pas","un"))
+  Sex      <- match.arg(Sex, choices = c("m","f","b"))
+  a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
+  extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
+                                                     "kannisto_makeham",
+                                                     "makeham",
+                                                     "gompertz",
+                                                     "ggompertz",
+                                                     "beard",
+                                                     "beard_makeham",
+                                                     "quadratic"
+  ))
+  region   <- match.arg(region, choices = c("w","n","s","e"))
   # ages must be abridged.
   stopifnot(is_abridged(Age))
 
@@ -228,22 +244,26 @@ lt_abridged <- function(Deaths = NULL,
                       axmethod = axmethod,
                       Age = Age,
                       AgeInt = AgeInt,
+                      a0rule = a0rule,
                       Sex = Sex,
                       region = region,
                       OAG = OAG,
                       mod = mod,
-                      IMR = IMR)
+                      IMR = IMR,
+                      SRB = SRB)
   } else {
     nAx          <- lt_id_morq_a(
                       nMx = nMx,
                       axmethod = axmethod,
                       Age = Age,
                       AgeInt = AgeInt,
+                      a0rule = a0rule,
                       Sex = Sex,
                       region = region,
                       OAG = OAG,
                       mod = mod,
-                      IMR = IMR)
+                      IMR = IMR,
+                      SRB = SRB)
   }
   # TR, these nAx ought to turn out to be the same...
 
@@ -307,11 +327,13 @@ lt_abridged <- function(Deaths = NULL,
                       axmethod = axmethod,
                       Age = Age,
                       AgeInt = AgeInt,
+                      a0rule = a0rule,
                       Sex = Sex,
                       region = region,
                       OAG = TRUE,
                       mod = mod,
-                      IMR = IMR)
+                      IMR = IMR,
+                      SRB = SRB)
 
   nqx            <- lt_id_ma_q(
                       nMx = nMx,

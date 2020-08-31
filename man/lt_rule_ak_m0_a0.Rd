@@ -4,10 +4,10 @@
 \alias{lt_rule_ak_m0_a0}
 \title{estimates a0 using the Andreev-Kingkade rule of thumb starting with an event exposure rate}
 \usage{
-lt_rule_ak_m0_a0(m0, Sex)
+lt_rule_ak_m0_a0(M0, Sex)
 }
 \arguments{
-\item{m0}{a value or vector of values of m0, the death risk in the first year of life.}
+\item{M0}{a value or vector of values of m0, the death risk in the first year of life.}
 
 \item{Sex}{either "m" or "f"}
 }
@@ -15,5 +15,5 @@ lt_rule_ak_m0_a0(m0, Sex)
 a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of values.
 }
 \description{
-These formulas and cutpoints are based on a supplementary analysis from Andreev & Kingkade. The original formulation was in terms of IMR. There is also an analytic path to convert m0 to q0 and then use the original q0 cutpoints. Code ported from HMD code base.
+These formulas and cutpoints are based on a supplementary analysis from Andreev & Kingkade. The original formulation was in terms of IMR. There is also an analytic path to convert M0 to q0 and then use the original q0 cutpoints. Code ported from HMD code base.
 }

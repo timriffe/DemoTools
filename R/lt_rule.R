@@ -316,11 +316,11 @@ lt_rule_ak_q0_a0 <- function(q0, Sex ){
 lt_rule_ak_m0_a0 <- function(M0, Sex ){
   Sex <- rep(Sex, length(M0))
   ifelse(Sex == "m", 
-         ifelse(m0 < .0230, {0.14929 - 1.99545 * M0},
-                ifelse(m0 < 0.08307, {0.02832 + 3.26021 * M0},.29915)),
+         ifelse(M0 < .0230, {0.14929 - 1.99545 * M0},
+                ifelse(M0 < 0.08307, {0.02832 + 3.26021 * M0},.29915)),
          # f
-         ifelse(m0 < 0.01724, {0.14903 - 2.05527 * M0},
-                ifelse(m0 < 0.06891, {0.04667 + 3.88089 * M0}, 0.31411))
+         ifelse(M0 < 0.01724, {0.14903 - 2.05527 * M0},
+                ifelse(M0 < 0.06891, {0.04667 + 3.88089 * M0}, 0.31411))
   )
 }
 
@@ -328,7 +328,7 @@ lt_rule_ak_m0_a0 <- function(M0, Sex ){
 #'
 #' @description This function wraps the two approximations for a0 based on either q0 (IMR) or m0.
 #'
-#' @param m0 a value or vector of values of m0, the death probability in the first year of life.
+#' @param M0 a value or vector of values of m0, the death probability in the first year of life.
 #' @param q0 a value or vector of values of m0, the death risk in the first year of life.
 #' @param Sex either "m" or "f"
 #' 
@@ -347,28 +347,57 @@ lt_rule_1a0_ak <- function(M0 = NULL, q0 = NULL, Sex){
   }
   a0
 }
-# list(method = "pas", a0rule = "ak", Sex = "m", IMR = NA, region = "w", mod = TRUE)
-lt_rule_1a0 <- function(rule = c("ak","cd"),
+
+
+#' @title calculate a0 in different ways
+#'
+#' @description This function wraps the Coale-Demeny and Andreev-Kingkade approximations for a0, which can come from M0, qo, or IMR.
+#' @details If sex is given as both, \code{"b"}, then we calculate the male and female results separately, then weight them together using SRB. This is bad in theory, but the leverage is trivial, and it's better than using male or female coefs for the total population.
+#'
+#' @inheritParams  lt_rule_1a0_cd
+#' @param rule character. Either \code{"ak"} (Andreev-Kingkade) or \code{"cd"} (Coale-Demeny).
+#' @param Sex character, either \code{"m"}, \code{"f"}, or \code{"b"}
+#' @param q0 a value or vector of values of m0, the death risk in the first year of life.
+#' @param SRB the sex ratio at birth (boys / girls), detault 1.05
+#' @details Neither Coale-Demeny nor Andreev-Kingkade have explicit a0 rules for both-sexes combined. There's not a good way to arrive at a both-sex a0 estimate without increasing data requirements (you'd need data from each sex, which are not always available). It's more convenient to blend sex-specific a0 estimates based on something. Here we use SRB to do this, for no other reason than it has an easy well-known default value. This is bad because it assumes no sex differences in infant mortality, but this choice has a trivial impact on results.
+#' @return a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of values.
+#' 
+#' @export
+#' 
+lt_rule_1a0 <- function(rule = "ak",
                         M0 = NULL,
                         q0 = NULL,
-                        Sex = "m",
+                        Sex = 'm',
                         IMR = NA,
                         region = "w",
-                        mod = TRUE){
+                        SRB = 1.05){
+  Sex    <- match.arg(Sex, choices = c("m","f","b"))
+  region <- match.arg(region, choices = c("w","n","e","s"))
+  rule   <- match.arg(rule, choices = c("ak","cd"))
   
-  if (rule == "cd"){
-    a0 <- lt_rule_1a0_cd(M0 = nMx[1],
-                         IMR = IMR,
-                         Sex = Sex,
-                         region = region)
-  }
-  if (rule = "ak"){
-    if (is.null(M0) & is.null(q0) & !is.na(IMR)){
-      q0 <- IMR
+  # TR: experimental, if sex is b, we recurse?
+  if (Sex == "b"){
+    a0f <- lt_rule_1a0(rule=rule,M0=M0,q0=q0,Sex="f",IMR=IMR,region=region,SRB=SRB)
+    a0m <- lt_rule_1a0(rule=rule,M0=M0,q0=q0,Sex="m",IMR=IMR,region=region,SRB=SRB)
+    pm  <- SRB / (1 + SRB)
+    a0  <- pm * a0m + (1 - pm) * (a0f)
+    return(a0)
+  } else {
+  # otherwise we have single-sex cases.
+    if (rule == "cd"){
+      a0 <- lt_rule_1a0_cd(M0 = M0,
+                           IMR = IMR,
+                           Sex = Sex,
+                           region = region)
     }
-    a0 <- lt_rule_1a0_ak(M0 = M0,
-                         q0 = q0,
-                         Sex = Sex)
+    if (rule == "ak"){
+      if (is.null(M0) & is.null(q0) & !is.na(IMR)){
+        q0 <- IMR
+      }
+      a0 <- lt_rule_1a0_ak(M0 = M0,
+                           q0 = q0,
+                           Sex = Sex)
+    }
   }
   a0
 }
