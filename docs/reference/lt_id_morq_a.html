@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.08.02</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.000</span>
       </span>
     </div>
 
@@ -165,16 +165,17 @@
     <pre class="usage"><span class='fu'>lt_id_morq_a</span>(
   <span class='no'>nMx</span>,
   <span class='no'>nqx</span>,
-  <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pas"</span>, <span class='st'>"un"</span>),
+  <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"pas"</span>,
   <span class='no'>Age</span>,
   <span class='no'>AgeInt</span>,
+  <span class='kw'>a0rule</span> <span class='kw'>=</span> <span class='st'>"ak"</span>,
   <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='no'>Sex</span>,
+  <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
   <span class='no'>region</span>,
   <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Kannisto"</span>, <span class='st'>"Kannisto_Makeham"</span>, <span class='st'>"Makeham"</span>, <span class='st'>"Gompertz"</span>, <span class='st'>"Ggompertz"</span>,
-    <span class='st'>"Beard"</span>, <span class='st'>"Beard_Makeham"</span>, <span class='st'>"Quadratic"</span>),
+  <span class='kw'>SRB</span> <span class='kw'>=</span> <span class='no'>SRB</span>,
+  <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='st'>"kannisto"</span>,
   <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
   <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>],
   <span class='no'>...</span>
@@ -185,15 +186,15 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>nMx</th>
-      <td><p>numeric. Vector of mortality rates in abridged age classes.</p></td>
+      <td><p>numeric. Event exposure mortality rates.</p></td>
     </tr>
     <tr>
       <th>nqx</th>
-      <td><p>numeric. Vector of conditional death probabilities in abridged age classes.</p></td>
+      <td><p>numeric.  Vector of age specific death probabilities in standard abridged age groups.</p></td>
     </tr>
     <tr>
       <th>axmethod</th>
-      <td><p>character. Either <code>"pas"</code> or <code>"un"</code>.</p></td>
+      <td><p>character. Either <code>"pas"</code> or <code>"un"</code></p></td>
     </tr>
     <tr>
       <th>Age</th>
@@ -201,19 +202,23 @@
     </tr>
     <tr>
       <th>AgeInt</th>
-      <td><p>integer. Vector of age class widths. Default <code><a href='inferAgeIntAbr.html'>inferAgeIntAbr(Age = Age)</a></code>.</p></td>
+      <td><p>integer. Vector of age interval widths.</p></td>
+    </tr>
+    <tr>
+      <th>a0rule</th>
+      <td><p>character. Either <code>"ak"</code> (default) or <code>"cd"</code>.</p></td>
     </tr>
     <tr>
       <th>IMR</th>
-      <td><p>numeric. Infant mortality rate q<sub>0, in case available and <code>nqx</code> is not specified. Default <code>NA</code>.</p></td>
+      <td><p>numeric. Optional. q<sub>0</sub>, the death probability in first year of life, in case available separately.</p></td>
     </tr>
     <tr>
       <th>Sex</th>
-      <td><p>character. Either male <code>"m"</code>, female <code>"f"</code>, or both <code>"b"</code>.</p></td>
+      <td><p>character. <code>"m"</code>, <code>"f"</code> or <code>"b"</code> for male, female, or both.</p></td>
     </tr>
     <tr>
       <th>region</th>
-      <td><p>character. North, East, South, or West: code"n", code"e", code"s", code"w". Default code"w".</p></td>
+      <td><p>character. <code>"n"</code>, <code>"e"</code>, <code>"s"</code> or <code>"w"</code> for North, East, South, or West.</p></td>
     </tr>
     <tr>
       <th>OAG</th>
@@ -221,12 +226,15 @@
     </tr>
     <tr>
       <th>mod</th>
-      <td><p>logical. If <code>"un"</code> specified for <code>axmethod</code>, whether or not to use Nan Li's modification for ages 5-14. Default <code>TRUE</code>.</p></td>
+      <td><p>logical.  Whether or not to use Gerland's modification for ages 5-14. Default <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>SRB</th>
+      <td><p>numeric. The sex ratio at birth (boys/girls), default 1.05.</p></td>
     </tr>
     <tr>
       <th>extrapLaw</th>
-      <td><p>character. If extrapolating, which parametric mortality law should be invoked? Options include
-<code>"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"</code>. Default <code>"Kannisto"</code>. See details.</p></td>
+      <td><p>character. If extrapolating, which parametric mortality law should be invoked? Options include  <code>"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"</code>. Default <code>"Kannisto"</code>. See details.</p></td>
     </tr>
     <tr>
       <th>extrapFrom</th>

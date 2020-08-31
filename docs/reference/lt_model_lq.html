@@ -83,7 +83,7 @@ combinations (see examples below)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.08.02</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.000</span>
       </span>
     </div>
 
@@ -169,7 +169,7 @@ combinations (see examples below).</p>
     </div>
 
     <pre class="usage"><span class='fu'>lt_model_lq</span>(
-  <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"b"</span>, <span class='st'>"f"</span>, <span class='st'>"m"</span>),
+  <span class='no'>Sex</span>,
   <span class='kw'>fitted_logquad</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>q0_5</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>q0_1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -179,7 +179,12 @@ combinations (see examples below).</p>
   <span class='kw'>radix</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
   <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1e-09</span>,
   <span class='kw'>maxit</span> <span class='kw'>=</span> <span class='fl'>200</span>,
-  <span class='no'>...</span>
+  <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"pas"</span>,
+  <span class='kw'>a0rule</span> <span class='kw'>=</span> <span class='st'>"ak"</span>,
+  <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
+  <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>SRB</span> <span class='kw'>=</span> <span class='fl'>1.05</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -242,8 +247,28 @@ for case 7 and 8 (e0 and 45q15 or 35q15 are known);</p></td>
       <td><p>Maximum number of iterations allowed. Default: 100;</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional arguments affecting the predictions produced.</p></td>
+      <th>axmethod</th>
+      <td><p>character. Either <code>"pas"</code> or <code>"un"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>a0rule</th>
+      <td><p>character. Either <code>"ak"</code> (default) or <code>"cd"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>IMR</th>
+      <td><p>numeric. Infant mortality rate q<sub>0, in case available and <code>nqx</code> is not specified. Default <code>NA</code>.</p></td>
+    </tr>
+    <tr>
+      <th>region</th>
+      <td><p>character. North, East, South, or West: code"n", code"e", code"s", code"w". Default code"w".</p></td>
+    </tr>
+    <tr>
+      <th>mod</th>
+      <td><p>logical. If <code>"un"</code> specified for <code>axmethod</code>, whether or not to use Nan Li's modification for ages 5-14. Default <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>SRB</th>
+      <td><p>the sex ratio at birth (boys / girls), detault 1.05</p></td>
     </tr>
     </table>
 

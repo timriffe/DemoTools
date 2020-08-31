@@ -127,7 +127,7 @@ lt_rule_1a0_cd <- function(M0,
 #' m0 <- seq(.001,.2,by =.001)
 #' \dontrun{
 #' 
-#' using Andreev-Kingkade for a0 (it makes no difference if you use cd actually...)
+#' # using Andreev-Kingkade for a0 (it makes no difference if you use cd actually...)
 #' plot(m0, sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "e"), ylab = "4a1",
 #' 		type = 'l', ylim = c(1,2), lty = 2, col = "blue")
 #' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "w"), col = "blue")

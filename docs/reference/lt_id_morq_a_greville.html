@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.08.02</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.000</span>
       </span>
     </div>
 
@@ -168,13 +168,14 @@
   <span class='no'>lx</span>,
   <span class='no'>Age</span>,
   <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='no'>Age</span>, <span class='kw'>OAvalue</span> <span class='kw'>=</span> <span class='fl'>5</span>),
+  <span class='kw'>a0rule</span> <span class='kw'>=</span> <span class='st'>"ak"</span>,
   <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
   <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
   <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>SRB</span> <span class='kw'>=</span> <span class='fl'>1.05</span>,
   <span class='kw'>closeout</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>law</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"beard"</span>,
-    <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span>),
+  <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='st'>"kannisto"</span>,
   <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
   <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>],
   <span class='no'>...</span>
@@ -204,6 +205,10 @@
       <td><p>integer. Vector of age group intervals.</p></td>
     </tr>
     <tr>
+      <th>a0rule</th>
+      <td><p>character. Either <code>"ak"</code> (default) or <code>"cd"</code>.</p></td>
+    </tr>
+    <tr>
       <th>IMR</th>
       <td><p>numeric. Optional. q<sub>0</sub>, the death probability in first year of life, in case available separately.</p></td>
     </tr>
@@ -220,13 +225,16 @@
       <td><p>logical. Whether or not to use Gerland's modification for ages 5-14. Default <code>TRUE</code>.</p></td>
     </tr>
     <tr>
+      <th>SRB</th>
+      <td><p>numeric. The sex ratio at birth (boys/girls), default 1.05.</p></td>
+    </tr>
+    <tr>
       <th>closeout</th>
       <td><p>logical. Whether or not to estimate open age a(x) via extrapolation. Default <code>TRUE</code>.</p></td>
     </tr>
     <tr>
-      <th>law</th>
-      <td><p>The name of the mortality law/model to be used.
-The following options are available:</p><ul>
+      <th>extrapLaw</th>
+      <td><p>character. The following options are available:</p><ul>
 <li><p><code>"kannisto"</code> -- The Kannisto model;</p></li>
 <li><p><code>"kannisto_makeham"</code> -- The Kannisto-Makeham model;</p></li>
 <li><p><code>"gompertz"</code> -- The Gompertz model;</p></li>
@@ -297,19 +305,19 @@ United Nations Department of International Economic and Social Affairs.</p>
 <span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>,<span class='fl'>85</span>,<span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>))
 <span class='no'>AgeInt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='no'>Age</span>, <span class='kw'>OAvalue</span> <span class='kw'>=</span> <span class='fl'>5</span>)
 <span class='co'># two quite different results depending whether you start with mx or qx</span>
-<span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>nMx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.350000 1.361000 1.971728 2.427513 2.635291 2.604932 2.567799 2.557820
+<span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>nMx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.314100 1.361000 1.971728 2.427513 2.635291 2.604932 2.567799 2.557820
 #&gt;  [9] 2.544030 2.547217 2.570674 2.596676 2.612155 2.608886 2.584268 2.540573
-#&gt; [17] 2.541591 2.419688 3.537193</div><div class='input'><span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nqx</span> <span class='kw'>=</span> <span class='no'>nqx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.350000 1.361000 1.998436 2.410337 2.610435 2.569726 2.524739 2.506789
+#&gt; [17] 2.541591 2.419688 3.537193</div><div class='input'><span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nqx</span> <span class='kw'>=</span> <span class='no'>nqx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.314100 1.361000 1.998436 2.410337 2.610435 2.569726 2.524739 2.506789
 #&gt;  [9] 2.484742 2.480395 2.489952 2.492398 2.467590 2.402247 2.286868 2.126399
 #&gt; [17] 1.829551 1.480824 1.560036</div><div class='input'><span class='co'># same, qx comes from lx (Except OAG, because qx closed above w NA)</span>
-<span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>lx</span> <span class='kw'>=</span> <span class='no'>lx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.350000 1.361000 1.998275 2.410401 2.610450 2.569538 2.524848 2.506840
+<span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>lx</span> <span class='kw'>=</span> <span class='no'>lx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.314100 1.361000 1.998275 2.410401 2.610450 2.569538 2.524848 2.506840
 #&gt;  [9] 2.484738 2.480358 2.489988 2.492376 2.467577 2.402272 2.286855 2.126381
 #&gt; [17] 1.829564 1.480808 1.384313</div><div class='input'><span class='co'># both qx and lx given, but lx not used for anything = same as qx</span>
-<span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nqx</span> <span class='kw'>=</span> <span class='no'>nqx</span>, <span class='kw'>lx</span> <span class='kw'>=</span> <span class='no'>lx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.350000 1.361000 1.998436 2.410337 2.610435 2.569726 2.524739 2.506789
+<span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nqx</span> <span class='kw'>=</span> <span class='no'>nqx</span>, <span class='kw'>lx</span> <span class='kw'>=</span> <span class='no'>lx</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>,<span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.314100 1.361000 1.998436 2.410337 2.610435 2.569726 2.524739 2.506789
 #&gt;  [9] 2.484742 2.480395 2.489952 2.492398 2.467590 2.402247 2.286868 2.126399
 #&gt; [17] 1.829551 1.480824 1.560036</div><div class='input'>
 <span class='co'># nMx taken over lx.</span>
-<span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>nMx</span>, <span class='kw'>lx</span> <span class='kw'>=</span> <span class='no'>lx</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.350000 1.361000 1.971728 2.427513 2.635291 2.604932 2.567799 2.557820
+<span class='fu'>lt_id_morq_a_greville</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>nMx</span>, <span class='kw'>lx</span> <span class='kw'>=</span> <span class='no'>lx</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>'f'</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>, <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>'w'</span>)</div><div class='output co'>#&gt;  [1] 0.314100 1.361000 1.971728 2.427513 2.635291 2.604932 2.567799 2.557820
 #&gt;  [9] 2.544030 2.547217 2.570674 2.596676 2.612155 2.608886 2.584268 2.540573
 #&gt; [17] 2.541591 2.419688 3.537193</div></pre>
   </div>

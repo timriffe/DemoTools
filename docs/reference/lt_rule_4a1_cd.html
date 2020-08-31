@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.08.02</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.000</span>
       </span>
     </div>
 
@@ -162,7 +162,14 @@
     <p>Coale-Demeny 4a1. This is a rule of thumb. In this and some other older texts, 4a1 is known as a 'separation factor'. These coefficients were pulled from the PAS spreadsheets <code>LTPOPDTH.XLS</code> and not located in the original Manual X.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lt_rule_4a1_cd</span>(<span class='no'>M0</span>, <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>, <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>)</pre>
+    <pre class="usage"><span class='fu'>lt_rule_4a1_cd</span>(
+  <span class='no'>M0</span>,
+  <span class='kw'>a0rule</span> <span class='kw'>=</span> <span class='st'>"ak"</span>,
+  <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
+  <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
+  <span class='kw'>SRB</span> <span class='kw'>=</span> <span class='fl'>1.05</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,6 +177,10 @@
     <tr>
       <th>M0</th>
       <td><p>numeric. Event exposure infant mortality rate.</p></td>
+    </tr>
+    <tr>
+      <th>a0rule</th>
+      <td><p>character. Either <code>"ak"</code> (default) or <code>"cd"</code>.</p></td>
     </tr>
     <tr>
       <th>IMR</th>
@@ -183,6 +194,10 @@
       <th>region</th>
       <td><p>character. <code>"n"</code>, <code>"e"</code>, <code>"s"</code> or <code>"w"</code> for North, East, South, or West.</p></td>
     </tr>
+    <tr>
+      <th>SRB</th>
+      <td><p>sex ratio at birth.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -190,7 +205,7 @@
     <p>The average age at death between ages 1-4, 4a1.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If sex is given as both, <code>"b"</code>, then female values are taken, per the PAS spreadsheet. This function is not vectorized. If <code>IMR</code> is not given, then <code>M0</code> is used in its stead.</p>
+    <p>If sex is given as both, <code>"b"</code>, then we calculate the male and female results separately, then weight them together using SRB. This is bad in theory, but the leverage is trivial, and it's better than using male or female coefs for the total population. If <code>IMR</code> is not given, then <code>M0</code> is used in its stead.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>United Nations (1983).
@@ -204,6 +219,8 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>m0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>.001</span>,<span class='fl'>.2</span>,<span class='kw'>by</span> <span class='kw'>=</span><span class='fl'>.001</span>)
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+
+<span class='co'># using Andreev-Kingkade for a0 (it makes no difference if you use cd actually...)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>m0</span>, <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>m0</span>, <span class='no'>lt_rule_4a1_cd</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>, <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"e"</span>), <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"4a1"</span>,
                 <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'l'</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>), <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>m0</span>, <span class='no'>lt_rule_4a1_cd</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>, <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)

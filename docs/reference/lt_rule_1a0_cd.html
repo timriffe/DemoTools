@@ -81,7 +81,7 @@ In this and some other older texts, a(0) is known as a 'separation factor'." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.08.02</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.000</span>
       </span>
     </div>
 
@@ -179,7 +179,7 @@ In this and some other older texts, a(0) is known as a 'separation factor'.</p>
     </tr>
     <tr>
       <th>Sex</th>
-      <td><p>character. <code>"m"</code>, <code>"f"</code> or <code>"b"</code> for male, female, or both.</p></td>
+      <td><p>character. <code>"m"</code> or <code>"f"</code>  for male or female,</p></td>
     </tr>
     <tr>
       <th>region</th>
@@ -192,7 +192,7 @@ In this and some other older texts, a(0) is known as a 'separation factor'.</p>
     <p>The average age at death in the first year of life a(0).</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If sex is given as both, <code>"b"</code>, then female values are taken, per the PAS spreadsheet. This function is not vectorized. Formulas for North, South, and West are identical- only East is different. If <code>IMR</code> is not given, then <code>M0</code> is converted to q(0) using the following approximation:</p><ol>
+    <p>If <code>IMR</code> is not given, then <code>M0</code> is converted to q(0) using the following approximation:</p><ol>
 <li><p>Find \(\alpha , \beta\). Look up the appropriate slope and intercept for the given sex and region.</p></li>
 <li><p>calculate \(a\) as: a = M<sub>0</sub> * &beta;</p></li>
 <li><p>calculate \(b\) as: b = 1 + M<sub>0</sub> *(1- &alpha;)</p></li>
