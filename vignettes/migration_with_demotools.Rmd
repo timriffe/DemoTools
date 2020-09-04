@@ -8,11 +8,10 @@ vignette: >
   %\VignetteIndexEntry{Migration with DemoTools}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  %\VignetteDepends{tidyverse}
 header-includes:
 - \usepackage{amsmath}
 - \usepackage{amssymb}
----
+'---
 
 
 ```{r setup, include = FALSE}
@@ -70,7 +69,8 @@ The following is an example specifying values for each of the 13 possible parame
 
 ```{r}
 library(DemoTools)
-library(tidyverse)
+library(tibble)
+library(ggplot2)
 
 pars <- c(a1= 0.09, alpha1= 0.1, 
           a2= 0.2, alpha2= 0.1, mu2= 21, lambda2= 0.4, 

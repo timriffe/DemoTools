@@ -29,7 +29,7 @@ Suggests:
     knitr,
     rmarkdown,
     DT,
-    tidyverse,
+    ggplot2,
     bibtex (>= 0.4.2)
 RdMacros: Rdpack
 Imports:
