@@ -227,11 +227,32 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 <span class='kw'>pre_working_age</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
 <span class='kw'>working_age</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
 <span class='kw'>retirement</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-<span class='kw'>post_retirement</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; 
-#&gt; SAMPLING FOR MODEL 'rc_flexible' NOW (CHAIN 1).
+<span class='kw'>post_retirement</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>Trying to compile a simple C file</span></div><div class='output co'>#&gt; Running /usr/lib/R/bin/R CMD SHLIB foo.c
+#&gt; gcc -std=gnu99 -I"/usr/share/R/include" -DNDEBUG   -I"/home/tim/R/x86_64-pc-linux-gnu-library/3.6/Rcpp/include/"  -I"/home/tim/R/x86_64-pc-linux-gnu-library/3.6/RcppEigen/include/"  -I"/home/tim/R/x86_64-pc-linux-gnu-library/3.6/RcppEigen/include/unsupported"  -I"/home/tim/R/x86_64-pc-linux-gnu-library/3.6/BH/include" -I"/home/tim/R/x86_64-pc-linux-gnu-library/3.6/StanHeaders/include/src/"  -I"/home/tim/R/x86_64-pc-linux-gnu-library/3.6/StanHeaders/include/"  -I"/home/tim/R/x86_64-pc-linux-gnu-library/3.6/RcppParallel/include/"  -I"/home/tim/R/x86_64-pc-linux-gnu-library/3.6/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include '/home/tim/R/x86_64-pc-linux-gnu-library/3.6/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1     -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-V28x5H/r-base-3.6.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c foo.c -o foo.o
+#&gt; In file included from /home/tim/R/x86_64-pc-linux-gnu-library/3.6/RcppEigen/include/Eigen/Core:88:0,
+#&gt;                  from /home/tim/R/x86_64-pc-linux-gnu-library/3.6/RcppEigen/include/Eigen/Dense:1,
+#&gt;                  from /home/tim/R/x86_64-pc-linux-gnu-library/3.6/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
+#&gt;                  from &lt;command-line&gt;:0:
+#&gt; /home/tim/R/x86_64-pc-linux-gnu-library/3.6/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name ‘namespace’
+#&gt;  namespace Eigen {
+#&gt;  ^~~~~~~~~
+#&gt; /home/tim/R/x86_64-pc-linux-gnu-library/3.6/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:17: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘{’ token
+#&gt;  namespace Eigen {
+#&gt;                  ^
+#&gt; In file included from /home/tim/R/x86_64-pc-linux-gnu-library/3.6/RcppEigen/include/Eigen/Dense:1:0,
+#&gt;                  from /home/tim/R/x86_64-pc-linux-gnu-library/3.6/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,
+#&gt;                  from &lt;command-line&gt;:0:
+#&gt; /home/tim/R/x86_64-pc-linux-gnu-library/3.6/RcppEigen/include/Eigen/Core:96:10: fatal error: complex: No such file or directory
+#&gt;  #include &lt;complex&gt;
+#&gt;           ^~~~~~~~~
+#&gt; compilation terminated.
+#&gt; /usr/lib/R/etc/Makeconf:168: recipe for target 'foo.o' failed
+#&gt; make: *** [foo.o] Error 1
+#&gt; 
+#&gt; SAMPLING FOR MODEL '28c89f5948288d3bb37fc72d345573dc' NOW (CHAIN 1).
 #&gt; Chain 1: 
-#&gt; Chain 1: Gradient evaluation took 7.5e-05 seconds
-#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.75 seconds.
+#&gt; Chain 1: Gradient evaluation took 7.8e-05 seconds
+#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.78 seconds.
 #&gt; Chain 1: Adjust your expectations accordingly!
 #&gt; Chain 1: 
 #&gt; Chain 1: 
@@ -248,15 +269,15 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 #&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #&gt; Chain 1: 
-#&gt; Chain 1:  Elapsed Time: 0.884423 seconds (Warm-up)
-#&gt; Chain 1:                0.663457 seconds (Sampling)
-#&gt; Chain 1:                1.54788 seconds (Total)
+#&gt; Chain 1:  Elapsed Time: 0.698237 seconds (Warm-up)
+#&gt; Chain 1:                0.639008 seconds (Sampling)
+#&gt; Chain 1:                1.33725 seconds (Total)
 #&gt; Chain 1: 
 #&gt; 
-#&gt; SAMPLING FOR MODEL 'rc_flexible' NOW (CHAIN 2).
+#&gt; SAMPLING FOR MODEL '28c89f5948288d3bb37fc72d345573dc' NOW (CHAIN 2).
 #&gt; Chain 2: 
-#&gt; Chain 2: Gradient evaluation took 9.2e-05 seconds
-#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.92 seconds.
+#&gt; Chain 2: Gradient evaluation took 3.8e-05 seconds
+#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.38 seconds.
 #&gt; Chain 2: Adjust your expectations accordingly!
 #&gt; Chain 2: 
 #&gt; Chain 2: 
@@ -273,15 +294,15 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 #&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #&gt; Chain 2: 
-#&gt; Chain 2:  Elapsed Time: 0.788269 seconds (Warm-up)
-#&gt; Chain 2:                0.642972 seconds (Sampling)
-#&gt; Chain 2:                1.43124 seconds (Total)
+#&gt; Chain 2:  Elapsed Time: 0.741983 seconds (Warm-up)
+#&gt; Chain 2:                0.585324 seconds (Sampling)
+#&gt; Chain 2:                1.32731 seconds (Total)
 #&gt; Chain 2: 
 #&gt; 
-#&gt; SAMPLING FOR MODEL 'rc_flexible' NOW (CHAIN 3).
+#&gt; SAMPLING FOR MODEL '28c89f5948288d3bb37fc72d345573dc' NOW (CHAIN 3).
 #&gt; Chain 3: 
-#&gt; Chain 3: Gradient evaluation took 4.9e-05 seconds
-#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.49 seconds.
+#&gt; Chain 3: Gradient evaluation took 6.7e-05 seconds
+#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.67 seconds.
 #&gt; Chain 3: Adjust your expectations accordingly!
 #&gt; Chain 3: 
 #&gt; Chain 3: 
@@ -298,15 +319,15 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 #&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #&gt; Chain 3: 
-#&gt; Chain 3:  Elapsed Time: 0.866378 seconds (Warm-up)
-#&gt; Chain 3:                0.735242 seconds (Sampling)
-#&gt; Chain 3:                1.60162 seconds (Total)
+#&gt; Chain 3:  Elapsed Time: 0.768078 seconds (Warm-up)
+#&gt; Chain 3:                0.639528 seconds (Sampling)
+#&gt; Chain 3:                1.40761 seconds (Total)
 #&gt; Chain 3: 
 #&gt; 
-#&gt; SAMPLING FOR MODEL 'rc_flexible' NOW (CHAIN 4).
+#&gt; SAMPLING FOR MODEL '28c89f5948288d3bb37fc72d345573dc' NOW (CHAIN 4).
 #&gt; Chain 4: 
-#&gt; Chain 4: Gradient evaluation took 7.1e-05 seconds
-#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.71 seconds.
+#&gt; Chain 4: Gradient evaluation took 3.3e-05 seconds
+#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.33 seconds.
 #&gt; Chain 4: Adjust your expectations accordingly!
 #&gt; Chain 4: 
 #&gt; Chain 4: 
@@ -323,9 +344,9 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 #&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #&gt; Chain 4: 
-#&gt; Chain 4:  Elapsed Time: 1.05077 seconds (Warm-up)
-#&gt; Chain 4:                1.00754 seconds (Sampling)
-#&gt; Chain 4:                2.05831 seconds (Total)
+#&gt; Chain 4:  Elapsed Time: 0.807594 seconds (Warm-up)
+#&gt; Chain 4:                0.662033 seconds (Sampling)
+#&gt; Chain 4:                1.46963 seconds (Total)
 #&gt; Chain 4: </div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># plot the results and data</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>ages</span>, <span class='no'>mig_rate</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"migration rate"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"age"</span>)
