@@ -32,6 +32,7 @@ lx  <- c(100000,89207,81577,79924,79083,77925,76312,74393,72162,69631,66875,
 63704,59843,54828,48253,39861,30079,19951,9033)
 age <- int2age(inferAgeIntAbr(vec=nMx))
 names(nMx) <- age
+\dontrun{
 names2age(nMx)
 # or two vectors (only one has names here)
 names2age(nMx,nqx)
@@ -43,4 +44,5 @@ names2age(nqx,nMx, lx)
 names2age(nMx, nMx)
 # NAs returned
 names2age(lx)
+}
 }

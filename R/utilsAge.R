@@ -509,6 +509,7 @@ is_abridged <- function(Age) {
 #' 63704,59843,54828,48253,39861,30079,19951,9033)
 #' age <- int2age(inferAgeIntAbr(vec=nMx))
 #' names(nMx) <- age
+#' \dontrun{
 #' names2age(nMx)
 #' # or two vectors (only one has names here)
 #' names2age(nMx,nqx)
@@ -520,6 +521,7 @@ is_abridged <- function(Age) {
 #' names2age(nMx, nMx)
 #' # NAs returned
 #' names2age(lx)
+#' }
 
 names2age <- function(...) {
   XL <- list(...)

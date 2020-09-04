@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.02</span>
       </span>
     </div>
 
@@ -194,12 +194,19 @@
 <span class='fl'>63704</span>,<span class='fl'>59843</span>,<span class='fl'>54828</span>,<span class='fl'>48253</span>,<span class='fl'>39861</span>,<span class='fl'>30079</span>,<span class='fl'>19951</span>,<span class='fl'>9033</span>)
 <span class='no'>age</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='int2age.html'>int2age</a></span>(<span class='fu'><a href='inferAgeIntAbr.html'>inferAgeIntAbr</a></span>(<span class='kw'>vec</span><span class='kw'>=</span><span class='no'>nMx</span>))
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>nMx</span>) <span class='kw'>&lt;-</span> <span class='no'>age</span>
-<span class='fu'>names2age</span>(<span class='no'>nMx</span>)</div><div class='output co'>#&gt;  [1]  0  1  5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85</div><div class='input'><span class='co'># or two vectors (only one has names here)</span>
-<span class='fu'>names2age</span>(<span class='no'>nMx</span>,<span class='no'>nqx</span>)</div><div class='output co'>#&gt;  [1]  0  1  5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85</div><div class='input'><span class='co'># or more</span>
-<span class='fu'>names2age</span>(<span class='no'>nMx</span>,<span class='no'>nqx</span>,<span class='no'>lx</span>)</div><div class='output co'>#&gt;  [1]  0  1  5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85</div><div class='input'><span class='co'># order doesn't matter</span>
-<span class='fu'>names2age</span>(<span class='no'>nqx</span>,<span class='no'>nMx</span>, <span class='no'>lx</span>)</div><div class='output co'>#&gt;  [1]  0  1  5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85</div><div class='input'><span class='co'># multiple named, take first</span>
-<span class='fu'>names2age</span>(<span class='no'>nMx</span>, <span class='no'>nMx</span>)</div><div class='output co'>#&gt;  [1]  0  1  5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85</div><div class='input'><span class='co'># NAs returned</span>
-<span class='fu'>names2age</span>(<span class='no'>lx</span>)</div><div class='output co'>#&gt;  [1] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA</div></pre>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>names2age</span>(<span class='no'>nMx</span>)
+<span class='co'># or two vectors (only one has names here)</span>
+<span class='fu'>names2age</span>(<span class='no'>nMx</span>,<span class='no'>nqx</span>)
+<span class='co'># or more</span>
+<span class='fu'>names2age</span>(<span class='no'>nMx</span>,<span class='no'>nqx</span>,<span class='no'>lx</span>)
+<span class='co'># order doesn't matter</span>
+<span class='fu'>names2age</span>(<span class='no'>nqx</span>,<span class='no'>nMx</span>, <span class='no'>lx</span>)
+<span class='co'># multiple named, take first</span>
+<span class='fu'>names2age</span>(<span class='no'>nMx</span>, <span class='no'>nMx</span>)
+<span class='co'># NAs returned</span>
+<span class='fu'>names2age</span>(<span class='no'>lx</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
