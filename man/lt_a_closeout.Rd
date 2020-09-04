@@ -7,8 +7,7 @@
 lt_a_closeout(
   mx,
   Age,
-  law = c("kannisto", "kannisto_makeham", "makeham", "gompertz", "ggompertz", "beard",
-    "beard_makeham", "quadratic"),
+  extrapLaw = "kannisto",
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 40],
   ...
@@ -19,17 +18,16 @@ lt_a_closeout(
 
 \item{Age}{integer. A vector of ages of the lower integer bound of the age classes.}
 
-\item{law}{The name of the mortality law/model to be used.
-The following options are available: \itemize{
-  \item{\code{"kannisto"}} -- The Kannisto model;
-  \item{\code{"kannisto_makeham"}} -- The Kannisto-Makeham model;
-  \item{\code{"gompertz"}} -- The Gompertz model;
-  \item{\code{"ggompertz"}} -- The Gamma-Gompertz model;
-  \item{\code{"makeham"}} -- The Makeham model;
-  \item{\code{"beard"}} -- The Beard model;
-  \item{\code{"beard_makeham"}} -- The Beard-Makeham model;
-  \item{\code{"quadratic"}} -- The Quadratic model.
-  }}
+\item{extrapLaw}{character. The following options are available: \itemize{
+\item{\code{"kannisto"}} -- The Kannisto model;
+\item{\code{"kannisto_makeham"}} -- The Kannisto-Makeham model;
+\item{\code{"gompertz"}} -- The Gompertz model;
+\item{\code{"ggompertz"}} -- The Gamma-Gompertz model;
+\item{\code{"makeham"}} -- The Makeham model;
+\item{\code{"beard"}} -- The Beard model;
+\item{\code{"beard_makeham"}} -- The Beard-Makeham model;
+\item{\code{"quadratic"}} -- The Quadratic model.
+}}
 
 \item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
 
@@ -55,14 +53,14 @@ nMx <- c(0.12846,0.02477,0.00603,0.0034,
 Age <- c(0,1,seq(5,80,by =5))
 
 
-lt_a_closeout(nMx,Age,"Kannisto")
-lt_a_closeout(nMx,Age,"Kannisto_Makeham")
-lt_a_closeout(nMx,Age,"Makeham")
-lt_a_closeout(nMx,Age,"Gompertz")
-lt_a_closeout(nMx,Age,"GGompertz")
-lt_a_closeout(nMx,Age,extrapLaw ="Beard")
-lt_a_closeout(nMx,Age,"Beard_Makeham")
-lt_a_closeout(nMx,Age,"Quadratic")
+lt_a_closeout(nMx,Age,"kannisto")
+lt_a_closeout(nMx,Age,"kannisto_makeham")
+lt_a_closeout(nMx,Age,"makeham")
+lt_a_closeout(nMx,Age,"gompertz")
+lt_a_closeout(nMx,Age,"ggompertz")
+lt_a_closeout(nMx,Age,extrapLaw ="beard")
+lt_a_closeout(nMx,Age,"beard_makeham")
+lt_a_closeout(nMx,Age,"quadratic")
 }
 \seealso{
 \code{\link[DemoTools]{lt_rule_m_extrapolate}}

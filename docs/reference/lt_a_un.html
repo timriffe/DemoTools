@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.07.000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.000</span>
       </span>
     </div>
 
@@ -169,13 +169,14 @@
   <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='no'>Age</span>,
   <span class='no'>AgeInt</span>,
+  <span class='kw'>a0rule</span> <span class='kw'>=</span> <span class='st'>"ak"</span>,
   <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
   <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
+  <span class='kw'>SRB</span> <span class='kw'>=</span> <span class='fl'>1.05</span>,
   <span class='kw'>tol</span> <span class='kw'>=</span> <span class='no'>.Machine</span>$<span class='no'>double.eps</span>,
   <span class='kw'>maxit</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
   <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Kannisto"</span>, <span class='st'>"Kannisto_Makeham"</span>, <span class='st'>"Makeham"</span>, <span class='st'>"Gompertz"</span>, <span class='st'>"Ggompertz"</span>,
-    <span class='st'>"Beard"</span>, <span class='st'>"Beard_Makeham"</span>, <span class='st'>"Quadratic"</span>),
+  <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='st'>"kannisto"</span>,
   <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
   <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span>],
   <span class='no'>...</span>
@@ -209,12 +210,20 @@
       <td><p>integer. Vector of age interval widths.</p></td>
     </tr>
     <tr>
+      <th>a0rule</th>
+      <td><p>character. Either <code>"ak"</code> (default) or <code>"cd"</code>.</p></td>
+    </tr>
+    <tr>
       <th>Sex</th>
       <td><p>character. <code>"m"</code>, <code>"f"</code> or <code>"b"</code> for male, female, or both.</p></td>
     </tr>
     <tr>
       <th>region</th>
       <td><p>character. <code>"n"</code>, <code>"e"</code>, <code>"s"</code> or <code>"w"</code> for North, East, South, or West.</p></td>
+    </tr>
+    <tr>
+      <th>SRB</th>
+      <td><p>numeric. The sex ratio at birth (boys/girls), default 1.05.</p></td>
     </tr>
     <tr>
       <th>tol</th>
@@ -286,12 +295,14 @@ United Nations Department of International Economic and Social Affairs.</p>
 <span class='no'>nAx1</span>       <span class='kw'>&lt;-</span> <span class='fu'>lt_a_un</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>Mx</span>,
                    <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
                                 <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,
+                                <span class='kw'>a0rule</span> <span class='kw'>=</span> <span class='st'>"cd"</span>,
                                 <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
                                           <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
                                 <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 <span class='no'>nAx2</span>       <span class='kw'>&lt;-</span> <span class='fu'>lt_a_un</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>Mx</span>,
                    <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
                                 <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,
+                                <span class='kw'>a0rule</span> <span class='kw'>=</span> <span class='st'>"cd"</span>,
                                 <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
                                           <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
                                 <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)

@@ -35,13 +35,25 @@
 check_heaping_whipple <-
   function(Value,
            Age,
-           ageMin = 25,
-           ageMax = 65,
+           ageMin = 25, # 25
+           ageMax = 65, # 60
            digit = c(0, 5)) {
 
     stopifnot(length(digit) == 1 ||
                 (all(c(0, 5) %in% digit) & length(digit == 2)))
     stopifnot(length(Value) == length(Age))
+    
+    # PJ: Rogers formulas for 0 and 5 give same denom for 0 and 5,
+    # ergo not symmetrical around numerators. Alternative, calculate
+    # for 0 and 5 independently, then take the average.
+    
+    # TR: make two blocks. In standard (just one digit) case, go down two
+    # and up two. In special case (0 and 5 only) do this, independently for each digit
+    # then (GDA, Rogers arg) then average. i.e. if rogers = TRUE. p 148 of 1981 GDA.
+    # use that for test.
+    
+    # PJ: idea with changing defaults for ageMin and ageMax is to have the same
+    # nr of 0s as 5s.
 
     numeratorind   <- Age >= ageMin & Age <= ageMax & Age %% 10 %in% digit
     numa           <- range(Age[numeratorind])
@@ -58,6 +70,8 @@ check_heaping_whipple <-
     whip           <- ifelse(length(digit) == 2, 5, 10) *
                          sum(Value[numeratorind]) / sum(Value[denominatorind])
 
+    # PJ: instead, return a list, 
+    
     return(whip)
   }
 
@@ -113,11 +127,22 @@ check_heaping_myers <- function(Value,
 
   # sum staggered, once without the youngest group but with the oldest one (tab2)
   # and once with the youngest and without the oldest
-  tab1    <- rowSums(VA[,-ncol(VA), drop = FALSE])
-  # differs from other implementations, but matches PASEX
+  
+  # PJ this is for backwards compatibility add pasex arg
+  # default pasex = FALSE
+  # if (!pasex){
+  #   tab1    <- rowSums(VA)
+  # } else {
+  #   tab1    <- rowSums(VA[,-ncol(VA), drop = FALSE])
+  # }
+  tab1    <- rowSums(VA[ , -ncol(VA), drop = FALSE])
 
-  tab2    <- rowSums(VA[,-1, drop = FALSE])
+  tab2    <- rowSums(VA[ , -1, drop = FALSE])
 
+  # TR: note, would this work in axactly the same way for phenomenon
+  # that have strong regular age patterns, like fert, or death distributions?
+  
+  
   # weighted tabulation
   TAB     <- tab1 * 1:period + tab2 * c(period:1 - 1)
 
@@ -162,6 +187,8 @@ check_heaping_bachi <-
     w2           <- matrix(0, nrow = length(Age), ncol = 10)
 
     if (pasex) {
+      
+      # PJ: generalize this re upper and lower ages
       w1[Age %in% seq(30, 70, 10), 1]  <- 1
       w1[Age %in% seq(31, 71, 10), 2]  <- 1
       w1[Age %in% seq(32, 72, 10), 3]  <- 1
@@ -215,6 +242,8 @@ check_heaping_bachi <-
       w2[markers > ageMin - 5 & markers < AgeMax - 5]   <- 1
     }
 
+    # PJ: replace this with the original Bachi formulation. Use parameter small d.
+    # see Bachi piece PJ wrote.
     numerators                                          <- colSums(Value * w1)
     denominators                                        <- colSums(Value * w2)
 

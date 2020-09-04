@@ -11,13 +11,14 @@ lt_a_un(
   IMR = NA,
   Age,
   AgeInt,
+  a0rule = "ak",
   Sex = "m",
   region = "w",
+  SRB = 1.05,
   tol = .Machine$double.eps,
   maxit = 1000,
   mod = TRUE,
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "Ggompertz",
-    "Beard", "Beard_Makeham", "Quadratic"),
+  extrapLaw = "kannisto",
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...
@@ -36,9 +37,13 @@ lt_a_un(
 
 \item{AgeInt}{integer. Vector of age interval widths.}
 
+\item{a0rule}{character. Either \code{"ak"} (default) or \code{"cd"}.}
+
 \item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
 
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
+
+\item{SRB}{numeric. The sex ratio at birth (boys/girls), default 1.05.}
 
 \item{tol}{numeric. The tolerance for the qx-based iterative method. Default \code{.Machine$double.eps}.}
 
@@ -78,12 +83,14 @@ Age <- int2age(AgeInt)
 nAx1       <- lt_a_un(nMx = Mx,
                    Age = Age,
 		                AgeInt = AgeInt,
+		                a0rule = "cd",
 		                Sex = "m",
 				          region = "w",
 		                mod = FALSE)
 nAx2       <- lt_a_un(nMx = Mx,
                    Age = Age,
 		                AgeInt = AgeInt,
+		                a0rule = "cd",
 		                Sex = "m",
 				          region = "w",
 		                mod = TRUE)

@@ -55,7 +55,8 @@ test_that("lt_abridged works on PAS example", {
                    axmethod = "pas",
                    IMR = .1,
                    region = "n",
-                   Sex = "m")
+                   Sex = "m",
+                   a0rule="cd")
     
     # The unsmoothed output from PAS
     # spreadsheet (allow for rounding error in last decimal)

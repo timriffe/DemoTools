@@ -8,14 +8,15 @@ lt_single_mx(
   nMx,
   Age = 1:length(nMx) - 1,
   radix = 1e+05,
+  a0rule = "ak",
   Sex = "m",
   region = "w",
   IMR = NA,
   mod = TRUE,
+  SRB = 1.05,
   OAG = TRUE,
   OAnew = max(Age),
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "Ggompertz",
-    "Beard", "Beard_Makeham", "Quadratic"),
+  extrapLaw = "kannisto",
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...
@@ -28,6 +29,8 @@ lt_single_mx(
 
 \item{radix}{numeric. Lifetable radix, \ifelse{html}{\out{l<sub>0}}{\eqn{l_0}}. Default 100000.}
 
+\item{a0rule}{character. Either \code{"ak"} (default) or \code{"cd"}.}
+
 \item{Sex}{character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}.}
 
 \item{region}{character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.}
@@ -35,6 +38,8 @@ lt_single_mx(
 \item{IMR}{numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.}
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
+
+\item{SRB}{the sex ratio at birth (boys / girls), detault 1.05}
 
 \item{OAG}{logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.}
 

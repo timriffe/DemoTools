@@ -7,44 +7,48 @@
 lt_id_morq_a(
   nMx,
   nqx,
-  axmethod = c("pas", "un"),
+  axmethod = "pas",
   Age,
   AgeInt,
+  a0rule = "ak",
   IMR = NA,
-  Sex,
+  Sex = "m",
   region,
   OAG = TRUE,
   mod = TRUE,
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "Ggompertz",
-    "Beard", "Beard_Makeham", "Quadratic"),
+  SRB = SRB,
+  extrapLaw = "kannisto",
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60],
   ...
 )
 }
 \arguments{
-\item{nMx}{numeric. Vector of mortality rates in abridged age classes.}
+\item{nMx}{numeric. Event exposure mortality rates.}
 
-\item{nqx}{numeric. Vector of conditional death probabilities in abridged age classes.}
+\item{nqx}{numeric.  Vector of age specific death probabilities in standard abridged age groups.}
 
-\item{axmethod}{character. Either \code{"pas"} or \code{"un"}.}
+\item{axmethod}{character. Either \code{"pas"} or \code{"un"}}
 
 \item{Age}{integer. A vector of ages of the lower integer bound of the age classes.}
 
-\item{AgeInt}{integer. Vector of age class widths. Default \code{inferAgeIntAbr(Age = Age)}.}
+\item{AgeInt}{integer. Vector of age interval widths.}
 
-\item{IMR}{numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.}
+\item{a0rule}{character. Either \code{"ak"} (default) or \code{"cd"}.}
 
-\item{Sex}{character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}.}
+\item{IMR}{numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.}
 
-\item{region}{character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.}
+\item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
+
+\item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 
 \item{OAG}{logical. Whether or not the last element of \code{nMx} is the open age group Default \code{TRUE}.}
 
-\item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
+\item{mod}{logical.  Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.}
 
-\item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked? Options include
-\code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.}
+\item{SRB}{numeric. The sex ratio at birth (boys/girls), default 1.05.}
+
+\item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.}
 
 \item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
 

@@ -4,16 +4,27 @@
 \alias{lt_rule_4a1_cd}
 \title{Coale-Demeny 4a1 as function of M(0), region, and sex.}
 \usage{
-lt_rule_4a1_cd(M0, IMR = NA, Sex = "m", region = "w")
+lt_rule_4a1_cd(
+  M0,
+  a0rule = "ak",
+  IMR = NA,
+  Sex = "m",
+  region = "w",
+  SRB = 1.05
+)
 }
 \arguments{
 \item{M0}{numeric. Event exposure infant mortality rate.}
+
+\item{a0rule}{character. Either \code{"ak"} (default) or \code{"cd"}.}
 
 \item{IMR}{numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.}
 
 \item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
 
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
+
+\item{SRB}{sex ratio at birth.}
 }
 \value{
 The average age at death between ages 1-4, 4a1.
@@ -22,11 +33,13 @@ The average age at death between ages 1-4, 4a1.
 Coale-Demeny 4a1. This is a rule of thumb. In this and some other older texts, 4a1 is known as a 'separation factor'. These coefficients were pulled from the PAS spreadsheets \code{LTPOPDTH.XLS} and not located in the original Manual X.
 }
 \details{
-If sex is given as both, \code{"b"}, then female values are taken, per the PAS spreadsheet. This function is not vectorized. If \code{IMR} is not given, then \code{M0} is used in its stead.
+If sex is given as both, \code{"b"}, then we calculate the male and female results separately, then weight them together using SRB. This is bad in theory, but the leverage is trivial, and it's better than using male or female coefs for the total population. If \code{IMR} is not given, then \code{M0} is used in its stead.
 }
 \examples{
 m0 <- seq(.001,.2,by =.001)
 \dontrun{
+
+# using Andreev-Kingkade for a0 (it makes no difference if you use cd actually...)
 plot(m0, sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "e"), ylab = "4a1",
 		type = 'l', ylim = c(1,2), lty = 2, col = "blue")
 lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "w"), col = "blue")

@@ -5,7 +5,7 @@
 \title{Estimate Wilmoth Model Life Table}
 \usage{
 lt_model_lq(
-  Sex = c("b", "f", "m"),
+  Sex,
   fitted_logquad = NULL,
   q0_5 = NULL,
   q0_1 = NULL,
@@ -15,7 +15,12 @@ lt_model_lq(
   radix = 1e+05,
   tol = 1e-09,
   maxit = 200,
-  ...
+  axmethod = "pas",
+  a0rule = "ak",
+  IMR = NA,
+  region = "w",
+  mod = TRUE,
+  SRB = 1.05
 )
 }
 \arguments{
@@ -24,7 +29,7 @@ of a corresponding Log-Quadratic (\code{wilmoth})
  model fitted for the whole Human Mortality Database (as of Dec 2019, 
  there are 968 life tables for each sex).
 The following options are available: \itemize{
-  \item{\code{"b"}} -- Both sex;
+  \item{\code{"b"}} -- Both sex; 
   \item{\code{"f"}} -- Females;
   \item{\code{"m"}} -- Males.
   }}
@@ -55,7 +60,17 @@ for case 7 and 8 (e0 and 45q15 or 35q15 are known);}
 
 \item{maxit}{Maximum number of iterations allowed. Default: 100;}
 
-\item{...}{Additional arguments affecting the predictions produced.}
+\item{axmethod}{character. Either \code{"pas"} or \code{"un"}.}
+
+\item{a0rule}{character. Either \code{"ak"} (default) or \code{"cd"}.}
+
+\item{IMR}{numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.}
+
+\item{region}{character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.}
+
+\item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
+
+\item{SRB}{the sex ratio at birth (boys / girls), detault 1.05}
 }
 \value{
 The output is of class \code{lt_model_lq} with the components:

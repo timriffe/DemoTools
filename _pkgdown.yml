@@ -81,6 +81,7 @@ reference:
       - starts_with("pop")
   - title: "Auxiliary population structure functions"
     contents:      
+      - '`basepop`'
       - '`calcAgeN`'
       - '`dec.date`'
       - '`dth5_zigzag`'
@@ -92,7 +93,6 @@ reference:
     contents:
       - '`OPAG_simple`'
       - '`interp`'
-      - '`adjustAge`'
       - '`ADM`'
       - '`age2ageN`'
       - '`age2int`'
@@ -110,15 +110,12 @@ reference:
       - '`int2age`' 
       - '`int2ageN`'
       - '`interpolatePop`'
-      - '`KannistoHeap`'
-      - '`M04_2_D0`'
-      - '`M04_2_M0`'
       - '`ma`' 
       - '`mav`'
-      - '`mav_smth`'
       - '`maxA2abridged`'
       - '`names2age`'
       - '`ratx`'
+      - '`rescale_vector`'
       - '`RDM`'
       - '`rlog`'
       - '`shift.vector`'
@@ -126,7 +123,6 @@ reference:
       - '`surv10`'
       - '`surv5`'
       - '`survN`'
-      - '`T9R5L`'
       - '`ypart`'
 navbar:
   type: reverse

@@ -14,14 +14,15 @@ lt_abridged(
   AgeInt = age2int(Age = Age, OAvalue = 5),
   radix = 1e+05,
   axmethod = "pas",
+  a0rule = "ak",
   Sex = "m",
-  region = "w",
   IMR = NA,
+  region = "w",
   mod = TRUE,
+  SRB = 1.05,
   OAG = TRUE,
   OAnew = max(Age),
-  extrapLaw = c("Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "Ggompertz",
-    "Beard", "Beard_Makeham", "Quadratic"),
+  extrapLaw = "kannisto",
   extrapFrom = max(Age),
   extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
   ...
@@ -46,13 +47,17 @@ lt_abridged(
 
 \item{axmethod}{character. Either \code{"pas"} or \code{"un"}.}
 
-\item{Sex}{character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}.}
+\item{a0rule}{character. Either \code{"ak"} (default) or \code{"cd"}.}
 
-\item{region}{character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.}
+\item{Sex}{character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}.}
 
 \item{IMR}{numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.}
 
+\item{region}{character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.}
+
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
+
+\item{SRB}{the sex ratio at birth (boys / girls), detault 1.05}
 
 \item{OAG}{logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.}
 
@@ -127,7 +132,8 @@ PASLT <- lt_abridged(Deaths = Deaths,
 		axmethod = "pas",
 		IMR = .1,
 		region = "n",
-		Sex = "m")
+		Sex = "m",
+	a0rule ="cd")
 
 # examples based on UN 1982 (p. 34)
 Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
@@ -178,7 +184,8 @@ UNLT2 <- lt_abridged(nMx = Mx,
  		axmethod = "un",
  		Sex = "f",
  		mod = FALSE,
- 		OAnew = 100)
+ 		OAnew = 100,
+ 		a0rule ="cd")
 #'
 #' # lifetable to original open age group
  MP_UNLT80 <- lt_abridged(
@@ -188,7 +195,8 @@ UNLT2 <- lt_abridged(nMx = Mx,
  		axmethod = "un",
  		Sex = "f",
  		mod = FALSE,
- 		OAnew = 80)
+ 		OAnew = 80,
+ 		a0rule ="cd")
 
 # same, but truncated at 60
 MP_UNLT60 <- lt_abridged(
@@ -198,7 +206,8 @@ MP_UNLT60 <- lt_abridged(
 		axmethod = "un",
 		Sex = "f",
 		mod = FALSE,
-		OAnew = 60)
+		OAnew = 60,
+ 		a0rule ="cd")
 }
 \references{
 \insertRef{greville1977short}{DemoTools}

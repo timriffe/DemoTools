@@ -22,30 +22,32 @@
 lt_single_mx <- function(nMx,
                         Age = 1:length(nMx) - 1,
                         radix = 1e5,
+                        a0rule = "ak", 
                         Sex = "m",
                         region = "w",
                         IMR = NA,
                         mod = TRUE,
+                        SRB = 1.05,
                         OAG = TRUE,
                         OAnew = max(Age),
-                        extrapLaw = c("Kannisto",
-                                      "Kannisto_Makeham",
-                                      "Makeham",
-                                      "Gompertz",
-                                      "Ggompertz",
-                                      "Beard",
-                                      "Beard_Makeham",
-                                      "Quadratic"
-                                      ),
-                             extrapFrom = max(Age),
-                             extrapFit = Age[Age >= 60],
-                             ...) {
+                        extrapLaw = "kannisto",
+                        extrapFrom = max(Age),
+                        extrapFit = Age[Age >= 60],
+                        ...) {
 
   stopifnot(extrapFrom <= max(Age))
-
-  Sex           <- tolower(Sex)
-  region        <- tolower(region)
-  extrapLaw     <- tolower(extrapLaw)
+  Sex      <- match.arg(Sex, choices = c("m","f","b"))
+  a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
+  extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
+                                                     "kannisto_makeham",
+                                                     "makeham",
+                                                     "gompertz",
+                                                     "ggompertz",
+                                                     "beard",
+                                                     "beard_makeham",
+                                                     "quadratic"
+  ))
+  region   <- match.arg(region, choices = c("w","n","s","e"))
 
   # setup Open Age handling
   OA            <- max(Age)
@@ -78,11 +80,13 @@ lt_single_mx <- function(nMx,
 
   # get ax:
   nAx           <- rep(.5, N)
-  nAx[1]        <- lt_rule_1a0_cd(
+  nAx[1]        <- lt_rule_1a0(
+                     rule = a0rule,
                      M0 = nMx[1],
                      IMR = IMR,
                      Sex = Sex,
-                     region = region)
+                     region = region,
+                     SRB = SRB)
 
   # get qx (if pathological qx > 1, ax replaced, assumed constant hazard)
   qx            <- lt_id_ma_q(

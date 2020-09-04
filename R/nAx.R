@@ -13,10 +13,10 @@
 #'
 #' @param M0 numeric. Event exposure infant mortality rate.
 #' @param IMR numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.
-#' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
+#' @param Sex character. \code{"m"} or \code{"f"}  for male or female,
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
 #'
-#' @details If sex is given as both, \code{"b"}, then female values are taken, per the PAS spreadsheet. This function is not vectorized. Formulas for North, South, and West are identical- only East is different. If \code{IMR} is not given, then \code{M0} is converted to q(0) using the following approximation:
+#' @details If \code{IMR} is not given, then \code{M0} is converted to q(0) using the following approximation:
 #' \enumerate{
 #' \item{Find \eqn{\alpha , \beta}.}{ Look up the appropriate slope and intercept for the given sex and region.}
 #' \item{calculate \eqn{a} as: }{\ifelse{html}{\out{a = M<sub>0</sub> * &beta;}}{\eqn{a = M_0 * \beta}}}
@@ -63,30 +63,24 @@ lt_rule_1a0_cd <- function(M0,
  
   # sex can be "m", "f", or "b"
   # region can be "n","e","s","w",or
-  Sex       <- tolower(Sex)
-  region    <- tolower(region)
+  Sex    <- match.arg(Sex, choices = c("m","f"))
+  region <- match.arg(region, choices = c("w","n","e","s"))
 
-  Age0Const <- matrix(
-    c( 0.33, 0.35, 0.3500, 0.33,
-       0.35, 0.3500, 0.29, 0.31,
-       0.3100, 0.33, 0.35, 0.3500
-    ),
-    ncol = 3,
+
+  Age0Const <- matrix(c( 0.33, 0.35,0.33, 0.35, 0.29, 0.31, 0.33, 0.35),
+    ncol = 2,
     byrow = TRUE,
-    dimnames = list(c("w", "n", "e", "s"), c("m", "f", "b"))
+    dimnames = list(c("w", "n", "e", "s"), c("m", "f"))
   )
 
   Intercept <- matrix(
-    c( 0.0425, 0.05, 0.0500, 0.0425,
-       0.05, 0.0500, 0.0025, 0.01,
-       0.0100, 0.0425, 0.05, 0.0500
-    ),
-    ncol = 3,
+    c( 0.0425, 0.05, 0.0425, 0.05, 0.0025, 0.01, 0.0425, 0.05),
+    ncol = 2,
     byrow = TRUE,
-    dimnames = list(c("w", "n", "e", "s"), c("m", "f", "b"))
+    dimnames = list(c("w", "n", "e", "s"), c("m", "f"))
   )
-  Slope        <- c(2.875, 	3.000, 	3.0000)
-  names(Slope) <- c("m", "f", "b")
+  Slope        <- c(2.875, 	3.000)
+  names(Slope) <- c("m", "f")
 
   Alpha        <- Intercept[region, Sex]
   Beta         <- Slope[Sex]
@@ -115,12 +109,14 @@ lt_rule_1a0_cd <- function(M0,
 #'
 #' @description Coale-Demeny 4a1. This is a rule of thumb. In this and some other older texts, 4a1 is known as a 'separation factor'. These coefficients were pulled from the PAS spreadsheets \code{LTPOPDTH.XLS} and not located in the original Manual X.
 #'
-#' @details If sex is given as both, \code{"b"}, then female values are taken, per the PAS spreadsheet. This function is not vectorized. If \code{IMR} is not given, then \code{M0} is used in its stead.
+#' @details If sex is given as both, \code{"b"}, then we calculate the male and female results separately, then weight them together using SRB. This is bad in theory, but the leverage is trivial, and it's better than using male or female coefs for the total population. If \code{IMR} is not given, then \code{M0} is used in its stead.
 #'
 #' @param M0 numeric. Event exposure infant mortality rate.
+#' @param a0rule character. Either \code{"ak"} (default) or \code{"cd"}.
 #' @param IMR numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
+#' @param SRB sex ratio at birth.
 #'
 #' @return The average age at death between ages 1-4, 4a1.
 #' @export
@@ -130,6 +126,8 @@ lt_rule_1a0_cd <- function(M0,
 #' @examples
 #' m0 <- seq(.001,.2,by =.001)
 #' \dontrun{
+#' 
+#' # using Andreev-Kingkade for a0 (it makes no difference if you use cd actually...)
 #' plot(m0, sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "e"), ylab = "4a1",
 #' 		type = 'l', ylim = c(1,2), lty = 2, col = "blue")
 #' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "m", region = "w"), col = "blue")
@@ -139,12 +137,12 @@ lt_rule_1a0_cd <- function(M0,
 #' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "f", region = "w"), col = "red")
 #' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "f", region = "n"), col = "red", lty = "8383",lwd=2)
 #' lines(m0,sapply(m0, lt_rule_4a1_cd, Sex = "f", region = "s"), col = "red", lty = "6464",lwd=2)
-#'
+#' 
 #' text(.05, lt_rule_4a1_cd(.05,Sex = "m", region = "e"),"males E",font=2,pos=4)
 #' text(.05, lt_rule_4a1_cd(.05,Sex = "m", region = "w"),"males W",font=2,pos=4)
 #' text(.05, lt_rule_4a1_cd(.05,Sex = "m", region = "s"),"males S",font=2,pos=4)
 #' text(.05, lt_rule_4a1_cd(.05,Sex = "m", region = "n"),"males N",font=2,pos=4)
-#'
+#' 
 #' text(0, lt_rule_4a1_cd(.01,Sex = "f", region = "e"),"females E",font=2,pos=4)
 #' text(0, lt_rule_4a1_cd(.01,Sex = "f", region = "w"),"females W",font=2,pos=4)
 #' text(0, lt_rule_4a1_cd(.01,Sex = "f", region = "s"),"females S",font=2,pos=4)
@@ -152,40 +150,62 @@ lt_rule_1a0_cd <- function(M0,
 #'
 #' }
 lt_rule_4a1_cd <- function(M0,
-                      IMR = NA,
-                      Sex = "m",
-                      region = "w") {
+                           a0rule = "ak",
+                           IMR = NA,
+                           Sex = "m",
+                           region = "w",
+                           SRB = 1.05) {
 
-  # sex can be "m", "f", or "b"
-  # region can be "n","e","s","w",or
-  Sex         <- tolower(Sex)
-  region      <- tolower(region)
+  a0rule   <- match.arg(a0rule, choices =  c("ak","cd"))
+  Sex      <- match.arg(Sex, choices = c("m","f","b"))
+  region   <- match.arg(region, choices =c("w","n","s","e"))
+  
+  #
+  if (Sex == "b"){
+    if (missing(M0)){
+      M0 <- NA
+    }
+    a1f <- lt_rule_4a1_cd(M0 = M0, 
+                          a0rule = a0rule,
+                          IMR = IMR,
+                          Sex = "f",
+                          region =region,
+                          SRB = SRB)
+    a1m <- lt_rule_4a1_cd(M0 = M0, 
+                          a0rule = a0rule,
+                          IMR = IMR,
+                          Sex = "m",
+                          region =region,
+                          SRB = SRB)
+    pm <- SRB / (SRB + 1)
+    a1 <- pm * a1m + (1 - pm) * a1f
+    return(a1)
+  }
+  
+
   Age1_4Const <- matrix(
-    c( 1.352, 1.361, 1.3610, 1.558,
-       1.570, 1.5700, 1.313, 1.324,
-       1.3240, 1.240, 1.239, 1.2390
-    ),
-    ncol = 3,
+    c( 1.352, 1.361, 1.558,1.570,1.313, 1.324,1.240, 1.239),
+    ncol = 2,
     byrow = TRUE,
-    dimnames = list(c("w", "n", "e", "s"), c("m", "f", "b"))
+    dimnames = list(c("w", "n", "e", "s"), c("m", "f"))
   )
 
   Intercept <- matrix(
-    c( 1.653, 1.524, 1.5240, 1.859,
-       1.733, 1.7330, 1.614, 1.487,
-       1.4870, 1.541, 1.402, 1.4020
-    ),
-    ncol = 3,
+    c( 1.653, 1.524,  1.859, 1.733,  1.614, 1.487, 1.541, 1.402),
+    ncol = 2,
     byrow = TRUE,
-    dimnames = list(c("w", "n", "e", "s"), c("m", "f", "b"))
+    dimnames = list(c("w", "n", "e", "s"), c("m", "f"))
   )
-  Slope        <- c(3.013, 	1.627, 	1.6270)
-  names(Slope) <- c("m", "f", "b")
+  Slope        <- c(3.013, 	1.627)
+  names(Slope) <- c("m", "f")
   if (missing(IMR) | is.na(IMR)) {
-    a0 <- lt_rule_1a0_cd(M0,
+    a0 <- lt_rule_1a0(
+                  rule = a0rule,
+                  M0 = M0,
                   IMR = NA,
                   Sex = Sex,
-                  region = region)
+                  region = region,
+                  SRB = SRB)
     IMR <-
       lt_id_ma_q(
         nMx = M0,
@@ -207,9 +227,11 @@ lt_rule_4a1_cd <- function(M0,
 #'
 #' @param nMx numeric. Event exposure mortality rates.
 #' @param AgeInt integer. Vector of age interval widths.
+#' @param a0rule character. Either \code{"ak"} (default) or \code{"cd"}.
 #' @param IMR numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
+#' @param SRB numeric. The sex ratio at birth (boys/girls), default 1.05.
 #' @param OAG logical. Whether or not the last element of \code{nMx} is the open age group Default \code{TRUE}.
 #'
 #' @return nax average contribution to exposure of those dying in the interval.
@@ -218,44 +240,52 @@ lt_rule_4a1_cd <- function(M0,
 #' \insertRef{united1983manual}{DemoTools}
 #' \insertRef{PAS}{DemoTools}
 #' @examples
-#' Exposures <- c(100958,466275,624134,559559,446736,370653,301862,249409,
-#' 		247473,223014,172260,149338,127242,105715,79614,53660,
-#' 		31021,16805,8000,4000,2000,1000)
-#'
-#' Deaths <- c(8674,1592,618,411,755,1098,1100,1357,
-#' 		1335,3257,2200,4023,2167,4578,2956,4212,
-#' 		2887,2351,1500,900,500,300)
-#' # lower age bounds
-#' Age    <- c(0, 1, seq(5, 100, by = 5))
-#' AgeInt <- c(diff(Age), NA)
-#' nMx <- Deaths/Exposures
-#' lt_a_pas(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = TRUE)
+#'  Exposures <- c(100958,466275,624134,559559,446736,370653,301862,249409,
+#'  		247473,223014,172260,149338,127242,105715,79614,53660,
+#'  		31021,16805,8000,4000,2000,1000)
+#' 
+#'  Deaths <- c(8674,1592,618,411,755,1098,1100,1357,
+#'  		1335,3257,2200,4023,2167,4578,2956,4212,
+#'  		2887,2351,1500,900,500,300)
+#'  # lower age bounds
+#'  Age    <- c(0, 1, seq(5, 100, by = 5))
+#'  AgeInt <- c(diff(Age), NA)
+#'  nMx <- Deaths/Exposures
+#'  lt_a_pas(nMx = nMx,AgeInt = AgeInt,Sex = 'm',region = 'n',OAG = TRUE)
+#'  lt_a_pas(nMx = nMx,AgeInt = AgeInt,Sex = 'm',a0rule = "cd",region = 'n',OAG = TRUE)
 lt_a_pas <-
   function(nMx,
            AgeInt,
+           a0rule = "ak",
            IMR = NA,
            Sex = "m",
            region = "w",
+           SRB = 1.05,
            OAG = TRUE) {
 
-    # sex can be "m", "f", or "b"
-    # region can be "n","e","s","w",or
-    Sex    <- tolower(Sex)
-    region <- tolower(region)
-
+    a0rule   <- match.arg(a0rule, choices =  c("ak","cd"))
+    Sex      <- match.arg(Sex, choices = c("m","f","b"))
+    region   <- match.arg(region, choices =c("w","n","s","e"))
+    
     N      <- length(nMx)
     ax     <- AgeInt / 2
 
-    ax[1]  <- lt_rule_1a0_cd(
+    # TR: 31-08-2020 updated this. Now AK by default
+    ax[1]  <- lt_rule_1a0(
+                rule = a0rule,
                 M0 = nMx[1],
                 IMR = IMR,
                 Sex = Sex,
-                region = region)
+                region = region,
+                SRB = SRB)
+    
+    # TR: would be great to update this tiny method...
     ax[2]  <- lt_rule_4a1_cd(
                 M0 = nMx[1],
                 IMR = IMR,
                 Sex = Sex,
-                region = region)
+                region = region,
+                SRB = SRB)
 
     # TR 5-12-2019 this two-step returns midpoints IFF they
     # don't imply qx > 1, otherwise, for such pathological
@@ -302,10 +332,12 @@ lt_a_pas <-
 #' @param lx numeric.  Vector of lifetable survivorship in standard abridged age groups.
 #' @param Age integer. Vector of lower bounds of abridged age groups.
 #' @param AgeInt integer. Vector of age group intervals.
+#' @param a0rule character. Either \code{"ak"} (default) or \code{"cd"}.
 #' @param IMR numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
 #' @param region character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.
 #' @param mod logical. Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.
+#' @param SRB numeric. The sex ratio at birth (boys/girls), default 1.05.
 #' @param closeout logical. Whether or not to estimate open age a(x) via extrapolation. Default \code{TRUE}.
 #' @inheritParams lt_a_closeout
 #'
@@ -353,27 +385,31 @@ lt_id_morq_a_greville <- function(nMx,
                                   lx,
                                   Age,
                                   AgeInt = age2int(Age, OAvalue = 5),
+                                  a0rule = "ak", 
                                   IMR = NA,
                                   Sex = "m",
                                   region = "w",
                                   mod = TRUE,
+                                  SRB = 1.05,
                                   closeout = TRUE,
-                                  law = c("kannisto",
-                                          "kannisto_makeham",
-                                          "makeham",
-                                          "gompertz",
-                                          "ggompertz",
-                                          "beard",
-                                          "beard_makeham",
-                                          "quadratic"
-                                          ),
+                                  extrapLaw = "kannisto",
                                   extrapFrom = max(Age),
                                   extrapFit = Age[Age >= 60],
                                   ...) {
 
-  Sex     <- tolower(Sex)
-  region  <- tolower(region)
-  law     <- tolower(law)
+  Sex      <- match.arg(Sex, choices = c("m","f","b"))
+  a0rule   <- match.arg(a0rule, choices =  c("ak","cd"))
+  extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
+                                         "kannisto_makeham",
+                                         "makeham",
+                                         "gompertz",
+                                         "ggompertz",
+                                         "beard",
+                                         "beard_makeham",
+                                         "quadratic"
+  ))
+  region   <- match.arg(region, choices =c("w","n","s","e"))
+  
   DBL_MIN <- .Machine$double.xmin
 
   # sort out arguments:
@@ -397,32 +433,38 @@ lt_id_morq_a_greville <- function(nMx,
   # now we have either qx or mx
 
   if (!mxflag) {
-    a0     <- lt_rule_1a0_cd(
+    a0     <- lt_rule_1a0(
+                rule = a0rule,
                 M0 = nMx[1],
                 IMR = IMR,
                 Sex = Sex,
-                region = region)
+                region = region,
+                SRB = SRB)
     a1_4   <- lt_rule_4a1_cd(
                 M0 = nMx[1],
                 IMR = IMR,
                 Sex = Sex,
-                region = region)
+                region = region,
+                SRB = SRB)
     # qind slightly different from qxflag?
     qind   <- FALSE
   }
 
   if (mxflag & !qxflag) {
     # TR: in any case nqx[1] is IMR, if IMR was given.
-    a0     <- lt_rule_1a0_cd(
-                M0 = NA,
+    a0     <- lt_rule_1a0(
+                rule = a0rule,
+                q0 = nqx[1],
                 IMR = nqx[1],
                 Sex = Sex,
-                region = region)
+                region = region,
+                SRB = SRB)
     a1_4   <- lt_rule_4a1_cd(
                 M0 = NA,
                 IMR = nqx[1],
                 Sex = Sex,
-                region = region)
+                region = region,
+                SRB = SRB)
     # here nMx created, but mxflag upheld
     nMx    <- nqx
     qind   <- TRUE
@@ -488,7 +530,7 @@ lt_id_morq_a_greville <- function(nMx,
     aomega         <- lt_a_closeout(
                          mx = nMx,
                          Age = Age,
-                         law = law,
+                         extrapLaw = extrapLaw,
                          extrapFrom = extrapFrom,
                          extrapFit = extrapFit,
                          ...)
@@ -510,6 +552,7 @@ lt_id_morq_a_greville <- function(nMx,
 #' @param nMx numeric. Event exposure mortality rates.
 #' @param nqx numeric.  Vector of age specific death probabilities in standard abridged age groups.
 #' @param lx numeric. Vector of lifetable survivorship in standard abridged age groups.
+#' @param a0rule character. Either \code{"ak"} (default) or \code{"cd"}.
 #' @param IMR numeric. Optional. {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}, the death probability in first year of life, in case available separately.
 #' @param AgeInt integer. Vector of age interval widths.
 #' @param Sex character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.
@@ -517,6 +560,7 @@ lt_id_morq_a_greville <- function(nMx,
 #' @param tol numeric. The tolerance for the qx-based iterative method. Default \code{.Machine$double.eps}.
 #' @param maxit integer. The maximum number of iterations for the qx-based iterative method. Default 1000.
 #' @param mod logical.  Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.
+#' @param SRB numeric. The sex ratio at birth (boys/girls), default 1.05.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include  \code{"Kannisto", "Kannisto_Makeham", "Makeham","Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.
 #' @inheritParams lt_a_closeout
 #'
@@ -543,12 +587,14 @@ lt_id_morq_a_greville <- function(nMx,
 #' nAx1       <- lt_a_un(nMx = Mx,
 #'                    Age = Age,
 #' 		                AgeInt = AgeInt,
+#' 		                a0rule = "cd",
 #' 		                Sex = "m",
 #'					          region = "w",
 #' 		                mod = FALSE)
 #' nAx2       <- lt_a_un(nMx = Mx,
 #'                    Age = Age,
 #' 		                AgeInt = AgeInt,
+#' 		                a0rule = "cd",
 #' 		                Sex = "m",
 #'					          region = "w",
 #' 		                mod = TRUE)
@@ -564,30 +610,33 @@ lt_a_un <- function(nMx,
                  IMR = NA,
                  Age,
                  AgeInt,
+                 a0rule = "ak",
                  Sex = "m",
                  region = "w",
+                 SRB = 1.05,
                  tol = .Machine$double.eps,
                  maxit = 1e3,
                  mod = TRUE,
-                 extrapLaw = c("Kannisto",
-                               "Kannisto_Makeham",
-                               "Makeham",
-                               "Gompertz",
-                               "Ggompertz",
-                               "Beard",
-                               "Beard_Makeham",
-                               "Quadratic"
-                               ),
+                 extrapLaw = "kannisto",
                  extrapFrom = max(Age),
                  extrapFit = Age[Age >= 60],
                  ...) {
 
   stopifnot(!missing(nqx) | !missing(nMx))
   smsq    <- 99999
-  Sex     <- tolower(Sex)
-  region  <- tolower(region)
-  law     <- tolower(extrapLaw)
-
+  
+  Sex      <- match.arg(Sex, choices = c("m","f","b"))
+  a0rule   <- match.arg(a0rule, choices =  c("ak","cd"))
+  extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
+                                         "kannisto_makeham",
+                                         "makeham",
+                                         "gompertz",
+                                         "ggompertz",
+                                         "beard",
+                                         "beard_makeham",
+                                         "quadratic"
+  ))
+  region   <- match.arg(region, choices =c("w","n","s","e"))
   if (missing(nqx) & !missing(lx)) {
     nqx <- lt_id_l_d(lx) / lx
   }
@@ -605,11 +654,13 @@ lt_a_un <- function(nMx,
       nMx = nMx,
       Age  = Age,
       AgeInt = AgeInt,
+      a0rule = a0rule,
       IMR = IMR,
       Sex = Sex,
       region = region,
       mod  = mod,
-      law  = law,
+      SRB = SRB,
+      extrapLaw  = extrapLaw,
       extrapFrom = extrapFrom,
       extrapFit = extrapFit,
       ...
@@ -627,10 +678,12 @@ lt_a_un <- function(nMx,
       IMR = nqx[1],
       Age = Age,
       AgeInt = AgeInt,
+      a0rule = a0rule,
       Sex = Sex,
       region = region,
       mod = mod,
-      law = law,
+      SRB = SRB,
+      extrapLaw = extrapLaw,
       extrapFrom = extrapFrom,
       extrapFit = extrapFit,
       ...
@@ -646,6 +699,7 @@ lt_a_un <- function(nMx,
         IMR = nqx[1],
         Age = Age,
         AgeInt = AgeInt,
+        a0rule = a0rule,
         Sex = Sex,
         region = region,
         mod = mod,
@@ -691,7 +745,7 @@ lt_a_un <- function(nMx,
     aomega         <- lt_a_closeout(
       mx = nMx,
       Age = Age,
-      law = law,
+      extrapLaw = extrapLaw,
       extrapFrom = extrapFrom,
       extrapFit = extrapFit,
       ...
@@ -714,6 +768,16 @@ lt_a_un <- function(nMx,
 #' @param Age integer. A vector of ages of the lower integer bound of the age classes.
 #' @param extrapFrom integer. Age from which to impute extrapolated mortality.
 #' @param extrapFit integer vector. Ages to include in model fitting. Defaults to all ages \code{>          =60}.
+#' @param extrapLaw character. The following options are available: \itemize{
+#'   \item{\code{"kannisto"}} -- The Kannisto model;
+#'   \item{\code{"kannisto_makeham"}} -- The Kannisto-Makeham model;
+#'   \item{\code{"gompertz"}} -- The Gompertz model;
+#'   \item{\code{"ggompertz"}} -- The Gamma-Gompertz model;
+#'   \item{\code{"makeham"}} -- The Makeham model;
+#'   \item{\code{"beard"}} -- The Beard model;
+#'   \item{\code{"beard_makeham"}} -- The Beard-Makeham model;
+#'   \item{\code{"quadratic"}} -- The Quadratic model.
+#'   }
 #' @return life expectancy in the open age group
 #' @seealso
 #' \code{\link[DemoTools]{lt_rule_m_extrapolate}}
@@ -726,31 +790,33 @@ lt_a_un <- function(nMx,
 #' Age <- c(0,1,seq(5,80,by =5))
 #'
 #'
-#' lt_a_closeout(nMx,Age,"Kannisto")
-#' lt_a_closeout(nMx,Age,"Kannisto_Makeham")
-#' lt_a_closeout(nMx,Age,"Makeham")
-#' lt_a_closeout(nMx,Age,"Gompertz")
-#' lt_a_closeout(nMx,Age,"GGompertz")
-#' lt_a_closeout(nMx,Age,extrapLaw ="Beard")
-#' lt_a_closeout(nMx,Age,"Beard_Makeham")
-#' lt_a_closeout(nMx,Age,"Quadratic")
+#' lt_a_closeout(nMx,Age,"kannisto")
+#' lt_a_closeout(nMx,Age,"kannisto_makeham")
+#' lt_a_closeout(nMx,Age,"makeham")
+#' lt_a_closeout(nMx,Age,"gompertz")
+#' lt_a_closeout(nMx,Age,"ggompertz")
+#' lt_a_closeout(nMx,Age,extrapLaw ="beard")
+#' lt_a_closeout(nMx,Age,"beard_makeham")
+#' lt_a_closeout(nMx,Age,"quadratic")
 
 lt_a_closeout <- function(mx,
                           Age,
-                          law = c("kannisto",
-                                  "kannisto_makeham",
-                                  "makeham",
-                                  "gompertz",
-                                  "ggompertz",
-                                  "beard",
-                                  "beard_makeham",
-                                  "quadratic"
-                                  ),
+                          extrapLaw = "kannisto",
                           extrapFrom = max(Age),
                           extrapFit = Age[Age >= 40],
                           ...) {
 
-  extrapLaw <- tolower(law)
+
+  extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
+                                         "kannisto_makeham",
+                                         "makeham",
+                                         "gompertz",
+                                         "ggompertz",
+                                         "beard",
+                                         "beard_makeham",
+                                         "quadratic"
+  ))
+
   OA        <- max(Age)
   x_extr    <- seq(OA, 130, by = .1)
 
@@ -774,7 +840,8 @@ lt_a_closeout <- function(mx,
 
 #' wrapper to invoke PAS or UN ax methods given qx or mx
 #' @description Given either mx or qx, call either the \code{lt_a_un()} or \code{lt_a_pas()} functions.
-#' @inheritParams lt_abridged
+#' @inheritParams lt_a_un
+#' @param axmethod character. Either \code{"pas"} or \code{"un"}
 #' @param OAG logical. Whether or not the last element of \code{nMx} is the open age group Default \code{TRUE}.
 #' @return nax average contribution to exposure of those dying in the interval.
 #' @references
@@ -788,27 +855,33 @@ lt_a_closeout <- function(mx,
 
 lt_id_morq_a <- function(nMx,
                       nqx,
-                      axmethod = c("pas", "un"),
+                      axmethod = "pas",
                       Age,
                       AgeInt,
+                      a0rule = "ak",
                       IMR = NA,
-                      Sex,
+                      Sex ="m",
                       region,
                       OAG = TRUE,
                       mod = TRUE,
-                      extrapLaw = c("Kannisto",
-                                    "Kannisto_Makeham",
-                                    "Makeham",
-                                    "Gompertz",
-                                    "Ggompertz",
-                                    "Beard",
-                                    "Beard_Makeham",
-                                    "Quadratic"
-                                    ),
+                      SRB = SRB,
+                      extrapLaw = "kannisto",
                       extrapFrom = max(Age),
                       extrapFit = Age[Age >= 60],
                       ...) {
-
+  Sex      <- match.arg(Sex, choices = c("m","f","b"))
+  a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
+  extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
+                                         "kannisto_makeham",
+                                         "makeham",
+                                         "gompertz",
+                                         "ggompertz",
+                                         "beard",
+                                         "beard_makeham",
+                                         "quadratic"
+  ))
+  region   <- match.arg(region, choices = c("w","n","s","e"))
+  
   N <- length(AgeInt)
   if (is.na(AgeInt[N]) | is.infinite(AgeInt[N])) {
     AgeInt[N] <- AgeInt[N - 1]
@@ -819,10 +892,12 @@ lt_id_morq_a <- function(nMx,
       nAx       <- lt_a_pas(
                      nMx = nqx,
                      AgeInt = AgeInt,
+                     a0rule = a0rule,
                      IMR = IMR,
                      Sex = Sex,
                      region = region,
-                     OAG = OAG)
+                     OAG = OAG,
+                     SRB = SRB)
 
     } else {
       # if nMx avail, then Open age group
@@ -830,10 +905,12 @@ lt_id_morq_a <- function(nMx,
       nAx       <- lt_a_pas(
                      nMx = nMx,
                      AgeInt = AgeInt,
+                     a0rule = a0rule,
                      IMR = IMR,
                      Sex = Sex,
                      region = region,
-                     OAG = TRUE)
+                     OAG = TRUE,
+                     SRB = SRB)
     }
   }
   if (axmethod == "un") {
@@ -845,10 +922,12 @@ lt_id_morq_a <- function(nMx,
                      nqx = nqx,
                      Age = Age,
                      AgeInt = AgeInt,
+                     a0rule = a0rule,
                      IMR = IMR,
                      Sex = Sex,
                      region = region,
                      mod = mod,
+                     SRB = SRB,
                      extrapLaw = extrapLaw,
                      extrapFrom = extrapFrom,
                      extrapFit = extrapFit,
@@ -859,10 +938,12 @@ lt_id_morq_a <- function(nMx,
                      nMx = nMx,
                      Age = Age,
                      AgeInt = AgeInt,
+                     a0rule = a0rule,
                      IMR = IMR,
                      Sex = Sex,
                      region = region,
                      mod = mod,
+                     SRB = SRB,
                      extrapLaw = extrapLaw,
                      extrapFrom = extrapFrom,
                      extrapFit = extrapFit,
@@ -870,6 +951,11 @@ lt_id_morq_a <- function(nMx,
     }
 
   }
+  
+  # TR: shall we do ak patch just here at the end?
+  # the alternative would be to mesh it in everywhere a0 happens.
+  # ergo lt_rule_a0() as a new function 
+  
   nAx
 }
 
