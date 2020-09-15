@@ -31,14 +31,6 @@ test_that("rescale_vector works",{
 })
 
 
-
-test_that("is_LeapYear works",{
-    expect_equal(sum(is_LeapYear(1895:1905)), 2)
-    expect_equal(sum(is_LeapYear(1995:2005)), 3)
-})
-
-
-
 test_that("ypart works",{
     expect_equal(ypart(2001, 2, 14), 0.1150685, tolerance = 1e-8)
     expect_equal(ypart(2001, 6, 30), .5)
