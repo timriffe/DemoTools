@@ -81,7 +81,8 @@ reference:
       - starts_with("pop")
   - title: "Auxiliary population structure functions"
     contents:      
-      - '`basepop`'
+      - '`basepop_five`'
+      - '`basepop_single`'
       - '`calcAgeN`'
       - '`dec.date`'
       - '`dth5_zigzag`'
