@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.04</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.06</span>
       </span>
     </div>
 
@@ -109,7 +109,7 @@
       <a href="../articles/smoothing_with_demotools.html">Smooth demographic counts</a>
     </li>
     <li>
-      <a href="../articles/lifetable_with_demotools.html">Construct a lifetable</a>
+      <a href="../articles/lifetables_with_demotools.html">Construct a lifetable</a>
     </li>
     <li>
       <a href="../articles/migration_with_demotools.html">Model migration</a>
@@ -187,7 +187,7 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Checking for census spacing of N years must happen prior to this function. Also, we assume the open age group has already been trimmed off.</p>
-<p>We assume the open age group has already been trimmed off. The time interval N must be measured as a decimal in advance and specified. This method uses a synthetic approximation of person-years lived in each age interval over the intercensal period and then a second approximation based on age-specific growth rates to produce an estimate of lifetable px. This value of px is not bounded to [0,1], and therefore the resulting lx approximation is not strictly positive or monotonically non-increasing, so downstream usage of this result is limited. For example, is not advisable to use it in the standard way to derive the lifetable dx.</p>
+<p>We assume the open age group has already been trimmed off. The time interval N must be measured as a decimal in advance and specified. This method uses a synthetic approximation of person-years lived in each age interval over the intercensal period and then a second approximation based on age-specific growth rates to produce an estimate of lifetable px. This value of px is not bounded to 0,1, and therefore the resulting lx approximation is not strictly positive or monotonically non-increasing, so downstream usage of this result is limited. For example, is not advisable to use it in the standard way to derive the lifetable dx.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># 1960 vs 1970 pops</span>

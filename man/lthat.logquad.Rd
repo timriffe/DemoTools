@@ -22,7 +22,7 @@ lthat.logquad(
 \arguments{
 \item{coefs}{Estimated coefficients}
 
-\item{q0_5}{5q0. The probability that a new-born will die during the 
+\item{q0_5}{5q0. The probability that a new-born will die during the
 subsequent 5 years;}
 
 \item{radix}{Life table radix. Default: 10^5;}
@@ -33,13 +33,13 @@ subsequent 5 years;}
 
 \item{Sex}{Choose the sex of the population. This choice defines the use
 of a corresponding Log-Quadratic (\code{wilmoth})
- model fitted for the whole Human Mortality Database (as of Dec 2019, 
- there are 968 life tables for each sex).
+model fitted for the whole Human Mortality Database (as of Dec 2019,
+there are 968 life tables for each sex).
 The following options are available: \itemize{
-  \item{\code{"b"}} -- Both sex; 
-  \item{\code{"f"}} -- Females;
-  \item{\code{"m"}} -- Males.
-  }}
+\item{\code{"b"}} -- Both sex;
+\item{\code{"f"}} -- Females;
+\item{\code{"m"}} -- Males.
+}}
 
 \item{IMR}{numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.}
 

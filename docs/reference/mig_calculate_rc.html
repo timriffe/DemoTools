@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Calculate Rogers-Castro migration age schedule — mig_calculate_rc" />
-<meta property="og:description" content="Given a set of ages and parameters, calculate the migration age schedule based on the Rogers and Castro formula. 
+<meta property="og:description" content="Given a set of ages and parameters, calculate the migration age schedule based on the Rogers and Castro formula.
 Choose between a 7,9,11 or 13 parameter model." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 
@@ -81,7 +81,7 @@ Choose between a 7,9,11 or 13 parameter model." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.04</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.06</span>
       </span>
     </div>
 
@@ -110,7 +110,7 @@ Choose between a 7,9,11 or 13 parameter model." />
       <a href="../articles/smoothing_with_demotools.html">Smooth demographic counts</a>
     </li>
     <li>
-      <a href="../articles/lifetable_with_demotools.html">Construct a lifetable</a>
+      <a href="../articles/lifetables_with_demotools.html">Construct a lifetable</a>
     </li>
     <li>
       <a href="../articles/migration_with_demotools.html">Model migration</a>
@@ -160,7 +160,7 @@ Choose between a 7,9,11 or 13 parameter model." />
     </div>
 
     <div class="ref-description">
-    <p>Given a set of ages and parameters, calculate the migration age schedule based on the Rogers and Castro formula. 
+    <p>Given a set of ages and parameters, calculate the migration age schedule based on the Rogers and Castro formula.
 Choose between a 7,9,11 or 13 parameter model.</p>
     </div>
 
@@ -183,7 +183,7 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 
     <p>In the full 13 parameter model, the migration rate at age x, \(m(x)\) is defined as
 $$m(x) = a1*exp(-1*alpha1*x) + a2*exp(-1*alpha2*(x - mu2) - exp(-1*lambda2*(x - mu2))) + a3*exp(-1*alpha3*(x - 3) - exp(-1*lambda3*(x - mu3))) + a4*exp(lambda4*x) + c$$</p>
-<p>The first, second, third and fourth pieces of the equation represent pre-working age, working age, retirement and post-retirement age patterns, respectively. 
+<p>The first, second, third and fourth pieces of the equation represent pre-working age, working age, retirement and post-retirement age patterns, respectively.
 Models with less parameters gradually remove terms at the older ages. Parameters in each family are:</p><ul>
 <li><p>pre-working age: a1, alpha1</p></li>
 <li><p>working age: a2, alpha2, mu2, lambda2</p></li>

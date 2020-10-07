@@ -23,7 +23,7 @@ Zelnik's method is used to adjust distributions by year of age for digit prefere
 Single year age groups are assumed. If \code{q=1}, age x is affected by ages x-10 through x+10. If \code{q=2}, age x is affected by ages x-15 through x+15.
 A vector is returned of the same length as \code{Value}, but the boundary values are imputed with \code{NA}.
 If \code{q=1}, ages 0-9 and the final 10 ages are \code{NA}. If \code{q=2}, ages 0-14 and the final 15 ages are returned as \code{NA}.
- Note results do not sum to the total from the same age-range of \code{Value} because smoothing draws from ages outside that range.
+Note results do not sum to the total from the same age-range of \code{Value} because smoothing draws from ages outside that range.
 }
 \examples{
 # data from gray1987missingages, Table 2, page 21: Aplication of Q1 and

@@ -140,7 +140,7 @@ navbar:
       - text: Smooth demographic counts
         href: articles/smoothing_with_demotools.html
       - text: Construct a lifetable
-        href: articles/lifetable_with_demotools.html
+        href: articles/lifetables_with_demotools.html
       - text: Model migration
         href: articles/migration_with_demotools.html
     - text: "Case study"

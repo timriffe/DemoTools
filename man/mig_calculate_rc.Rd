@@ -12,14 +12,14 @@ mig_calculate_rc(ages, pars)
 \item{pars}{numeric. A named list of parameters. See below for details.}
 }
 \description{
-Given a set of ages and parameters, calculate the migration age schedule based on the Rogers and Castro formula. 
+Given a set of ages and parameters, calculate the migration age schedule based on the Rogers and Castro formula.
 Choose between a 7,9,11 or 13 parameter model.
 }
 \details{
 In the full 13 parameter model, the migration rate at age x, \eqn{m(x)} is defined as
 \deqn{m(x) = a1*exp(-1*alpha1*x) + a2*exp(-1*alpha2*(x - mu2) - exp(-1*lambda2*(x - mu2))) + a3*exp(-1*alpha3*(x - 3) - exp(-1*lambda3*(x - mu3))) + a4*exp(lambda4*x) + c}
 
-The first, second, third and fourth pieces of the equation represent pre-working age, working age, retirement and post-retirement age patterns, respectively. 
+The first, second, third and fourth pieces of the equation represent pre-working age, working age, retirement and post-retirement age patterns, respectively.
 Models with less parameters gradually remove terms at the older ages. Parameters in each family are:
 \itemize{
 \item pre-working age: {a1, alpha1}

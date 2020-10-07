@@ -24,7 +24,7 @@ Given the log crude death rate for ages 0-5, \eqn{log(M(0,5)} there is a strong 
 \details{
 This is an elsewhere-undocumented relationship derived from the whole of the HMD. We used the \code{segmented} package to fit a 2-slope linear model. This can (and should) be reproduced using data from a more diverse collection, and even as-is the data should be subset to only those observations where deaths and populations were not split using HMD methods. You can reproduce the analysis given a data set in the format shown (but not executed) in the examples and following the code steps shown there.
 
-Regarding argument specification, either \code{M04} *or* \code{D04} and \code{P04} can both be given.
+Regarding argument specification, either \code{M04} \emph{or} \code{D04} and \code{P04} can both be given.
 }
 \examples{
 

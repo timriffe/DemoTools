@@ -28,7 +28,7 @@ ageSexAccuracyDasGupta(
 }
 \description{
 Given population counts in 5-year age groups for males and females, follow Das Gupta's steps
- to calculate a composite index of the quality of the age and sex structure for a given population.
+to calculate a composite index of the quality of the age and sex structure for a given population.
 }
 \details{
 It is assumed that the terminal age group is open, in which case it is ignored.

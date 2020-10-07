@@ -18,7 +18,7 @@ left to live above age x in the life table stationary population.
 }
 \details{
 No \code{NA} or other error checking here. This is taken as the numerator in the classic lifetable method
- of calculation of life expectancy.
+of calculation of life expectancy.
 }
 \references{
 \insertRef{preston2000demography}{DemoTools}

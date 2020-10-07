@@ -9,7 +9,7 @@ A matrix of 21 rows and 5 columns
 }
 \source{
 The data comes from
-  \url{https://URL}
+\url{https://URL}
 }
 \usage{
 pop5_mat

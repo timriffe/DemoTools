@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.04</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.06</span>
       </span>
     </div>
 
@@ -109,7 +109,7 @@
       <a href="../articles/smoothing_with_demotools.html">Smooth demographic counts</a>
     </li>
     <li>
-      <a href="../articles/lifetable_with_demotools.html">Construct a lifetable</a>
+      <a href="../articles/lifetables_with_demotools.html">Construct a lifetable</a>
     </li>
     <li>
       <a href="../articles/migration_with_demotools.html">Model migration</a>
@@ -218,7 +218,7 @@
     </tr>
     <tr>
       <th>region</th>
-      <td><p>character. <code>"n"</code>, <code>"e"</code>, <code>"s"</code> or <code>"w"</code> for North, East, South, or West.</p></td>
+      <td><p>character. <code>"n",</code> <code>"e"</code>, <code>"s"</code> or <code>"w"</code> for North, East, South, or West.</p></td>
     </tr>
     <tr>
       <th>mod</th>
@@ -265,8 +265,8 @@
     <p>nax average contribution to exposure of those dying in the interval.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>a(x) for age 0 and age group 1-4 are based on Coale-Demeny q<sub>0</sub>-based lookup tables. An approximation to get from M(0) to q<sub>0</sub> for the sake of generating a(0) and 4a1 is used. The final a(x) value is closed out using the <code><a href='lt_a_closeout.html'>lt_a_closeout()</a></code> method (reciprocal and Mortpak methods are deprecated). Age groups must be standard abridged. No check on age groups is done.</p>
-<p>There are different vectors one can specify for this method: ultimately it's either <code>nMx</code> or <code>nqx</code>, and the <code>nax</code> results will differ potentially quite a lot depending which you have on hand.</p>
+    <p>\(a(x)\) for age 0 and age group 1-4 are based on Coale-Demeny q<sub>0</sub>-based lookup tables. An approximation to get from M(0) to q<sub>0</sub> for the sake of generating a(0) and 4a1 is used. The final a(x) value is closed out using the <code><a href='lt_a_closeout.html'>lt_a_closeout()</a></code> method (reciprocal and Mortpak methods are deprecated). Age groups must be standard abridged. No check on age groups is done.</p>
+<p>There are different vectors one can specify for this method: ultimately it's either <code>nMx</code> or <code>nqx</code>, and the <code>nax</code>, but <code>nax</code> results should be reasonably close.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Greville TN (1977).

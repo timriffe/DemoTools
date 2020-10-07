@@ -16,7 +16,7 @@ lx vector of lifetable survivorship.
 }
 \description{
 This lifetable identity is the same no matter what kind of lifetable is required.
- You can find it in any demography textbook.
+You can find it in any demography textbook.
 }
 \details{
 #' @export

@@ -48,8 +48,8 @@
 
 <meta property="og:title" content="Estimate Wilmoth Model Life Table — lt_model_lq" />
 <meta property="og:description" content="Construct model life tables based on the Log-Quadratic (wilmoth) estimates
-with various choices of 2 input parameters: 
-q0_5, q0_1, q15_45, q15_35 and e0. There are 8 possible 
+with various choices of 2 input parameters:
+q0_5, q0_1, q15_45, q15_35 and e0. There are 8 possible
 combinations (see examples below)." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 
@@ -83,7 +83,7 @@ combinations (see examples below)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.04</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.06</span>
       </span>
     </div>
 
@@ -112,7 +112,7 @@ combinations (see examples below)." />
       <a href="../articles/smoothing_with_demotools.html">Smooth demographic counts</a>
     </li>
     <li>
-      <a href="../articles/lifetable_with_demotools.html">Construct a lifetable</a>
+      <a href="../articles/lifetables_with_demotools.html">Construct a lifetable</a>
     </li>
     <li>
       <a href="../articles/migration_with_demotools.html">Model migration</a>
@@ -163,8 +163,8 @@ combinations (see examples below)." />
 
     <div class="ref-description">
     <p>Construct model life tables based on the Log-Quadratic (wilmoth) estimates
-with various choices of 2 input parameters: 
-<code>q0_5, q0_1, q15_45, q15_35</code> and <code>e0</code>. There are 8 possible 
+with various choices of 2 input parameters:
+<code>q0_5, q0_1, q15_45, q15_35</code> and <code>e0</code>. There are 8 possible
 combinations (see examples below).</p>
     </div>
 
@@ -194,8 +194,8 @@ combinations (see examples below).</p>
       <th>Sex</th>
       <td><p>Choose the sex of the population. This choice defines the use
 of a corresponding Log-Quadratic (<code>wilmoth</code>)
- model fitted for the whole Human Mortality Database (as of Dec 2019, 
- there are 968 life tables for each sex).
+model fitted for the whole Human Mortality Database (as of Dec 2019,
+there are 968 life tables for each sex).
 The following options are available:</p><ul>
 <li><p><code>"b"</code> -- Both sex;</p></li>
 <li><p><code>"f"</code> -- Females;</p></li>
@@ -205,28 +205,28 @@ The following options are available:</p><ul>
     <tr>
       <th>fitted_logquad</th>
       <td><p>Optional, defaults to <code>NULL</code>. An object of class
-<code>wilmoth</code>. If full HMD is not enough, one 
-can fit a Log-Quadratic (<a href='https://github.com/mpascariu/MortalityEstimate'>https://github.com/mpascariu/MortalityEstimate</a>) model 
+<code>wilmoth</code>. If full HMD is not enough, one
+can fit a Log-Quadratic (<a href='https://github.com/mpascariu/MortalityEstimate'>https://github.com/mpascariu/MortalityEstimate</a>) model
 based on any other collection  of life tables;</p></td>
     </tr>
     <tr>
       <th>q0_5</th>
-      <td><p>5q0. The probability that a new-born will die during the 
+      <td><p>5q0. The probability that a new-born will die during the
 subsequent 5 years;</p></td>
     </tr>
     <tr>
       <th>q0_1</th>
-      <td><p>1q0. The probability that a life aged 0 will die during the 
+      <td><p>1q0. The probability that a life aged 0 will die during the
 following year;</p></td>
     </tr>
     <tr>
       <th>q15_45</th>
-      <td><p>45q15. The probability that a life aged 15 will die during 
+      <td><p>45q15. The probability that a life aged 15 will die during
 the subsequent 45 years;</p></td>
     </tr>
     <tr>
       <th>q15_35</th>
-      <td><p>35q15. The probability that a life aged 15 will die during 
+      <td><p>35q15. The probability that a life aged 15 will die during
 the subsequent 35 years;</p></td>
     </tr>
     <tr>
@@ -239,7 +239,7 @@ the subsequent 35 years;</p></td>
     </tr>
     <tr>
       <th>tol</th>
-      <td><p>Tolerance level for convergence. The tolerance level, is relevant 
+      <td><p>Tolerance level for convergence. The tolerance level, is relevant
 for case 7 and 8 (e0 and 45q15 or 35q15 are known);</p></td>
     </tr>
     <tr>
@@ -276,13 +276,13 @@ for case 7 and 8 (e0 and 45q15 or 35q15 are known);</p></td>
 
     <p>The output is of class <code>lt_model_lq</code> with the components:</p>
 <dt>lt</dt><dd><p>Life table matching given inputs</p></dd>
- <dt>values</dt><dd><p>Associated values of <code>q0_5, q0_1, q15_45, q15_35</code> 
+<dt>values</dt><dd><p>Associated values of <code>q0_5, q0_1, q15_45, q15_35</code>
 and <code>e0</code>.</p></dd>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Due to limitations of the R language the notation for probability 
-of dying <code>nqx</code> is written <code>qx_n</code>, where <code>x</code> and <code>n</code> are 
+    <p>Due to limitations of the R language the notation for probability
+of dying <code>nqx</code> is written <code>qx_n</code>, where <code>x</code> and <code>n</code> are
 integers. For example <code>45q15</code> is represented as <code>q45_15</code>.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 

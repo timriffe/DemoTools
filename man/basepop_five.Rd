@@ -70,7 +70,7 @@ for the age groups 0, 1-4 and 5-9 for either \code{Females} or \code{Males},
 depending on whether the user specified \code{"m"} or \code{"f"} in
 \code{Sex}. The remaining age counts are left as is. When
 \code{basepop_single} is used, the return value issues a numeric vector with
-**single year age groups** where the counts between 0 and 10 are adjusted.
+\strong{single year age groups} where the counts between 0 and 10 are adjusted.
 }
 \description{
 Adjust population counts for the age groups 0, 1-4 and 5-9

@@ -17,7 +17,7 @@ loess_smth1(Value, Age, OAG = TRUE, ...)
 }
 \description{
 LOESS (locally weighted smoothing) helps to smooth data over age, preserving the open age group if necessary. This is a simple wrapper to \code{stats::loess()} but using standard demographic arguments.
- It is a popular tool to create a smooth line through a timeplot or scatter plot.
+It is a popular tool to create a smooth line through a timeplot or scatter plot.
 }
 \details{
 The total sum of \code{Value} is preserved in the output. One can control smoothness using the \code{spar} argument of \code{stats::loess()}. See \code{\link[stats]{loess}} for more details.

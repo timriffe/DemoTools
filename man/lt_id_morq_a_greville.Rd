@@ -40,7 +40,7 @@ lt_id_morq_a_greville(
 
 \item{Sex}{character. \code{"m"}, \code{"f"} or \code{"b"} for male, female, or both.}
 
-\item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
+\item{region}{character. \verb{"n",} \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 
 \item{mod}{logical. Whether or not to use Gerland's modification for ages 5-14. Default \code{TRUE}.}
 
@@ -73,9 +73,9 @@ nax average contribution to exposure of those dying in the interval.
 The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 for ages 5-9 and 10-14, and the Greville formula thereafter. In the original sources these are referred to as separation factors.
 }
 \details{
-a(x) for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. The final a(x) value is closed out using the \code{lt_a_closeout()} method (reciprocal and Mortpak methods are deprecated). Age groups must be standard abridged. No check on age groups is done.
+\eqn{a(x)} for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. The final a(x) value is closed out using the \code{lt_a_closeout()} method (reciprocal and Mortpak methods are deprecated). Age groups must be standard abridged. No check on age groups is done.
 
-There are different vectors one can specify for this method: ultimately it's either \code{nMx} or \code{nqx}, and the \code{nax} results will differ potentially quite a lot depending which you have on hand.
+There are different vectors one can specify for this method: ultimately it's either \code{nMx} or \code{nqx}, and the \code{nax}, but \code{nax} results should be reasonably close.
 }
 \examples{
 #Example witn Mexican data from UN

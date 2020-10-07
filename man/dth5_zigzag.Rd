@@ -9,7 +9,7 @@ A numeric vector of length 20
 }
 \source{
 The data comes from
-  \url{http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/}
+\url{http://demographer.com/white-papers/2013-removing-zigzag-from-age-data/}
 }
 \usage{
 dth5_zigzag

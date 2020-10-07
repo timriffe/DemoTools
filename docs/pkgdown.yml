@@ -5,10 +5,10 @@ articles:
   Age-heaping_quality_with_Demotools: Age-heaping_quality_with_Demotools.html
   case_study_1: case_study_1.html
   graduation_with_demotools: graduation_with_demotools.html
-  lifetable_with_demotools: lifetable_with_demotools.html
+  lifetables_with_demotools: lifetables_with_demotools.html
   migration_with_demotools: migration_with_demotools.html
   smoothing_with_demotools: smoothing_with_demotools.html
-last_built: 2020-09-28T14:22Z
+last_built: 2020-10-07T14:33Z
 urls:
   reference: https://timriffe.github.io/DemoTools//reference
   article: https://timriffe.github.io/DemoTools//articles

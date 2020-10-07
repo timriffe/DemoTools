@@ -76,17 +76,17 @@ lt_abridged(
 \value{
 Lifetable in data.frame with columns
 \itemize{
-  \item{Age}{integer. Lower bound of abridged age class},
-  \item{AgeInt}{integer. Age class widths.}
-  \item{nMx}{numeric. Age-specific central death rates.}
-  \item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
-  \item{nqx}{numeric. Age-specific conditional death probabilities.}
-  \item{lx}{numeric. Lifetable survivorship}
-  \item{ndx}{numeric. Lifetable deaths distribution.}
-  \item{nLx}{numeric. Lifetable exposure.}
-  \item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
-  \item{Tx}{numeric. Lifetable total years left to live above age x.}
-  \item{ex}{numeric. Age-specific remaining life expectancy.}
+\item{Age}{integer. Lower bound of abridged age class},
+\item{AgeInt}{integer. Age class widths.}
+\item{nMx}{numeric. Age-specific central death rates.}
+\item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
+\item{nqx}{numeric. Age-specific conditional death probabilities.}
+\item{lx}{numeric. Lifetable survivorship}
+\item{ndx}{numeric. Lifetable deaths distribution.}
+\item{nLx}{numeric. Lifetable exposure.}
+\item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
+\item{Tx}{numeric. Lifetable total years left to live above age x.}
+\item{ex}{numeric. Age-specific remaining life expectancy.}
 }
 }
 \description{
@@ -97,20 +97,20 @@ calculate a full abridged lifetable.
 The main variations here are in the treatment of \code{nAx}.
 In all cases, the lifetable is extended and closed out using one from a
 selection of mortality age extrapolation methods implemented in the
- \code{MortalityLaws} package rather than the common practice of taking
- the inverse of the final \code{nMx} value (if it's an open interval).
- For this, a desired open age must be specified, defaulting to the present
- open age group, but which can not exceed 110 in the present implementation.
- By default, the extrapolation model is fit to ages 60 and higher, but you
- can control this using the \code{extrapFit} argument (give the vector of ages,
- which must be a subset of \code{Age}). By default extrapolated values are used
- starting with the input open age, but you can lower this age using the
- \code{extrapFrom} argument. The \code{Sx} output column (survivor ratios)
- is aligned with the other columns in all 5-year age groups, but note the
- first two values have a slightly different age-interval interpretation:
- In Age 0, the interpretation is survival from birth until interval 0-4.
- In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align.
- This column is required for population projections.
+\code{MortalityLaws} package rather than the common practice of taking
+the inverse of the final \code{nMx} value (if it's an open interval).
+For this, a desired open age must be specified, defaulting to the present
+open age group, but which can not exceed 110 in the present implementation.
+By default, the extrapolation model is fit to ages 60 and higher, but you
+can control this using the \code{extrapFit} argument (give the vector of ages,
+which must be a subset of \code{Age}). By default extrapolated values are used
+starting with the input open age, but you can lower this age using the
+\code{extrapFrom} argument. The \code{Sx} output column (survivor ratios)
+is aligned with the other columns in all 5-year age groups, but note the
+first two values have a slightly different age-interval interpretation:
+In Age 0, the interpretation is survival from birth until interval 0-4.
+In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align.
+This column is required for population projections.
 }
 \examples{
 # trial code from PAS LTPOPDTH, North, Males, IMR = .1

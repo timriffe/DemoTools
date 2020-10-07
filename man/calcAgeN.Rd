@@ -23,7 +23,7 @@ Assign single ages to age groups of equal and arbitrary width, and also optional
 If you shift the groupings, then the first age groups may have a negative lower bound
 (for example of -5). These counts would be discarded for the osculatory version of Sprague smoothing,
 for example, but they are preserved in this function. The important thing to know is that if you shift
- the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1,
+the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1,
 the first age group is 4-ages wide.
 }
 \examples{

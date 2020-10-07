@@ -28,15 +28,15 @@ fitted values and residuals are computed for all ages in \code{x}.}
 
 \item{law}{The name of the mortality law/model to be used.
 The following options are available: \itemize{
-  \item{\code{"kannisto"}} -- The Kannisto model;
-  \item{\code{"kannisto_makeham"}} -- The Kannisto-Makeham model;
-  \item{\code{"gompertz"}} -- The Gompertz model;
-  \item{\code{"ggompertz"}} -- The Gamma-Gompertz model;
-  \item{\code{"makeham"}} -- The Makeham model;
-  \item{\code{"beard"}} -- The Beard model;
-  \item{\code{"beard_makeham"}} -- The Beard-Makeham model;
-  \item{\code{"quadratic"}} -- The Quadratic model.
-  }}
+\item{\code{"kannisto"}} -- The Kannisto model;
+\item{\code{"kannisto_makeham"}} -- The Kannisto-Makeham model;
+\item{\code{"gompertz"}} -- The Gompertz model;
+\item{\code{"ggompertz"}} -- The Gamma-Gompertz model;
+\item{\code{"makeham"}} -- The Makeham model;
+\item{\code{"beard"}} -- The Beard model;
+\item{\code{"beard_makeham"}} -- The Beard-Makeham model;
+\item{\code{"quadratic"}} -- The Quadratic model.
+}}
 
 \item{opt.method}{How would you like to find the parameters? Specify the
 function to be optimize. Available options: the Poisson likelihood function
@@ -49,10 +49,10 @@ function.}
 }
 \value{
 An object of class \code{lt_rule_m_extrapolate} with the following components:
- \item{input}{List with arguments provided in input. Saved for convenience.}
- \item{call}{An unevaluated function call, that is, an unevaluated expressionwhich consists of the named function applied to the given arguments.}
- \item{fitted.model}{An object of class \code{\link[MortalityLaws]{MortalityLaw}}. Here one can find fitted values, residuals, goodness of fit measures etc.}
- \item{values}{A vector or matrix containing the complete mortality data, that is the modified input data following the extrapolation procedure.}
+\item{input}{List with arguments provided in input. Saved for convenience.}
+\item{call}{An unevaluated function call, that is, an unevaluated expressionwhich consists of the named function applied to the given arguments.}
+\item{fitted.model}{An object of class \code{\link[MortalityLaws]{MortalityLaw}}. Here one can find fitted values, residuals, goodness of fit measures etc.}
+\item{values}{A vector or matrix containing the complete mortality data, that is the modified input data following the extrapolation procedure.}
 }
 \description{
 Extrapolate old-age human mortality curve using mortality laws
@@ -164,5 +164,5 @@ coef(F1)
 \code{\link[MortalityLaws]{predict.MortalityLaw}}
 }
 \author{
-Marius D. Pascariu <rpascariu@outlook.com>
+Marius D. Pascariu \href{mailto:rpascariu@outlook.com}{rpascariu@outlook.com}
 }

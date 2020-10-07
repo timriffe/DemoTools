@@ -30,7 +30,7 @@ age defines the index. This comes from the PAS spreadsheet called AGESEX.
 }
 \details{
 Age groups must be of equal intervals. Five year age groups are assumed.
- It is also assumed that the final age group is open, unless \code{ageMax < max(Age)}.
+It is also assumed that the final age group is open, unless \code{ageMax < max(Age)}.
 }
 \examples{
 Males   <- c(4677000,4135000,3825000,3647000,3247000,2802000,2409000,2212000,

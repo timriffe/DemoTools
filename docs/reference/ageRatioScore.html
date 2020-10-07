@@ -82,7 +82,7 @@ absolute deviation from 100 defines this index. This comes from the PAS spreadsh
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.04</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.06</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@ absolute deviation from 100 defines this index. This comes from the PAS spreadsh
       <a href="../articles/smoothing_with_demotools.html">Smooth demographic counts</a>
     </li>
     <li>
-      <a href="../articles/lifetable_with_demotools.html">Construct a lifetable</a>
+      <a href="../articles/lifetables_with_demotools.html">Construct a lifetable</a>
     </li>
     <li>
       <a href="../articles/migration_with_demotools.html">Model migration</a>
@@ -210,9 +210,9 @@ absolute deviation from 100 defines this index. This comes from the PAS spreadsh
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Age groups must be of equal intervals. Five year age groups are assumed.
- It is also assumed that the final age group is open, unless <code>ageMax &lt; max(Age)</code>.
- Setting <code>OAG = FALSE</code> will override this and potentially include <code><a href='https://rdrr.io/r/base/Extremes.html'>max(Age)</a></code> in calculations.
- The method argument determines the weighting of numerators and denominators, where the UN method puts
+It is also assumed that the final age group is open, unless <code>ageMax &lt; max(Age)</code>.
+Setting <code>OAG = FALSE</code> will override this and potentially include <code><a href='https://rdrr.io/r/base/Extremes.html'>max(Age)</a></code> in calculations.
+The method argument determines the weighting of numerators and denominators, where the UN method puts
 twice the numerator over the sum of the adjacent ages classes, Zelnich does thrice the
 numerator over the sum of the whole range from the next lowest to the next highest age, and
 Ramachandran does four times the numerator over the same sum, but with the central age

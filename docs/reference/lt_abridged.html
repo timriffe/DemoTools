@@ -81,7 +81,7 @@ calculate a full abridged lifetable." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.04</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.06</span>
       </span>
     </div>
 
@@ -110,7 +110,7 @@ calculate a full abridged lifetable." />
       <a href="../articles/smoothing_with_demotools.html">Smooth demographic counts</a>
     </li>
     <li>
-      <a href="../articles/lifetable_with_demotools.html">Construct a lifetable</a>
+      <a href="../articles/lifetables_with_demotools.html">Construct a lifetable</a>
     </li>
     <li>
       <a href="../articles/migration_with_demotools.html">Model migration</a>
@@ -300,20 +300,20 @@ calculate a full abridged lifetable.</p>
     <p>The main variations here are in the treatment of <code>nAx</code>.
 In all cases, the lifetable is extended and closed out using one from a
 selection of mortality age extrapolation methods implemented in the
- <code>MortalityLaws</code> package rather than the common practice of taking
- the inverse of the final <code>nMx</code> value (if it's an open interval).
- For this, a desired open age must be specified, defaulting to the present
- open age group, but which can not exceed 110 in the present implementation.
- By default, the extrapolation model is fit to ages 60 and higher, but you
- can control this using the <code>extrapFit</code> argument (give the vector of ages,
- which must be a subset of <code>Age</code>). By default extrapolated values are used
- starting with the input open age, but you can lower this age using the
- <code>extrapFrom</code> argument. The <code>Sx</code> output column (survivor ratios)
- is aligned with the other columns in all 5-year age groups, but note the
- first two values have a slightly different age-interval interpretation:
- In Age 0, the interpretation is survival from birth until interval 0-4.
- In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align.
- This column is required for population projections.</p>
+<code>MortalityLaws</code> package rather than the common practice of taking
+the inverse of the final <code>nMx</code> value (if it's an open interval).
+For this, a desired open age must be specified, defaulting to the present
+open age group, but which can not exceed 110 in the present implementation.
+By default, the extrapolation model is fit to ages 60 and higher, but you
+can control this using the <code>extrapFit</code> argument (give the vector of ages,
+which must be a subset of <code>Age</code>). By default extrapolated values are used
+starting with the input open age, but you can lower this age using the
+<code>extrapFrom</code> argument. The <code>Sx</code> output column (survivor ratios)
+is aligned with the other columns in all 5-year age groups, but note the
+first two values have a slightly different age-interval interpretation:
+In Age 0, the interpretation is survival from birth until interval 0-4.
+In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align.
+This column is required for population projections.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Greville TN (1977).

@@ -30,7 +30,7 @@ mig_estimate_rc(
 \item{...}{additional inputs to stan, see ?rstan::stan for details.}
 }
 \description{
-Given a set of ages and observed age-specific migration rates, estimate the parameters of a Roger-Castro model migration schedule. 
+Given a set of ages and observed age-specific migration rates, estimate the parameters of a Roger-Castro model migration schedule.
 Choose between a 7,9,11 or 13 parameter model.
 }
 \examples{

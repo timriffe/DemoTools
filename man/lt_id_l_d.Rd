@@ -14,7 +14,7 @@ ndx vector of lifetable deaths.
 }
 \description{
 This lifetable identity is the same no matter what kind of lifetable is required.
- You can find it in any demography textbook.
+You can find it in any demography textbook.
 }
 \details{
 The vector returned is the same length as \code{lx} and it sums to the lifetable radix.
