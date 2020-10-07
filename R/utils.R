@@ -99,57 +99,24 @@ rescale_vector <- function(x, scale = 1) {
 #' @param Year string or integer. 4-digit year.
 #' @param Month string or integer. Month digits, 1 or 2 characters.
 #' @param Day string or integer. Day of month digits, 1 or 2 characters.
-#' @param detect.mid.year logical. If \code{TRUE}, June 30 or July 1 will always return .5.
-#' @param detect.start.end logical. Whether or not Jan 1 always be 0 and Dec 31 always be 1. Default \code{TRUE}.
-#' @details Code inherited from HMD, slightly modified to remove matlab legacy bit.
 #' @export
 #' @examples
 #' ypart(2001,2,14) # general use
 #' ypart(2001,6,30) # mid year options, default detection
 #' ypart(2001,7,1)  # also
 #' ypart(2000,6,30) # no change for leap year, still detected as mid year
-#' ypart(2000,6,30, FALSE) # exact measure
-#' ypart(2000,7,1, FALSE)  # July 1 leap year
-#' ypart(2001,7,1, FALSE)  # July 1 not leap year
-#' ypart(2002,12,31, detect.start.end = FALSE) # assumes end of day by default.
-#' ypart(2002,1,1, detect.start.end = FALSE) # end of day year fraction
-#' ypart(2002,1,1, detect.start.end = TRUE)  # assume very begining of year
-
-
-ypart           <-
-  function(Year,
-           Month,
-           Day,
-           detect.mid.year = TRUE,
-           detect.start.end = TRUE) {
-    M           <- c(0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334)
-
-    if (detect.mid.year) {
-      .d        <- as.integer(Day)
-      .m        <- as.integer(Month)
-      if ((.d == 30 & .m == 6) | (.d == 1 & .m == 7)) {
-        return(.5)
-      }
-    }
-
-    if (detect.start.end) {
-      .d        <- as.integer(Day)
-      .m        <- as.integer(Month)
-      if (.d == 1 & .m == 1) {
-        return(0)
-      }
-      if (.d == 31 & .m == 12) {
-        return(1)
-      }
-    }
-
-    monthdur    <- diff(c(M, 365))
-    monthdur[2] <- monthdur[2] + lubridate::leap_year(Year)
-    M           <- cumsum(monthdur) - 31
-    return((M[Month] + Day) / sum(monthdur))
-
-  }
-
+#' ypart(2000,7,1)  # July 1 leap year
+#' ypart(2001,7,1)  # July 1 not leap year
+#' ypart(2002,12,31) # assumes end of day by default.
+#' ypart(2002,1,1) # end of day year fraction
+ypart <- function(Year, Month, Day) {
+  date_obj <- lubridate::ymd(paste0(Year, "-", Month, "-", Day))
+  first_day_year <- lubridate::floor_date(date_obj, unit = "year")
+  last_day_year <- lubridate::ceiling_date(date_obj, unit = "year")
+  days_in_year <- lubridate::days(last_day_year - first_day_year)
+  days_passed <- lubridate::days(date_obj - first_day_year)
+  round(days_passed / (days_in_year - lubridate::days(1)), 2)
+}
 
 #' Convert date to decimal year fraction.
 #'

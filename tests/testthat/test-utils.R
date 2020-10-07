@@ -32,17 +32,12 @@ test_that("rescale_vector works",{
 
 
 test_that("ypart works",{
-    expect_equal(ypart(2001, 2, 14), 0.1150685, tolerance = 1e-8)
-    expect_equal(ypart(2001, 6, 30), .5)
+    expect_equal(ypart(2001, 2, 14), round(0.1150685, 2), tolerance = 1e-8)
+    expect_equal(ypart(2001, 6, 30), .49)
     expect_equal(ypart(2001, 7, 1), .5)
-    expect_equal(ypart(2000, 7, 1), .5)
-    expect_equal(ypart(2000, 7, 1, FALSE), .5)
-    expect_equal(ypart(2000, 7, 1, FALSE), .5)
-    expect_false(ypart(2001, 7, 1, FALSE) == .5)
-    expect_equal(ypart(2002, 12, 31, detect.start.end = FALSE), 1)
-    expect_equal(ypart(2002, 1, 1, detect.start.end = FALSE), 
-                 0.002739726, tolerance = 1e-8)
-    expect_equal(ypart(2002, 1, 1, detect.start.end = TRUE), 0)
+    expect_equal(ypart(2002, 12, 31), 1)
+    expect_equal(ypart(2002, 1, 1), round(0.002739726, 2), tolerance = )
+    expect_equal(ypart(2002, 1, 1), 0)
 })
 
 
