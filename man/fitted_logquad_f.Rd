@@ -16,8 +16,7 @@ List of 6:
 }
 }
 \source{
-Human Mortality Database \link{Portal}. Retrieved 2019-11-28, from
-\url{https://mortality.org}
+Human Mortality Database. Retrieved 2019-11-28, from \url{https://mortality.org}
 }
 \usage{
 fitted_logquad_f

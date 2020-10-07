@@ -231,7 +231,7 @@ surv5 <- function(pop1, pop2) {
 #' @return Survival function lx as a numeric vector with radix 1.
 #' @details Checking for census spacing of N years must happen prior to this function. Also, we assume the open age group has already been trimmed off.
 #' @export
-#' @details We assume the open age group has already been trimmed off. The time interval N must be measured as a decimal in advance and specified. This method uses a synthetic approximation of person-years lived in each age interval over the intercensal period and then a second approximation based on age-specific growth rates to produce an estimate of lifetable px. This value of px is not bounded to [0,1], and therefore the resulting lx approximation is not strictly positive or monotonically non-increasing, so downstream usage of this result is limited. For example, is not advisable to use it in the standard way to derive the lifetable dx.
+#' @details We assume the open age group has already been trimmed off. The time interval `N`` must be measured as a decimal in advance and specified. This method uses a synthetic approximation of person-years lived in each age interval over the intercensal period and then a second approximation based on age-specific growth rates to produce an estimate of lifetable \eqn{p(x)}. This value of \eqn{p(x)} is not bounded to \eqn{[0,1]}, and therefore the resulting lx approximation is not strictly positive or monotonically non-increasing, so downstream usage of this result is limited. For example, is not advisable to use it in the standard way to derive the lifetable dx.
 #'
 #' @export
 
