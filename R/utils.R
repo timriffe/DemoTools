@@ -101,6 +101,8 @@ rescale_vector <- function(x, scale = 1) {
 #' @param Day string or integer. Day of month digits, 1 or 2 characters.
 #' @export
 #' @examples
+#'
+#'
 #' ypart(2001,2,14) # general use
 #' ypart(2001,6,30) # mid year options, default detection
 #' ypart(2001,7,1)  # also
@@ -109,13 +111,22 @@ rescale_vector <- function(x, scale = 1) {
 #' ypart(2001,7,1)  # July 1 not leap year
 #' ypart(2002,12,31) # assumes end of day by default.
 #' ypart(2002,1,1) # end of day year fraction
+#'
+#' 
 ypart <- function(Year, Month, Day) {
   date_obj <- lubridate::ymd(paste0(Year, "-", Month, "-", Day))
   first_day_year <- lubridate::floor_date(date_obj, unit = "year")
   last_day_year <- lubridate::ceiling_date(date_obj, unit = "year")
-  days_in_year <- lubridate::days(last_day_year - first_day_year)
-  days_passed <- lubridate::days(date_obj - first_day_year)
-  round(days_passed / (days_in_year - lubridate::days(1)), 2)
+  days_in_year <- as.numeric(last_day_year - first_day_year)
+
+  # To actually get 365 days, date_obj needs to be 1st of January
+  # for lubridate to make the correct subtraction
+  if (lubridate::day(date_obj) == 31 && lubridate::month(date_obj) == 12) {
+    date_obj <- date_obj + lubridate::days(1)
+  }
+
+  days_passed <- as.numeric(date_obj - first_day_year)
+  days_passed / days_in_year
 }
 
 #' Convert date to decimal year fraction.
@@ -128,23 +139,22 @@ ypart <- function(Year, Month, Day) {
 #' @return Numeric expression of the date, year plus the fraction of the year passed as of the date.
 #' @export
 dec.date  <- function(date) {
-  if (class(date) == "numeric") {
+
+  if (inherits(date, "numeric")) {
     return(date)
   }
-  if (class(date) == "character") {
-    date   <- as.Date(date)
-  }
-  day 	   <- as.numeric(format(date, '%d'))
-  month 	 <- as.numeric(format(date, '%m'))
-  year 	   <- as.numeric(format(date, '%Y'))
-  frac     <- ypart(
-    Year = year,
-    Month = month,
-    Day = day,
-    detect.mid.year = TRUE,
-    detect.start.end = TRUE
-  )
-  year + frac
+
+  ch_date <- lubridate::ymd(date)
+  year_frac <- lubridate::year(date)
+
+  frac <-
+    ypart(
+      Year = year_frac,
+      Month = lubridate::month(ch_date),
+      Day = lubridate::day(ch_date)
+    )
+
+  year_frac + frac
 }
 
 

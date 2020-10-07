@@ -39,12 +39,12 @@ test_that("survRatioError works", {
             Age = Age,
             date1 = date1960,
             date2 = date1970,
-            exprior = ex1), 
-        0.444659710063221, 
+            exprior = ex1),
+        0.444659710063221,
         tolerance = 1e-12
     )
-    
-    
+
+
     expect_equal(
         survRatioError(
             pop1 = pop1965,
@@ -52,11 +52,11 @@ test_that("survRatioError works", {
             Age = Age,
             date1 = date1965,
             date2 = date1970,
-            exprior = ex2), 
-        0.396434724201574, 
+            exprior = ex2),
+        0.396434724201574,
         tolerance = 1e-12
     )
-    
+
     expect_equal(
         survRatioError(
             pop1 = pop1960,
@@ -64,9 +64,9 @@ test_that("survRatioError works", {
             Age = Age,
             date1 = date1960fake,
             date2 = date1970,
-            exprior = ex1), 
-        1.06781792562135, 
-        tolerance = 1e-12
+            exprior = ex1),
+      1.06781792562135,
+      tolerance = 0.001
     )
 })
 

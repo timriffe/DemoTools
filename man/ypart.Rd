@@ -17,6 +17,8 @@ ypart(Year, Month, Day)
 The fraction returned by this is used e.g. for intercensal estimates.
 }
 \examples{
+
+
 ypart(2001,2,14) # general use
 ypart(2001,6,30) # mid year options, default detection
 ypart(2001,7,1)  # also
@@ -25,4 +27,6 @@ ypart(2000,7,1)  # July 1 leap year
 ypart(2001,7,1)  # July 1 not leap year
 ypart(2002,12,31) # assumes end of day by default.
 ypart(2002,1,1) # end of day year fraction
+
+
 }
