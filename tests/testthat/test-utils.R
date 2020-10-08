@@ -31,33 +31,20 @@ test_that("rescale_vector works",{
 })
 
 
-
-test_that("is_LeapYear works",{
-    expect_equal(sum(is_LeapYear(1895:1905)), 2)
-    expect_equal(sum(is_LeapYear(1995:2005)), 3)
-})
-
-
-
 test_that("ypart works",{
-    expect_equal(ypart(2001, 2, 14), 0.1150685, tolerance = 1e-8)
-    expect_equal(ypart(2001, 6, 30), .5)
-    expect_equal(ypart(2001, 7, 1), .5)
-    expect_equal(ypart(2000, 7, 1), .5)
-    expect_equal(ypart(2000, 7, 1, FALSE), .5)
-    expect_equal(ypart(2000, 7, 1, FALSE), .5)
-    expect_false(ypart(2001, 7, 1, FALSE) == .5)
-    expect_equal(ypart(2002, 12, 31, detect.start.end = FALSE), 1)
-    expect_equal(ypart(2002, 1, 1, detect.start.end = FALSE), 
-                 0.002739726, tolerance = 1e-8)
-    expect_equal(ypart(2002, 1, 1, detect.start.end = TRUE), 0)
+    expect_equal(ypart(2001, 2, 14), round(0.1150685, 2), tolerance = 0.001)
+    expect_equal(ypart(2001, 6, 30), 0.493, tolerance = 0.001)
+    expect_equal(ypart(2001, 7, 1), 0.496, tolerance = 0.001)
+    expect_equal(ypart(2002, 12, 31), 1)
+    expect_equal(ypart(2002, 1, 1), round(0.002739726, 2))
+    expect_equal(ypart(2002, 1, 1), 0)
 })
 
 
 test_that("dec.date works",{
-    expect_equal(dec.date("2018-10-01"), 2018.751, tolerance = 1e-3)
-    expect_equal(dec.date(structure(17805, class = "Date")), 2018.751, 
-                 tolerance = 1e-3)
+  expect_equal(dec.date("2018-10-01"), 2018.75, tolerance = 1e-3)
+  date_obj <- structure(17805, class = "Date")
+  expect_equal(dec.date(date_obj), 2018.75, tolerance = 1e-3)
 })
 
 

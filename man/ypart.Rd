@@ -4,7 +4,7 @@
 \alias{ypart}
 \title{Determine the proportion of a year passed as of a particular date.}
 \usage{
-ypart(Year, Month, Day, detect.mid.year = TRUE, detect.start.end = TRUE)
+ypart(Year, Month, Day)
 }
 \arguments{
 \item{Year}{string or integer. 4-digit year.}
@@ -12,26 +12,21 @@ ypart(Year, Month, Day, detect.mid.year = TRUE, detect.start.end = TRUE)
 \item{Month}{string or integer. Month digits, 1 or 2 characters.}
 
 \item{Day}{string or integer. Day of month digits, 1 or 2 characters.}
-
-\item{detect.mid.year}{logical. If \code{TRUE}, June 30 or July 1 will always return .5.}
-
-\item{detect.start.end}{logical. Whether or not Jan 1 always be 0 and Dec 31 always be 1. Default \code{TRUE}.}
 }
 \description{
 The fraction returned by this is used e.g. for intercensal estimates.
 }
-\details{
-Code inherited from HMD, slightly modified to remove matlab legacy bit.
-}
 \examples{
+
+
 ypart(2001,2,14) # general use
 ypart(2001,6,30) # mid year options, default detection
 ypart(2001,7,1)  # also
 ypart(2000,6,30) # no change for leap year, still detected as mid year
-ypart(2000,6,30, FALSE) # exact measure
-ypart(2000,7,1, FALSE)  # July 1 leap year
-ypart(2001,7,1, FALSE)  # July 1 not leap year
-ypart(2002,12,31, detect.start.end = FALSE) # assumes end of day by default.
-ypart(2002,1,1, detect.start.end = FALSE) # end of day year fraction
-ypart(2002,1,1, detect.start.end = TRUE)  # assume very begining of year
+ypart(2000,7,1)  # July 1 leap year
+ypart(2001,7,1)  # July 1 not leap year
+ypart(2002,12,31) # assumes end of day by default.
+ypart(2002,1,1) # end of day year fraction
+
+
 }

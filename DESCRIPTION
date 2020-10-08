@@ -45,7 +45,8 @@ Imports:
     rstan (>= 2.18.1),
     tibble,
     tidybayes,
-    ungroup
+    ungroup,
+    lubridate
 BugReports: https://github.com/timriffe/DemoTools/issues
 Encoding: UTF-8
 VignetteBuilder: knitr

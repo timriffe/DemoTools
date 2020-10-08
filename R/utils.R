@@ -92,26 +92,6 @@ rescale_vector <- function(x, scale = 1) {
    scale * x / sum(x, na.rm = TRUE)
 }
 
-#' @title Determine whether a year is a leap year.
-#'
-#' @description In order to remove \code{lubridate} dependency, we self-detect leap years and adjust February accordingly. Code inherited from HMD.
-#'
-#' @param Year integer. Year to query.
-#'
-#' @return Logical value for whether the year is a leap year or not.
-#'
-#' @export
-#' @author Carl Boe
-
-is_LeapYear <-
-  function (Year) {
-    # CB: mostly good algorithm from wikipedia
-    Year <- floor(Year)
-    ifelse(((Year %% 4) == 0  &
-              (Year %% 100) != 0) | ((Year %% 400) == 0),
-           TRUE, FALSE)
-  }
-
 #' @title Determine the proportion of a year passed as of a particular date.
 #'
 #' @description The fraction returned by this is used e.g. for intercensal estimates.
@@ -119,85 +99,62 @@ is_LeapYear <-
 #' @param Year string or integer. 4-digit year.
 #' @param Month string or integer. Month digits, 1 or 2 characters.
 #' @param Day string or integer. Day of month digits, 1 or 2 characters.
-#' @param detect.mid.year logical. If \code{TRUE}, June 30 or July 1 will always return .5.
-#' @param detect.start.end logical. Whether or not Jan 1 always be 0 and Dec 31 always be 1. Default \code{TRUE}.
-#' @details Code inherited from HMD, slightly modified to remove matlab legacy bit.
 #' @export
 #' @examples
+#'
+#'
 #' ypart(2001,2,14) # general use
 #' ypart(2001,6,30) # mid year options, default detection
 #' ypart(2001,7,1)  # also
 #' ypart(2000,6,30) # no change for leap year, still detected as mid year
-#' ypart(2000,6,30, FALSE) # exact measure
-#' ypart(2000,7,1, FALSE)  # July 1 leap year
-#' ypart(2001,7,1, FALSE)  # July 1 not leap year
-#' ypart(2002,12,31, detect.start.end = FALSE) # assumes end of day by default.
-#' ypart(2002,1,1, detect.start.end = FALSE) # end of day year fraction
-#' ypart(2002,1,1, detect.start.end = TRUE)  # assume very begining of year
+#' ypart(2000,7,1)  # July 1 leap year
+#' ypart(2001,7,1)  # July 1 not leap year
+#' ypart(2002,12,31) # assumes end of day by default.
+#' ypart(2002,1,1) # end of day year fraction
+#'
+#' 
+ypart <- function(Year, Month, Day) {
+  date_obj <- lubridate::ymd(paste0(Year, "-", Month, "-", Day))
+  first_day_year <- lubridate::floor_date(date_obj, unit = "year")
+  last_day_year <- lubridate::ceiling_date(date_obj, unit = "year")
+  days_in_year <- as.numeric(last_day_year - first_day_year)
 
-
-ypart           <-
-  function(Year,
-           Month,
-           Day,
-           detect.mid.year = TRUE,
-           detect.start.end = TRUE) {
-    M           <- c(0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334)
-
-    if (detect.mid.year) {
-      .d        <- as.integer(Day)
-      .m        <- as.integer(Month)
-      if ((.d == 30 & .m == 6) | (.d == 1 & .m == 7)) {
-        return(.5)
-      }
-    }
-
-    if (detect.start.end) {
-      .d        <- as.integer(Day)
-      .m        <- as.integer(Month)
-      if (.d == 1 & .m == 1) {
-        return(0)
-      }
-      if (.d == 31 & .m == 12) {
-        return(1)
-      }
-    }
-
-    monthdur    <- diff(c(M, 365))
-    monthdur[2] <- monthdur[2] + is_LeapYear(Year)
-    M           <- cumsum(monthdur) - 31
-    return((M[Month] + Day) / sum(monthdur))
-
+  # To actually get 365 days, date_obj needs to be 1st of January
+  # for lubridate to make the correct subtraction
+  if (lubridate::day(date_obj) == 31 && lubridate::month(date_obj) == 12) {
+    date_obj <- date_obj + lubridate::days(1)
   }
 
+  days_passed <- as.numeric(date_obj - first_day_year)
+  days_passed / days_in_year
+}
 
 #' Convert date to decimal year fraction.
 #'
 #' @description Convert a character or date class to decimal, taking into account leap years.
-#' @details This makes use of two HMD functions, \code{ypart()}, and \code{is_LeapYear()} to compute. If the date is numeric, it is returned as such. If it is \code{"character"}, we try to coerce to \code{"Date"} class, ergo, it is best to specify a character string in an unambiguous \code{"YYYY-MM-DD"} format.  If \code{date} is given in a \code{"Date"} class it is dealt with accordingly.
+#' @details This makes use of the \code{ypart()} HMD function to compute. If the date is numeric, it is returned as such. If it is \code{"character"}, we try to coerce to \code{"Date"} class, ergo, it is best to specify a character string in an unambiguous \code{"YYYY-MM-DD"} format.  If \code{date} is given in a \code{"Date"} class it is dealt with accordingly.
 #'
 #' @param date Either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.
 #'
 #' @return Numeric expression of the date, year plus the fraction of the year passed as of the date.
 #' @export
 dec.date  <- function(date) {
-  if (class(date) == "numeric") {
+
+  if (inherits(date, "numeric")) {
     return(date)
   }
-  if (class(date) == "character") {
-    date   <- as.Date(date)
-  }
-  day 	   <- as.numeric(format(date, '%d'))
-  month 	 <- as.numeric(format(date, '%m'))
-  year 	   <- as.numeric(format(date, '%Y'))
-  frac     <- ypart(
-    Year = year,
-    Month = month,
-    Day = day,
-    detect.mid.year = TRUE,
-    detect.start.end = TRUE
-  )
-  year + frac
+
+  ch_date <- lubridate::ymd(date)
+  year_frac <- lubridate::year(date)
+
+  frac <-
+    ypart(
+      Year = year_frac,
+      Month = lubridate::month(ch_date),
+      Day = lubridate::day(ch_date)
+    )
+
+  year_frac + frac
 }
 
 
