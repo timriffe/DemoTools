@@ -31,6 +31,20 @@ plot(a5, p5/5, type = "s",xlim=c(40,60),ylim=c(2000,4000))
 lines(0:100, p1, lwd = 2, col = "red")
 lines(0:100, p1s, lwd = 1, col = "blue",lty="8282")
 }
+# example of how to graduate rates by splitting deaths using population
+# as PCLM offset
+dth.ind <- c(49, 14, 9, 39, 60, 101, 147, 178, 177, 232)
+pop.ind <- c(7231, 28400, 66836, 52380, 38022, 36886, 26145, 14205, 6406, 
+             3322)
+age <- c(0,1,5,15,25,35,45,55,65,75)
+mx <- graduate_pclm(Value = dth.ind, 
+              Age = age, 
+              OAnew = 85, 
+              offset = pop.ind)
+\dontrun{
+  plot(age, dth.ind / pop.ind, type = 's', log = 'y', xlim = c(0,85))
+  lines(0:85, mx, col = "red")
+}
 }
 \references{
 \insertRef{pascariu2018ungroup}{DemoTools}
