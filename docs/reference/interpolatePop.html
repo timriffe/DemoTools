@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.06</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.08</span>
       </span>
     </div>
 
@@ -225,11 +225,11 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 <span class='no'>LaterDate</span>       <span class='kw'>&lt;-</span> <span class='st'>"1990-10-06"</span>
 <span class='no'>DesiredDate</span>     <span class='kw'>&lt;-</span> <span class='st'>"1985-07-01"</span>
 
-<span class='fu'>interpolatePop</span>(<span class='no'>popA_earlier</span>, <span class='no'>popA_later</span>, <span class='no'>EarlyDate</span>, <span class='no'>LaterDate</span>, <span class='no'>DesiredDate</span>)</div><div class='output co'>#&gt;  [1] 151295.60 698759.43 935326.84 838554.78 669478.30 555460.36 452370.21
-#&gt;  [8] 373764.18 370862.89 334208.65 258148.73 223797.84 190684.78 158424.44
-#&gt; [15] 119309.49  80414.84  46488.05  51845.54</div><div class='input'><span class='fu'>interpolatePop</span>(<span class='no'>popA_earlier</span>, <span class='no'>popA_later</span>, <span class='no'>EarlyDate</span>, <span class='no'>LaterDate</span>, <span class='no'>DesiredDate</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"exponential"</span>)</div><div class='output co'>#&gt;  [1] 142637.63 658772.57 881802.28 790568.05 631167.06 523673.86 426483.09
-#&gt;  [8] 352375.33 349640.07 315083.38 243376.04 210990.89 179772.75 149358.52
-#&gt; [15] 112481.95  75813.06  43827.75  48878.66</div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>interpolatePop</span>(<span class='no'>popA_earlier</span>, <span class='no'>popA_later</span>, <span class='no'>EarlyDate</span>, <span class='no'>LaterDate</span>, <span class='no'>DesiredDate</span>)</div><div class='output co'>#&gt;  [1] 151269.21 698637.56 935163.70 838408.52 669361.53 555363.48 452291.31
+#&gt;  [8] 373698.99 370798.20 334150.36 258103.71 223758.80 190651.53 158396.80
+#&gt; [15] 119288.68  80400.82  46479.94  51836.50</div><div class='input'><span class='fu'>interpolatePop</span>(<span class='no'>popA_earlier</span>, <span class='no'>popA_later</span>, <span class='no'>EarlyDate</span>, <span class='no'>LaterDate</span>, <span class='no'>DesiredDate</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"exponential"</span>)</div><div class='output co'>#&gt;  [1] 142611.79 658653.23 881642.53 790424.84 631052.72 523578.99 426405.83
+#&gt;  [8] 352311.49 349576.73 315026.30 243331.95 210952.67 179740.18 149331.46
+#&gt; [15] 112461.57  75799.33  43819.81  48869.80</div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>popA_earlier</span>, <span class='kw'>t</span> <span class='kw'>=</span><span class='st'>'l'</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>'red'</span>,
     <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>400</span>,<span class='fl'>1220000</span>),
     <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>'The counts'</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>'Age groups'</span>)
