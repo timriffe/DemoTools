@@ -4,7 +4,14 @@
 \alias{check_heaping_myers}
 \title{Calculate Myer's blended index of age heaping}
 \usage{
-check_heaping_myers(Value, Age, ageMin = 23, ageMax = 82, details = FALSE)
+check_heaping_myers(
+  Value,
+  Age,
+  ageMin = 23,
+  ageMax = 82,
+  details = FALSE,
+  method = "orig"
+)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}
@@ -15,7 +22,9 @@ check_heaping_myers(Value, Age, ageMin = 23, ageMax = 82, details = FALSE)
 
 \item{ageMax}{integer. The upper age bound used for calculations. Default 82.}
 
-\item{details}{logical. Default \code{FALSE}. If \code{TRUE}, then a list is returned with some relevant parameters.}
+\item{details}{logical. Default \code{FALSE}. If \code{TRUE}, then a list is returned with  some relevant parameters.}
+
+\item{method}{either \code{"orig"} or \code{"pasex"}}
 }
 \value{
 The value of the index.
@@ -31,7 +40,8 @@ internally rounded down if necessary so that \code{ageMax - ageMin + 1} is evenl
 \examples{
 Age <- 0:99
 check_heaping_myers(pop1m_pasex, Age, 10, 89)
-
+check_heaping_myers(pop1m_pasex, Age, 10, 89, method = "pasex") * 2
+# pasex 10-89. result: ___ from spreadsheet
 check_heaping_myers(pop1m_pasex, Age, 23, 82)
 check_heaping_bachi(pop1m_pasex, Age, 23, 82, method = "orig")
 check_heaping_bachi(pop1m_pasex, Age, 23, 82, method = "pasex")

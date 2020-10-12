@@ -81,7 +81,8 @@ check_heaping_whipple <-
 #' @description Implementation following the PASEX spreadsheet SINGAGE. Myers' measures preferences for each of the ten possible digits as a blended index. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits 0 to 9 should represent 10 percent of the total population.
 #' @inheritParams check_heaping_whipple
 #' @param ageMax integer. The upper age bound used for calculations. Default 82.
-#' @param details logical. Default `FALSE`. If `TRUE`, then a list is returned with some relevant parameters.
+#' @param details logical. Default `FALSE`. If `TRUE`, then a list is returned with  some relevant parameters.
+#' @param method either `"orig"` or `"pasex"`
 #' @details `ageMax` is an inclusive upper bound, treated as interval. If you want ages
 #' 23 to 82, then give `ageMin = 23` and `ageMax = 82`, not 83 `ageMax` may be
 #' internally rounded down if necessary so that `ageMax - ageMin + 1` is evenly divisible by 10. If in doubt, specify `details = TRUE`, and you can check which `ageMax` is actually used internally.
@@ -94,7 +95,8 @@ check_heaping_whipple <-
 #' @examples
 #' Age <- 0:99
 #' check_heaping_myers(pop1m_pasex, Age, 10, 89)
-#'
+#' check_heaping_myers(pop1m_pasex, Age, 10, 89, method = "pasex") * 2
+#' # pasex 10-89. result: ___ from spreadsheet
 #' check_heaping_myers(pop1m_pasex, Age, 23, 82)
 #' check_heaping_bachi(pop1m_pasex, Age, 23, 82, method = "orig")
 #' check_heaping_bachi(pop1m_pasex, Age, 23, 82, method = "pasex")
@@ -103,7 +105,8 @@ check_heaping_myers <- function(Value,
                   Age,
                   ageMin = 23,
                   ageMax = 82,
-                  details = FALSE) {
+                  details = FALSE,
+                  method = "orig") {
 
   # hard code period to 10 for digits
   period  <- 10
@@ -114,8 +117,9 @@ check_heaping_myers <- function(Value,
 
   # ageMax dynamically rounded down
   # to a total span divisible by period
+  
   Diff          <- ageMax - ageMin 
-  age_inteveral <- Diff - Diff %% period - 1
+  age_inteveral <- Diff - (Diff + 1) %% period 
   
   # 1) get moving ranges, cut top if necessary
 
@@ -149,10 +153,16 @@ check_heaping_myers <- function(Value,
   # } else {
   #   tab1    <- rowSums(VA[,-ncol(VA), drop = FALSE])
   # }
-  tab1    <- rowSums(VA[ , -ncol(VA), drop = FALSE])
-
-  tab2    <- rowSums(VA[ , -1, drop = FALSE])
-
+  
+  if (method == "orig"){
+    tab1    <- rowSums(VA[ , -ncol(VA), drop = FALSE])
+    tab2    <- rowSums(VA[ , -1, drop = FALSE])
+  }
+  
+  if (method == "pasex"){
+    tab1    <- rowSums(VA)
+    tab2    <- rowSums(VA[ , -1, drop = FALSE])
+  }
   # TR: note, would this work in axactly the same way for phenomenon
   # that have strong regular age patterns, like fert, or death distributions?
   
