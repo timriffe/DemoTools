@@ -38,11 +38,12 @@ expect_equal(check_heaping_coale_li(df$count, df$age, ageMin = 60, ageMax = 89),
 expect_equal(check_heaping_noumbissi(df$count, df$age, ageMin = 25, ageMax = 65),1)
 expect_equal(check_heaping_spoorenberg(df$count, df$age, ageMin = 25, ageMax = 65),0)
 
-# should indice errors
-expect_error(check_heaping_whipple(df$count, df$age, ageMin = 25, ageMax = 100))
-expect_error(check_heaping_myers(df$count, df$age, ageMin = 25, ageMax = 100))
-expect_error(check_heaping_bachi(df$count, df$age, ageMin = 25, ageMax = 100))
-expect_error(check_heaping_coale_li(df$count, df$age, ageMin = 60, ageMax = 100))
-expect_error(check_heaping_noumbissi(df$count, df$age, ageMin = 25, ageMax = 100))
-expect_error(check_heaping_spoorenberg(df$count, df$age, ageMin = 25, ageMax = 100))
+# should induce errors
+# no longer throw errors because these are lowered where necessary
+# expect_error(check_heaping_whipple(df$count, df$age, ageMin = 25, ageMax = 100))
+# expect_error(check_heaping_myers(df$count, df$age, ageMin = 25, ageMax = 100))
+# expect_error(check_heaping_bachi(df$count, df$age, ageMin = 25, ageMax = 100))
+# expect_error(check_heaping_coale_li(df$count, df$age, ageMin = 60, ageMax = 100))
+# expect_error(check_heaping_noumbissi(df$count, df$age, ageMin = 25, ageMax = 100))
+# expect_error(check_heaping_spoorenberg(df$count, df$age, ageMin = 25, ageMax = 100))
 })
