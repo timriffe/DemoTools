@@ -129,15 +129,15 @@ rescale_vector <- function(x, scale = 1) {
 #'
 #' 
 ypart <- function(Year, Month, Day) {
-  date_obj <- lubridate::ymd(paste0(Year, "-", Month, "-", Day))
+  date_obj       <- lubridate::ymd(paste0(Year, "-", Month, "-", Day))
   first_day_year <- lubridate::floor_date(date_obj, unit = "year")
-  last_day_year <- lubridate::ceiling_date(date_obj, unit = "year")
-  days_in_year <- as.numeric(last_day_year - first_day_year)
+  last_day_year  <- lubridate::ceiling_date(date_obj, unit = "year")
+  days_in_year   <- as.numeric(last_day_year - first_day_year)
 
   # To actually get 365 days, date_obj needs to be 1st of January
   # for lubridate to make the correct subtraction
   if (lubridate::day(date_obj) == 31 && lubridate::month(date_obj) == 12) {
-    date_obj <- date_obj + lubridate::days(1)
+    date_obj     <- date_obj + lubridate::days(1)
   }
 
   days_passed <- as.numeric(date_obj - first_day_year)
