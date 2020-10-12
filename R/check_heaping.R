@@ -166,7 +166,7 @@ check_heaping_myers <- function(Value,
   
   if (details){
     out <- list(index = out,
-                fractions = fractions,
+                pctdev = fractions[order(digits)] * 100,
                 ageMin = ageMin,
                 ageMax_used = ageMax_new,
                 ageMax = ageMax)
@@ -179,7 +179,7 @@ check_heaping_myers <- function(Value,
 #' @description Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90, and 10 is the expected value for each digit. There are two implementations. 
 
 #' @inheritParams check_heaping_whipple
-#' @param method either `"balanced"` or `"pasex"`
+#' @param method either `"orig"` or `"pasex"`
 #' @param details logical. Should a list of output be given
 #'
 #' @details `ageMax` is an inclusive upper bound, treated as interval. If you want ages
@@ -192,8 +192,8 @@ check_heaping_myers <- function(Value,
 #' @export
 #' @examples
 #'  Age <- 0:99
-#'  check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "balanced")
-#'  check_heaping_bachi(pop1m_ind, Age, ageMin = 23, ageMax = 77, method = "balanced")
+#'  check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "orig")
+#'  check_heaping_bachi(pop1m_ind, Age, ageMin = 23, ageMax = 77, method = "orig")
 #'  # default simpler
 #'  check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "pasex")
 #' # linear population, should give 0 for pasex
@@ -201,16 +201,16 @@ check_heaping_myers <- function(Value,
 #' # fully concentrated, should give 90 
 #'  pop_concetrated <- rep(c(100,rep(0,9)),10)
 #'  check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "pasex")
-#'  check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "balanced")
+#'  check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "orig")
 check_heaping_bachi <- function(
   Value,
   Age,
   ageMin = 23,
   ageMax = 77,
-  method = "balanced",
+  method = "orig",
   details = FALSE
 ){
-  method        <- match.arg(method, c("balanced","pasex"))
+  method        <- match.arg(method, c("orig","pasex"))
   
   Diff          <- ageMax - ageMin 
   age_inteveral <- Diff - Diff %% 10 - 1
@@ -249,7 +249,7 @@ check_heaping_bachi <- function(
     denominatorII[dig + 1] <- sum(Value[dII])
   }
   
-  if (method == "balanced"){
+  if (method == "orig"){
     fractions <- ((numeratorI / denominatorI) + (numeratorII / denominatorII)) / 2
     out     <- 100 * sum(abs(fractions - .1)) / 2
     
@@ -258,7 +258,9 @@ check_heaping_bachi <- function(
       max_age_used <- max(upper_agesII)
       decades      <- as.integer((upper_agesI[1] - lower_agesI[1] + 1) / 10)
       out <- list(index = out,
-                  fractions = fractions,
+                  digits = 0:9,
+                  pct = fractions * 100,
+                  pctdev = abs(fractions - .1) * 50,
                   min_age_used = min_age_used,
                   max_age_used = max_age_used,
                   decades = decades,
@@ -267,17 +269,19 @@ check_heaping_bachi <- function(
     }
   }
   if (method == "pasex"){
-    numerator <- (numeratorI + numeratorII) / 2
+    numerator   <- (numeratorI + numeratorII) / 2
     denominator <- (denominatorI + denominatorII) / 2
-    fractions <- numerator / denominator
+    fractions   <- numerator / denominator
     out  <- 100 * sum(abs(fractions - .1)) / 2
     
     if (details){
       min_age_used <- min(lower_agesI)
-      max_age_used <- max(upper_agesI)
+      max_age_used <- max(upper_agesII)
       decades      <- as.integer((upper_agesI[1] - lower_agesI[1] + 1) / 10)
       out <- list(index = out,
-                  fractions = fractions,
+                  digits = 0:9,
+                  pct = fractions * 100,
+                  pctdev = abs(fractions - .1) * 50,
                   min_age_used = min_age_used,
                   max_age_used = max_age_used,
                   decades = decades,

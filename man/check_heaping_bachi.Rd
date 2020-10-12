@@ -9,7 +9,7 @@ check_heaping_bachi(
   Age,
   ageMin = 23,
   ageMax = 77,
-  method = "balanced",
+  method = "orig",
   details = FALSE
 )
 }
