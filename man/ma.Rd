@@ -30,4 +30,10 @@ plot(x)
 lines(ma(x))
 lines(ma(x),9)
 }
+# some de facto unit tests:
+x <- 1:10
+stopifnot(all(ma(x,2) == x, na.rm = TRUE))
+stopifnot(all(ma(x,3) == x, na.rm = TRUE))
+stopifnot(all(ma(x,4) == x, na.rm = TRUE))
+stopifnot(all(abs(ma(x,5) - x) < 1e-10, na.rm = TRUE))
 }

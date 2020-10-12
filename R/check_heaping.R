@@ -80,11 +80,11 @@ check_heaping_whipple <-
 
 #' @description Implementation following the PASEX spreadsheet SINGAGE. Myers' measures preferences for each of the ten possible digits as a blended index. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits 0 to 9 should represent 10 percent of the total population.
 #' @inheritParams check_heaping_whipple
-#' @param ageMax integer. The upper age bound used for calculations. Default 89.
-#'
-#' @details \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
-#' 20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. \code{ageMax} may be
-#' internally rounded down if necessary so that \code{ageMax - ageMin + 1} is evenly divisible by 10.
+#' @param ageMax integer. The upper age bound used for calculations. Default 82.
+#' @param details logical. Default `FALSE`. If `TRUE`, then a list is returned with some relevant parameters.
+#' @details `ageMax` is an inclusive upper bound, treated as interval. If you want ages
+#' 23 to 82, then give `ageMin = 23` and `ageMax = 82`, not 83 `ageMax` may be
+#' internally rounded down if necessary so that `ageMax - ageMin + 1` is evenly divisible by 10. If in doubt, specify `details = TRUE`, and you can check which `ageMax` is actually used internally.
 #' @return The value of the index.
 #' @references
 #' \insertRef{myers1954accuracy}{DemoTools}
@@ -99,8 +99,9 @@ check_heaping_whipple <-
 
 check_heaping_myers <- function(Value,
                   Age,
-                  ageMin = 10,
-                  ageMax = 89) {
+                  ageMin = 23,
+                  ageMax = 82,
+                  details = FALSE) {
 
   # hard code period to 10 for digits
   period  <- 10
@@ -111,19 +112,30 @@ check_heaping_myers <- function(Value,
 
   # ageMax dynamically rounded down
   # to a total span divisible by period
-  Diff    <- ageMax - ageMin + 1
-  AgeMax  <- ageMin + Diff - Diff %% period
+  Diff          <- ageMax - ageMin 
+  age_inteveral <- Diff - Diff %% period - 1
+  
+  # 1) get moving ranges, cut top if necessary
+
+  ageMax_new    <- ageMin + age_inteveral
+  
+  # Diff    <- ageMax - ageMin + 1
+  # AgeMax  <- ageMin + Diff - Diff %% period
 
   # may as well be certain here
   stopifnot(ageMax <= max(Age))
 
-  ind     <- Age >= ageMin & Age < AgeMax
+  ind     <- Age >= ageMin & Age <= ageMax_new
 
-  stopifnot(is_single(Age[Age >= ageMin & Age <= AgeMax]))
+  stopifnot(is_single(Age[ind]))
   stopifnot(sum(ind) %% period == 0)
   # select out ages, place into matrix for summing over digits
-  # a row corresponds to a digit
-  VA      <- matrix(Value[ind], nrow = period, dimnames = list(0:(period - 1), NULL))
+  # a row corresponds to a digit. Starting digit depends on ageMin!
+  digits <- 0:9
+  digits <- digits + ageMin %% period
+  digits[digits > (period - 1)] <- digits[digits > (period - 1)]- period
+  
+  VA      <- matrix(Value[ind], nrow = period, dimnames = list(digits, NULL))
 
   # sum staggered, once without the youngest group but with the oldest one (tab2)
   # and once with the youngest and without the oldest
@@ -147,8 +159,19 @@ check_heaping_myers <- function(Value,
   TAB     <- tab1 * 1:period + tab2 * c(period:1 - 1)
 
   # interpret as % that would need to be redistributed...
-  my      <- sum(abs(TAB / sum(TAB) - 1 / period)) * 50
-  return(my)
+  
+  fractions <- TAB / sum(TAB)
+  
+  out      <- sum(abs(fractions - 1 / period)) * 50
+  
+  if (details){
+    out <- list(index = out,
+                fractions = fractions,
+                ageMin = ageMin,
+                ageMax_used = ageMax_new,
+                ageMax = ageMax)
+  }
+  return(out)
 }
 
 #' calculate Bachi's index of age heaping
@@ -187,9 +210,10 @@ check_heaping_bachi <- function(
   method = "balanced",
   details = FALSE
 ){
-  method <- match.arg(method, c("balanced","pasex"))
+  method        <- match.arg(method, c("balanced","pasex"))
+  
   Diff          <- ageMax - ageMin 
-  age_inteveral <-  Diff - Diff %% 10 - 1
+  age_inteveral <- Diff - Diff %% 10 - 1
  
   # 1) get moving ranges, cut top if necessary
   lower_agesI  <- ageMin + 0:4

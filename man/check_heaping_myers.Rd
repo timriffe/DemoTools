@@ -4,7 +4,7 @@
 \alias{check_heaping_myers}
 \title{Calculate Myer's blended index of age heaping}
 \usage{
-check_heaping_myers(Value, Age, ageMin = 10, ageMax = 89)
+check_heaping_myers(Value, Age, ageMin = 23, ageMax = 82, details = FALSE)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}
@@ -13,7 +13,9 @@ check_heaping_myers(Value, Age, ageMin = 10, ageMax = 89)
 
 \item{ageMin}{integer. The lowest age included in calculations. Default 25.}
 
-\item{ageMax}{integer. The upper age bound used for calculations. Default 89.}
+\item{ageMax}{integer. The upper age bound used for calculations. Default 82.}
+
+\item{details}{logical. Default \code{FALSE}. If \code{TRUE}, then a list is returned with some relevant parameters.}
 }
 \value{
 The value of the index.
@@ -23,8 +25,8 @@ Implementation following the PASEX spreadsheet SINGAGE. Myers' measures preferen
 }
 \details{
 \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
-20 to 89, then give \code{ageMin = 20} and \code{ageMax = 89}, not 90. \code{ageMax} may be
-internally rounded down if necessary so that \code{ageMax - ageMin + 1} is evenly divisible by 10.
+23 to 82, then give \code{ageMin = 23} and \code{ageMax = 82}, not 83 \code{ageMax} may be
+internally rounded down if necessary so that \code{ageMax - ageMin + 1} is evenly divisible by 10. If in doubt, specify \code{details = TRUE}, and you can check which \code{ageMax} is actually used internally.
 }
 \examples{
 Age <- 0:99
