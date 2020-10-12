@@ -22,7 +22,7 @@ check_heaping_bachi(
 
 \item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
 
-\item{method}{either \code{"balanced"} or \code{"pasex"}}
+\item{method}{either \code{"orig"} or \code{"pasex"}}
 
 \item{details}{logical. Should a list of output be given}
 }
@@ -38,8 +38,8 @@ Bachi's index involves applying the Whipple method repeatedly to determine the e
 }
 \examples{
  Age <- 0:99
- check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "balanced")
- check_heaping_bachi(pop1m_ind, Age, ageMin = 23, ageMax = 77, method = "balanced")
+ check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "orig")
+ check_heaping_bachi(pop1m_ind, Age, ageMin = 23, ageMax = 77, method = "orig")
  # default simpler
  check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "pasex")
 # linear population, should give 0 for pasex
@@ -47,7 +47,7 @@ Bachi's index involves applying the Whipple method repeatedly to determine the e
 # fully concentrated, should give 90 
  pop_concetrated <- rep(c(100,rep(0,9)),10)
  check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "pasex")
- check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "balanced")
+ check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "orig")
 }
 \references{
 \insertRef{PAS}{DemoTools}
