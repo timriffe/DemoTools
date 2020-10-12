@@ -95,7 +95,9 @@ check_heaping_whipple <-
 #' Age <- 0:99
 #' check_heaping_myers(pop1m_pasex, Age, 10, 89)
 #'
-#' check_heaping_myers(pop1m_pasex, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
+#' check_heaping_myers(pop1m_pasex, Age, 23, 82)
+#' check_heaping_bachi(pop1m_pasex, Age, 23, 82, method = "orig")
+#' check_heaping_bachi(pop1m_pasex, Age, 23, 82, method = "pasex")
 
 check_heaping_myers <- function(Value,
                   Age,

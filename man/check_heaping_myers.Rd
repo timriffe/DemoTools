@@ -32,7 +32,9 @@ internally rounded down if necessary so that \code{ageMax - ageMin + 1} is evenl
 Age <- 0:99
 check_heaping_myers(pop1m_pasex, Age, 10, 89)
 
-check_heaping_myers(pop1m_pasex, Age, 10, 90) * 2 #47.46, replicates SINGAGE males
+check_heaping_myers(pop1m_pasex, Age, 23, 82)
+check_heaping_bachi(pop1m_pasex, Age, 23, 82, method = "orig")
+check_heaping_bachi(pop1m_pasex, Age, 23, 82, method = "pasex")
 }
 \references{
 \insertRef{myers1954accuracy}{DemoTools}
