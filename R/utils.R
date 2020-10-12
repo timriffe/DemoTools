@@ -64,12 +64,27 @@ rlog <- function(x, base = exp(1)) {
 #' lines(ma(x))
 #' lines(ma(x),9)
 #' }
-
+#' # some de facto unit tests:
+#' x <- 1:10
+#' stopifnot(all(ma(x,2) == x, na.rm = TRUE))
+#' stopifnot(all(ma(x,3) == x, na.rm = TRUE))
+#' stopifnot(all(ma(x,4) == x, na.rm = TRUE))
+#' stopifnot(all(abs(ma(x,5) - x) < 1e-10, na.rm = TRUE))
 
 ma <- function(x, n = 5) {
-  as.vector(stats::filter(x, rep(1 / n, n), sides = 2))
+  # This is PJ's fix from issue #127
+  if (n %% 2 == 1) {   # odd as before
+    out <- as.vector(stats::filter(x, rep(1 / n, n), sides = 2))
+  } else { # even...
+    temp <- as.vector(stats::filter(x, rep(1 / (2 * n), n), sides = 1))
+    out  <- shift.vector(temp, 
+                         shift = -n / 2 + 1, 
+                         fill = NA) + 
+            shift.vector(temp, 
+                         shift = -n / 2, fill = NA)
+  }
+  out
 }
-
 
 #' Rescale a vector proportionally to a new sum.
 
