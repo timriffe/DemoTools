@@ -10,13 +10,32 @@ test_that("shift.vector works", {
     expect_type(shift.vector(vec, shift = 2, fill = .1), "double")
 })
 
-
+x <- 1:10
+#' stopifnot(all(ma(x,2) == x, na.rm = TRUE))
+#' stopifnot(all(ma(x,3) == x, na.rm = TRUE))
+#' stopifnot(all(ma(x,4) == x, na.rm = TRUE))
+#' stopifnot(all(abs(ma(x,5) - x) < 1e-10, na.rm = TRUE))
 test_that("ma works",{
-    set.seed(911)
-    pop <- sample.int(10, 5, replace = T)
-    expect_equal(head(ma(pop, 2), 2), c(3, 6))
-    expect_length(na.omit(ma(pop, 2)), 4)
-    expect_length(na.omit(ma(pop, 3)), 3)
+    x  <- 1:10
+    
+    d2 <- ma(x,2) - x
+    d3 <- ma(x,3) - x
+    d4 <- ma(x,4) - x
+    d5 <- ma(x,5) - x
+    # pop <- sample.int(10, 5, replace = T)
+    # all should give same for linear data.
+    expect_true(all(abs(d2) < 1e-10, na.rm = TRUE))
+    expect_true(all(abs(d3) < 1e-10, na.rm = TRUE))
+    expect_true(all(abs(d4) < 1e-10, na.rm = TRUE))
+    expect_true(all(abs(d5) < 1e-10, na.rm = TRUE))
+    
+    # can anticipate NAs in tails
+    expect_true(sum(is.na(d2)) == 2)
+    expect_true(sum(is.na(d3)) == 2)
+    expect_true(sum(is.na(d4)) == 4)
+    expect_true(sum(is.na(d5)) == 4)
+    # expect_length(na.omit(ma(pop, 2)), 4)
+    # expect_length(na.omit(ma(pop, 3)), 3)
 })
 
 
