@@ -4,7 +4,14 @@
 \alias{check_heaping_bachi}
 \title{calculate Bachi's index of age heaping}
 \usage{
-check_heaping_bachi(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE)
+check_heaping_bachi(
+  Value,
+  Age,
+  ageMin = 23,
+  ageMax = 77,
+  method = "balanced",
+  details = FALSE
+)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}
@@ -15,24 +22,32 @@ check_heaping_bachi(Value, Age, ageMin = 30, ageMax = 79, pasex = FALSE)
 
 \item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
 
-\item{pasex}{logical. Whether or not reproduce the specific age weightings in the PASEX spreadsheet. Default \code{FALSE}.}
+\item{method}{either \code{"balanced"} or \code{"pasex"}}
+
+\item{details}{logical. Should a list of output be given}
 }
 \value{
 The value of the index.
 }
 \description{
-Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90, and 10 is the expected value for each digit. Two Implementations: one following the PASEX spreadsheet SINGAGE (\code{pasex = TRUE}), with ages hard-coded, and another with flexible upper and lower age bounds, but that does not match the PASEX implementation.
+Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90, and 10 is the expected value for each digit. There are two implementations.
 }
 \details{
 \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
-30 to 79, then give \code{ageMin = 30} and \code{ageMax = 79}, not 80. These are only heeded if \code{pasex = FALSE}.
+23 to 77, then give \code{ageMin = 23} and \code{ageMax = 77}, not 80. The \code{ageMin} is respected strictly, whereas \code{ageMax} could be higher than the actual maximum age used. You can see the age ranges actually used by specifying \code{details = TRUE}.
 }
 \examples{
-Age <- 0:99
-# reproduces PASEX SINGAGE
-check_heaping_bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79, pasex = TRUE)
-# default simpler
-check_heaping_bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79)
+ Age <- 0:99
+ check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "balanced")
+ check_heaping_bachi(pop1m_ind, Age, ageMin = 23, ageMax = 77, method = "balanced")
+ # default simpler
+ check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "pasex")
+# linear population, should give 0 for pasex
+ check_heaping_bachi(seq(100000,1000,by=-1000),Age, ageMin = 23, ageMax = 77, method = "pasex")
+# fully concentrated, should give 90 
+ pop_concetrated <- rep(c(100,rep(0,9)),10)
+ check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "pasex")
+ check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "balanced")
 }
 \references{
 \insertRef{PAS}{DemoTools}

@@ -153,13 +153,14 @@ check_heaping_myers <- function(Value,
 
 #' calculate Bachi's index of age heaping
 
-#' @description Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90, and 10 is the expected value for each digit. Two Implementations: one following the PASEX spreadsheet SINGAGE (\code{pasex = TRUE}), with ages hard-coded, and another with flexible upper and lower age bounds, but that does not match the PASEX implementation.
+#' @description Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90, and 10 is the expected value for each digit. There are two implementations. 
 
 #' @inheritParams check_heaping_whipple
-#' @param pasex logical. Whether or not reproduce the specific age weightings in the PASEX spreadsheet. Default \code{FALSE}.
+#' @param method either `"balanced"` or `"pasex"`
+#' @param details logical. Should a list of output be given
 #'
-#' @details \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
-#' 30 to 79, then give \code{ageMin = 30} and \code{ageMax = 79}, not 80. These are only heeded if \code{pasex = FALSE}.
+#' @details `ageMax` is an inclusive upper bound, treated as interval. If you want ages
+#' 23 to 77, then give `ageMin = 23` and `ageMax = 77`, not 80. The `ageMin` is respected strictly, whereas `ageMax` could be higher than the actual maximum age used. You can see the age ranges actually used by specifying `details = TRUE`.
 #' @return The value of the index.
 #' @references
 #' \insertRef{PAS}{DemoTools}
@@ -167,93 +168,102 @@ check_heaping_myers <- function(Value,
 #' \insertRef{shryock1973methods}{DemoTools}
 #' @export
 #' @examples
-#' Age <- 0:99
-#' # reproduces PASEX SINGAGE
-#' check_heaping_bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79, pasex = TRUE)
-#' # default simpler
-#' check_heaping_bachi(pop1m_pasex, Age, ageMin = 20, ageMax = 79)
-
-check_heaping_bachi <-
-  function(Value,
-           Age,
-           ageMin = 30,
-           ageMax = 79,
-           pasex = FALSE) {
-
-    stopifnot(length(Age) == length(Value))
-    stopifnot(is_single(Age[Age >= (ageMin - 5) & Age <= ageMax]))
-    # make a matrix for numerators
-    w1           <- matrix(0, nrow = length(Age), ncol = 10)
-    w2           <- matrix(0, nrow = length(Age), ncol = 10)
-
-    if (pasex) {
-      
-      # PJ: generalize this re upper and lower ages
-      w1[Age %in% seq(30, 70, 10), 1]  <- 1
-      w1[Age %in% seq(31, 71, 10), 2]  <- 1
-      w1[Age %in% seq(32, 72, 10), 3]  <- 1
-      w1[Age %in% seq(33, 63, 10), 4]  <- 1
-      w1[Age %in% c(23, 73), 4]        <- .5
-      w1[Age %in% seq(34, 64, 10), 5]  <- 1
-      w1[Age %in% c(24, 74), 5]        <- .5
-      w1[Age %in% seq(35, 65, 10), 6]  <- 1
-      w1[Age %in% c(25, 75), 6]        <- .5
-      w1[Age %in% seq(36, 66, 10), 7]  <- 1
-      w1[Age %in% c(26, 76), 7]        <- .5
-      w1[Age %in% seq(37, 67, 10), 8]  <- 1
-      w1[Age %in% c(27, 77), 8]        <- .5
-      w1[Age %in% seq(28, 68, 10), 9]  <- 1
-      w1[Age %in% seq(29, 69, 10), 10] <- 1
-
-      # more quirky ranges
-      w2[Age > 25 & Age < 75, 1]       <- 1
-      w2[Age %in% c(25, 75), 1]        <- .5
-      w2[Age > 26 & Age < 76, 2]       <- 1
-      w2[Age %in% c(26, 76), 2]        <- .5
-      w2[Age > 27 & Age < 77, 3]       <- 1
-      w2[Age %in% c(27, 77), 3]        <- .5
-      w2[Age > 23 & Age < 73, 4]       <- 1
-      w2[Age %in% c(23, 73), 4]        <- .5
-      w2[Age > 24 & Age < 74, 5]       <- 1
-      w2[Age %in% c(24, 74), 5]        <- .5
-      w2[Age > 25 & Age < 75, 6]       <- 1
-      w2[Age %in% c(25, 75), 6]        <- .5
-      w2[Age > 26 & Age < 76, 7]       <- 1
-      w2[Age %in% c(26, 76), 7]        <- .5
-      w2[Age > 27 & Age < 77, 8]       <- 1
-      w2[Age %in% c(27, 77), 8]        <- .5
-      w2[Age > 23 & Age < 73, 9]       <- 1
-      w2[Age %in% c(23, 73), 9]        <- .5
-      w2[Age > 24 & Age < 74, 10]      <- 1
-      w2[Age %in% c(24, 74), 10]       <- .5
-    } else {
-      # cheap way to make upper bound inclusive
-
-      Diff                                              <- ageMax - ageMin + 1
-      AgeMax                                            <- ageMin + Diff - Diff %% 10
-      if (AgeMax > max(Age)) {
-        AgeMax                                          <- AgeMax - 10
-      }
-
-      markers                                           <- row(w1) - col(w1)
-      w1[markers %% 10 == 0 &
-           markers >= ageMin & markers < AgeMax]        <- 1
-      w2[markers == ageMin - 5 | markers == AgeMax - 5] <- .5
-      w2[markers > ageMin - 5 & markers < AgeMax - 5]   <- 1
-    }
-
-    # PJ: replace this with the original Bachi formulation. Use parameter small d.
-    # see Bachi piece PJ wrote.
-    numerators                                          <- colSums(Value * w1)
-    denominators                                        <- colSums(Value * w2)
-
-    ratio                                               <- 100 * numerators / denominators
-
-    ratioeq                                             <- ratio - (sum(w2) / sum(w1))
-
-
-    sum(abs(ratioeq))  / 2
+#'  Age <- 0:99
+#'  check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "balanced")
+#'  check_heaping_bachi(pop1m_ind, Age, ageMin = 23, ageMax = 77, method = "balanced")
+#'  # default simpler
+#'  check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "pasex")
+#' # linear population, should give 0 for pasex
+#'  check_heaping_bachi(seq(100000,1000,by=-1000),Age, ageMin = 23, ageMax = 77, method = "pasex")
+#' # fully concentrated, should give 90 
+#'  pop_concetrated <- rep(c(100,rep(0,9)),10)
+#'  check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "pasex")
+#'  check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "balanced")
+check_heaping_bachi <- function(
+  Value,
+  Age,
+  ageMin = 23,
+  ageMax = 77,
+  method = "balanced",
+  details = FALSE
+){
+  method <- match.arg(method, c("balanced","pasex"))
+  Diff          <- ageMax - ageMin 
+  age_inteveral <-  Diff - Diff %% 10 - 1
+ 
+  # 1) get moving ranges, cut top if necessary
+  lower_agesI  <- ageMin + 0:4
+  upper_agesI  <- lower_agesI + age_inteveral
+  lower_agesII <- lower_agesI + 1
+  upper_agesII <- upper_agesI + 1
+  
+  if (any(upper_agesII > ageMax)){
+    upper_agesII  <- upper_agesII - 10
+    upper_agesI   <- upper_agesI - 10
   }
+  
+  # 2) containers
+  numeratorI      <- rep(NA,10)
+  numeratorII     <- rep(NA,10)
+  denominatorI    <- rep(NA,10)
+  denominatorII   <- rep(NA, 10)
+  
+  trailing_digits <- Age %% 10
+  
+  
+  # numerators
+  for (dig in 0:9){
+    ind <- (lower_agesI %% 5) == (dig %% 5)
+    nI  <- Age >= lower_agesI[ind] & Age <= upper_agesI[ind] & trailing_digits == dig
+    dI  <- Age >= lower_agesI[ind] & Age <= upper_agesI[ind]
+    numeratorI[dig + 1]   <- sum(Value[nI])
+    denominatorI[dig + 1] <- sum(Value[dI])
+    
+    nII  <- Age >= lower_agesII[ind] & Age <= upper_agesII[ind] & trailing_digits == dig
+    dII  <- Age >= lower_agesII[ind] & Age <= upper_agesII[ind]
+    numeratorII[dig + 1]   <- sum(Value[nII])
+    denominatorII[dig + 1] <- sum(Value[dII])
+  }
+  
+  if (method == "balanced"){
+    fractions <- ((numeratorI / denominatorI) + (numeratorII / denominatorII)) / 2
+    out     <- 100 * sum(abs(fractions - .1)) / 2
+    
+    if (details){
+      min_age_used <- min(lower_agesI)
+      max_age_used <- max(upper_agesII)
+      decades      <- as.integer((upper_agesI[1] - lower_agesI[1] + 1) / 10)
+      out <- list(index = out,
+                  fractions = fractions,
+                  min_age_used = min_age_used,
+                  max_age_used = max_age_used,
+                  decades = decades,
+                  ageMax = ageMax,
+                  ageMin = ageMin)
+    }
+  }
+  if (method == "pasex"){
+    numerator <- (numeratorI + numeratorII) / 2
+    denominator <- (denominatorI + denominatorII) / 2
+    fractions <- numerator / denominator
+    out  <- 100 * sum(abs(fractions - .1)) / 2
+    
+    if (details){
+      min_age_used <- min(lower_agesI)
+      max_age_used <- max(upper_agesI)
+      decades      <- as.integer((upper_agesI[1] - lower_agesI[1] + 1) / 10)
+      out <- list(index = out,
+                  fractions = fractions,
+                  min_age_used = min_age_used,
+                  max_age_used = max_age_used,
+                  decades = decades,
+                  ageMax = ageMax,
+                  ageMin = ageMin)
+    }
+  }
+  
+  out
+}
 
 # ----------------------------
 # Coale, A. and S. Li (1991) The effect of age misreporting in China on
