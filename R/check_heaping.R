@@ -166,10 +166,12 @@ check_heaping_myers <- function(Value,
   
   if (details){
     out <- list(index = out,
-                pctdev = fractions[order(digits)] * 100,
+                digits = 0:9,
+                pct = fractions[order(digits)] * 100,
+                pctdev = abs(fractions - .1) * 50,
                 ageMin = ageMin,
-                ageMax_used = ageMax_new,
-                ageMax = ageMax)
+                ageMax = ageMax,
+                ageMax_used = ageMax_new)
   }
   return(out)
 }
@@ -179,6 +181,8 @@ check_heaping_myers <- function(Value,
 #' @description Bachi's index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers', it equals the sum of the positive deviations from 10 percent. It has a theoretical range from 0 to 90, and 10 is the expected value for each digit. There are two implementations. 
 
 #' @inheritParams check_heaping_whipple
+#' @param ageMin the minimum age used for estimation, default `23`
+#' @param ageMax the maximum age used for estimation, default `77`
 #' @param method either `"orig"` or `"pasex"`
 #' @param details logical. Should a list of output be given
 #'
@@ -261,11 +265,10 @@ check_heaping_bachi <- function(
                   digits = 0:9,
                   pct = fractions * 100,
                   pctdev = abs(fractions - .1) * 50,
-                  min_age_used = min_age_used,
-                  max_age_used = max_age_used,
-                  decades = decades,
+                  ageMin = ageMin,
                   ageMax = ageMax,
-                  ageMin = ageMin)
+                  max_age_used = max_age_used,
+                  decades = decades)
     }
   }
   if (method == "pasex"){
@@ -282,11 +285,10 @@ check_heaping_bachi <- function(
                   digits = 0:9,
                   pct = fractions * 100,
                   pctdev = abs(fractions - .1) * 50,
-                  min_age_used = min_age_used,
-                  max_age_used = max_age_used,
-                  decades = decades,
+                  ageMin = ageMin,
                   ageMax = ageMax,
-                  ageMin = ageMin)
+                  max_age_used = max_age_used,
+                  decades = decades)
     }
   }
   

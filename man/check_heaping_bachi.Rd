@@ -18,9 +18,9 @@ check_heaping_bachi(
 
 \item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{integer. The lowest age included in calculations. Default 25.}
+\item{ageMin}{the minimum age used for estimation, default \code{23}}
 
-\item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
+\item{ageMax}{the maximum age used for estimation, default \code{77}}
 
 \item{method}{either \code{"orig"} or \code{"pasex"}}
 
