@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.09</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.17</span>
       </span>
     </div>
 
@@ -178,7 +178,7 @@
     <p>Numeric expression of the date, year plus the fraction of the year passed as of the date.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This makes use of the <code><a href='ypart.html'>ypart()</a></code> HMD function to compute. If the date is numeric, it is returned as such. If it is <code>"character"</code>, we try to coerce to <code>"Date"</code> class, ergo, it is best to specify a character string in an unambiguous <code>"YYYY-MM-DD"</code> format.  If <code>date</code> is given in a <code>"Date"</code> class it is dealt with accordingly.</p>
+    <p>This makes use of the <code><a href='http://lubridate.tidyverse.org/reference/decimal_date.html'>lubridate::decimal_date</a></code> to compute the proportion of the year that has passed. If the date is numeric, it is returned as such. If it is <code>"character"</code>, we try to coerce to date through <code><a href='http://lubridate.tidyverse.org/reference/ymd.html'>lubridate::ymd</a></code>, ergo, it is best to specify a character string in an unambiguous <code>"YYYY-MM-DD"</code> format.  If <code>date</code> is given in a <code>"Date"</code> class it is dealt with accordingly.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

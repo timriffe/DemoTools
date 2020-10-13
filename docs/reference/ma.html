@@ -81,7 +81,7 @@ This is a centered moving average of arbitrary width." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.09</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.17</span>
       </span>
     </div>
 
@@ -194,7 +194,19 @@ are used as padding on the left and right to make the returned vector of equal l
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>x</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fu'>ma</span>(<span class='no'>x</span>))
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fu'>ma</span>(<span class='no'>x</span>),<span class='fl'>9</span>)
-}</div></pre>
+}
+<span class='co'># some de facto unit tests:</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>:<span class='fl'>10</span>
+<span class='no'>d2</span> <span class='kw'>&lt;-</span> <span class='fu'>ma</span>(<span class='no'>x</span>,<span class='fl'>2</span>) - <span class='no'>x</span>
+<span class='no'>d3</span> <span class='kw'>&lt;-</span> <span class='fu'>ma</span>(<span class='no'>x</span>,<span class='fl'>3</span>) - <span class='no'>x</span>
+<span class='no'>d4</span> <span class='kw'>&lt;-</span> <span class='fu'>ma</span>(<span class='no'>x</span>,<span class='fl'>4</span>) - <span class='no'>x</span>
+<span class='no'>d5</span> <span class='kw'>&lt;-</span> <span class='fu'>ma</span>(<span class='no'>x</span>,<span class='fl'>5</span>) - <span class='no'>x</span>
+<span class='co'># pop &lt;- sample.int(10, 5, replace = T)</span>
+<span class='co'># all should give same for linear data.</span>
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='no'>d2</span>) <span class='kw'>&lt;</span> <span class='fl'>1e-10</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='no'>d3</span>) <span class='kw'>&lt;</span> <span class='fl'>1e-10</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='no'>d4</span>) <span class='kw'>&lt;</span> <span class='fl'>1e-10</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='no'>d5</span>) <span class='kw'>&lt;</span> <span class='fl'>1e-10</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

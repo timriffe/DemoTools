@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.09</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.17</span>
       </span>
     </div>
 
@@ -162,7 +162,13 @@
     <p>Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators consisting in 5-year age groups centered on the terminal digit of age in question. For example, 9, 19, 29, etc are all of digit 9.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>64</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'>check_heaping_noumbissi</span>(
+  <span class='no'>Value</span>,
+  <span class='no'>Age</span>,
+  <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>20</span> + <span class='no'>digit</span>,
+  <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='no'>ageMin</span> + <span class='fl'>30</span>,
+  <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>0</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,11 +183,11 @@
     </tr>
     <tr>
       <th>ageMin</th>
-      <td><p>integer. The lowest age included in calculations. Default 25.</p></td>
+      <td><p>lower age used for estimation (inclusive). Default 20</p></td>
     </tr>
     <tr>
       <th>ageMax</th>
-      <td><p>integer. The upper age bound used for calculations. Default 65.</p></td>
+      <td><p>upper bound used for estimation (inclusive). Default 50</p></td>
     </tr>
     <tr>
       <th>digit</th>
@@ -210,7 +216,7 @@ Spoorenberg T, Dutreuilh C (2007).
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>99</span>
-<span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>0</span>) <span class='co'># 2.32</span></div><div class='output co'>#&gt; [1] 2.324269</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='co'># 0.55</span></div><div class='output co'>#&gt; [1] 0.5502185</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>2</span>) <span class='co'># 0.73</span></div><div class='output co'>#&gt; [1] 0.7298055</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>3</span>) <span class='co'># 0.76</span></div><div class='output co'>#&gt; [1] 0.7610771</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>4</span>) <span class='co'># 0.49</span></div><div class='output co'>#&gt; [1] 0.5158693</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>5</span>) <span class='co'># 2.08</span></div><div class='output co'>#&gt; [1] 2.040742</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>6</span>) <span class='co'># 0.66</span></div><div class='output co'>#&gt; [1] 0.6597471</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>7</span>) <span class='co'># 1.08  7 looks good!</span></div><div class='output co'>#&gt; [1] 1.077396</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>8</span>) <span class='co'># 0.57</span></div><div class='output co'>#&gt; [1] 0.5700284</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>9</span>) <span class='co'># 0.59</span></div><div class='output co'>#&gt; [1] 0.5895384</div></pre>
+<span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>0</span>) <span class='co'># 2.32</span></div><div class='output co'>#&gt; [1] 2.239127</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='co'># 0.55</span></div><div class='output co'>#&gt; [1] 0.5679979</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>2</span>) <span class='co'># 0.73</span></div><div class='output co'>#&gt; [1] 0.7653283</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>3</span>) <span class='co'># 0.76</span></div><div class='output co'>#&gt; [1] 0.7533247</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>4</span>) <span class='co'># 0.49</span></div><div class='output co'>#&gt; [1] 0.5206658</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>5</span>) <span class='co'># 2.08</span></div><div class='output co'>#&gt; [1] 2.040742</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>6</span>) <span class='co'># 0.66</span></div><div class='output co'>#&gt; [1] 0.6597471</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>7</span>) <span class='co'># 1.08  7 looks good!</span></div><div class='output co'>#&gt; [1] 1.077396</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>8</span>) <span class='co'># 0.57</span></div><div class='output co'>#&gt; [1] 0.5700284</div><div class='input'><span class='fu'>check_heaping_noumbissi</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>9</span>) <span class='co'># 0.59</span></div><div class='output co'>#&gt; [1] 0.5895384</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

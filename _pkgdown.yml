@@ -124,7 +124,6 @@ reference:
       - '`surv10`'
       - '`surv5`'
       - '`survN`'
-      - '`ypart`'
 navbar:
   type: reverse
   title: "DemoTools"

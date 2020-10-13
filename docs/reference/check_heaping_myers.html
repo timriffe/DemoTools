@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.09</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.17</span>
       </span>
     </div>
 
@@ -162,7 +162,14 @@
     <p>Implementation following the PASEX spreadsheet SINGAGE. Myers' measures preferences for each of the ten possible digits as a blended index. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits 0 to 9 should represent 10 percent of the total population.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_heaping_myers</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>89</span>)</pre>
+    <pre class="usage"><span class='fu'>check_heaping_myers</span>(
+  <span class='no'>Value</span>,
+  <span class='no'>Age</span>,
+  <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>23</span>,
+  <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>82</span>,
+  <span class='kw'>details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"orig"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -181,7 +188,15 @@
     </tr>
     <tr>
       <th>ageMax</th>
-      <td><p>integer. The upper age bound used for calculations. Default 89.</p></td>
+      <td><p>integer. The upper age bound used for calculations. Default 82.</p></td>
+    </tr>
+    <tr>
+      <th>details</th>
+      <td><p>logical. Default <code>FALSE</code>. If <code>TRUE</code>, then a list is returned with  some relevant parameters.</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>either <code>"orig"</code> or <code>"pasex"</code></p></td>
     </tr>
     </table>
 
@@ -191,8 +206,8 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>ageMax</code> is an inclusive upper bound, treated as interval. If you want ages
-20 to 89, then give <code>ageMin = 20</code> and <code>ageMax = 89</code>, not 90. <code>ageMax</code> may be
-internally rounded down if necessary so that <code>ageMax - ageMin + 1</code> is evenly divisible by 10.</p>
+23 to 82, then give <code>ageMin = 23</code> and <code>ageMax = 82</code>, not 83 <code>ageMax</code> may be
+internally rounded down if necessary so that <code>ageMax - ageMin + 1</code> is evenly divisible by 10. If in doubt, specify <code>details = TRUE</code>, and you can check which <code>ageMax</code> is actually used internally.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Myers RJ (1954).
@@ -209,8 +224,8 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>99</span>
-<span class='fu'>check_heaping_myers</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='fl'>10</span>, <span class='fl'>89</span>)</div><div class='output co'>#&gt; [1] 23.62787</div><div class='input'>
-<span class='fu'>check_heaping_myers</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='fl'>10</span>, <span class='fl'>90</span>) * <span class='fl'>2</span> <span class='co'>#47.46, replicates SINGAGE males</span></div><div class='output co'>#&gt; [1] 47.25573</div></pre>
+<span class='fu'>check_heaping_myers</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='fl'>10</span>, <span class='fl'>89</span>)</div><div class='output co'>#&gt; [1] 23.62787</div><div class='input'><span class='fu'>check_heaping_myers</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='fl'>10</span>, <span class='fl'>89</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pasex"</span>) * <span class='fl'>2</span></div><div class='output co'>#&gt; [1] 47.46004</div><div class='input'><span class='co'># pasex 10-89. result: ___ from spreadsheet</span>
+<span class='fu'>check_heaping_myers</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span>)</div><div class='output co'>#&gt; [1] 28.20156</div><div class='input'><span class='fu'><a href='check_heaping_bachi.html'>check_heaping_bachi</a></span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"orig"</span>)</div><div class='output co'>#&gt; [1] 28.93849</div><div class='input'><span class='fu'><a href='check_heaping_bachi.html'>check_heaping_bachi</a></span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pasex"</span>)</div><div class='output co'>#&gt; [1] 28.96891</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

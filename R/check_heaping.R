@@ -142,7 +142,9 @@ check_heaping_myers <- function(Value,
   digits[digits > (period - 1)] <- digits[digits > (period - 1)]- period
   
   VA      <- matrix(Value[ind], nrow = period, dimnames = list(digits, NULL))
+  digits_ordered <- 0:9
 
+  VA <- VA[as.character(digits_ordered),]
   # sum staggered, once without the youngest group but with the oldest one (tab2)
   # and once with the youngest and without the oldest
   
@@ -168,18 +170,18 @@ check_heaping_myers <- function(Value,
   
   
   # weighted tabulation
-  TAB     <- tab1 * 1:period + tab2 * c(period:1 - 1)
-
+   TAB     <- tab1 * (1:period) + tab2 * c(period:1 - 1)
+  #TAB     <- tab1 * (digits + 1) + tab2 * c(rev(digits) - 1)
   # interpret as % that would need to be redistributed...
   
   fractions <- TAB / sum(TAB)
   
-  out      <- sum(abs(fractions - 1 / period)) * 50
+  out      <- sum(abs(fractions - (1 / period))) * 50
   
   if (details){
     out <- list(index = out,
                 digits = 0:9,
-                pct = fractions[order(digits)] * 100,
+                pct = fractions * 100,
                 pctdev = (fractions - .1) * 100,
                 ageMin = ageMin,
                 ageMax = ageMax,
@@ -375,6 +377,8 @@ check_heaping_coale_li <-
 #' @description Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators consisting in 5-year age groups centered on the terminal digit of age in question. For example, 9, 19, 29, etc are all of digit 9.
 
 #' @inheritParams check_heaping_whipple
+#' @param ageMin lower age used for estimation (inclusive). Default 20
+#' @param ageMax upper bound used for estimation (inclusive). Default 50
 #' @details  \code{ageMin} and \code{ageMax} are applied to numerator ages, not denominators.
 #'  Denominators are always 5-year age groups centered on the digit in question,
 #' and these therefore stretch into ages a bit higher or lower than the numerator ages. \code{ageMax} is an inclusive upper bound, treated as interval.
@@ -400,8 +404,8 @@ check_heaping_coale_li <-
 check_heaping_noumbissi <-
   function(Value,
            Age,
-           ageMin = 20,
-           ageMax = 64,
+           ageMin = 20 + digit,
+           ageMax = ageMin + 30,
            digit = 0) {
 
     stopifnot(is_single(Age[Age >= (ageMin - 2) & Age <= (ageMax + 2)]))

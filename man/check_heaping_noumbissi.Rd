@@ -4,16 +4,22 @@
 \alias{check_heaping_noumbissi}
 \title{calculate Noumbissi's digit heaping index}
 \usage{
-check_heaping_noumbissi(Value, Age, ageMin = 20, ageMax = 64, digit = 0)
+check_heaping_noumbissi(
+  Value,
+  Age,
+  ageMin = 20 + digit,
+  ageMax = ageMin + 30,
+  digit = 0
+)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts by single age.}
 
 \item{Age}{numeric. A vector of ages corresponding to the lower integer bound of the counts.}
 
-\item{ageMin}{integer. The lowest age included in calculations. Default 25.}
+\item{ageMin}{lower age used for estimation (inclusive). Default 20}
 
-\item{ageMax}{integer. The upper age bound used for calculations. Default 65.}
+\item{ageMax}{upper bound used for estimation (inclusive). Default 50}
 
 \item{digit}{integer. Any digit between 0 and 9. Default \code{c(0,5)}. Otherwise it needs to be a single digit.}
 }

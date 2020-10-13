@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.09</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.17</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
       <h1 data-toc-skip>Age-heaping indices with DemoTools</h1>
                         <h4 class="author">Jose Manuel Aburto, Ilya Kashnitsky, Marius Pascariu, Tim Riffe</h4>
             
-            <h4 class="date">2020-10-08</h4>
+            <h4 class="date">2020-10-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/Age-heaping_quality_with_Demotools.Rmd"><code>vignettes/Age-heaping_quality_with_Demotools.Rmd</code></a></small>
       <div class="hidden name"><code>Age-heaping_quality_with_Demotools.Rmd</code></div>
@@ -177,7 +177,7 @@ W=5\frac{P_{25}+P_{30}+P_{35}+\dots+P_{60}}{P_{23}+P_{24}+\dots+P_{61}+P_{62}},
 <p>With the previous formulas, Bachi’s index involves applying the Whipple method repeatedly to determine the extent of preference for each final digit. Similarly to Myers, it equals the sum of the positive deviations from 10 percent <span class="citation">(Bachi 1951)</span>. It has a theoretical range from 0 to 90, AND 10% is the expected value for each digit. Therefore, the results of Bachi’s method is similar to those obtained by Myers’ index.</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">Bi</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/check_heaping_bachi.html">check_heaping_bachi</a></span>(<span class="no">pop1m_ind</span>, <span class="no">Age</span>, <span class="kw">ageMin</span> <span class="kw">=</span> <span class="fl">20</span>, <span class="kw">ageMax</span> <span class="kw">=</span> <span class="fl">90</span>)
 <span class="no">Bi</span>
-<span class="co">#&gt; [1] 36.3262</span></pre></body></html></div>
+<span class="co">#&gt; [1] 38.36192</span></pre></body></html></div>
 </div>
 <div id="noumbissi" class="section level3">
 <h3 class="hasAnchor">
@@ -191,7 +191,7 @@ W_5 =5\frac{P_{25}+P_{35}+P_{45}+P_{55}}{_5P_{23}+\, _5P_{33}+\, _5P_{43}+\, _5P
 <p>where <span class="math inline">\(P_x\)</span> is the population having completed age <span class="math inline">\(x\)</span> and <span class="math inline">\(_5P_x\)</span> the population of the age range <span class="math inline">\((x,x+4)\)</span>. From these, age heaping can then be calculated for all ten digits (0-9) <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>. If digits are uniformly distributed, this “digit-specific modified Whipple’s index” is equal to 1 for any digit tested. An index above or below 1 indicates preference for or avoidance of the digit in question, respectively. The theoretical range is from 0 for absolute avoidance to 5 for perfect concentration on a single digit.</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">Ni</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/check_heaping_noumbissi.html">check_heaping_noumbissi</a></span>(<span class="no">pop1m_ind</span>, <span class="no">Age</span>, <span class="kw">digit</span> <span class="kw">=</span> <span class="fl">0</span>)
 <span class="no">Ni</span>
-<span class="co">#&gt; [1] 2.471373</span></pre></body></html></div>
+<span class="co">#&gt; [1] 2.349372</span></pre></body></html></div>
 </div>
 <div id="spoorenberg" class="section level3">
 <h3 class="hasAnchor">
