@@ -19,7 +19,7 @@ Often as a shorthand we pull lower age bounds from the names of a vector. This m
 If more than one vector is given, names are pulled from the first available named vector. All vectors must be of the same length. If no names are available on any vector, then \code{NA}s are returned. This clearly won't work if the names on the vector are of something else.
 }
 \examples{
-# create some vectors
+#create some vectors
 nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,0.00418,0.00509,0.00609,
 0.00714,0.00808,0.00971,0.0125,0.0175,0.02551,0.03809,0.05595,0.08098,
 0.15353,0.2557)
@@ -45,4 +45,5 @@ names2age(nMx, nMx)
 # NAs returned
 names2age(lx)
 }
+
 }
