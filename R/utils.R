@@ -113,51 +113,15 @@ rescale_vector <- function(x, scale = 1) {
    scale * x / sum(x, na.rm = TRUE)
 }
 
-#' @title Determine the proportion of a year passed as of a particular date.
-#'
-#' @description The fraction returned by this is used e.g. for intercensal estimates.
-#'
-#' @param Year string or integer. 4-digit year.
-#' @param Month string or integer. Month digits, 1 or 2 characters.
-#' @param Day string or integer. Day of month digits, 1 or 2 characters.
-#' @export
-#' @examples
-#'
-#'
-#' ypart(2001,2,14) # general use
-#' ypart(2001,6,30) # mid year options, default detection
-#' ypart(2001,7,1)  # also
-#' ypart(2000,6,30) # no change for leap year, still detected as mid year
-#' ypart(2000,7,1)  # July 1 leap year
-#' ypart(2001,7,1)  # July 1 not leap year
-#' ypart(2002,12,31) # assumes end of day by default.
-#' ypart(2002,1,1) # end of day year fraction
-#'
-#' 
-ypart <- function(Year, Month, Day) {
-  date_obj       <- lubridate::ymd(paste0(Year, "-", Month, "-", Day))
-  first_day_year <- lubridate::floor_date(date_obj, unit = "year")
-  last_day_year  <- lubridate::ceiling_date(date_obj, unit = "year")
-  days_in_year   <- as.numeric(last_day_year - first_day_year)
-
-  # To actually get 365 days, date_obj needs to be 1st of January
-  # for lubridate to make the correct subtraction
-  if (lubridate::day(date_obj) == 31 && lubridate::month(date_obj) == 12) {
-    date_obj     <- date_obj + lubridate::days(1)
-  }
-
-  days_passed <- as.numeric(date_obj - first_day_year)
-  days_passed / days_in_year
-}
-
 #' Convert date to decimal year fraction.
 #'
 #' @description Convert a character or date class to decimal, taking into account leap years.
-#' @details This makes use of the \code{ypart()} HMD function to compute. If the date is numeric, it is returned as such. If it is \code{"character"}, we try to coerce to \code{"Date"} class, ergo, it is best to specify a character string in an unambiguous \code{"YYYY-MM-DD"} format.  If \code{date} is given in a \code{"Date"} class it is dealt with accordingly.
+#' @details This makes use of the \code{lubridate::decimal_date} to compute the proportion of the year that has passed. If the date is numeric, it is returned as such. If it is \code{"character"}, we try to coerce to date through \code{lubridate::ymd}, ergo, it is best to specify a character string in an unambiguous \code{"YYYY-MM-DD"} format.  If \code{date} is given in a \code{"Date"} class it is dealt with accordingly.
 #'
 #' @param date Either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.
 #'
 #' @return Numeric expression of the date, year plus the fraction of the year passed as of the date.
+#'
 #' @export
 dec.date  <- function(date) {
 
@@ -165,17 +129,8 @@ dec.date  <- function(date) {
     return(date)
   }
 
-  ch_date <- lubridate::ymd(date)
-  year_frac <- lubridate::year(date)
-
-  frac <-
-    ypart(
-      Year = year_frac,
-      Month = lubridate::month(ch_date),
-      Day = lubridate::day(ch_date)
-    )
-
-  year_frac + frac
+  res <- lubridate::decimal_date(lubridate::ymd(date))
+  res
 }
 
 
