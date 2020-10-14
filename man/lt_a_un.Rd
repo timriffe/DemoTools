@@ -114,18 +114,18 @@ nAx1   <- lt_a_un(nMx,
                   AgeInt = AgeInt, 
                   a0rule = "ak",
                   mod = TRUE, 
-                  closeout = T)
+                  closeout = TRUE)
 
 nqx    <- lt_id_ma_q(nMx = nMx, 
                      nax = nAx1, 
                      AgeInt = AgeInt, 
-                     closeout = F)
+                     closeout = FALSE)
 nAx2 <- lt_a_un(nqx = nqx, 
                 Age = Age,
                 AgeInt = AgeInt, 
                 a0rule = "ak", 
                 mod= TRUE, 
-                closeout = T)
+                closeout = TRUE)
 
 stopifnot(all(abs(nAx1[Age<75] - nAx2[Age<75]) < 1e-7))
 

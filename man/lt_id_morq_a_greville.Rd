@@ -125,19 +125,35 @@ lt_id_morq_a_greville(nMx = nMx,
                       AgeInt = AgeInt, 
                       region = 'w')
 
-# example of nqx and nmx convergence to same ax.
-  
-  nqx    <- lt_id_ma_q(nMx = nMx, 
-                       nax = nAx1, 
-                       AgeInt = AgeInt, 
-                       closeout = F)
-  nAx2 <- lt_a_un(nqx = nqx, 
+# example of transitivity. UN ax method is iterative
+# and used greville on the inside
+
+nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,
+         0.00418,0.00509,0.00609,0.00714,0.00808,
+         0.00971,0.0125,0.0175,0.02551,0.03809,
+         0.05595,0.0809,0.15353,0.2557)
+AgeInt <- inferAgeIntAbr(vec = nMx)
+Age    <- int2age(AgeInt)
+nAx1   <- lt_a_un(nMx, 
                   Age = Age,
                   AgeInt = AgeInt, 
-                  a0rule = "ak", 
-                  mod= TRUE, 
-                  closeout = T)
-cbind(nAx1,nAx2)
+                  a0rule = "ak",
+                  mod = TRUE, 
+                  closeout = TRUE)
+
+nqx    <- lt_id_ma_q(nMx = nMx, 
+                     nax = nAx1, 
+                     AgeInt = AgeInt, 
+                     closeout = FALSE)
+nAx2 <- lt_a_un(nqx = nqx, 
+                Age = Age,
+                AgeInt = AgeInt, 
+                a0rule = "ak", 
+                mod= TRUE, 
+                closeout = TRUE)
+
+stopifnot(all(abs(nAx1[Age<75] - nAx2[Age<75]) < 1e-7))
+
 }
 \references{
 \insertRef{greville1977short}{DemoTools}
