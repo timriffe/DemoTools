@@ -141,10 +141,15 @@ check_heaping_myers <- function(Value,
   digits <- digits + ageMin %% period
   digits[digits > (period - 1)] <- digits[digits > (period - 1)]- period
   
+  w <- 1:period
+  names(w) <- digits
+  
+  
   VA      <- matrix(Value[ind], nrow = period, dimnames = list(digits, NULL))
-  digits_ordered <- 0:9
+  digits_ordered <- as.character(0:9)
 
   VA <- VA[as.character(digits_ordered),]
+  w  <- w[digits_ordered]
   # sum staggered, once without the youngest group but with the oldest one (tab2)
   # and once with the youngest and without the oldest
   
@@ -168,9 +173,8 @@ check_heaping_myers <- function(Value,
   # TR: note, would this work in axactly the same way for phenomenon
   # that have strong regular age patterns, like fert, or death distributions?
   
-  
   # weighted tabulation
-   TAB     <- tab1 * (1:period) + tab2 * c(period:1 - 1)
+   TAB     <- tab1 * w + tab2 * c(10 - w)
   #TAB     <- tab1 * (digits + 1) + tab2 * c(rev(digits) - 1)
   # interpret as % that would need to be redistributed...
   
