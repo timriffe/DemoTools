@@ -75,7 +75,7 @@ The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 for age
 \details{
 \eqn{a(x)} for age 0 and age group 1-4 are based on Coale-Demeny {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}}-based lookup tables. An approximation to get from M(0) to {\ifelse{html}{\out{q<sub>0</sub>}}{\eqn{q_0}}} for the sake of generating a(0) and 4a1 is used. The final a(x) value is closed out using the \code{lt_a_closeout()} method (reciprocal and Mortpak methods are deprecated). Age groups must be standard abridged. No check on age groups is done.
 
-There are different vectors one can specify for this method: ultimately it's either \code{nMx} or \code{nqx}, and the \code{nax}, but \code{nax} results should be reasonably close.
+There are different vectors one can specify for this method: ultimately it's either \code{nMx} or \code{nqx}, and the \code{nax}, but \code{nax} results should be reasonably close. For full convergence implying transitivity, instead use \code{lt_a_un()}
 }
 \examples{
 #Example witn Mexican data from UN
@@ -93,15 +93,50 @@ lx  <- c(100000,89207,81577,79924,79083,77925,76312,74393,72162,69631,66875,
 Age <- c(0,1,seq(5,85,by = 5))
 AgeInt <- age2int(Age, OAvalue = 5)
 # two quite different results depending whether you start with mx or qx
-lt_id_morq_a_greville(nMx = nMx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
-lt_id_morq_a_greville(nqx = nqx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
+lt_id_morq_a_greville(nMx = nMx, 
+                      Age = Age, 
+                      AgeInt = AgeInt, 
+                      Sex = 'f',
+                      region = 'w')
+lt_id_morq_a_greville(nqx = nqx, 
+                      Age = Age, 
+                      AgeInt = AgeInt, 
+                      Sex = 'f',
+                      region = 'w')
 # same, qx comes from lx (Except OAG, because qx closed above w NA)
-lt_id_morq_a_greville(lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
+lt_id_morq_a_greville(lx = lx, 
+                      Age = Age, 
+                      AgeInt = AgeInt, 
+                      Sex = 'f',
+                      region = 'w')
 # both qx and lx given, but lx not used for anything = same as qx
-lt_id_morq_a_greville(nqx = nqx, lx = lx, Age = Age, AgeInt = AgeInt, Sex = 'f',region = 'w')
-
+lt_id_morq_a_greville(nqx = nqx, 
+                      lx = lx, 
+                      Age = Age, 
+                      AgeInt = AgeInt, 
+                      Sex = 'f',
+                      region = 'w')
+#'
 # nMx taken over lx.
-lt_id_morq_a_greville(nMx = nMx, lx = lx, Sex = 'f', Age = Age, AgeInt = AgeInt, region = 'w')
+lt_id_morq_a_greville(nMx = nMx,  
+                      lx = lx, 
+                      Sex = 'f', 
+                      Age = Age, 
+                      AgeInt = AgeInt, 
+                      region = 'w')
+
+  
+  nqx    <- lt_id_ma_q(nMx = nMx, 
+                       nax = nAx1, 
+                       AgeInt = AgeInt, 
+                       closeout = F)
+  nAx2 <- lt_a_un(nqx = nqx, 
+                  Age = Age,
+                  AgeInt = AgeInt, 
+                  a0rule = "ak", 
+                  mod= TRUE, 
+                  closeout = T)
+cbind(nAx1,nAx2)
 }
 \references{
 \insertRef{greville1977short}{DemoTools}

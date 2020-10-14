@@ -100,6 +100,35 @@ round(nAx2,3) - ax # only different in ages 5-9 and 10-14, and last two ages
 N <- length(ax)
 # default unit test...
 stopifnot(all(round(nAx1[Age<80],3) - ax[Age<80] == 0)) # spot on
+
+another example:
+
+nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,
+         0.00418,0.00509,0.00609,0.00714,0.00808,
+         0.00971,0.0125,0.0175,0.02551,0.03809,
+         0.05595,0.0809,0.15353,0.2557)
+AgeInt <- inferAgeIntAbr(vec = nMx)
+Age    <- int2age(AgeInt)
+nAx1   <- lt_a_un(nMx, 
+                  Age = Age,
+                  AgeInt = AgeInt, 
+                  a0rule = "ak",
+                  mod = TRUE, 
+                  closeout = T)
+
+nqx    <- lt_id_ma_q(nMx = nMx, 
+                     nax = nAx1, 
+                     AgeInt = AgeInt, 
+                     closeout = F)
+nAx2 <- lt_a_un(nqx = nqx, 
+                Age = Age,
+                AgeInt = AgeInt, 
+                a0rule = "ak", 
+                mod= TRUE, 
+                closeout = T)
+
+stopifnot(all(abs(nAx1[Age<75] - nAx2[Age<75]) < 1e-7))
+
 }
 \references{
 \insertRef{greville1977short}{DemoTools}

@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.17</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.18</span>
       </span>
     </div>
 
@@ -282,36 +282,7 @@ United Nations (1988).
 United Nations Department of International Economic and Social Affairs.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># example data from UN 1982 Model Life Tables for Developing Countries.</span>
-<span class='co'># first Latin American model table for males (p. 34).</span>
-<span class='no'>Mx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.23669</span>,<span class='fl'>.04672</span>,<span class='fl'>.00982</span>,<span class='fl'>.00511</span>,<span class='fl'>.00697</span>,<span class='fl'>.01036</span>,<span class='fl'>.01169</span>,
-                <span class='fl'>.01332</span>,<span class='fl'>.01528</span>,<span class='fl'>.01757</span>,<span class='fl'>.02092</span>,<span class='fl'>.02517</span>,<span class='fl'>.03225</span>,<span class='fl'>.04241</span>,<span class='fl'>.06056</span>,
-                <span class='fl'>.08574</span>,<span class='fl'>.11840</span>,<span class='fl'>.16226</span>,<span class='fl'>.23745</span>)
-<span class='no'>ax</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.330</span>,<span class='fl'>1.352</span>,<span class='fl'>2.500</span>,<span class='fl'>2.500</span>,<span class='fl'>2.633</span>,<span class='fl'>2.586</span>,<span class='fl'>2.528</span>,<span class='fl'>2.528</span>,
-                <span class='fl'>2.526</span>,<span class='fl'>2.529</span>,<span class='fl'>2.531</span>,<span class='fl'>2.538</span>,<span class='fl'>2.542</span>,<span class='fl'>2.543</span>,<span class='fl'>2.520</span>,<span class='fl'>2.461</span>,<span class='fl'>2.386</span>,<span class='fl'>2.295</span>,<span class='fl'>4.211</span>)
-
-<span class='no'>AgeInt</span>     <span class='kw'>&lt;-</span> <span class='fu'><a href='inferAgeIntAbr.html'>inferAgeIntAbr</a></span>(<span class='kw'>vec</span> <span class='kw'>=</span> <span class='no'>Mx</span>)
-<span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='int2age.html'>int2age</a></span>(<span class='no'>AgeInt</span>)
-<span class='no'>nAx1</span>       <span class='kw'>&lt;-</span> <span class='fu'>lt_a_un</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>Mx</span>,
-                   <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
-                                <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,
-                                <span class='kw'>a0rule</span> <span class='kw'>=</span> <span class='st'>"cd"</span>,
-                                <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
-                                          <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
-                                <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>nAx2</span>       <span class='kw'>&lt;-</span> <span class='fu'>lt_a_un</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>Mx</span>,
-                   <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
-                                <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,
-                                <span class='kw'>a0rule</span> <span class='kw'>=</span> <span class='st'>"cd"</span>,
-                                <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
-                                          <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
-                                <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='co'># this is acceptable...</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>nAx2</span>,<span class='fl'>3</span>) - <span class='no'>ax</span> <span class='co'># only different in ages 5-9 and 10-14, and last two ages</span></div><div class='output co'>#&gt;  [1]  0.000  0.000 -0.506 -0.082  0.000  0.000  0.000  0.000  0.000  0.000
-#&gt; [11]  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.012 -0.566</div><div class='input'><span class='co'># ignore open age, which is treated differently</span>
-<span class='no'>N</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>ax</span>)
-<span class='co'># default unit test...</span>
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>nAx1</span>[<span class='no'>Age</span><span class='kw'>&lt;</span><span class='fl'>80</span>],<span class='fl'>3</span>) - <span class='no'>ax</span>[<span class='no'>Age</span><span class='kw'>&lt;</span><span class='fl'>80</span>] <span class='kw'>==</span> <span class='fl'>0</span>)) <span class='co'># spot on</span></div></pre>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
