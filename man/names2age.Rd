@@ -19,6 +19,7 @@ Often as a shorthand we pull lower age bounds from the names of a vector. This m
 If more than one vector is given, names are pulled from the first available named vector. All vectors must be of the same length. If no names are available on any vector, then \code{NA}s are returned. This clearly won't work if the names on the vector are of something else.
 }
 \examples{
+\dontrun{
 #create some vectors
 nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,0.00418,0.00509,0.00609,
 0.00714,0.00808,0.00971,0.0125,0.0175,0.02551,0.03809,0.05595,0.08098,
@@ -32,7 +33,7 @@ lx  <- c(100000,89207,81577,79924,79083,77925,76312,74393,72162,69631,66875,
 63704,59843,54828,48253,39861,30079,19951,9033)
 age <- int2age(inferAgeIntAbr(vec=nMx))
 names(nMx) <- age
-\dontrun{
+
 names2age(nMx)
 # or two vectors (only one has names here)
 names2age(nMx,nqx)
