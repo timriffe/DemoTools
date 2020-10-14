@@ -403,7 +403,7 @@ lt_a_pas <-
 #'                       AgeInt = AgeInt, 
 #'                       region = 'w')
 #' 
-# example of nqx and nmx convergence to same ax.
+#' # example of nqx and nmx convergence to same ax.
 #'   
 #'   nqx    <- lt_id_ma_q(nMx = nMx, 
 #'                        nax = nAx1, 
@@ -642,7 +642,7 @@ lt_id_morq_a_greville <- function(nMx,
 #' # default unit test...
 #' stopifnot(all(round(nAx1[Age<80],3) - ax[Age<80] == 0)) # spot on
 #' 
-#' another example:
+#' # another example:
 #' 
 #' nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,
 #'          0.00418,0.00509,0.00609,0.00714,0.00808,

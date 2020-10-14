@@ -125,6 +125,7 @@ lt_id_morq_a_greville(nMx = nMx,
                       AgeInt = AgeInt, 
                       region = 'w')
 
+# example of nqx and nmx convergence to same ax.
   
   nqx    <- lt_id_ma_q(nMx = nMx, 
                        nax = nAx1, 
