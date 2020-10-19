@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.18</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.23</span>
       </span>
     </div>
 
@@ -180,33 +180,6 @@
 
     <p>If more than one vector is given, names are pulled from the first available named vector. All vectors must be of the same length. If no names are available on any vector, then <code>NA</code>s are returned. This clearly won't work if the names on the vector are of something else.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>#create some vectors</span>
-<span class='no'>nMx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.11621</span>,<span class='fl'>0.02268</span>,<span class='fl'>0.00409</span>,<span class='fl'>0.00212</span>,<span class='fl'>0.00295</span>,<span class='fl'>0.00418</span>,<span class='fl'>0.00509</span>,<span class='fl'>0.00609</span>,
-<span class='fl'>0.00714</span>,<span class='fl'>0.00808</span>,<span class='fl'>0.00971</span>,<span class='fl'>0.0125</span>,<span class='fl'>0.0175</span>,<span class='fl'>0.02551</span>,<span class='fl'>0.03809</span>,<span class='fl'>0.05595</span>,<span class='fl'>0.08098</span>,
-<span class='fl'>0.15353</span>,<span class='fl'>0.2557</span>)
-
-<span class='no'>nqx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.10793</span>,<span class='fl'>0.08554</span>,<span class='fl'>0.02025</span>,<span class='fl'>0.01053</span>,<span class='fl'>0.01463</span>,<span class='fl'>0.02071</span>,<span class='fl'>0.02515</span>,<span class='fl'>0.02999</span>,
-<span class='fl'>0.03507</span>, <span class='fl'>0.03958</span>,<span class='fl'>0.04742</span>,<span class='fl'>0.0606</span>,<span class='fl'>0.08381</span>,<span class='fl'>0.11992</span>,<span class='fl'>0.17391</span>,<span class='fl'>0.2454</span>,<span class='fl'>0.33672</span>,
-<span class='fl'>0.54723</span>,<span class='fl'>NA</span>)
-
-<span class='no'>lx</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100000</span>,<span class='fl'>89207</span>,<span class='fl'>81577</span>,<span class='fl'>79924</span>,<span class='fl'>79083</span>,<span class='fl'>77925</span>,<span class='fl'>76312</span>,<span class='fl'>74393</span>,<span class='fl'>72162</span>,<span class='fl'>69631</span>,<span class='fl'>66875</span>,
-<span class='fl'>63704</span>,<span class='fl'>59843</span>,<span class='fl'>54828</span>,<span class='fl'>48253</span>,<span class='fl'>39861</span>,<span class='fl'>30079</span>,<span class='fl'>19951</span>,<span class='fl'>9033</span>)
-<span class='no'>age</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='int2age.html'>int2age</a></span>(<span class='fu'><a href='inferAgeIntAbr.html'>inferAgeIntAbr</a></span>(<span class='kw'>vec</span><span class='kw'>=</span><span class='no'>nMx</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>nMx</span>) <span class='kw'>&lt;-</span> <span class='no'>age</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>names2age</span>(<span class='no'>nMx</span>)
-<span class='co'># or two vectors (only one has names here)</span>
-<span class='fu'>names2age</span>(<span class='no'>nMx</span>,<span class='no'>nqx</span>)
-<span class='co'># or more</span>
-<span class='fu'>names2age</span>(<span class='no'>nMx</span>,<span class='no'>nqx</span>,<span class='no'>lx</span>)
-<span class='co'># order doesn't matter</span>
-<span class='fu'>names2age</span>(<span class='no'>nqx</span>,<span class='no'>nMx</span>, <span class='no'>lx</span>)
-<span class='co'># multiple named, take first</span>
-<span class='fu'>names2age</span>(<span class='no'>nMx</span>, <span class='no'>nMx</span>)
-<span class='co'># NAs returned</span>
-<span class='fu'>names2age</span>(<span class='no'>lx</span>)
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
