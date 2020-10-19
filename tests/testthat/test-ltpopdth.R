@@ -17,7 +17,7 @@ lt_test_all_positive_plus_qx_lt_1 <- function(LT) {
             select(-c(Age,AgeInt)) %>% 
           # TR: rm is_weakly_less_than() since final 0 is valid sometimes.
             is_less_than(0) %>% #
-            sum,
+            sum(),
         0
     )
     
@@ -26,7 +26,7 @@ lt_test_all_positive_plus_qx_lt_1 <- function(LT) {
         LT %>% 
             select(nqx) %>% 
             is_greater_than(1) %>% 
-            sum,
+            sum(),
         0
     )
 }
