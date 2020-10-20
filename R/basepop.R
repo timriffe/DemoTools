@@ -606,7 +606,6 @@
 #'
 basepop_five <- function(refYear,
                          Females_five,
-                         SRB,
                          nLxFemale,
                          nLxDatesIn,
                          asfrMat,
@@ -616,6 +615,8 @@ basepop_five <- function(refYear,
                          SmoothedFemales = NULL,
                          Males_five = NULL,
                          nLxMale = NULL,
+                         SRB = 1.05,
+                         radix = 100000) {
 
   if (missing(nLxDatesIn)) {
 
@@ -740,11 +741,11 @@ basepop_five <- function(refYear,
   ## would we multiply the above if we had 5 dates?
   ## We only have 3 age groups to adjust and 3 dates
   # Age 0
-  GenderCounts[1] <- EstTot[[1]] * nlx[[1]][1] / 100000
+  GenderCounts[1] <- EstTot[[1]] * nLx[[1]][1] / radix
   # Age 1-4
-  GenderCounts[2] <- EstTot[[2]] * 5 * (sum(nlx[[2]][1:2])) / 500000 - GenderCounts[1]
+  GenderCounts[2] <- EstTot[[2]] * 5 * (sum(nLx[[2]][1:2])) / (radix * 5) - GenderCounts[1]
   # Age 5-9
-  GenderCounts[3] <- EstTot[[3]] * 5 * (sum(nlx[[3]][1:2])) / 500000 * nlx[[2]][3] / sum(nlx[[2]][1:2])
+  GenderCounts[3] <- EstTot[[3]] * 5 * (sum(nLx[[3]][1:2])) / (radix * 5) * nLx[[2]][3] / sum(nLx[[2]][1:2])
 
   GenderCounts
 }
@@ -759,7 +760,6 @@ basepop_five <- function(refYear,
 #'
 basepop_single <- function(refYear,
                            Females_single,
-                           SRB,
                            nLxFemale,
                            nLxDatesIn,
                            asfrMat,
@@ -768,7 +768,9 @@ basepop_single <- function(refYear,
                            female = TRUE,
                            SmoothedFemales = NULL,
                            Males_single = NULL,
-                           nLxMale = NULL) {
+                           nLxMale = NULL,
+                           SRB = 1.05,
+                           radix = 100000) {
 
   stopifnot(
     !is.null(names(Females_single)),
@@ -804,7 +806,9 @@ basepop_single <- function(refYear,
       female = female,
       SmoothedFemales = SmoothedFemales,
       Males_five = Males_abridged,
-      nLxMale = nLxMale
+      nLxMale = nLxMale,
+      SRB = SRB,
+      radix = radix
     )
 
   # Since diff always returns a vector of length `length(x) - 1`,

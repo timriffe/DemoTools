@@ -8,7 +8,6 @@
 basepop_five(
   refYear,
   Females_five,
-  SRB,
   nLxFemale,
   nLxDatesIn,
   asfrMat,
@@ -18,12 +17,13 @@ basepop_five(
   SmoothedFemales = NULL,
   Males_five = NULL,
   nLxMale = NULL,
+  SRB = 1.05,
+  radix = 1e+05
 )
 
 basepop_single(
   refYear,
   Females_single,
-  SRB,
   nLxFemale,
   nLxDatesIn,
   asfrMat,
@@ -32,7 +32,9 @@ basepop_single(
   female = TRUE,
   SmoothedFemales = NULL,
   Males_single = NULL,
-  nLxMale = NULL
+  nLxMale = NULL,
+  SRB = 1.05,
+  radix = 1e+05
 )
 }
 \arguments{
@@ -58,6 +60,7 @@ basepop_single(
 
 \item{nLxMale}{A numeric matrix. The male nLx function of two life tables with ages in the rows and time in columns. The male nLx functions should be for age groups 0, 1 to 4, and 5 to 9. The dates which are represented in the columns are assumed to be the same as \code{nLxDatesIn}. This argument is only used when \code{female} is set to \code{FALSE}.}
 
+\item{SRB}{A numeric. Sex ratio at birth (males / females)}
 
 \item{Females_single}{A named numeric vector. Reported population by 1-year age groups for \code{refYear} for females. The names of the vector should reflect the age groups. See examples. The method assumes that the last age group is open (for example, the population ends at '80+' and '100+')}
 
