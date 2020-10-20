@@ -46,9 +46,9 @@ sex_ratio <- 1.0300
 
 # (6) The male and female nLx functions for ages under 1 year, 1 to 4 years, and 5 to 9
 # years, pertaining to an earlier and later date
-nlxDatesIn <- c(1977.31, 1986.50)
+nLxDatesIn <- c(1977.31, 1986.50)
 
-nlxMale <- matrix(c(87732,
+nLxMale <- matrix(c(87732,
                     304435,
                     361064,
                     88451,
@@ -57,7 +57,7 @@ nlxMale <- matrix(c(87732,
                     ),
                   nrow = 3, ncol = 2)
 
-nlxFemale <- matrix(c(89842,
+nLxFemale <- matrix(c(89842,
                       314521,
                       372681,
                       353053,
@@ -129,13 +129,13 @@ test_that("basepop_five - bpa matches the expected result from PASS", {
       Females_five = pop_female_counts,
       SmoothedFemales = smoothed_females,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxMale = nlxMale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "m",
-      method = "linear"      
+      female = FALSE,
+      method = "linear"
     )
 
   expect_true(all(round(bpa_male[1:3], 0) == c(13559, 47444, 54397)))
@@ -146,12 +146,11 @@ test_that("basepop_five - bpa matches the expected result from PASS", {
       Females_five = pop_female_counts,
       SmoothedFemales = smoothed_females,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "f",
-      method = "linear"      
+      method = "linear"
     )
 
   expect_true(all(round(bpa_female[1:3], 0) == c(13467, 47576, 54554)))
@@ -165,13 +164,13 @@ test_that("basepop_five - bpe matches the expected result from PASS", {
       Males_five = pop_male_counts,
       Females_five = pop_female_counts,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxMale = nlxMale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "m",
-      method = "linear"      
+      female = FALSE,
+      method = "linear"
     )
 
   expect_true(all(round(bpe_male[1:3], 0) == c(13679, 47967, 55721)))
@@ -181,18 +180,17 @@ test_that("basepop_five - bpe matches the expected result from PASS", {
       refYear = refYear,
       Females_five = pop_female_counts,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "f",
-      method = "linear"      
+      method = "linear"
     )
 
   expect_true(all(round(bpe_female[1:3], 0) == c(13587, 48101, 55882)))
 })
 
-test_that("basepop_five Sex argument controls the result regardless of the gender arguments ", {
+test_that("basepop_five female argument controls the result regardless of the gender arguments ", {
 
   bpa_male <-
     basepop_five(
@@ -201,12 +199,11 @@ test_that("basepop_five Sex argument controls the result regardless of the gende
       Females_five = pop_female_counts,
       SmoothedFemales = smoothed_females,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxMale = nlxMale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "f",
       method = "linear"      
     )
 
@@ -216,11 +213,10 @@ test_that("basepop_five Sex argument controls the result regardless of the gende
       Females_five = pop_female_counts,
       SmoothedFemales = smoothed_females,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "f",
       method = "linear"      
     )
 
@@ -233,12 +229,11 @@ test_that("basepop_five Sex argument controls the result regardless of the gende
       Males_five = pop_male_counts,
       Females_five = pop_female_counts,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxMale = nlxMale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "f",
       method = "linear"
     )
 
@@ -247,11 +242,10 @@ test_that("basepop_five Sex argument controls the result regardless of the gende
       refYear = refYear,
       Females_five = pop_female_counts,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "f",
       method = "linear"
     )
 
@@ -355,12 +349,11 @@ test_that("basepop_single fails if provided five year age groups", {
       Females_single = female_single,
       SmoothedFemales = smoothed_females,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxMale = nlxMale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "f",
       method = "linear"
     ),
     "is_single(as.numeric(names(Males_single))) is not TRUE",
@@ -375,12 +368,11 @@ test_that("basepop_single fails if provided five year age groups", {
       Females_single = female_single,
       SmoothedFemales = smoothed_females,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxMale = nlxMale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "f",
       method = "linear"
     ),
     "!is.null(names(Males_single)) is not TRUE",
@@ -394,11 +386,10 @@ test_that("basepop_single fails if provided five year age groups", {
       Females_single = pop_female_counts,
       SmoothedFemales = smoothed_females,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "f",
       method = "linear"
     ),
     "is_single(as.numeric(names(Females_single))) is not TRUE",
@@ -412,11 +403,10 @@ test_that("basepop_single fails if provided five year age groups", {
       Females_single = setNames(pop_female_counts, NULL),
       SmoothedFemales = smoothed_females,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "f",
       method = "linear"
     ),
     "!is.null(names(Females_single)) is not TRUE",
@@ -430,12 +420,11 @@ test_that("basepop_single fails if provided five year age groups", {
       Males_single = pop_male_counts,
       Females_single = pop_female_counts,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxMale = nlxMale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "f",
       method = "linear"
     ),
     "is_single(as.numeric(names(Females_single))) is not TRUE",
@@ -630,12 +619,11 @@ test_that("basepop_single does calculation for males when providing Males_single
       Females_single = pop_female_counts,
       SmoothedFemales = smoothed_females,
       SRB = sex_ratio,
-      nlxFemale = nlxFemale,
-      nlxMale = nlxMale,
-      nlxDatesIn = nlxDatesIn,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
       asfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      Sex = "f",
       method = "linear"
     )
 
