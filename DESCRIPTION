@@ -46,7 +46,8 @@ Imports:
     tibble,
     tidybayes,
     ungroup,
-    lubridate
+    lubridate,
+    fertestr
 BugReports: https://github.com/timriffe/DemoTools/issues
 Encoding: UTF-8
 VignetteBuilder: knitr

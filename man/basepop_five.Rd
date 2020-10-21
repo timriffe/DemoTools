@@ -6,59 +6,71 @@
 \title{BPA and BPE methods for adjusting age groups under 10}
 \usage{
 basepop_five(
+  country = NULL,
   refYear,
   Females_five,
-  SRB,
-  nlxFemale,
-  nlxDatesIn,
-  asfrMat,
-  AsfrDatesIn,
+  nLxFemale = NULL,
+  nLxDatesIn = NULL,
+  AsfrMat = NULL,
+  AsfrDatesIn = NULL,
   ...,
-  Sex = c("f", "m"),
+  female = TRUE,
   SmoothedFemales = NULL,
   Males_five = NULL,
-  nlxMale = NULL
+  nLxMale = NULL,
+  SRB = 1.05,
+  radix = NULL,
+  verbose = TRUE
 )
 
 basepop_single(
+  country = NULL,
   refYear,
   Females_single,
-  SRB,
-  nlxFemale,
-  nlxDatesIn,
-  asfrMat,
-  AsfrDatesIn,
+  nLxFemale = NULL,
+  nLxDatesIn = NULL,
+  AsfrMat = NULL,
+  AsfrDatesIn = NULL,
   ...,
-  Sex = c("f", "m"),
+  female = TRUE,
   SmoothedFemales = NULL,
   Males_single = NULL,
-  nlxMale = NULL
+  nLxMale = NULL,
+  SRB = 1.05,
+  radix = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
-\item{refYear}{An integer. The decimal reference year for which the reported population pertain}
+\item{country}{The country name or location code from which to download the nLx and asfr data. See \code{fertestr::locs_avail()} for all country names/codes.}
 
-\item{Females_five}{A named numeric vector. The names of the vector should reflect the age groups. See examples. Reported population by abridged 5-year lower bound age groups for females pertaining to \code{refYear}. This means that age 0 must be kept as a single age, ages 1-4 must grouped together as abridged age 1, and thereafter 5-year age groups.}
+\item{refYear}{The reference year for which the reported population pertain (these are the population counts in \code{Females_five} and \code{Males_five}).}
 
-\item{SRB}{A numeric. Sex ratio at birth (males / females)}
+\item{Females_five}{A named numeric vector with the population counts for five-year abridged age groups for females in \code{refYear}. The names of the vector should reflect the age groups. See the example section for some examples.}
 
-\item{nlxFemale}{A numeric matrix. The female nLx function of two life tables with ages in the rows and time in columns. The earlier date should be at least 7.5 years before the reference date of the "reported" population. The later date should be no earlier than one-half year before the reference date of the "reported" population}
+\item{nLxFemale}{A numeric matrix. The female nLx function of two life tables with ages in the rows and time in columns. The earlier date should be at least 7.5 years before the reference date of the "reported" population. The later date should be no earlier than one-half year before the reference date of the "reported" population. If not provided, it's automatically downloaded if \code{country}, \code{refYear} and the equivalent population counts \code{*_five} are provided.}
 
-\item{nlxDatesIn}{Vector of dates. The dates which pertain to the columns in \code{nlxFemale} and \code{nlxMale}. For details on the format of the dates, see the details of \code{\link{interp}}}
+\item{nLxDatesIn}{A vector of numeric years (for example, 1986). The dates which pertain to the columns in \code{nLxFemale} and \code{nLxMale}. If not provided, the function automatically determines two dates which are 8 years before \code{refYear} and 0.5 years after \code{refYear}.}
 
-\item{asfrMat}{A numeric matrix. An age-period matrix of age specific fertility rates with age in rows, time in columns.}
+\item{AsfrMat}{A numeric matrix. An age-period matrix of age specific fertility rates with age in rows, time in columns. If not provided, the function automatically downloads the ASFR matrix based on the dates in \code{AsfrDatesIn}.}
 
-\item{AsfrDatesIn}{A vector of dates. The dates which pertain to the columns in \code{asfrMat}. For details on the format of the dates, see the details of \code{\link{interp}}}
+\item{AsfrDatesIn}{A vector of numeric years (for example, 1986). These are the dates which pertain to the columns in \code{AsfrMat}. If not provided, the function automatically determines two dates which are 8 years before \code{refYear} and 0.5 before \code{refYear}.}
 
-\item{...}{Arguments passed to \code{\link{interp}}. In particular, users might be interested in changing the interpolation method. By default, it's linearly interpolated}
+\item{...}{Arguments passed to \code{\link{interp}}. In particular, users might be interested in changing the interpolation method for the \code{nLx*} matrices and the \code{Asfr} matrix. By default, it's linearly interpolated.}
 
-\item{Sex}{A character string. Either 'f' or 'm', for adjusting either \code{Females} or \code{Males}. See the details section for the mandatory arguments for adjusting the male counts.}
+\item{female}{A logical \code{TRUE} or \code{FALSE} for whether to perform the adjustment for females or males. If \code{female = FALSE}, \code{Males_five} needs to be provided.}
 
-\item{SmoothedFemales}{A numeric vector. This should be the result of passing the \code{Females} arguments through \code{smooth_age_5}. It is assumed that this argument is a numeric vector with the lower bound age group definitions as names. By default, this is what \code{smooth_age_5} returns. See the example section for an example.}
+\item{SmoothedFemales}{A numeric vector. This should be the result of passing the \code{Females_five} argument through \code{smooth_age_5}. It is assumed that this argument is a numeric vector with the lower bound age group definitions as names. By default, this is what \code{smooth_age_5} returns. See the example section for some examples.}
 
-\item{Males_five}{A named numeric vector. The names of the vector should reflect the age groups. See examples. Reported population by abridged 5-year lower bound age groups for males pertaining to \code{refYear}. This means that age 0 must be kept as a single age, ages 1-4 must grouped together as abridged age 1, and thereafter 5-year age groups. This argument is only used when \code{Sex} is set to \code{"m"}.}
+\item{Males_five}{A named numeric vector with the population counts for five-year abridged age groups for males in \code{refYear}. The names of the vector should reflect the age groups. See the example section for some examples.}
 
-\item{nlxMale}{A numeric matrix. The male nLx function of two life tables with ages in the rows and time in columns. The male nLx functions should be for age groups 0, 1 to 4, and 5 to 9. The dates which are represented in the columns are assumed to be the same as \code{nlxDatesIn}. This argument is only used when \code{Sex} is set to \code{"m"}}
+\item{nLxMale}{A numeric matrix. The male nLx function of two life tables with ages in the rows and time in columns. The male nLx function should be only for age groups 0, 1 to 4, and 5 to 9. The dates which are represented in the columns are assumed to be the same as \code{nLxDatesIn}. This argument is only used when \code{female} is set to \code{FALSE} and \code{Males_five} is provided. If \code{Males_five} is provided and \code{female} set to \code{FALSE}, the \code{nLx} for males is automatically downloaded for the dates in \code{nLxDatesIn}.}
+
+\item{SRB}{A numeric. Sex ratio at birth (males / females). Default is set to 1.05}
+
+\item{radix}{starting point to use in the adjustment of the three first age groups. Default is NULL. If not provided, the function extracts the \code{lx} for age group \code{0} of the first year defined in \code{AsfrDatesIn}.}
+
+\item{verbose}{when downloading new data, should the function print details about the download at each step? Defaults to \code{TRUE}. We recommend the user to set this to \code{TRUE} at all times because the function needs to make decisions (such as picking the dates for the Asfr and nLx) that the user should be aware of.}
 
 \item{Females_single}{A named numeric vector. Reported population by 1-year age groups for \code{refYear} for females. The names of the vector should reflect the age groups. See examples. The method assumes that the last age group is open (for example, the population ends at '80+' and '100+')}
 
@@ -66,14 +78,14 @@ basepop_single(
 }
 \value{
 When using \code{basepop_five}, a numeric vector of adjusted counts
-for the age groups 0, 1-4 and 5-9 for either \code{Females} or \code{Males},
-depending on whether the user specified \code{"m"} or \code{"f"} in
-\code{Sex}. The remaining age counts are left as is. When
-\code{basepop_single} is used, the return value issues a numeric vector with
+for the age groups 0, 1-4 and 5-9 for either \code{females} or \code{males},
+depending on whether the user specified \code{TRUE} or \code{FALSE} in
+\code{female}. The remaining age counts are left as is. When
+\code{basepop_single} is used, the return value is a numeric vector with
 \strong{single year age groups} where the counts between 0 and 10 are adjusted.
 }
 \description{
-Adjust population counts for the age groups 0, 1-4 and 5-9
+Adjust population counts for the age groups 0 to 10
 }
 \details{
 \code{basepop_five} and \code{basepop_single} can estimate both the BPA and
@@ -82,10 +94,11 @@ functions will return the BPA method. If \code{SmoothedFemales} is left empty,
 both \code{basepop_*} functions will adjust using the BPE method.
 
 For \code{basepop_five}, adjusting the female population counts is the
-default. For this, all arguments except \code{Males_five} and
-\code{nlxMale} are needed. However, for adjusting the male population
-counts, the user needs to specify all arguments as well as \code{Males_five},
-\code{nlxMale} and \code{nlxFemale} and set \code{sex == "m"}.
+default. For this, only the \code{country}, \code{refYear} and
+\code{Females_five} are needed. All other arguments are downloaded
+or set to sensible defaults. For adjusting the male population
+counts, the user needs to specify the \code{Males_five} population
+counts and set \code{female = FALSE}.
 
 For \code{basepop_single}, the same procedure applies. The only difference
 is that the vector \code{Males_five} is named \code{Males_single} and accepts
@@ -95,6 +108,12 @@ the vector for females is \code{Females_single} rather than
 
 Currently, \code{basepop_five} works only with five year abridged age groups
 while \code{basepop_single} works only with single year age groups.
+
+The BPE method is used by default. To adjust the counts using
+the BPA method, the user needs to provide the \code{SmoothedFemales}
+argument. This is the female population counts passed through
+a smoothing function such as \code{smooth_age_5}. See the examples
+section for some examples.
 }
 \section{BPA}{
 
@@ -202,6 +221,114 @@ underenumeration of persons in certain ages, nor by age misreporting.
 \examples{
 
  \dontrun{
+
+################ BPE for females (five year age groups) ############################
+
+# Grab population counts for females
+refYear <- 1986
+country <- "Brazil"
+pop_female_single <- fertestr::FetchPopWpp2019(country, refYear, ages = 0:100, sex = "female")
+pop_female_counts <- single2abridged(setNames(pop_female_single$pop, pop_female_single$ages))
+
+# Automatically downloads the nLx and ASFR data
+bpe_female <- basepop_five(
+  country = country,
+  refYear = refYear,
+  Females_five = pop_female_counts
+)
+
+# The counts for the first three age groups have been adjusted:
+bpe_female[1:3]
+pop_female_counts[1:3]
+
+################ BPE for males (five year age groups) ###############################
+
+pop_male_single <- fertestr::FetchPopWpp2019(country, refYear, ages = 0:100, sex = "male")
+pop_male_counts <- single2abridged(setNames(pop_male_single$pop, pop_male_single$ages))
+
+# Automatically downloads the nLx and ASFR data
+bpe_male <- basepop_five(
+  country = country,
+  refYear = refYear,
+  Females_five = pop_female_counts,
+  Males_five = pop_male_counts,
+  female = FALSE
+)
+
+bpe_male[1:3]
+pop_male_counts[1:3]
+
+################ BPE for females (single ages) ############################
+
+pop_female_single <- setNames(pop_female_single$pop, pop_female_single$ages)
+
+# Automatically downloads the nLx and ASFR data
+bpe_female <- basepop_single(
+  country = country,
+  refYear = refYear,
+  Females_single = pop_female_single
+)
+
+# The counts for the first 10 age groups have been adjusted:
+bpe_female[1:10]
+pop_female_single[1:10]
+
+################ BPE for males (single ages) ############################
+
+pop_male_single <- setNames(pop_male_single$pop, pop_male_single$ages)
+
+# Automatically downloads the nLx and ASFR data
+bpe_male <- basepop_single(
+  country = country,
+  refYear = refYear,
+  Females_single = pop_female_single,
+  Males_single = pop_male_single,
+  female = FALSE
+)
+
+bpe_female[1:10]
+pop_female_single[1:10]
+
+
+################ BPA for females (five year age groups) #####################
+
+ smoothed_females <- smooth_age_5(Value = pop_female_counts,
+                                  Age = as.numeric(names(pop_female_counts)),
+                                  method = "Arriaga",
+                                  OAG = TRUE,
+                                  young.tail = "Original")
+
+# Automatically downloads the nLx and ASFR data
+bpa_female <- basepop_five(
+  country = country,
+  refYear = refYear,
+  Females_five = pop_female_counts,
+  SmoothedFemales = smoothed_females
+)
+
+# The counts for the first three age groups have been adjusted:
+bpa_female[1:3]
+pop_female_counts[1:3]
+
+################ BPA for males (five year age groups) #####################
+
+# Automatically downloads the nLx and ASFR data
+bpa_male <- basepop_five(
+  country = country,
+  refYear = refYear,
+  Females_five = pop_female_counts,
+  Males_five = pop_male_counts,
+  SmoothedFemales = smoothed_females,
+  female = FALSE
+)
+
+# The counts for the first three age groups have been adjusted:
+bpa_male[1:3]
+pop_male_counts[1:3]
+
+
+################ PASS example ###############################
+
  # (1) RefYear
  refYear <- 1986.21
 
@@ -252,9 +379,9 @@ underenumeration of persons in certain ages, nor by age misreporting.
 
  # (6) The male and female nLx functions for ages under 1 year, 1 to 4 years, and 5 to 9
  # years, pertaining to an earlier and later date
- nlxDatesIn <- c(1977.31, 1986.50)
+ nLxDatesIn <- c(1977.31, 1986.50)
 
- nlxMale <- matrix(c(87732,
+ nLxMale <- matrix(c(87732,
                      304435,
                      361064,
                      88451,
@@ -262,8 +389,8 @@ underenumeration of persons in certain ages, nor by age misreporting.
                      370362
                      ),
                    nrow = 3, ncol = 2)
- 
- nlxFemale <- matrix(c(89842,
+
+ nLxFemale <- matrix(c(89842,
                        314521,
                        372681,
                        353053,
@@ -289,35 +416,35 @@ underenumeration of persons in certain ages, nor by age misreporting.
                        234587),
                      nrow = 12,
                      ncol = 2)
- 
+
  # (7) A set of age-specific fertility rates pertaining to an earlier and later
  # date
- 
+
  asfrmat <- matrix(c("15-19" = 0.2000,
                      "20-24" = 0.3000,
-                     "25-29" = 0.3000, 
-                     "30-34" = 0.2500, 
-                     "35-39" = 0.2000, 
-                     "40-44" = 0.1500, 
+                     "25-29" = 0.3000,
+                     "30-34" = 0.2500,
+                     "35-39" = 0.2000,
+                     "40-44" = 0.1500,
                      "45-49" = 0.0500,
                      "15-19" = 0.1500,
                      "20-24" = 0.2000,
-                     "25-29" = 0.2750, 
-                     "30-34" = 0.2250, 
-                     "35-39" = 0.1750, 
-                     "40-44" = 0.1250, 
+                     "25-29" = 0.2750,
+                     "30-34" = 0.2250,
+                     "35-39" = 0.1750,
+                     "40-44" = 0.1250,
                      "45-49" = 0.0500),
                    nrow = 7,
                    ncol = 2)
- 
+
  AsfrDatesIn <- c(1977.81, 1985.71)
- 
+
  smoothed_females <- smooth_age_5(Value = pop_female_counts,
                                   Age = as.numeric(names(pop_female_counts)),
                                   method = "Arriaga",
                                   OAG = TRUE,
                                   young.tail = "Original")
- 
+
  ## This is the only number that messes up the whole calculation.
  ## smooth_age_5 returns the same result as the PASS excel sheet
  ## except for the age groups 10-15 and 15-19. Here we only use
@@ -327,7 +454,7 @@ underenumeration of persons in certain ages, nor by age misreporting.
  smoothed_females[4] <- 34721
 
  # For adjusting using BPA for males, we need to specify
- # Sex = "m" with Males and nlxMale.
+ # female = FALSE with Males and nLxMale.
  bpa_male <-
    basepop_five(
      refYear = refYear,
@@ -335,31 +462,30 @@ underenumeration of persons in certain ages, nor by age misreporting.
      Females_five = pop_female_counts,
      SmoothedFemales = smoothed_females,
      SRB = sex_ratio,
-     nlxFemale = nlxFemale,
-     nlxMale = nlxMale,
-     nlxDatesIn = nlxDatesIn,
-     asfrMat = asfrmat,
+     nLxFemale = nLxFemale,
+     nLxMale = nLxMale,
+     nLxDatesIn = nLxDatesIn,
+     AsfrMat = asfrmat,
      AsfrDatesIn = AsfrDatesIn,
-     Sex = "m"
-     )
+     female = FALSE
+   )
 
  # See adjustments?
  pop_male_counts[1:3]
  bpa_male[1:3]
 
  # Adjusting the BPA for females requires less arguments
- 
+
  bpa_female <-
    basepop_five(
      refYear = refYear,
      Females_five = pop_female_counts,
      SmoothedFemales = smoothed_females,
      SRB = sex_ratio,
-     nlxFemale = nlxFemale,
-     nlxDatesIn = nlxDatesIn,
-     asfrMat = asfrmat,
-     AsfrDatesIn = AsfrDatesIn,
-     Sex = "f"
+     nLxFemale = nLxFemale,
+     nLxDatesIn = nLxDatesIn,
+     AsfrMat = asfrmat,
+     AsfrDatesIn = AsfrDatesIn
    )
 
  pop_female_counts[1:3]
@@ -373,12 +499,12 @@ underenumeration of persons in certain ages, nor by age misreporting.
      Males_five = pop_male_counts,
      Females_five = pop_female_counts,
      SRB = sex_ratio,
-     nlxFemale = nlxFemale,
-     nlxMale = nlxMale,
-     nlxDatesIn = nlxDatesIn,
-     asfrMat = asfrmat,
+     nLxFemale = nLxFemale,
+     nLxMale = nLxMale,
+     nLxDatesIn = nLxDatesIn,
+     AsfrMat = asfrmat,
      AsfrDatesIn = AsfrDatesIn,
-     Sex = "m"
+     female = FALSE
      )
 
  # See adjustments?
@@ -387,17 +513,16 @@ underenumeration of persons in certain ages, nor by age misreporting.
  bpe_male[1:3]
 
  # Adjusting the BPA for females requires less arguments
- 
+
  bpe_female <-
    basepop_five(
      refYear = refYear,
      Females_five = pop_female_counts,
      SRB = sex_ratio,
-     nlxFemale = nlxFemale,
-     nlxDatesIn = nlxDatesIn,
-     asfrMat = asfrmat,
-     AsfrDatesIn = AsfrDatesIn,
-     Sex = "f"
+     nLxFemale = nLxFemale,
+     nLxDatesIn = nLxDatesIn,
+     AsfrMat = asfrmat,
+     AsfrDatesIn = AsfrDatesIn
    )
 
  pop_female_counts[1:3]
@@ -584,7 +709,7 @@ pop_female_counts <-
 
 
  # For adjusting using BPA for males, we need to specify
- # Sex = "m" with Males and nlxMale.
+ # female = FALSE with Males and nLxMale.
  bpa_male <-
    basepop_single(
      refYear = refYear,
@@ -592,12 +717,12 @@ pop_female_counts <-
      Females_single = pop_female_counts,
      SmoothedFemales = smoothed_females,
      SRB = sex_ratio,
-     nlxFemale = nlxFemale,
-     nlxMale = nlxMale,
-     nlxDatesIn = nlxDatesIn,
-     asfrMat = asfrmat,
+     nLxFemale = nLxFemale,
+     nLxMale = nLxMale,
+     nLxDatesIn = nLxDatesIn,
+     AsfrMat = asfrmat,
      AsfrDatesIn = AsfrDatesIn,
-     Sex = "m"
+     female = FALSE
      )
 
  # See adjustments?
@@ -611,11 +736,10 @@ pop_female_counts <-
      Females_single = pop_female_counts,
      SmoothedFemales = smoothed_females,
      SRB = sex_ratio,
-     nlxFemale = nlxFemale,
-     nlxDatesIn = nlxDatesIn,
-     asfrMat = asfrmat,
-     AsfrDatesIn = AsfrDatesIn,
-     Sex = "f"
+     nLxFemale = nLxFemale,
+     nLxDatesIn = nLxDatesIn,
+     AsfrMat = asfrmat,
+     AsfrDatesIn = AsfrDatesIn
    )
 
  pop_female_counts[1:10]
@@ -629,12 +753,12 @@ pop_female_counts <-
      Males_single = pop_male_counts,
      Females_single = pop_female_counts,
      SRB = sex_ratio,
-     nlxFemale = nlxFemale,
-     nlxMale = nlxMale,
-     nlxDatesIn = nlxDatesIn,
-     asfrMat = asfrmat,
+     nLxFemale = nLxFemale,
+     nLxMale = nLxMale,
+     nLxDatesIn = nLxDatesIn,
+     AsfrMat = asfrmat,
      AsfrDatesIn = AsfrDatesIn,
-     Sex = "m"
+     female = FALSE
      )
 
  # See adjustments?
@@ -648,11 +772,10 @@ pop_female_counts <-
      refYear = refYear,
      Females_single = pop_female_counts,
      SRB = sex_ratio,
-     nlxFemale = nlxFemale,
-     nlxDatesIn = nlxDatesIn,
-     asfrMat = asfrmat,
-     AsfrDatesIn = AsfrDatesIn,
-     Sex = "f"
+     nLxFemale = nLxFemale,
+     nLxDatesIn = nLxDatesIn,
+     AsfrMat = asfrmat,
+     AsfrDatesIn = AsfrDatesIn
    )
 
  pop_female_counts[1:10]
