@@ -739,6 +739,7 @@ basepop_five <- function(country = NULL,
                          verbose = TRUE) {
 
   options(basepop_verbose = verbose)
+  on.exit(options(basepop_verbose = NULL))
 
   if (is.null(nLxDatesIn)) {
     nLxDatesIn <- c(abs(8 - refYear), refYear + 0.5)
