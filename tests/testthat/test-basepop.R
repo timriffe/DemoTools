@@ -132,25 +132,27 @@ test_that("basepop_five - bpa matches the expected result from PASS", {
       nLxFemale = nLxFemale,
       nLxMale = nLxMale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
       female = FALSE,
-      method = "linear"
+      method = "linear",
+      radix = 100000
     )
 
   expect_true(all(round(bpa_male[1:3], 0) == c(13559, 47444, 54397)))
 
-  bpa_female <-
-    basepop_five(
+   bpa_female <-
+     basepop_five(
       refYear = refYear,
       Females_five = pop_female_counts,
       SmoothedFemales = smoothed_females,
       SRB = sex_ratio,
       nLxFemale = nLxFemale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      method = "linear"
+      method = "linear",
+      radix = 100000
     )
 
   expect_true(all(round(bpa_female[1:3], 0) == c(13467, 47576, 54554)))
@@ -167,10 +169,11 @@ test_that("basepop_five - bpe matches the expected result from PASS", {
       nLxFemale = nLxFemale,
       nLxMale = nLxMale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
       female = FALSE,
-      method = "linear"
+      method = "linear",
+      radix = 100000
     )
 
   expect_true(all(round(bpe_male[1:3], 0) == c(13679, 47967, 55721)))
@@ -182,9 +185,10 @@ test_that("basepop_five - bpe matches the expected result from PASS", {
       SRB = sex_ratio,
       nLxFemale = nLxFemale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      method = "linear"
+      method = "linear",
+      radix = 100000
     )
 
   expect_true(all(round(bpe_female[1:3], 0) == c(13587, 48101, 55882)))
@@ -202,9 +206,10 @@ test_that("basepop_five female argument controls the result regardless of the ge
       nLxFemale = nLxFemale,
       nLxMale = nLxMale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      method = "linear"      
+      method = "linear",
+      radix = 100000
     )
 
   bpa_female <-
@@ -215,9 +220,10 @@ test_that("basepop_five female argument controls the result regardless of the ge
       SRB = sex_ratio,
       nLxFemale = nLxFemale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      method = "linear"      
+      method = "linear",
+      radix = 100000
     )
 
   expect_true(all(bpa_male == bpa_female))
@@ -232,9 +238,10 @@ test_that("basepop_five female argument controls the result regardless of the ge
       nLxFemale = nLxFemale,
       nLxMale = nLxMale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      method = "linear"
+      method = "linear",
+      radix = 100000
     )
 
   bpe_female <-
@@ -244,9 +251,10 @@ test_that("basepop_five female argument controls the result regardless of the ge
       SRB = sex_ratio,
       nLxFemale = nLxFemale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      method = "linear"
+      method = "linear",
+      radix = 100000
     )
 
   expect_true(all(bpe_male == bpe_female))
@@ -352,7 +360,7 @@ test_that("basepop_single fails if provided five year age groups", {
       nLxFemale = nLxFemale,
       nLxMale = nLxMale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
       method = "linear"
     ),
@@ -371,7 +379,7 @@ test_that("basepop_single fails if provided five year age groups", {
       nLxFemale = nLxFemale,
       nLxMale = nLxMale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
       method = "linear"
     ),
@@ -388,7 +396,7 @@ test_that("basepop_single fails if provided five year age groups", {
       SRB = sex_ratio,
       nLxFemale = nLxFemale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
       method = "linear"
     ),
@@ -405,7 +413,7 @@ test_that("basepop_single fails if provided five year age groups", {
       SRB = sex_ratio,
       nLxFemale = nLxFemale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
       method = "linear"
     ),
@@ -423,7 +431,7 @@ test_that("basepop_single fails if provided five year age groups", {
       nLxFemale = nLxFemale,
       nLxMale = nLxMale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
       method = "linear"
     ),
@@ -622,9 +630,10 @@ test_that("basepop_single does calculation for males when providing Males_single
       nLxFemale = nLxFemale,
       nLxMale = nLxMale,
       nLxDatesIn = nLxDatesIn,
-      asfrMat = asfrmat,
+      AsfrMat = asfrmat,
       AsfrDatesIn = AsfrDatesIn,
-      method = "linear"
+      method = "linear",
+      radix = 100000
     )
 
   correct_res_males <-
@@ -641,6 +650,257 @@ test_that("basepop_single does calculation for males when providing Males_single
       `9` = 11319
     )
 
-  expect_equivalent(res[1:10], correct_res_males)
+  expect_equivalent(round(res[1:10], 0), correct_res_males)
+})
 
+
+refYear <- 1986
+country <- "Spain"
+res <- fertestr::FetchPopWpp2019(country, refYear, ages = 0:100, sex = "female")
+pop_female_counts <- single2abridged(setNames(res$pop, res$ages))
+
+res <- fertestr::FetchPopWpp2019(country, refYear, ages = 0:100, sex = "male")
+pop_male_counts <- single2abridged(setNames(res$pop, res$ages))
+
+# Download asfr matrix to test that it can download the nLx only
+invisible(
+  capture.output(
+    nLxFemale <-
+      downloadnLx(
+        NULL,
+        country,
+        gender = "female",
+        c(1978, 1985.5),
+        radix = NULL
+      )
+  )
+)
+
+# Download asfr matrix to test that it can download the nLx only
+invisible(capture.output(asfrmat <- downloadAsfr(NULL, country, c(1978, 1985.5))))
+
+test_that("basepop_five can download data for nLx", {
+
+  # Female
+  output <-
+    capture.output(
+      basepop_five(
+        country = country,
+        refYear = refYear,
+        Females_five = pop_female_counts,
+        AsfrMat = asfrmat
+      )
+    )
+
+  # Test that the output print doesn't print its
+  # downloading the Asfr
+  expect_false(any(grepl("^Downloading Asfr", output)))
+
+  # Test that it's downloading nLx for the two years and female
+  expect_true(sum(grepl("^Downloading nLx", output)) == 2)
+
+
+  # Male
+  output <-
+    capture.output(
+      basepop_five(
+        country = country,
+        refYear = refYear,
+        Females_five = pop_female_counts,
+        Males_five = pop_male_counts,
+        AsfrMat = asfrmat,
+        female = FALSE
+      )
+    )
+
+  # Test that the output print doesn't print its
+  # downloading the Asfr
+  expect_false(any(grepl("^Downloading Asfr", output)))
+
+  # Test that it's downloading nLx for the two years and female
+  # It's four because it's two years * female and male
+  expect_true(sum(grepl("^Downloading nLx", output)) == 4)
+})
+
+test_that("basepop_five can download data for asfr", {
+
+  output <-
+    capture.output(
+      basepop_five(
+        country = country,
+        refYear = refYear,
+        nLxFemale = nLxFemale$nLx,
+        Females_five = pop_female_counts
+      )
+    )
+
+  # Test that the output print doesn't print it's
+  # downloading the nLx
+  expect_false(any(grepl("^Downloading nLx", output)))
+
+  # For males
+  # There's no need to test this separately between gender because
+  # the Asfr matrix is downloaded regardless of gender. However,
+  # since the code is becoming convoluted, I'm testing just in case
+
+  output <-
+    capture.output(
+      basepop_five(
+        country = country,
+        refYear = refYear,
+        nLxFemale = nLxFemale$nLx,
+        Females_five = pop_female_counts,
+        Males_five = pop_male_counts,
+        female = TRUE
+      )
+    )
+
+  expect_false(any(grepl("^Downloading nLx", output)))
+})
+
+test_that("basepop_five downloads radix if not provided", {
+
+  output <-
+    capture.output(
+      basepop_five(
+        country = country,
+        refYear = refYear,
+        nLxFemale = nLxFemale$nLx,
+        Females_five = pop_female_counts
+      )
+    )
+
+  expect_true(sum(grepl("^Setting radix", output)) == 1)
+})
+
+test_that("basepop raises error when no country have been specified", {
+
+  expect_error(
+    basepop_five(
+      refYear = refYear,
+      nLxFemale = nLxFemale$nLx,
+      Females_five = pop_female_counts,
+      verbose = FALSE
+    ),
+    "You must provide a country for the function to set a default radix"
+  )
+
+
+  expect_error(
+    basepop_five(
+      refYear = refYear,
+      AsfrMat = asfrmat,
+      Females_five = pop_female_counts,
+      radix = 1,
+      verbose = FALSE
+    ),
+    "You need to provide a country to download the data for nLx"
+  )
+
+  expect_error(
+    basepop_five(
+      refYear = refYear,
+      nLxFemale = nLxFemale$nLx,
+      Females_five = pop_female_counts,
+      radix = 1,
+      verbose = FALSE
+    ),
+    "You need to provide a country to download the data for Asfrmat"
+  )
+
+  # If provided all correct arguments, it download the data
+  # successfully
+  expect_success({
+    res <-
+      basepop_five(
+        country = "Spain",
+        refYear = refYear,
+        AsfrMat = asfrmat,
+        Females_five = pop_female_counts,
+        radix = 1,
+        verbose = FALSE
+      )
+
+    expect_type(res, "double")
+  })
+
+})
+
+test_that("basepop_five can download from dates provided", {
+
+  output <-
+    capture.output(
+      basepop_five(
+        country = country,
+        refYear = refYear,
+        nLxDatesIn = c(1978, 1986.5),
+        AsfrDatesIn = c(1978, 1985.5),
+        Females_five = pop_female_counts
+      )
+    )
+
+  # Test that the output print doesn't print its
+  # calculating the datesin for both nLx and Asfr.
+  expect_false(any(grepl("^Assuming the two", output)))
+
+  output <-
+    capture.output(
+      basepop_five(
+        country = country,
+        refYear = refYear,
+        nLxDatesIn = c(1978, 1986.5),
+        Females_five = pop_female_counts
+      )
+    )
+
+  # Test that it calculates the dates for the asfr
+  expect_true(sum(grepl("^Assuming the two", output)) == 1)
+
+  output <-
+    capture.output(
+      basepop_five(
+        country = country,
+        refYear = refYear,
+        Females_five = pop_female_counts
+      )
+    )
+
+  # Tests that it calculates the dates for nLx and asfr
+  expect_true(sum(grepl("^Assuming the two", output)) == 2)
+})
+
+test_that("basepop_five only estimates male counts when female = FALSE", {
+
+  female <-
+      basepop_five(
+        country = country,
+        refYear = refYear,
+        Females_five = pop_female_counts,
+        verbose = FALSE
+      )
+
+  male1 <-
+    basepop_five(
+      country = country,
+      refYear = refYear,
+      Females_five = pop_female_counts,
+      Males_five = pop_male_counts,
+      verbose = FALSE
+    )
+
+  # Even if male1 specifies the male vector, `female = FALSE`
+  # hasn't been set
+  expect_true(all(female == male1))
+
+  male2 <-
+    basepop_five(
+      country = country,
+      refYear = refYear,
+      Females_five = pop_female_counts,
+      Males_five = pop_male_counts,
+      female = FALSE,
+      verbose = FALSE
+    )
+
+  expect_true(all(female != male2))
 })
