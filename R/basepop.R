@@ -192,7 +192,7 @@
 #' bpe_male[1:3]
 #' pop_male_counts[1:3]
 #'
-#' #' ################ BPE for females (single ages) ############################
+#' ################ BPE for females (single ages) ############################
 #'
 #' pop_female_single <- setNames(pop_female_single$pop, pop_female_single$ages)
 #'
