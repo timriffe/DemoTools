@@ -22,14 +22,19 @@
 #' pop2                     <- c(6.48,12.27,15.25,15.10,14.66,10.80,8.95,9.28,7.21)
 #' IRD(pop1, pop2)     # 6.7 reproduces table 7.20 of Siegel & Swanson (2004)
 #' IRD(pop1,pop1)      # identical pops  = 0
-#' IRD(pop1, pop2 * 2) # only structure matters
+#' IRD(pop1, pop1 * 2) # only structure matters
 #' pop3                     <- pop1
 #' pop3[1:7]                <- 0
 #' IRD(pop1, pop3)     # theoretical max > 100
 IRD                         <- function(pop1, pop2, log = FALSE) {
   # for now just make sure they're the same lengths. We won't do
   # age matching here.
+  # pop1 <- unlist(pop1)
+  # pop2 <- unlist(pop2)
+  
   stopifnot(length(pop1) == length(pop2))
+  stopifnot(is.vector(pop1) & is.vector(pop2))
+  
   n                         <- length(pop1)
   
   r1                        <- rescale_vector(pop1)
