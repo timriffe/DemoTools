@@ -31,7 +31,7 @@ census_cohort_adjust <- function(Pop, Age, date){
 
   cohorts    <- yr - Age - 1 + shift
   
-  list(Pop = pop_out, Cohort = cohorts, Date = date, f1 = f1)
+  list(Pop = pop_out, Cohort = cohorts, date = date, f1 = f1)
 }
 
 # C1 <- seq(10000,10,length.out = 10)
@@ -49,15 +49,52 @@ census_cohort_adjust <- function(Pop, Age, date){
 # 
 # interp()
 
-interp_coh_bare <- function(C1, C2, date1, date2, Age1, Age2, ...){
+c1 = seq(10000,10,length.out = 10); c2 = seq(15000,10,length.out = 10); date1 = "2020-07-01"; date2 = "2025-10-14"; age1 = 0:9; age2 = 0:9
+
+interp_coh_bare <- function(c1, c2, date1, date2, age1, age2, ...){
   
-  C1_coh <-census_cohort_adjust(C1, Age1, date1)
-  C2_coh <-census_cohort_adjust(C2, Age2, date2)
+  date1 <- dec.date(date1)
+  date2 <- dec.date(date2)
+  
+  # !!! do we plan to allow age1 != age2 ?
+  
+  c1c <-census_cohort_adjust(c1, age1, date1)
+  c2c <-census_cohort_adjust(c2, age2, date2)
   
   # Connect cohorts observed (completely) in both censuses
+  obs_coh <- intersect(c1c$Cohort, c2c$Cohort)
   
-  # select, make some intermediate data objects as necessary
-  # then use interp()
+  # remove first cohort is not observed in full
+  if(c1c$date - c1c$Cohort[1] != 1){
+    obs_coh <- obs_coh[-1]
+  }
+  
+  # Tim: select, make some intermediate data objects as necessary
+  
+  # fully observed cohorts in a pop matrix
+  obs_coh_mat <- cbind(
+    c1c$Pop[match(obs_coh, c1c$Cohort)],
+    c1c$Pop[match(obs_coh, c2c$Cohort)]
+  ) 
+  # set names 
+  dimnames(obs_coh_mat) <- list(obs_coh, c(c1c$date, c2c$date))
+  
+  # Tim: then use interp()
+  
+  # interpolate
+  dates_in <- dimnames(obs_coh_mat)[[2]] %>% as.numeric()
+  dates_out <- seq(floor(dates_in[1]), ceiling(dates_in[-1]), 1) 
+  # what should be the default behavior here? 
+  # I start off with the one year step period, inclusive
+  
+  interpolated_coh_mat <- interp(
+    popmat = obs_coh_mat, 
+    datesIn = dates_in, 
+    datesOut = dates_out, 
+    method = "linear", 
+    rule = 2
+  )
+  
   
   
   ########
@@ -67,7 +104,19 @@ interp_coh_bare <- function(C1, C2, date1, date2, Age1, Age2, ...){
   # Just do a between-age interpolation and select out
   # that triangle.
   
+  # !!! between-age interpolation
+  period_mat <-  cbind(c1, c2) 
+  # set names 
+  dimnames(period_mat) <- list(age1, c(date1, date2))
   
+  
+  interpolated_period_mat <- interp(
+    popmat = period_mat, 
+    datesIn = dimnames(period_mat)[[2]] %>% as.numeric(), 
+    datesOut =  seq(floor(dates_in[1]), ceiling(dates_in[-1]), 1) , 
+    method = "linear", 
+    rule = 2
+  )
   ########
   
   # Now fill in the upper triangle, doing something
@@ -75,11 +124,44 @@ interp_coh_bare <- function(C1, C2, date1, date2, Age1, Age2, ...){
   
   ########
   
+  # now the task is to take interpolated_period_mat  
+  # and overwrite the matching values from interpolated_coh_mat
   
+  # achieved using a for loop that iterates across columns
+  # so I use the period interpolated matrix as canvas
+  # and overwrite the matching values from the cohort matrix
+  
+  for (i in dimnames(interpolated_coh_mat)[[2]]) {
+    # take the i-th column from cohort interpolated matrix
+    replacement <- interpolated_coh_mat[,i]
+    # calculate the corresponding ages fo the interpolated values
+    ages <- as.numeric(i) - as.numeric(names(replacement))
+    # overwrite the cohort values in the period matrix
+    interpolated_period_mat[ages,i] <- replacement
+  }
+  
+  
+  # The remaining task is to frame the output
+  return(interpolated_period_mat)
   
 }
 
 
 
+# try out
+
+boo <- interpolated_period_mat
+
+boo[is.numeric(boo)] <- 0
+
+foo <- interpolated_coh_mat
 
 
+
+for (i in dimnames(foo)[[2]]) {
+  
+  replacement <- foo[,i]
+  ages <- as.numeric(i) - as.numeric(names(replacement))
+  
+  boo[ages,i] <- replacement
+}
