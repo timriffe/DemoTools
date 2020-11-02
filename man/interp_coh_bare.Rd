@@ -7,7 +7,9 @@
 interp_coh_bare(c1, c2, date1, date2, age1, age2, ...)
 }
 \arguments{
-\item{c1}{numeric vector. The second (right) census in single age groups}
+\item{c1}{numeric vector. The first (left) census in single age groups}
+
+\item{c2}{numeric vector. The second (right) census in single age groups}
 
 \item{date1}{reference date of c1`. Either a Date class object or an unambiguous character string in the format "YYYY-MM-DD".}
 
@@ -16,6 +18,8 @@ interp_coh_bare(c1, c2, date1, date2, age1, age2, ...)
 \item{age1}{integer vector. single ages of \code{c1}}
 
 \item{age2}{integer vector. single ages of \code{c2}}
+
+\item{...}{extra arguments passed to \code{interp()}. Not currently in use.}
 }
 \description{
 Cohorts between two censuses are interpolated flexibly using linear, exponential, or power rules. The lower and upper intercensal triangles are filled using within-age interpolation. This function is experimental and still in development.

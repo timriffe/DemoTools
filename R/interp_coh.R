@@ -1,8 +1,9 @@
 #' shift census populations to match single year cohorts
 #' @description Matches the (single) ages of a census to single cohorts. For use in intercensal interpolations. Ages are potentially blended to match single cohort line assuming that the population in each age is uniformly distributed over the age group.
+#' @param Pop numeric vector. Population counts in single ages
 #' @param Age integer. Lower bound of single age groups
 #' @param date Either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.
-#'@export
+#' @export
 #' @examples
 #' Pop <- seq(10000,100,length.out = 101)
 #' Age <- 0:100
@@ -14,6 +15,7 @@
 #' census_cohort_adjust(Pop,Age,d2)
 #' census_cohort_adjust(Pop,Age,d3)
 #' census_cohort_adjust(Pop,Age,2020.5)
+
 census_cohort_adjust <- function(Pop, Age, date){
   
   stopifnot(is_single(Age))
@@ -55,11 +57,12 @@ census_cohort_adjust <- function(Pop, Age, date){
 #' @description Cohorts between two censuses are interpolated flexibly using linear, exponential, or power rules. The lower and upper intercensal triangles are filled using within-age interpolation. This function is experimental and still in development.
 #' @seealso interp
 #' @param c1 numeric vector. The first (left) census in single age groups
-#' @param c1 numeric vector. The second (right) census in single age groups
+#' @param c2 numeric vector. The second (right) census in single age groups
 #' @param date1 reference date of c1`. Either a Date class object or an unambiguous character string in the format "YYYY-MM-DD".
 #' @param date2 reference date of c2`. Either a Date class object or an unambiguous character string in the format "YYYY-MM-DD".
 #' @param age1 integer vector. single ages of `c1`
 #' @param age2 integer vector. single ages of `c2` 
+#' @param ... extra arguments passed to `interp()`. Not currently in use.
 #' @export
 interp_coh_bare <- function(c1, c2, date1, date2, age1, age2, ...){
   
