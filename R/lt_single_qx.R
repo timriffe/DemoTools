@@ -19,6 +19,7 @@
 #'   \item{Tx}{numeric. Lifetable total years left to live above age x.}
 #'   \item{ex}{numeric. Age-specific remaining life expectancy.}
 #' }
+#' @importFrom utils head
 #' @export
 lt_single_qx <- function(nqx,
                          Age = 1:length(nqx) - 1,
