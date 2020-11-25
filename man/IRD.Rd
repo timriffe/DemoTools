@@ -29,7 +29,7 @@ pop1                     <- c(7.38,14.16,14.79,17.36,15.11,10.14,8.50,7.28,5.28)
 pop2                     <- c(6.48,12.27,15.25,15.10,14.66,10.80,8.95,9.28,7.21)
 IRD(pop1, pop2)     # 6.7 reproduces table 7.20 of Siegel & Swanson (2004)
 IRD(pop1,pop1)      # identical pops  = 0
-IRD(pop1, pop2 * 2) # only structure matters
+IRD(pop1, pop1 * 2) # only structure matters
 pop3                     <- pop1
 pop3[1:7]                <- 0
 IRD(pop1, pop3)     # theoretical max > 100

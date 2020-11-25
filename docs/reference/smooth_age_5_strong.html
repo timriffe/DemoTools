@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.23</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.30</span>
       </span>
     </div>
 
@@ -197,9 +197,9 @@
     <p>The open age group is aggregated down to be evenly divisible by 10. This method accounts for the youngest and oldest age groups. Age classes must be cleanly groupable to 5-year age groups. All age classes are returned, but the strongest adjustment occurs in ages bounded by <code>ageMin</code> and <code>ageMax</code>. To be clear <code>ageMax</code> refers to the lower bound of the highest age class, inclusive. So, if you want a ceiling of 70 (default), specify 65. Counts are not constrained within this range, but the youngest 10-year age group and penultimate 10-year age group are perturbed but constrained to their original totals. The oldest 10-year age group is unaffected.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Carrier NH, Farrag A (1959).
+    <p>Carrier NH, Farrag AM (1959).
 &#8220;The reduction of errors in census populations for statistically underdeveloped countries.&#8221;
-<em>Population Studies</em>, <b>12</b>(3), 240--285.</p>
+<em>Population Studies</em>, <b>12</b>, 240--285.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>Ages</span>         <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>)
