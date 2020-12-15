@@ -6,6 +6,7 @@
 #' https://www.lifetable.de/methodology.pdf. Output abridged life table has same open age group
 #' as input single age life table
 #' @details Similar to \code{lt_abridged()} details, forthcoming
+#' @param Age integer. Lower bounds of single ages.
 #' @param lx numeric. Vector of lifetable survivorship at single ages.
 #' @param nLx numeric. Vector of lifetable exposure at single ages.
 #' @param ex numeric. Vector of Age-specific remaining life expectancy at single ages.
@@ -23,13 +24,17 @@
 #'   \item{Tx}{numeric. Lifetable total years left to live above age x.}
 #'   \item{ex}{numeric. Age-specific remaining life expectancy.}
 #' }
+#' 
 #' @export
 #' 
 lt_single2abridged <- function(lx,
                                nLx,
                                ex,
-                               Age = 1:length(lx) - 1,
-                               ...) {
+                               Age = 1:length(lx) - 1) {
+  
+  stopifnot(is_single(Age))
+  NN <- length(lx)
+  stopifnot(length(nLx) == NN & length(ex) == NN & length(Age) == NN)
   
   # define abridged age groups
   Age5   <- c(0, 1, seq(5, max(Age), 5))
@@ -42,7 +47,7 @@ lt_single2abridged <- function(lx,
   ex     <- ex[Age %in% Age5]     
   ndx    <- lt_id_l_d(lx)         
   nqx    <- ndx / lx 
-  nAx    <- (nLx - (AgeInt * c(tail(lx,-1), NA))) / ndx
+  nAx    <- (nLx - (AgeInt * shift.vector(lx,-1,NA))) / ndx
   nAx[N] <- ex[N]
   nMx    <- ndx/nLx
   Tx     <- lt_id_L_T(nLx)
