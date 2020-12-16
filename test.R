@@ -134,9 +134,6 @@ test <-
 
 # Replicate CohortMigFlow -------------------------------------------------
 
-
-# Try copying vba code
-
 pop_m_mat <- as.matrix(pop_m %>% select(-age))
 pop_f_mat <- as.matrix(pop_f %>% select(-age))
 sr_m_mat <- as.matrix(sr_m %>% select(-age))
@@ -170,8 +167,8 @@ for (j in 2:nyears) {
   # For last age group, net migration is:
   # pop for that age group in year j, minus the people from the previous age group
   # the survived
-  net_mig_m[nages, j] <- pop_m_mat[nages, j] -  (pop_m_mat[nages, previous_year] + pop_m_mat[previous_ageg, previous_year]) * sr_m_mat[nages, previous_year]
-  net_mig_f[nages, j] <- pop_f_mat[nages, j] -  (pop_f_mat[nages, previous_year] + pop_f_mat[previous_ageg, previous_year]) * sr_f_mat[nages, previous_year]
+  net_mig_m[nages, j] <- pop_m_mat[nages, j] - (pop_m_mat[nages, previous_year] + pop_m_mat[previous_ageg, previous_year]) * sr_m_mat[nages, previous_year]
+  net_mig_f[nages, j] <- pop_f_mat[nages, j] - (pop_f_mat[nages, previous_year] + pop_f_mat[previous_ageg, previous_year]) * sr_f_mat[nages, previous_year]
 }
 
 ## Up until this point, net_mig does not have any value
@@ -312,10 +309,211 @@ mig_m %>%
   mutate(cohort = year - age) %>%
   ggplot(aes(age, mig, color = factor(cohort))) + geom_line()
 
+## m_orig <-
+##   mig_m %>%
+##   set_names(c("Age", years[-length(years)])) %>%
+##   mutate(Age = ages) %>%
+##   pivot_longer(-Age, names_to = "year_original", values_to = "mig") %>%
+##   mutate(type = "Original")
+
+## m_residual <-
+##   mig_rectangle_m[, -1] %>%
+##   as.data.frame() %>%
+##   set_names(years[-length(years)]) %>%
+##   mutate(Age = ages) %>%
+##   select(Age, everything()) %>%
+##   pivot_longer(-Age, names_to = "year_original", values_to = "mig") %>%
+##   mutate(type = "Migration Residual")
+
+## merged_migration <-
+##   m_orig %>%
+##   bind_rows(m_residual) %>%
+##   set_names(tolower) %>%
+##   arrange(age, year_original)
+
+## merged_migration %>%
+##   filter(age == 5) %>%
+##   ggplot(aes(year_original, mig)) +
+##   geom_point() +
+##   geom_line(aes(group = type, color = type)) +
+##   theme_bw()
 
 plot(mig_rectangle_m[2,2:20], type = "o")
 lines(as.matrix(mig_m[,-1])[2,2:20] , col = 2)
 
-
 plot(mig_rectangle_m[2:20,3], type = "o")
 lines(as.matrix(mig_m[,-1])[2:20,2] , col = 2)
+
+
+
+
+# Replicate MigFlow -------------------------------------------------
+net_mig_m <- matrix(NA, nrow = nages, ncol = nyears)
+net_mig_f <- matrix(NA, nrow = nages, ncol = nyears)
+
+for (j in 2:(nyears)) {
+  for (i in 2:(nages - 1)) {
+    next_year <- j + 1
+    next_age <- i + 1
+    net_mig_m[i, j] <- pop_m_mat[i, j] -  pop_m_mat[next_age, next_year] * sr_m_mat[i, next_year]
+    net_mig_f[i, j] <- pop_f_mat[i, j] -  pop_f_mat[next_age, next_year] * sr_f_mat[i, next_year]
+  }
+}
+
+
+for (j in 2:nyears) {
+  previous_year <- j - 1
+  previous_ageg <- nages - 1
+
+  # For last age group, net migration is:
+  # pop for that age group in year j, minus the people from the previous age group
+  # the survived
+  net_mig_m[nages, j] <- pop_m_mat[nages, j] -  (pop_m_mat[nages, previous_year] + pop_m_mat[previous_ageg, previous_year]) * sr_m_mat[nages, previous_year]
+  net_mig_f[nages, j] <- pop_f_mat[nages, j] -  (pop_f_mat[nages, previous_year] + pop_f_mat[previous_ageg, previous_year]) * sr_f_mat[nages, previous_year]
+}
+
+all_births <- rep(NA, length(years))
+fertility_index <- which(ages %in% ages_fertility)
+
+for (j in 2:nyears) {
+  births_this_year <- 0
+  for (i in fertility_index) {
+    print(i)
+
+    # Sum female pop from previous year and this year
+    f_pop <- pop_f_mat[i, j - 1] + pop_f_mat[i, j]
+
+    ## Get the asfr of the previous year for the current
+    ## age group. normalize_index just matches the index
+    ## from fertility index to the actual index of
+    ## the asfr_mat (so the index 4 in fertility_index
+    ## is just 1 in asfr_mat, etc..)
+    normalize_index <- i - (min(fertility_index) - 1)
+    asfr_previousyear <- asfr_mat[normalize_index, j - 1]
+
+    ## Births that occurred this year j for all age groups
+    these_births <- age_interval * (0.5 * (f_pop) * asfr_previousyear) / 1000
+
+    ## Accumulate all the births for the age groups
+    ## fir this year
+    births_this_year <- births_this_year + these_births
+    print(births_this_year)
+  }
+  # All births that occurred this year. This
+  # is a vector same as length as number of years
+  # with births
+  all_births[j] <- births_this_year
+}
+
+# With all_births already calculated, separate between
+# female/male births with the sex ratio at birth
+srb_vec <- as.numeric(srb_mat[, 2])
+births_m <- all_births[2:length(all_births)] * (srb_vec / (1 + srb_vec))
+births_f <- all_births[2:length(all_births)] * (1 / (1 + srb_vec))
+
+# 2. So far, net_mig is pop minus people that survived minus births
+for (j in 2:nyears) {
+  previous_year <- j - 1
+
+  ## pop for the first age group minus the births for the
+  ## previous year * by the survival ratio for the previous year.
+  ## In other words, tell me all the births that survived and
+  ## subtract from the population of the first age group.
+  net_mig_m[1, j] <- pop_m_mat[1, j] - births_m[previous_year] * sr_m_mat[1, previous_year]
+  net_mig_f[1, j] <- pop_f_mat[1, j] - births_f[previous_year] * sr_f_mat[1, previous_year]
+
+  # Why all of this only for the first age group? Because we didn't
+  # calculate the net_mig for the this first age group before. The only
+  # thing we can't calculate is the net migration for the first year
+  # because we don't info on the *previous year*. Other than that,
+  # the age groups x years matrix should be filled entirely.
+}
+
+for (j in 2:(nyears)) {
+  net_mig_m[1, j] <- 2 * net_mig_m[1, j]
+  net_mig_f[1, j] <- 2 * net_mig_f[1, j]
+}
+
+for (j in 2:(nyears)) {
+  for (i in 2:nages) {
+    net_mig_m[i + 1, j] <- 2 * net_mig_m[i, j] - net_mig_m[i + 1, j] * sr_m_mat[i + 1, j]
+    net_mig_f[i + 1, j] <- 2 * net_mig_f[i, j] - net_mig_f[i + 1, j] * sr_f_mat[i + 1, j]
+  }
+}
+
+
+# Replicate MigStock -------------------------------------------------
+
+net_mig_m <- matrix(NA, nrow = nages, ncol = nyears)
+net_mig_f <- matrix(NA, nrow = nages, ncol = nyears)
+
+# Same as in CohortMigFlow
+for (i in 2:(nages - 1)) {
+  for (j in 2:(nyears)) {
+    previous_year <- j - 1
+    previous_age <- i - 1
+
+    net_mig_m[i, j] <- pop_m_mat[i, j] -  pop_m_mat[previous_age, previous_year] * sr_m_mat[i, previous_year]
+    net_mig_f[i, j] <- pop_f_mat[i, j] -  pop_f_mat[previous_age, previous_year] * sr_f_mat[i, previous_year]
+  }
+}
+
+# Same as in CohortMigFlow
+for (j in 2:nyears) {
+  previous_year <- j - 1
+  previous_ageg <- nages - 1
+
+  # For last age group, net migration is:
+  # pop for that age group in year j, minus the people from the previous age group
+  # the survived
+  net_mig_m[nages, j] <- pop_m_mat[nages, j] -  (pop_m_mat[nages, previous_year] + pop_m_mat[previous_ageg, previous_year]) * sr_m_mat[nages, previous_year]
+  net_mig_f[nages, j] <- pop_f_mat[nages, j] -  (pop_f_mat[nages, previous_year] + pop_f_mat[previous_ageg, previous_year]) * sr_f_mat[nages, previous_year]
+}
+
+# Same as in CohortMigFlow
+# births
+all_births <- rep(NA, length(years))
+fertility_index <- which(ages %in% ages_fertility)
+
+for (j in 2:nyears) {
+  births_this_year <- 0
+  for (i in fertility_index) {
+    print(i)
+
+    # Sum female pop from previous year and this year
+    f_pop <- pop_f_mat[i, j - 1] + pop_f_mat[i, j]
+
+    ## Get the asfr of the previous year for the current
+    ## age group. normalize_index just matches the index
+    ## from fertility index to the actual index of
+    ## the asfr_mat (so the index 4 in fertility_index
+    ## is just 1 in asfr_mat, etc..)
+    normalize_index <- i - (min(fertility_index) - 1)
+    asfr_previousyear <- asfr_mat[normalize_index, j - 1]
+
+    ## Births that occurred this year j for all age groups
+    these_births <- age_interval * (0.5 * (f_pop) * asfr_previousyear) / 1000
+
+    ## Accumulate all the births for the age groups
+    ## fir this year
+    births_this_year <- births_this_year + these_births
+    print(births_this_year)
+  }
+  # All births that occurred this year. This
+  # is a vector same as length as number of years
+  # with births
+  all_births[j] <- births_this_year
+}
+
+# With all_births already calculated, separate between
+# female/male births with the sex ratio at birth
+srb_vec <- as.numeric(srb_mat[, 2])
+births_m <- all_births[2:length(all_births)] * (srb_vec / (1 + srb_vec))
+births_f <- all_births[2:length(all_births)] * (1 / (1 + srb_vec))
+
+for (j in 2:nyears) {
+  previous_year <- j - 1
+  net_mig_m[1, j] <- pop_m_mat[1, j] - births_m[previous_year] * sr_m_mat[1, previous_year]
+  net_mig_f[1, j] <- pop_f_mat[1, j] - births_f[previous_year] * sr_f_mat[1, previous_year]
+}
+
