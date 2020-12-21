@@ -3,14 +3,17 @@
 #'
 #' @details
 #'
-#' The stock method (\code{mig_resid_stock}) is the difference in stocks that
-#' survive between and t+5, and the first age group is based on the difference
+#' 1. The stock method (\code{mig_resid_stock}) is the difference in stocks that
+#' survive between t and t+5, and the first age group is based on the difference
 #' with the surviving births by sex.  It provides net migrants by lexis cohort
 #' parallelograms, and basically such info gets used as end-period migration
 #' since the migrants don't get exposed to mortality within the period.
 #'
-#' @description Adjust population counts for the age groups 0 to 10
-#'#'
+#' 3. The cohort even flow (\code{mig_resid_cohort}) method provides the most
+#' meaningful pattern of net migration by age consistent by cohort and assumes
+#' an evenly distribution within the 5-year period, and half of the migrants
+#' get exposed both fertility and mortality within this period.
+#'
 #' @param pop_m_mat A \code{numeric} matrix with population counts. Rows should
 #' be ages and columns should be years. Only five year age groups are supported.
 #' See examples.
@@ -475,6 +478,28 @@
 #' mig_res$mig_f
 #'
 #'
+#' ################ cohort even flow method  #####################
+#'
+#' # We reuse the same data from before
+#'
+#' mig_res <-
+#'   mig_resid_cohort(
+#'     pop_m_mat = pop_m_mat,
+#'     pop_f_mat = pop_f_mat,
+#'     sr_m_mat = sr_m_mat,
+#'     sr_f_mat = sr_f_mat,
+#'     asfr_mat = asfr_mat,
+#'     srb_vec = srb_vec,
+#'     ages = ages,
+#'     ages_fertility = ages_fertility
+#'   )
+#'
+#' # Net migration for males using the cohort even low method
+#' mig_res$mig_m
+#'
+#' # Net migration for females using the cohort even low method
+#' mig_res$mig_f
+#'
 #' @export
 mig_resid_stock <- function(pop_m_mat,
                             pop_f_mat,
@@ -537,6 +562,69 @@ mig_resid_stock <- function(pop_m_mat,
   )
 }
 
+#' @rdname mig_resid_stock
+#' @export
+mig_resid_cohort <- function(pop_m_mat,
+                             pop_f_mat,
+                             sr_m_mat,
+                             sr_f_mat,
+                             asfr_mat,
+                             srb_vec,
+                             ages,
+                             ages_fertility) {
+
+  # Estimate stock method
+  mig_res <-
+    mig_resid_stock(
+      pop_m_mat = pop_m_mat,
+      pop_f_mat = pop_f_mat,
+      sr_m_mat = sr_m_mat,
+      sr_f_mat = sr_f_mat,
+      asfr_mat = asfr_mat,
+      srb_vec = srb_vec,
+      ages = ages,
+      ages_fertility = ages_fertility
+    )
+
+  net_mig_m <- mig_res$mig_m
+  net_mig_f <- mig_res$mig_f
+
+  # Estimate bounds for males
+  mig_m_bounds <- migresid_bounds(net_mig_m, sr_m_mat)
+  mig_upper_m <- mig_m_bounds$upper
+  mig_lower_m <- mig_m_bounds$lower
+
+  # Estimate bounds for females
+  mig_f_bounds <- migresid_bounds(net_mig_f, sr_f_mat)
+  mig_upper_f <- mig_f_bounds$upper
+  mig_lower_f <- mig_f_bounds$lower
+
+  # Adjust last age group in the bounds
+  mig_bounds <- migresid_bounds_last_ageg(
+    net_mig_m,
+    net_mig_f,
+    mig_upper_m,
+    mig_lower_m,
+    mig_upper_f,
+    mig_lower_f
+  )
+
+  mig_upper_m <- mig_bounds$mig_upper_m
+  mig_lower_m <- mig_bounds$mig_lower_m
+  mig_upper_f <- mig_bounds$mig_upper_f
+  mig_lower_f <- mig_bounds$mig_lower_f
+
+  # Combine both upper/lower bound into a single rectangle
+  mig_rectangle_m <- mig_upper_m + mig_lower_m
+  mig_rectangle_f <- mig_upper_f + mig_lower_f
+
+  list(
+    mig_m = mig_rectangle_m[, -1],
+    mig_f = mig_rectangle_f[, -1]
+  )
+}
+
+
 # Net migration is pop minus the people that survived from the previous
 # age/cohort
 migresid_net_surv <- function(pop_mat, sr_mat) {
@@ -589,4 +677,61 @@ migresid_net_surv_first_ageg <- function(net_mig, pop_mat, births, sr_mat) {
   p <- ncol(net_mig)
   net_mig[1, 2:p] <- pop_mat[1, 2:p] - births * sr_mat[1, ]
   net_mig
+}
+
+
+# Returns age/year matrices with upper/lower bounds
+# for net migration based on the net migration and
+# survival rates. These, I believe are the upper/lower
+# bounds of a lexis surfave (which is why we do ^0.5).
+migresid_bounds <- function(net_mig, sr_mat) {
+  n <- nrow(net_mig)
+  p <- ncol(net_mig)
+
+  # Upper bound is net mig / 2 times the survival ratio ^ 0.5
+  mig_upper <- net_mig / (2 * sr_mat^0.5)
+  mig_upper <- cbind(matrix(NA, ncol = 1, nrow = n), mig_upper)
+  mig_lower <- mig_upper
+  mig_upper[1, ] <- NA
+  mig_upper[n, ] <- NA
+  mig_lower[n, ] <- NA
+  mig_lower <- mig_lower[-1, ]
+  empty_matrix <- matrix(NA, ncol = ncol(mig_lower), nrow = 1)
+  mig_lower <- rbind(mig_lower, empty_matrix)
+
+  # Estimate upper bounds for the first age group. Why
+  # no lower bound for the first age group? because we have
+  # no previous age group.
+  p_upper <- ncol(mig_upper)
+  mig_upper[1, 2:p_upper] <- net_mig[1, -p_upper] / (sr_mat[1, -p_upper]^0.5)
+
+  list(upper = mig_upper, lower = mig_lower)
+}
+
+# Updates last age group for all upper/lower bounds
+migresid_bounds_last_ageg <- function(net_mig_m,
+                                      net_mig_f,
+                                      mig_upper_m,
+                                      mig_lower_m,
+                                      mig_upper_f,
+                                      mig_lower_f) {
+
+
+  # last age group
+  n <- nrow(mig_upper_m)
+  p <- ncol(mig_upper_m)
+
+  mig_lower_m[n - 1, ] <- mig_upper_m[n - 1, ]
+  mig_lower_f[n - 1, ] <- mig_upper_f[n - 1, ]
+  mig_upper_m[n, 2:p] <- net_mig_m[n, -p] * 0.5
+  mig_upper_f[n, 2:p] <- net_mig_f[n, -p] * 0.5
+  mig_lower_m[n, 2:p] <- net_mig_m[n, -p] * 0.5
+  mig_lower_f[n, 2:p] <- net_mig_f[n, -p] * 0.5
+
+  list(
+    mig_lower_m = mig_lower_m,
+    mig_upper_m = mig_upper_m,
+    mig_lower_f = mig_lower_f,
+    mig_upper_f = mig_upper_f
+  )
 }

@@ -2,10 +2,22 @@
 % Please edit documentation in R/mig_resid.R
 \name{mig_resid_stock}
 \alias{mig_resid_stock}
+\alias{mig_resid_cohort}
 \title{Estimate net migration using residual methods: stock change,
 time even flow and cohort even flow}
 \usage{
 mig_resid_stock(
+  pop_m_mat,
+  pop_f_mat,
+  sr_m_mat,
+  sr_f_mat,
+  asfr_mat,
+  srb_vec,
+  ages,
+  ages_fertility
+)
+
+mig_resid_cohort(
   pop_m_mat,
   pop_f_mat,
   sr_m_mat,
@@ -61,15 +73,21 @@ other for females (called \code{mig_f}). Both matrices contain net migration
 estimates by age/period using one of the three methods.
 }
 \description{
-Adjust population counts for the age groups 0 to 10
-#'
+Estimate net migration using residual methods: stock change,
+time even flow and cohort even flow
 }
 \details{
-The stock method (\code{mig_resid_stock}) is the difference in stocks that
+\enumerate{
+\item The stock method (\code{mig_resid_stock}) is the difference in stocks that
 survive between and t+5, and the first age group is based on the difference
 with the surviving births by sex.  It provides net migrants by lexis cohort
 parallelograms, and basically such info gets used as end-period migration
 since the migrants don't get exposed to mortality within the period.
+\item The cohort even flow (\code{mig_resid_cohort}) method provides the most
+meaningful pattern of net migration by age consistent by cohort and assumes
+an evenly distribution within the 5-year period, and half of the migrants
+get exposed both fertility and mortality within this period.
+}
 }
 \examples{
 
@@ -492,5 +510,27 @@ mig_res$mig_m
 # Net migration for females using stock change method
 mig_res$mig_f
 
+
+################ cohort even flow method  #####################
+
+# We reuse the same data from before
+
+mig_res <-
+  mig_resid_cohort(
+    pop_m_mat = pop_m_mat,
+    pop_f_mat = pop_f_mat,
+    sr_m_mat = sr_m_mat,
+    sr_f_mat = sr_f_mat,
+    asfr_mat = asfr_mat,
+    srb_vec = srb_vec,
+    ages = ages,
+    ages_fertility = ages_fertility
+  )
+
+# Net migration for males using the cohort even low method
+mig_res$mig_m
+
+# Net migration for females using the cohort even low method
+mig_res$mig_f
 
 }
