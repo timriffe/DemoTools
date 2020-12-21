@@ -166,23 +166,50 @@ mig_upper_f <- matrix(NA, nrow = nages, ncol = nyears)
 mig_lower_f <- matrix(NA, nrow = nages, ncol = nyears)
 mig_rectangle_f <- matrix(NA, nrow = nages, ncol = nyears)
 
-# 3. Estimate the lower/upper bounds for the net migration
-for (j in 2:(nyears)) {
-  for (i in 2:(nages - 1)) {
 
-    previous_year <- j - 1
-    previous_ageg <- i - 1
+migresid_bounds <- function(net_mig, sr_mat) {
+  n <- nrow(net_mig)
+  p <- ncol(net_mig)
 
-    # Upper bound is net mig / 2 times the survival ratio of last year ^ 0.5
-    mig_upper_m[i, j] <- net_mig_m[i, previous_year] / (2 * sr_m_mat[i, previous_year]^0.5)
-    # Lower bound is net migration minus the upper bound for the
-    # previous age group
-    mig_lower_m[previous_ageg, j] <- mig_upper_m[i, j]
+  # Upper bound is net mig / 2 times the survival ratio of last year ^ 0.5
+  mig_upper <- net_mig / (2 * sr_mat^0.5)
+  mig_upper <- cbind(matrix(NA, ncol = 1, nrow = n), mig_upper)
+  mig_lower <- mig_upper
+  mig_upper[1, ] <- NA
+  mig_upper[n, ] <- NA
+  mig_lower[n, ] <- NA
+  mig_lower <- mig_lower[-1, ]
+  empty_matrix <- matrix(NA, ncol = ncol(mig_lower), nrow = 1)
+  mig_lower <- rbind(mig_lower, empty_matrix)
 
-    mig_upper_f[i, j] <- net_mig_f[i, previous_year] / (2 * sr_f_mat[i, previous_year]^0.5)
-    mig_lower_f[previous_ageg, j] <- mig_upper_f[i, j]
-  }
+  list(upper = mig_upper, lower = mig_lower)
 }
+
+mig_m_bounds <- migresid_bounds(net_mig_m, sr_m_mat)
+mig_upper_m <- mig_m_bounds$upper
+mig_lower_m <- mig_m_bounds$lower
+
+mig_f_bounds <- migresid_bounds(net_mig_f, sr_f_mat)
+mig_upper_f <- mig_f_bounds$upper
+mig_lower_f <- mig_f_bounds$lower
+
+
+# 3. Estimate the lower/upper bounds for the net migration
+## for (j in 2:(nyears)) {
+##   for (i in 2:(nages - 1)) {
+##     previous_year <- j - 1
+##     previous_ageg <- i - 1
+
+##     # Upper bound is net mig / 2 times the survival ratio of last year ^ 0.5
+##     mig_upper_m[i, j] <- net_mig_m[i, previous_year] / (2 * sr_m_mat[i, previous_year]^0.5)
+##     # Lower bound is net migration minus the upper bound for the
+##     # previous age group
+##     mig_lower_m[previous_ageg, j] <- mig_upper_m[i, j]
+
+##     mig_upper_f[i, j] <- net_mig_f[i, previous_year] / (2 * sr_f_mat[i, previous_year]^0.5)
+##     mig_lower_f[previous_ageg, j] <- mig_upper_f[i, j]
+##   }
+## }
 
 # Estimate upper bounds for the first age group. Why
 # no lower bound for the first age group? because we have
