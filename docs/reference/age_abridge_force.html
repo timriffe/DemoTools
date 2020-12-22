@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +162,7 @@
     <p>This is a robustness utility, in place to avoid annoying hang-ups in <code>LTAbr()</code>. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling <code><a href='lt_abridged.html'>lt_abridged()</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>age_abridge_force</span>(<span class='no'>Value</span>, <span class='no'>AgeInt</span>, <span class='no'>Age</span>)</pre>
+    <pre class="usage"><span class='fu'>age_abridge_force</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>AgeInt</span>, <span class='va'>Age</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,12 +189,14 @@
     <div class='dont-index'><p>graduate_mono_closeout, lt_abridged</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>V1</span>        <span class='kw'>&lt;-</span> <span class='no'>pop1m_ind</span>
-<span class='no'>Age</span>       <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>,<span class='fl'>100</span>,<span class='fl'>5</span>))
-<span class='no'>AgeInt</span>    <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>5</span>,<span class='fl'>19</span>),<span class='fl'>1</span>)
-<span class='no'>Value</span>     <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span>(<span class='no'>V1</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='no'>Age</span>,<span class='kw'>times</span><span class='kw'>=</span><span class='no'>AgeInt</span>), <span class='no'>sum</span>)
+    <pre class="examples"><div class='input'><span class='va'>V1</span>        <span class='op'>&lt;-</span> <span class='va'>pop1m_ind</span>
+<span class='va'>Age</span>       <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>100</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>AgeInt</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>19</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>Value</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span><span class='op'>(</span><span class='va'>V1</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='va'>Age</span>,times<span class='op'>=</span><span class='va'>AgeInt</span><span class='op'>)</span>, <span class='va'>sum</span><span class='op'>)</span>
 
-<span class='fu'><a href='is_abridged.html'>is_abridged</a></span>(<span class='no'>Age</span>)</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>age_abridge_force</span>(<span class='no'>Value</span>, <span class='no'>AgeInt</span>, <span class='no'>Age</span>)</div><div class='output co'>#&gt;        0        1        5       10       15       20       25       30 
+<span class='fu'><a href='is_abridged.html'>is_abridged</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>age_abridge_force</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>AgeInt</span>, <span class='va'>Age</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;        0        1        5       10       15       20       25       30 
 #&gt;  9350830 43009822 57419164 51947630 42231074 37514223 34546587 29917765 
 #&gt;       35       40       45       50       55       60       65       70 
 #&gt; 27558300 22842245 18954561 16904890 10941747 11907237  6493630  5535950 
@@ -215,7 +217,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +162,7 @@
     <p>Smooth population counts in 5-year age groups.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>smooth_age_5_strong</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>65</span>)</pre>
+    <pre class="usage"><span class='fu'>smooth_age_5_strong</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, ageMin <span class='op'>=</span> <span class='fl'>10</span>, ageMax <span class='op'>=</span> <span class='fl'>65</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,15 +202,17 @@
 <em>Population Studies</em>, <b>12</b>(3), 240--285.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Ages</span>         <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='no'>strongtest</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>646617</span>,<span class='fl'>511270</span>,<span class='fl'>386889</span>,<span class='fl'>317345</span>,<span class='fl'>273736</span>,<span class='fl'>240058</span>,<span class='fl'>218645</span>,<span class='fl'>188297</span>,
-                <span class='fl'>153931</span>, <span class='fl'>124347</span>,<span class='fl'>93254</span>,<span class='fl'>71858</span>,<span class='fl'>53594</span>,<span class='fl'>39721</span>,<span class='fl'>27887</span>,<span class='fl'>18092</span>,<span class='fl'>34729</span> )
-<span class='no'>strong_result</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5_strong</span>(<span class='no'>pop5m_pasex</span>,<span class='no'>Ages</span>,<span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='va'>Ages</span>         <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>strongtest</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>646617</span>,<span class='fl'>511270</span>,<span class='fl'>386889</span>,<span class='fl'>317345</span>,<span class='fl'>273736</span>,<span class='fl'>240058</span>,<span class='fl'>218645</span>,<span class='fl'>188297</span>,
+    <span class='fl'>153931</span>, <span class='fl'>124347</span>,<span class='fl'>93254</span>,<span class='fl'>71858</span>,<span class='fl'>53594</span>,<span class='fl'>39721</span>,<span class='fl'>27887</span>,<span class='fl'>18092</span>,<span class='fl'>34729</span> <span class='op'>)</span>
+<span class='va'>strong_result</span> <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5_strong</span><span class='op'>(</span><span class='va'>pop5m_pasex</span>,<span class='va'>Ages</span>,<span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># differences due to intermediate rounding in spreadsheet (bad practice IMO)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='no'>strong_result</span> - <span class='no'>strongtest</span>) <span class='kw'>&lt;</span> <span class='fl'>1</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Ages</span>, <span class='no'>pop5m_pasex</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>strong_result</span>)),<span class='no'>strong_result</span>)
-}</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>strong_result</span> <span class='op'>-</span> <span class='va'>strongtest</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>1</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>Ages</span>, <span class='va'>pop5m_pasex</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>strong_result</span><span class='op'>)</span><span class='op'>)</span>,<span class='va'>strong_result</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -226,7 +228,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

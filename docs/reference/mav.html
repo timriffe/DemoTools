@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +162,7 @@
     <p>This arithmetic smoothing technique aims to eliminate irregularities of the population pyramid by averaging values in a moving window of user-defined width.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mav</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>mav</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, n <span class='op'>=</span> <span class='fl'>3</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,18 +197,22 @@
     <p>Roger G, Waltisperger D, Corbille-Guitton C (1981).
 <em>Les structures par sexe et âge en Afrique</em>.
 GDA, Paris, France.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Juan Galeano</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Pop</span>  <span class='kw'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>303583</span>,<span class='fl'>390782</span>,<span class='fl'>523903</span>,<span class='fl'>458546</span>,<span class='fl'>517996</span>,<span class='fl'>400630</span>,<span class='fl'>485606</span>,<span class='fl'>325423</span>,<span class='fl'>471481</span>,<span class='fl'>189710</span>,
-        <span class='fl'>385442</span>,<span class='fl'>143205</span>,<span class='fl'>270890</span>,<span class='fl'>145105</span>,<span class='fl'>138078</span>,<span class='fl'>157444</span>,<span class='fl'>153035</span>,<span class='fl'>91566</span>,<span class='fl'>247160</span>,<span class='fl'>73115</span>,
-        <span class='fl'>384222</span>,<span class='fl'>83551</span>,<span class='fl'>198555</span>,<span class='fl'>111347</span>,<span class='fl'>129851</span>,<span class='fl'>477510</span>,<span class='fl'>149272</span>,<span class='fl'>100814</span>,<span class='fl'>178465</span>,<span class='fl'>50684</span>,
-        <span class='fl'>577167</span>,<span class='fl'>51878</span>,<span class='fl'>97788</span>,<span class='fl'>55544</span>,<span class='fl'>58011</span>,<span class='fl'>393200</span>,<span class='fl'>85048</span>,<span class='fl'>51131</span>,<span class='fl'>80336</span>,<span class='fl'>31246</span>,
-        <span class='fl'>454698</span>,<span class='fl'>34864</span>,<span class='fl'>51810</span>,<span class='fl'>31146</span>,<span class='fl'>26618</span>,<span class='fl'>228718</span>,<span class='fl'>38504</span>,<span class='fl'>23616</span>,<span class='fl'>40836</span>,<span class='fl'>15589</span>,
-        <span class='fl'>339158</span>,<span class='fl'>21349</span>,<span class='fl'>26997</span>,<span class='fl'>17590</span>,<span class='fl'>17513</span>,<span class='fl'>119763</span>,<span class='fl'>22704</span>,<span class='fl'>12336</span>,<span class='fl'>17635</span>,<span class='fl'>8485</span>,
-        <span class='fl'>323263</span>,<span class='fl'>9535</span>,<span class='fl'>13906</span>,<span class='fl'>9063</span>,<span class='fl'>8294</span>,<span class='fl'>90459</span>,<span class='fl'>9817</span>,<span class='fl'>6376</span>,<span class='fl'>8884</span>,<span class='fl'>3773</span>,<span class='fl'>160609</span>)
-<span class='no'>Age</span>  <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>70</span>
+    <pre class="examples"><div class='input'><span class='va'>Pop</span>  <span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>303583</span>,<span class='fl'>390782</span>,<span class='fl'>523903</span>,<span class='fl'>458546</span>,<span class='fl'>517996</span>,<span class='fl'>400630</span>,<span class='fl'>485606</span>,<span class='fl'>325423</span>,<span class='fl'>471481</span>,<span class='fl'>189710</span>,
+  <span class='fl'>385442</span>,<span class='fl'>143205</span>,<span class='fl'>270890</span>,<span class='fl'>145105</span>,<span class='fl'>138078</span>,<span class='fl'>157444</span>,<span class='fl'>153035</span>,<span class='fl'>91566</span>,<span class='fl'>247160</span>,<span class='fl'>73115</span>,
+  <span class='fl'>384222</span>,<span class='fl'>83551</span>,<span class='fl'>198555</span>,<span class='fl'>111347</span>,<span class='fl'>129851</span>,<span class='fl'>477510</span>,<span class='fl'>149272</span>,<span class='fl'>100814</span>,<span class='fl'>178465</span>,<span class='fl'>50684</span>,
+  <span class='fl'>577167</span>,<span class='fl'>51878</span>,<span class='fl'>97788</span>,<span class='fl'>55544</span>,<span class='fl'>58011</span>,<span class='fl'>393200</span>,<span class='fl'>85048</span>,<span class='fl'>51131</span>,<span class='fl'>80336</span>,<span class='fl'>31246</span>,
+  <span class='fl'>454698</span>,<span class='fl'>34864</span>,<span class='fl'>51810</span>,<span class='fl'>31146</span>,<span class='fl'>26618</span>,<span class='fl'>228718</span>,<span class='fl'>38504</span>,<span class='fl'>23616</span>,<span class='fl'>40836</span>,<span class='fl'>15589</span>,
+  <span class='fl'>339158</span>,<span class='fl'>21349</span>,<span class='fl'>26997</span>,<span class='fl'>17590</span>,<span class='fl'>17513</span>,<span class='fl'>119763</span>,<span class='fl'>22704</span>,<span class='fl'>12336</span>,<span class='fl'>17635</span>,<span class='fl'>8485</span>,
+  <span class='fl'>323263</span>,<span class='fl'>9535</span>,<span class='fl'>13906</span>,<span class='fl'>9063</span>,<span class='fl'>8294</span>,<span class='fl'>90459</span>,<span class='fl'>9817</span>,<span class='fl'>6376</span>,<span class='fl'>8884</span>,<span class='fl'>3773</span>,<span class='fl'>160609</span><span class='op'>)</span>
+<span class='va'>Age</span>  <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>70</span>
 <span class='co'># final age group assumed open</span>
-<span class='fu'>mav</span>(<span class='no'>Pop</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>)</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
+<span class='fu'>mav</span><span class='op'>(</span><span class='va'>Pop</span>, n <span class='op'>=</span> <span class='fl'>3</span>, Age <span class='op'>=</span> <span class='va'>Age</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
 #&gt;         NA 406089.333 457743.667 500148.333 459057.333 468077.333 403886.333 
 #&gt;          7          8          9         10         11         12         13 
 #&gt; 427503.333 328871.333 348877.667 239452.333 266512.333 186400.000 184691.000 
@@ -229,19 +233,20 @@ GDA, Paris, France.</p>
 #&gt;         63         64         65         66         67         68         69 
 #&gt;  10421.000  35938.667  36190.000  35550.667   8359.000   6344.333         NA 
 #&gt;         70 
-#&gt;         NA </div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>nwindows</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>3</span>, <span class='fl'>11</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>2</span>),<span class='no'>mav</span>, <span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>Pop</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>)
-<span class='no'>cols</span>     <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>.8</span>, <span class='fl'>0</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>5</span>))
-<span class='no'>lwds</span>     <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>3</span>, <span class='fl'>1</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Age</span>,<span class='no'>Pop</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Age"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"The counts"</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>16</span>,
-                <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Moving average windows and extreme heaping"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/matplot.html'>matplot</a></span>(<span class='no'>Age</span>,<span class='no'>nwindows</span>,<span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>,<span class='kw'>col</span><span class='kw'>=</span><span class='no'>cols</span>, <span class='kw'>lwd</span><span class='kw'>=</span><span class='no'>lwds</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>1</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"topright"</span>,
-                <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>1</span>,
-                <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>cols</span>,
-                <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='no'>lwds</span>,
-                <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"n="</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>3</span>,<span class='fl'>11</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>2</span>)))
-}</div></pre>
+#&gt;         NA </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>nwindows</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>11</span>, by <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>,<span class='va'>mav</span>, Value <span class='op'>=</span> <span class='va'>Pop</span>, Age <span class='op'>=</span> <span class='va'>Age</span><span class='op'>)</span>
+<span class='va'>cols</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>.8</span>, <span class='fl'>0</span>, length <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>lwds</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>1</span>, length <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>Pop</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, xlab <span class='op'>=</span> <span class='st'>"Age"</span>, ylab <span class='op'>=</span> <span class='st'>"The counts"</span>, pch<span class='op'>=</span><span class='fl'>16</span>,
+    main <span class='op'>=</span> <span class='st'>"Moving average windows and extreme heaping"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/matplot.html'>matplot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>nwindows</span>,type<span class='op'>=</span><span class='st'>'l'</span>,col<span class='op'>=</span><span class='va'>cols</span>, lwd<span class='op'>=</span><span class='va'>lwds</span>, add<span class='op'>=</span><span class='cn'>TRUE</span>,lty<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>,
+    lty<span class='op'>=</span><span class='fl'>1</span>,
+    col <span class='op'>=</span> <span class='va'>cols</span>,
+    lwd <span class='op'>=</span> <span class='va'>lwds</span>,
+    legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"n="</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>3</span>,<span class='fl'>11</span>,by<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -257,7 +262,7 @@ GDA, Paris, France.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

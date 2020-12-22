@@ -83,7 +83,7 @@ and United Nations methods." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@ and United Nations methods." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -132,13 +132,13 @@ and United Nations methods." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -168,18 +168,18 @@ of values in the youngest and oldest age groups for the Carrier-Farrag, Karup-Ki
 and United Nations methods.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>smooth_age_5</span>(
-  <span class='no'>Value</span>,
-  <span class='no'>Age</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Carrier-Farrag"</span>, <span class='st'>"KKN"</span>, <span class='st'>"Arriaga"</span>, <span class='st'>"United Nations"</span>, <span class='st'>"Strong"</span>, <span class='st'>"Zigzag"</span>,
-    <span class='st'>"MAV"</span>),
-  <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>65</span>,
-  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>young.tail</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Original"</span>, <span class='st'>"Arriaga"</span>, <span class='st'>"Strong"</span>, <span class='fl'>NA</span>),
-  <span class='kw'>old.tail</span> <span class='kw'>=</span> <span class='no'>young.tail</span>
-)</pre>
+    <pre class="usage"><span class='fu'>smooth_age_5</span><span class='op'>(</span>
+  <span class='va'>Value</span>,
+  <span class='va'>Age</span>,
+  method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Carrier-Farrag"</span>, <span class='st'>"KKN"</span>, <span class='st'>"Arriaga"</span>, <span class='st'>"United Nations"</span>, <span class='st'>"Strong"</span>, <span class='st'>"Zigzag"</span>,
+    <span class='st'>"MAV"</span><span class='op'>)</span>,
+  OAG <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  ageMin <span class='op'>=</span> <span class='fl'>10</span>,
+  ageMax <span class='op'>=</span> <span class='fl'>65</span>,
+  n <span class='op'>=</span> <span class='fl'>3</span>,
+  young.tail <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Original"</span>, <span class='st'>"Arriaga"</span>, <span class='st'>"Strong"</span>, <span class='cn'>NA</span><span class='op'>)</span>,
+  old.tail <span class='op'>=</span> <span class='va'>young.tail</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -244,96 +244,98 @@ designed to give some flexibility in case you're not sure</p>
 compare the results from a variety of methods.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Ages</span>         <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>)
+    <pre class="examples"><div class='input'><span class='va'>Ages</span>         <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 
 <span class='co'># names a bit flexible:</span>
-<span class='no'>cf</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>pop5m_pasex</span>,
-        <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Ages</span>,
-        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Carrier-Farrag"</span>,
-        <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='va'>cf</span> <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>pop5m_pasex</span>,
+  Age <span class='op'>=</span> <span class='va'>Ages</span>,
+  method <span class='op'>=</span> <span class='st'>"Carrier-Farrag"</span>,
+  OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># old.tail be default same as young.tail</span>
 <span class='co'># "cf" also works</span>
 
 <span class='co'># no need to specify tails for Arriaga or Strong</span>
-<span class='no'>arr</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>pop5m_pasex</span>,
-        <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Ages</span>,
-        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Arriaga"</span>,
-        <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>strong</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>pop5m_pasex</span>,
-        <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Ages</span>,
-        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Strong"</span>,
-        <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='va'>arr</span> <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>pop5m_pasex</span>,
+  Age <span class='op'>=</span> <span class='va'>Ages</span>,
+  method <span class='op'>=</span> <span class='st'>"Arriaga"</span>,
+  OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>strong</span> <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>pop5m_pasex</span>,
+  Age <span class='op'>=</span> <span class='va'>Ages</span>,
+  method <span class='op'>=</span> <span class='st'>"Strong"</span>,
+  OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># other methods:</span>
-<span class='no'>un</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>pop5m_pasex</span>,
-        <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Ages</span>,
-        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"United Nations"</span>,
-        <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>kkn</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>pop5m_pasex</span>,
-        <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Ages</span>,
-        <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"KKN"</span>,
-        <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='va'>un</span> <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>pop5m_pasex</span>,
+  Age <span class='op'>=</span> <span class='va'>Ages</span>,
+  method <span class='op'>=</span> <span class='st'>"United Nations"</span>,
+  OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>kkn</span> <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>pop5m_pasex</span>,
+  Age <span class='op'>=</span> <span class='va'>Ages</span>,
+  method <span class='op'>=</span> <span class='st'>"KKN"</span>,
+  OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># zigzag, not plotted.</span>
-<span class='no'>zz</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5</span>(<span class='no'>pop5m_pasex</span>,<span class='no'>Ages</span>,<span class='kw'>OAG</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Zigzag"</span>,<span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>80</span>)
+<span class='va'>zz</span> <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5</span><span class='op'>(</span><span class='va'>pop5m_pasex</span>,<span class='va'>Ages</span>,OAG<span class='op'>=</span><span class='cn'>TRUE</span>,method<span class='op'>=</span><span class='st'>"Zigzag"</span>,ageMin <span class='op'>=</span> <span class='fl'>30</span>, ageMax <span class='op'>=</span> <span class='fl'>80</span><span class='op'>)</span>
 <span class='co'># mav, not plotted.</span>
-<span class='no'>ma3</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5</span>(<span class='no'>pop5m_pasex</span>,<span class='no'>Ages</span>,<span class='kw'>OAG</span><span class='kw'>=</span><span class='fl'>TRUE</span>,<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"MAV"</span>,<span class='kw'>n</span><span class='kw'>=</span><span class='fl'>3</span>)
+<span class='va'>ma3</span> <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5</span><span class='op'>(</span><span class='va'>pop5m_pasex</span>,<span class='va'>Ages</span>,OAG<span class='op'>=</span><span class='cn'>TRUE</span>,method<span class='op'>=</span><span class='st'>"MAV"</span>,n<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Ages</span>,<span class='no'>pop5m_pasex</span>,<span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>16</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Ages</span>, <span class='no'>cf</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Ages</span>, <span class='no'>arr</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Ages</span>, <span class='no'>strong</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"#FF000080"</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Ages</span>, <span class='no'>kkn</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Ages</span>, <span class='no'>un</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"magenta"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"topright"</span>,
-                <span class='kw'>pch</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>16</span>,<span class='fl'>NA</span>,<span class='fl'>NA</span>,<span class='fl'>NA</span>,<span class='fl'>NA</span>,<span class='fl'>NA</span>),
-                <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
-                <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
-                <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>,<span class='st'>"black"</span>,<span class='st'>"red"</span>,<span class='st'>"#FF000080"</span>,<span class='st'>"blue"</span>,<span class='st'>"magenta"</span>),
-                <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"orig 5"</span>,<span class='st'>"Carrier-Farrag"</span>,<span class='st'>"Arriaga"</span>,<span class='st'>"Strong"</span>,<span class='st'>"KKN"</span>,<span class='st'>"UN"</span>))
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>Ages</span>,<span class='va'>pop5m_pasex</span>,pch<span class='op'>=</span><span class='fl'>16</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Ages</span>, <span class='va'>cf</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Ages</span>, <span class='va'>arr</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Ages</span>, <span class='va'>strong</span>, col <span class='op'>=</span> <span class='st'>"#FF000080"</span>, lwd <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Ages</span>, <span class='va'>kkn</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Ages</span>, <span class='va'>un</span>, col <span class='op'>=</span> <span class='st'>"magenta"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>,
+    pch<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>16</span>,<span class='cn'>NA</span>,<span class='cn'>NA</span>,<span class='cn'>NA</span>,<span class='cn'>NA</span>,<span class='cn'>NA</span><span class='op'>)</span>,
+    lty <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>,
+    lwd <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>,
+    col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"black"</span>,<span class='st'>"black"</span>,<span class='st'>"red"</span>,<span class='st'>"#FF000080"</span>,<span class='st'>"blue"</span>,<span class='st'>"magenta"</span><span class='op'>)</span>,
+    legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"orig 5"</span>,<span class='st'>"Carrier-Farrag"</span>,<span class='st'>"Arriaga"</span>,<span class='st'>"Strong"</span>,<span class='st'>"KKN"</span>,<span class='st'>"UN"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 <span class='co'># an extreme case:</span>
- <span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>99</span>
+ <span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
 
- <span class='no'>V5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='groupAges.html'>groupAges</a></span>(<span class='no'>pop1m_pasex</span>, <span class='kw'>Age</span><span class='kw'>=</span><span class='no'>Age</span>)
- <span class='no'>Age5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>V5</span>))
- <span class='no'>cf2</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>pop1m_pasex</span>,
-          <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
-          <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Carrier-Farrag"</span>,
-          <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
- <span class='no'>st2</span> <span class='kw'>&lt;-</span> <span class='fu'>smooth_age_5</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>pop1m_pasex</span>,
-          <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
-          <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"Strong"</span>,
-          <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
- <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Age</span>,<span class='no'>pop1m_pasex</span>,<span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>16</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>,<span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span>(<span class='no'>V5</span>,<span class='kw'>Age</span><span class='kw'>=</span><span class='no'>Age5</span>,<span class='kw'>OAG</span><span class='kw'>=</span><span class='fl'>FALSE</span>), <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>,<span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span>(<span class='no'>cf2</span>,<span class='kw'>Age</span><span class='kw'>=</span><span class='no'>Age5</span>,<span class='kw'>OAG</span><span class='kw'>=</span><span class='fl'>FALSE</span>),<span class='kw'>col</span><span class='kw'>=</span><span class='st'>"blue"</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>,<span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span>(<span class='no'>st2</span>,<span class='kw'>Age</span><span class='kw'>=</span><span class='no'>Age5</span>,<span class='kw'>OAG</span><span class='kw'>=</span><span class='fl'>FALSE</span>),<span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"topright"</span>,
-          <span class='kw'>pch</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>16</span>,<span class='fl'>NA</span>,<span class='fl'>NA</span>,<span class='fl'>NA</span>),
-          <span class='kw'>lty</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
-          <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>,<span class='st'>"black"</span>,<span class='st'>"blue"</span>,<span class='st'>"red"</span>),
-          <span class='kw'>lwd</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
-          <span class='kw'>legend</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"orig single"</span>,<span class='st'>"orig 5"</span>,<span class='st'>"Carrier-Farrag"</span>,<span class='st'>"Strong"</span>))
-}
+ <span class='va'>V5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='groupAges.html'>groupAges</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, Age<span class='op'>=</span><span class='va'>Age</span><span class='op'>)</span>
+ <span class='va'>Age5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>V5</span><span class='op'>)</span><span class='op'>)</span>
+ <span class='va'>cf2</span> <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>pop1m_pasex</span>,
+    Age <span class='op'>=</span> <span class='va'>Age</span>,
+    method <span class='op'>=</span> <span class='st'>"Carrier-Farrag"</span>,
+    OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+ <span class='va'>st2</span> <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>pop1m_pasex</span>,
+    Age <span class='op'>=</span> <span class='va'>Age</span>,
+    method <span class='op'>=</span> <span class='st'>"Strong"</span>,
+    OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+ <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>pop1m_pasex</span>,pch<span class='op'>=</span><span class='fl'>16</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span><span class='op'>(</span><span class='va'>V5</span>,Age<span class='op'>=</span><span class='va'>Age5</span>,OAG<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>, lty<span class='op'>=</span><span class='fl'>2</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span><span class='op'>(</span><span class='va'>cf2</span>,Age<span class='op'>=</span><span class='va'>Age5</span>,OAG<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>,col<span class='op'>=</span><span class='st'>"blue"</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span><span class='op'>(</span><span class='va'>st2</span>,Age<span class='op'>=</span><span class='va'>Age5</span>,OAG<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>,col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>,
+    pch<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>16</span>,<span class='cn'>NA</span>,<span class='cn'>NA</span>,<span class='cn'>NA</span><span class='op'>)</span>,
+    lty<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>,
+    col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"black"</span>,<span class='st'>"black"</span>,<span class='st'>"blue"</span>,<span class='st'>"red"</span><span class='op'>)</span>,
+    lwd<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>,
+    legend<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"orig single"</span>,<span class='st'>"orig 5"</span>,<span class='st'>"Carrier-Farrag"</span>,<span class='st'>"Strong"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'># it might make sense to do this level of smoothing as intermediate step</span>
 <span class='co'># in Sprague-like situation. Compare:</span>
-<span class='no'>spr1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span>(<span class='no'>pop1m_pasex</span>, <span class='kw'>Age</span><span class='kw'>=</span><span class='no'>Age</span>,<span class='kw'>OAG</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='no'>spr2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span>(<span class='no'>cf2</span>, <span class='kw'>Age</span><span class='kw'>=</span><span class='no'>Age5</span>,<span class='kw'>OAG</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='no'>spr3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span>(<span class='no'>st2</span>, <span class='kw'>Age</span><span class='kw'>=</span><span class='no'>Age5</span>,<span class='kw'>OAG</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Age</span>,<span class='no'>Value</span>,<span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>16</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Smoothing as pre-step to graduation"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>,<span class='no'>spr1</span>,<span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>2</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>,<span class='no'>spr2</span>,<span class='kw'>col</span><span class='kw'>=</span><span class='st'>"blue"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>,<span class='no'>spr3</span>,<span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"topright"</span>,
-        <span class='kw'>pch</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>16</span>,<span class='fl'>NA</span>,<span class='fl'>NA</span>,<span class='fl'>NA</span>),
-        <span class='kw'>lty</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
-        <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>,<span class='st'>"black"</span>,<span class='st'>"blue"</span>,<span class='st'>"red"</span>),
-        <span class='kw'>lwd</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span>),
-        <span class='kw'>legend</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"orig single"</span>,<span class='st'>"orig-&gt;Sprague"</span>,<span class='st'>"C-F-&gt;Sprague"</span>,<span class='st'>"Strong-&gt;Sprague"</span>))
-}</div></pre>
+<span class='va'>spr1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, Age<span class='op'>=</span><span class='va'>Age</span>,OAG<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>spr2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span><span class='va'>cf2</span>, Age<span class='op'>=</span><span class='va'>Age5</span>,OAG<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>spr3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span><span class='va'>st2</span>, Age<span class='op'>=</span><span class='va'>Age5</span>,OAG<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>Value</span>,pch<span class='op'>=</span><span class='fl'>16</span>, main <span class='op'>=</span> <span class='st'>"Smoothing as pre-step to graduation"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>spr1</span>,lty<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>spr2</span>,col<span class='op'>=</span><span class='st'>"blue"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>spr3</span>,col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>,
+  pch<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>16</span>,<span class='cn'>NA</span>,<span class='cn'>NA</span>,<span class='cn'>NA</span><span class='op'>)</span>,
+  lty<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>,
+  col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"black"</span>,<span class='st'>"black"</span>,<span class='st'>"blue"</span>,<span class='st'>"red"</span><span class='op'>)</span>,
+  lwd<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>,
+  legend<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"orig single"</span>,<span class='st'>"orig-&gt;Sprague"</span>,<span class='st'>"C-F-&gt;Sprague"</span>,<span class='st'>"Strong-&gt;Sprague"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -349,7 +351,7 @@ compare the results from a variety of methods.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -81,7 +81,7 @@ makes sense sometimes when age intervals are not explicitly given." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@ makes sense sometimes when age intervals are not explicitly given." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -130,13 +130,13 @@ makes sense sometimes when age intervals are not explicitly given." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -164,7 +164,7 @@ makes sense sometimes when age intervals are not explicitly given." />
 makes sense sometimes when age intervals are not explicitly given.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>is_single</span>(<span class='no'>Age</span>)</pre>
+    <pre class="usage"><span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,11 +184,15 @@ makes sense sometimes when age intervals are not explicitly given.</p>
 Therefore make sure that the age vector given refers to a single year of a single population.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>99</span>
-<span class='no'>Age2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>:<span class='fl'>10</span>,<span class='fl'>0</span>:<span class='fl'>10</span>)
-<span class='no'>Age3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>80</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>)
-<span class='no'>Age4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>10</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>.5</span>)
-<span class='fu'>is_single</span>(<span class='no'>Age</span>)  <span class='co'># TRUE</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>is_single</span>(<span class='no'>Age2</span>) <span class='co'># FALSE repeated, can't tell.</span></div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>is_single</span>(<span class='no'>Age3</span>) <span class='co'># FALSE not single ages</span></div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>is_single</span>(<span class='no'>Age4</span>) <span class='co'># FALSE not single ages</span></div><div class='output co'>#&gt; [1] FALSE</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
+<span class='va'>Age2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>10</span>,<span class='fl'>0</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
+<span class='va'>Age3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>80</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>Age4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>10</span>,by<span class='op'>=</span><span class='fl'>.5</span><span class='op'>)</span>
+<span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>  <span class='co'># TRUE</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age2</span><span class='op'>)</span> <span class='co'># FALSE repeated, can't tell.</span>
+</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age3</span><span class='op'>)</span> <span class='co'># FALSE not single ages</span>
+</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age4</span><span class='op'>)</span> <span class='co'># FALSE not single ages</span>
+</div><div class='output co'>#&gt; [1] FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -204,7 +208,7 @@ Therefore make sure that the age vector given refers to a single year of a singl
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -81,7 +81,7 @@ calculate a full abridged lifetable." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@ calculate a full abridged lifetable." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -130,13 +130,13 @@ calculate a full abridged lifetable." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -164,29 +164,29 @@ calculate a full abridged lifetable." />
 calculate a full abridged lifetable.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lt_abridged</span>(
-  <span class='kw'>Deaths</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>Exposures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nMx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nqx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>lx</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>Age</span>,
-  <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>OAvalue</span> <span class='kw'>=</span> <span class='fl'>5</span>),
-  <span class='kw'>radix</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
-  <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"pas"</span>,
-  <span class='kw'>a0rule</span> <span class='kw'>=</span> <span class='st'>"ak"</span>,
-  <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
-  <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"w"</span>,
-  <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>SRB</span> <span class='kw'>=</span> <span class='fl'>1.05</span>,
-  <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
-  <span class='kw'>extrapLaw</span> <span class='kw'>=</span> <span class='st'>"kannisto"</span>,
-  <span class='kw'>extrapFrom</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
-  <span class='kw'>extrapFit</span> <span class='kw'>=</span> <span class='no'>Age</span>[<span class='no'>Age</span> <span class='kw'>&gt;=</span> <span class='fl'>60</span> <span class='kw'>&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>OAG</span>, <span class='no'>Age</span> <span class='kw'>&lt;</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='fl'>TRUE</span>)],
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>lt_abridged</span><span class='op'>(</span>
+  Deaths <span class='op'>=</span> <span class='cn'>NULL</span>,
+  Exposures <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nMx <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nqx <span class='op'>=</span> <span class='cn'>NULL</span>,
+  lx <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>Age</span>,
+  AgeInt <span class='op'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span><span class='op'>(</span>Age <span class='op'>=</span> <span class='va'>Age</span>, OAvalue <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>,
+  radix <span class='op'>=</span> <span class='fl'>1e+05</span>,
+  axmethod <span class='op'>=</span> <span class='st'>"pas"</span>,
+  a0rule <span class='op'>=</span> <span class='st'>"ak"</span>,
+  Sex <span class='op'>=</span> <span class='st'>"m"</span>,
+  IMR <span class='op'>=</span> <span class='cn'>NA</span>,
+  region <span class='op'>=</span> <span class='st'>"w"</span>,
+  mod <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  SRB <span class='op'>=</span> <span class='fl'>1.05</span>,
+  OAG <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  OAnew <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>,
+  extrapLaw <span class='op'>=</span> <span class='st'>"kannisto"</span>,
+  extrapFrom <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>,
+  extrapFit <span class='op'>=</span> <span class='va'>Age</span><span class='op'>[</span><span class='va'>Age</span> <span class='op'>&gt;=</span> <span class='fl'>60</span> <span class='op'>&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>OAG</span>, <span class='va'>Age</span> <span class='op'>&lt;</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>, <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>]</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -339,100 +339,101 @@ United States Census Bureau (2017).
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># trial code from PAS LTPOPDTH, North, Males, IMR = .1</span>
-<span class='no'>Exposures</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100958</span>,<span class='fl'>466275</span>,<span class='fl'>624134</span>,<span class='fl'>559559</span>,<span class='fl'>446736</span>,<span class='fl'>370653</span>,<span class='fl'>301862</span>,<span class='fl'>249409</span>,
-                <span class='fl'>247473</span>,<span class='fl'>223014</span>,<span class='fl'>172260</span>,<span class='fl'>149338</span>,<span class='fl'>127242</span>,<span class='fl'>105715</span>,<span class='fl'>79614</span>,<span class='fl'>53660</span>,
-                <span class='fl'>31021</span>,<span class='fl'>16805</span>,<span class='fl'>8000</span>,<span class='fl'>4000</span>,<span class='fl'>2000</span>,<span class='fl'>1000</span>)
+<span class='va'>Exposures</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>100958</span>,<span class='fl'>466275</span>,<span class='fl'>624134</span>,<span class='fl'>559559</span>,<span class='fl'>446736</span>,<span class='fl'>370653</span>,<span class='fl'>301862</span>,<span class='fl'>249409</span>,
+    <span class='fl'>247473</span>,<span class='fl'>223014</span>,<span class='fl'>172260</span>,<span class='fl'>149338</span>,<span class='fl'>127242</span>,<span class='fl'>105715</span>,<span class='fl'>79614</span>,<span class='fl'>53660</span>,
+    <span class='fl'>31021</span>,<span class='fl'>16805</span>,<span class='fl'>8000</span>,<span class='fl'>4000</span>,<span class='fl'>2000</span>,<span class='fl'>1000</span><span class='op'>)</span>
 
-<span class='no'>Deaths</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8674</span>,<span class='fl'>1592</span>,<span class='fl'>618</span>,<span class='fl'>411</span>,<span class='fl'>755</span>,<span class='fl'>1098</span>,<span class='fl'>1100</span>,<span class='fl'>1357</span>,
-                <span class='fl'>1335</span>,<span class='fl'>3257</span>,<span class='fl'>2200</span>,<span class='fl'>4023</span>,<span class='fl'>2167</span>,<span class='fl'>4578</span>,<span class='fl'>2956</span>,<span class='fl'>4212</span>,
-                <span class='fl'>2887</span>,<span class='fl'>2351</span>,<span class='fl'>1500</span>,<span class='fl'>900</span>,<span class='fl'>500</span>,<span class='fl'>300</span>)
+<span class='va'>Deaths</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>8674</span>,<span class='fl'>1592</span>,<span class='fl'>618</span>,<span class='fl'>411</span>,<span class='fl'>755</span>,<span class='fl'>1098</span>,<span class='fl'>1100</span>,<span class='fl'>1357</span>,
+    <span class='fl'>1335</span>,<span class='fl'>3257</span>,<span class='fl'>2200</span>,<span class='fl'>4023</span>,<span class='fl'>2167</span>,<span class='fl'>4578</span>,<span class='fl'>2956</span>,<span class='fl'>4212</span>,
+    <span class='fl'>2887</span>,<span class='fl'>2351</span>,<span class='fl'>1500</span>,<span class='fl'>900</span>,<span class='fl'>500</span>,<span class='fl'>300</span><span class='op'>)</span>
 <span class='co'># lower age bounds</span>
-<span class='no'>Age</span>    <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>, <span class='fl'>100</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>))
-<span class='no'>AgeInt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span>(<span class='no'>Age</span>), <span class='fl'>NA</span>)
+<span class='va'>Age</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>100</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>AgeInt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>, <span class='cn'>NA</span><span class='op'>)</span>
 
-<span class='no'>PASLT</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_abridged</span>(<span class='kw'>Deaths</span> <span class='kw'>=</span> <span class='no'>Deaths</span>,
-                <span class='kw'>Exposures</span> <span class='kw'>=</span> <span class='no'>Exposures</span>,
-                <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
-                <span class='kw'>AgeInt</span> <span class='kw'>=</span><span class='no'>AgeInt</span>,
-                <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"pas"</span>,
-                <span class='kw'>IMR</span> <span class='kw'>=</span> <span class='fl'>.1</span>,
-                <span class='kw'>region</span> <span class='kw'>=</span> <span class='st'>"n"</span>,
-                <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
-        <span class='kw'>a0rule</span> <span class='kw'>=</span><span class='st'>"cd"</span>)
+<span class='va'>PASLT</span> <span class='op'>&lt;-</span> <span class='fu'>lt_abridged</span><span class='op'>(</span>Deaths <span class='op'>=</span> <span class='va'>Deaths</span>,
+    Exposures <span class='op'>=</span> <span class='va'>Exposures</span>,
+    Age <span class='op'>=</span> <span class='va'>Age</span>,
+    AgeInt <span class='op'>=</span><span class='va'>AgeInt</span>,
+    axmethod <span class='op'>=</span> <span class='st'>"pas"</span>,
+    IMR <span class='op'>=</span> <span class='fl'>.1</span>,
+    region <span class='op'>=</span> <span class='st'>"n"</span>,
+    Sex <span class='op'>=</span> <span class='st'>"m"</span>,
+  a0rule <span class='op'>=</span><span class='st'>"cd"</span><span class='op'>)</span>
 
 <span class='co'># examples based on UN 1982 (p. 34)</span>
-<span class='no'>Mx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.23669</span>,<span class='fl'>.04672</span>,<span class='fl'>.00982</span>,<span class='fl'>.00511</span>,<span class='fl'>.00697</span>,<span class='fl'>.01036</span>,<span class='fl'>.01169</span>,
-                <span class='fl'>.01332</span>,<span class='fl'>.01528</span>,<span class='fl'>.01757</span>,<span class='fl'>.02092</span>,<span class='fl'>.02517</span>,<span class='fl'>.03225</span>,<span class='fl'>.04241</span>,<span class='fl'>.06056</span>,
-                <span class='fl'>.08574</span>,<span class='fl'>.11840</span>,<span class='fl'>.16226</span>,<span class='fl'>.23745</span>)
-<span class='no'>excheckUN</span> <span class='kw'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>35.000</span>,<span class='fl'>42.901</span>,<span class='fl'>47.190</span>,<span class='fl'>44.438</span>,
-                <span class='fl'>40.523</span>,<span class='fl'>36.868</span>,<span class='fl'>33.691</span>,<span class='fl'>30.567</span>,<span class='fl'>27.500</span>,<span class='fl'>24.485</span>,<span class='fl'>21.504</span>,<span class='fl'>18.599</span>,
-                <span class='fl'>15.758</span>,<span class='fl'>13.080</span>,<span class='fl'>10.584</span>,<span class='fl'>8.466</span>,<span class='fl'>6.729</span>,<span class='fl'>5.312</span>,<span class='fl'>4.211</span>)
-<span class='no'>AgeInt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='inferAgeIntAbr.html'>inferAgeIntAbr</a></span>(<span class='kw'>vec</span> <span class='kw'>=</span> <span class='no'>Mx</span>)
+<span class='va'>Mx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.23669</span>,<span class='fl'>.04672</span>,<span class='fl'>.00982</span>,<span class='fl'>.00511</span>,<span class='fl'>.00697</span>,<span class='fl'>.01036</span>,<span class='fl'>.01169</span>,
+    <span class='fl'>.01332</span>,<span class='fl'>.01528</span>,<span class='fl'>.01757</span>,<span class='fl'>.02092</span>,<span class='fl'>.02517</span>,<span class='fl'>.03225</span>,<span class='fl'>.04241</span>,<span class='fl'>.06056</span>,
+    <span class='fl'>.08574</span>,<span class='fl'>.11840</span>,<span class='fl'>.16226</span>,<span class='fl'>.23745</span><span class='op'>)</span>
+<span class='va'>excheckUN</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>35.000</span>,<span class='fl'>42.901</span>,<span class='fl'>47.190</span>,<span class='fl'>44.438</span>,
+    <span class='fl'>40.523</span>,<span class='fl'>36.868</span>,<span class='fl'>33.691</span>,<span class='fl'>30.567</span>,<span class='fl'>27.500</span>,<span class='fl'>24.485</span>,<span class='fl'>21.504</span>,<span class='fl'>18.599</span>,
+    <span class='fl'>15.758</span>,<span class='fl'>13.080</span>,<span class='fl'>10.584</span>,<span class='fl'>8.466</span>,<span class='fl'>6.729</span>,<span class='fl'>5.312</span>,<span class='fl'>4.211</span><span class='op'>)</span>
+<span class='va'>AgeInt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='inferAgeIntAbr.html'>inferAgeIntAbr</a></span><span class='op'>(</span>vec <span class='op'>=</span> <span class='va'>Mx</span><span class='op'>)</span>
 
 <span class='co'># generate two variants: with and without PG's variants</span>
 <span class='co'># for ages 5-14</span>
-<span class='no'>UNLT1</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_abridged</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>Mx</span>,
-                <span class='kw'>Age</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>,<span class='fl'>85</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>)),
-                <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,
-                <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"un"</span>,
-                <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
-                <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>UNLT2</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_abridged</span>(<span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>Mx</span>,
-                <span class='kw'>Age</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>,<span class='fl'>85</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>)),
-                <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,
-                <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"un"</span>,
-                <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>,
-                <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='va'>UNLT1</span> <span class='op'>&lt;-</span> <span class='fu'>lt_abridged</span><span class='op'>(</span>nMx <span class='op'>=</span> <span class='va'>Mx</span>,
+    Age <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>85</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>,
+    AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>,
+    axmethod <span class='op'>=</span> <span class='st'>"un"</span>,
+    Sex <span class='op'>=</span> <span class='st'>"m"</span>,
+    mod <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>UNLT2</span> <span class='op'>&lt;-</span> <span class='fu'>lt_abridged</span><span class='op'>(</span>nMx <span class='op'>=</span> <span class='va'>Mx</span>,
+    Age <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>85</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>,
+    AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>,
+    axmethod <span class='op'>=</span> <span class='st'>"un"</span>,
+    Sex <span class='op'>=</span> <span class='st'>"m"</span>,
+    mod <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'>#  \dontrun{</span>
-<span class='co'># 	 plot(UNLT2$ex - UNLT1$ex)</span>
+<span class='co'>#    plot(UNLT2$ex - UNLT1$ex)</span>
 <span class='co'>#  }</span>
 
 <span class='co'># a Mortpak unit test:</span>
 <span class='co'># data from  p. 82 United Nations (1988) Mortpak - ...</span>
- <span class='no'>MPnMx</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.12846</span>,<span class='fl'>0.02477</span>,<span class='fl'>0.00603</span>,<span class='fl'>0.0034</span>,
-                <span class='fl'>0.00417</span>,<span class='fl'>0.00513</span>,<span class='fl'>0.00581</span>,<span class='fl'>0.00645</span>,<span class='fl'>0.00725</span>,
-                <span class='fl'>0.00813</span>,<span class='fl'>0.00913</span>,<span class='fl'>0.01199</span>,<span class='fl'>0.01647</span>,
-                <span class='fl'>0.0256</span>,<span class='fl'>0.04047</span>,<span class='fl'>0.06624</span>,<span class='fl'>0.10638</span>,<span class='fl'>0.19611</span>)
- <span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>,<span class='fl'>80</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>))
- <span class='no'>AgeInt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='no'>Age</span>,<span class='kw'>OAvalue</span> <span class='kw'>=</span> <span class='fl'>5</span>)
- <span class='no'>MPexcheck</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>49.997</span>,<span class='fl'>55.675</span>,<span class='fl'>57.245</span>,<span class='fl'>53.921</span>,
-                <span class='fl'>49.803</span>,<span class='fl'>45.799</span>,<span class='fl'>41.922</span>,<span class='fl'>38.084</span>,<span class='fl'>34.249</span>,
-                <span class='fl'>30.420</span>,<span class='fl'>26.578</span>,<span class='fl'>22.701</span>,<span class='fl'>18.945</span>,
-                <span class='fl'>15.349</span>,<span class='fl'>12.095</span>,<span class='fl'>9.240</span>,<span class='fl'>6.903</span>,<span class='fl'>5.099</span>)
+ <span class='va'>MPnMx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.12846</span>,<span class='fl'>0.02477</span>,<span class='fl'>0.00603</span>,<span class='fl'>0.0034</span>,
+     <span class='fl'>0.00417</span>,<span class='fl'>0.00513</span>,<span class='fl'>0.00581</span>,<span class='fl'>0.00645</span>,<span class='fl'>0.00725</span>,
+     <span class='fl'>0.00813</span>,<span class='fl'>0.00913</span>,<span class='fl'>0.01199</span>,<span class='fl'>0.01647</span>,
+     <span class='fl'>0.0256</span>,<span class='fl'>0.04047</span>,<span class='fl'>0.06624</span>,<span class='fl'>0.10638</span>,<span class='fl'>0.19611</span><span class='op'>)</span>
+ <span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>80</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+ <span class='va'>AgeInt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='age2int.html'>age2int</a></span><span class='op'>(</span><span class='va'>Age</span>,OAvalue <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+ <span class='va'>MPexcheck</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>49.997</span>,<span class='fl'>55.675</span>,<span class='fl'>57.245</span>,<span class='fl'>53.921</span>,
+     <span class='fl'>49.803</span>,<span class='fl'>45.799</span>,<span class='fl'>41.922</span>,<span class='fl'>38.084</span>,<span class='fl'>34.249</span>,
+     <span class='fl'>30.420</span>,<span class='fl'>26.578</span>,<span class='fl'>22.701</span>,<span class='fl'>18.945</span>,
+     <span class='fl'>15.349</span>,<span class='fl'>12.095</span>,<span class='fl'>9.240</span>,<span class='fl'>6.903</span>,<span class='fl'>5.099</span><span class='op'>)</span>
 
  <span class='co'># First with lifetable extention to 100</span>
- <span class='no'>MP_UNLT100</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_abridged</span>(
-                <span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>MPnMx</span>,
-                <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
-                <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,
-                <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"un"</span>,
-                <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"f"</span>,
-                <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-                <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-                <span class='kw'>a0rule</span> <span class='kw'>=</span><span class='st'>"cd"</span>)
+ <span class='va'>MP_UNLT100</span> <span class='op'>&lt;-</span> <span class='fu'>lt_abridged</span><span class='op'>(</span>
+     nMx <span class='op'>=</span> <span class='va'>MPnMx</span>,
+     Age <span class='op'>=</span> <span class='va'>Age</span>,
+     AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>,
+     axmethod <span class='op'>=</span> <span class='st'>"un"</span>,
+     Sex <span class='op'>=</span> <span class='st'>"f"</span>,
+     mod <span class='op'>=</span> <span class='cn'>FALSE</span>,
+     OAnew <span class='op'>=</span> <span class='fl'>100</span>,
+     a0rule <span class='op'>=</span><span class='st'>"cd"</span><span class='op'>)</span>
 <span class='co'>#'</span>
 <span class='co'>#' # lifetable to original open age group</span>
- <span class='no'>MP_UNLT80</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_abridged</span>(
-                <span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>MPnMx</span>,
-                <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
-                <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,
-                <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"un"</span>,
-                <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"f"</span>,
-                <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-                <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fl'>80</span>,
-                <span class='kw'>a0rule</span> <span class='kw'>=</span><span class='st'>"cd"</span>)
+ <span class='va'>MP_UNLT80</span> <span class='op'>&lt;-</span> <span class='fu'>lt_abridged</span><span class='op'>(</span>
+     nMx <span class='op'>=</span> <span class='va'>MPnMx</span>,
+     Age <span class='op'>=</span> <span class='va'>Age</span>,
+     AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>,
+     axmethod <span class='op'>=</span> <span class='st'>"un"</span>,
+     Sex <span class='op'>=</span> <span class='st'>"f"</span>,
+     mod <span class='op'>=</span> <span class='cn'>FALSE</span>,
+     OAnew <span class='op'>=</span> <span class='fl'>80</span>,
+     a0rule <span class='op'>=</span><span class='st'>"cd"</span><span class='op'>)</span>
 
 <span class='co'># same, but truncated at 60</span>
-<span class='no'>MP_UNLT60</span> <span class='kw'>&lt;-</span> <span class='fu'>lt_abridged</span>(
-                <span class='kw'>nMx</span> <span class='kw'>=</span> <span class='no'>MPnMx</span>,
-                <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
-                <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>,
-                <span class='kw'>axmethod</span> <span class='kw'>=</span> <span class='st'>"un"</span>,
-                <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"f"</span>,
-                <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-                <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fl'>60</span>,
-                <span class='kw'>a0rule</span> <span class='kw'>=</span><span class='st'>"cd"</span>)</div></pre>
+<span class='va'>MP_UNLT60</span> <span class='op'>&lt;-</span> <span class='fu'>lt_abridged</span><span class='op'>(</span>
+    nMx <span class='op'>=</span> <span class='va'>MPnMx</span>,
+    Age <span class='op'>=</span> <span class='va'>Age</span>,
+    AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>,
+    axmethod <span class='op'>=</span> <span class='st'>"un"</span>,
+    Sex <span class='op'>=</span> <span class='st'>"f"</span>,
+    mod <span class='op'>=</span> <span class='cn'>FALSE</span>,
+    OAnew <span class='op'>=</span> <span class='fl'>60</span>,
+     a0rule <span class='op'>=</span><span class='st'>"cd"</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -448,7 +449,7 @@ United States Census Bureau (2017).
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +162,7 @@
     <p>This function reproduces calculations through column H of <code>CENSUR~1.XLS</code> by Griff Feeney. Censuses are assumed to be spaced 10 years apart and population counts for both censuses in 5-year age groups. The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. The cumulative product of this approximates the survival function lx.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>surv10</span>(<span class='no'>pop1</span>, <span class='no'>pop2</span>)</pre>
+    <pre class="usage"><span class='fu'>surv10</span><span class='op'>(</span><span class='va'>pop1</span>, <span class='va'>pop2</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,11 +187,12 @@ Also, we assume the open age group has already been trimmed off.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># 1960 vs 1970 pops</span>
-<span class='no'>pop1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3831870</span>,<span class='fl'>4502304</span>,<span class='fl'>5397061</span>,<span class='fl'>4630775</span>,<span class='fl'>4193184</span>,<span class='fl'>4114704</span>,<span class='fl'>3770907</span>,<span class='fl'>3274822</span>,
-                <span class='fl'>2744786</span>,<span class='fl'>2559755</span>,<span class='fl'>2160716</span>,<span class='fl'>1839025</span>,<span class='fl'>1494043</span>,<span class='fl'>1133409</span>,<span class='fl'>870238</span>,<span class='fl'>577972</span>,<span class='fl'>313781</span>)
-<span class='no'>pop2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4292503</span>,<span class='fl'>3988292</span>,<span class='fl'>3852101</span>,<span class='fl'>4492096</span>,<span class='fl'>5347327</span>,<span class='fl'>4571868</span>,<span class='fl'>4190340</span>,<span class='fl'>4085338</span>,
-                <span class='fl'>3674127</span>,<span class='fl'>3198934</span>,<span class='fl'>2648360</span>,<span class='fl'>2382691</span>,<span class='fl'>1970485</span>,<span class='fl'>1584699</span>,<span class='fl'>1172155</span>,<span class='fl'>736258</span>,<span class='fl'>408191</span>)
-<span class='fu'>surv10</span>(<span class='no'>pop1</span>,<span class='no'>pop2</span>)</div><div class='output co'>#&gt;  [1] 1.0000000 1.0026398 1.0052797 1.0003666 0.9960160 0.9876411 0.9953405
+<span class='va'>pop1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3831870</span>,<span class='fl'>4502304</span>,<span class='fl'>5397061</span>,<span class='fl'>4630775</span>,<span class='fl'>4193184</span>,<span class='fl'>4114704</span>,<span class='fl'>3770907</span>,<span class='fl'>3274822</span>,
+    <span class='fl'>2744786</span>,<span class='fl'>2559755</span>,<span class='fl'>2160716</span>,<span class='fl'>1839025</span>,<span class='fl'>1494043</span>,<span class='fl'>1133409</span>,<span class='fl'>870238</span>,<span class='fl'>577972</span>,<span class='fl'>313781</span><span class='op'>)</span>
+<span class='va'>pop2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4292503</span>,<span class='fl'>3988292</span>,<span class='fl'>3852101</span>,<span class='fl'>4492096</span>,<span class='fl'>5347327</span>,<span class='fl'>4571868</span>,<span class='fl'>4190340</span>,<span class='fl'>4085338</span>,
+    <span class='fl'>3674127</span>,<span class='fl'>3198934</span>,<span class='fl'>2648360</span>,<span class='fl'>2382691</span>,<span class='fl'>1970485</span>,<span class='fl'>1584699</span>,<span class='fl'>1172155</span>,<span class='fl'>736258</span>,<span class='fl'>408191</span><span class='op'>)</span>
+<span class='fu'>surv10</span><span class='op'>(</span><span class='va'>pop1</span>,<span class='va'>pop2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 1.0000000 1.0026398 1.0052797 1.0003666 0.9960160 0.9876411 0.9953405
 #&gt;  [8] 0.9805925 0.9697951 0.9578691 0.9357256 0.8916111 0.8533437 0.7683067
 #&gt; [15] 0.6694928 0.4990890 0.3140301</div></pre>
   </div>
@@ -209,7 +210,7 @@ Also, we assume the open age group has already been trimmed off.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
