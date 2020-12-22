@@ -79,7 +79,7 @@ time even flow and cohort even flow
 \details{
 \enumerate{
 \item The stock method (\code{mig_resid_stock}) is the difference in stocks that
-survive between and t+5, and the first age group is based on the difference
+survive between t and t+5, and the first age group is based on the difference
 with the surviving births by sex.  It provides net migrants by lexis cohort
 parallelograms, and basically such info gets used as end-period migration
 since the migrants don't get exposed to mortality within the period.
