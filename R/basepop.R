@@ -4,9 +4,10 @@
 #' @details
 #'
 #' \code{basepop_five} and \code{basepop_single} can estimate both the BPA and
-#' BPE methods. If the user specifies \code{SmoothedFemales}, both \code{basepop_*}
-#' functions will return the BPA method. If \code{SmoothedFemales} is left empty,
-#' both \code{basepop_*} functions will adjust using the BPE method.
+#' BPE methods. If the user specifies \code{SmoothedFemales}, both
+#' \code{basepop_*} functions will return the BPA method.
+#' If \code{SmoothedFemales} is left empty, both \code{basepop_*} functions will
+#' adjust using the BPE method.
 #'
 #' For \code{basepop_five}, adjusting the female population counts is the
 #' default. For this, only the \code{country}, \code{refYear} and
@@ -136,27 +137,89 @@
 #' \code{basepop_single} is used, the return value is a numeric vector with
 #' **single year age groups** where the counts between 0 and 10 are adjusted.
 #'
-#' @param country The country name or location code from which to download the nLx and asfr data. See \code{fertestr::locs_avail()} for all country names/codes.
-#' @param refYear The reference year for which the reported population pertain (these are the population counts in \code{Females_five} and \code{Males_five}).
-#' @param Females_five A named numeric vector with the population counts for five-year abridged age groups for females in \code{refYear}. The names of the vector should reflect the age groups. See the example section for some examples.
-#' @param nLxFemale A numeric matrix. The female nLx function of two life tables with ages in the rows and time in columns. The earlier date should be at least 7.5 years before the reference date of the "reported" population. The later date should be no earlier than one-half year before the reference date of the "reported" population. If not provided, it's automatically downloaded if \code{country}, \code{refYear} and the equivalent population counts \code{*_five} are provided.
-#' @param nLxDatesIn A vector of numeric years (for example, 1986). The dates which pertain to the columns in \code{nLxFemale} and \code{nLxMale}. If not provided, the function automatically determines two dates which are 8 years before \code{refYear} and 0.5 years after \code{refYear}.
-#' @param AsfrMat A numeric matrix. An age-period matrix of age specific fertility rates with age in rows, time in columns. If not provided, the function automatically downloads the ASFR matrix based on the dates in \code{AsfrDatesIn}.
-#' @param AsfrDatesIn A vector of numeric years (for example, 1986). These are the dates which pertain to the columns in \code{AsfrMat}. If not provided, the function automatically determines two dates which are 8 years before \code{refYear} and 0.5 before \code{refYear}.
-#' @param ... Arguments passed to \code{\link{interp}}. In particular, users might be interested in changing the interpolation method for the \code{nLx*} matrices and the \code{Asfr} matrix. By default, it's linearly interpolated.
-#' @param female A logical \code{TRUE} or \code{FALSE} for whether to perform the adjustment for females or males. If \code{female = FALSE}, \code{Males_five} needs to be provided.
-#' @param SmoothedFemales A numeric vector. This should be the result of passing the \code{Females_five} argument through \code{smooth_age_5}. It is assumed that this argument is a numeric vector with the lower bound age group definitions as names. By default, this is what \code{smooth_age_5} returns. See the example section for some examples.
-#' @param Males_five A named numeric vector with the population counts for five-year abridged age groups for males in \code{refYear}. The names of the vector should reflect the age groups. See the example section for some examples.
-#' @param nLxMale A numeric matrix. The male nLx function of two life tables with ages in the rows and time in columns. The male nLx function should be only for age groups 0, 1 to 4, and 5 to 9. The dates which are represented in the columns are assumed to be the same as \code{nLxDatesIn}. This argument is only used when \code{female} is set to \code{FALSE} and \code{Males_five} is provided. If \code{Males_five} is provided and \code{female} set to \code{FALSE}, the \code{nLx} for males is automatically downloaded for the dates in \code{nLxDatesIn}.
-#' @param SRB A numeric. Sex ratio at birth (males / females). Default is set to 1.05
-#' @param radix starting point to use in the adjustment of the three first age groups. Default is NULL. If not provided, the function extracts the \code{lx} for age group \code{0} of the first year defined in \code{AsfrDatesIn}.
-#' @param verbose when downloading new data, should the function print details about the download at each step? Defaults to \code{TRUE}. We recommend the user to set this to \code{TRUE} at all times because the function needs to make decisions (such as picking the dates for the Asfr and nLx) that the user should be aware of.
+#' @param country The country name or location code from which to download the n
+#' Lx and asfr data. See \code{fertestr::locs_avail()} for all country
+#' names/codes.
+#'
+#' @param refYear The reference year for which the reported population pertain
+#' (these are the population counts in \code{Females_five} and
+#' \code{Males_five}).
+#'
+#' @param Females_five A named numeric vector with the population counts for
+#' five-year abridged age groups for females in \code{refYear}. The names of the
+#' vector should reflect the age groups. See the example section for some
+#' examples.
+#'
+#' @param nLxFemale A numeric matrix. The female nLx function of two life tables
+#' with ages in the rows and time in columns. The earlier date should be at least
+#' 7.5 years before the reference date of the "reported" population. The later
+#' date should be no earlier than one-half year before the reference date of
+#' the "reported" population. If not provided, it's automatically downloaded if
+#' \code{country}, \code{refYear} and the equivalent population counts
+#' \code{*_five} are provided.
+#'
+#' @param nLxDatesIn A vector of numeric years (for example, 1986). The dates
+#' which pertain to the columns in \code{nLxFemale} and \code{nLxMale}. If not
+#' provided, the function automatically determines two dates which are 8 years
+#' before \code{refYear} and 0.5 years after \code{refYear}.
+#'
+#' @param AsfrMat A numeric matrix. An age-period matrix of age specific
+#' fertility rates with age in rows, time in columns. If not provided, the
+#' function automatically downloads the ASFR matrix based on the dates in
+#' \code{AsfrDatesIn}.
+#'
+#' @param AsfrDatesIn A vector of numeric years (for example, 1986). These are
+#' the dates which pertain to the columns in \code{AsfrMat}. If not provided,
+#' the function automatically determines two dates which are 8 years before
+#' \code{refYear} and 0.5 before \code{refYear}.
+#'
+#' @param ... Arguments passed to \code{\link{interp}}. In particular, users
+#' might be interested in changing the interpolation method for the \code{nLx*}
+#' matrices and the \code{Asfr} matrix. By default, it's linearly interpolated.
+#'
+#' @param female A logical \code{TRUE} or \code{FALSE} for whether to perform
+#' the adjustment for females or males. If \code{female = FALSE},
+#' \code{Males_five} needs to be provided.
+#'
+#' @param SmoothedFemales A numeric vector. This should be the result of
+#' passing the \code{Females_five} argument through \code{smooth_age_5}. It
+#' is assumed that this argument is a numeric vector with the lower bound age
+#' group definitions as names. By default, this is what \code{smooth_age_5}
+#' returns. See the example section for some examples.
+#'
+#' @param Males_five A named numeric vector with the population counts for
+#' five-year abridged age groups for males in \code{refYear}. The names of
+#' the vector should reflect the age groups. See the example section for
+#' some examples.
+#'
+#' @param nLxMale A numeric matrix. The male nLx function of two life tables
+#' with ages in the rows and time in columns. The male nLx function should be
+#' only for age groups 0, 1 to 4, and 5 to 9. The dates which are represented
+#' in the columns are assumed to be the same as \code{nLxDatesIn}. This
+#' argument is only used when \code{female} is set to \code{FALSE} and
+#' \code{Males_five} is provided. If \code{Males_five} is provided and
+#' \code{female} set to \code{FALSE}, the \code{nLx} for males is
+#' automatically downloaded for the dates in \code{nLxDatesIn}.
+#'
+#' @param SRB A numeric. Sex ratio at birth (males / females). Default is set
+#' to 1.05
+#'
+#' @param radix starting point to use in the adjustment of the three first age
+#' groups. Default is NULL. If not provided, the function extracts the \code{lx}
+#' for age group \code{0} of the first year defined in \code{AsfrDatesIn}.
+#'
+#' @param verbose when downloading new data, should the function print details
+#' about the download at each step? Defaults to \code{TRUE}. We recommend the
+#' user to set this to \code{TRUE} at all times because the function needs to
+#' make decisions (such as picking the dates for the Asfr and nLx) that the user
+#' should be aware of.
+#'
 #' @export
 #' @examples
 #'
 #'  \dontrun{
 #'
-#' ################ BPE for females (five year age groups) ############################
+#' ################ BPE for females (five year age groups) #####################
 #'
 #' # Grab population counts for females
 #' refYear <- 1986
@@ -259,7 +322,6 @@
 #' # The counts for the first three age groups have been adjusted:
 #' bpa_male[1:3]
 #' pop_male_counts[1:3]
-#'
 #'
 #' ################ PASS example ###############################
 #'
@@ -550,6 +612,7 @@
 #'     `79` = 289,
 #'     `80` = 4200
 #'   )
+#' 
 #' pop_female_counts <-
 #'   c(
 #'     `0` = 11673,
@@ -739,6 +802,7 @@ basepop_five <- function(country = NULL,
                          verbose = TRUE) {
 
   options(basepop_verbose = verbose)
+  on.exit(options(basepop_verbose = NULL))
 
   if (is.null(nLxDatesIn)) {
     nLxDatesIn <- c(abs(8 - refYear), refYear + 0.5)
