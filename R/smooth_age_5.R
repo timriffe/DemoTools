@@ -1,4 +1,13 @@
 
+# TODO: 
+# -[ ] alwys do males and females together
+# -[ ] smooth should be logical flag
+# -[ ] smoothing options fixed arg arriaga and strong as options
+# -[ ] if smooth == TRUE, also return ages > 10 as the smoothed output
+# -[ ] include SRB in DemoToolsData package
+# -[ ] allow SRB as scalar, vector, or lookup using country, pulling data from DemoToolsData, in which case has to be a time series.
+
+
 #' The Carrier-Farrag method of population count smoothing
 #' @description Smooth population counts in 5-year age groups.
 #' @details This method does not account for ages < 10 nor for the 10 year age interval prior to the open age group. These are returned imputed with \code{NA}. Age classes must be cleanly groupable to 5-year age groups. Smoothed counts are constrained to sum to original totals in 10-year age groups.
