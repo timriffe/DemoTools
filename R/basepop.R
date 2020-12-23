@@ -1,3 +1,14 @@
+# TODO: 
+# -[ ] alwys do males and females together
+# -[ ] smooth should be logical flag
+# -[ ] smoothing options fixed arg arriaga and strong as options
+# -[ ] if smooth == TRUE, also return ages > 10 as the smoothed output
+# -[ ] include SRB in DemoToolsData package
+# -[ ] allow SRB as scalar, vector, or lookup using country, pulling 
+#      data from DemoToolsData, in which case has to be a time series.
+
+
+
 #' BPA and BPE methods for adjusting age groups under 10
 #' @description Adjust population counts for the age groups 0 to 10
 #'
@@ -870,8 +881,8 @@ basepop_five <- function(country = NULL,
   # We calculate basepop for males **ONLY** if the nLxMale
   # argument is not null
   nLxGender <- if (isFALSE(female)) nLxMale else nLxFemale
-  male <- if (isFALSE(female)) TRUE else FALSE
-  DatesOut <- sapply(c(0.5, 2.5, 7.5), function(x) refYear - x)
+  male      <- if (isFALSE(female)) TRUE else FALSE
+  DatesOut  <- sapply(c(0.5, 2.5, 7.5), function(x) refYear - x)
 
   # Interpolate the gender specific nLx to the requested
   # dates out
@@ -882,6 +893,7 @@ basepop_five <- function(country = NULL,
     ...
   )
   # Turn the columns from the matrix into a list
+  # TR: isn't a data.frame already a list?
   nLx <- lapply(as.data.frame(nLx), identity)
 
   # Interpolate only the female nLx to the requested dates.
