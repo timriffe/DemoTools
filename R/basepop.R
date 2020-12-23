@@ -798,16 +798,15 @@
 #'
 basepop_five <- function(country = NULL,
                          refYear,
+                         Age = NULL,
                          Females_five,
+                         Males_five = NULL,
                          nLxFemale = NULL,
+                         nLxMale = NULL,
                          nLxDatesIn = NULL,
                          AsfrMat = NULL,
                          AsfrDatesIn = NULL,
                          ...,
-                         female = TRUE,
-                         SmoothedFemales = NULL,
-                         Males_five = NULL,
-                         nLxMale = NULL,
                          SRB = 1.05,
                          radix = NULL,
                          verbose = TRUE) {
@@ -815,6 +814,12 @@ basepop_five <- function(country = NULL,
   options(basepop_verbose = verbose)
   on.exit(options(basepop_verbose = NULL))
 
+  if (!is.null(Age)){
+    stopifnot(is_abridged(Age))
+  } else {
+    Age <- inferAgeIntAbr(Females_five)
+  }
+  
   if (is.null(nLxDatesIn)) {
     nLxDatesIn <- c(abs(8 - refYear), refYear + 0.5)
     if (verbose) {
@@ -829,10 +834,13 @@ basepop_five <- function(country = NULL,
     }
   }
 
+  # TR: why need to know country to set a radix?
   if (is.null(country) && is.null(radix)) {
     stop("You must provide a country for the function to set a default radix")
   }
 
+  
+  ## obtain nLx for males and females
   ## If these arguments have been specified, they return
   ## the same thing and don't download the data
   nLxFemale <-
@@ -843,7 +851,16 @@ basepop_five <- function(country = NULL,
       nLxDatesIn = nLxDatesIn,
       radix = radix
     )
-
+  
+  nLxMale <-
+    downloadnLx(
+      nLx = nLxMale,
+      country = country,
+      gender = "male",
+      nLxDatesIn = nLxDatesIn,
+      radix = radix
+    )
+  
   if (is.null(radix)) {
     radix <- nLxFemale$nlx[1, 1, drop = TRUE]
     if (verbose) {
@@ -852,20 +869,9 @@ basepop_five <- function(country = NULL,
   }
 
   nLxFemale <- nLxFemale$nLx[1:12, ]
+  nLxMale   <- nLxMale$nLx[1:3, ]
 
-  if (isFALSE(female)) {
-
-    nLxMale <-
-      downloadnLx(
-        nLx = nLxMale,
-        country = country,
-        gender = "male",
-        nLxDatesIn = nLxDatesIn,
-        radix = radix
-      )
-
-    nLxMale <- nLxMale$nLx[1:3, ]
-  }
+  
 
   AsfrMat <-
     downloadAsfr(
@@ -880,34 +886,54 @@ basepop_five <- function(country = NULL,
 
   # We calculate basepop for males **ONLY** if the nLxMale
   # argument is not null
-  nLxGender <- if (isFALSE(female)) nLxMale else nLxFemale
-  male      <- if (isFALSE(female)) TRUE else FALSE
+  # nLxGender <- if (isFALSE(female)) nLxMale else nLxFemale
+  # male      <- if (isFALSE(female)) TRUE else FALSE
+  # TR: why not just refYear - c(0.5, 2.5, 7.5) ?
   DatesOut  <- sapply(c(0.5, 2.5, 7.5), function(x) refYear - x)
 
   # Interpolate the gender specific nLx to the requested
   # dates out
-  nLx <- interp(
-    nLxGender,
-    datesIn = nLxDatesIn,
-    datesOut = DatesOut,
-    ...
-  )
-  # Turn the columns from the matrix into a list
-  # TR: isn't a data.frame already a list?
-  nLx <- lapply(as.data.frame(nLx), identity)
-
-  # Interpolate only the female nLx to the requested dates.
-  # This is independent of the nLx above, since to apply
-  # basepop to either gender you need to have the female nLx
   nLxFemale <- interp(
     nLxFemale,
     datesIn = nLxDatesIn,
     datesOut = DatesOut,
     ...
   )
-
+  nLxMale <- interp(
+    nLxMale,
+    datesIn = nLxDatesIn,
+    datesOut = DatesOut,
+    ...
+  )
   # Turn the columns from the matrix into a list
+  # TR: isn't a data.frame already a list?
   nLxFemale <- lapply(as.data.frame(nLxFemale), identity)
+  nLxMale   <- lapply(as.data.frame(nLxMale), identity)
+ 
+  #  # Interpolate only the female nLx to the requested dates.
+  # # This is independent of the nLx above, since to apply
+  # # basepop to either gender you need to have the female nLx
+  # nLxFemale <- interp(
+  #   nLxFemale,
+  #   datesIn = nLxDatesIn,
+  #   datesOut = DatesOut,
+  #   ...
+  # )
+
+  
+  # get a vector of 3 SRB estimates matching the DatesOut dates.
+  # if SRB was given as a vector of length 3 then we take it as-is
+  # if only one value was given (or a vector of length not equal to 3), 
+  # we repeat it 3 times and take the first 3 elements.
+  # if it's NULL and we have the country in the DB then we look it up.
+  # if it's NULL and we don't have the country then we assume 1.05,
+  # because tradition.
+  SRB <- downloadSRB(SRB, country, DatesOut)
+  
+  
+  
+  # # Turn the columns from the matrix into a list
+  # nLxFemale <- lapply(as.data.frame(nLxFemale), identity)
 
   # Interpolate the asfr to the requested dates.
   # This is gender agnostic.
@@ -920,7 +946,9 @@ basepop_five <- function(country = NULL,
   # Turn the columns from the matrix into a list
   Asfr <- lapply(as.data.frame(Asfr), identity)
 
-  EarliestDate <- which.max(names(nLxFemale))
+  EarliestDate   <- which.max(names(nLxFemale))
+  
+
   OlderNLxFemale <- nLxFemale[-EarliestDate]
   # Reorder the years such that the earlier year is first
   OlderNLxFemale <- OlderNLxFemale[sort(names(OlderNLxFemale), decreasing = TRUE)]
@@ -928,24 +956,34 @@ basepop_five <- function(country = NULL,
   # If SmoothedFemales is specified, we assume that it is returned
   # by smooth_age_5, so it should be named with the age groups.
   # This is checked in ArgList
-  FemalePops <- if (!is.null(SmoothedFemales)) SmoothedFemales else Females_five
+  #FemalePops <- if (!is.null(SmoothedFemales)) SmoothedFemales else Females_five
 
+  # ---------------------------------------
+  # TR: FLAG AREA starts here:
+  
+  # Objective: get EstPop in a matrix with 3 columns and same number
+  # of rows as ASFR, which should also be a matrix.
+  
+  # Ideally we should be able to skip this if births are given??
+  
   # We use the smoothed vector names to only get certain age groups
-  SmoothedFMiddleages <- FemalePops[as.character(seq(15, 55, by = 5))]
-
+  #SmoothedFMiddleages <- Females_five[as.character(seq(15, 55, by = 5))]
+  # TR: now change this to make use of an Age vector
+  FMiddleages <- Females_five[as.character(seq(15, 55, by = 5))]
+  
   # Currently, we assume that for calculating the estimated
   # female population for the DatesOut, the first OlderNLxFemale
-  # date is multiplied by the SmoothedFMiddleages. However,
+  # date is multiplied by the FMiddleages However,
   # all dates after that one are mutltiplied by the previous
   # OlderNLxFemale in the order.
   for (i in seq_along(OlderNLxFemale)) {
     .x <- OlderNLxFemale[[i]]
-    VecMult <- if (i == 1) SmoothedFMiddleages else OlderNLxFemale[[i - 1]]
+    VecMult   <- if (i == 1) FMiddleages else OlderNLxFemale[[i - 1]]
     IndLength <- if (i == 1) 0 else 1
 
-    NLxDiv <- .x[4:(length(.x) - IndLength)]
-    iter <- c(1, rep(seq(2, length(NLxDiv) - 1), each = 2), length(NLxDiv))
-    NLxSeq <- lapply(seq(1, length(iter), by = 2), function(i) NLxDiv[iter[i:(i+1)]])
+    NLxDiv    <- .x[4:(length(.x) - IndLength)]
+    iter      <- c(1, rep(seq(2, length(NLxDiv) - 1), each = 2), length(NLxDiv))
+    NLxSeq    <- lapply(seq(1, length(iter), by = 2), function(i) NLxDiv[iter[i:(i+1)]])
 
     # Here VecMult is either SmoothedFMiddleAges
     OlderNLxFemale[[i]] <- mapply(function(.y, .z) .y * .z[1] / .z[2],
@@ -954,9 +992,9 @@ basepop_five <- function(country = NULL,
                                   )
   }
 
-  # We always assume that the FirstDate will be calculate with the first date
+  # We always assume that the FirstDate will be calculated with the first date
   # from the OlderNLxFemale, regardless of the number of dates.
-  FirstDate <- list(0.2 * OlderNLxFemale[[1]] + 0.8 * SmoothedFMiddleages[-length(SmoothedFMiddleages)])
+  FirstDate <- list(0.2 * OlderNLxFemale[[1]] + 0.8 * FMiddleages[-length(FMiddleages)])
   names(FirstDate) <- max(names(nLxFemale))
   OlderNLxFemale <- c(
     FirstDate,
@@ -971,39 +1009,80 @@ basepop_five <- function(country = NULL,
   names(EstPop) <- names(OlderNLxFemale)
   for (i in seq_along(OlderNLxFemale)) {
     .x <- OlderNLxFemale[[i]]
-    MeanVec <- if (i > 2) OlderNLxFemale[[i-1]] else SmoothedFMiddleages
+    MeanVec <- if (i > 2) OlderNLxFemale[[i-1]] else FMiddleages
 
     # Loop along the 15-45 age groups
     EstPop[[i]] <- vapply(seq_along(seq(15, 45, by = 5)),
                            function(i) mean(c(MeanVec[i], .x[i])),
                            FUN.VALUE = numeric(1))
   }
-
+  
+  # ---------------------------------------
+  # TR: FLAG AREA ends here:
+  # ---------------------------------------
+  # 
   # This contains the estimate male/female population (depending on whether
   # the user specified nLxMale) for the DatesOut.
-  EstTot <- mapply(
-    AdjustFemalePop,
+  
+  # TR: maybe this could be sucked in,
+  # needs to do males and females together anyway, and now take
+  # SRB vector into account. Maybe easiest as matrix calc rather than apply family.\
+  
+  # TR: rethink these calcs. Why not Bt = colSums(EstPop * Asfr)?
+  # can't we ensure dims match? 
+  
+  Bt <- mapply(
+    basepop_calc_births,
     EstPop,
     Asfr,
     SRB,
-    male,
     SIMPLIFY = FALSE
   )
 
-  GenderCounts <- if (male) Males_five else Females_five
+  Bf <- Bt$Bf
+  Bm <- Bt$Bm
 
+  #GenderCounts <- if (male) Males_five else Females_five
+  Males_five_out     <- Males_five
+  Females_five_out   <- Females_five
   ## Currently, this assumes that there can only be 3 dates. How
   ## would we multiply the above if we had 5 dates?
   ## We only have 3 age groups to adjust and 3 dates
 
+  # TR:
+  # objective: remove all list indexing from here.
+  # radix coul dbe divided out earlier too.
+  # I'd prefer to see the formula Bt * PF * nLxf ; Bt * 
+  
   # Age 0
-  GenderCounts[1] <- EstTot[[1]] * nLx[[1]][1] / radix
+  Females_five_out[1] <- Bf[[1]] * nLxFemale[[1]][1] / radix
+  Males_five_out[1]   <- Bm[[1]] * nLxMale[[1]][1] / radix 
+  
   # Age 1-4
-  GenderCounts[2] <- EstTot[[2]] * 5 * (sum(nLx[[2]][1:2])) / (radix * 5) - GenderCounts[1]
+  Females_five_out[2] <- Bf[[2]] * 5 *           
+    (sum(nLxFemale[[2]][1:2])) / (radix * 5) - 
+    Females_five_out[1] 
+  
+  Males_five_out[2]   <- Bm[[2]] * 5 * 
+    (sum(nLxMale[[2]][1:2])) / (radix * 5) - 
+    Males_five_out[1]
+  
   # Age 5-9
-  GenderCounts[3] <- EstTot[[3]] * 5 * (sum(nLx[[3]][1:2])) / (radix * 5) * nLx[[2]][3] / sum(nLx[[2]][1:2])
+  Females_five_out[3] <- Bf[[3]] * 5 * 
+    (sum(nLxFemale[[3]][1:2])) / (radix * 5) * 
+    nLxFemale[[2]][3] / sum(nLxFemale[[2]][1:2])
+  
+  Males_five_out[3]   <- Bm[[3]] * 5 * 
+    (sum(nLxMale[[3]][1:2])) / (radix * 5) * 
+    nLxMale[[2]][3] / sum(nLxMale[[2]][1:2])
 
-  GenderCounts
+  list(
+    Females_adjusted = Females_five_out,
+    Males_adjusted = Males_five_out,
+    Age = Age,
+    Females_five = Females_five,
+    Males_five = Males_five,
+    SRB = SRB)
 }
 
 
@@ -1086,41 +1165,23 @@ basepop_single <- function(country = NULL,
   round(rescaled_res, 3)
 }
 
-AdjustFemalePop <- function(x, asfr_pastyear, sex_ratio, male = TRUE) {
-  births_age_female <- x * asfr_pastyear
-  est_tot <- sum(births_age_female) * sex_ratio / (1 + sex_ratio)
+#
 
-  if (!male) est_tot <- sum(births_age_female) - est_tot
-
-  est_tot
-}
-
+# TR: modified to assume males and females always given
 ArgsCheck <- function(ArgList) {
   with(ArgList, {
     stopifnot(
       is.numeric(Females_five),
-      length(SRB) == 1,
+      is.numeric(Males_five),
       is.numeric(SRB),
       is.matrix(nLxFemale),
+      is.matrix(nLxMale),
       is.matrix(AsfrMat),
-      is.logical(female),
-      ncol(nLxFemale) == length(nLxDatesIn)
-    )
-
-    if (isFALSE(female)) {
-      stopifnot(
-        is.numeric(Males_five),
-        is.matrix(nLxMale),
-        ncol(nLxMale) == length(nLxDatesIn),
-        !is.null(Males_five),
-        is.logical(female),
-        !is.null(nLxMale))
-    }
-
-    is.named <- function(x) !is.null(names(x))
-    if (!is.null(SmoothedFemales)) stopifnot(is.named(SmoothedFemales))
-
-  })
+      #is.logical(female),
+      ncol(nLxFemale) == length(nLxDatesIn),
+      ncol(nLxMale) == length(nLxDatesIn)
+      # TR no check on ASFRmat dates?
+    )})
 }
 
 downloadnLx <- function(nLx, country, gender, nLxDatesIn, radix) {
@@ -1208,3 +1269,34 @@ downloadAsfr <- function(Asfrmat, country, AsfrDatesIn) {
   Asfrmat <- do.call(cbind, tmp)
   Asfrmat
 }
+
+
+downloadSRB <- function(SRB, country, DatesOut){
+
+  # If not given and we have the country, then we use it
+  if (is.null(SRB) & country %in% WPP2019_births$LocName){
+    data(WPP2019_births)   
+    SRB <- WPP2019_births %>% 
+      dplyr::filter(LocName == country,
+                    Year %in% floor(DatesOut)) %>% 
+      dplyr::pull(SRB)
+  } 
+  
+  # if still not given then assume something
+  if (is.null(SRB)){
+    SRB <- rep(1.05,3)
+  }
+    
+  # if given but not with 3 elements then repeat and cut as necessary
+  if (is.numeric(SRB) & length(SRB) != 3){
+    SRB <- rep(SRB,3)[1:3]
+  }
+  
+  # return, potentially the same as input
+  SRB
+}
+
+
+
+
+
