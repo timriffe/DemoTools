@@ -115,6 +115,42 @@ lt_id_l_d <- function(lx) {
   diff(-c(lx, 0))
 }
 
+#' @title Derive survivorship from lifetable deaths
+#' @description This lifetable identity is the same no matter what kind of lifetable is required. You can find it in any demography textbook.
+#' @details The vector returned is the same length as \code{dx} and it sums to the lifetable radix. If the radix is one then this is the discrete deaths distribution.
+#'
+#' @param ndx numeric.  Vector of age-specific lifetable deaths.
+#' @param radix numeric. 
+#' @references
+#' \insertRef{preston2000demography}{DemoTools}
+#' @return lx vector of lifetable survivorship
+#' @export
+lt_id_d_l <- function(ndx, radix = sum(ndx)) {
+  dx  <- dx / sum(dx)
+  N   <- length(dx)
+  CDF <- cumsum(dx)
+  radix * c(1,1 - CDF[-N])
+}
+
+
+
+#' @title Derive death probabilities from lifetable deaths
+#' @description This lifetable identity is the same no matter what kind of lifetable is required.  You can find it in any demography textbook.
+#' @details The vector returned is the same length as \code{dx}.
+#'
+#' @param ndx numeric.  Vector of age-specific lifetable survivorship.
+#' @references
+#' \insertRef{preston2000demography}{DemoTools}
+#' @return nqx vector of lifetable death probabilities.
+#' @export
+lt_id_d_q <- function(ndx) {
+  N   <- length(dx)
+  CDF <- cumsum(dx)
+  lx <- c(sum(dx),1 - CDF[-N])
+  dx / lx
+}
+
+
 #' @title Derive lifetable exposure from lx, ndx and nax.
 #' @description This is a common approximation of lifetable exposure:
 #' All persons surviving to the end of the interval time the interval width, plus all those that died
