@@ -1,54 +1,52 @@
 #' shift census populations to match single year cohorts
 #' @description Matches the (single) ages of a census to single cohorts. For use in intercensal interpolations. Ages are potentially blended to match single cohort line assuming that the population in each age is uniformly distributed over the age group.
-#' @param Pop numeric vector. Population counts in single ages
-#' @param Age integer. Lower bound of single age groups
+#' @param pop numeric vector. Population counts in single ages
+#' @param age integer. Lower bound of single age groups
 #' @param date Either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.
 #' @export
 #' @examples
-#' Pop <- seq(10000,100,length.out = 101)
-#' Age <- 0:100
+#' pop <- seq(10000,100,length.out = 101)
+#' age <- 0:100
 #' d1 <- "2020-01-01"
 #' d2 <- "2020-07-01"
 #' d3 <- "2020-12-21"
 #' 
-#' census_cohort_adjust(Pop,Age,d1)
-#' census_cohort_adjust(Pop,Age,d2)
-#' census_cohort_adjust(Pop,Age,d3)
-#' census_cohort_adjust(Pop,Age,2020.5)
-
-census_cohort_adjust <- function(Pop, Age, date){
-  
-  stopifnot(is_single(Age))
+#' census_cohort_adjust(pop, age, d1)
+#' census_cohort_adjust(pop, age, d2)
+#' census_cohort_adjust(pop, age, d3)
+#' census_cohort_adjust(pop, age, 2020.5)
+census_cohort_adjust <- function(pop, age, date){
+  stopifnot(is_single(age))
   
   date       <- dec.date(date)
   yr         <- floor(date)
   
   f1         <- date - yr
   
-  upper_part_of_cohort <- Pop * f1
-  lower_part_of_cohort <- Pop * (1 - f1)
+  upper_part_of_cohort <- pop * f1
+  lower_part_of_cohort <- pop * (1 - f1)
   
   shift      <- ceiling(f1)
   pop_out    <- shift.vector(lower_part_of_cohort,shift) + upper_part_of_cohort
 
-  cohorts    <- yr - Age - 1 + shift
+  cohorts    <- yr - age - 1 + shift
   
-  list(Pop = pop_out, Cohort = cohorts, date = date, f1 = f1)
+  list(pop = pop_out, cohort = cohorts, date = date, f1 = f1)
 }
 
-# C1 <- seq(10000,10,length.out = 10)
-# C2 <- seq(15000,10,length.out = 10)
-# 
+# c1 <- seq(10000,10,length.out = 10)
+# c2 <- seq(15000,10,length.out = 10)
+#
 # d1 <- "2020-07-01"
 # d2 <- "2025-10-14"
-# 
-# C1_coh <-census_cohort_adjust(C1, 0:9, d1)
-# C2_coh <-census_cohort_adjust(C2, 0:9, d2)
-# 
-# cohs_match <- 
-# 
-# matrix(C1_coh$Pop)
-# 
+#
+# c1_coh <-census_cohort_adjust(c1, 0:9, d1)
+# c2_coh <-census_cohort_adjust(c2, 0:9, d2)
+#
+# cohs_match <-
+#
+# matrix(c1_coh$pop)
+#
 # interp()
 
 # c1 = seq(10000,10,length.out = 10); c2 = seq(15000,10,length.out = 10); date1 = "2020-07-01"; date2 = "2025-10-14"; age1 = 0:9; age2 = 0:9
@@ -75,10 +73,10 @@ interp_coh_bare <- function(c1, c2, date1, date2, age1, age2, ...){
   c2c <-census_cohort_adjust(c2, age2, date2)
   
   # Connect cohorts observed (completely) in both censuses
-  obs_coh <- intersect(c1c$Cohort, c2c$Cohort)
+  obs_coh <- intersect(c1c$cohort, c2c$cohort)
   
   # remove first cohort is not observed in full
-  if(c1c$date - c1c$Cohort[1] != 1){
+  if(c1c$date - c1c$cohort[1] != 1){
     obs_coh <- obs_coh[-1]
   }
   
@@ -86,8 +84,8 @@ interp_coh_bare <- function(c1, c2, date1, date2, age1, age2, ...){
   
   # fully observed cohorts in a pop matrix
   obs_coh_mat <- cbind(
-    c1c$Pop[match(obs_coh, c1c$Cohort)],
-    c1c$Pop[match(obs_coh, c2c$Cohort)]
+    c1c$pop[match(obs_coh, c1c$cohort)],
+    c1c$pop[match(obs_coh, c2c$cohort)]
   ) 
   # set names 
   dimnames(obs_coh_mat) <- list(obs_coh, c(c1c$date, c2c$date))
