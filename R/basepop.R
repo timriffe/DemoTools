@@ -1,10 +1,7 @@
 # TODO: 
-# -[ ] alwys do males and females together
-# -[ ] smooth should be logical flag
-# -[ ] smoothing options fixed arg arriaga and strong as options
-# -[ ] if smooth == TRUE, also return ages > 10 as the smoothed output
-# -[ ] include SRB in DemoToolsData package
-# -[ ] allow SRB as scalar, vector, or lookup using country, pulling 
+# -[x] alwys do males and females together
+# -[x] include SRB in DemoToolsData package
+# -[x] allow SRB as scalar, vector, or lookup using country, pulling 
 #      data from DemoToolsData, in which case has to be a time series.
 
 
@@ -928,9 +925,9 @@ basepop_five <- function(country = NULL,
   # if it's NULL and we have the country in the DB then we look it up.
   # if it's NULL and we don't have the country then we assume 1.05,
   # because tradition.
-  SRB <- downloadSRB(SRB, country, DatesOut)
-  
-  
+  SRB <- downloadSRB(SRB, 
+                     country, 
+                     DatesOut)
   
   # # Turn the columns from the matrix into a list
   # nLxFemale <- lapply(as.data.frame(nLxFemale), identity)
@@ -1275,6 +1272,8 @@ downloadSRB <- function(SRB, country, DatesOut){
 
   # If not given and we have the country, then we use it
   if (is.null(SRB) & country %in% WPP2019_births$LocName){
+    # TODO: really this should take a weighted average of SRB
+    # over the period represented by each cetral date?
     data(WPP2019_births)   
     SRB <- WPP2019_births %>% 
       dplyr::filter(LocName == country,
