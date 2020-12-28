@@ -139,6 +139,7 @@ jobs:
       - name: "[Stage] Prepare"
         run: |
           Rscript -e "if (!requireNamespace('remotes')) install.packages('remotes', type = 'source')"
+          Rscript -e "if (!requireNamespace('usethis')) install.packages('usethis', type = 'source')"
           Rscript -e "if (getRversion() < '3.2' && !requireNamespace('curl')) install.packages('curl', type = 'source')"
           # Rscript -e "remove.packages('rstan'); if (file.exists('.RData')) file.remove('.RData'); install.packages('rstan', repos = 'https://cloud.r-project.org/', dependencies = TRUE)"
 
