@@ -1,3 +1,31 @@
+# [ ] make OPAG_lx_optim() needs Pop, Age, Lx, LxAge
+#       - Lx should go up to a nice high age.
+#       - with parameter 'r', cx = Lx / sum(Lx), 
+#       - warped wLx = exp(-r*Age)*Lx
+#       - xLx / sum(wLx)
+#       - to get r, take two 10-year age groups before the open one.
+#       - use groupAges() to ensure in 10yr ages.
+#       - selecting the two pivot ages from the Lx and Pop, warp Lx by changing r
+#       - min_r <- function(r, Pop, Lx){
+#                wLx = exp(-r*(5,15))*Lx
+#                wLx = wLx / sum(wLx)
+#                Pop = Pop / sum(Pop)
+#                sum(abs(Pop - wLx))
+#              }
+#     this gets r, to use for warping Lx to make the StPop
+# [ ] OPAG_lx_warp() Lx, Age, r
+#                wLx = exp(-r*(5,15))*Lx
+#                wLx = wLx / sum(wLx)
+#      after getting r, this output becomes StPop
+# [ ] OPAG() 
+#    1) if Lx is given, then use OPAG_lx_warp() to get a StPop,
+#       otherwise use user standard. 
+#    2) use OPAG_simple() to do the rescaling.
+# [ ] make OPAG_simple the inner function
+#
+
+
+
 # Author: tim
 ###############################################################################
 # distribute population in open age group over higher ages.
