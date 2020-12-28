@@ -3,6 +3,7 @@
 \name{mig_resid_stock}
 \alias{mig_resid_stock}
 \alias{mig_resid_cohort}
+\alias{mig_resid_time}
 \title{Estimate net migration using residual methods: stock change,
 time even flow and cohort even flow}
 \usage{
@@ -18,6 +19,17 @@ mig_resid_stock(
 )
 
 mig_resid_cohort(
+  pop_m_mat,
+  pop_f_mat,
+  sr_m_mat,
+  sr_f_mat,
+  asfr_mat,
+  srb_vec,
+  ages,
+  ages_fertility
+)
+
+mig_resid_time(
   pop_m_mat,
   pop_f_mat,
   sr_m_mat,
@@ -83,6 +95,11 @@ survive between t and t+5, and the first age group is based on the difference
 with the surviving births by sex.  It provides net migrants by lexis cohort
 parallelograms, and basically such info gets used as end-period migration
 since the migrants don't get exposed to mortality within the period.
+\item The time even flow (\code{mig_resid_time}) method uses the result from
+the first option, but splits it back into lexis period squares and assumes
+that half of the net migrants get exposed to the mortality risk during this
+period. Such info can get used as evenly distributed migration by period,
+but the assumptions lead to zig-zag age patterns that are highly implausible.
 \item The cohort even flow (\code{mig_resid_cohort}) method provides the most
 meaningful pattern of net migration by age consistent by cohort and assumes
 an evenly distribution within the 5-year period, and half of the migrants
@@ -527,10 +544,32 @@ mig_res <-
     ages_fertility = ages_fertility
   )
 
-# Net migration for males using the cohort even low method
+# Net migration for males using the cohort even flow method
 mig_res$mig_m
 
-# Net migration for females using the cohort even low method
+# Net migration for females using the cohort even flow method
+mig_res$mig_f
+
+################ time even flow method  #####################
+
+# We reuse the same data from before
+
+mig_res <-
+  mig_resid_time(
+    pop_m_mat = pop_m_mat,
+    pop_f_mat = pop_f_mat,
+    sr_m_mat = sr_m_mat,
+    sr_f_mat = sr_f_mat,
+    asfr_mat = asfr_mat,
+    srb_vec = srb_vec,
+    ages = ages,
+    ages_fertility = ages_fertility
+  )
+
+# Net migration for males using the time even flow method
+mig_res$mig_m
+
+# Net migration for females using the time even flow method
 mig_res$mig_f
 
 }
