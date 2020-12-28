@@ -9,6 +9,12 @@
 #' parallelograms, and basically such info gets used as end-period migration
 #' since the migrants don't get exposed to mortality within the period.
 #'
+#' 2. The time even flow (\code{mig_resid_time}) method uses the result from
+#' the first option, but splits it back into lexis period squares and assumes
+#' that half of the net migrants get exposed to the mortality risk during this
+#' period. Such info can get used as evenly distributed migration by period,
+#' but the assumptions lead to zig-zag age patterns that are highly implausible.
+#'
 #' 3. The cohort even flow (\code{mig_resid_cohort}) method provides the most
 #' meaningful pattern of net migration by age consistent by cohort and assumes
 #' an evenly distribution within the 5-year period, and half of the migrants
@@ -494,10 +500,32 @@
 #'     ages_fertility = ages_fertility
 #'   )
 #'
-#' # Net migration for males using the cohort even low method
+#' # Net migration for males using the cohort even flow method
 #' mig_res$mig_m
 #'
-#' # Net migration for females using the cohort even low method
+#' # Net migration for females using the cohort even flow method
+#' mig_res$mig_f
+#'
+#' ################ time even flow method  #####################
+#'
+#' # We reuse the same data from before
+#'
+#' mig_res <-
+#'   mig_resid_time(
+#'     pop_m_mat = pop_m_mat,
+#'     pop_f_mat = pop_f_mat,
+#'     sr_m_mat = sr_m_mat,
+#'     sr_f_mat = sr_f_mat,
+#'     asfr_mat = asfr_mat,
+#'     srb_vec = srb_vec,
+#'     ages = ages,
+#'     ages_fertility = ages_fertility
+#'   )
+#'
+#' # Net migration for males using the time even flow method
+#' mig_res$mig_m
+#'
+#' # Net migration for females using the time even flow method
 #' mig_res$mig_f
 #'
 #' @export
@@ -621,6 +649,58 @@ mig_resid_cohort <- function(pop_m_mat,
   list(
     mig_m = mig_rectangle_m[, -1],
     mig_f = mig_rectangle_f[, -1]
+  )
+}
+
+#' @rdname mig_resid_stock
+#' @export
+mig_resid_time <- function(pop_m_mat,
+                           pop_f_mat,
+                           sr_m_mat,
+                           sr_f_mat,
+                           asfr_mat,
+                           srb_vec,
+                           ages,
+                           ages_fertility) {
+
+  # Estimate stock method
+  mig_res <-
+    mig_resid_stock(
+      pop_m_mat = pop_m_mat,
+      pop_f_mat = pop_f_mat,
+      sr_m_mat = sr_m_mat,
+      sr_f_mat = sr_f_mat,
+      asfr_mat = asfr_mat,
+      srb_vec = srb_vec,
+      ages = ages,
+      ages_fertility = ages_fertility
+    )
+
+  # Separate male/female net migration
+  net_mig_m <- mig_res$mig_m
+  net_mig_f <- mig_res$mig_f
+
+  # Adjust age group 0-4
+  net_mig_m[1, ] <- 2 * net_mig_m[1, ]
+  net_mig_f[1, ] <- 2 * net_mig_f[1, ]
+
+  # Adjust age groups 5-10  to 100+ (of whatever maximum age groups)
+  for (i in 2:nrow(net_mig_m)) {
+    double_pop_m <- (2 * net_mig_m[i, ])
+    double_pop_f <- (2 * net_mig_f[i, ])
+
+    # Multiply net mig of i - 1 by survival rate of i
+    # to get number of survived
+    mig_sr_m <- net_mig_m[i - 1, ] * sr_m_mat[i, ]
+    mig_sr_f <- net_mig_f[i - 1, ] * sr_f_mat[i, ]
+
+    net_mig_m[i, ] <- double_pop_m - mig_sr_m
+    net_mig_f[i, ] <- double_pop_f - mig_sr_f
+  }
+
+  list(
+    mig_m = net_mig_m,
+    mig_f = net_mig_f
   )
 }
 
