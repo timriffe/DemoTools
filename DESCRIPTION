@@ -49,6 +49,8 @@ Imports:
     lubridate,
     fertestr
 BugReports: https://github.com/timriffe/DemoTools/issues
-Remotes: https://github.com/josehcms/fertestr
+Remotes: 
+    https://github.com/josehcms/fertestr,
+    https://github.com/timriffe/ungroup
 Encoding: UTF-8
 VignetteBuilder: knitr
