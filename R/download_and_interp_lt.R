@@ -56,7 +56,7 @@ interp_coh_download_mortality <- function(country, sex, date1, date2){
   QX <-
     DXlong %>% 
     dplyr::group_by(Date) %>% 
-    dplyr::do(graduate_dx_qx_chunk(chunk = .data)) %>% 
+    dplyr::do(interp_coh_graduate_dx_qx_chunk(chunk = .data)) %>% 
     dplyr::ungroup() %>% 
     reshape2::acast(Age~Date, value.var = "qx")
   
