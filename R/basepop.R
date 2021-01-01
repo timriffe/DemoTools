@@ -597,7 +597,7 @@ basepop_five <- function(country = NULL,
   if (is.null(radix)) {
     # TR: not perfect, but it's a better guess. It would seem the radix
     # being pulled before was always 1, whereas the nLx columns was based on 100000
-    radix <- 10 ^ nchar(as.integer(round(nLxFemale$nLx[1,1])))
+    radix <- lt_infer_radix_from_1L0(nLxMale[1,1])
     if (verbose) {
       cat(paste0("Setting radix to value of lx: ", radix, ". Can be overwritten with the `radix` argument"), sep = "\n")
     }
@@ -612,7 +612,18 @@ basepop_five <- function(country = NULL,
       country = country,
       AsfrDatesIn = AsfrDatesIn
     )
-
+  # get a vector of 3 SRB estimates matching the DatesOut dates.
+  # if SRB was given as a vector of length 3 then we take it as-is
+  # if only one value was given (or a vector of length not equal to 3), 
+  # we repeat it 3 times and take the first 3 elements.
+  # if it's NULL and we have the country in the DB then we look it up.
+  # if it's NULL and we don't have the country then we assume 1.05,
+  # because tradition.
+  
+  SRB <- downloadSRB(SRB, 
+                     country, 
+                     DatesOut)
+  
   ## Check all arguments
   AllArgs <- as.list(environment())
   ArgsCheck(AllArgs)
@@ -646,16 +657,7 @@ basepop_five <- function(country = NULL,
   #   ...
   # )
 
-  # get a vector of 3 SRB estimates matching the DatesOut dates.
-  # if SRB was given as a vector of length 3 then we take it as-is
-  # if only one value was given (or a vector of length not equal to 3), 
-  # we repeat it 3 times and take the first 3 elements.
-  # if it's NULL and we have the country in the DB then we look it up.
-  # if it's NULL and we don't have the country then we assume 1.05,
-  # because tradition.
-  SRB <- downloadSRB(SRB, 
-                     country, 
-                     DatesOut)
+
 
   
   # # Turn the columns from the matrix into a list
