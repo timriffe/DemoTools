@@ -696,43 +696,62 @@ basepop_five <- function(country = NULL,
   
   # Ideally we should be able to skip this if births are given??
   
-  # We use the smoothed vector names to only get certain age groups
-  #SmoothedFMiddleages <- Females_five[as.character(seq(15, 55, by = 5))]
-  # TR: now change this to make use of an Age vector
-  FMiddleages <- Females_five[as.character(seq(15, 55, by = 5))]
+
+  # TR: Follows spreadsheet logic, can still be more elegant.
+  # sometimes character indexing, sometimes position, but still
+  ages_c             <- as.character(seq(15,55,by=5))
+  M                  <- nrow(nLxf)
+  fRevSx             <- nLxf[as.character(seq(10, 50, by = 5)),] /  
+                          nLxf[as.character(seq(15, 55, by = 5)),]
+  FMiddleages        <- Females_five[as.character(seq(15, 55, by = 5))]
+  Ft_minus_5         <- FMiddleages[-1] * nLxf[-9,2] / nLxf[-1,2]
+  names(Ft_minus_5)  <- ages_c[-9]
+  Ft_minus_10        <- Ft_minus_5[-1] * nLxf[ages_c[1:7],3] / nLxf[ages_c[2:8],3]
+  names(Ft_minus_10) <- ages_c[1:7]
   
+  # Now we take some averages to get to midpoints
+  Ft_minus_.5        <- FMiddleages[1:7] * .8 + Ft_minus_5[1:7] * .2
+  Ft_minus_2.5       <- FMiddleages[1:7] * .5 + Ft_minus_5[1:7] * .5
+  Ft_minus_7.5       <- Ft_minus_5[1:7] * .5 + Ft_minus_10[1:7] * .5
+  
+  fExpos             <- cbind(Ft_minus_.5,Ft_minus_2.5,Ft_minus_7.5)
+ 
+
   # Currently, we assume that for calculating the estimated
   # female population for the DatesOut, the first OlderNLxFemale
   # date is multiplied by the FMiddleages However,
   # all dates after that one are mutltiplied by the previous
   # OlderNLxFemale in the order.
   
+  # New strategy: precalculate Sx. Remember that first date in JC's notes means
+  # latest date, because we're working BACKWARDS. ahhhh
+  
   # TR: this construct is absolutely fascinating, and it will remain preserved here
   # for so that one can appreciate JC's mental gymnastics.
-  for (i in seq_along(OlderNLxFemale)) {
-    .x <- OlderNLxFemale[[i]]
-    VecMult   <- if (i == 1) FMiddleages else OlderNLxFemale[[i - 1]]
-    IndLength <- if (i == 1) 0 else 1
-
-    NLxDiv    <- .x[4:(length(.x) - IndLength)]
-    iter      <- c(1, rep(seq(2, length(NLxDiv) - 1), each = 2), length(NLxDiv))
-    NLxSeq    <- lapply(seq(1, length(iter), by = 2), function(i) NLxDiv[iter[i:(i+1)]])
-
-    # Here VecMult is either SmoothedFMiddleAges
-    OlderNLxFemale[[i]] <- mapply(function(.y, .z) .y * .z[1] / .z[2],
-                                  VecMult[-1],
-                                  NLxSeq
-                                  )
-  }
+  # for (i in seq_along(OlderNLxFemale)) {
+  #   .x <- OlderNLxFemale[[i]]
+  #   VecMult   <- if (i == 1) FMiddleages else OlderNLxFemale[[i - 1]]
+  #   IndLength <- if (i == 1) 0 else 1
+  # 
+  #   NLxDiv    <- .x[4:(length(.x) - IndLength)]
+  #   iter      <- c(1, rep(seq(2, length(NLxDiv) - 1), each = 2), length(NLxDiv))
+  #   NLxSeq    <- lapply(seq(1, length(iter), by = 2), function(i) NLxDiv[iter[i:(i+1)]])
+  # 
+  #   # Here VecMult is either SmoothedFMiddleAges
+  #   OlderNLxFemale[[i]] <- mapply(function(.y, .z) .y * .z[1] / .z[2],
+  #                                 VecMult[-1],
+  #                                 NLxSeq
+  #                                 )
+  # }
 
   # We always assume that the FirstDate will be calculated with the first date
   # from the OlderNLxFemale, regardless of the number of dates.
-  FirstDate <- list(0.2 * OlderNLxFemale[[1]] + 0.8 * FMiddleages[-length(FMiddleages)])
-  names(FirstDate) <- max(names(nLxFemale))
-  OlderNLxFemale <- c(
-    FirstDate,
-    OlderNLxFemale
-  )
+  # FirstDate <- list(0.2 * OlderNLxFemale[[1]] + 0.8 * FMiddleages[-length(FMiddleages)])
+  # names(FirstDate) <- max(names(nLxFemale))
+  # OlderNLxFemale <- c(
+  #   FirstDate,
+  #   OlderNLxFemale
+  # )
 
   # Currently, we assume that for estimating the population
   # for DatesOut, starting from the third year, we carry forward
