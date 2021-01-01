@@ -575,12 +575,6 @@ basepop_five <- function(country = NULL,
     }
   }
 
-  # TR: why need to know country to set a radix?
-  if (is.null(country) && is.null(radix)) {
-    stop("You must provide a country for the function to set a default radix")
-  }
-
-  
   ## obtain nLx for males and females
   ## If these arguments have been specified, they return
   ## the same thing and don't download the data
@@ -589,8 +583,7 @@ basepop_five <- function(country = NULL,
       nLx = nLxFemale,
       country = country,
       gender = "female",
-      nLxDatesIn = nLxDatesIn,
-      radix = radix
+      nLxDatesIn = nLxDatesIn
     )
   
   nLxMale <-
@@ -598,8 +591,7 @@ basepop_five <- function(country = NULL,
       nLx = nLxMale,
       country = country,
       gender = "male",
-      nLxDatesIn = nLxDatesIn,
-      radix = radix
+      nLxDatesIn = nLxDatesIn
     )
   
   if (is.null(radix)) {
@@ -611,8 +603,8 @@ basepop_five <- function(country = NULL,
     }
   }
 
-  nLxFemale <- nLxFemale$nLx[1:12, ]
-  nLxMale   <- nLxMale$nLx[1:3, ]
+  nLxFemale <- nLxFemale[1:12, ]
+  nLxMale   <- nLxMale[1:3, ]
 
   AsfrMat <-
     downloadAsfr(
@@ -912,66 +904,52 @@ ArgsCheck <- function(ArgList) {
     )})
 }
 
-downloadnLx <- function(nLx, country, gender, nLxDatesIn, radix) {
 
+lt_infer_radix_from_1L0 <- function(L0){
+
+  if (L0 > 1){
+    radix_check <- L0 %>% as.integer() %>% log10()
+    is_it_a_radix <- (radix_check - round(radix_check)) == 0
+    
+    if (!is_it_a_radix){
+      pow <- L0 %>% round() %>% as.integer() %>% nchar()
+      
+      the_radix <- 10^pow
+    } else {
+      the_radix <- L0
+    }
+  } else {
+    the_radix <- 1
+  }
+  the_radix
+}
+
+# TR: radix removed, as it seems lx was 1 but nLx was based on 1e5...
+# will use indirect inference.
+downloadnLx <- function(nLx, country, gender, nLxDatesIn) {
+require(magrittr)
   verbose <- getOption("basepop_verbose", TRUE)
-
-  # If the user provided the nLx, download the lx to supply the radix
-  # in case it has been set.
-  if (!is.null(nLx)) {
-
-    if (!is.null(radix) & !is.null(nLx)) {
+    if (!is.null(nLx)) {
       # TR: ensure colnames passed
       colnames(nLx) <- nLxDatesIn
-      return(
-        list(
-          nlx = as.matrix(radix),
-          nLx = nLx
-        )
-      )
+      return(nLx)
     }
-
+    
+    if (is.null(nLx)){
 
     if (is.null(country)) stop("You need to provide a country to download the data for nLx")
-
-    tmp <-
-      lapply(nLxDatesIn, function(x) {
-        res <- fertestr::FetchLifeTableWpp2019(country, x, gender)["lx"]
-        names(res) <- NULL
-        as.matrix(res)
-      })
-
-    res <-
-      list(
-        nlx = do.call(cbind, tmp),
-        nLx = nLx
-      )
-    colnames(res$nLx) <- nLxDatesIn
-    return(res)
-  }
-
-  if (is.null(country)) stop("You need to provide a country to download the data for nLx")
-
-  tmp <-
-    lapply(nLxDatesIn, function(x) {
-
+      
       if (verbose) {
-        cat(paste0("Downloading nLx data for ", country, ", year ", x, ", gender ", gender), sep = "\n")
+        cat(paste0("Downloading nLx data for ", country, ", years ", paste(nLxDatesIn,collapse=", "), ", gender ", gender), sep = "\n")
       }
+  nLx <-
+    lapply(nLxDatesIn, function(x) {
+      fertestr::FetchLifeTableWpp2019(country, x, gender)$Lx
+    }) %>% do.call("cbind",.)
 
-      res <- fertestr::FetchLifeTableWpp2019(country, x, gender)[c("lx", "Lx")]
-      names(res) <- NULL
-      as.matrix(res)
-    })
-
-  nlx <- do.call(cbind, lapply(tmp, function(x) x[ , 1]))
-  nLx <- do.call(cbind, lapply(tmp, function(x) x[ , 2]))
   colnames(nLx) <- nLxDatesIn
-  list(
-    nlx = nlx,
-    nLx = nLx
-  )
-
+  return(nLx)
+   }
 }
 
 downloadAsfr <- function(Asfrmat, country, AsfrDatesIn) {
