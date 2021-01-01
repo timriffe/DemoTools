@@ -18,7 +18,7 @@
 #' adjust using the BPE method.
 #'
 #' For \code{basepop_five}, adjusting the female population counts is the
-#' default. For this, only the \code{country}, \code{RefDate} and
+#' default. For this, only the \code{country}, \code{refDate} and
 #' \code{Females_five} are needed. All other arguments are downloaded
 #' or set to sensible defaults. For adjusting the male population
 #' counts, the user needs to specify the \code{Males_five} population
@@ -149,12 +149,12 @@
 #' Lx and asfr data. See \code{fertestr::locs_avail()} for all country
 #' names/codes.
 #'
-#' @param RefDate The reference year for which the reported population pertain
+#' @param refDate The reference year for which the reported population pertain
 #' (these are the population counts in \code{Females_five} and
 #' \code{Males_five}).
 #'
 #' @param Females_five A named numeric vector with the population counts for
-#' five-year abridged age groups for females in \code{RefDate}. The names of the
+#' five-year abridged age groups for females in \code{refDate}. The names of the
 #' vector should reflect the age groups. See the example section for some
 #' examples.
 #'
@@ -163,13 +163,13 @@
 #' 7.5 years before the reference date of the "reported" population. The later
 #' date should be no earlier than one-half year before the reference date of
 #' the "reported" population. If not provided, it's automatically downloaded if
-#' \code{country}, \code{RefDate} and the equivalent population counts
+#' \code{country}, \code{refDate} and the equivalent population counts
 #' \code{*_five} are provided.
 #'
 #' @param nLxDatesIn A vector of numeric years (for example, 1986). The dates
 #' which pertain to the columns in \code{nLxFemale} and \code{nLxMale}. If not
 #' provided, the function automatically determines two dates which are 8 years
-#' before \code{RefDate} and 0.5 years after \code{RefDate}.
+#' before \code{refDate} and 0.5 years after \code{refDate}.
 #'
 #' @param AsfrMat A numeric matrix. An age-period matrix of age specific
 #' fertility rates with age in rows, time in columns. If not provided, the
@@ -179,7 +179,7 @@
 #' @param AsfrDatesIn A vector of numeric years (for example, 1986). These are
 #' the dates which pertain to the columns in \code{AsfrMat}. If not provided,
 #' the function automatically determines two dates which are 8 years before
-#' \code{RefDate} and 0.5 before \code{RefDate}.
+#' \code{refDate} and 0.5 before \code{refDate}.
 #'
 #' @param ... Arguments passed to \code{\link{interp}}. In particular, users
 #' might be interested in changing the interpolation method for the \code{nLx*}
@@ -196,7 +196,7 @@
 #' returns. See the example section for some examples.
 #'
 #' @param Males_five A named numeric vector with the population counts for
-#' five-year abridged age groups for males in \code{RefDate}. The names of
+#' five-year abridged age groups for males in \code{refDate}. The names of
 #' the vector should reflect the age groups. See the example section for
 #' some examples.
 #'
@@ -230,16 +230,16 @@
 #' ################ BPE for females (five year age groups) #####################
 #'
 #' # Grab population counts for females
-#' RefDate <- 1986
+#' refDate <- 1986
 #' country <- "Brazil"
 #' pop_female_single <- fertestr::FetchPopWpp2019(country, 
-#'                                                RefDate, 
+#'                                                refDate, 
 #'                                                ages = 0:100, 
 #'                                                sex = "female")
 #' pop_female_counts <- single2abridged(setNames(pop_female_single$pop, 
 #'                                               pop_female_single$ages))
 #' pop_male_single   <- fertestr::FetchPopWpp2019(country, 
-#'                                                RefDate, 
+#'                                                refDate, 
 #'                                                ages = 0:100, 
 #'                                                sex = "male")
 #' pop_male_counts   <- single2abridged(setNames(pop_male_single$pop, 
@@ -248,7 +248,7 @@
 #' # Automatically downloads the nLx and ASFR data
 #' bpe <- basepop_five(
 #'   country = country,
-#'   RefDate = RefDate,
+#'   refDate = refDate,
 #'   Females_five = pop_female_counts,
 #'   Males_five = pop_male_counts,
 #'   Age = Age
@@ -269,7 +269,7 @@
 #' # # Automatically downloads the nLx and ASFR data
 #' # bpe_female <- basepop_single(
 #' #   country = country,
-#' #   RefDate = RefDate,
+#' #   refDate = refDate,
 #' #   Females_single = pop_female_single
 #' # )
 #' # 
@@ -294,7 +294,7 @@
 #' # Automatically downloads the nLx and ASFR data
 #' bpa <- basepop_five(
 #'   country = country,
-#'   RefDate = RefDate,
+#'   refDate = refDate,
 #'   Females_five = smoothed_females,
 #'   Males_five = smoothed_males,
 #'   Age = Age
@@ -311,8 +311,8 @@
 #'
 #' ################ PAS example ###############################
 #'
-#'  # (1) RefDate
-#'  RefDate <- 1986.21
+#'  # (1) refDate
+#'  refDate <- 1986.21
 #'
 #'  # (2) Reported population by 5-year age groups and sex in the base year
 #'  # (Include unknowns).
@@ -376,7 +376,7 @@
 #'  # female = FALSE with Males and nLxMale.
 #'  bpa <-
 #'    basepop_five(
-#'      RefDate = RefDate,
+#'      refDate = refDate,
 #'      Males_five = smoothed_males,
 #'      Females_five = smoothed_females,
 #'      Age = Age,
@@ -401,7 +401,7 @@
 #'
 #'  bpe <-
 #'    basepop_five(
-#'      RefDate = RefDate,
+#'      refDate = refDate,
 #'      Females_five = pop_female_counts,
 #'      Males_five = pop_male_counts,
 #'      SRB = sex_ratio,
@@ -455,7 +455,7 @@
 #'  # This needs work still
 #'  # bpa_male <-
 #'  #   basepop_single(
-#'  #     RefDate = RefDate,
+#'  #     refDate = refDate,
 #'  #     Males_single = pop_male_counts,
 #'  #     Females_single = pop_female_counts,
 #'  #     SRB = sex_ratio,
@@ -473,7 +473,7 @@
 #'  # Adjusting the BPA for females requires less arguments
 #'  # bpa_female <-
 #'  #   basepop_single(
-#'  #     RefDate = RefDate,
+#'  #     refDate = refDate,
 #'  #     Females_single = pop_female_counts,
 #'  #     SmoothedFemales = smoothed_females,
 #'  #     SRB = sex_ratio,
@@ -490,7 +490,7 @@
 #'  # # but remove SmoothedFemales.
 #'  # bpe_male <-
 #'  #   basepop_single(
-#'  #     RefDate = RefDate,
+#'  #     refDate = refDate,
 #'  #     Males_single = pop_male_counts,
 #'  #     Females_single = pop_female_counts,
 #'  #     SRB = sex_ratio,
@@ -510,7 +510,7 @@
 #'  # Adjusting the BPA for females requires less arguments
 #'  # bpe_female <-
 #'  #   basepop_single(
-#'  #     RefDate = RefDate,
+#'  #     refDate = refDate,
 #'  #     Females_single = pop_female_counts,
 #'  #     SRB = sex_ratio,
 #'  #     nLxFemale = nLxFemale,
@@ -530,7 +530,7 @@
 #' \insertRef{PAS}{DemoTools}
 #'
 basepop_five <- function(country = NULL,
-                         RefDate,
+                         refDate,
                          Age = NULL,
                          Females_five,
                          Males_five = NULL,
@@ -549,7 +549,7 @@ basepop_five <- function(country = NULL,
 
   # Ensure census date is numeric.
   # "YYYY-MM-DD" input is acceptable
-  RefDate <- dec.date(RefDate)
+  refDate <- dec.date(refDate)
   
   if (!is.null(Age)){
     stopifnot(is_abridged(Age))
@@ -566,14 +566,14 @@ basepop_five <- function(country = NULL,
   }
   
   if (is.null(nLxDatesIn)) {
-    nLxDatesIn <- c(abs(8 - RefDate), RefDate + 0.5)
+    nLxDatesIn <- c(abs(8 - refDate), refDate + 0.5)
     if (verbose) {
       cat(paste0("Assuming the two prior dates for the nLx matrix to be: ", paste0(nLxDatesIn, collapse = ", ")), sep = "\n")
     }
   }
 
   if (is.null(AsfrDatesIn)) {
-    AsfrDatesIn <- abs(c(8, 0.5) - RefDate)
+    AsfrDatesIn <- abs(c(8, 0.5) - refDate)
     if (verbose) {
       cat(paste0("Assuming the two prior dates for the Asfr matrix to be: ", paste0(AsfrDatesIn, collapse = ", ")), sep = "\n")
     }
@@ -625,8 +625,8 @@ basepop_five <- function(country = NULL,
   # because tradition.
   
   # TR saw no need for sapply()
-  # DatesOut  <- sapply(c(0.5, 2.5, 7.5), function(x) RefDate - x)
-  DatesOut <- RefDate - c(0.5, 2.5, 7.5)
+  # DatesOut  <- sapply(c(0.5, 2.5, 7.5), function(x) refDate - x)
+  DatesOut <- refDate - c(0.5, 2.5, 7.5)
   
   SRB <- downloadSRB(SRB, 
                      country, 
@@ -780,13 +780,13 @@ basepop_five <- function(country = NULL,
 
 #' @rdname basepop_five
 #' @aliases basepop_five
-#' @param Females_single A named numeric vector. Reported population by 1-year age groups for \code{RefDate} for females. The names of the vector should reflect the age groups. See examples. The method assumes that the last age group is open (for example, the population ends at '80+' and '100+')
-#' @param Males_single A named numeric vector. Reported population by 1-year age groups format \code{RefDate} for males. The names of the vector should reflect the age groups. See examples. The method assumes that the last age group is open (for example, the population ends at '80+' and '100+')
+#' @param Females_single A named numeric vector. Reported population by 1-year age groups for \code{refDate} for females. The names of the vector should reflect the age groups. See examples. The method assumes that the last age group is open (for example, the population ends at '80+' and '100+')
+#' @param Males_single A named numeric vector. Reported population by 1-year age groups format \code{refDate} for males. The names of the vector should reflect the age groups. See examples. The method assumes that the last age group is open (for example, the population ends at '80+' and '100+')
 #'
 #' @export
 #'
 basepop_single <- function(country = NULL,
-                           RefDate,
+                           refDate,
                            Females_single,
                            nLxFemale = NULL,
                            nLxDatesIn = NULL,
@@ -825,7 +825,7 @@ basepop_single <- function(country = NULL,
   res <-
     basepop_five(
       country = country,
-      RefDate = RefDate,
+      refDate = refDate,
       Females_five = Females_abridged,
       nLxFemale = nLxFemale,
       nLxDatesIn = nLxDatesIn,
