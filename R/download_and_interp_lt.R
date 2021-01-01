@@ -56,7 +56,7 @@ interp_coh_download_mortality <- function(country, sex, date1, date2){
   QX <-
     DXlong %>% 
     dplyr::group_by(Date) %>% 
-    dplyr::do(graduate_dx_qx_chunk(chunk = .data)) %>% 
+    dplyr::do(interp_coh_graduate_dx_qx_chunk(chunk = .data)) %>% 
     dplyr::ungroup() %>% 
     reshape2::acast(Age~Date, value.var = "qx")
   
@@ -65,12 +65,63 @@ interp_coh_download_mortality <- function(country, sex, date1, date2){
   f1    <- diff(dates_out)[1]
   f2    <- date2 - floor(date2)
   
-  QX[,1] <- QX[,1] * f1
-  QX[,ncol(QX)] <- QX[,ncol(QX)] * f2
+  QX[, 1] <- QX[, 1] ^ (1/f1)
+  QX[, ncol(QX)] <- QX[,ncol(QX)] ^ (1/f2)
 
   PX <- 1 - QX
 
   PX
+}
+
+#pxmat <- interp_coh_download_mortality("France","male",1971.42,1978.8)
+# Makes period-cohort survival probabilities, with some
+# half-baked partial-year assumptions.
+interp_coh_tidy_pc <- function(pxmat, date1, date2){ 
+  date1    <- dec.date(date1)
+  date2    <- dec.date(date2)
+  
+  f1       <- ceiling(date1) - date1
+  f2       <- date2 - floor(date2)
+  N        <- ncol(pxmat)
+  M        <- nrow(pxmat)
+  # assumes px in an age-period matrix. We assume constant mortality probs.
+  # also left and right sides have been
+  
+  qxmat <- 1 - pxmat
+  
+  # these are still rectangles
+  qx_left   <- qxmat[, 1]
+  qx_right  <- qxmat[, N]
+
+  # TR: does this assume a cartesian projection?
+  # or do we need to refer to an isometric Lexis diagram?
+
+  # px for left-side cohorts.
+  PCleft   <- 1 - (f1 * (1 - (1 - qx_left[-M] * (f1^2) / 2) * (1 - qx_left[-1] * (f1^2) / 2)) +
+              (1 - f1) * qx_left[-1])
+  # px for right-side cohorts.
+  PCright  <- 1 - (f2 * (1 - (1 - qx_right[-M] * (f2^2) / 2) * (1 - qx_right[-1] * (f2^2) / 2)) +
+                     (1 - f2) * qx_right[-M])
+  
+  # Now for middle part, much more straightforward
+  px_mid <- pxmat[, -c(1,N), drop = FALSE]
+  pxtri  <- sqrt(px_mid)
+  PCmid  <- pxtri[-M,] * pxtri[-1, ]
+  PCmat  <- cbind(PCleft, PCmid, PCright)
+  
+  # lacks infants methinks, they need special care
+  rownames(PCmat) <- rownames(pxmat)[-1]
+  colnames(PCmat) <- colnames(pxmat)
+  
+  # Move to tidy
+  pcp <-
+    PCmat %>% 
+    reshape2::melt(varnames = c("A","P"), value.name = "p_pc") %>% 
+    dplyr::mutate(C = P - A) %>% 
+    dplyr::select(-A) %>% 
+    dplyr::select(P, C, p_pc)
+  
+  pcp
 }
 
 # interp_coh_download_mortality("France","male","1971-07-01","1978-07-01")
