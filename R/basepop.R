@@ -620,6 +620,10 @@ basepop_five <- function(country = NULL,
   # if it's NULL and we don't have the country then we assume 1.05,
   # because tradition.
   
+  # TR saw no need for sapply()
+  # DatesOut  <- sapply(c(0.5, 2.5, 7.5), function(x) refYear - x)
+  DatesOut <- refYear - c(0.5, 2.5, 7.5)
+  
   SRB <- downloadSRB(SRB, 
                      country, 
                      DatesOut)
@@ -628,9 +632,7 @@ basepop_five <- function(country = NULL,
   AllArgs <- as.list(environment())
   ArgsCheck(AllArgs)
 
-  # TR saw no need for sapply()
-  # DatesOut  <- sapply(c(0.5, 2.5, 7.5), function(x) refYear - x)
-  DatesOut <- refYear - c(0.5, 2.5, 7.5)
+
   
   # Interpolate the gender specific nLx to the requested
   # dates out
