@@ -602,8 +602,8 @@ basepop_five <- function(country = NULL,
       cat(paste0("Setting radix to value of lx: ", radix, ". Can be overwritten with the `radix` argument"), sep = "\n")
     }
   }
-
-  nLxFemale <- nLxFemale[1:12, ]
+  
+  nLxFemale <- nLxFemale[1:13, ]
   nLxMale   <- nLxMale[1:3, ]
 
   AsfrMat <-
@@ -646,7 +646,7 @@ basepop_five <- function(country = NULL,
     nLxMale,
     datesIn = nLxDatesIn,
     datesOut = DatesOut,
-    ...
+   ...
   )
  
   #  # Interpolate only the female nLx to the requested dates.
@@ -675,8 +675,13 @@ basepop_five <- function(country = NULL,
   )
 
   OlderNLxFemale <- nLxf[,-1]
+  
+  # TR: temp hack to put this particular pbject back into list form for posterior
+  # calcs until they get refactored
+  OlderNLxFemale <- as.data.frame(OlderNLxFemale)
   # Reorder the years such that the earlier year is first
-  OlderNLxFemale <- OlderNLxFemale[sort(names(OlderNLxFemale), decreasing = TRUE)]
+  # TR: don't want decreasing = TRUE if we want earliest first
+  OlderNLxFemale <- OlderNLxFemale[sort(names(OlderNLxFemale))]
 
   # If SmoothedFemales is specified, we assume that it is returned
   # by smooth_age_5, so it should be named with the age groups.
@@ -719,7 +724,6 @@ basepop_five <- function(country = NULL,
                                   NLxSeq
                                   )
   }
-  
 
   # We always assume that the FirstDate will be calculated with the first date
   # from the OlderNLxFemale, regardless of the number of dates.
@@ -936,6 +940,9 @@ require(magrittr)
     if (!is.null(nLx)) {
       # TR: ensure colnames passed
       colnames(nLx) <- nLxDatesIn
+      n <- nrow(nLx)
+      Age <- c(0,1,seq(5,(n-2)*5,by=5))
+      rownames(nLx) <- Age
       return(nLx)
     }
     
@@ -952,6 +959,9 @@ require(magrittr)
     }) %>% do.call("cbind",.)
 
   colnames(nLx) <- nLxDatesIn
+  n <- nrow(nLx)
+  Age <- c(0,1,seq(5,(n-2)*5,by=5))
+  rownames(nLx) <- Age
   return(nLx)
    }
 }
