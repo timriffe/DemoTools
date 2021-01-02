@@ -658,28 +658,6 @@ basepop_five <- function(country = NULL,
     ...
   )
 
-  OlderNLxFemale <- nLxf[,-1]
-  
-  # TR: temp hack to put this particular pbject back into list form for posterior
-  # calcs until they get refactored
-  OlderNLxFemale <- as.data.frame(OlderNLxFemale)
-  # Reorder the years such that the year closest to the census is first
-  OlderNLxFemale <- OlderNLxFemale[sort(names(OlderNLxFemale), decreasing = TRUE)]
-
-  # If SmoothedFemales is specified, we assume that it is returned
-  # by smooth_age_5, so it should be named with the age groups.
-  # This is checked in ArgList
-  #FemalePops <- if (!is.null(SmoothedFemales)) SmoothedFemales else Females_five
-
-  # ---------------------------------------
-  # TR: FLAG AREA starts here:
-  
-  # Objective: get EstPop in a matrix with 3 columns and same number
-  # of rows as ASFR, which should also be a matrix.
-  
-  # Ideally we should be able to skip this if births are given??
-  
-
   # TR: Follows spreadsheet logic, can still be more elegant.
   # sometimes character indexing, sometimes position, but still
   ages_15_55         <- as.character(seq(15,55,by=5))
@@ -747,95 +725,98 @@ basepop_five <- function(country = NULL,
     Males_adjusted = Males_five_out,
     Females_five = Females_five,
     Males_five = Males_five,
-    nLxm = nLxm,
+    nLxf = nLxf,
     nLxm = nLxm,
     Asfr = Asfr,
     Exposure_female = fExpos,
     Bt = Bt,
     SRB = SRB,
-    Age = Age
+    Age = Age,
+    Ft_minus_.5 =Ft_minus_.5,
+    Ft_minus_5= Ft_minus_5,
+    Ft_minus_10 = Ft_minus_10
     )
 }
 
 
-#' @rdname basepop_five
-#' @aliases basepop_five
-#' @param Females_single A named numeric vector. Reported population by 1-year age groups for \code{refDate} for females. The names of the vector should reflect the age groups. See examples. The method assumes that the last age group is open (for example, the population ends at '80+' and '100+')
-#' @param Males_single A named numeric vector. Reported population by 1-year age groups format \code{refDate} for males. The names of the vector should reflect the age groups. See examples. The method assumes that the last age group is open (for example, the population ends at '80+' and '100+')
-#'
-#' @export
-#'
-basepop_single <- function(country = NULL,
-                           refDate,
-                           Females_single,
-                           nLxFemale = NULL,
-                           nLxDatesIn = NULL,
-                           AsfrMat = NULL,
-                           AsfrDatesIn = NULL,
-                           ...,
-                           female = TRUE,
-                           SmoothedFemales = NULL,
-                           Males_single = NULL,
-                           nLxMale = NULL,
-                           SRB = 1.05,
-                           radix = NULL,
-                           verbose = TRUE) {
-
-  stopifnot(
-    !is.null(names(Females_single)),
-    is_single(as.numeric(names(Females_single)))
-  )
-
-  Females_abridged <- single2abridged(Females_single)
-  males_present <- !is.null(Males_single)
-
-  if (males_present) {
-    stopifnot(
-      !is.null(names(Males_single)),
-      is_single(as.numeric(names(Males_single)))
-    )
-
-    Males_abridged <- single2abridged(Males_single)
-    gender_single <- Males_single
-  }  else {
-    Males_abridged <- Males_single
-    gender_single <- Females_single
-  }
-
-  res <-
-    basepop_five(
-      country = country,
-      refDate = refDate,
-      Females_five = Females_abridged,
-      nLxFemale = nLxFemale,
-      nLxDatesIn = nLxDatesIn,
-      AsfrMat = AsfrMat,
-      AsfrDatesIn = AsfrDatesIn,
-      ... = ...,
-      female = female,
-      SmoothedFemales = SmoothedFemales,
-      Males_five = Males_abridged,
-      nLxMale = nLxMale,
-      SRB = SRB,
-      radix = radix
-    )
-
-  # Since diff always returns a vector of length `length(x) - 1`,
-  # the 1 in the end is to reflct the the open ages for 80+ or 100+
-  AgeBins1 <- c(diff(as.integer(names(gender_single))), 1)
-  AgeBins2 <- c(diff(as.integer(names(res))), 1)
-
-  rescaled_res <-
-    rescaleAgeGroups(
-      Value1 = gender_single,
-      AgeInt1 = AgeBins1,
-      Value2 = res,
-      AgeInt2 = AgeBins2,
-      splitfun = graduate_uniform
-    )
-
-  round(rescaled_res, 3)
-}
+# #' @rdname basepop_five
+# #' @aliases basepop_five
+# #' @param Females_single A named numeric vector. Reported population by 1-year age # groups for \code{refDate} for females. The names of the vector should reflect the age # groups. See examples. The method assumes that the last age group is open (for example# , the population ends at '80+' and '100+')
+# #' @param Males_single A named numeric vector. Reported population by 1-year age # groups format \code{refDate} for males. The names of the vector should reflect the # age groups. See examples. The method assumes that the last age group is open (for # example, the population ends at '80+' and '100+')
+# #'
+# #' @export
+# #'
+# basepop_single <- function(country = NULL,
+#                            refDate,
+#                            Females_single,
+#                            nLxFemale = NULL,
+#                            nLxDatesIn = NULL,
+#                            AsfrMat = NULL,
+#                            AsfrDatesIn = NULL,
+#                            ...,
+#                            female = TRUE,
+#                            SmoothedFemales = NULL,
+#                            Males_single = NULL,
+#                            nLxMale = NULL,
+#                            SRB = 1.05,
+#                            radix = NULL,
+#                            verbose = TRUE) {
+# 
+#   stopifnot(
+#     !is.null(names(Females_single)),
+#     is_single(as.numeric(names(Females_single)))
+#   )
+# 
+#   Females_abridged <- single2abridged(Females_single)
+#   males_present <- !is.null(Males_single)
+# 
+#   if (males_present) {
+#     stopifnot(
+#       !is.null(names(Males_single)),
+#       is_single(as.numeric(names(Males_single)))
+#     )
+# 
+#     Males_abridged <- single2abridged(Males_single)
+#     gender_single <- Males_single
+#   }  else {
+#     Males_abridged <- Males_single
+#     gender_single <- Females_single
+#   }
+# 
+#   res <-
+#     basepop_five(
+#       country = country,
+#       refDate = refDate,
+#       Females_five = Females_abridged,
+#       nLxFemale = nLxFemale,
+#       nLxDatesIn = nLxDatesIn,
+#       AsfrMat = AsfrMat,
+#       AsfrDatesIn = AsfrDatesIn,
+#       ... = ...,
+#       female = female,
+#       SmoothedFemales = SmoothedFemales,
+#       Males_five = Males_abridged,
+#       nLxMale = nLxMale,
+#       SRB = SRB,
+#       radix = radix
+#     )
+# 
+#   # Since diff always returns a vector of length `length(x) - 1`,
+#   # the 1 in the end is to reflct the the open ages for 80+ or 100+
+#   AgeBins1 <- c(diff(as.integer(names(gender_single))), 1)
+#   AgeBins2 <- c(diff(as.integer(names(res))), 1)
+# 
+#   rescaled_res <-
+#     rescaleAgeGroups(
+#       Value1 = gender_single,
+#       AgeInt1 = AgeBins1,
+#       Value2 = res,
+#       AgeInt2 = AgeBins2,
+#       splitfun = graduate_uniform
+#     )
+# 
+#   round(rescaled_res, 3)
+# }
 
 #
 
