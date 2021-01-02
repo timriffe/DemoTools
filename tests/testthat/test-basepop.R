@@ -466,7 +466,7 @@ test_that("basepop_five can download data for asfr", {
   # expect_false(any(grepl("^Downloading nLx", output)))
 })
 
-test_that("basepop_five downloads radix if not provided", {
+test_that("basepop_five infers radix if not provided", {
 
   output <-
     capture.output(
@@ -488,8 +488,8 @@ test_that("basepop raises error when downloads needed but no country is specifie
   expect_error(
     basepop_five(
       refDate = refDate,
-      nLxFemale = nLxFemale,
       Females_five = pop_female_counts,
+      Males_five = pop_male_counts,
       verbose = FALSE
     ),
     "You need to provide a country to download the data for nLx"
@@ -501,6 +501,7 @@ test_that("basepop raises error when downloads needed but no country is specifie
       refDate = refDate,
       AsfrMat = AsfrMat,
       Females_five = pop_female_counts,
+      Males_five = pop_male_counts,
       radix = 1,
       verbose = FALSE
     ),
