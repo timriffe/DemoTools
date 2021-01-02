@@ -17,14 +17,14 @@
 #' counts, the user needs to specify the \code{Males_five} population
 #' counts and set \code{female = FALSE}.
 #'
-#' For \code{basepop_single}, the same procedure applies. The only difference
-#' is that the vector \code{Males_five} is named \code{Males_single} and accepts
-#' a vector of single ages rather than five year abridged age groups. Similarly,
-#' the vector for females is \code{Females_single} rather than
-#' \code{Females_five} and accepts single age groups.
+# # For \code{basepop_single}, the same procedure applies. The only difference
+# # is that the vector \code{Males_five} is named \code{Males_single} and accepts
+# # a vector of single ages rather than five year abridged age groups. Similarly,
+# # the vector for females is \code{Females_single} rather than
+# # \code{Females_five} and accepts single age groups.
 #'
 #' Currently, \code{basepop_five} works only with five year abridged age groups
-#' while \code{basepop_single} works only with single year age groups.
+# #' while \code{basepop_single} works only with single year age groups.
 #'
 #' The BPE method is used by default. To adjust the counts using
 #' the BPA method, the user needs to provide the \code{SmoothedFemales}
@@ -131,7 +131,7 @@
 #' (2) The data input as the “reported” population is not affected by
 #' underenumeration of persons in certain ages, nor by age misreporting.
 #'
-#' @return When using `basepop_five`, a list with the following elements:
+#' @return `basepop_five` returns a list with the following elements:
 #'  *
 #'  * `Females_adjusted` numeric vector of adjusted population counts for females. Age groups 0, 1-4, and 5-9 are adjusted, while ages 10 and higher are unchanged.
 #'  * `Males_adjusted` numeric vector of adjusted population counts for males. Age groups 0, 1-4, and 5-9 are adjusted, while ages 10 and higher are unchanged.
@@ -145,8 +145,8 @@
 #'  * `SRB` sex ratio at birth at three time points prior to census corrsponding to the midpoints of the cohorts entering ages 0, 1-4, and 5-9. Potentially downloaded.
 #'  * `Age` age groups of the input population counts.
 #'  
-#' `basepop_single` is used, the return value is a numeric vector with
-#' **single year age groups** where the counts between 0 and 10 are adjusted.
+# #' `basepop_single` is used, the return value is a numeric vector with
+# #' **single year age groups** where the counts between 0 and 10 are adjusted.
 #'
 #' @param country The country name or location code from which to download the n
 #' Lx and asfr data. See `fertestr::locs_avail()` for all country
