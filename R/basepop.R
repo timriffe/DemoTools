@@ -607,9 +607,6 @@ basepop_five <- function(country = NULL,
     }
   }
   
-  nLxFemale <- nLxFemale[1:13, ]
-  nLxMale   <- nLxMale[1:3, ]
-
   AsfrMat <-
     downloadAsfr(
       Asfrmat = AsfrMat,
@@ -637,7 +634,6 @@ basepop_five <- function(country = NULL,
   ArgsCheck(AllArgs)
 
 
-  
   # Interpolate the gender specific nLx to the requested
   # dates out
   nLxf <- interp(
@@ -652,22 +648,6 @@ basepop_five <- function(country = NULL,
     datesOut = DatesOut,
    ...
   )
- 
-  #  # Interpolate only the female nLx to the requested dates.
-  # # This is independent of the nLx above, since to apply
-  # # basepop to either gender you need to have the female nLx
-  # nLxFemale <- interp(
-  #   nLxFemale,
-  #   datesIn = nLxDatesIn,
-  #   datesOut = DatesOut,
-  #   ...
-  # )
-
-
-
-  
-  # # Turn the columns from the matrix into a list
-  # nLxFemale <- lapply(as.data.frame(nLxFemale), identity)
 
   # Interpolate the asfr to the requested dates.
   # This is gender agnostic.
@@ -720,7 +700,7 @@ basepop_five <- function(country = NULL,
   names(Ft_minus_10) <- ages_15_45
   
   # Now we take some averages to get to midpoints
-  Ft_minus_.5        <- FMiddleages[ages_15_45] * .8 + Ft_minus_5[ages_15_45] * .2
+  Ft_minus_.5        <- FMiddleages[ages_15_45] * .9 + Ft_minus_5[ages_15_45] * .1
   Ft_minus_2.5       <- FMiddleages[ages_15_45] * .5 + Ft_minus_5[ages_15_45] * .5
   Ft_minus_7.5       <- Ft_minus_5[ages_15_45] * .5 + Ft_minus_10[ages_15_45] * .5
   
@@ -960,22 +940,33 @@ downloadAsfr <- function(Asfrmat, country, AsfrDatesIn) {
 
 
 downloadSRB <- function(SRB, country, DatesOut){
+  verbose <- getOption("basepop_verbose", TRUE)
   
   WPP2019_births <- DemoToolsData::WPP2019_births 
   # If not given and we have the country, then we use it
-  if (is.null(SRB) & !is.null(country) & country %in% WPP2019_births$LocName){
+  if (is.null(SRB) & !is.null(country)){
+    if (country %in% WPP2019_births$LocName){
     # TODO: really this should take a weighted average of SRB
     # over the period represented by each cetral date?
      
-    SRB <- WPP2019_births %>% 
-      dplyr::filter(LocName == country,
-                    Year %in% floor(DatesOut)) %>% 
-      dplyr::pull(SRB)
+      SRB <- WPP2019_births %>% 
+               dplyr::filter(LocName == country,
+                             Year %in% floor(DatesOut)) %>% 
+               dplyr::pull(SRB)
+    }  else {
+      if (verbose){
+        cat(paste(country,"not available in WPP LocName list\n"))
+      }
+    }
+    # otherwise will need to assume
   } 
   
   # if still not given then assume something
   if (is.null(SRB)){
     SRB <- rep(1.05,3)
+    if (verbose){
+      cat(paste(country,"not available in WPP LocName list\n"))
+    }
   }
     
   # if given but not with 3 elements then repeat and cut as necessary
