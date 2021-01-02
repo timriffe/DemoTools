@@ -254,7 +254,8 @@
 #'
 #'
 #' ################ BPE (for single ages) ############################
-#' # blocked out for now, until single age function refactored as necessary.
+#' # blocked out for now, until single age function refactored as
+#' # TR: actually, it just needs to be rethought for single ages..
 #' # pop_female_single <- setNames(pop_female_single$pop, pop_female_single$ages)
 #' # 
 #' # # Automatically downloads the nLx and ASFR data
