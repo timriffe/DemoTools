@@ -35,6 +35,7 @@ shhh(load_all())
 
 # usethis::use_build_ignore(c("docs"))
 # do this whenever major changes happen
+Sys.setenv('_R_CHECK_SYSTEM_CLOCK_' = 0)
 devtools::check(force_suggests = TRUE)
 
   #build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
