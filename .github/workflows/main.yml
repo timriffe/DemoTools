@@ -1,5 +1,5 @@
 ## tic GitHub Actions template: linux-macos-windows-deploy
-## revision date: 2020-05-21
+## revision date: 2021-01-03
 on:
   push:
   pull_request:
@@ -138,7 +138,6 @@ jobs:
       # for some strange Windows reason this step and the next one need to be decoupled
       - name: "[Stage] Prepare"
         run: |
-          Rscript -e "if (!requireNamespace('gert')) install.packages('gert', type = 'source')"
           Rscript -e "if (!requireNamespace('remotes')) install.packages('remotes', type = 'source')"
           Rscript -e "if (!requireNamespace('usethis')) install.packages('usethis', type = 'source')"
           Rscript -e "if (getRversion() < '3.2' && !requireNamespace('curl')) install.packages('curl', type = 'source')"
