@@ -79,7 +79,10 @@ AGEN <-
 calcAgeN <- function(Age, N = 5, shiftdown = 0) {
   shift <- abs(shiftdown)
   stopifnot(shift < N)
-  (Age + shift) - (Age + shift) %% N
+  Ngroups <- (Age + shift) - (Age + shift) %% N
+  l <- rle(Ngroups)$lengths
+  inds <- cumsum(l) - l + 1
+  rep(Age[inds], times = l)
 }
 
 #' repeat age lower bounds once for each single age
