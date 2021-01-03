@@ -34,8 +34,8 @@ AGEN <-
            consecutive  = TRUE,
            ageMin = 0,
            ageMax = max(c(Age1, Age2))) {
-    age1_5 <- Age1[Age1 %% 5 == 0]
-    age2_5 <- Age2[Age2 %% 5 == 0]
+    age1_5 <- Age1[Age1 %% N == 0]
+    age2_5 <- Age2[Age2 %% N == 0]
     
     # ages in common only
     ageN   <- sort(intersect(age1_5, age2_5))
