@@ -13,7 +13,6 @@
 #    1) if Lx is given, then use OPAG_lx_warp() to get a StPop,
 #       otherwise use user standard. 
 #    2) use OPAG_simple() to do the rescaling.
-# [ ] make OPAG_simple the inner function
 #
 
 
