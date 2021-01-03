@@ -1,4 +1,4 @@
-# [ ] make OPAG_optimize_stable_standard() needs Pop_fit, Age_fit, AgeInt_fit, nLx, Age_nLx, AgeInt_nLx
+# [x] make OPAG_optimize_stable_standard() needs Pop_fit, Age_fit, AgeInt_fit, nLx, Age_nLx, AgeInt_nLx
 #     this uses optimize() (see examples of OPAG_r_min()) to get r, then returns
 #     the standard to be used by OPAG_simple() to redistribute over higher ages. Should return a list
 #     including the fitted r parameter. Pop_fit should already be filtered down to the desired 
@@ -71,6 +71,7 @@
 #' }
 #' stopifnot((sum(PopExtended[86:101]) - Pop[86]) == 0)
 
+# TR: needs to be generalized to age group widths...
 OPAG_simple    <-
   function(Pop,
            Age,
@@ -152,7 +153,7 @@ OPAG_nLx_warp_r <- function(nLx,
   # Let's do this in single ages :-)
   # for now, just uniform, but could pass in args to graduate of course
   # if that is preferred.
-  Lx1  <- graduate(Lx, Age, method = method, constrain = TRUE)
+  Lx1  <- graduate(nLx, Age, method = method, constrain = TRUE)
   a1   <- names2age(Lx1) 
   if (continuous){
      wLx  <- exp(-r * (a1 + .5)) * Lx1
@@ -278,16 +279,230 @@ OPAG_r_min <- function(r,
 }
 
 
+#' creates stable standard based on optimizing the growth rate
+#' @description The stationary standard, `nLx` is transformed into a stable standard by optimizing a growth rate, `r` such that the stable standard matches observed population counts in selected age groups. Usually the ages used for fitting are wide age groups in older ages preceding the open age group. The standard output by this function is used by `OPAG` to creat the standard used to redistribute counts over older age groups up to a specified open age group, such as 100.
+#' @details The arguments `method` and `continous` don't have much leverage on the result. In short, the stable population transformation is done by ungrouping `nLx` to single ages (if it isn't already), and `method` controls which graduation method is used for this, where `"uniform"`, `"mono"`, `"pclm"` are the reasonable choices at this writing. In single ages, the difference between using a geometric `r` versus continuous `r` are quite small for this task.
+#' 
+#' @inheritParams OPAG_r_min
+#' @return 
+#' list constaining
+#' 1.  `Standard` numeric vector, the transformed `nLx` to be used for 
+#'     redistribution in `OPAG()`
+#' 2. r_opt the output of `optimize()`, where `min` is the growth parameter, `r`
+#' @export
+#' @importFrom stats optimize
+#' 
+#' @examples 
+#' Pop_fit    <- c(85000,37000)
+#' Age_fit    <- c(70,80)
+#' AgeInt_fit <- c(10,10)
+#' nLx        <- downloadnLx(NULL, "Spain","female",1971)
+#' Age_nLx    <- names2age(nLx)
+#' 
+#' # India Males, 1991
+#' Pop        <- smooth_age_5(pop1m_ind,
+#'                            Age = 0:100,
+#'                            method = "Arriaga")
+#' Pop80      <- groupOAG(Pop, names2age(Pop), 80)
+#' Age        <- names2age(Pop80)
+#' AgeInt     <- age2int(Age, OAvalue = 1) 
+#' 
+#' nLx        <- downloadnLx(NULL, "India","male",1991)
+#' Age_nLx    <- names2age(nLx)
+#' AgeInt_nLx <- age2int(Age_nLx,OAvalue = 1)
+#' 
+#' Pop_fit    <- groupAges(Pop80, Age, N = 10)[c("60","70")]
+#' Age_fit    <- c(60,70)
+#' AgeInt_fit <- c(10,10)
+#'  
+#' Standard <- OPAG_fit_stable_standard(
+#'              Pop_fit,
+#'              Age_fit,
+#'              AgeInt_fit,
+#'              nLx = nLx,
+#'              Age_nLx = Age_nLx,
+#'              AgeInt_nLx = AgeInt_nLx,
+#'              method = "uniform",
+#'              continuous = TRUE)
+#' 
+#' # A visual comparison:
+#' nL60 <- rescale_vector(nLx[Age_nLx >= 60]) 
+#' St60p <- rescale_vector( Standard$Standard[Age_nLx >= 60] )
+#' ages_plot <- seq(60,100,by=5)
+#' \dontrun{
+#' plot(ages_plot,nL60, type = 'l')
+#' lines(ages_plot, St60p, col = "blue")
+#' }
+
+OPAG_fit_stable_standard <- function(Pop_fit,
+                                     Age_fit,
+                                     AgeInt_fit,
+                                     nLx,
+                                     Age_nLx,
+                                     AgeInt_nLx,
+                                     method = "uniform",
+                                     continuous = TRUE){
 
 
+  # optimize the parameter r
+  r_opt <- optimize(OPAG_r_min, 
+                    Pop_fit = Pop_fit,
+                    Age_fit = Age_fit,
+                    AgeInt_fit = AgeInt_fit,
+                    nLx = nLx,
+                    Age_nLx = Age_nLx,
+                    interval = c(-0.05, .05))
+  
 
+  standard <- OPAG_nLx_warp_r(nLx = nLx,
+                              Age = Age_nLx,
+                              r = r_opt$min,
+                              AgeInt = AgeInt_nLx,
+                              continuous = continuous,
+                              method = method)
+  # return both stable standard and the optimization output,
+  # which will let us know if r is simply unreasonable or similar.
+  out <- list(Standard = standard,
+              r_opt = r_opt)
+  out
+}
 
+#' Redistribute population over a specified age based on a stable standard fit to the data
+#' @description This can be used as an external check of population counts 
+#' in older ages, assuming the stable population standard is representative enough, or it can be used to redistribute population in ages above a 
+#' specified ages `Redistribute_from`. This is handy, for instance, for 
+#' ensuring all censuses extend to a specified maximum age (e.g. 100+) 
+#' prior to intercensal interpolations. The assumption is that, at least in
+#'  ages including `Age_fit` and higher ages, the population should follow 
+#'  a stable pattern proportional to a given survival curve subject to 
+#'  constant growth, `r`.
+#' @details It may be helpful to try more than one fitting possibility, 
+#' and more than one `Redistribute_from` cut point, as results may vary.
+#' 
+#' The argument `"method"` refers to which graduation method (see `?graduate`)
+#' is only relevant if input data are in grouped ages. This is innocuous if 
+#' ages are single to begin with. The choice of whether to assume 
+#' `continuous = TRUE` constant growth versus geometric (`FALSE`) growth 
+#' has little leverage. 
+#' 
+#' `Redistribute_from` can be lower than your current open age group, 
+#' and `OAnew` can be higher, as long as it is within the range of `Age_nLx`. 
+#' If `Age_nLx` doesn't go high enough for your needs, you can extrapolate 
+#' it ahead of time. For this, you'd want the `nMx` the underly it, and you 
+#' can use `lt_abridged()`, specifying a higher open age, and then 
+#' extracting `nLx` again from it. 
+#' 
+#' @inheritParams OPAG_r_min
+#' @param Pop numeric vector of population counts
+#' @param Age_Pop integer vector of the lower bounds of the population age groups
+#' @param AgeInt_Pop integer vector of the population age group interval widths, using `Inf` for the open age group.
 
+#'India Males, 1991
+#' Pop            <- smooth_age_5(pop1m_ind,
+#'                          Age = 0:100,
+#'                          method = "Arriaga")
+#' Age_Pop        <- names2age(Pop)
+#' AgeInt_Pop     <- age2int(Age_Pop, OAvalue = 1) 
+#' 
+#' nLx            <- downloadnLx(NULL, "India","male",1991)
+#' Age_nLx        <- names2age(nLx)
+#' AgeInt_nLx     <- age2int(Age_nLx, OAvalue = 1)
+#' 
+#' Pop_fit <- OPAG(Pop, 
+#'     Age_Pop = Age_Pop, 
+#'     AgeInt_Pop = AgeInt_Pop,
+#'     nLx = nLx,
+#'     Age_nLx = Age_nLx,
+#'     AgeInt_nLx,
+#'     Age_fit =  c(60,70),
+#'     AgeInt_fit = c(10,10),
+#'     Redistribute_from = 80)
+#' 
+#' \dontrun{
+#' # look at 75+
+#' ind <- Age_Pop >= 75
+#' plot(Age_Pop[ind], Pop[ind])
+#' lines(Age_Pop[ind], Pop_fit$Pop_out[ind], col = "blue")
+#' 
+#' # relative differences in ages 80+
+#' ind <- Age_Pop >= 80
+#' plot(Age_Pop[ind],  (Pop_fit$Pop_out[ind] - Pop[ind]) / Pop[ind])
+#'}
 
-
-
-
-
-
+OPAG <- function(Pop, 
+                 Age_Pop, 
+                 AgeInt_Pop,
+                 nLx, 
+                 Age_nLx, 
+                 AgeInt_nLx = NULL,
+                 Age_fit = NULL,
+                 AgeInt_fit = NULL,
+                 Redistribute_from = max(Age_Pop),
+                 OAnew = max(Age_nLx),
+                 method = "uniform", 
+                 continuous = TRUE){
+  
+  # setup, prelims:
+  # 0) if Age_fit isn't given assume last two 10-year age groups.
+  if (is.null(Age_fit)){
+    OA         <- max(Age_Pop)
+    Age_fit    <- OA - c(20,10)
+    AgeInt_fit <- c(10,10)
+    stopifnot(Age_fit %in% Age_Pop)
+  }
+  
+  # 1) get Pop_fit
+  
+  # TR: note: this calls for a special age utility function I think
+  # earmarking this code chunk to swap it out in the future.
+  Pop_fit <- rep(NA, length(Age_fit))
+  for (i in 1:length(Age_fit)){
+    ind <- Age_Pop >= Age_fit[i] & Age_Pop < (Age_fit[i] + AgeInt_fit[i])
+    Pop_fit[i] <- sum(Pop[ind])
+  }
+  
+  # 2) get the standard
+  Stab_stand <- OPAG_fit_stable_standard(Pop_fit,
+                                         Age_fit,
+                                         AgeInt_fit,
+                                         nLx,
+                                         Age_nLx,
+                                         AgeInt_nLx,
+                                         method = method,
+                                         continuous = continuous)
+  StPop <- Stab_stand$Standard
+  
+  # 3) get total to redistribute:
+  OAG_total <- sum(Pop[Age_Pop >= Redistribute_from])
+  
+  # 4) select standard in those age groups.
+  StPop_sel <- StPop[Age_nLx >= Redistribute_from]
+  StPop_sel <- rescale_vector(StPop_sel, scale = 1)
+  
+  # 5) redistribute
+  Pop_redistributed <- StPop_sel * OAG_total
+  
+  # 6) graft together
+  Pop_grafted <- c(Pop[Age_Pop < Redistribute_from], 
+                   Pop_redistributed)
+  Age_grafted <- c(Age_Pop[Age_Pop < Redistribute_from],
+                   Age_nLx[Age_nLx >= Redistribute_from])
+  
+  # 7) potentially group down OAG
+  Pop_out <- groupOAG(Value = Pop_grafted, 
+                      Age = Age_grafted,
+                      OAnew = OAnew)
+  Age_out <- names2age(Pop_out)
+  
+  # 8) compose list for output
+  out <- list(
+           Pop_out = Pop_out,
+           Age_out = Age_out,
+           Pop_in = Pop,
+           Standard = StPop,
+           r_opt = Stab_stand$r_opt)
+  
+  out
+}
 
 
