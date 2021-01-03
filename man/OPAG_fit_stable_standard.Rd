@@ -29,6 +29,8 @@ OPAG_fit_stable_standard(
 \item{AgeInt_nLx}{optional integer vector of widths of age groups of \code{nLx}, inferred if not given.}
 
 \item{method}{character. Graduation method, default \code{"uniform"}. \code{"mono"} or \code{"pclm"} would also be good choices.}
+
+\item{continuous}{logical. If \code{TRUE} we use the growth adjustment. \code{e^(-age*r)}. If \code{FALSE} we assume \code{r} is geometric growth, and we use \code{(1+r)^age} for the growth adjustment.}
 }
 \value{
 list constaining

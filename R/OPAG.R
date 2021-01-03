@@ -118,7 +118,7 @@ OPAG_simple    <-
 #' @param Age interger vector of lower bounds of age groups of `nLx`
 #' @param r stable growth rate
 #' @param AgeInt optional integer vector of widths of age groups, inferred if not given.
-#' @param continous logical. If `TRUE` we use the growth adjustment. `e^(-age*r)`. If `FALSE` we assume `r` is geometric growth, and we use `(1+r)^age` for the growth adjustment.
+#' @param continuous logical. If `TRUE` we use the growth adjustment. `e^(-age*r)`. If `FALSE` we assume `r` is geometric growth, and we use `(1+r)^age` for the growth adjustment.
 #' @param method character, graduation method used for intermediate graduation. Default `"uniform"`. Other reasonable choices include `"mono"` or `"pclm"`.
 #' @return numeric vector of the transformed `nLx`. Note, this vector sums to `1`. 
 #' @export
@@ -173,13 +173,13 @@ OPAG_nLx_warp_r <- function(nLx,
 #' @param nLx numeric vector of stable population standard
 #' @param Age_nLx  integer vector of lower bounds for age groups of `nLx`
 #' @param AgeInt_nLx optional integer vector of widths of age groups of `nLx`, inferred if not given. 
-#' @param continous logical. If `TRUE` we use the growth adjustment. `e^(-age*r)`. If `FALSE` we assume `r` is geometric growth, and we use `(1+r)^age` for the growth adjustment.
+#' @param continuous logical. If `TRUE` we use the growth adjustment. `e^(-age*r)`. If `FALSE` we assume `r` is geometric growth, and we use `(1+r)^age` for the growth adjustment.
 #' @param method character. Graduation method, default `"uniform"`. `"mono"` or `"pclm"` would also be good choices.
 #' @return numeric. A residual that you're presumably trying to minimize.
 #' @export
 
 #' @examples
-#' Make up some population data to fit to:
+#' # Make up some population data to fit to:
 #' Pop_fit    <- c(85000,37000)
 #' Age_fit    <- c(70,80)
 #' AgeInt_fit <- c(10,10)
@@ -386,8 +386,11 @@ OPAG_fit_stable_standard <- function(Pop_fit,
 #' @param Pop numeric vector of population counts
 #' @param Age_Pop integer vector of the lower bounds of the population age groups
 #' @param AgeInt_Pop integer vector of the population age group interval widths, using `Inf` for the open age group.
-
-#'India Males, 1991
+#' @param Redistribute_from integer lower age bound that forms the cutoff, above which we redistribute counts using the stable standard.
+#' @param OAnew integer. Desired open age group in the output (must being element of `Age_nLx`)
+#' @export
+#' @examples
+#' # India Males, 1991
 #' Pop            <- smooth_age_5(pop1m_ind,
 #'                          Age = 0:100,
 #'                          method = "Arriaga")

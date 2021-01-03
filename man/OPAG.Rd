@@ -24,38 +24,7 @@ OPAG(
 
 \item{Age_Pop}{integer vector of the lower bounds of the population age groups}
 
-\item{AgeInt_Pop}{integer vector of the population age group interval widths, using \code{Inf} for the open age group.
-India Males, 1991
-Pop            <- smooth_age_5(pop1m_ind,
-Age = 0:100,
-method = "Arriaga")
-Age_Pop        <- names2age(Pop)
-AgeInt_Pop     <- age2int(Age_Pop, OAvalue = 1)
-
-nLx            <- downloadnLx(NULL, "India","male",1991)
-Age_nLx        <- names2age(nLx)
-AgeInt_nLx     <- age2int(Age_nLx, OAvalue = 1)
-
-Pop_fit <- OPAG(Pop,
-Age_Pop = Age_Pop,
-AgeInt_Pop = AgeInt_Pop,
-nLx = nLx,
-Age_nLx = Age_nLx,
-AgeInt_nLx,
-Age_fit =  c(60,70),
-AgeInt_fit = c(10,10),
-Redistribute_from = 80)
-
-\dontrun{
-# look at 75+
-ind <- Age_Pop >= 75
-plot(Age_Pop[ind], Pop[ind])
-lines(Age_Pop[ind], Pop_fit$Pop_out[ind], col = "blue")
-
-# relative differences in ages 80+
-ind <- Age_Pop >= 80
-plot(Age_Pop[ind],  (Pop_fit$Pop_out[ind] - Pop[ind]) / Pop[ind])
-}}
+\item{AgeInt_Pop}{integer vector of the population age group interval widths, using \code{Inf} for the open age group.}
 
 \item{nLx}{numeric vector of stable population standard}
 
@@ -67,7 +36,13 @@ plot(Age_Pop[ind],  (Pop_fit$Pop_out[ind] - Pop[ind]) / Pop[ind])
 
 \item{AgeInt_fit}{integer vector of widths of age groups of \code{Pop_fit}}
 
+\item{Redistribute_from}{integer lower age bound that forms the cutoff, above which we redistribute counts using the stable standard.}
+
+\item{OAnew}{integer. Desired open age group in the output (must being element of \code{Age_nLx})}
+
 \item{method}{character. Graduation method, default \code{"uniform"}. \code{"mono"} or \code{"pclm"} would also be good choices.}
+
+\item{continuous}{logical. If \code{TRUE} we use the growth adjustment. \code{e^(-age*r)}. If \code{FALSE} we assume \code{r} is geometric growth, and we use \code{(1+r)^age} for the growth adjustment.}
 }
 \description{
 This can be used as an external check of population counts
@@ -95,4 +70,37 @@ If \code{Age_nLx} doesn't go high enough for your needs, you can extrapolate
 it ahead of time. For this, you'd want the \code{nMx} the underly it, and you
 can use \code{lt_abridged()}, specifying a higher open age, and then
 extracting \code{nLx} again from it.
+}
+\examples{
+# India Males, 1991
+Pop            <- smooth_age_5(pop1m_ind,
+                         Age = 0:100,
+                         method = "Arriaga")
+Age_Pop        <- names2age(Pop)
+AgeInt_Pop     <- age2int(Age_Pop, OAvalue = 1) 
+
+nLx            <- downloadnLx(NULL, "India","male",1991)
+Age_nLx        <- names2age(nLx)
+AgeInt_nLx     <- age2int(Age_nLx, OAvalue = 1)
+
+Pop_fit <- OPAG(Pop, 
+    Age_Pop = Age_Pop, 
+    AgeInt_Pop = AgeInt_Pop,
+    nLx = nLx,
+    Age_nLx = Age_nLx,
+    AgeInt_nLx,
+    Age_fit =  c(60,70),
+    AgeInt_fit = c(10,10),
+    Redistribute_from = 80)
+
+\dontrun{
+# look at 75+
+ind <- Age_Pop >= 75
+plot(Age_Pop[ind], Pop[ind])
+lines(Age_Pop[ind], Pop_fit$Pop_out[ind], col = "blue")
+
+# relative differences in ages 80+
+ind <- Age_Pop >= 80
+plot(Age_Pop[ind],  (Pop_fit$Pop_out[ind] - Pop[ind]) / Pop[ind])
+}
 }

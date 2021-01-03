@@ -22,9 +22,9 @@ OPAG_nLx_warp_r(
 
 \item{AgeInt}{optional integer vector of widths of age groups, inferred if not given.}
 
-\item{method}{character, graduation method used for intermediate graduation. Default \code{"uniform"}. Other reasonable choices include \code{"mono"} or \code{"pclm"}.}
+\item{continuous}{logical. If \code{TRUE} we use the growth adjustment. \code{e^(-age*r)}. If \code{FALSE} we assume \code{r} is geometric growth, and we use \code{(1+r)^age} for the growth adjustment.}
 
-\item{continous}{logical. If \code{TRUE} we use the growth adjustment. \code{e^(-age*r)}. If \code{FALSE} we assume \code{r} is geometric growth, and we use \code{(1+r)^age} for the growth adjustment.}
+\item{method}{character, graduation method used for intermediate graduation. Default \code{"uniform"}. Other reasonable choices include \code{"mono"} or \code{"pclm"}.}
 }
 \value{
 numeric vector of the transformed \code{nLx}. Note, this vector sums to \code{1}.

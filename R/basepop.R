@@ -850,8 +850,17 @@ lt_infer_radix_from_1L0 <- function(L0){
   the_radix
 }
 
-# TR: radix removed, as it seems lx was 1 but nLx was based on 1e5...
-# will use indirect inference.
+#' Extract Lx estimates from WPP2019
+#' @description We use the `FetchLifeTableWpp2019` function of the `fertestr` to extract `Lx` from `wpp2019`, interpolated to an exact date.
+#' @param nLx either `NULL` or a numeric vector of lifetable exposure. If it's the second then we just pass it back.
+#' @param country character country name available UN Pop Div `LocName` set
+#' @param gender `"male"`, `"female"`, or `"both"`
+#' @param nLxDatesIn numeric vector of three decimal dates produced by (or passed through) `basepop_ive()`
+#'
+#' @return numeric matrix of `nLx` with `length(nLxDatesIn)` and abrdiged ages in rows.
+#' @export
+#'
+#' @importFrom rlang .data
 downloadnLx <- function(nLx, country, gender, nLxDatesIn) {
   requireNamespace("fertestr", quietly = TRUE)
   requireNamespace("magrittr", quietly = TRUE)
