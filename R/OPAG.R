@@ -1,21 +1,10 @@
-# [x] make OPAG_optimize_stable_standard() needs Pop_fit, Age_fit, AgeInt_fit, nLx, Age_nLx, AgeInt_nLx
-#     this uses optimize() (see examples of OPAG_r_min()) to get r, then returns
-#     the standard to be used by OPAG_simple() to redistribute over higher ages. Should return a list
-#     including the fitted r parameter. Pop_fit should already be filtered down to the desired 
-#     fitting age groups (2 or more age groups of arbitrary width), presumably in the oldest age groups.
-# [x] - OPAG_r_min( )
-#     this gets residual of given r, to use for warping Lx to make the StPop
-# [x] OPAG_lx_warp() Lx, Age, r
-#                wLx = exp(-r*(5,15))*Lx
-#                wLx = wLx / sum(wLx)
-#      after getting r, this output becomes StPop
-# [ ] OPAG() 
-#    1) if Lx is given, then use OPAG_lx_warp() to get a StPop,
-#       otherwise use user standard. 
-#    2) use OPAG_simple() to do the rescaling.
-#
-
-
+# TODO / wish-list
+# [ ] All choice of Age_fit / AgeInt_fit based on criteria (see PJ Drive folder)
+# [ ] ensure age groups are flexible as required. 
+#    [ ] what happens when one input is in a different age group than another?
+# [ ] OPAG_simple() should allow for non-single ages
+# [ ] add unit tests
+# [ ] add more examples to OPAG?
 
 # Author: tim
 ###############################################################################
