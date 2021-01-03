@@ -1,18 +1,10 @@
-# [ ] make OPAG_lx_optim() needs Pop, Age, Lx, LxAge
-#       - Lx should go up to a nice high age.
-#       - with parameter 'r', cx = Lx / sum(Lx), 
-#       - warped wLx = exp(-r*Age)*Lx
-#       - xLx / sum(wLx)
-#       - to get r, take two 10-year age groups before the open one.
-#       - use groupAges() to ensure in 10yr ages.
-#       - selecting the two (or more) pivot ages from the Lx and Pop, warp Lx by changing r
-#       - min_r <- function(r, Pop, Lx){
-#                wLx = exp(-r*(5,15))*Lx
-#                wLx = wLx / sum(wLx)
-#                Pop = Pop / sum(Pop)
-#                sum(abs(Pop - wLx))
-#              }
-#     this gets r, to use for warping Lx to make the StPop
+# [ ] make OPAG_optimize_stable_standard() needs Pop_fit, Age_fit, AgeInt_fit, nLx, Age_nLx, AgeInt_nLx
+#     this uses optimize() (see examples of OPAG_r_min()) to get r, then returns
+#     the standard to be used by OPAG_simple() to redistribute over higher ages. Should return a list
+#     including the fitted r parameter. Pop_fit should already be filtered down to the desired 
+#     fitting age groups (2 or more age groups of arbitrary width), presumably in the oldest age groups.
+# [x] - OPAG_r_min( )
+#     this gets residual of given r, to use for warping Lx to make the StPop
 # [x] OPAG_lx_warp() Lx, Age, r
 #                wLx = exp(-r*(5,15))*Lx
 #                wLx = wLx / sum(wLx)
@@ -178,22 +170,6 @@ OPAG_nLx_warp_r <- function(nLx,
   nwLx <- groupAges(wLx, Age = a1, AgeN = a12A)
   nwLx
 }
-
-# OPAG_lx_optim() needs Pop, Age, Lx, LxAge
-#       - Lx should go up to a nice high age.
-#       - with parameter 'r', cx = Lx / sum(Lx), 
-#       - warped wLx = exp(-r*Age)*Lx
-#       - xLx / sum(wLx)
-#       - to get r, take two 10-year age groups before the open one.
-#       - use groupAges() to ensure in 10yr ages.
-#       - selecting the two (or more) pivot ages from the Lx and Pop, warp Lx by changing r
-#       - min_r <- function(r, Pop, Lx){
-#                wLx = exp(-r*(5,15))*Lx
-#                wLx = wLx / sum(wLx)
-#                Pop = Pop / sum(Pop)
-#                sum(abs(Pop - wLx))
-#              }
-#     this gets r, to use for warping Lx to make the StPop
 
 #' calculates residual for optimizing growth rate r for OPAG family
 #' @description For a given set of age groups to fit against, and a given stable growth rate, $r$,
