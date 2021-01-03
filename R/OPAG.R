@@ -5,7 +5,7 @@
 #       - xLx / sum(wLx)
 #       - to get r, take two 10-year age groups before the open one.
 #       - use groupAges() to ensure in 10yr ages.
-#       - selecting the two pivot ages from the Lx and Pop, warp Lx by changing r
+#       - selecting the two (or more) pivot ages from the Lx and Pop, warp Lx by changing r
 #       - min_r <- function(r, Pop, Lx){
 #                wLx = exp(-r*(5,15))*Lx
 #                wLx = wLx / sum(wLx)
@@ -13,7 +13,7 @@
 #                sum(abs(Pop - wLx))
 #              }
 #     this gets r, to use for warping Lx to make the StPop
-# [ ] OPAG_lx_warp() Lx, Age, r
+# [x] OPAG_lx_warp() Lx, Age, r
 #                wLx = exp(-r*(5,15))*Lx
 #                wLx = wLx / sum(wLx)
 #      after getting r, this output becomes StPop
@@ -29,8 +29,9 @@
 # Author: tim
 ###############################################################################
 # distribute population in open age group over higher ages.
-# The PAS implementation uses stable populations, and it will be added here in the future,
-# as well as other optiond. The main missing piece is a good collection of model lifetables.
+# The PAS implementation uses stable populations, and it will be added 
+# here in the future, as well as other optiond. The main missing piece 
+# is a good collection of model lifetables.
 
 #' redistripute an open age group count over higher ages proportional to an arbitrary standard
 #' @description This method could be useful whenever a reasonable standard is available. At present the standard must be supplied by the user.
@@ -122,3 +123,196 @@ OPAG_simple    <-
     
     out
   }
+
+
+#' Warps a given stationary population into a stable population
+#' @description We take `nLx` as indicative of a stationary population age structure, 
+#' then subject the population structure to long-term growth by a constant rate, `r`. 
+#' @details `nLx` could be any population structure of any scale, as long as you're comfortable 
+#' assuming it's stationary and can be warped into stable. For the oldest ages, this is probably 
+#' quite often an acceptable and useful approximation. The transformation is applied at the single-age scale, even if the input `nLx` is in wider (e.g. abridged) age groups. When needed, we reduce to single ages using (default) `graduate_uniform()`, then apply the transformation, then group back. This is innocuous if `nLx` is given in single ages. You may want to change `method` to `"mono"` or `"pclm"`.
+#' 
+#' @param nLx numeric vector of stationary population age structure in arbitrary integer age groups
+#' @param Age interger vector of lower bounds of age groups of `nLx`
+#' @param r stable growth rate
+#' @param AgeInt optional integer vector of widths of age groups, inferred if not given.
+#' @param continous logical. If `TRUE` we use the growth adjustment. `e^(-age*r)`. If `FALSE` we assume `r` is geometric growth, and we use `(1+r)^age` for the growth adjustment.
+#' @param method character, graduation method used for intermediate graduation. Default `"uniform"`. Other reasonable choices include `"mono"` or `"pclm"`.
+#' @return numeric vector of the transformed `nLx`. Note, this vector sums to `1`. 
+#' @export
+#' @examples
+#' Lx  <- downloadnLx(NULL, "Spain","female",1971)
+#' Age <- names2age(Lx)
+#' r   <- .01
+#' ai  <- age2int(Age)
+#' \dontrun{
+#' plot(Age, Lx/sum(Lx) / ai, type = 's',ylim = c(0,0.015))
+#' lines(Age,OPAG_nLx_warp_r(Lx,Age,0.005)/ai,type='s',col = "red")
+#' lines(Age,OPAG_nLx_warp_r(Lx,Age,-0.005)/ai,type='s',col = "blue")
+#' }
+#' 
+
+OPAG_nLx_warp_r <- function(nLx, 
+                            Age, 
+                            r, 
+                            AgeInt = NULL, 
+                            continuous = TRUE, 
+                            method = "uniform"){
+  # Let's do this in single ages :-)
+  # for now, just uniform, but could pass in args to graduate of course
+  # if that is preferred.
+  Lx1  <- graduate(Lx, Age, method = method, constrain = TRUE)
+  a1   <- names2age(Lx1) 
+  if (continuous){
+     wLx  <- exp(-r * (a1 + .5)) * Lx1
+  } else {
+    # then geometric
+    w     <- (1 + r) ^ (a1 + .5)
+    wLx   <- w * nLx
+  }
+  wLx  <- wLx / sum(wLx)
+  if (is.null(AgeInt)){
+    AgeInt   <- age2int(Age, OAvalue = 1)
+  }
+  a12A <- rep(Age, AgeInt)
+  nwLx <- groupAges(wLx, Age = a1, AgeN = a12A)
+  nwLx
+}
+
+# OPAG_lx_optim() needs Pop, Age, Lx, LxAge
+#       - Lx should go up to a nice high age.
+#       - with parameter 'r', cx = Lx / sum(Lx), 
+#       - warped wLx = exp(-r*Age)*Lx
+#       - xLx / sum(wLx)
+#       - to get r, take two 10-year age groups before the open one.
+#       - use groupAges() to ensure in 10yr ages.
+#       - selecting the two (or more) pivot ages from the Lx and Pop, warp Lx by changing r
+#       - min_r <- function(r, Pop, Lx){
+#                wLx = exp(-r*(5,15))*Lx
+#                wLx = wLx / sum(wLx)
+#                Pop = Pop / sum(Pop)
+#                sum(abs(Pop - wLx))
+#              }
+#     this gets r, to use for warping Lx to make the StPop
+
+#' calculates residual for optimizing growth rate r for OPAG family
+#' @description For a given set of age groups to fit against, and a given stable growth rate, $r$,
+#' what is the error implied given the current $r$ and stationary standard?
+#' @details This is a utiltiy function for `OPAG()`, which needs to optimize $r$ for a 
+#' given population vector and stationary standard.
+#' @param r given stable growth rate
+#' @param Pop_fit numeric vector of at least two population counts to use for fitting
+#' @param Age_fit integer vector of lower bounds for age groups of `Pop_fit`
+#' @param AgeInt_fit integer vector of widths of age groups of `Pop_fit`
+#' @param nLx numeric vector of stable population standard
+#' @param Age_nLx  integer vector of lower bounds for age groups of `nLx`
+#' @param AgeInt_nLx optional integer vector of widths of age groups of `nLx`, inferred if not given. 
+#' @param continous logical. If `TRUE` we use the growth adjustment. `e^(-age*r)`. If `FALSE` we assume `r` is geometric growth, and we use `(1+r)^age` for the growth adjustment.
+#' @param method character. Graduation method, default `"uniform"`. `"mono"` or `"pclm"` would also be good choices.
+#' @return numeric. A residual that you're presumably trying to minimize.
+#' @export
+
+#' @examples
+#' Make up some population data to fit to:
+#' Pop_fit    <- c(85000,37000)
+#' Age_fit    <- c(70,80)
+#' AgeInt_fit <- c(10,10)
+#' nLx        <- downloadnLx(NULL, "Spain","female",1971)
+#' Age_nLx    <- names2age(nLx)
+#' r          <- .01
+#' 
+#' OPAG_r_min(r, 
+#'            Pop_fit, 
+#'            Age_fit, 
+#'            AgeInt_fit,
+#'            nLx, 
+#'            Age_nLx)
+#' 
+#' (r_opt <- optimize(OPAG_r_min, 
+#'          Pop_fit = Pop_fit,
+#'          Age_fit = Age_fit,
+#'          AgeInt_fit = AgeInt_fit,
+#'          nLx = nLx,
+#'          Age_nLx = Age_nLx,
+#'          interval = c(-0.05,.05))$min)
+#' 
+#' ai  <- age2int(Age_nLx)
+#' 
+#' # Note the whole age range is being scaled to 1 here, but in practice
+#' # you'd only be doing this in the highest ages. If only two fitting
+#' # ages are given, then we can get an r that matches them perfectly,
+#' # at least within reasonable bounds.
+#' \dontrun{
+#' plot(Age, nLx / sum(nLx) / ai, type = 's')
+#' lines(Age,OPAG_nLx_warp_r(Lx,Age,r=r_opt)/ai,type='s',col = "red")
+#' }
+
+OPAG_r_min <- function(r, 
+                       Pop_fit, 
+                       Age_fit, 
+                       AgeInt_fit, # necessary
+                       nLx, 
+                       Age_nLx, 
+                       AgeInt_nLx = NULL, 
+                       continuous = TRUE,
+                       method = "uniform"){
+  if (is.null(AgeInt_nLx)){
+    AgeInt_nLx   <- age2int(Age_nLx, OAvalue = 1)
+  }
+  # This is the standard we want to match to Pop,
+  # which has presumably been cut down / grouped to the
+  # ages we want to calibrate to.
+  wnLx    <- OPAG_nLx_warp_r(
+               nLx = nLx, 
+               Age = Age_nLx, 
+               r = r, 
+               AgeInt = AgeInt_nLx, 
+               continuous = continuous)
+  
+  # now need to get it to the same age groups as Pop 
+  # so that we can get a residual
+  
+  # 1) Move stable pop to single ages
+  w1Lx    <- graduate(
+               wnLx, 
+               Age = Age_nLx, 
+               AgeInt = AgeInt_nLx,
+               method = method)
+  a1t     <- names2age(w1Lx)
+  a1t     <- as.integer(a1t)
+  
+  # 2) which single ages implied by Pop?
+  N       <- length(AgeInt_fit)
+  a1match <- Age_fit[1]:(max(Age_fit) + AgeInt_fit[N] - 1)
+  a1match <- as.integer(a1match)
+  
+  # 3) select down to just those ages:
+  ind     <- a1t %in% a1match
+  w1Lx    <- w1Lx[ind]
+  
+  # 4) group w1Lx to same as Pop_fit
+  ageN    <- rep(Age_fit, times = AgeInt_fit)
+  stand   <- groupAges(w1Lx, Age = a1match, AgeN = ageN)
+  
+  # 5) rescale standard and Pop_fit to sum to 1
+  stand   <- rescale_vector(stand, scale = 1)
+  Pop_fit <- rescale_vector(Pop_fit, scale = 1)
+  
+  # 6) return the residual
+  sum(abs(stand - Pop_fit))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
