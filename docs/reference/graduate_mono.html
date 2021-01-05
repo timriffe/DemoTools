@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.30</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +162,7 @@
     <p>Take the cumulative sum of <code>Value</code> and then run a monotonic spline through it. The first differences split back single-age estimates of <code>Value</code>. Optionally keep the open age group untouched.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>graduate_mono</span>(<span class='no'>Value</span>, <span class='no'>AgeInt</span>, <span class='no'>Age</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>graduate_mono</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>AgeInt</span>, <span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,18 +195,19 @@
 
     <p>Fritsch FN, Carlson RE (1980).
 &#8220;Monotone piecewise cubic interpolation.&#8221;
-<em>SIAM Journal on Numerical Analysis</em>, <b>17</b>, 238--246.</p>
+<em>SIAM Journal on Numerical Analysis</em>, <b>17</b>(2), 238--246.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Value</span>                <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>88623</span>, <span class='fl'>90842</span>, <span class='fl'>93439</span>, <span class='fl'>96325</span>, <span class='fl'>99281</span>, <span class='fl'>102051</span>, <span class='fl'>104351</span>,
-                         <span class='fl'>106555</span>, <span class='fl'>109170</span>, <span class='fl'>112188</span>, <span class='fl'>113582</span>, <span class='fl'>112614</span>, <span class='fl'>108904</span>, <span class='fl'>102622</span>, <span class='fl'>95867</span>,
-                         <span class='fl'>80874</span>, <span class='fl'>60196</span>, <span class='fl'>37523</span>, <span class='fl'>17927</span>, <span class='fl'>5642</span>, <span class='fl'>1110</span>), <span class='kw'>.Names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"0"</span>, <span class='st'>"5"</span>,
-                         <span class='st'>"10"</span>, <span class='st'>"15"</span>, <span class='st'>"20"</span>, <span class='st'>"25"</span>, <span class='st'>"30"</span>, <span class='st'>"35"</span>, <span class='st'>"40"</span>, <span class='st'>"45"</span>, <span class='st'>"50"</span>, <span class='st'>"55"</span>, <span class='st'>"60"</span>,
-                         <span class='st'>"65"</span>, <span class='st'>"70"</span>, <span class='st'>"75"</span>, <span class='st'>"80"</span>, <span class='st'>"85"</span>, <span class='st'>"90"</span>, <span class='st'>"95"</span>, <span class='st'>"100"</span>))
+    <pre class="examples"><div class='input'><span class='va'>Value</span>                <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>88623</span>, <span class='fl'>90842</span>, <span class='fl'>93439</span>, <span class='fl'>96325</span>, <span class='fl'>99281</span>, <span class='fl'>102051</span>, <span class='fl'>104351</span>,
+       <span class='fl'>106555</span>, <span class='fl'>109170</span>, <span class='fl'>112188</span>, <span class='fl'>113582</span>, <span class='fl'>112614</span>, <span class='fl'>108904</span>, <span class='fl'>102622</span>, <span class='fl'>95867</span>,
+       <span class='fl'>80874</span>, <span class='fl'>60196</span>, <span class='fl'>37523</span>, <span class='fl'>17927</span>, <span class='fl'>5642</span>, <span class='fl'>1110</span><span class='op'>)</span>, .Names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"0"</span>, <span class='st'>"5"</span>,
+       <span class='st'>"10"</span>, <span class='st'>"15"</span>, <span class='st'>"20"</span>, <span class='st'>"25"</span>, <span class='st'>"30"</span>, <span class='st'>"35"</span>, <span class='st'>"40"</span>, <span class='st'>"45"</span>, <span class='st'>"50"</span>, <span class='st'>"55"</span>, <span class='st'>"60"</span>,
+       <span class='st'>"65"</span>, <span class='st'>"70"</span>, <span class='st'>"75"</span>, <span class='st'>"80"</span>, <span class='st'>"85"</span>, <span class='st'>"90"</span>, <span class='st'>"95"</span>, <span class='st'>"100"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># overwrite open age group with a single age estimate for that age</span>
 <span class='co'># (doesn't extrapolate)</span>
-<span class='fu'>graduate_mono</span>(<span class='no'>Value</span>)</div><div class='output co'>#&gt;         0         1         2         3         4         5         6         7 
+<span class='fu'>graduate_mono</span><span class='op'>(</span><span class='va'>Value</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         0         1         2         3         4         5         6         7 
 #&gt; 17689.096 17653.592 17671.344 17742.352 17866.616 17984.832 18067.544 18159.328 
 #&gt;         8         9        10        11        12        13        14        15 
 #&gt; 18260.184 18370.112 18475.416 18574.672 18680.864 18793.992 18914.056 19033.000 
@@ -232,7 +233,8 @@
 #&gt;  6622.296  5887.688  5036.104  4135.288  3409.936  2860.048  2485.624  1914.640 
 #&gt;        96        97        98        99       100 
 #&gt;  1226.680   833.560   735.280   931.840  1110.000 </div><div class='input'><span class='co'># or respect open age group</span>
-<span class='fu'>graduate_mono</span>(<span class='no'>Value</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;         0         1         2         3         4         5         6         7 
+<span class='fu'>graduate_mono</span><span class='op'>(</span><span class='va'>Value</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         0         1         2         3         4         5         6         7 
 #&gt; 17689.096 17653.592 17671.344 17742.352 17866.616 17984.832 18067.544 18159.328 
 #&gt;         8         9        10        11        12        13        14        15 
 #&gt; 18260.184 18370.112 18475.416 18574.672 18680.864 18793.992 18914.056 19033.000 
@@ -259,12 +261,13 @@
 #&gt;        96        97        98        99       100 
 #&gt;  1226.680   833.560   735.280   931.840  1110.000 </div><div class='input'>
 <span class='co'># Also accepts single ages:</span>
-<span class='no'>Value</span>                <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span>(<span class='no'>pop1m_ind</span>, <span class='kw'>.Names</span> <span class='kw'>=</span> <span class='fl'>0</span>:<span class='fl'>100</span>)
+<span class='va'>Value</span>                <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span><span class='op'>(</span><span class='va'>pop1m_ind</span>, .Names <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span>
 
-                <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-        <span class='no'>ages</span>                <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>100</span>,<span class='fl'>5</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'>graduate_mono</span>(<span class='no'>Value</span>),<span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>'Age'</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>'Counts'</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'l'</span>,<span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>'Ungrouped counts'</span>)
-                }</div></pre>
+    <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>ages</span>                <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span>,<span class='fl'>5</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='fu'>graduate_mono</span><span class='op'>(</span><span class='va'>Value</span><span class='op'>)</span>,xlab <span class='op'>=</span> <span class='st'>'Age'</span>, ylab <span class='op'>=</span> <span class='st'>'Counts'</span>, type <span class='op'>=</span> <span class='st'>'l'</span>,main <span class='op'>=</span> <span class='st'>'Ungrouped counts'</span><span class='op'>)</span>
+    <span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -280,7 +283,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

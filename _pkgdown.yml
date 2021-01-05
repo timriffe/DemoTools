@@ -51,11 +51,13 @@ reference:
     desc: Functions to interpolate counts
     contents:
       - '`interp`'
+      - '`interp_coh_bare`'
   - title: "Migration"
     desc: Functions for migration models
     contents:
       - '`mig_calculate_rc`'
       - '`mig_estimate_rc`'
+      - '`mig_resid_stock`'
   - title: "Miscelaneous data operations"
     contents:
       - '`groupAges`'
@@ -73,6 +75,7 @@ reference:
   - title: "Auxiliary lifetable functions"
     contents:      
       - starts_with("lt_")
+      - '`single2abridged`'
   - title: "Auxiliary checking functions"
     contents:      
       - starts_with("is_")
@@ -84,6 +87,7 @@ reference:
       - '`basepop_five`'
       - '`basepop_single`'
       - '`calcAgeN`'
+      - '`census_cohort_adjust`'
       - '`dec.date`'
       - '`dth5_zigzag`'
       - '`fitted_logquad_b`'

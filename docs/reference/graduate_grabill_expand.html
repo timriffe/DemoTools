@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.30</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +162,7 @@
     <p>The resulting coefficient matrix is based on the number of rows in <code>popmat</code> where we assume that each row of data is a 5-year age group and the final row is an open age group to be preserved as such.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>graduate_grabill_expand</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>graduate_grabill_expand</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,8 +191,9 @@
 US Bureau of the Census.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>a5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>pop5_mat</span>))
-<span class='fu'>graduate_grabill_expand</span>(<span class='no'>pop5_mat</span>[,<span class='fl'>1</span>], <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;           [,1]    [,2]    [,3]    [,4]    [,5]    [,6]    [,7]    [,8]    [,9]
+    <pre class="examples"><div class='input'><span class='va'>a5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>graduate_grabill_expand</span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;           [,1]    [,2]    [,3]    [,4]    [,5]    [,6]    [,7]    [,8]    [,9]
 #&gt;   [1,]  0.0826  0.0256 -0.0009  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
 #&gt;   [2,]  0.0903  0.0377 -0.0002  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
 #&gt;   [3,]  0.0932  0.0519  0.0015  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
@@ -497,7 +498,8 @@ US Bureau of the Census.</p>
 #&gt;  [98,]  0.0519  0.0932     0
 #&gt;  [99,]  0.0377  0.0903     0
 #&gt; [100,]  0.0256  0.0826     0
-#&gt; [101,]  0.0000  0.0000     1</div><div class='input'><span class='fu'>graduate_grabill_expand</span>(<span class='no'>pop5_mat</span>[,<span class='fl'>1</span>], <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;           [,1]    [,2]    [,3]    [,4]    [,5]    [,6]    [,7]    [,8]    [,9]
+#&gt; [101,]  0.0000  0.0000     1</div><div class='input'><span class='fu'>graduate_grabill_expand</span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;           [,1]    [,2]    [,3]    [,4]    [,5]    [,6]    [,7]    [,8]    [,9]
 #&gt;   [1,]  0.0826  0.0256 -0.0009  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
 #&gt;   [2,]  0.0903  0.0377 -0.0002  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
 #&gt;   [3,]  0.0932  0.0519  0.0015  0.0000  0.0000  0.0000  0.0000  0.0000  0.0000
@@ -830,7 +832,7 @@ US Bureau of the Census.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

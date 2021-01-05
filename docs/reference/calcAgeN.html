@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.30</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +162,7 @@
     <p>Assign single ages to age groups of equal and arbitrary width, and also optionally shifted.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calcAgeN</span>(<span class='no'>Age</span>, <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>shiftdown</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'>calcAgeN</span><span class='op'>(</span><span class='va'>Age</span>, N <span class='op'>=</span> <span class='fl'>5</span>, shiftdown <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,34 +193,40 @@ the groups, the first and last groups won't be N years wide. For example if <cod
 the first age group is 4-ages wide.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>100</span>
-<span class='fu'>calcAgeN</span>(<span class='no'>Age</span>)</div><div class='output co'>#&gt;   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15
+    <pre class="examples"><div class='input'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>
+<span class='fu'>calcAgeN</span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15
 #&gt;  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35
 #&gt;  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50
 #&gt;  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70
 #&gt;  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85
-#&gt;  [91]  90  90  90  90  90  95  95  95  95  95 100</div><div class='input'><span class='fu'>calcAgeN</span>(<span class='no'>Age</span>, <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt;   [1]   0   0   0   0   4   4   4   4   8   8   8   8  12  12  12  12  16  16
+#&gt;  [91]  90  90  90  90  90  95  95  95  95  95 100</div><div class='input'><span class='fu'>calcAgeN</span><span class='op'>(</span><span class='va'>Age</span>, N <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   [1]   0   0   0   0   4   4   4   4   8   8   8   8  12  12  12  12  16  16
 #&gt;  [19]  16  16  20  20  20  20  24  24  24  24  28  28  28  28  32  32  32  32
 #&gt;  [37]  36  36  36  36  40  40  40  40  44  44  44  44  48  48  48  48  52  52
 #&gt;  [55]  52  52  56  56  56  56  60  60  60  60  64  64  64  64  68  68  68  68
 #&gt;  [73]  72  72  72  72  76  76  76  76  80  80  80  80  84  84  84  84  88  88
-#&gt;  [91]  88  88  92  92  92  92  96  96  96  96 100</div><div class='input'><span class='fu'>calcAgeN</span>(<span class='no'>Age</span>, <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt;   [1]  0  0  0  3  3  3  6  6  6  9  9  9 12 12 12 15 15 15 18 18 18 21 21 21 24
+#&gt;  [91]  88  88  92  92  92  92  96  96  96  96 100</div><div class='input'><span class='fu'>calcAgeN</span><span class='op'>(</span><span class='va'>Age</span>, N <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   [1]  0  0  0  3  3  3  6  6  6  9  9  9 12 12 12 15 15 15 18 18 18 21 21 21 24
 #&gt;  [26] 24 24 27 27 27 30 30 30 33 33 33 36 36 36 39 39 39 42 42 42 45 45 45 48 48
 #&gt;  [51] 48 51 51 51 54 54 54 57 57 57 60 60 60 63 63 63 66 66 66 69 69 69 72 72 72
 #&gt;  [76] 75 75 75 78 78 78 81 81 81 84 84 84 87 87 87 90 90 90 93 93 93 96 96 96 99
-#&gt; [101] 99</div><div class='input'><span class='fu'>calcAgeN</span>(<span class='no'>Age</span>, <span class='kw'>shiftdown</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt;   [1]   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15  15
+#&gt; [101] 99</div><div class='input'><span class='fu'>calcAgeN</span><span class='op'>(</span><span class='va'>Age</span>, shiftdown <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   [1]   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15  15
 #&gt;  [19]  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35  35
 #&gt;  [37]  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50  50
 #&gt;  [55]  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70  70
 #&gt;  [73]  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85  90
-#&gt;  [91]  90  90  90  90  95  95  95  95  95 100 100</div><div class='input'><span class='fu'>calcAgeN</span>(<span class='no'>Age</span>, <span class='kw'>shiftdown</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;   [1]   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15  15  15
+#&gt;  [91]  90  90  90  90  95  95  95  95  95 100 100</div><div class='input'><span class='fu'>calcAgeN</span><span class='op'>(</span><span class='va'>Age</span>, shiftdown <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   [1]   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15  15  15
 #&gt;  [19]  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35  35  35
 #&gt;  [37]  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50  50  55
 #&gt;  [55]  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70  70  70
 #&gt;  [73]  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85  90  90
 #&gt;  [91]  90  90  90  95  95  95  95  95 100 100 100</div><div class='input'><span class='co'># can be used to group abridged into equal 5-year intervals</span>
-<span class='no'>AgeAbr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>10</span>,<span class='fl'>15</span>,<span class='fl'>20</span>)
-<span class='fu'>calcAgeN</span>(<span class='no'>AgeAbr</span>)</div><div class='output co'>#&gt; [1]  0  0  5 10 15 20</div></pre>
+<span class='va'>AgeAbr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>10</span>,<span class='fl'>15</span>,<span class='fl'>20</span><span class='op'>)</span>
+<span class='fu'>calcAgeN</span><span class='op'>(</span><span class='va'>AgeAbr</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1]  0  0  5 10 15 20</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -236,7 +242,7 @@ the first age group is 4-ages wide.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

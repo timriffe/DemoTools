@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.30</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,14 +162,14 @@
     <p>The interpolation is done by age using a linear, exponential, or power function. This comes from the PAS spreadsheet called <code>AGEINT</code>. Be aware that this is not cohort-component interpolation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>interp</span>(
-  <span class='no'>popmat</span>,
-  <span class='no'>datesIn</span>,
-  <span class='no'>datesOut</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"linear"</span>, <span class='st'>"exponential"</span>, <span class='st'>"power"</span>),
-  <span class='kw'>power</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>interp</span><span class='op'>(</span>
+  <span class='va'>popmat</span>,
+  <span class='va'>datesIn</span>,
+  <span class='va'>datesOut</span>,
+  method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"linear"</span>, <span class='st'>"exponential"</span>, <span class='st'>"power"</span><span class='op'>)</span>,
+  power <span class='op'>=</span> <span class='fl'>2</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,15 +209,18 @@
 <p>For methods <code>"exponential"</code> and <code>"power"</code>, calculations are carried out using linear interpolation through <code><a href='https://rdrr.io/r/base/Log.html'>log(popmat)</a></code>, or <code>popmat^(1/power)</code> respectively, then back-transformed. If the data contain 0s, <code>method = "exponential"</code> will fail, but <code>"power"</code> would still generally work.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>United States Census Bureau (2017-nov).
+    <p>United States Census Bureau (2017).
 &#8220;Population Analysis System (PAS) Software.&#8221;
 <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Tim Riffe</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Example of interpolating over time series of age-structured</span>
 <span class='co'># data. NOTE: age classes must conform. They don't have to be</span>
 <span class='co'># uniform, just the same in each year.</span>
-<span class='no'>popmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2111460L</span>, <span class='fl'>1971927L</span>, <span class='fl'>1651421L</span>, <span class='fl'>1114149L</span>, <span class='fl'>921120L</span>,
+<span class='va'>popmat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2111460L</span>, <span class='fl'>1971927L</span>, <span class='fl'>1651421L</span>, <span class='fl'>1114149L</span>, <span class='fl'>921120L</span>,
 <span class='fl'>859806L</span>, <span class='fl'>806857L</span>, <span class='fl'>847447L</span>, <span class='fl'>660666L</span>, <span class='fl'>567163L</span>, <span class='fl'>493799L</span>, <span class='fl'>322936L</span>,
 <span class='fl'>320796L</span>, <span class='fl'>163876L</span>, <span class='fl'>133531L</span>, <span class='fl'>120866L</span>, <span class='fl'>2548265L</span>, <span class='fl'>2421813L</span>, <span class='fl'>2581979L</span>,
 <span class='fl'>2141854L</span>, <span class='fl'>1522279L</span>, <span class='fl'>1321665L</span>, <span class='fl'>1036480L</span>, <span class='fl'>1024782L</span>, <span class='fl'>935787L</span>, <span class='fl'>789521L</span>,
@@ -228,22 +231,22 @@
 <span class='fl'>1993212L</span>, <span class='fl'>1914367L</span>, <span class='fl'>1616449L</span>, <span class='fl'>1408498L</span>, <span class='fl'>994936L</span>, <span class='fl'>776537L</span>, <span class='fl'>706189L</span>,
 <span class='fl'>507085L</span>, <span class='fl'>315767L</span>, <span class='fl'>240302L</span>, <span class='fl'>3956664L</span>, <span class='fl'>3936424L</span>, <span class='fl'>3995805L</span>, <span class='fl'>4371774L</span>,
 <span class='fl'>4012982L</span>, <span class='fl'>3144046L</span>, <span class='fl'>2406725L</span>, <span class='fl'>2301514L</span>, <span class='fl'>2061252L</span>, <span class='fl'>1871502L</span>, <span class='fl'>1538713L</span>,
-<span class='fl'>1210822L</span>, <span class='fl'>896041L</span>, <span class='fl'>638954L</span>, <span class='fl'>401297L</span>, <span class='fl'>375648L</span>), <span class='kw'>.Dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>16L</span>,
-<span class='fl'>5L</span>), <span class='kw'>.Dimnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"0"</span>, <span class='st'>"5"</span>, <span class='st'>"10"</span>, <span class='st'>"15"</span>, <span class='st'>"20"</span>, <span class='st'>"25"</span>, <span class='st'>"30"</span>,
-<span class='st'>"35"</span>, <span class='st'>"40"</span>, <span class='st'>"45"</span>, <span class='st'>"50"</span>, <span class='st'>"55"</span>, <span class='st'>"60"</span>, <span class='st'>"65"</span>, <span class='st'>"70"</span>, <span class='st'>"75"</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"1960"</span>,
-<span class='st'>"1976"</span>, <span class='st'>"1986"</span>, <span class='st'>"1996"</span>, <span class='st'>"2006"</span>)))
+<span class='fl'>1210822L</span>, <span class='fl'>896041L</span>, <span class='fl'>638954L</span>, <span class='fl'>401297L</span>, <span class='fl'>375648L</span><span class='op'>)</span>, .Dim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>16L</span>,
+<span class='fl'>5L</span><span class='op'>)</span>, .Dimnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"0"</span>, <span class='st'>"5"</span>, <span class='st'>"10"</span>, <span class='st'>"15"</span>, <span class='st'>"20"</span>, <span class='st'>"25"</span>, <span class='st'>"30"</span>,
+<span class='st'>"35"</span>, <span class='st'>"40"</span>, <span class='st'>"45"</span>, <span class='st'>"50"</span>, <span class='st'>"55"</span>, <span class='st'>"60"</span>, <span class='st'>"65"</span>, <span class='st'>"70"</span>, <span class='st'>"75"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1960"</span>,
+<span class='st'>"1976"</span>, <span class='st'>"1986"</span>, <span class='st'>"1996"</span>, <span class='st'>"2006"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># We have irregularly spaced census inputs.</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-        <span class='fu'><a href='https://rdrr.io/r/graphics/matplot.html'>matplot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>75</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>),<span class='no'>popmat</span>,<span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>,<span class='kw'>col</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>5</span>)
-        <span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span>(<span class='fl'>20</span>,<span class='no'>popmat</span>[<span class='st'>"20"</span>,],<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>popmat</span>),<span class='kw'>col</span><span class='kw'>=</span><span class='fl'>1</span>:<span class='fl'>5</span>)
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/matplot.html'>matplot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>75</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>,<span class='va'>popmat</span>,type<span class='op'>=</span><span class='st'>'l'</span>,col<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>20</span>,<span class='va'>popmat</span><span class='op'>[</span><span class='st'>"20"</span>,<span class='op'>]</span>,<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>popmat</span><span class='op'>)</span>,col<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>
+<span class='op'>}</span>
 <span class='co'># census dates as decimal: no need for year rounding.</span>
 <span class='co'># could also specify as "YYYY-MM-DD"</span>
 <span class='co'># (rounded to 2 digits here- not necessary)</span>
-<span class='no'>datesIn</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1960.73</span>, <span class='fl'>1976.90</span>, <span class='fl'>1986.89</span>, <span class='fl'>1996.89</span>, <span class='fl'>2006.89</span>)
+<span class='va'>datesIn</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1960.73</span>, <span class='fl'>1976.90</span>, <span class='fl'>1986.89</span>, <span class='fl'>1996.89</span>, <span class='fl'>2006.89</span><span class='op'>)</span>
 <span class='co'># could ask for single years or anything</span>
-<span class='no'>datesOut</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>1960</span>, <span class='fl'>2005</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>)
+<span class='va'>datesOut</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1960</span>, <span class='fl'>2005</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 
 <span class='co'># NOTE: rule is an argument to approx(), which does the work.</span>
 <span class='co'># if not passed in, 1960 is returned as NAs (outside the range</span>
@@ -251,7 +254,8 @@
 <span class='co'># equal to nearest neighbor, meaning 1960 data will be returned</span>
 <span class='co'># as equal to 1960.73 input data. So, function should only be</span>
 <span class='co'># allowed to extrapolate for short distances.</span>
-<span class='fu'>interp</span>(<span class='no'>popmat</span>, <span class='no'>datesIn</span>, <span class='no'>datesOut</span>, <span class='st'>"linear"</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;       1960      1965      1970      1975      1980      1985      1990
+<span class='fu'>interp</span><span class='op'>(</span><span class='va'>popmat</span>, <span class='va'>datesIn</span>, <span class='va'>datesOut</span>, <span class='st'>"linear"</span>, rule <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       1960      1965      1970      1975      1980      1985      1990
 #&gt; 0  2111460 2226806.8 2361873.3 2496939.7 2922369.8 3525764.7 3678563.6
 #&gt; 5  1971927 2090728.1 2229839.4 2368950.7 2685218.4 3110065.7 3478550.0
 #&gt; 10 1651421 1897152.8 2184894.9 2472637.0 2690171.5 2864675.5 3287032.5
@@ -284,7 +288,8 @@
 #&gt; 60  677427.2  765233.0  860159.0
 #&gt; 65  477823.8  548096.3  614030.8
 #&gt; 70  311522.2  342366.8  385131.8
-#&gt; 75  231797.9  282394.6  350067.6</div><div class='input'><span class='fu'>interp</span>(<span class='no'>popmat</span>, <span class='no'>datesIn</span>, <span class='no'>datesOut</span>, <span class='st'>"exponential"</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;       1960      1965      1970      1975      1980      1985      1990
+#&gt; 75  231797.9  282394.6  350067.6</div><div class='input'><span class='fu'>interp</span><span class='op'>(</span><span class='va'>popmat</span>, <span class='va'>datesIn</span>, <span class='va'>datesOut</span>, <span class='st'>"exponential"</span>, rule <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       1960      1965      1970      1975      1980      1985      1990
 #&gt; 0  2111460 2218948.4 2351788.2 2492580.6 2873748.4 3488582.4 3676827.6
 #&gt; 5  1971927 2081895.6 2218483.9 2364033.5 2658486.2 3089918.2 3465395.4
 #&gt; 10 1651421 1858284.9 2133680.0 2449888.1 2685484.9 2861244.6 3247429.1
@@ -317,7 +322,8 @@
 #&gt; 60  674527.6  760467.2  856611.6
 #&gt; 65  473345.9  544881.0  611640.3
 #&gt; 70  311394.3  340205.7  383522.8
-#&gt; 75  231068.1  276120.6  345231.6</div><div class='input'><span class='fu'>interp</span>(<span class='no'>popmat</span>, <span class='no'>datesIn</span>, <span class='no'>datesOut</span>, <span class='st'>"power"</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;       1960      1965      1970      1975      1980      1985      1990
+#&gt; 75  231068.1  276120.6  345231.6</div><div class='input'><span class='fu'>interp</span><span class='op'>(</span><span class='va'>popmat</span>, <span class='va'>datesIn</span>, <span class='va'>datesOut</span>, <span class='st'>"power"</span>, rule <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       1960      1965      1970      1975      1980      1985      1990
 #&gt; 0  2111460 2222819.3 2356853.9 2494812.1 2897460.8 3507911.3 3677699.3
 #&gt; 5  1971927 2086240.2 2224190.1 2366556.1 2671597.3 3100302.9 3471895.4
 #&gt; 10 1651421 1877031.0 2159565.8 2461900.3 2687809.4 2862982.5 3266817.3
@@ -355,49 +361,56 @@
 <span class='co'># standard example data, taken from AGEINT PAS spreadsheet.</span>
 
  <span class='co'># YYYY-MM-DD dates as character</span>
- <span class='no'>d1</span>              <span class='kw'>&lt;-</span> <span class='st'>"1980-04-07"</span>
- <span class='no'>d2</span>              <span class='kw'>&lt;-</span> <span class='st'>"1990-10-06"</span>
- <span class='no'>dout</span>            <span class='kw'>&lt;-</span> <span class='st'>"1985-07-01"</span>
+ <span class='va'>d1</span>              <span class='op'>&lt;-</span> <span class='st'>"1980-04-07"</span>
+ <span class='va'>d2</span>              <span class='op'>&lt;-</span> <span class='st'>"1990-10-06"</span>
+ <span class='va'>dout</span>            <span class='op'>&lt;-</span> <span class='st'>"1985-07-01"</span>
 
- (<span class='no'>p_lin</span> <span class='kw'>&lt;-</span> <span class='fu'>interp</span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>popA_earlier</span>,<span class='no'>popA_later</span>),<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>d1</span>,<span class='no'>d2</span>),<span class='no'>dout</span>,<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"linear"</span>))</div><div class='output co'>#&gt;  [1] 151269.21 698637.56 935163.70 838408.52 669361.53 555363.48 452291.31
+ <span class='op'>(</span><span class='va'>p_lin</span> <span class='op'>&lt;-</span> <span class='fu'>interp</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>popA_earlier</span>,<span class='va'>popA_later</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>d1</span>,<span class='va'>d2</span><span class='op'>)</span>,<span class='va'>dout</span>,method <span class='op'>=</span> <span class='st'>"linear"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 151269.21 698637.56 935163.70 838408.52 669361.53 555363.48 452291.31
 #&gt;  [8] 373698.99 370798.20 334150.36 258103.71 223758.80 190651.53 158396.80
-#&gt; [15] 119288.68  80400.82  46479.94  51836.50</div><div class='input'> (<span class='no'>p_exp</span> <span class='kw'>&lt;-</span> <span class='fu'>interp</span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>popA_earlier</span>,<span class='no'>popA_later</span>),<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>d1</span>,<span class='no'>d2</span>),<span class='no'>dout</span>,<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"exponential"</span>))</div><div class='output co'>#&gt;  [1] 142611.79 658653.23 881642.53 790424.84 631052.72 523578.99 426405.83
+#&gt; [15] 119288.68  80400.82  46479.94  51836.50</div><div class='input'> <span class='op'>(</span><span class='va'>p_exp</span> <span class='op'>&lt;-</span> <span class='fu'>interp</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>popA_earlier</span>,<span class='va'>popA_later</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>d1</span>,<span class='va'>d2</span><span class='op'>)</span>,<span class='va'>dout</span>,method <span class='op'>=</span> <span class='st'>"exponential"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 142611.79 658653.23 881642.53 790424.84 631052.72 523578.99 426405.83
 #&gt;  [8] 352311.49 349576.73 315026.30 243331.95 210952.67 179740.18 149331.46
-#&gt; [15] 112461.57  75799.33  43819.81  48869.80</div><div class='input'> (<span class='no'>p_pow</span> <span class='kw'>&lt;-</span> <span class='fu'>interp</span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>popA_earlier</span>,<span class='no'>popA_later</span>),<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>d1</span>,<span class='no'>d2</span>),<span class='no'>dout</span>,<span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"power"</span>))</div><div class='output co'>#&gt;  [1] 146938.84 678637.75 908392.88 814407.50 650199.80 539465.16 439343.62
+#&gt; [15] 112461.57  75799.33  43819.81  48869.80</div><div class='input'> <span class='op'>(</span><span class='va'>p_pow</span> <span class='op'>&lt;-</span> <span class='fu'>interp</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>popA_earlier</span>,<span class='va'>popA_later</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>d1</span>,<span class='va'>d2</span><span class='op'>)</span>,<span class='va'>dout</span>,method <span class='op'>=</span> <span class='st'>"power"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 146938.84 678637.75 908392.88 814407.50 650199.80 539465.16 439343.62
 #&gt;  [8] 363001.15 360183.41 324584.67 250715.00 217353.29 185193.77 153862.40
 #&gt; [15] 115873.82  78099.19  45149.37  50352.58</div><div class='input'>
  <span class='co'># \dontshow{</span>
- <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='dec.date.html'>dec.date</a></span>(<span class='no'>d1</span>),<span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>18</span>)</div><div class='output co'>#&gt; [1] 1980.26502732240442</div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='dec.date.html'>dec.date</a></span>(<span class='no'>d2</span>),<span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>18</span>)</div><div class='output co'>#&gt; [1] 1990.7616438356165</div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='dec.date.html'>dec.date</a></span>(<span class='no'>dout</span>),<span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>18</span>)</div><div class='output co'>#&gt; [1] 1985.49589041095896</div><div class='input'> <span class='co'># these were set to different dates: recreate above dates...</span>
-<span class='no'>expcheck</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>142611.789832724</span>, <span class='fl'>658653.225145641</span>, <span class='fl'>881642.532889494</span>, <span class='fl'>790424.835149364</span>,
-<span class='fl'>631052.720366013</span>, <span class='fl'>523578.990638372</span>, <span class='fl'>426405.833143345</span>, <span class='fl'>352311.49478387</span>,
-<span class='fl'>349576.729583329</span>, <span class='fl'>315026.304975883</span>, <span class='fl'>243331.949093535</span>, <span class='fl'>210952.668139616</span>,
-<span class='fl'>179740.182668986</span>, <span class='fl'>149331.458251614</span>, <span class='fl'>112461.568530899</span>, <span class='fl'>75799.3288538202</span>,
-<span class='fl'>43819.8095485345</span>, <span class='fl'>48869.8021063505</span>)
+ <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='dec.date.html'>dec.date</a></span><span class='op'>(</span><span class='va'>d1</span><span class='op'>)</span>,digits<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1980.26502732240442</div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='dec.date.html'>dec.date</a></span><span class='op'>(</span><span class='va'>d2</span><span class='op'>)</span>,digits<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1990.7616438356165</div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='dec.date.html'>dec.date</a></span><span class='op'>(</span><span class='va'>dout</span><span class='op'>)</span>,digits<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1985.49589041095896</div><div class='input'> <span class='co'># these were set to different dates: recreate above dates...</span>
+<span class='va'>expcheck</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>142611.789832724</span>, <span class='fl'>658653.225145641</span>, <span class='fl'>881642.532889494</span>, <span class='fl'>790424.835149364</span>, 
+<span class='fl'>631052.720366013</span>, <span class='fl'>523578.990638372</span>, <span class='fl'>426405.833143345</span>, <span class='fl'>352311.49478387</span>, 
+<span class='fl'>349576.729583329</span>, <span class='fl'>315026.304975883</span>, <span class='fl'>243331.949093535</span>, <span class='fl'>210952.668139616</span>, 
+<span class='fl'>179740.182668986</span>, <span class='fl'>149331.458251614</span>, <span class='fl'>112461.568530899</span>, <span class='fl'>75799.3288538202</span>, 
+<span class='fl'>43819.8095485345</span>, <span class='fl'>48869.8021063505</span><span class='op'>)</span>
 
-<span class='no'>lincheck</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>151269.209810283</span>, <span class='fl'>698637.560216026</span>, <span class='fl'>935163.70169507</span>, <span class='fl'>838408.524061807</span>,
-<span class='fl'>669361.533645738</span>, <span class='fl'>555363.482079782</span>, <span class='fl'>452291.311354737</span>, <span class='fl'>373698.987198367</span>,
-<span class='fl'>370798.204791894</span>, <span class='fl'>334150.355163834</span>, <span class='fl'>258103.707303228</span>, <span class='fl'>223758.803211712</span>,
-<span class='fl'>190651.52632461</span>, <span class='fl'>158396.803770816</span>, <span class='fl'>119288.683114125</span>, <span class='fl'>80400.8181463556</span>,
-<span class='fl'>46479.9437144632</span>, <span class='fl'>51836.5021355072</span>)
+<span class='va'>lincheck</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>151269.209810283</span>, <span class='fl'>698637.560216026</span>, <span class='fl'>935163.70169507</span>, <span class='fl'>838408.524061807</span>, 
+<span class='fl'>669361.533645738</span>, <span class='fl'>555363.482079782</span>, <span class='fl'>452291.311354737</span>, <span class='fl'>373698.987198367</span>, 
+<span class='fl'>370798.204791894</span>, <span class='fl'>334150.355163834</span>, <span class='fl'>258103.707303228</span>, <span class='fl'>223758.803211712</span>, 
+<span class='fl'>190651.52632461</span>, <span class='fl'>158396.803770816</span>, <span class='fl'>119288.683114125</span>, <span class='fl'>80400.8181463556</span>, 
+<span class='fl'>46479.9437144632</span>, <span class='fl'>51836.5021355072</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='no'>expcheck</span> - <span class='no'>p_exp</span>)<span class='kw'>&lt;</span><span class='fl'>1e-6</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='no'>lincheck</span> - <span class='no'>p_lin</span>)<span class='kw'>&lt;</span><span class='fl'>1e-6</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>expcheck</span> <span class='op'>-</span> <span class='va'>p_exp</span><span class='op'>)</span><span class='op'>&lt;</span><span class='fl'>1e-6</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>lincheck</span> <span class='op'>-</span> <span class='va'>p_lin</span><span class='op'>)</span><span class='op'>&lt;</span><span class='fl'>1e-6</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># do controlled spreadsheet test, passing in decimal dates, etc</span>
 <span class='co'># }</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>age</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>,<span class='fl'>80</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>))
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>age</span>, <span class='no'>popA_later</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'l'</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Interpolation options"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>age</span>, <span class='no'>popA_earlier</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='st'>"8282"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>age</span>, <span class='no'>p_lin</span>,<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>age</span>, <span class='no'>p_pow</span>,<span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span>(<span class='fl'>.4</span>))
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>age</span>, <span class='no'>p_exp</span>,<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span>(<span class='fl'>30</span>, <span class='no'>popA_earlier</span>[<span class='fl'>8</span>], <span class='no'>d1</span>, <span class='kw'>pos</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span>(<span class='fl'>20</span>, <span class='no'>popA_later</span>[<span class='fl'>6</span>], <span class='no'>d2</span>, <span class='kw'>pos</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>cex</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"topright"</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"blue"</span>, <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span>(<span class='fl'>.4</span>), <span class='st'>"red"</span>),
-                <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"linear"</span>, <span class='st'>"power 2"</span>, <span class='st'>"exponential"</span>),
-                <span class='kw'>title</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"Interpolated 1985-07-01"</span>))
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>80</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>popA_later</span>, type <span class='op'>=</span> <span class='st'>'l'</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, main <span class='op'>=</span> <span class='st'>"Interpolation options"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>popA_earlier</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, lty <span class='op'>=</span> <span class='st'>"8282"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>p_lin</span>,col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>p_pow</span>,col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>.4</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>p_exp</span>,col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>30</span>, <span class='va'>popA_earlier</span><span class='op'>[</span><span class='fl'>8</span><span class='op'>]</span>, <span class='va'>d1</span>, pos <span class='op'>=</span> <span class='fl'>1</span>, cex <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='va'>popA_later</span><span class='op'>[</span><span class='fl'>6</span><span class='op'>]</span>, <span class='va'>d2</span>, pos <span class='op'>=</span> <span class='fl'>4</span>, cex <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>, lty <span class='op'>=</span> <span class='fl'>1</span>, col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"blue"</span>, <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>.4</span><span class='op'>)</span>, <span class='st'>"red"</span><span class='op'>)</span>,
+    legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"linear"</span>, <span class='st'>"power 2"</span>, <span class='st'>"exponential"</span><span class='op'>)</span>,
+    title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"Interpolated 1985-07-01"</span><span class='op'>)</span><span class='op'>)</span>
 
-}</div></pre>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -413,7 +426,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

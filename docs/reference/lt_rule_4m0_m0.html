@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.30</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +162,7 @@
     <p>Given the log crude death rate for ages 0-5, \(log(M(0,5)\) there is a strong 2-slope linear relationship with the log of the infant death rate. With this method the user supplies the under 5 death rate and the infant death rate is returned. This method could be invoked if either population or (exclusive or) deaths are tabulated for infants, or if only the under 5 mortality rate is available</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lt_rule_4m0_m0</span>(<span class='no'>M04</span>, <span class='no'>D04</span>, <span class='no'>P04</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"m"</span>, <span class='st'>"f"</span>))</pre>
+    <pre class="usage"><span class='fu'>lt_rule_4m0_m0</span><span class='op'>(</span><span class='va'>M04</span>, <span class='va'>D04</span>, <span class='va'>P04</span>, Sex <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"m"</span>, <span class='st'>"f"</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -196,7 +196,7 @@
 
     <p>Muggeo VM (2008).
 &#8220;segmented: an R Package to Fit Regression Models with Broken-Line Relationships.&#8221;
-<em>R News</em>, <b>8</b>, 20--25.
+<em>R News</em>, <b>8</b>(1), 20--25.
 <a href='https://cran.r-project.org/doc/Rnews/'>https://cran.r-project.org/doc/Rnews/</a>.</p>
 <p>Human Mortality Database</p>
 
@@ -204,72 +204,73 @@
     <pre class="examples"><div class='input'>
 <span class='co'># to reproduce the coefficient estimation</span>
 <span class='co'># that the method is based on:</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># get data in this format:</span>
-        <span class='co'># dput(head(Dat))</span>
-<span class='no'>Dat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span>(
-        <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-          <span class='kw'>lm0</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>2.92192434640927</span>, -<span class='fl'>3.06165842367016</span>,
-                          -<span class='fl'>3.10778177736261</span>, -<span class='fl'>3.14075804560425</span>,
-                          -<span class='fl'>3.20005407062761</span>, -<span class='fl'>3.22489389719376</span>
-                        ),
-          <span class='kw'>lM5</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>4.38578221044468</span>, -<span class='fl'>4.56777854985643</span>,
-                          -<span class='fl'>4.58851248767896</span>, -<span class='fl'>4.57684656734645</span>,
-                          -<span class='fl'>4.62854681692805</span>, -<span class='fl'>4.61294106314254</span>)),
-       <span class='kw'>.Names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lm0"</span>, <span class='st'>"lM5"</span>),
-        <span class='kw'>class</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"data.frame"</span>),
-        <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>, -<span class='fl'>6L</span>))
+  <span class='co'># dput(head(Dat))</span>
+<span class='va'>Dat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    lm0 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>2.92192434640927</span>, <span class='op'>-</span><span class='fl'>3.06165842367016</span>,
+        <span class='op'>-</span><span class='fl'>3.10778177736261</span>, <span class='op'>-</span><span class='fl'>3.14075804560425</span>,
+        <span class='op'>-</span><span class='fl'>3.20005407062761</span>, <span class='op'>-</span><span class='fl'>3.22489389719376</span>
+      <span class='op'>)</span>,
+    lM5 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>4.38578221044468</span>, <span class='op'>-</span><span class='fl'>4.56777854985643</span>,
+        <span class='op'>-</span><span class='fl'>4.58851248767896</span>, <span class='op'>-</span><span class='fl'>4.57684656734645</span>,
+        <span class='op'>-</span><span class='fl'>4.62854681692805</span>, <span class='op'>-</span><span class='fl'>4.61294106314254</span><span class='op'>)</span><span class='op'>)</span>,
+       .Names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lm0"</span>, <span class='st'>"lM5"</span><span class='op'>)</span>,
+  class <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data.frame"</span><span class='op'>)</span>,
+  row.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='op'>-</span><span class='fl'>6L</span><span class='op'>)</span><span class='op'>)</span>
  <span class='co'># where lm0 is log(M0)</span>
  <span class='co'># i.e. log of infant death rate</span>
  <span class='co'># and lM5 is log(M0_4)</span>
  <span class='co'># i.e. log of death rate in first 5 years of life</span>
 
  <span class='co'># then first fit a linear model:</span>
-        <span class='no'>obj</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>lm0</span>~<span class='no'>lM5</span>,<span class='kw'>data</span><span class='kw'>=</span><span class='no'>Dat</span>)
+  <span class='va'>obj</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>lm0</span><span class='op'>~</span><span class='va'>lM5</span>,data<span class='op'>=</span><span class='va'>Dat</span><span class='op'>)</span>
  <span class='co'># use segmented package:</span>
-        <span class='no'>seg</span>  <span class='kw'>&lt;-</span> <span class='kw pkg'>segmented</span><span class='kw ns'>::</span><span class='fu'>segmented</span>(<span class='no'>obj</span>)
+  <span class='va'>seg</span>  <span class='op'>&lt;-</span> <span class='fu'>segmented</span><span class='fu'>::</span><span class='fu'>segmented</span><span class='op'>(</span><span class='va'>obj</span><span class='op'>)</span>
  <span class='co'># breakpoint:</span>
-        <span class='no'>seg</span>$<span class='no'>psi</span>[<span class='fl'>2</span>]     <span class='co'># brk</span>
+  <span class='va'>seg</span><span class='op'>$</span><span class='va'>psi</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>     <span class='co'># brk</span>
  <span class='co'># first intercept:</span>
-        <span class='no'>seg</span>$<span class='no'>coef</span>[<span class='fl'>1</span>]    <span class='co'># int1</span>
+  <span class='va'>seg</span><span class='op'>$</span><span class='va'>coef</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>    <span class='co'># int1</span>
  <span class='co'># first slope:</span>
-        <span class='no'>seg</span>$<span class='no'>coef</span>[<span class='fl'>2</span>]    <span class='co'># s1</span>
+  <span class='va'>seg</span><span class='op'>$</span><span class='va'>coef</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span>    <span class='co'># s1</span>
  <span class='co'># difference in slope from 1st to second:</span>
-        <span class='no'>seg</span>$<span class='no'>coef</span>[<span class='fl'>3</span>]    <span class='co'># ds1</span>
+  <span class='va'>seg</span><span class='op'>$</span><span class='va'>coef</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span>    <span class='co'># ds1</span>
  <span class='co'># make Dat come from some other dataset and you'll get different coefs,</span>
  <span class='co'># it'd be possible to have these in families maybe, and in any case</span>
  <span class='co'># different for males and females. This is just a rough start, to be</span>
  <span class='co'># replaced if someone offers a superior method. These</span>
 
-}
+<span class='op'>}</span>
 
-<span class='no'>M0_4</span> <span class='kw'>&lt;-</span> <span class='fl'>5</span>/<span class='fl'>1000</span>
-<span class='no'>M0</span>   <span class='kw'>&lt;-</span> <span class='fu'>lt_rule_4m0_m0</span>(<span class='no'>M0_4</span>)
+<span class='va'>M0_4</span> <span class='op'>&lt;-</span> <span class='fl'>5</span><span class='op'>/</span><span class='fl'>1000</span>
+<span class='va'>M0</span>   <span class='op'>&lt;-</span> <span class='fu'>lt_rule_4m0_m0</span><span class='op'>(</span><span class='va'>M0_4</span><span class='op'>)</span>
 
 <span class='co'># M0 from this relationship is more reliable than other methods</span>
 <span class='co'># of independently splitting D0 or P0. So, if you're going to be</span>
 <span class='co'># splitting counts, then make use of M0 to force numerators and</span>
 <span class='co'># denominators to conform to this estimate.</span>
-<span class='no'>D0_4</span> <span class='kw'>&lt;-</span> <span class='fl'>2e4</span>
-<span class='no'>P0_4</span> <span class='kw'>&lt;-</span> <span class='fl'>4e6</span>
+<span class='va'>D0_4</span> <span class='op'>&lt;-</span> <span class='fl'>2e4</span>
+<span class='va'>P0_4</span> <span class='op'>&lt;-</span> <span class='fl'>4e6</span>
 <span class='co'># function usage straightforward, also vectorized.</span>
-<span class='no'>D0</span>   <span class='kw'>&lt;-</span> <span class='fu'><a href='lt_rule_4m0_D0.html'>lt_rule_4m0_D0</a></span>(<span class='no'>D0_4</span>, <span class='no'>M0_4</span>, <span class='kw'>Sex</span> <span class='kw'>=</span> <span class='st'>"m"</span>)
+<span class='va'>D0</span>   <span class='op'>&lt;-</span> <span class='fu'><a href='lt_rule_4m0_D0.html'>lt_rule_4m0_D0</a></span><span class='op'>(</span><span class='va'>D0_4</span>, <span class='va'>M0_4</span>, Sex <span class='op'>=</span> <span class='st'>"m"</span><span class='op'>)</span>
 <span class='co'># deaths in ages 1-4 are a separate step.</span>
-<span class='no'>P0</span>   <span class='kw'>&lt;-</span> <span class='no'>D0</span> / <span class='no'>M0</span>
-<span class='no'>P1_4</span> <span class='kw'>&lt;-</span> <span class='no'>P0_4</span> - <span class='no'>P0</span>
-<span class='no'>D1_4</span> <span class='kw'>&lt;-</span> <span class='no'>D0_4</span> - <span class='no'>D0</span>
-<span class='no'>M1_4</span> <span class='kw'>&lt;-</span> <span class='no'>D1_4</span> / <span class='no'>P1_4</span>
+<span class='va'>P0</span>   <span class='op'>&lt;-</span> <span class='va'>D0</span> <span class='op'>/</span> <span class='va'>M0</span>
+<span class='va'>P1_4</span> <span class='op'>&lt;-</span> <span class='va'>P0_4</span> <span class='op'>-</span> <span class='va'>P0</span>
+<span class='va'>D1_4</span> <span class='op'>&lt;-</span> <span class='va'>D0_4</span> <span class='op'>-</span> <span class='va'>D0</span>
+<span class='va'>M1_4</span> <span class='op'>&lt;-</span> <span class='va'>D1_4</span> <span class='op'>/</span> <span class='va'>P1_4</span>
 <span class='co'># and now we have all the pieces such that rate</span>
 <span class='co'># estimates conform.</span>
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'n'</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>5</span>), <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1e-3</span>, <span class='fl'>.025</span>), <span class='kw'>log</span> <span class='kw'>=</span> <span class='st'>"y"</span>,
-                <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Age"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>"log(rate)"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/segments.html'>segments</a></span>(<span class='fl'>0</span>, <span class='no'>M0_4</span>, <span class='fl'>5</span>, <span class='no'>M0_4</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/segments.html'>segments</a></span>(<span class='fl'>0</span>, <span class='no'>M0</span>, <span class='fl'>1</span>, <span class='no'>M0</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/segments.html'>segments</a></span>(<span class='fl'>1</span>, <span class='no'>M1_4</span>, <span class='fl'>5</span>, <span class='no'>M1_4</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span>(<span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>M0</span>, <span class='no'>M1_4</span>, <span class='no'>M0_4</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"M0"</span>, <span class='st'>"M1_4"</span>, <span class='st'>"M0_4"</span>), <span class='kw'>pos</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-}</div></pre>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='cn'>NULL</span>, type <span class='op'>=</span> <span class='st'>'n'</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span><span class='op'>)</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1e-3</span>, <span class='fl'>.025</span><span class='op'>)</span>, log <span class='op'>=</span> <span class='st'>"y"</span>,
+    xlab <span class='op'>=</span> <span class='st'>"Age"</span>, ylab <span class='op'>=</span> <span class='st'>"log(rate)"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/segments.html'>segments</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>M0_4</span>, <span class='fl'>5</span>, <span class='va'>M0_4</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/segments.html'>segments</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>M0</span>, <span class='fl'>1</span>, <span class='va'>M0</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/segments.html'>segments</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>M1_4</span>, <span class='fl'>5</span>, <span class='va'>M1_4</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>M0</span>, <span class='va'>M1_4</span>, <span class='va'>M0_4</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"M0"</span>, <span class='st'>"M1_4"</span>, <span class='st'>"M0_4"</span><span class='op'>)</span>, pos <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -285,7 +286,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

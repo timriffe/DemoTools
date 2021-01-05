@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.30</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -130,13 +130,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -164,7 +164,7 @@
 "Adult Mortality Estimation Files/countries/JAPAN/CENSUS~1.SUR", prepared by Griffith Feeney ca 2007.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>survRatioError</span>(<span class='no'>pop1</span>, <span class='no'>pop2</span>, <span class='no'>Age</span>, <span class='no'>date1</span>, <span class='no'>date2</span>, <span class='no'>exprior</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>survRatioError</span><span class='op'>(</span><span class='va'>pop1</span>, <span class='va'>pop2</span>, <span class='va'>Age</span>, <span class='va'>date1</span>, <span class='va'>date2</span>, <span class='va'>exprior</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -221,50 +221,53 @@ United Nations Department of International Economic and Social Affairs, New York
 <span class='co'># this is census data from Japan</span>
 
 <span class='co'># create a bunch of data to show the three variants.</span>
-<span class='no'>pop1960</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3831870</span>,<span class='fl'>4502304</span>,<span class='fl'>5397061</span>,<span class='fl'>4630775</span>,<span class='fl'>4193184</span>,<span class='fl'>4114704</span>,<span class='fl'>3770907</span>,<span class='fl'>3274822</span>,
-   <span class='fl'>2744786</span>,<span class='fl'>2559755</span>,<span class='fl'>2160716</span>,<span class='fl'>1839025</span>,<span class='fl'>1494043</span>,<span class='fl'>1133409</span>,<span class='fl'>870238</span>,<span class='fl'>577972</span>,<span class='fl'>313781</span>,<span class='fl'>131547</span>)
-<span class='no'>pop1965</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3983902</span>,<span class='fl'>3854281</span>,<span class='fl'>4513237</span>,<span class='fl'>5373547</span>,<span class='fl'>4572392</span>,<span class='fl'>4206801</span>,<span class='fl'>4110076</span>,<span class='fl'>3751030</span>,
-   <span class='fl'>3231736</span>,<span class='fl'>2697217</span>,<span class='fl'>2485095</span>,<span class='fl'>2071540</span>,<span class='fl'>1719370</span>,<span class='fl'>1343444</span>,<span class='fl'>955567</span>,<span class='fl'>644043</span>,<span class='fl'>341170</span>,<span class='fl'>176068</span>)
-<span class='no'>pop1970</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4292503</span>,<span class='fl'>3988292</span>,<span class='fl'>3852101</span>,<span class='fl'>4492096</span>,<span class='fl'>5347327</span>,<span class='fl'>4571868</span>,<span class='fl'>4190340</span>,<span class='fl'>4085338</span>,
-   <span class='fl'>3674127</span>,<span class='fl'>3198934</span>,<span class='fl'>2648360</span>,<span class='fl'>2382691</span>,<span class='fl'>1970485</span>,<span class='fl'>1584699</span>,<span class='fl'>1172155</span>,<span class='fl'>736258</span>,<span class='fl'>408191</span>,<span class='fl'>53116</span>)
-<span class='no'>Age</span>          <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>85</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='no'>date1960</span>     <span class='kw'>&lt;-</span> <span class='st'>"1960-10-01"</span>
-<span class='no'>date1965</span>     <span class='kw'>&lt;-</span> <span class='st'>"1965-10-01"</span>
-<span class='no'>date1970</span>     <span class='kw'>&lt;-</span> <span class='st'>"1970-10-01"</span>
-<span class='no'>date1960fake</span> <span class='kw'>&lt;-</span> <span class='st'>"1960-10-05"</span>
-<span class='no'>ex1</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>,<span class='fl'>69.45</span>,<span class='fl'>64.62</span>,<span class='fl'>59.72</span>,<span class='fl'>54.87</span>,<span class='fl'>50.11</span>,<span class='fl'>45.37</span>,<span class='fl'>40.65</span>,<span class='fl'>35.99</span>,
-<span class='fl'>31.40</span>,<span class='fl'>26.94</span>,<span class='fl'>22.64</span>,<span class='fl'>18.52</span>,<span class='fl'>14.67</span>,<span class='fl'>11.20</span>,<span class='fl'>8.25</span>,<span class='fl'>5.95</span>,<span class='fl'>6.00</span>)
-<span class='no'>ex2</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>NA</span>,<span class='fl'>70.19</span>,<span class='fl'>65.33</span>,<span class='fl'>60.41</span>,<span class='fl'>55.54</span>,<span class='fl'>50.74</span>,<span class='fl'>45.96</span>,<span class='fl'>41.21</span>,
-<span class='fl'>36.52</span>,<span class='fl'>31.89</span>,<span class='fl'>27.39</span>,<span class='fl'>23.05</span>,<span class='fl'>18.89</span>,<span class='fl'>14.99</span>,<span class='fl'>11.45</span>,<span class='fl'>8.43</span>,<span class='fl'>6.06</span>)
+<span class='va'>pop1960</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3831870</span>,<span class='fl'>4502304</span>,<span class='fl'>5397061</span>,<span class='fl'>4630775</span>,<span class='fl'>4193184</span>,<span class='fl'>4114704</span>,<span class='fl'>3770907</span>,<span class='fl'>3274822</span>,
+   <span class='fl'>2744786</span>,<span class='fl'>2559755</span>,<span class='fl'>2160716</span>,<span class='fl'>1839025</span>,<span class='fl'>1494043</span>,<span class='fl'>1133409</span>,<span class='fl'>870238</span>,<span class='fl'>577972</span>,<span class='fl'>313781</span>,<span class='fl'>131547</span><span class='op'>)</span>
+<span class='va'>pop1965</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3983902</span>,<span class='fl'>3854281</span>,<span class='fl'>4513237</span>,<span class='fl'>5373547</span>,<span class='fl'>4572392</span>,<span class='fl'>4206801</span>,<span class='fl'>4110076</span>,<span class='fl'>3751030</span>,
+   <span class='fl'>3231736</span>,<span class='fl'>2697217</span>,<span class='fl'>2485095</span>,<span class='fl'>2071540</span>,<span class='fl'>1719370</span>,<span class='fl'>1343444</span>,<span class='fl'>955567</span>,<span class='fl'>644043</span>,<span class='fl'>341170</span>,<span class='fl'>176068</span><span class='op'>)</span>
+<span class='va'>pop1970</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4292503</span>,<span class='fl'>3988292</span>,<span class='fl'>3852101</span>,<span class='fl'>4492096</span>,<span class='fl'>5347327</span>,<span class='fl'>4571868</span>,<span class='fl'>4190340</span>,<span class='fl'>4085338</span>,
+   <span class='fl'>3674127</span>,<span class='fl'>3198934</span>,<span class='fl'>2648360</span>,<span class='fl'>2382691</span>,<span class='fl'>1970485</span>,<span class='fl'>1584699</span>,<span class='fl'>1172155</span>,<span class='fl'>736258</span>,<span class='fl'>408191</span>,<span class='fl'>53116</span><span class='op'>)</span>
+<span class='va'>Age</span>          <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>85</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>date1960</span>     <span class='op'>&lt;-</span> <span class='st'>"1960-10-01"</span>
+<span class='va'>date1965</span>     <span class='op'>&lt;-</span> <span class='st'>"1965-10-01"</span>
+<span class='va'>date1970</span>     <span class='op'>&lt;-</span> <span class='st'>"1970-10-01"</span>
+<span class='va'>date1960fake</span> <span class='op'>&lt;-</span> <span class='st'>"1960-10-05"</span>
+<span class='va'>ex1</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>69.45</span>,<span class='fl'>64.62</span>,<span class='fl'>59.72</span>,<span class='fl'>54.87</span>,<span class='fl'>50.11</span>,<span class='fl'>45.37</span>,<span class='fl'>40.65</span>,<span class='fl'>35.99</span>,
+<span class='fl'>31.40</span>,<span class='fl'>26.94</span>,<span class='fl'>22.64</span>,<span class='fl'>18.52</span>,<span class='fl'>14.67</span>,<span class='fl'>11.20</span>,<span class='fl'>8.25</span>,<span class='fl'>5.95</span>,<span class='fl'>6.00</span><span class='op'>)</span>
+<span class='va'>ex2</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>70.19</span>,<span class='fl'>65.33</span>,<span class='fl'>60.41</span>,<span class='fl'>55.54</span>,<span class='fl'>50.74</span>,<span class='fl'>45.96</span>,<span class='fl'>41.21</span>,
+<span class='fl'>36.52</span>,<span class='fl'>31.89</span>,<span class='fl'>27.39</span>,<span class='fl'>23.05</span>,<span class='fl'>18.89</span>,<span class='fl'>14.99</span>,<span class='fl'>11.45</span>,<span class='fl'>8.43</span>,<span class='fl'>6.06</span><span class='op'>)</span>
 
 <span class='co'># reproduces CENSUR~1.XLS</span>
 <span class='co'># this method called under the hood when censuses are a clean 10 years apart</span>
-(<span class='no'>s10</span> <span class='kw'>&lt;-</span> <span class='fu'>survRatioError</span>(
- <span class='kw'>pop1</span> <span class='kw'>=</span> <span class='no'>pop1960</span>,
- <span class='kw'>pop2</span> <span class='kw'>=</span> <span class='no'>pop1970</span>,
- <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
- <span class='kw'>date1</span> <span class='kw'>=</span> <span class='no'>date1960</span>,
- <span class='kw'>date2</span> <span class='kw'>=</span> <span class='no'>date1970</span>,
- <span class='kw'>exprior</span> <span class='kw'>=</span> <span class='no'>ex1</span>)) <span class='co'>#.44</span></div><div class='output co'>#&gt; [1] 0.4446597</div><div class='input'>
+<span class='op'>(</span><span class='va'>s10</span> <span class='op'>&lt;-</span> <span class='fu'>survRatioError</span><span class='op'>(</span>
+ pop1 <span class='op'>=</span> <span class='va'>pop1960</span>,
+ pop2 <span class='op'>=</span> <span class='va'>pop1970</span>,
+ Age <span class='op'>=</span> <span class='va'>Age</span>,
+ date1 <span class='op'>=</span> <span class='va'>date1960</span>,
+ date2 <span class='op'>=</span> <span class='va'>date1970</span>,
+ exprior <span class='op'>=</span> <span class='va'>ex1</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#.44</span>
+</div><div class='output co'>#&gt; [1] 0.4446597</div><div class='input'>
 <span class='co'># reproduces CENSUR~3.XLS</span>
 <span class='co'># this method called under the hood when censuses are a clean 5 years apart</span>
-(<span class='no'>s5</span> <span class='kw'>&lt;-</span> <span class='fu'>survRatioError</span>(
-                <span class='kw'>pop1</span> <span class='kw'>=</span> <span class='no'>pop1965</span>,
-                <span class='kw'>pop2</span> <span class='kw'>=</span> <span class='no'>pop1970</span>,
-                <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
-                <span class='kw'>date1</span> <span class='kw'>=</span> <span class='no'>date1965</span>,
-                <span class='kw'>date2</span> <span class='kw'>=</span> <span class='no'>date1970</span>,
-                <span class='kw'>exprior</span> <span class='kw'>=</span> <span class='no'>ex2</span>)) <span class='co'>#.40</span></div><div class='output co'>#&gt; [1] 0.3964347</div><div class='input'>
+<span class='op'>(</span><span class='va'>s5</span> <span class='op'>&lt;-</span> <span class='fu'>survRatioError</span><span class='op'>(</span>
+    pop1 <span class='op'>=</span> <span class='va'>pop1965</span>,
+    pop2 <span class='op'>=</span> <span class='va'>pop1970</span>,
+    Age <span class='op'>=</span> <span class='va'>Age</span>,
+    date1 <span class='op'>=</span> <span class='va'>date1965</span>,
+    date2 <span class='op'>=</span> <span class='va'>date1970</span>,
+    exprior <span class='op'>=</span> <span class='va'>ex2</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#.40</span>
+</div><div class='output co'>#&gt; [1] 0.3964347</div><div class='input'>
 <span class='co'># reproduces CENSUR~2.XLS (if indeed censuses are oddly spaced)</span>
 <span class='co'># this method called under the hood when censuses are not spaced</span>
 <span class='co'># a clean 5 or 10 years apart.</span>
-(<span class='no'>sn</span> <span class='kw'>&lt;-</span> <span class='fu'>survRatioError</span>(
-                <span class='kw'>pop1</span> <span class='kw'>=</span> <span class='no'>pop1960</span>,
-                <span class='kw'>pop2</span> <span class='kw'>=</span> <span class='no'>pop1970</span>,
-                <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
-                <span class='kw'>date1</span> <span class='kw'>=</span> <span class='no'>date1960fake</span>,
-                <span class='kw'>date2</span> <span class='kw'>=</span> <span class='no'>date1970</span>,
-                <span class='kw'>exprior</span> <span class='kw'>=</span> <span class='no'>ex1</span>)) <span class='co'># 1.067818</span></div><div class='output co'>#&gt; [1] 1.06783</div><div class='input'>
+<span class='op'>(</span><span class='va'>sn</span> <span class='op'>&lt;-</span> <span class='fu'>survRatioError</span><span class='op'>(</span>
+    pop1 <span class='op'>=</span> <span class='va'>pop1960</span>,
+    pop2 <span class='op'>=</span> <span class='va'>pop1970</span>,
+    Age <span class='op'>=</span> <span class='va'>Age</span>,
+    date1 <span class='op'>=</span> <span class='va'>date1960fake</span>,
+    date2 <span class='op'>=</span> <span class='va'>date1970</span>,
+    exprior <span class='op'>=</span> <span class='va'>ex1</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># 1.067818</span>
+</div><div class='output co'>#&gt; [1] 1.06783</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -281,7 +284,7 @@ United Nations Department of International Economic and Social Affairs, New York
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
