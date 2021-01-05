@@ -44,7 +44,6 @@ smooth_age_5_cf <- function(Value,
 
   # what OAG is a strange digit? Then take OAG after grouping.
   if (OAG) {
-    OAGvalue <- Value10[length(Value10)]
     Value10[length(Value10)] <- NA
   }
 
