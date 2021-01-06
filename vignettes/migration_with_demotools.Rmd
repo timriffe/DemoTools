@@ -11,7 +11,7 @@ vignette: >
 header-includes:
 - \usepackage{amsmath}
 - \usepackage{amssymb}
-'---
+---
 
 
 ```{r setup, include = FALSE}
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   message = FALSE,
-  fig.width = 6, 
+  fig.width = 6,
   fig.height = 4,
   fig.align = "center"
 )
@@ -167,15 +167,19 @@ Let's fit a Rogers-Castro migration age schedule to these data. Below, we choose
 
 
 ```{r, eval = TRUE}
-rc_res <- mig_estimate_rc(ages, mx_FL_sim, 
-                       pre_working_age = TRUE, 
-                       working_age = TRUE, 
-                       retirement = TRUE, 
-                       post_retirement = FALSE,
-                       # (optional) arguments for Stan
-                       chains = 4,
-                       iter = 2000,
-                       control = list(adapt_delta = 0.8, max_treedepth = 10))
+
+rc_res <- mig_estimate_rc(
+  ages, mx_FL_sim,
+  pre_working_age = TRUE, 
+  working_age = TRUE, 
+  retirement = TRUE, 
+  post_retirement = FALSE,
+  # (optional) arguments for Stan
+  chains = 4,
+  iter = 2000,
+  control = list(adapt_delta = 0.8, max_treedepth = 10)
+)
+
 ```
 
 The `mig_estimate_rc` function also allows for addition arguments that are related to the Stan model. In the example above, the values listed for `chains`, `iter`, `adapt_delta` and `max_treedepth` are the default values, so need have not been specified. However, depending on the context, it may make sense to increase the value of each of these components to ensure convergence. More details about these arguments can be found in the `R` help files for `rstan::stan`, and also by referring to the [Stan documentation](https://mc-stan.org/users/documentation/). 
