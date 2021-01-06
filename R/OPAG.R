@@ -9,7 +9,6 @@
 
 
 
-
 # Author: tim
 ###############################################################################
 # distribute population in open age group over higher ages.
