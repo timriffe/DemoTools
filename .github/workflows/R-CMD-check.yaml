@@ -76,7 +76,7 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           export DISPLAY=:99
-          Rscript -e 'remotes::install_deps(dependencies = TRUE); remotes::install_cran("rcmdcheck")'
+          Rscript -e 'install.packages("rgl"); remotes::install_deps(dependencies = TRUE); remotes::install_cran("rcmdcheck")'
 
       - name: Install dependencies Windows
         if: runner.os == 'Windows'
