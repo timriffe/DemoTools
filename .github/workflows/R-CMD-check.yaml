@@ -105,7 +105,9 @@ jobs:
         shell: Rscript {0}
 
       - name: Test coverage
-        run: covr::codecov()
+        run: |
+          remotes::install_cran("covr")
+          covr::codecov()
         shell: Rscript {0}
 
       - name: Upload check results
