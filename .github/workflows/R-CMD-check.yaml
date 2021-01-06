@@ -81,7 +81,7 @@ jobs:
           export DISPLAY=:99
           Rscript -e 'remotes::install_deps(dependencies = TRUE); remotes::install_cran("rcmdcheck")'
 
-      - name: Install dependencies windows
+      - name: Install packages windows
         if: runner.os == 'Windows'
         run: |
           remotes::install_deps(dependencies = TRUE)
