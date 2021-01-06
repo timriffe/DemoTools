@@ -61,9 +61,11 @@ jobs:
         run: |
           brew cask install xquartz
 
+      # Adds manual deps to rgl in first line
       - name: Linux dependencies
         if: runner.os == 'Linux'
         run: |
+          sudo apt-get install libglu1-mesa-dev libv8-dev
           while read -r cmd
           do
             eval sudo $cmd
