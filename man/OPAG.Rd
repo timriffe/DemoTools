@@ -77,14 +77,14 @@ Pop            <- smooth_age_5(pop1m_ind,
                          Age = 0:100,
                          method = "Arriaga")
 Age_Pop        <- names2age(Pop)
-AgeInt_Pop     <- age2int(Age_Pop, OAvalue = 1) 
+AgeInt_Pop     <- age2int(Age_Pop, OAvalue = 1)
 
 nLx            <- downloadnLx(NULL, "India","male",1991)
 Age_nLx        <- names2age(nLx)
 AgeInt_nLx     <- age2int(Age_nLx, OAvalue = 1)
 
-Pop_fit <- OPAG(Pop, 
-    Age_Pop = Age_Pop, 
+Pop_fit <- OPAG(Pop,
+    Age_Pop = Age_Pop,
     AgeInt_Pop = AgeInt_Pop,
     nLx = nLx,
     Age_nLx = Age_nLx,
