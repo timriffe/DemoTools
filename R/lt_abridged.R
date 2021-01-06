@@ -204,8 +204,6 @@ lt_abridged <- function(Deaths = NULL,
   # this functionality is intended for extrapolation and not
   # model overwriting of rates.
   stopifnot(extrapFrom <= max(Age))
-  # TR: should we really be this strict?
-  stopifnot(OAnew <= 110)
   # need to make it possible to start w (D,E), M, q or l...
 
   # TR: make sure IMR propagates
