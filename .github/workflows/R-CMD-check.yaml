@@ -85,6 +85,7 @@ jobs:
           remotes::install_cran("rcmdcheck")
           # Installing dev version of stan.
           # See https://discourse.mc-stan.org/t/new-error-cleanup-makevar-old-argument-rmu-is-missing-with-no-default/18137/51
+          install.packages("git2r")
           source("https://raw.githubusercontent.com/stan-dev/rstan/develop/StanHeaders/install-github.R")
           install_StanHeaders(rstan_branch = "develop", math_branch = "StanHeaders_2.21", library_branch = "StanHeaders_2.21")
         shell: Rscript {0}
