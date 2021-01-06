@@ -114,17 +114,14 @@ jobs:
         run: covr::codecov()
         shell: Rscript {0}
 
-        # Why is this needed? I'm not sure but in the r-lib examples
-        # they install the package before deploying it to pkgdown
-      - name: Install package
-        run: |
-          export DISPLAY=:99
-          R CMD INSTALL .
-
         # To make things simpler, limit pkgdown deploy only to one OS
+        # Why export DISPLAY? Search for this term throughout this file
+        # for thorough explanation.
       - name: Deploy package website to pkgdown
         if: runner.os == 'Linux'
         run: |
+          export DISPLAY=:99
+          R CMD INSTALL .
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           Rscript -e 'install.packages("pkgdown"); pkgdown::deploy_to_branch(new_process = FALSE)'
