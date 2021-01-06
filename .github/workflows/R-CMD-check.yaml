@@ -31,6 +31,9 @@ jobs:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      # prevent rgl issues because no X11 display is available
+      RGL_USE_NULL: true
+
 
     steps:
       - uses: actions/checkout@v2
@@ -40,6 +43,13 @@ jobs:
           r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-pandoc@v1
+
+     # These dependencies are needed for rgl
+     - name: macOS dependencies
+       if: runner.os == 'macOS'
+       run: |
+         export DISPLAY=:99
+         brew cask install xquartz
 
       - name: Query dependencies
         run: |
