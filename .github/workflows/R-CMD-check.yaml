@@ -112,6 +112,17 @@ jobs:
         run: covr::codecov()
         shell: Rscript {0}
 
+      - name: Install package
+        run: R CMD INSTALL .
+
+        # To make things simpler, limit pkgdown deploy only to one OS
+      - name: Deploy package website to pkgdown
+        if: runner.os == 'Linux'
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
+
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@main
