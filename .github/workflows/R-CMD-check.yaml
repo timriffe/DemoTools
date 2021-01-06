@@ -83,9 +83,10 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
-          # Installing this specific withr version fixes a rstan problem
+          # Installing dev version of stan.
           # See https://discourse.mc-stan.org/t/new-error-cleanup-makevar-old-argument-rmu-is-missing-with-no-default/18137/51
-          remotes::install_github("stan-dev/rstan/rstan/rstan")
+          source("https://raw.githubusercontent.com/stan-dev/rstan/develop/StanHeaders/install-github.R")
+          install_StanHeaders(rstan_branch = "develop", math_branch = "StanHeaders_2.21", library_branch = "StanHeaders_2.21")
         shell: Rscript {0}
 
         # Why a separate check for macOS/Linux? Because rgl needs to export DISPLAY
