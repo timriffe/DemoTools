@@ -33,14 +33,11 @@ jobs:
       # prevent rgl issues because no X11 display is available
       RGL_USE_NULL: true
 
-
     steps:
       - uses: actions/checkout@v2
-
       - uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
-
       - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Query dependencies
@@ -58,6 +55,7 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
+      # To install rgl in macOS it needs xquartz
       - name: macOS dependencies
         if: runner.os == 'macOS'
         run: |
@@ -71,11 +69,12 @@ jobs:
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
 
+      # To install rgl successfully in non-windows OS we need to export DISPLAY
       - name: Install packages not windows
         if: runner.os != 'Windows'
         run: |
           export DISPLAY=:99
-          Rscript -e 'install.packages("rgl"); remotes::install_deps(dependencies = TRUE); remotes::install_cran("rcmdcheck")'
+          Rscript -e 'remotes::install_deps(dependencies = TRUE); remotes::install_cran("rcmdcheck")'
 
       - name: Install dependencies windows
         if: runner.os == 'Windows'
@@ -87,6 +86,8 @@ jobs:
           remotes::install_version("withr", version = "2.2.0")
         shell: Rscript {0}
 
+        # Why a separate check for macOS/Linux? Because rgl needs to export DISPLAY
+        # in the check as well (this is also present for installing)
       - name: Check in macOS/Linux
         if: runner.os != 'Windows'
         env:
