@@ -107,7 +107,7 @@ jobs:
         # To make things simple we only run code coverage on linux
         # because rstan generates problems installing
       - name: Test coverage
-        if: runner.os == "Linux"
+        if: runner.os == 'Linux'
         run: covr::codecov()
         shell: Rscript {0}
 
