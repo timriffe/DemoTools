@@ -86,16 +86,16 @@ jobs:
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
-      - name: Check in macOS
-        if: runner.os == 'macOS'
+      - name: Check in macOS/Linux
+        if: runner.os != 'Windows'
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: |
-          brew cask install xquartz
+          export DISPLAY=:99
           Rscript -e 'rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")'
 
-      - name: Check
-        if: runner.os != 'macOS'
+      - name: Check in Windows
+        if: runner.os == 'Windows'
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
