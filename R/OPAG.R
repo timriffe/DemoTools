@@ -4,11 +4,11 @@
 #    [ ] what happens when one input is in a different age group than another?
 # [ ] OPAG_simple() should allow for non-single ages
 # [ ] add unit tests
+#    [ ] check for age group commensurability and warn if necessary
 # [ ] add more examples to OPAG?
 # [ ] remove rownames message from DownloadLx(), haha
-
-
-
+# [ ] test OPAG_simple() with non-single ages groups, update documentation if necessary.
+# [ ] harmonize args betwenn OPAG_simple and OPAG family.
 
 # Author: tim
 ###############################################################################
@@ -72,9 +72,9 @@ OPAG_simple    <-
            StPop,
            StAge,
            OAnew = max(StAge)) {
-    # assume single
-    stopifnot(is_single(Age))
-    stopifnot(is_single(StAge))
+    # # assume single
+    # stopifnot(is_single(Age))
+    # stopifnot(is_single(StAge))
     # OAG can be less than or equal to max age
     stopifnot(OAnow %in% Age)
     # age and pop vectors must match lengths, assume ordered
