@@ -44,12 +44,6 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-     - name: macOS dependencies
-       if: runner.os == 'macOS'
-       run: |
-         export DISPLAY=:99
-         brew cask install xquartz
-
       - name: Query dependencies
         run: |
           install.packages('remotes')
@@ -64,6 +58,12 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+
+      - name: macOS dependencies
+        if: runner.os == 'macOS'
+        run: |
+          export DISPLAY=:99
+          brew cask install xquartz
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
