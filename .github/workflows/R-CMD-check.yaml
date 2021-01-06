@@ -112,6 +112,8 @@ jobs:
         run: covr::codecov()
         shell: Rscript {0}
 
+        # Why is this needed? I'm not sure but in the r-lib examples
+        # they install the package before deploying it to pkgdown
       - name: Install package
         run: |
           export DISPLAY=:99
