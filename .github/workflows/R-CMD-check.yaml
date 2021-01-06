@@ -62,7 +62,6 @@ jobs:
       - name: macOS dependencies
         if: runner.os == 'macOS'
         run: |
-          export DISPLAY=:99
           brew cask install xquartz
 
       - name: Install system dependencies
@@ -72,6 +71,12 @@ jobs:
           do
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
+
+      - name: Install dependencies macOS
+        if: runner.os != "Windows"
+        run: |
+          export DISPLAY=:99
+          Rscript -e "remotes::install_deps(dependencies = TRUE); remotes::install_cran("rcmdcheck")"
 
       - name: Install dependencies
         run: |
