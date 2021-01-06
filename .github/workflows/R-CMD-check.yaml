@@ -44,7 +44,6 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-     # These dependencies are needed for rgl
      - name: macOS dependencies
        if: runner.os == 'macOS'
        run: |
