@@ -86,7 +86,7 @@ jobs:
           remotes::install_cran("rcmdcheck")
           # Installing this specific withr version fixes a rstan problem
           # See https://discourse.mc-stan.org/t/new-error-cleanup-makevar-old-argument-rmu-is-missing-with-no-default/18137/51
-          devtools::install_version("withr", version = "2.2.0")
+          remotes::install_version("withr", version = "2.2.0")
         shell: Rscript {0}
 
       - name: Check in macOS/Linux
