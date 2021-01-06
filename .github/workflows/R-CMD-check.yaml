@@ -89,7 +89,6 @@ jobs:
           # Installing dev version of stan.
           # See https://discourse.mc-stan.org/t/new-error-cleanup-makevar-old-argument-rmu-is-missing-with-no-default/18137/51
           remotes::install_version("withr", version = "2.2.0")
-          remotes::install_github("stan-dev/rstan", ref = "develop", subdir = "rstan/rstan", build_opts = "")
         shell: Rscript {0}
 
         # Why a separate check for macOS/Linux? Because rgl needs to export DISPLAY
