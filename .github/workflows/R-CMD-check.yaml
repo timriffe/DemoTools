@@ -104,10 +104,11 @@ jobs:
         run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
+        # To make things simple we only run code coverage on linux
+        # because rstan generates problems installing
       - name: Test coverage
-        run: |
-          remotes::install_cran("covr")
-          covr::codecov()
+        if: runner.os == "Linux"
+        run: covr::codecov()
         shell: Rscript {0}
 
       - name: Upload check results
