@@ -64,21 +64,22 @@ jobs:
         run: |
           brew cask install xquartz
 
-      - name: Install system dependencies
+      - name: Linux dependencies
         if: runner.os == 'Linux'
         run: |
+          sudo apt-get install libglu1-mesa-dev libv8-dev
           while read -r cmd
           do
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
 
-      - name: Install dependencies not Windows
+      - name: Install packages not windows
         if: runner.os != 'Windows'
         run: |
           export DISPLAY=:99
           Rscript -e 'install.packages("rgl"); remotes::install_deps(dependencies = TRUE); remotes::install_cran("rcmdcheck")'
 
-      - name: Install dependencies Windows
+      - name: Install dependencies windows
         if: runner.os == 'Windows'
         run: |
           remotes::install_deps(dependencies = TRUE)
