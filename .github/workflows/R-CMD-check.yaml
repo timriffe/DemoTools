@@ -113,7 +113,9 @@ jobs:
         shell: Rscript {0}
 
       - name: Install package
-        run: R CMD INSTALL .
+        run: |
+          export DISPLAY=:99
+          R CMD INSTALL .
 
         # To make things simpler, limit pkgdown deploy only to one OS
       - name: Deploy package website to pkgdown
