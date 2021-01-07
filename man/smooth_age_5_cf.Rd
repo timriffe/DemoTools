@@ -4,7 +4,7 @@
 \alias{smooth_age_5_cf}
 \title{The Carrier-Farrag method of population count smoothing}
 \usage{
-smooth_age_5_cf(Value, Age, OAG = TRUE)
+smooth_age_5_cf(Value, Age, OAG = TRUE, start_on = 0)
 }
 \arguments{
 \item{Value}{numeric vector of counts in single, abridged, or 5-year age groups.}
@@ -12,6 +12,8 @@ smooth_age_5_cf(Value, Age, OAG = TRUE)
 \item{Age}{numeric vector of ages corresponding to the lower integer bound of the counts.}
 
 \item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
+
+\item{start_on}{integer. Either 0 or 5. Do we constrain decades starting on the 0s or 5s?}
 }
 \value{
 numeric vector of smoothed counts in 5-year age groups.

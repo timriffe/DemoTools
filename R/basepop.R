@@ -156,6 +156,8 @@
 #' (these are the population counts in `Females_five` and
 #' \code{Males_five}). Can either be a decimal date, a `Date` class
 #'
+#' @param Age integer vector of lower bounds of abridged age groups given in `Females_five` and `Males_five`.
+#'
 #' @param Females_five A named numeric vector with the population counts for
 #' five-year abridged age groups for females in `refDate`. The names of the
 #' vector should reflect the age groups. See the example section for some
@@ -825,7 +827,7 @@ ArgsCheck <- function(ArgList) {
       ncol(nLxFemale) == length(nLxDatesIn),
       ncol(nLxMale) == length(nLxDatesIn)
       # TR no check on ASFRmat dates?
-    )})
+    )}) 
 }
 
 
@@ -848,16 +850,28 @@ lt_infer_radix_from_1L0 <- function(L0){
   the_radix
 }
 
-# TR: radix removed, as it seems lx was 1 but nLx was based on 1e5...
-# will use indirect inference.
+#' Extract Lx estimates from WPP2019
+#' @description We use the `FetchLifeTableWpp2019` function of the `fertestr` to extract `Lx` from `wpp2019`, interpolated to an exact date.
+#' @param nLx either `NULL` or a numeric vector of lifetable exposure. If it's the second then we just pass it back.
+#' @param country character country name available UN Pop Div `LocName` set
+#' @param gender `"male"`, `"female"`, or `"both"`
+#' @param nLxDatesIn numeric vector of three decimal dates produced by (or passed through) `basepop_ive()`
+#'
+#' @return numeric matrix of `nLx` with `length(nLxDatesIn)` and abrdiged ages in rows.
+#' @export
+#'
+#' @importFrom rlang .data
 downloadnLx <- function(nLx, country, gender, nLxDatesIn) {
-require(magrittr)
+  requireNamespace("fertestr", quietly = TRUE)
+  requireNamespace("magrittr", quietly = TRUE)
+  requireNamespace("dplyr", quietly = TRUE)
   verbose <- getOption("basepop_verbose", TRUE)
     if (!is.null(nLx)) {
       # TR: ensure colnames passed
+      nLx <- as.matrix(nLx)
       colnames(nLx) <- nLxDatesIn
-      n <- nrow(nLx)
-      Age <- c(0,1,seq(5,(n-2)*5,by=5))
+      n             <- nrow(nLx)
+      Age           <- c(0,1,seq(5,(n-2)*5,by=5))
       rownames(nLx) <- Age
       return(nLx)
     }
@@ -872,18 +886,18 @@ require(magrittr)
   nLx <-
     lapply(nLxDatesIn, function(x) {
       fertestr::FetchLifeTableWpp2019(country, x, gender)$Lx
-    }) %>% do.call("cbind",.)
+    }) %>% dplyr::bind_cols() %>% as.matrix()
 
   colnames(nLx) <- nLxDatesIn
-  n <- nrow(nLx)
-  Age <- c(0,1,seq(5,(n-2)*5,by=5))
+  n             <- nrow(nLx)
+  Age           <- c(0,1,seq(5,(n-2)*5,by=5))
   rownames(nLx) <- Age
   return(nLx)
    }
 }
 
 downloadAsfr <- function(Asfrmat, country, AsfrDatesIn) {
-
+  requireNamespace("fertestr", quietly = TRUE)
   verbose <- getOption("basepop_verbose", TRUE)
 
   if (!is.null(Asfrmat)) {
@@ -900,18 +914,31 @@ downloadAsfr <- function(Asfrmat, country, AsfrDatesIn) {
         cat(paste0("Downloading Asfr data for ", country, ", year ", x), sep = "\n")
       }
 
-      res <- fertestr::FetchFertilityWpp2019(country, x)["asfr"]
+      res        <- fertestr::FetchFertilityWpp2019(country, x)["asfr"]
       names(res) <- NULL
       as.matrix(res)[2:nrow(res), , drop = FALSE]
     })
 
-  Asfrmat <- do.call(cbind, tmp)
+  Asfrmat           <- do.call(cbind, tmp)
   colnames(Asfrmat) <- AsfrDatesIn
   Asfrmat
 }
 
+#' Extract SRB estimates from WPP2019
+#' @description We use the `WPP2019_births` dataset from `DemoToolsData` for the sex ratio at birth. Births from WPP 2019 were graduates to single year totals. 
+#' @param SRB sex ratio at birth. Either `NULL`, a scalar to assume constant, or a vector of length 3, assumed.
+#' @param country character country name available UN Pop Div `LocName` set
+#' @param DatesOut numeric vector of three decimal dates produced by `basepop_ive()`
+#'
+#' @return numeric vector with three SRB estimates
+#' @export
+#'
+#' @importFrom rlang .data
 
 downloadSRB <- function(SRB, country, DatesOut){
+  requireNamespace("dplyr", quietly = TRUE)
+  requireNamespace("DemoToolsData", quietly = TRUE)
+  requireNamespace("rlang", quietly = TRUE) # for .data
   verbose <- getOption("basepop_verbose", TRUE)
   
   WPP2019_births <- DemoToolsData::WPP2019_births 
@@ -922,8 +949,8 @@ downloadSRB <- function(SRB, country, DatesOut){
     # over the period represented by each cetral date?
      
       SRB <- WPP2019_births %>% 
-               dplyr::filter(LocName == country,
-                             Year %in% floor(DatesOut)) %>% 
+               dplyr::filter(.data$LocName == country,
+                             .data$Year %in% floor(DatesOut)) %>% 
                dplyr::pull(SRB)
     }  else {
       if (verbose){
@@ -943,7 +970,7 @@ downloadSRB <- function(SRB, country, DatesOut){
     
   # if given but not with 3 elements then repeat and cut as necessary
   if (is.numeric(SRB) & length(SRB) != 3){
-    SRB <- rep(SRB,3)[1:3]
+    SRB <- rep(SRB, 3)[1:3]
   }
   names(SRB) <-  DatesOut
   # return, potentially the same as input
