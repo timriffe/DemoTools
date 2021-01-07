@@ -158,98 +158,101 @@ interp_coh_bare <- function(c1, c2, date1, date2, age1, age2, ...){
   return(out)
   
 }
-# test change
-# 
-# canvas <-  interpolated_period_mat %>%
-#   as_tibble(rownames = "age") %>%
-#   pivot_longer(names_to = "year", values_to = "value", cols = -age) %>%
-#   mutate(
-#     age = age %>% as.numeric,
-#     year = year %>% as.numeric,
-#     cohort = year - age
-#   ) %>%
-#   view
-# 
-# patch <- interpolated_coh_mat %>%
-#   as_tibble(rownames = "cohort") %>%
-#   pivot_longer(
-#     names_to = "year", values_to = "value", cols = -1,
-#     values_drop_na = TRUE
-#   )%>%
-#   mutate(
-#     cohort = cohort %>% as.numeric,
-#     year = year %>% as.numeric,
-#     age = year - (cohort+1)
-#   ) %>%
-#   view
-# 
-# final <- canvas %>%
-#   # rows_upsert(
-#   #   patch %>% filter(!year %in% c(2020, 2026)),
-#   #   by = c("age", "year")
-#   # ) %>%
-#   select(-cohort) %>%
-#   pivot_wider(names_from = year)
-# 
-# 
-# 
-# 
-# view_ap <- function(long_apc_df) {
-#   long_apc_df %>%
-#     select(-cohort) %>%
-#     pivot_wider(names_from = year)
+
+
+canvas <-  interpolated_period_mat %>%
+  as_tibble(rownames = "age") %>%
+  pivot_longer(names_to = "year", values_to = "value", cols = -age) %>%
+  mutate(
+    age = age %>% as.numeric,
+    year = year %>% as.numeric,
+    cohort = year - age
+  ) %>%
+  view
+
+patch <- interpolated_coh_mat %>%
+  as_tibble(rownames = "cohort") %>%
+  pivot_longer(
+    names_to = "year", values_to = "value", cols = -1,
+    values_drop_na = TRUE
+  )%>%
+  mutate(
+    cohort = cohort %>% as.numeric,
+    year = year %>% as.numeric,
+    age = year - (cohort+1)
+  ) %>%
+  view
+
+final <- canvas %>%
+  # rows_upsert(
+  #   patch %>% filter(!year %in% c(2020, 2026)),
+  #   by = c("age", "year")
+  # ) %>%
+  select(-cohort) %>%
+  pivot_wider(names_from = year)
+
+
+
+
+view_ap <- function(long_apc_df) {
+  long_apc_df %>%
+    select(-cohort) %>%
+    pivot_wider(names_from = year)
+}
+
+patch %>% view_ap
+
+canvas %>% view_ap
+
+
+foo <- interp_coh_download_mortality("France","male","1971-02-14","1978-07-01")
+
+foo %>% 
+  
+  
+  # try out
+  #
+  # boo <- interpolated_period_mat
+  #
+  # boo[is.numeric(boo)] <- 0
+  #
+  # foo <- interpolated_coh_mat
+  #
+  #
+#
+# for (i in dimnames(foo)[[2]]) {
+#
+#   replacement <- foo[,i]
+#   ages <- as.numeric(i) - as.numeric(names(replacement))
+#
+#   boo[ages,i] <- replacement
 # }
-# 
-# patch %>% view_ap
-# 
-# canvas %>% view_ap
-# 
-# 
-# foo <- interp_coh_download_mortality("France","male","1971-02-14","1978-07-01")
-# 
-# # try out
-# #
-# # boo <- interpolated_period_mat
-# #
-# # boo[is.numeric(boo)] <- 0
-# #
-# # foo <- interpolated_coh_mat
-# #
-# #
-# #
-# # for (i in dimnames(foo)[[2]]) {
-# #
-# #   replacement <- foo[,i]
-# #   ages <- as.numeric(i) - as.numeric(names(replacement))
-# #
-# #   boo[ages,i] <- replacement
-# # }
-# 
-# microbenchmark::microbenchmark(
-#   base = {
-#     for (i in dimnames(interpolated_coh_mat)[[2]]) {
-#       # take the i-th column from cohort interpolated matrix
-#       replacement <- interpolated_coh_mat[,i]
-#       # calculate the corresponding ages fo the interpolated values
-#       ages <- as.numeric(i) - as.numeric(names(replacement))
-#       # overwrite the cohort values in the period matrix
-#       interpolated_period_mat[ages,i] <- replacement
-#     }
-#   },
-#   tidy = {
-# 
-#     final <- canvas %>%
-#       rows_upsert(patch, by = c("age", "year")) %>%
-#       select(-cohort) %>%
-#       pivot_wider(names_from = year)
-#   },
-#   join = {
-#     jouned <- canvas %>%
-#       select(-cohort) %>%
-#       left_join(patch %>% select(-cohort),
-#                 by = c("age", "year")) %>%
-#       transmute(age, year,
-#                 value = case_when(!is.na(value.y)~value.y, TRUE~value.x)) %>%
-#       pivot_wider(names_from = year)
-#   }
-# )
+
+microbenchmark::microbenchmark(
+  base = {
+    for (i in dimnames(interpolated_coh_mat)[[2]]) {
+      # take the i-th column from cohort interpolated matrix
+      replacement <- interpolated_coh_mat[,i]
+      # calculate the corresponding ages fo the interpolated values
+      ages <- as.numeric(i) - as.numeric(names(replacement))
+      # overwrite the cohort values in the period matrix
+      interpolated_period_mat[ages,i] <- replacement
+    }
+  },
+  tidy = {
+    
+    final <- canvas %>%
+      rows_upsert(patch, by = c("age", "year")) %>%
+      select(-cohort) %>%
+      pivot_wider(names_from = year)
+  },
+  join = {
+    jouned <- canvas %>%
+      select(-cohort) %>%
+      left_join(patch %>% select(-cohort),
+                by = c("age", "year")) %>%
+      transmute(age, year,
+                value = case_when(!is.na(value.y)~value.y, TRUE~value.x)) %>%
+      pivot_wider(names_from = year)
+  }
+)
