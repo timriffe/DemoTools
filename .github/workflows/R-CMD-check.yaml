@@ -106,7 +106,10 @@ jobs:
         # Once the CRAN version of rstan is above 2.21.2, you can remove the run:
         # below and uncomment the next two lines. See here:
         # https://community.rstudio.com/t/cant-install-rstan-and-run-rcmdcheck-in-github-actions/92586/2
-        run: R CMD build . && R CMD check *tar.gz
+        run: |
+          install.packages("devools")
+          devtools::check()
+        shell: Rscript{0}
         # run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
         # shell: Rscript {0}
 
