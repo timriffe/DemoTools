@@ -89,11 +89,8 @@ jobs:
           # Installing dev version of stan.
           # See https://discourse.mc-stan.org/t/new-error-cleanup-makevar-old-argument-rmu-is-missing-with-no-default/18137/51
           # remotes::install_version("withr", version = "2.2.0")
-          install.packages("pkgbuild")
-          rt_path = gsub("\\","/",pkgbuild::rtools_path(),fixed=T)
-          rt_bin = paste0(substr(rt_path,1,nchar(rt_path)-4),"/mingw_$(WIN)/bin/")
-          writeLines(paste0('PATH="',rt_path,';${PATH}"'), con = "~/.Renviron")
-          writeLines(paste0('Sys.setenv(BINPREF = "',rt_bin,'")'), con = "~/.Rprofile")
+          writeLines('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', con = "~/.Renviron")
+          Sys.which("make")
           install.packages("jsonlite", type = "source")
         shell: Rscript {0}
 
