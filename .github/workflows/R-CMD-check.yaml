@@ -88,10 +88,12 @@ jobs:
           remotes::install_cran("rcmdcheck")
           # Installing dev version of stan.
           # See https://discourse.mc-stan.org/t/new-error-cleanup-makevar-old-argument-rmu-is-missing-with-no-default/18137/51
-          # remotes::install_version("withr", version = "2.2.0")
-          writeLines('PATH="${RTOOLS40_HOME}\\usr\\bin;${PATH}"', con = "~/.Renviron")
-          Sys.which("make")
-          install.packages("jsonlite", type = "source")
+          dotR <- file.path(Sys.getenv("HOME"), ".R")
+          if (!file.exists(dotR)) dir.create(dotR)
+          M <- file.path(dotR, "Makevars.win")
+          if (!file.exists(M)) file.create(M)
+          cat("\n CXX14FLAGS += -mtune=native -O3 -mmmx -msse -msse2 -msse3 -mssse3 -msse4.1 -msse4.2", file = M, sep = "\n", append = FALSE)
+          remotes::install_github("stan-dev/rstan", ref = "develop", subdir = "rstan/rstan", build_opts = "")
         shell: Rscript {0}
 
         # Why a separate check for macOS/Linux? Because rgl needs to export DISPLAY
