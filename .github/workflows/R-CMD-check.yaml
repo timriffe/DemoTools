@@ -86,14 +86,7 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
-          # Installing dev version of stan.
-          # See https://discourse.mc-stan.org/t/new-error-cleanup-makevar-old-argument-rmu-is-missing-with-no-default/18137/51
-          dotR <- file.path(Sys.getenv("HOME"), ".R")
-          if (!file.exists(dotR)) dir.create(dotR)
-          M <- file.path(dotR, "Makevars.win")
-          if (!file.exists(M)) file.create(M)
-          cat("\n CXX14FLAGS += -mtune=native -O3 -mmmx -msse -msse2 -msse3 -mssse3 -msse4.1 -msse4.2", file = M, sep = "\n", append = FALSE)
-          remotes::install_github("stan-dev/rstan", ref = "develop", subdir = "rstan/rstan", build_opts = "")
+          remotes::install_version("withr", version = "2.2.0")
         shell: Rscript {0}
 
         # Why a separate check for macOS/Linux? Because rgl needs to export DISPLAY
@@ -110,8 +103,12 @@ jobs:
         if: runner.os == 'Windows'
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
-        shell: Rscript {0}
+        # Once the CRAN version of rstan is above 2.21.2, you can remove the run:
+        # below and uncomment the next two lines. See here:
+        # https://community.rstudio.com/t/cant-install-rstan-and-run-rcmdcheck-in-github-actions/92586/2
+        run: R CMD build . && R CMD check *tar.gz
+        # run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
+        # shell: Rscript {0}
 
         # To make things simple we only run code coverage on linux
         # because rstan generates problems installing
