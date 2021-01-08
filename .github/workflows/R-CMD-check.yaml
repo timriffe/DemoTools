@@ -86,8 +86,6 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
-          remotes::install_version("withr", version = "2.2.0")
-          install.packages("devtools")
         shell: Rscript {0}
 
         # Why a separate check for macOS/Linux? Because rgl needs to export DISPLAY
@@ -104,14 +102,8 @@ jobs:
         if: runner.os == 'Windows'
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        # Once the CRAN version of rstan is above 2.21.2, you can remove the run:
-        # below and uncomment the next two lines. See here:
-        # https://community.rstudio.com/t/cant-install-rstan-and-run-rcmdcheck-in-github-actions/92586/2
-        run: |
-          devtools::check()
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
-        # run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
-        # shell: Rscript {0}
 
         # To make things simple we only run code coverage on linux
         # because rstan generates problems installing
