@@ -87,7 +87,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           remotes::install_version("withr", version = "2.2.0")
-          install.packages("devools")
+          install.packages("devtools")
         shell: Rscript {0}
 
         # Why a separate check for macOS/Linux? Because rgl needs to export DISPLAY
