@@ -87,6 +87,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           remotes::install_version("withr", version = "2.2.0")
+          install.packages("devools")
         shell: Rscript {0}
 
         # Why a separate check for macOS/Linux? Because rgl needs to export DISPLAY
@@ -107,7 +108,6 @@ jobs:
         # below and uncomment the next two lines. See here:
         # https://community.rstudio.com/t/cant-install-rstan-and-run-rcmdcheck-in-github-actions/92586/2
         run: |
-          install.packages("devools")
           devtools::check()
         shell: Rscript {0}
         # run: rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "warning", check_dir = "check")
