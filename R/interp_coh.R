@@ -218,15 +218,19 @@ census_cohort_adjust <- function(pop, age, date){
 
 
 # the survival probabilities approach -------------------------------------
-
-foo <- interp_coh_download_mortality("Russian Federation","male","2002-10-16","2010-10-25")
+load_this <- FALSE
+if (load_this) {
+  # blocking this off lets us to devtools::load_all()
+  library(magrittr)
+  library(tidyverse)
+pxt <- suppressMessages(interp_coh_download_mortality("Russian Federation","male","2002-10-16","2010-10-25"))
 # a note for future: interp_coh_download_mortality should use {countrycode} to better match the country names. As of now, just Russia won't work
 
 # convert the AP output to CP 
-px_triangles <- foo %>% 
+px_triangles <- pxt %>% 
   as_tibble(rownames = "age") %>%
   pivot_longer(
-    names_to = "year", values_to = "value", cols = -1,
+    names_to = "year", values_to = "px", cols = -1,
     values_drop_na = TRUE
   ) %>% 
   mutate(
@@ -237,10 +241,10 @@ px_triangles <- foo %>%
   # in triangles
   mutate(
     # year_frac = year - floor(year) # for now just .5 ~ sqrt
-    lower = value %>% raise_to_power(.5), 
-    upper = value %>% raise_to_power(1 - .5) # .5 to be changed to year_frac
+    lower = px %>% raise_to_power(.5), 
+    upper = px %>% raise_to_power(1 - .5) # .5 to be changed to year_frac
   ) %>% 
-  select(-value) %>% 
+  select(-px) %>% 
   pivot_longer(
     names_to = "triangle", values_to = "value", cols = lower:upper
   ) %>% 
@@ -286,13 +290,20 @@ date1 = "2002-10-16"; date2 = "2010-10-25"; age1 = 0:100; age2 = 0:100
 date1 <- dec.date(date1)
 date2 <- dec.date(date2)
 
-# !!! do we plan to allow age1 != age2 ?
+# IK: do we plan to allow age1 != age2 ?
+# TR: for now we force them to be equal. Later a wrapper can take care of cleaning up these details.
+# we have OPAG() to extend open ages; graduate() to spit to single-
+# any other adjustments should be done in advance (smoothing, __ )
 
 c1c <-census_cohort_adjust(c1, age1, date1)
 c2c <-census_cohort_adjust(c2, age2, date2)
 
-# correction for the first year age 0 -- only take firsth for the remaining of the year
-births[1] <- births[1] * (1 - c1c$f1)
+# correction for the first year age 0 -- only take first for the remaining of the year
+births[1] <- births[1] * (1 - c1c$f1) # TR: good
+
+# TR: correction for the last year age 0
+Nyrs <- length(births)
+births[Nyrs] <- births[Nyrs] * c2c$f1
 
 # input
 input <- tibble(
@@ -302,7 +313,7 @@ input <- tibble(
   arrange(cohort) %>% 
   bind_rows(
     tibble(
-      cohort = 1:length(births) + floor(c1c$date) -1,
+      cohort = 1:length(births) + floor(c1c$date) - 1,
       pop = births
     )
   ) %>% 
@@ -338,3 +349,9 @@ pc_pc <- px_triangles %>%
     n_triangles = n(),
     coh_p = value %>% prod
   )
+
+
+
+
+
+}
