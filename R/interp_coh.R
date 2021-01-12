@@ -49,7 +49,6 @@ census_cohort_adjust <- function(pop, age, date){
 #
 # interp()
 
-# c1 = seq(10000,10,length.out = 10); c2 = seq(15000,10,length.out = 10); date1 = "2020-07-01"; date2 = "2025-10-14"; age1 = 0:9; age2 = 0:9
 
 #' component-free intercensalcohort interpolation
 #' @description Cohorts between two censuses are interpolated flexibly using linear, exponential, or power rules. The lower and upper intercensal triangles are filled using within-age interpolation. This function is experimental and still in development.
@@ -61,104 +60,113 @@ census_cohort_adjust <- function(pop, age, date){
 #' @param age1 integer vector. single ages of `c1`
 #' @param age2 integer vector. single ages of `c2` 
 #' @export
-interp_coh_bare <- function(c1, c2, date1, date2, age1, age2, ...){
-  
-  date1 <- dec.date(date1)
-  date2 <- dec.date(date2)
-  
-  # !!! do we plan to allow age1 != age2 ?
-  
-  c1c <-census_cohort_adjust(c1, age1, date1)
-  c2c <-census_cohort_adjust(c2, age2, date2)
-  
-  # Connect cohorts observed (completely) in both censuses
-  obs_coh <- intersect(c1c$cohort, c2c$cohort)
-  
-  # remove first cohort if not observed in full
-  if(c1c$date - c1c$cohort[1] != 1){
-    obs_coh <- obs_coh[-1]
-  }
-  
-  # Tim: select, make some intermediate data objects as necessary
-  
-  # fully observed cohorts in a pop matrix
-  obs_coh_mat <- cbind(
-    c1c$pop[match(obs_coh, c1c$cohort)],
-    c2c$pop[match(obs_coh, c2c$cohort)]
-  ) 
-  # set names 
-  dimnames(obs_coh_mat) <- list(obs_coh, c(c1c$date, c2c$date))
-  
-  # Tim: then use interp()
-  
-  # interpolate
-  dates_in <- dimnames(obs_coh_mat)[[2]] %>% as.numeric()
-  dates_out <- seq(floor(dates_in[1]), ceiling(dates_in[-1]), 1) 
-  # what should be the default behavior here? 
-  # I start off with the one year step period, inclusive
-  
-  interpolated_coh_mat <- interp(
-    popmat = obs_coh_mat, 
-    datesIn = dates_in, 
-    datesOut = dates_out, 
-    method = "linear", 
-    rule = 2
-  )
-  
-  
-  
-  ########
-  
-  # Do something to fill in the lower triangle
-  # The most basic thing (suggested by Patrick)
-  # Just do a between-age interpolation and select out
-  # that triangle.
-  
-  # !!! between-age interpolation
-  period_mat <-  cbind(c1, c2) 
-  # set names 
-  dimnames(period_mat) <- list(age1, c(date1, date2))
-  
-  
-  interpolated_period_mat <- interp(
-    popmat = period_mat, 
-    datesIn = dimnames(period_mat)[[2]] %>% as.numeric(), 
-    datesOut =  seq(floor(dates_in[1]), ceiling(dates_in[-1]), 1) , 
-    method = "linear", 
-    rule = 2
-  )
-  ########
-  
-  # Now fill in the upper triangle, doing something
-  # simple and robust
-  
-  ########
-  
-  # now the task is to take interpolated_period_mat  
-  # and overwrite the matching values from interpolated_coh_mat
-  
-  # achieved using a for loop that iterates across columns
-  # so I use the period interpolated matrix as canvas
-  # and overwrite the matching values from the cohort matrix
-  
-  # dup interpolated_period_mat
-  out <- interpolated_period_mat
-  
-  for (i in dimnames(interpolated_coh_mat)[[2]]) {
-    # take the i-th column from cohort interpolated matrix
-    replacement <- interpolated_coh_mat[,i]
-    # calculate the corresponding ages fo the interpolated values
-    ages <- as.numeric(i) - as.numeric(names(replacement))
-    # overwrite the cohort values in the period matrix
-    out[ages,i] <- replacement
-  }
-  
-  
-  # The remaining task is to frame the output
-  return(out)
-  
-}
-# test change
+#' 
+
+## commenting out interp_coh_bare won't be used
+# interp_coh_bare <- function(c1, c2, date1, date2, age1, age2, ...){
+#   
+#   date1 <- dec.date(date1)
+#   date2 <- dec.date(date2)
+#   
+#   # !!! do we plan to allow age1 != age2 ?
+#   
+#   c1c <-census_cohort_adjust(c1, age1, date1)
+#   c2c <-census_cohort_adjust(c2, age2, date2)
+#   
+#   # Connect cohorts observed (completely) in both censuses
+#   obs_coh <- intersect(c1c$cohort, c2c$cohort)
+#   
+#   # remove first cohort if not observed in full
+#   if(c1c$date - c1c$cohort[1] != 1){
+#     obs_coh <- obs_coh[-1]
+#   }
+#   
+#   # Tim: select, make some intermediate data objects as necessary
+#   
+#   # fully observed cohorts in a pop matrix
+#   obs_coh_mat <- cbind(
+#     c1c$pop[match(obs_coh, c1c$cohort)],
+#     c2c$pop[match(obs_coh, c2c$cohort)]
+#   ) 
+#   # set names 
+#   dimnames(obs_coh_mat) <- list(obs_coh, c(c1c$date, c2c$date))
+#   
+#   # Tim: then use interp()
+#   
+#   # interpolate
+#   dates_in <- dimnames(obs_coh_mat)[[2]] %>% as.numeric()
+#   dates_out <- seq(floor(dates_in[1]), ceiling(dates_in[-1]), 1) 
+#   # what should be the default behavior here? 
+#   # I start off with the one year step period, inclusive
+#   
+#   interpolated_coh_mat <- interp(
+#     popmat = obs_coh_mat, 
+#     datesIn = dates_in, 
+#     datesOut = dates_out, 
+#     method = "linear", 
+#     rule = 2
+#   )
+#   
+#   
+#   
+#   ########
+#   
+#   # Do something to fill in the lower triangle
+#   # The most basic thing (suggested by Patrick)
+#   # Just do a between-age interpolation and select out
+#   # that triangle.
+#   
+#   # !!! between-age interpolation
+#   period_mat <-  cbind(c1, c2) 
+#   # set names 
+#   dimnames(period_mat) <- list(age1, c(date1, date2))
+#   
+#   
+#   interpolated_period_mat <- interp(
+#     popmat = period_mat, 
+#     datesIn = dimnames(period_mat)[[2]] %>% as.numeric(), 
+#     datesOut =  seq(floor(dates_in[1]), ceiling(dates_in[-1]), 1) , 
+#     method = "linear", 
+#     rule = 2
+#   )
+#   ########
+#   
+#   # Now fill in the upper triangle, doing something
+#   # simple and robust
+#   
+#   ########
+#   
+#   # now the task is to take interpolated_period_mat  
+#   # and overwrite the matching values from interpolated_coh_mat
+#   
+#   # achieved using a for loop that iterates across columns
+#   # so I use the period interpolated matrix as canvas
+#   # and overwrite the matching values from the cohort matrix
+#   
+#   # dup interpolated_period_mat
+#   out <- interpolated_period_mat
+#   
+#   for (i in dimnames(interpolated_coh_mat)[[2]]) {
+#     # take the i-th column from cohort interpolated matrix
+#     replacement <- interpolated_coh_mat[,i]
+#     # calculate the corresponding ages fo the interpolated values
+#     ages <- as.numeric(i) - as.numeric(names(replacement))
+#     # overwrite the cohort values in the period matrix
+#     out[ages,i] <- replacement
+#   }
+#   
+#   
+#   # The remaining task is to frame the output
+#   return(out)
+#   
+# }
+# 
+# 
+# # above rudimentary code works; below goes the new development
+# 
+# # c1 = seq(10000,10,length.out = 10); c2 = seq(15000,10,length.out = 10); date1 = "2020-07-01"; date2 = "2025-10-14"; age1 = 0:9; age2 = 0:9
+# 
+# 
 # 
 # canvas <-  interpolated_period_mat %>%
 #   as_tibble(rownames = "age") %>%
@@ -167,8 +175,7 @@ interp_coh_bare <- function(c1, c2, date1, date2, age1, age2, ...){
 #     age = age %>% as.numeric,
 #     year = year %>% as.numeric,
 #     cohort = year - age
-#   ) %>%
-#   view
+#   ) 
 # 
 # patch <- interpolated_coh_mat %>%
 #   as_tibble(rownames = "cohort") %>%
@@ -180,14 +187,13 @@ interp_coh_bare <- function(c1, c2, date1, date2, age1, age2, ...){
 #     cohort = cohort %>% as.numeric,
 #     year = year %>% as.numeric,
 #     age = year - (cohort+1)
-#   ) %>%
-#   view
+#   ) 
 # 
 # final <- canvas %>%
-#   # rows_upsert(
-#   #   patch %>% filter(!year %in% c(2020, 2026)),
-#   #   by = c("age", "year")
-#   # ) %>%
+#   rows_upsert(
+#     patch %>% filter(!year %in% c(2020, 2026)),
+#     by = c("age", "year")
+#   ) %>%
 #   select(-cohort) %>%
 #   pivot_wider(names_from = year)
 # 
@@ -204,52 +210,131 @@ interp_coh_bare <- function(c1, c2, date1, date2, age1, age2, ...){
 # 
 # canvas %>% view_ap
 # 
-# 
-# foo <- interp_coh_download_mortality("France","male","1971-02-14","1978-07-01")
-# 
-# # try out
-# #
-# # boo <- interpolated_period_mat
-# #
-# # boo[is.numeric(boo)] <- 0
-# #
-# # foo <- interpolated_coh_mat
-# #
-# #
-# #
-# # for (i in dimnames(foo)[[2]]) {
-# #
-# #   replacement <- foo[,i]
-# #   ages <- as.numeric(i) - as.numeric(names(replacement))
-# #
-# #   boo[ages,i] <- replacement
-# # }
-# 
-# microbenchmark::microbenchmark(
-#   base = {
-#     for (i in dimnames(interpolated_coh_mat)[[2]]) {
-#       # take the i-th column from cohort interpolated matrix
-#       replacement <- interpolated_coh_mat[,i]
-#       # calculate the corresponding ages fo the interpolated values
-#       ages <- as.numeric(i) - as.numeric(names(replacement))
-#       # overwrite the cohort values in the period matrix
-#       interpolated_period_mat[ages,i] <- replacement
-#     }
-#   },
-#   tidy = {
-# 
-#     final <- canvas %>%
-#       rows_upsert(patch, by = c("age", "year")) %>%
-#       select(-cohort) %>%
-#       pivot_wider(names_from = year)
-#   },
-#   join = {
-#     jouned <- canvas %>%
-#       select(-cohort) %>%
-#       left_join(patch %>% select(-cohort),
-#                 by = c("age", "year")) %>%
-#       transmute(age, year,
-#                 value = case_when(!is.na(value.y)~value.y, TRUE~value.x)) %>%
-#       pivot_wider(names_from = year)
-#   }
-# )
+# final %>% view_ap
+
+
+
+
+
+
+# the survival probabilities approach -------------------------------------
+
+foo <- interp_coh_download_mortality("Russian Federation","male","2002-10-16","2010-10-25")
+# a note for future: interp_coh_download_mortality should use {countrycode} to better match the country names. As of now, just Russia won't work
+
+# convert the AP output to CP 
+px_triangles <- foo %>% 
+  as_tibble(rownames = "age") %>%
+  pivot_longer(
+    names_to = "year", values_to = "value", cols = -1,
+    values_drop_na = TRUE
+  ) %>% 
+  mutate(
+    age = age %>% as.numeric,
+    year = year %>% as.numeric,
+    # cohort = floor(year) - age
+  ) %>% 
+  # in triangles
+  mutate(
+    # year_frac = year - floor(year) # for now just .5 ~ sqrt
+    lower = value %>% raise_to_power(.5), 
+    upper = value %>% raise_to_power(1 - .5) # .5 to be changed to year_frac
+  ) %>% 
+  select(-value) %>% 
+  pivot_longer(
+    names_to = "triangle", values_to = "value", cols = lower:upper
+  ) %>% 
+  mutate(
+    adj = case_when(triangle=="upper" ~ 1, TRUE ~ 0),
+    cohort = year %>% subtract(age) %>% subtract(adj) %>% floor
+  ) 
+
+
+
+# cohort changes over the whole period
+px_cum <- px_triangles %>% 
+  group_by(cohort) %>% 
+  summarise(
+    n_triangles = n(),
+    coh_p = value %>% prod
+  ) %>% 
+  ungroup() %>% 
+  view
+
+# foo %>% interp_coh_tidy_pc("1971-01-14","1978-02-01") %>% view
+
+# # generate two census populations -- single years of age
+# set.seed(911)
+# c1 <- spline(c(6,7,9,8,7,6,4,2,1)*1e3,n = 101)$y * runif(101, 1, 1.1)
+# set.seed(444)
+# c2 <- spline(c(6,7,9,8,7,6,4,2,1)*1e3,n = 101)$y * runif(101, 1.05, 1.15)
+# # births as random +-10% of the c1 and c2 age 0 average
+# births <- runif(6, .9*mean(c1[1], c2[1]), 1.1*mean(c1[1], c2[1])) %>% round
+
+# EXAMPLE DATA: Russian male population from the last two censuses
+# 2002 -- http://www.demoscope.ru/weekly/ssp/rus2002_01.php
+# 2020 -- http://www.demoscope.ru/weekly/ssp/rus_age1_10.php
+rus2002m <- c(682698L, 641551L, 644671L, 644652L, 662998L, 659306L, 678341L, 717053L, 740366L, 753300L, 875113L, 963123L, 1081671L, 1145059L, 1247787L, 1314341L, 1291147L, 1266227L, 1306873L, 1325599L, 1234028L, 1162951L, 1170248L, 1115312L, 1100598L, 1088833L, 1092321L, 1070733L, 1045802L, 1016461L, 1061391L, 994896L, 1007712L, 933628L, 916902L, 929632L, 957895L, 981477L, 1039571L, 1116279L, 1195521L, 1210704L, 1278766L, 1216728L, 1182385L, 1167289L, 1123058L, 1117150L, 1087663L, 998307L, 1035886L, 951627L, 960428L, 963751L, 730354L, 798841L, 604983L, 382611L, 298788L, 280702L, 493677L, 625270L, 694930L, 741777L, 695339L, 693911L, 559111L, 467811L, 358252L, 364999L, 427681L, 405822L, 435844L, 385155L, 379150L, 317841L, 258185L, 193023L, 154406L, 112987L, 89944L, 73858L, 63570L, 54955L, 47194L, 30300L, 28748L, 29419L, 26635L, 20166L, 16673L, 10857L, 8189L, 4839L, 3333L, 2287L, 1458L, 984L, 644L, 488L, 967L)
+rus2010m <- c(842354L, 859562L, 849138L, 788376L, 744105L, 750282L, 748514L, 746626L, 709493L, 675127L, 683827L, 656887L, 678395L, 669374L, 696685L, 743449L, 774172L, 800765L, 923952L, 1035555L, 1167860L, 1187193L, 1252421L, 1300116L, 1262584L, 1247974L, 1230926L, 1249086L, 1156502L, 1125283L, 1182017L, 1088248L, 1073221L, 1038733L, 1051852L, 1046293L, 1008882L, 983045L, 985075L, 949072L, 980924L, 881915L, 866214L, 859808L, 885432L, 926771L, 951739L, 1015812L, 1051749L, 1093184L, 1155128L, 1076307L, 1043777L, 1005283L, 967830L, 964217L, 919814L, 837341L, 841362L, 789019L, 787516L, 775999L, 585545L, 624976L, 471186L, 295668L, 222526L, 205594L, 336318L, 431670L, 471562L, 485883L, 446533L, 438107L, 337694L, 273086L, 198303L, 190828L, 210878L, 195219L, 200564L, 162820L, 151191L, 120794L, 93394L, 66247L, 48072L, 32932L, 23840L, 18087L, 13839L, 10228L, 7790L, 4327L, 3544L, 3137L, 2380L, 1666L, 1137L, 687L, 1379L)
+# MALE BIRTHS IN RUSSIA 2002--2010 (https://www.fedstat.ru/indicator/31606)
+births <- c("719 511", "760 934", "772 973", "749 554", "760 831", "828 772", "880 543", "905 380", "919 639") %>% str_remove(" ") %>% as.numeric()
+
+c1 = rus2002m; c2 = rus2010m
+
+date1 = "2002-10-16"; date2 = "2010-10-25"; age1 = 0:100; age2 = 0:100
+
+date1 <- dec.date(date1)
+date2 <- dec.date(date2)
+
+# !!! do we plan to allow age1 != age2 ?
+
+c1c <-census_cohort_adjust(c1, age1, date1)
+c2c <-census_cohort_adjust(c2, age2, date2)
+
+# correction for the first year age 0 -- only take firsth for the remaining of the year
+births[1] <- births[1] * (1 - c1c$f1)
+
+# input
+input <- tibble(
+  cohort = c1c$cohort,
+  pop = c1c$pop
+) %>% 
+  arrange(cohort) %>% 
+  bind_rows(
+    tibble(
+      cohort = 1:length(births) + floor(c1c$date) -1,
+      pop = births
+    )
+  ) %>% 
+  # treat the duplicated cohort of the first census year, 2002
+  group_by(cohort) %>% 
+  summarise(pop = pop %>% sum) %>% 
+  ungroup()
+
+# population c2 observed
+pop_c2 <- tibble(
+  cohort = c2c$cohort,
+  pop_c2_obs = c2c$pop
+)
+
+# cohort survival to the second census
+input %>% 
+  left_join(px_cum, by = "cohort") %>% 
+  mutate(pop_c2_prj = pop * coh_p) %>% 
+  left_join(pop_c2, by = "cohort") %>% 
+  mutate(
+    discrepancy = pop_c2_obs - pop_c2_prj,
+    disc_rel = discrepancy / pop_c2_obs * 100
+  ) %>% 
+  round() %>% 
+  view() # a correction needed for the last cohort?
+
+
+# now produce the multipliers for cohort changes in the time frame
+# period-cohort parallelograms
+pc_pc <- px_triangles %>% 
+  group_by(year, cohort) %>% 
+  summarise(
+    n_triangles = n(),
+    coh_p = value %>% prod
+  )

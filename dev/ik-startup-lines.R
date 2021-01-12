@@ -3,6 +3,7 @@
 # Sturtup lines to work on package development
 ################################################################################
 
+library(tidyverse)
 library(magrittr)
 library(devtools)
 library(testthat)
