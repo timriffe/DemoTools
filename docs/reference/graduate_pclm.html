@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -207,7 +207,7 @@ Rizzi S, Gampe J, Eilers PH (2015).
 <span class='va'>p1</span>  <span class='op'>&lt;-</span> <span class='fu'>graduate_pclm</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>p5</span>, Age <span class='op'>=</span> <span class='va'>a5</span><span class='op'>)</span>
 <span class='va'>p1s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>p5</span>, Age <span class='op'>=</span> <span class='va'>a5</span><span class='op'>)</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>a5</span>, <span class='va'>p5</span><span class='op'>/</span><span class='fl'>5</span>, type <span class='op'>=</span> <span class='st'>"s"</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>,<span class='fl'>60</span><span class='op'>)</span>,ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2000</span>,<span class='fl'>4000</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>a5</span>, <span class='va'>p5</span><span class='op'>/</span><span class='fl'>5</span>, type <span class='op'>=</span> <span class='st'>"s"</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>,<span class='fl'>60</span><span class='op'>)</span>,ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2000</span>,<span class='fl'>4000</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>p1</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>p1s</span>, lwd <span class='op'>=</span> <span class='fl'>1</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>,lty<span class='op'>=</span><span class='st'>"8282"</span><span class='op'>)</span>
 <span class='op'>}</span>
@@ -222,7 +222,7 @@ Rizzi S, Gampe J, Eilers PH (2015).
               OAnew <span class='op'>=</span> <span class='fl'>85</span>, 
               offset <span class='op'>=</span> <span class='va'>pop.ind</span><span class='op'>)</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>dth.ind</span> <span class='op'>/</span> <span class='va'>pop.ind</span>, type <span class='op'>=</span> <span class='st'>'s'</span>, log <span class='op'>=</span> <span class='st'>'y'</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>85</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>dth.ind</span> <span class='op'>/</span> <span class='va'>pop.ind</span>, type <span class='op'>=</span> <span class='st'>'s'</span>, log <span class='op'>=</span> <span class='st'>'y'</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>85</span><span class='op'>)</span><span class='op'>)</span>
   <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>85</span>, <span class='va'>mx</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
@@ -237,7 +237,7 @@ Rizzi S, Gampe J, Eilers PH (2015).
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
