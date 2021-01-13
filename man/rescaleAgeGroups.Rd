@@ -9,7 +9,7 @@ rescaleAgeGroups(
   AgeInt1,
   Value2,
   AgeInt2,
-  splitfun = c(graduate_uniform, graduate_mono),
+  splitfun = graduate_uniform,
   recursive = FALSE,
   tol = 0.001
 )

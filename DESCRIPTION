@@ -52,7 +52,6 @@ Imports:
 BugReports: https://github.com/timriffe/DemoTools/issues
 Remotes: 
     https://github.com/josehcms/fertestr,
-    https://github.com/mpascariu/ungroup,
     https://github.com/timriffe/DemoToolsData
 Encoding: UTF-8
 VignetteBuilder: knitr
