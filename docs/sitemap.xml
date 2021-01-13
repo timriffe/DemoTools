@@ -19,6 +19,18 @@
     <loc>https://timriffe.github.io/DemoTools//reference/IRD.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/OPAG.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/OPAG_fit_stable_standard.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/OPAG_nLx_warp_r.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/OPAG_r_min.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/OPAG_simple.html</loc>
   </url>
   <url>
@@ -61,6 +73,9 @@
     <loc>https://timriffe.github.io/DemoTools//reference/calcAgeN.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/census_cohort_adjust.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_bachi.html</loc>
   </url>
   <url>
@@ -92,6 +107,12 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/dec.date.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/downloadSRB.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/downloadnLx.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/dth5_zigzag.html</loc>
@@ -167,6 +188,9 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/interp.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/interp_coh_bare.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/interpolatePop.html</loc>
@@ -262,6 +286,9 @@
     <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_m_extrapolate.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/lt_single2abridged.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/lt_single_mx.html</loc>
   </url>
   <url>
@@ -284,6 +311,9 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/mig_estimate_rc.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/mig_resid_stock.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/names2age.html</loc>

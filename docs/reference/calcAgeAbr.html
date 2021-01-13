@@ -81,7 +81,7 @@ ages 1-4 are grouped together as abridged age 1, and thereafter 5-year age group
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.25</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@ ages 1-4 are grouped together as abridged age 1, and thereafter 5-year age group
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -130,13 +130,13 @@ ages 1-4 are grouped together as abridged age 1, and thereafter 5-year age group
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -164,7 +164,7 @@ ages 1-4 are grouped together as abridged age 1, and thereafter 5-year age group
 ages 1-4 are grouped together as abridged age 1, and thereafter 5-year age groups are used.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calcAgeAbr</span>(<span class='no'>Age</span>)</pre>
+    <pre class="usage"><span class='fu'>calcAgeAbr</span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,10 +184,12 @@ ages 1-4 are grouped together as abridged age 1, and thereafter 5-year age group
 this is just the same as <code><a href='calcAgeN.html'>calcAgeN(Age,5,0)</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>70</span>
-<span class='fu'>calcAgeAbr</span>(<span class='no'>Age</span>)</div><div class='output co'>#&gt;  [1]  0  1  1  1  1  5  5  5  5  5 10 10 10 10 10 15 15 15 15 15 20 20 20 20 20
+    <pre class="examples"><div class='input'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>70</span>
+<span class='fu'>calcAgeAbr</span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1]  0  1  1  1  1  5  5  5  5  5 10 10 10 10 10 15 15 15 15 15 20 20 20 20 20
 #&gt; [26] 25 25 25 25 25 30 30 30 30 30 35 35 35 35 35 40 40 40 40 40 45 45 45 45 45
-#&gt; [51] 50 50 50 50 50 55 55 55 55 55 60 60 60 60 60 65 65 65 65 65 70</div><div class='input'><span class='fu'><a href='calcAgeN.html'>calcAgeN</a></span>(<span class='no'>Age</span>,<span class='fl'>5</span>,<span class='fl'>0</span>)</div><div class='output co'>#&gt;  [1]  0  0  0  0  0  5  5  5  5  5 10 10 10 10 10 15 15 15 15 15 20 20 20 20 20
+#&gt; [51] 50 50 50 50 50 55 55 55 55 55 60 60 60 60 60 65 65 65 65 65 70</div><div class='input'><span class='fu'><a href='calcAgeN.html'>calcAgeN</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fl'>5</span>,<span class='fl'>0</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1]  0  0  0  0  0  5  5  5  5  5 10 10 10 10 10 15 15 15 15 15 20 20 20 20 20
 #&gt; [26] 25 25 25 25 25 30 30 30 30 30 35 35 35 35 35 40 40 40 40 40 45 45 45 45 45
 #&gt; [51] 50 50 50 50 50 55 55 55 55 55 60 60 60 60 60 65 65 65 65 65 70</div></pre>
   </div>
@@ -201,11 +203,11 @@ this is just the same as <code><a href='calcAgeN.html'>calcAgeN(Age,5,0)</a></co
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

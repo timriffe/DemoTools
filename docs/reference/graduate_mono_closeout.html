@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.25</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,15 +162,15 @@
     <p>A simple monotonic spline on the cumulative sum of population counts may return more convincing single age count estimates than the Sprague or other splitting methods. This function blends the given single age population estimates starting at <code>pivotAge</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>graduate_mono_closeout</span>(
-  <span class='no'>Value</span>,
-  <span class='no'>Age</span>,
-  <span class='no'>pops</span>,
-  <span class='kw'>pivotAge</span> <span class='kw'>=</span> <span class='fl'>90</span>,
-  <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='no'>graduate_sprague</span>,
-  <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>graduate_mono_closeout</span><span class='op'>(</span>
+  <span class='va'>Value</span>,
+  <span class='va'>Age</span>,
+  <span class='va'>pops</span>,
+  pivotAge <span class='op'>=</span> <span class='fl'>90</span>,
+  splitfun <span class='op'>=</span> <span class='va'>graduate_sprague</span>,
+  OAG <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -215,10 +215,12 @@ element of <code>Value</code> as the open age group?</p></td>
 <code><a href='https://rdrr.io/r/base/colnames.html'>rownames(popmat)</a></code>, but not lower than 75. In the exact <code>pivotAge</code>, we may either take the Sprague estimates or the spline estimates, depending on which is larger, then the single-age estimates for this 5-year age group are rescaled to sum to the original total in <code>Value</code>. Higher ages are taken from the spline-based age splits. The spline results are derive from the <code>"monoH.FC"</code> method of <code><a href='https://rdrr.io/r/stats/splinefun.html'>splinefun()</a></code> on the cumulative sum of the original age grouped data. One could use this function to perform the same closeout to Grabill estimates, if these are given via the <code>pops</code> argument. See examples. Note that the Grabill split method mixed with this closeout will not necessarily preserve the annual totals, and this function performs to rescaling. The open age group is preserved (and must be included in <code>Value</code>).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>a5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>pop5_mat</span>))
-<span class='no'>popvec</span>               <span class='kw'>&lt;-</span> <span class='no'>pop5_mat</span>[,<span class='fl'>1</span>]
-<span class='no'>closed.out</span>           <span class='kw'>&lt;-</span> <span class='fu'>graduate_mono_closeout</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>popvec</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>closed.out</span>) - <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>popvec</span>)</div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='fu'>graduate_mono_closeout</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>popvec</span>, <span class='kw'>pivotAge</span> <span class='kw'>=</span> <span class='fl'>85</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
+    <pre class="examples"><div class='input'><span class='va'>a5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>popvec</span>               <span class='op'>&lt;-</span> <span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>
+<span class='va'>closed.out</span>           <span class='op'>&lt;-</span> <span class='fu'>graduate_mono_closeout</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>popvec</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>closed.out</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>popvec</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='fu'>graduate_mono_closeout</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>popvec</span>, pivotAge <span class='op'>=</span> <span class='fl'>85</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
 #&gt; 12172.4912 11380.4480 10717.4480 10171.0000  9728.6128  9377.7952  9106.0560 
 #&gt;          7          8          9         10         11         12         13 
 #&gt;  8900.9040  8749.8480  8640.3968  8573.6144  8550.5648  8490.9808  8355.2608 
@@ -248,27 +250,29 @@ element of <code>Value</code> as the open age group?</p></td>
 #&gt;    19.9840    11.6080     7.6240     8.0320     7.4320     3.9040     1.8880 
 #&gt;         98         99        100 
 #&gt;     1.3840     2.3920     0.0000 </div><div class='input'><span class='co'># giving a different single-age split to close out this way:</span>
-<span class='no'>popg</span>                 <span class='kw'>&lt;-</span> <span class='fu'><a href='graduate_grabill.html'>graduate_grabill</a></span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>popvec</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>grabill.closed.out</span>   <span class='kw'>&lt;-</span> <span class='fu'>graduate_mono_closeout</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>popvec</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>pops</span> <span class='kw'>=</span> <span class='no'>popg</span>)
+<span class='va'>popg</span>                 <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_grabill.html'>graduate_grabill</a></span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>popvec</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>grabill.closed.out</span>   <span class='op'>&lt;-</span> <span class='fu'>graduate_mono_closeout</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>popvec</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, pops <span class='op'>=</span> <span class='va'>popg</span><span class='op'>)</span>
 <span class='co'># totals not necessarily preserved if mixed w Grabill</span>
 <span class='co'># I wouldn't recommend a rescale of the total, since the</span>
 <span class='co'># only part we mess with here is the old age section. Ergo,</span>
 <span class='co'># one may wish to instead rescale results colSums() of</span>
 <span class='co'># popg at age pivotAge and higher.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>grabill.closed.out</span>) - <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>popvec</span>)</div><div class='output co'>#&gt; [1] -22.01899</div><div class='input'><span class='co'># also works on an age-labelled vector of data</span>
-<span class='no'>closed.vec</span>           <span class='kw'>&lt;-</span> <span class='fu'>graduate_mono_closeout</span>(<span class='no'>popvec</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>grabill.closed.out</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>popvec</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] -22.01899</div><div class='input'><span class='co'># also works on an age-labelled vector of data</span>
+<span class='va'>closed.vec</span>           <span class='op'>&lt;-</span> <span class='fu'>graduate_mono_closeout</span><span class='op'>(</span><span class='va'>popvec</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># let's compare this one with sprague()</span>
-<span class='no'>simple.vec</span>           <span class='kw'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span>(<span class='no'>popvec</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='va'>simple.vec</span>           <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span><span class='va'>popvec</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># and with a simple monotonic spline</span>
-<span class='no'>mono.vec</span>             <span class='kw'>&lt;-</span> <span class='fu'><a href='graduate_mono.html'>graduate_mono</a></span>(<span class='no'>popvec</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fl'>85</span>:<span class='fl'>100</span>,<span class='no'>simple.vec</span>[<span class='fl'>86</span>:<span class='fl'>101</span>], <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'l'</span>,
- <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"In this case graduate_sprague() is the smoothest"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>85</span>:<span class='fl'>100</span>,<span class='no'>closed.vec</span>[<span class='fl'>86</span>:<span class='fl'>101</span>], <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>85</span>:<span class='fl'>100</span>,<span class='no'>mono.vec</span>[<span class='fl'>86</span>:<span class='fl'>101</span>], <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"topright"</span>,<span class='kw'>lty</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>,<span class='st'>"red"</span>,<span class='st'>"blue"</span>),<span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>),
-                <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"graduate_sprague()"</span>,<span class='st'>"monoCloseout()"</span>, <span class='st'>"graduate_mono()"</span>))
-}</div></pre>
+<span class='va'>mono.vec</span>             <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_mono.html'>graduate_mono</a></span><span class='op'>(</span><span class='va'>popvec</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fl'>85</span><span class='op'>:</span><span class='fl'>100</span>,<span class='va'>simple.vec</span><span class='op'>[</span><span class='fl'>86</span><span class='op'>:</span><span class='fl'>101</span><span class='op'>]</span>, type <span class='op'>=</span> <span class='st'>'l'</span>,
+ main <span class='op'>=</span> <span class='st'>"In this case graduate_sprague() is the smoothest"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>85</span><span class='op'>:</span><span class='fl'>100</span>,<span class='va'>closed.vec</span><span class='op'>[</span><span class='fl'>86</span><span class='op'>:</span><span class='fl'>101</span><span class='op'>]</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>85</span><span class='op'>:</span><span class='fl'>100</span>,<span class='va'>mono.vec</span><span class='op'>[</span><span class='fl'>86</span><span class='op'>:</span><span class='fl'>101</span><span class='op'>]</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, lty <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>,lty<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"black"</span>,<span class='st'>"red"</span>,<span class='st'>"blue"</span><span class='op'>)</span>,lwd <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span>,
+    legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"graduate_sprague()"</span>,<span class='st'>"monoCloseout()"</span>, <span class='st'>"graduate_mono()"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -280,11 +284,11 @@ element of <code>Value</code> as the open age group?</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

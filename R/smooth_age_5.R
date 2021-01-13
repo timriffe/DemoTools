@@ -1,10 +1,13 @@
 
+# TODO: add start_on arg to Arriaga and Strong methods, and make sure it's handled in smooth_age_5()
+
 #' The Carrier-Farrag method of population count smoothing
 #' @description Smooth population counts in 5-year age groups.
 #' @details This method does not account for ages < 10 nor for the 10 year age interval prior to the open age group. These are returned imputed with \code{NA}. Age classes must be cleanly groupable to 5-year age groups. Smoothed counts are constrained to sum to original totals in 10-year age groups.
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}.
+#' @param start_on integer. Either 0 or 5. Do we constrain decades starting on the 0s or 5s?
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @export
 #' @examples
@@ -27,7 +30,8 @@
 
 smooth_age_5_cf <- function(Value,
                                 Age,
-                                OAG = TRUE) {
+                                OAG = TRUE,
+                                start_on = 0) {
 
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
@@ -40,11 +44,18 @@ smooth_age_5_cf <- function(Value,
 
   # would need to move this up to ensure?
   # or in case of 85+ would we want to keep 80-84, 85+ as-is?
-  Value10    <- groupAges(Value, Age = Age, N = 10)
+  Value10    <- groupAges(Value, Age = Age, N = 10, shiftdown = start_on)
 
   # what OAG is a strange digit? Then take OAG after grouping.
   if (OAG) {
+<<<<<<< HEAD
+=======
+    #OAGvalue <- Value10[length(Value10)]
+>>>>>>> master
     Value10[length(Value10)] <- NA
+  }
+  if (start_on == 5){
+    Value10[1] <- NA
   }
 
   v10R       <- shift.vector(Value10, 1, fill = NA)
@@ -55,6 +66,11 @@ smooth_age_5_cf <- function(Value,
   out        <- Value5 * NA
   # cut back down (depending) and name
   interleaf  <- c(rbind(vodds, vevens))
+  
+  if (start_on == 5){
+    interleaf <- interleaf[-1]
+  }
+  
   n          <- min(c(length(interleaf), N))
   out[1:n]   <- interleaf[1:n]
 
@@ -68,6 +84,7 @@ smooth_age_5_cf <- function(Value,
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age numeric vector of ages corresponding to the lower integer bound of the counts.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}.
+#' @param start_on integer. Either 0 or 5. Do we constrain decades starting on the 0s or 5s?
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @export
 #' @examples
@@ -87,7 +104,8 @@ smooth_age_5_cf <- function(Value,
 
 smooth_age_5_kkn <- function(Value,
                      Age,
-                     OAG = TRUE) {
+                     OAG = TRUE,
+                     start_on = 0) {
 
   # these values are not used, it's just for lengths, and to make sure we
   # end on an even 10. Technically we could even provide data in 10-year
@@ -100,12 +118,15 @@ smooth_age_5_kkn <- function(Value,
 
   # would need to move this up to ensure?
   # or in case of 85+ would we want to keep 80-84, 85+ as-is?
-  Value10    <- groupAges(Value, Age = Age, N = 10)
+  Value10    <- groupAges(Value5, Age = Age, N = 10, shiftdown = start_on)
 
   # what OAG is a strange digit? Then take OAG after grouping.
   if (OAG) {
-    OAGvalue <- Value10[length(Value10)]
-    Value10[length(Value10)] <- NA
+     #OAGvalue <- Value10[length(Value10)]
+     Value10[length(Value10)] <- NA
+  }
+  if (start_on == 5){
+    Value10[1] <- NA
   }
 
   v10R       <- shift.vector(Value10, 1, fill = NA)
@@ -115,8 +136,21 @@ smooth_age_5_kkn <- function(Value,
   vodds      <- Value10 / 2 + (v10R - v10L) / 16
   # constrained in 10-year age groups
   vevens     <- Value10 - vodds
+  
+  # if (start_on == 5){
+  #   # this is the KNN operation
+  #   vevens      <- Value10 / 2 + (v10R - v10L) / 16
+  #   # constrained in 10-year age groups
+  #   vodds     <- Value10 - vevens
+  # }
+  # 
   # stagger odd even 5s
   interleaf  <- c(rbind(vodds, vevens))
+ 
+  if (start_on == 5){
+    interleaf <- interleaf[-1]
+  }
+  
   # produce results vector
   out        <- Value5 * NA
   n          <- min(c(length(interleaf), N))
