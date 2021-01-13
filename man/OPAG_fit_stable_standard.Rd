@@ -59,7 +59,7 @@ Pop        <- smooth_age_5(pop1m_ind,
                            method = "Arriaga")
 Pop80      <- groupOAG(Pop, names2age(Pop), 80)
 Age        <- names2age(Pop80)
-AgeInt     <- age2int(Age, OAvalue = 1) 
+AgeInt     <- age2int(Age, OAvalue = 1)
 
 nLx        <- downloadnLx(NULL, "India","male",1991)
 Age_nLx    <- names2age(nLx)
@@ -68,7 +68,7 @@ AgeInt_nLx <- age2int(Age_nLx,OAvalue = 1)
 Pop_fit    <- groupAges(Pop80, Age, N = 10)[c("60","70")]
 Age_fit    <- c(60,70)
 AgeInt_fit <- c(10,10)
- 
+
 Standard <- OPAG_fit_stable_standard(
              Pop_fit,
              Age_fit,
@@ -80,7 +80,7 @@ Standard <- OPAG_fit_stable_standard(
              continuous = TRUE)
 
 # A visual comparison:
-nL60 <- rescale_vector(nLx[Age_nLx >= 60]) 
+nL60 <- rescale_vector(nLx[Age_nLx >= 60])
 St60p <- rescale_vector( Standard$Standard[Age_nLx >= 60] )
 ages_plot <- seq(60,100,by=5)
 \dontrun{
