@@ -293,7 +293,7 @@ OPAG_r_min <- function(r,
 #' nLx        <- downloadnLx(NULL, "Spain","female",1971)
 #' Age_nLx    <- names2age(nLx)
 #'
-#' # India Males, 1991
+#' # India Males, 1971
 #' Pop        <- smooth_age_5(pop1m_ind,
 #'                            Age = 0:100,
 #'                            method = "Arriaga")
@@ -301,7 +301,7 @@ OPAG_r_min <- function(r,
 #' Age        <- names2age(Pop80)
 #' AgeInt     <- age2int(Age, OAvalue = 1)
 #'
-#' nLx        <- downloadnLx(NULL, "India","male",1991)
+#' nLx        <- downloadnLx(NULL, "India","male",1971)
 #' Age_nLx    <- names2age(nLx)
 #' AgeInt_nLx <- age2int(Age_nLx,OAvalue = 1)
 #'
@@ -394,14 +394,14 @@ OPAG_fit_stable_standard <- function(Pop_fit,
 #' @param OAnew integer. Desired open age group in the output (must being element of `Age_nLx`)
 #' @export
 #' @examples
-#' # India Males, 1991
+#' # India Males, 1971
 #' Pop            <- smooth_age_5(pop1m_ind,
 #'                          Age = 0:100,
 #'                          method = "Arriaga")
 #' Age_Pop        <- names2age(Pop)
 #' AgeInt_Pop     <- age2int(Age_Pop, OAvalue = 1)
 #'
-#' nLx            <- downloadnLx(NULL, "India","male",1991)
+#' nLx            <- downloadnLx(NULL, "India","male",1971)
 #' Age_nLx        <- names2age(nLx)
 #' AgeInt_nLx     <- age2int(Age_nLx, OAvalue = 1)
 #'
