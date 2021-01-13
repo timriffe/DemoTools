@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.25</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,18 +162,18 @@
     <p>A wrapper function for several graduation methods, primarily for count data (<code>"sprague"</code>, <code>"beers(ord)"</code>, <code>"beers(mod)"</code>, <code>"grabill"</code>, <code>"mono"</code> (Monotonic spline), <code>"uniform"</code>, <code>"pclm"</code>), but also with one (<code>"pclm"</code>) with an option for graduating rates if both event counts and population at risk are available.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>graduate</span>(
-  <span class='no'>Value</span>,
-  <span class='no'>Age</span>,
-  <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span>(<span class='no'>Age</span>),
-  <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>),
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"sprague"</span>, <span class='st'>"beers(ord)"</span>, <span class='st'>"beers(mod)"</span>, <span class='st'>"grabill"</span>, <span class='st'>"pclm"</span>, <span class='st'>"mono"</span>,
-    <span class='st'>"uniform"</span>),
-  <span class='kw'>keep0</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>constrain</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>graduate</span><span class='op'>(</span>
+  <span class='va'>Value</span>,
+  <span class='va'>Age</span>,
+  AgeInt <span class='op'>=</span> <span class='fu'><a href='age2int.html'>age2int</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>,
+  OAG <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  OAnew <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>,
+  method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sprague"</span>, <span class='st'>"beers(ord)"</span>, <span class='st'>"beers(mod)"</span>, <span class='st'>"grabill"</span>, <span class='st'>"pclm"</span>, <span class='st'>"mono"</span>,
+    <span class='st'>"uniform"</span><span class='op'>)</span>,
+  keep0 <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  constrain <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -229,37 +229,38 @@
 
     <p>Pascariu MD, Dańko MJ, Schöley J, Rizzi S (2018).
 &#8220;ungroup: An R package for efficient estimation of smooth distributions from coarsely binned data.&#8221;
-<em>Age</em>, <b>10</b>.
+<em>Age</em>, <b>10</b>, 0.
 
 Rizzi S, Gampe J, Eilers PH (2015).
 &#8220;Efficient estimation of smooth distributions from coarsely grouped data.&#8221;
-<em>American journal of epidemiology</em>, <b>182</b>, 138--147.
+<em>American journal of epidemiology</em>, <b>182</b>(2), 138--147.
 
 Sprague TB (1880).
 &#8220;Explanation of a new formula for interpolation.&#8221;
-<em>Journal of the Institute of Actuaries</em>, <b>22</b>, 270--285.
+<em>Journal of the Institute of Actuaries</em>, <b>22</b>(4), 270--285.
 
 Shryock HS, Siegel JS, Larmon EA (1973).
 <em>The methods and materials of demography</em>.
 US Bureau of the Census.
 
-Siegel Jacob S, Swanson David A (2004).
+Siegel Jacob S, Swanson David A (eds.) (2004).
 <em>The Methods and Materials of Demography</em>, 2 edition.
 Elsevier Academic Press, California, USA, San Diego, USA.
 
 Beers HS (1945).
 &#8220;Modified-interpolation formulas that minimize fourth differences.&#8221;
-<em>Record of the American Institute of Actuaries</em>, <b>34</b>, 14--20.</p>
+<em>Record of the American Institute of Actuaries</em>, <b>34</b>(69), 14--20.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='graduate_sprague.html'>graduate_sprague</a></code>, <code><a href='graduate_beers.html'>graduate_beers</a></code>, <code><a href='graduate_uniform.html'>graduate_uniform</a></code>, <code><a href='graduate_mono.html'>graduate_mono</a></code>, <code><a href='graduate_pclm.html'>graduate_pclm</a></code>, <code><a href='graduate_grabill.html'>graduate_grabill</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Value</span> <span class='kw'>&lt;-</span> <span class='no'>pop5_mat</span>[, <span class='fl'>1</span>]
-<span class='no'>Value</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10000</span>,<span class='fl'>44170</span>,<span class='no'>Value</span>[-<span class='fl'>1</span>])
-<span class='no'>Age</span>   <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>100</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>)))
+    <pre class="examples"><div class='input'><span class='va'>Value</span> <span class='op'>&lt;-</span> <span class='va'>pop5_mat</span><span class='op'>[</span>, <span class='fl'>1</span><span class='op'>]</span>
+<span class='va'>Value</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10000</span>,<span class='fl'>44170</span>,<span class='va'>Value</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>Age</span>   <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sprague"</span>)</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
+<span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"sprague"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
 #&gt; 12172.4912 11380.4480 10717.4480 10171.0000  9728.6128  9377.7952  9106.0560 
 #&gt;          7          8          9         10         11         12         13 
 #&gt;  8900.9040  8749.8480  8640.3968  8573.6144  8550.5648  8490.9808  8355.2608 
@@ -288,7 +289,8 @@ Beers HS (1945).
 #&gt;         91         92         93         94         95         96         97 
 #&gt;    19.9600    14.5360    10.5760     7.7824     5.8576     4.5040     3.4240 
 #&gt;         98         99        100 
-#&gt;     2.3200     0.8944     0.0000 </div><div class='input'><span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"sprague"</span>, <span class='kw'>keep0</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
+#&gt;     2.3200     0.8944     0.0000 </div><div class='input'><span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"sprague"</span>, keep0<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
 #&gt; 12172.4912 11380.4480 10717.4480 10171.0000  9728.6128  9377.7952  9106.0560 
 #&gt;          7          8          9         10         11         12         13 
 #&gt;  8900.9040  8749.8480  8640.3968  8573.6144  8550.5648  8490.9808  8355.2608 
@@ -318,7 +320,8 @@ Beers HS (1945).
 #&gt;    19.9600    14.5360    10.5760     7.7824     5.8576     4.5040     3.4240 
 #&gt;         98         99        100 
 #&gt;     2.3200     0.8944     0.0000 </div><div class='input'>
-<span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"beers(ord)"</span>)</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
+<span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"beers(ord)"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
 #&gt; 11932.7336 11342.3240 10788.6128 10280.2888  9826.0408  9435.4048  9117.0696 
 #&gt;          7          8          9         10         11         12         13 
 #&gt;  8877.1824  8717.6544  8627.6888  8582.9336  8547.1760  8479.1200  8351.8720 
@@ -347,7 +350,8 @@ Beers HS (1945).
 #&gt;         91         92         93         94         95         96         97 
 #&gt;    20.1994    14.7124    10.4941     7.3540     5.1331     3.6913     2.8948 
 #&gt;         98         99        100 
-#&gt;     2.6035     2.6773     0.0000 </div><div class='input'><span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"beers(ord)"</span>, <span class='kw'>keep0</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
+#&gt;     2.6035     2.6773     0.0000 </div><div class='input'><span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"beers(ord)"</span>, keep0<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
 #&gt; 10000.0000 11861.3370 11282.2886 10750.7042 10275.6703  9435.4048  9117.0696 
 #&gt;          7          8          9         10         11         12         13 
 #&gt;  8877.1824  8717.6544  8627.6888  8582.9336  8547.1760  8479.1200  8351.8720 
@@ -376,7 +380,8 @@ Beers HS (1945).
 #&gt;         91         92         93         94         95         96         97 
 #&gt;    20.1994    14.7124    10.4941     7.3540     5.1331     3.6913     2.8948 
 #&gt;         98         99        100 
-#&gt;     2.6035     2.6773     0.0000 </div><div class='input'><span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"beers(ord)"</span>, <span class='kw'>keep0</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>johnson</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
+#&gt;     2.6035     2.6773     0.0000 </div><div class='input'><span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"beers(ord)"</span>, keep0<span class='op'>=</span><span class='cn'>TRUE</span>, johnson <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
 #&gt; 10000.0000 11342.3240 11462.1335 11023.6236 10341.9189  9651.0947  9097.9694 
 #&gt;          7          8          9         10         11         12         13 
 #&gt;  8762.3499  8635.8972  8627.6888  8582.9336  8547.1760  8479.1200  8351.8720 
@@ -406,7 +411,8 @@ Beers HS (1945).
 #&gt;    20.1994    14.7124    10.4941     7.3540     5.1331     3.6913     2.8948 
 #&gt;         98         99        100 
 #&gt;     2.6035     2.6773     0.0000 </div><div class='input'>
-<span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"beers(mod)"</span>)</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
+<span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"beers(mod)"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
 #&gt; 11952.2354 11325.4173 10766.2996 10274.8823  9851.1654  9494.3017  9201.8161 
 #&gt;          7          8          9         10         11         12         13 
 #&gt;  8969.8051  8790.9099  8653.8682  8546.7035  8455.2302  8364.7480  8264.2114 
@@ -435,7 +441,8 @@ Beers HS (1945).
 #&gt;         91         92         93         94         95         96         97 
 #&gt;    19.0789    12.9361     8.2390     4.8817     2.7712     1.8763     2.1907 
 #&gt;         98         99        100 
-#&gt;     3.7144     6.4474     0.0000 </div><div class='input'><span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"beers(mod)"</span>, <span class='kw'>keep0</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
+#&gt;     3.7144     6.4474     0.0000 </div><div class='input'><span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"beers(mod)"</span>, keep0<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
 #&gt; 10000.0000 11849.1277 11264.1552 10750.0138 10306.7033  9494.3017  9201.8161 
 #&gt;          7          8          9         10         11         12         13 
 #&gt;  8969.8051  8790.9099  8653.8682  8546.7035  8455.2302  8364.7480  8264.2114 
@@ -464,7 +471,8 @@ Beers HS (1945).
 #&gt;         91         92         93         94         95         96         97 
 #&gt;    19.0789    12.9361     8.2390     4.8817     2.7712     1.8763     2.1907 
 #&gt;         98         99        100 
-#&gt;     3.7144     6.4474     0.0000 </div><div class='input'><span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"beers(mod)"</span>, <span class='kw'>keep0</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>johnson</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
+#&gt;     3.7144     6.4474     0.0000 </div><div class='input'><span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"beers(mod)"</span>, keep0<span class='op'>=</span><span class='cn'>TRUE</span>, johnson <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          0          1          2          3          4          5          6 
 #&gt; 10000.0000 11325.4173 11441.7180 11025.7228 10377.1420  9717.5927  9184.3461 
 #&gt;          7          8          9         10         11         12         13 
 #&gt;  8850.5817  8704.3123  8653.8682  8546.7035  8455.2302  8364.7480  8264.2114 
@@ -494,7 +502,8 @@ Beers HS (1945).
 #&gt;    19.0789    12.9361     8.2390     4.8817     2.7712     1.8763     2.1907 
 #&gt;         98         99        100 
 #&gt;     3.7144     6.4474     0.0000 </div><div class='input'>
-<span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"mono"</span>)</div><div class='output co'>#&gt;         0         1         2         3         4         5         6         7 
+<span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"mono"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         0         1         2         3         4         5         6         7 
 #&gt; 10000.000 10945.000 11401.250 11270.625 10553.125  9665.128  9122.756  8767.692 
 #&gt;         8         9        10        11        12        13        14        15 
 #&gt;  8599.936  8619.488  8655.760  8567.160  8453.480  8314.720  8150.880  7993.120 
@@ -519,7 +528,8 @@ Beers HS (1945).
 #&gt;        88        89        90        91        92        93        94        95 
 #&gt;    43.552    39.616    32.752    19.984    11.608     7.624     8.032     7.432 
 #&gt;        96        97        98        99       100 
-#&gt;     3.904     1.888     1.384     2.392     0.000 </div><div class='input'><span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"mono"</span>, <span class='kw'>keep0</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;         0         1         2         3         4         5         6         7 
+#&gt;     3.904     1.888     1.384     2.392     0.000 </div><div class='input'><span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"mono"</span>, keep0<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         0         1         2         3         4         5         6         7 
 #&gt; 10000.000 10945.000 11401.250 11270.625 10553.125  9665.128  9122.756  8767.692 
 #&gt;         8         9        10        11        12        13        14        15 
 #&gt;  8599.936  8619.488  8655.760  8567.160  8453.480  8314.720  8150.880  7993.120 
@@ -545,7 +555,8 @@ Beers HS (1945).
 #&gt;    43.552    39.616    32.752    19.984    11.608     7.624     8.032     7.432 
 #&gt;        96        97        98        99       100 
 #&gt;     3.904     1.888     1.384     2.392     0.000 </div><div class='input'>
-<span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"uniform"</span>)</div><div class='output co'>#&gt;       0       1       2       3       4       5       6       7       8       9 
+<span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"uniform"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       0       1       2       3       4       5       6       7       8       9 
 #&gt; 10000.0 11042.5 11042.5 11042.5 11042.5  8955.0  8955.0  8955.0  8955.0  8955.0 
 #&gt;      10      11      12      13      14      15      16      17      18      19 
 #&gt;  8428.4  8428.4  8428.4  8428.4  8428.4  7692.8  7692.8  7692.8  7692.8  7692.8 
@@ -567,7 +578,8 @@ Beers HS (1945).
 #&gt;    16.0    16.0    16.0    16.0    16.0     3.4     3.4     3.4     3.4     3.4 
 #&gt;     100 
 #&gt;     0.0 </div><div class='input'>
-<span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pclm"</span>)</div><div class='output co'>#&gt;            0            1            2            3            4            5 
+<span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"pclm"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;            0            1            2            3            4            5 
 #&gt; 10022.206163 10787.283969 11254.932560 11275.885640 10807.951426 10074.821803 
 #&gt;            6            7            8            9           10           11 
 #&gt;  9328.988743  8736.949690  8394.290482  8273.419213  8318.185348  8432.064234 
@@ -600,7 +612,8 @@ Beers HS (1945).
 #&gt;           90           91           92           93           94           95 
 #&gt;    27.084347    20.136711    14.848708    10.871851     7.909705     5.722058 
 #&gt;           96           97           98           99          100 
-#&gt;     4.118689     2.951838     2.108558     1.502782     1.069736 </div><div class='input'><span class='fu'>graduate</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pclm"</span>, <span class='kw'>keep0</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;            0            1            2            3            4            5 
+#&gt;     4.118689     2.951838     2.108558     1.502782     1.069736 </div><div class='input'><span class='fu'>graduate</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"pclm"</span>, keep0<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;            0            1            2            3            4            5 
 #&gt; 10000.000000 10798.027335 11266.141671 11287.115619 10818.715375 10074.821803 
 #&gt;            6            7            8            9           10           11 
 #&gt;  9328.988743  8736.949690  8394.290482  8273.419213  8318.185348  8432.064234 
@@ -635,42 +648,43 @@ Beers HS (1945).
 #&gt;           96           97           98           99          100 
 #&gt;     4.118689     2.951838     2.108558     1.502782     1.069736 </div><div class='input'><span class='co'># pclm can also graduate rates if both</span>
 <span class='co'># numerators and denominators are on hand:</span>
-<span class='no'>Exposures</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>100958</span>,<span class='fl'>466275</span>,<span class='fl'>624134</span>,<span class='fl'>559559</span>,<span class='fl'>446736</span>,<span class='fl'>370653</span>,<span class='fl'>301862</span>,<span class='fl'>249409</span>,
+<span class='va'>Exposures</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>100958</span>,<span class='fl'>466275</span>,<span class='fl'>624134</span>,<span class='fl'>559559</span>,<span class='fl'>446736</span>,<span class='fl'>370653</span>,<span class='fl'>301862</span>,<span class='fl'>249409</span>,
                <span class='fl'>247473</span>,<span class='fl'>223014</span>,<span class='fl'>172260</span>,<span class='fl'>149338</span>,<span class='fl'>127242</span>,<span class='fl'>105715</span>,<span class='fl'>79614</span>,<span class='fl'>53660</span>,
-               <span class='fl'>31021</span>,<span class='fl'>16805</span>,<span class='fl'>8000</span>,<span class='fl'>4000</span>,<span class='fl'>2000</span>,<span class='fl'>1000</span>)
+               <span class='fl'>31021</span>,<span class='fl'>16805</span>,<span class='fl'>8000</span>,<span class='fl'>4000</span>,<span class='fl'>2000</span>,<span class='fl'>1000</span><span class='op'>)</span>
 
-<span class='no'>Deaths</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8674</span>,<span class='fl'>1592</span>,<span class='fl'>618</span>,<span class='fl'>411</span>,<span class='fl'>755</span>,<span class='fl'>1098</span>,<span class='fl'>1100</span>,<span class='fl'>1357</span>,
+<span class='va'>Deaths</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>8674</span>,<span class='fl'>1592</span>,<span class='fl'>618</span>,<span class='fl'>411</span>,<span class='fl'>755</span>,<span class='fl'>1098</span>,<span class='fl'>1100</span>,<span class='fl'>1357</span>,
             <span class='fl'>1335</span>,<span class='fl'>3257</span>,<span class='fl'>2200</span>,<span class='fl'>4023</span>,<span class='fl'>2167</span>,<span class='fl'>4578</span>,<span class='fl'>2956</span>,<span class='fl'>4212</span>,
-            <span class='fl'>2887</span>,<span class='fl'>2351</span>,<span class='fl'>1500</span>,<span class='fl'>900</span>,<span class='fl'>500</span>,<span class='fl'>300</span>)
-<span class='no'>Age</span>    <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>, <span class='fl'>100</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>))
-<span class='no'>AgeInt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span>(<span class='no'>Age</span>), <span class='fl'>NA</span>)
+            <span class='fl'>2887</span>,<span class='fl'>2351</span>,<span class='fl'>1500</span>,<span class='fl'>900</span>,<span class='fl'>500</span>,<span class='fl'>300</span><span class='op'>)</span>
+<span class='va'>Age</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>100</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>AgeInt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>, <span class='cn'>NA</span><span class='op'>)</span>
 
 <span class='co'># exclude infants for better fit.</span>
-<span class='no'>mx</span>    <span class='kw'>&lt;-</span> <span class='fu'>graduate</span>(
-           <span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>Deaths</span>[-<span class='fl'>1</span>], <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>[-<span class='fl'>1</span>],
-           <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>[-<span class='fl'>1</span>], <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-           <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fl'>110</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='no'>Exposures</span>[-<span class='fl'>1</span>],
-           <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pclm"</span>)
-<span class='no'>mx_sm</span> <span class='kw'>&lt;-</span> <span class='fu'>graduate</span>(
-           <span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>Deaths</span>[-<span class='fl'>1</span>], <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>[-<span class='fl'>1</span>],
-           <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt</span>[-<span class='fl'>1</span>], <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-           <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fl'>110</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='no'>Exposures</span>[-<span class='fl'>1</span>],
-           <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pclm"</span>, <span class='kw'>control</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>1e7</span>))
+<span class='va'>mx</span>    <span class='op'>&lt;-</span> <span class='fu'>graduate</span><span class='op'>(</span>
+           Value <span class='op'>=</span> <span class='va'>Deaths</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, Age <span class='op'>=</span> <span class='va'>Age</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>,
+           AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>,
+           OAnew <span class='op'>=</span> <span class='fl'>110</span>, offset <span class='op'>=</span> <span class='va'>Exposures</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>,
+           method <span class='op'>=</span> <span class='st'>"pclm"</span><span class='op'>)</span>
+<span class='va'>mx_sm</span> <span class='op'>&lt;-</span> <span class='fu'>graduate</span><span class='op'>(</span>
+           Value <span class='op'>=</span> <span class='va'>Deaths</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, Age <span class='op'>=</span> <span class='va'>Age</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>,
+           AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>,
+           OAnew <span class='op'>=</span> <span class='fl'>110</span>, offset <span class='op'>=</span> <span class='va'>Exposures</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>,
+           method <span class='op'>=</span> <span class='st'>"pclm"</span>, control <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>lambda <span class='op'>=</span> <span class='fl'>1e7</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Age</span>,
-     <span class='no'>Deaths</span> / <span class='no'>Exposures</span>,
-     <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'s'</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='st'>'y'</span>,
-     <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Underlying data have differential heaping on 0s and 5s"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>1</span>:<span class='fl'>110</span>, <span class='no'>mx</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>1</span>:<span class='fl'>110</span>, <span class='no'>mx_sm</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"bottomright"</span>,
-       <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>,<span class='st'>"blue"</span>),
-       <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>),
-       <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lambda optimized (almost constrained)"</span>,
-                  <span class='st'>"higher lambda = smoother"</span>)
-       )
-  }</div></pre>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,
+     <span class='va'>Deaths</span> <span class='op'>/</span> <span class='va'>Exposures</span>,
+     type <span class='op'>=</span> <span class='st'>'s'</span>, log <span class='op'>=</span> <span class='st'>'y'</span>,
+     main <span class='op'>=</span> <span class='st'>"Underlying data have differential heaping on 0s and 5s"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>110</span>, <span class='va'>mx</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>110</span>, <span class='va'>mx_sm</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"bottomright"</span>,
+       col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"black"</span>,<span class='st'>"blue"</span><span class='op'>)</span>,
+       lty <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>,
+       legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lambda optimized (almost constrained)"</span>,
+                  <span class='st'>"higher lambda = smoother"</span><span class='op'>)</span>
+       <span class='op'>)</span>
+  <span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -682,11 +696,11 @@ Beers HS (1945).
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

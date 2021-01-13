@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.25</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -87,13 +87,13 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -114,7 +114,7 @@
       <h1 data-toc-skip>Graduation with DemoTools</h1>
                         <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
-            <h4 class="date">2020-10-27</h4>
+            <h4 class="date">2021-01-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/graduation_with_demotools.Rmd"><code>vignettes/graduation_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>graduation_with_demotools.Rmd</code></div>
@@ -145,16 +145,17 @@
 <div id="read-in-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#read-in-data" class="anchor"></a>Read in data</h2>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">DemoTools</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">DemoTools</span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: Rcpp</span>
 <span class="co"># 'pop1m_ind' available as package data</span>
-<span class="no">Value</span> <span class="kw">&lt;-</span> <span class="no">pop5_mat</span>[,<span class="fl">4</span>]
-<span class="no">Age</span>   <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">pop5_mat</span>))
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">Age</span>, <span class="no">Value</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">'p'</span>,
-     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">'Population'</span>,
-     <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'Age'</span>,
-     <span class="kw">main</span> <span class="kw">=</span> <span class="st">'Original 5-year age-group population'</span>)</pre></body></html></div>
+<span class="va">Value</span> <span class="op">&lt;-</span> <span class="va">pop5_mat</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span>
+<span class="va">Age</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">pop5_mat</span><span class="op">)</span><span class="op">)</span>
+  
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Age</span>, <span class="va">Value</span>, type <span class="op">=</span> <span class="st">'p'</span>,
+     ylab <span class="op">=</span> <span class="st">'Population'</span>,
+     xlab <span class="op">=</span> <span class="st">'Age'</span>,
+     main <span class="op">=</span> <span class="st">'Original 5-year age-group population'</span><span class="op">)</span></code></pre></div>
 <p><img src="graduation_with_demotools_files/figure-html/unnamed-chunk-1-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
 </div>
 <div id="methods-choices" class="section level2">
@@ -172,162 +173,175 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 \frac{x^3(x-1)(5x-7)}{4!}\Delta y^5_n 
 \end{equation*}\]</span></p>
 <p>There are six observations <span class="math inline">\(Y_{n},Y_{n+1},Y_{n+2},Y_{n+3},Y_{n+4}\)</span> and <span class="math inline">\(Y_{n+5}\)</span> involved in the leading differences, $y_{n},,^5 y_n $. The interpolated points fall on curves that pass through the given points, and the interpolated subdivisions add up to the data in the original groups. To implement this method in <code>DemoTools</code>, use the function <code>graduate</code> with the option for method specified as <code>sprague</code>.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">sprague</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span>(<span class="no">Value</span>, <span class="no">Age</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"sprague"</span>)
-<span class="no">single.age</span>  <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span>(<span class="no">sprague</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sprague</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"sprague"</span><span class="op">)</span>
+<span class="va">single.age</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span><span class="op">(</span><span class="va">sprague</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">single.age</span>, <span class="no">sprague</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">'l'</span>,
-     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">'Population'</span>,
-     <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'Age'</span>,
-     <span class="kw">main</span> <span class="kw">=</span> <span class="st">'Graduation with Sprague method'</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">sprague</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+     ylab <span class="op">=</span> <span class="st">'Population'</span>,
+     xlab <span class="op">=</span> <span class="st">'Age'</span>,
+     main <span class="op">=</span> <span class="st">'Graduation with Sprague method'</span><span class="op">)</span></code></pre></div>
 <p><img src="graduation_with_demotools_files/figure-html/unnamed-chunk-2-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
 <span class="co">#check the totals</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">sprague</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">sprague</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395139.8</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">Value</span>)
-<span class="co">#&gt; [1] 395138</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>
+<span class="co">#&gt; [1] 395138</span></code></pre></div>
 </div>
 <div id="beers" class="section level3">
 <h3 class="hasAnchor">
 <a href="#beers" class="anchor"></a>Beers</h3>
 <p>Following a similar idea, Beers interpolated two overlapping curves minimizing the squares of the differences within the interpolation range <span class="citation">(H. Beers 1945)</span>. Specifically, Beers did this by minimizing fifth differences for a six-term formula, refered to as the ‘Ordinary’ Beers method <span class="citation">(H. S. Beers 1945)</span>. Subsequently, the ordinay formula was modified to relax the requirement that the given value be reproduced and yield smoother interpolated results, refered to as ‘Modified’ Beers method <span class="citation">(H. Beers 1945)</span>.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">beers.ordinary</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span>(<span class="no">Value</span>, <span class="no">Age</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"beers(ord)"</span>)
-<span class="no">beers.modified</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span>(<span class="no">Value</span>, <span class="no">Age</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"beers(mod)"</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">beers.ordinary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"beers(ord)"</span><span class="op">)</span>
+<span class="va">beers.modified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"beers(mod)"</span><span class="op">)</span>
 
-<span class="no">single.age</span>  <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span>(<span class="no">beers.ordinary</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">single.age</span>, <span class="no">beers.ordinary</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">'l'</span>,
-     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">'Population'</span>,
-     <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'Age'</span>,
-     <span class="kw">main</span> <span class="kw">=</span> <span class="st">'Graduation with Beers methods'</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="no">single.age</span>,<span class="no">beers.modified</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"red"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span>(<span class="st">"topright"</span>,<span class="kw">lty</span><span class="kw">=</span><span class="fl">1</span>,<span class="kw">col</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>),<span class="kw">legend</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"ordinary (5-yr constrained)"</span>,
-                                            <span class="st">"modified (smoother)"</span>))</pre></body></html></div>
+<span class="va">single.age</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span><span class="op">(</span><span class="va">beers.ordinary</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">beers.ordinary</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+     ylab <span class="op">=</span> <span class="st">'Population'</span>,
+     xlab <span class="op">=</span> <span class="st">'Age'</span>,
+     main <span class="op">=</span> <span class="st">'Graduation with Beers methods'</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">single.age</span>,<span class="va">beers.modified</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"topright"</span>,lty<span class="op">=</span><span class="fl">1</span>,col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ordinary (5-yr constrained)"</span>,
+                                            <span class="st">"modified (smoother)"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="graduation_with_demotools_files/figure-html/unnamed-chunk-3-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co">#check the totals</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">beers.ordinary</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#check the totals</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">beers.ordinary</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395138</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">beers.modified</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">beers.modified</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395138</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">Value</span>)
-<span class="co">#&gt; [1] 395138</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>
+<span class="co">#&gt; [1] 395138</span></code></pre></div>
 </div>
 <div id="monotone-spline" class="section level3">
 <h3 class="hasAnchor">
 <a href="#monotone-spline" class="anchor"></a>Monotone spline</h3>
 <p>Graduation by a monotone spline is another option available in <code>DemoTools</code>. This option offers an algorithm to produce interpolants that preserve properties such as monotonicity or convexity that are present in the data <span class="citation">(Fritsch and Carlson 1980)</span>. These are desirable conditions to not introduce biased details that cannot be ascertained from the data <span class="citation">(Hyman 1983)</span>. To run this algorithm in <code>DemoTools</code> the option <code>mono</code> should be selected as follows:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">mono.grad</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span>(<span class="no">Value</span>, <span class="no">Age</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"mono"</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mono.grad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"mono"</span><span class="op">)</span>
 
-<span class="no">single.age</span>  <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span>(<span class="no">mono.grad</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">single.age</span>, <span class="no">mono.grad</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">'l'</span>,
-     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">'Population'</span>,
-     <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'Age'</span>,
-     <span class="kw">main</span> <span class="kw">=</span> <span class="st">'Graduation with monotone spline'</span>)</pre></body></html></div>
+<span class="va">single.age</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span><span class="op">(</span><span class="va">mono.grad</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">mono.grad</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+     ylab <span class="op">=</span> <span class="st">'Population'</span>,
+     xlab <span class="op">=</span> <span class="st">'Age'</span>,
+     main <span class="op">=</span> <span class="st">'Graduation with monotone spline'</span><span class="op">)</span></code></pre></div>
 <p><img src="graduation_with_demotools_files/figure-html/unnamed-chunk-4-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
 <span class="co">#check the totals</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">mono.grad</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">mono.grad</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395138</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">Value</span>)
-<span class="co">#&gt; [1] 395138</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>
+<span class="co">#&gt; [1] 395138</span></code></pre></div>
 </div>
 <div id="pclm" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pclm" class="anchor"></a>PCLM</h3>
 <p>The <code>pclm</code> option in <code>DemoTools</code> ungroups data assuming the counts are distributed Poisson over a smooth grid <span class="citation">(Pascariu et al. 2018)</span>. The grouped data can be efficiently ungrouped by using the penalized composite link model <span class="citation">(Rizzi, Gampe, and Eilers 2015)</span>. This method is a flexible choice since the only assumption underlying the model is smoothness, which is usually met with demographic counts. For more details see <span class="citation">Rizzi, Gampe, and Eilers (2015)</span> and the <code>ungroup</code> package in R.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">pclm.grad</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span>(<span class="no">Value</span>, <span class="no">Age</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"pclm"</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pclm.grad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"pclm"</span><span class="op">)</span>
 
-<span class="no">single.age</span>  <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span>(<span class="no">pclm.grad</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">single.age</span>, <span class="no">pclm.grad</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">'l'</span>,
-     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">'Population'</span>,
-     <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'Age'</span>,
-     <span class="kw">main</span> <span class="kw">=</span> <span class="st">'Graduation with pclm'</span>)</pre></body></html></div>
+<span class="va">single.age</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span><span class="op">(</span><span class="va">pclm.grad</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">pclm.grad</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+     ylab <span class="op">=</span> <span class="st">'Population'</span>,
+     xlab <span class="op">=</span> <span class="st">'Age'</span>,
+     main <span class="op">=</span> <span class="st">'Graduation with pclm'</span><span class="op">)</span></code></pre></div>
 <p><img src="graduation_with_demotools_files/figure-html/unnamed-chunk-5-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
 <span class="co">#check the totals</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">pclm.grad</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">pclm.grad</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395138</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">Value</span>)
-<span class="co">#&gt; [1] 395138</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>
+<span class="co">#&gt; [1] 395138</span></code></pre></div>
 </div>
 <div id="uniform" class="section level3">
 <h3 class="hasAnchor">
 <a href="#uniform" class="anchor"></a>Uniform</h3>
 <p>With the <code>uniform</code> option graduation is performed assuming that the counts are uniformly distributed across each age interval. It is also assumed that the initial age intervals are integers greater than or equal to one. This option simply splits aggregate counts in age-groups into single age groups.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">unif.grad</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span>(<span class="no">Value</span>, <span class="no">Age</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"unif"</span>)
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">unif.grad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"unif"</span><span class="op">)</span>
 
-<span class="no">single.age</span>  <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span>(<span class="no">unif.grad</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">single.age</span>, <span class="no">unif.grad</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">'l'</span>,
-     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">'Population'</span>,
-     <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'Age'</span>,
-     <span class="kw">main</span> <span class="kw">=</span> <span class="st">'Graduation with uniform distribution'</span>)</pre></body></html></div>
+<span class="va">single.age</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span><span class="op">(</span><span class="va">unif.grad</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">unif.grad</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+     ylab <span class="op">=</span> <span class="st">'Population'</span>,
+     xlab <span class="op">=</span> <span class="st">'Age'</span>,
+     main <span class="op">=</span> <span class="st">'Graduation with uniform distribution'</span><span class="op">)</span></code></pre></div>
 <p><img src="graduation_with_demotools_files/figure-html/unnamed-chunk-6-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
 <span class="co">#check the totals</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">unif.grad</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">unif.grad</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395138</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">Value</span>)
-<span class="co">#&gt; [1] 395138</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>
+<span class="co">#&gt; [1] 395138</span></code></pre></div>
 </div>
 <div id="comparison-of-all-methods" class="section level3">
 <h3 class="hasAnchor">
 <a href="#comparison-of-all-methods" class="anchor"></a>Comparison of all methods</h3>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">single.age</span>, <span class="no">beers.ordinary</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">'l'</span>,
-     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">'Population'</span>,
-     <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">'Age'</span>,
-     <span class="kw">main</span> <span class="kw">=</span> <span class="st">'Graduation with multiple methods'</span>)
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">beers.ordinary</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+     ylab <span class="op">=</span> <span class="st">'Population'</span>,
+     xlab <span class="op">=</span> <span class="st">'Age'</span>,
+     main <span class="op">=</span> <span class="st">'Graduation with multiple methods'</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="no">single.age</span>,<span class="no">beers.modified</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"red"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">single.age</span>,<span class="va">beers.modified</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="no">single.age</span>,<span class="no">sprague</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"blue"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">single.age</span>,<span class="va">sprague</span>, col <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="no">single.age</span>,<span class="no">mono.grad</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"green"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">single.age</span>,<span class="va">mono.grad</span>, col <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="no">single.age</span>,<span class="no">pclm.grad</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"pink"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">single.age</span>,<span class="va">pclm.grad</span>, col <span class="op">=</span> <span class="st">"pink"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="no">single.age</span>,<span class="no">unif.grad</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"magenta"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span><span class="op">(</span><span class="va">single.age</span>,<span class="va">unif.grad</span>, col <span class="op">=</span> <span class="st">"magenta"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span>(<span class="st">"topright"</span>,
-       <span class="kw">lty</span><span class="kw">=</span><span class="fl">1</span>,
-       <span class="kw">col</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'black'</span>,<span class="st">'red'</span>,<span class="st">'blue'</span>,<span class="st">'green'</span>,<span class="st">'pink'</span>,<span class="st">'magenta'</span>),
-       <span class="kw">legend</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Beers ordinary"</span>,
+<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"topright"</span>,
+       lty<span class="op">=</span><span class="fl">1</span>,
+       col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'black'</span>,<span class="st">'red'</span>,<span class="st">'blue'</span>,<span class="st">'green'</span>,<span class="st">'pink'</span>,<span class="st">'magenta'</span><span class="op">)</span>,
+       legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Beers ordinary"</span>,
                 <span class="st">"Beers modified"</span>,<span class="st">'Sprague'</span>,<span class="st">'Monotone'</span>,<span class="st">'PCLM'</span>,
-                <span class="st">'Uniform'</span>))</pre></body></html></div>
+                <span class="st">'Uniform'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="graduation_with_demotools_files/figure-html/unnamed-chunk-7-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="co">#check the totals</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">beers.ordinary</span>)
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#check the totals</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">beers.ordinary</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395138</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">beers.modified</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">beers.modified</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395138</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">Value</span>)
-<span class="co">#&gt; [1] 395138</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>
+<span class="co">#&gt; [1] 395138</span></code></pre></div>
 </div>
 <div id="using-a-standard" class="section level3">
 <h3 class="hasAnchor">
 <a href="#using-a-standard" class="anchor"></a>Using a standard</h3>
 <p>The function <code>rescaleAgeGroups</code> rescales a vector of counts in some given age-groups to approximate the counts into different age grouping. This method is appealing when, for example, the user wants to rescale single ages to sum to 5-year age groups. It is particularly useful in processes of making consistent different datasets to provide the same structure of data prior to construction of a lifetable for example.</p>
 <p>To do: TR: rescaleAgeGroups() I’m, not sure. How about you get DemoData death or pop counts from an HMD country and in single ages from Jorge. Then rescale them to match HMD counts in 5-year age groups? Just an idea.</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">AgeIntRandom</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">2L</span>, <span class="fl">2L</span>, <span class="fl">4L</span>, <span class="fl">4L</span>, <span class="fl">1L</span>, <span class="fl">2L</span>, <span class="fl">3L</span>, <span class="fl">4L</span>, <span class="fl">3L</span>, <span class="fl">3L</span>, <span class="fl">3L</span>, <span class="fl">3L</span>, <span class="fl">5L</span>)
-<span class="no">AgeInt5</span>      <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">5</span>, <span class="fl">9</span>)
-<span class="no">original</span>     <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="fl">45</span>, <span class="kw">min</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="kw">max</span> <span class="kw">=</span> <span class="fl">100</span>)
-<span class="no">pop1</span>         <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/groupAges.html">groupAges</a></span>(<span class="no">original</span>, <span class="fl">0</span>:<span class="fl">45</span>, <span class="kw">AgeN</span> <span class="kw">=</span> <span class="fu"><a href="../reference/int2ageN.html">int2ageN</a></span>(<span class="no">AgeIntRandom</span>, <span class="fl">FALSE</span>))
-<span class="no">pop2</span>         <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/groupAges.html">groupAges</a></span>(<span class="no">original</span>, <span class="fl">0</span>:<span class="fl">45</span>, <span class="kw">AgeN</span> <span class="kw">=</span> <span class="fu"><a href="../reference/int2ageN.html">int2ageN</a></span>(<span class="no">AgeInt5</span>, <span class="fl">FALSE</span>))
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">AgeIntRandom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">5L</span>, <span class="fl">2L</span>, <span class="fl">2L</span>, <span class="fl">4L</span>, <span class="fl">4L</span>, <span class="fl">1L</span>, <span class="fl">2L</span>, <span class="fl">3L</span>, <span class="fl">4L</span>, <span class="fl">3L</span>, <span class="fl">3L</span>, <span class="fl">3L</span>, <span class="fl">3L</span>, <span class="fl">5L</span><span class="op">)</span>
+<span class="va">AgeInt5</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">9</span><span class="op">)</span>
+<span class="va">original</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">45</span>, min <span class="op">=</span> <span class="fl">0</span>, max <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
+<span class="va">pop1</span>         <span class="op">&lt;-</span> <span class="fu"><a href="../reference/groupAges.html">groupAges</a></span><span class="op">(</span><span class="va">original</span>, <span class="fl">0</span><span class="op">:</span><span class="fl">45</span>, AgeN <span class="op">=</span> <span class="fu"><a href="../reference/int2ageN.html">int2ageN</a></span><span class="op">(</span><span class="va">AgeIntRandom</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
+<span class="va">pop2</span>         <span class="op">&lt;-</span> <span class="fu"><a href="../reference/groupAges.html">groupAges</a></span><span class="op">(</span><span class="va">original</span>, <span class="fl">0</span><span class="op">:</span><span class="fl">45</span>, AgeN <span class="op">=</span> <span class="fu"><a href="../reference/int2ageN.html">int2ageN</a></span><span class="op">(</span><span class="va">AgeInt5</span>, <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># inflate (in this case) pop2</span>
-<span class="no">perturb</span>      <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">pop2</span>), <span class="kw">min</span> <span class="kw">=</span> <span class="fl">1.05</span>, <span class="kw">max</span> <span class="kw">=</span> <span class="fl">1.2</span>)
+<span class="va">perturb</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">pop2</span><span class="op">)</span>, min <span class="op">=</span> <span class="fl">1.05</span>, max <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span>
 
-<span class="no">pop2</span>         <span class="kw">&lt;-</span> <span class="no">pop2</span> * <span class="no">perturb</span>
+<span class="va">pop2</span>         <span class="op">&lt;-</span> <span class="va">pop2</span> <span class="op">*</span> <span class="va">perturb</span>
 
 <span class="co"># a recursively constrained solution</span>
-<span class="no">pop1resc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/rescaleAgeGroups.html">rescaleAgeGroups</a></span>(<span class="kw">Value1</span> <span class="kw">=</span> <span class="no">pop1</span>,
-                    <span class="kw">AgeInt1</span> <span class="kw">=</span> <span class="no">AgeIntRandom</span>,
-                    <span class="kw">Value2</span> <span class="kw">=</span> <span class="no">pop2</span>,
-                    <span class="kw">AgeInt2</span> <span class="kw">=</span> <span class="no">AgeInt5</span>,
-                    <span class="kw">splitfun</span> <span class="kw">=</span> <span class="no">graduate_uniform</span>,
-                 <span class="kw">recursive</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">pop1resc</span>
+<span class="va">pop1resc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/rescaleAgeGroups.html">rescaleAgeGroups</a></span><span class="op">(</span>Value1 <span class="op">=</span> <span class="va">pop1</span>, 
+                    AgeInt1 <span class="op">=</span> <span class="va">AgeIntRandom</span>,
+                    Value2 <span class="op">=</span> <span class="va">pop2</span>, 
+                    AgeInt2 <span class="op">=</span> <span class="va">AgeInt5</span>, 
+                    splitfun <span class="op">=</span> <span class="va">graduate_uniform</span>, 
+                 recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">pop1resc</span>
 <span class="co">#&gt;         0         1         6         8        10        14        18        19 </span>
-<span class="co">#&gt;  26.93868 278.11045  67.04685 155.74355 212.78794 150.91969  87.33507 158.73070 </span>
+<span class="co">#&gt;  13.78861 369.55222  76.78674  27.15103 303.39771 178.86055  46.64916 179.93240 </span>
 <span class="co">#&gt;        21        24        28        31        34        37        40 </span>
-<span class="co">#&gt; 205.24379 214.13033 151.02782 164.87583 203.86292  83.65484 320.88511</span></pre></body></html></div>
+<span class="co">#&gt; 190.94577 247.00658 170.54058 294.41331 224.48613 116.79964 369.03465</span></code></pre></div>
 </div>
 </div>
 <div id="graduation-as-a-light-smoother" class="section level2">
@@ -381,11 +395,11 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 
 
       <footer><div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

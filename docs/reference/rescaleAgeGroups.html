@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.25</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,15 +162,15 @@
     <p>This method rescales a vector of counts in arbitrary (integer) age groups to approximate a vector of counts in a potentially different age grouping. Common use cases will be to scale single ages (whose age pattern we wish to roughly maintain) to sum to abridged or 5-year age groups from another source. The counts to be rescaled could potentially be in any grouping (see example).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rescaleAgeGroups</span>(
-  <span class='no'>Value1</span>,
-  <span class='no'>AgeInt1</span>,
-  <span class='no'>Value2</span>,
-  <span class='no'>AgeInt2</span>,
-  <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>graduate_uniform</span>, <span class='no'>graduate_mono</span>),
-  <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>0.001</span>
-)</pre>
+    <pre class="usage"><span class='fu'>rescaleAgeGroups</span><span class='op'>(</span>
+  <span class='va'>Value1</span>,
+  <span class='va'>AgeInt1</span>,
+  <span class='va'>Value2</span>,
+  <span class='va'>AgeInt2</span>,
+  splitfun <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>graduate_uniform</span>, <span class='va'>graduate_mono</span><span class='op'>)</span>,
+  recursive <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  tol <span class='op'>=</span> <span class='fl'>0.001</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,81 +214,87 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># just to make a point about arbitrary integer age widths in both pop1 and pop2</span>
 <span class='co'># note if pop1 is in single ages and pop2 is in groups things work much cleaner.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>3</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>
 <span class='co'>#set.seed(3)</span>
 <span class='co'>#AgeIntRandom &lt;- sample(1:5, size = 15,replace = TRUE)</span>
-<span class='no'>AgeIntRandom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1L</span>, <span class='fl'>5L</span>, <span class='fl'>2L</span>, <span class='fl'>2L</span>, <span class='fl'>4L</span>, <span class='fl'>4L</span>, <span class='fl'>1L</span>, <span class='fl'>2L</span>, <span class='fl'>3L</span>, <span class='fl'>4L</span>, <span class='fl'>3L</span>, <span class='fl'>3L</span>, <span class='fl'>3L</span>, <span class='fl'>3L</span>, <span class='fl'>5L</span>)
-<span class='no'>AgeInt5</span>      <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>5</span>, <span class='fl'>9</span>)
-<span class='no'>original</span>     <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>45</span>, <span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>100</span>)
-<span class='no'>pop1</span>         <span class='kw'>&lt;-</span> <span class='fu'><a href='groupAges.html'>groupAges</a></span>(<span class='no'>original</span>, <span class='fl'>0</span>:<span class='fl'>45</span>, <span class='kw'>AgeN</span> <span class='kw'>=</span> <span class='fu'><a href='int2ageN.html'>int2ageN</a></span>(<span class='no'>AgeIntRandom</span>, <span class='fl'>FALSE</span>))
-<span class='no'>pop2</span>         <span class='kw'>&lt;-</span> <span class='fu'><a href='groupAges.html'>groupAges</a></span>(<span class='no'>original</span>, <span class='fl'>0</span>:<span class='fl'>45</span>, <span class='kw'>AgeN</span> <span class='kw'>=</span> <span class='fu'><a href='int2ageN.html'>int2ageN</a></span>(<span class='no'>AgeInt5</span>, <span class='fl'>FALSE</span>))
+<span class='va'>AgeIntRandom</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1L</span>, <span class='fl'>5L</span>, <span class='fl'>2L</span>, <span class='fl'>2L</span>, <span class='fl'>4L</span>, <span class='fl'>4L</span>, <span class='fl'>1L</span>, <span class='fl'>2L</span>, <span class='fl'>3L</span>, <span class='fl'>4L</span>, <span class='fl'>3L</span>, <span class='fl'>3L</span>, <span class='fl'>3L</span>, <span class='fl'>3L</span>, <span class='fl'>5L</span><span class='op'>)</span>
+<span class='va'>AgeInt5</span>      <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>9</span><span class='op'>)</span>
+<span class='va'>original</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>45</span>, min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+<span class='va'>pop1</span>         <span class='op'>&lt;-</span> <span class='fu'><a href='groupAges.html'>groupAges</a></span><span class='op'>(</span><span class='va'>original</span>, <span class='fl'>0</span><span class='op'>:</span><span class='fl'>45</span>, AgeN <span class='op'>=</span> <span class='fu'><a href='int2ageN.html'>int2ageN</a></span><span class='op'>(</span><span class='va'>AgeIntRandom</span>, <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>pop2</span>         <span class='op'>&lt;-</span> <span class='fu'><a href='groupAges.html'>groupAges</a></span><span class='op'>(</span><span class='va'>original</span>, <span class='fl'>0</span><span class='op'>:</span><span class='fl'>45</span>, AgeN <span class='op'>=</span> <span class='fu'><a href='int2ageN.html'>int2ageN</a></span><span class='op'>(</span><span class='va'>AgeInt5</span>, <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># inflate (in this case) pop2</span>
-<span class='no'>perturb</span>      <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>pop2</span>), <span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>1.05</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>1.2</span>)
+<span class='va'>perturb</span>      <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>pop2</span><span class='op'>)</span>, min <span class='op'>=</span> <span class='fl'>1.05</span>, max <span class='op'>=</span> <span class='fl'>1.2</span><span class='op'>)</span>
 
-<span class='no'>pop2</span>         <span class='kw'>&lt;-</span> <span class='no'>pop2</span> * <span class='no'>perturb</span>
+<span class='va'>pop2</span>         <span class='op'>&lt;-</span> <span class='va'>pop2</span> <span class='op'>*</span> <span class='va'>perturb</span>
 
 <span class='co'># a recursively constrained solution</span>
-(<span class='no'>pop1resc</span> <span class='kw'>&lt;-</span> <span class='fu'>rescaleAgeGroups</span>(<span class='kw'>Value1</span> <span class='kw'>=</span> <span class='no'>pop1</span>,
-                                        <span class='kw'>AgeInt1</span> <span class='kw'>=</span> <span class='no'>AgeIntRandom</span>,
-                                        <span class='kw'>Value2</span> <span class='kw'>=</span> <span class='no'>pop2</span>,
-                                        <span class='kw'>AgeInt2</span> <span class='kw'>=</span> <span class='no'>AgeInt5</span>,
-                                        <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='no'>graduate_uniform</span>,
-                 <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;          0          1          6          8         10         14         18 
+<span class='op'>(</span><span class='va'>pop1resc</span> <span class='op'>&lt;-</span> <span class='fu'>rescaleAgeGroups</span><span class='op'>(</span>Value1 <span class='op'>=</span> <span class='va'>pop1</span>,
+          AgeInt1 <span class='op'>=</span> <span class='va'>AgeIntRandom</span>,
+          Value2 <span class='op'>=</span> <span class='va'>pop2</span>,
+          AgeInt2 <span class='op'>=</span> <span class='va'>AgeInt5</span>,
+          splitfun <span class='op'>=</span> <span class='va'>graduate_uniform</span>,
+                 recursive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          0          1          6          8         10         14         18 
 #&gt;  17.741783 289.921985  45.842444 132.156825 248.211782 275.656666  95.951513 
 #&gt;         19         21         24         28         31         34         37 
 #&gt;  13.832498   1.456921 295.438424 255.996179  39.989714 154.558517 158.631882 
 #&gt;         40 
 #&gt; 267.469173 </div><div class='input'><span class='co'># a single pass adjustment (no recursion)</span>
-(<span class='no'>pop1resc1</span> <span class='kw'>&lt;-</span> <span class='fu'>rescaleAgeGroups</span>(<span class='kw'>Value1</span> <span class='kw'>=</span> <span class='no'>pop1</span>,
-                                        <span class='kw'>AgeInt1</span> <span class='kw'>=</span> <span class='no'>AgeIntRandom</span>,
-                                        <span class='kw'>Value2</span> <span class='kw'>=</span> <span class='no'>pop2</span>,
-                                        <span class='kw'>AgeInt2</span> <span class='kw'>=</span> <span class='no'>AgeInt5</span>,
-                                        <span class='kw'>splitfun</span> <span class='kw'>=</span> <span class='no'>graduate_uniform</span>,
-                                        <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))</div><div class='output co'>#&gt;         0         1         6         8        10        14        18        19 
+<span class='op'>(</span><span class='va'>pop1resc1</span> <span class='op'>&lt;-</span> <span class='fu'>rescaleAgeGroups</span><span class='op'>(</span>Value1 <span class='op'>=</span> <span class='va'>pop1</span>,
+          AgeInt1 <span class='op'>=</span> <span class='va'>AgeIntRandom</span>,
+          Value2 <span class='op'>=</span> <span class='va'>pop2</span>,
+          AgeInt2 <span class='op'>=</span> <span class='va'>AgeInt5</span>,
+          splitfun <span class='op'>=</span> <span class='va'>graduate_uniform</span>,
+          recursive <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         0         1         6         8        10        14        18        19 
 #&gt;  17.85845 291.03915  45.52468 131.24076 244.32688 264.98546  91.52467  44.44425 
 #&gt;        21        24        28        31        34        37        40 
-#&gt;  17.35667 292.44121 194.72123  85.71307 173.42440 130.78627 267.46917 </div><div class='input'><span class='no'>pop1resc</span> / <span class='no'>pop1</span></div><div class='output co'>#&gt;          0          1          6          8         10         14         18 
+#&gt;  17.35667 292.44121 194.72123  85.71307 173.42440 130.78627 267.46917 </div><div class='input'><span class='va'>pop1resc</span> <span class='op'>/</span> <span class='va'>pop1</span>
+</div><div class='output co'>#&gt;          0          1          6          8         10         14         18 
 #&gt; 1.05579752 1.06327532 1.09348011 1.09348011 1.17729396 1.09702495 1.06911161 
 #&gt;         19         21         24         28         31         34         37 
 #&gt; 0.27232841 0.06129412 1.16410049 1.51003360 0.40114915 1.04131493 1.60434464 
 #&gt;         40 
-#&gt; 1.19898329 </div><div class='input'><span class='no'>perturb</span></div><div class='output co'>#&gt; [1] 1.090143 1.057171 1.065524 1.097105 1.170096 1.084399 1.081950 1.181565
+#&gt; 1.19898329 </div><div class='input'><span class='va'>perturb</span>
+</div><div class='output co'>#&gt; [1] 1.090143 1.057171 1.065524 1.097105 1.170096 1.084399 1.081950 1.181565
 #&gt; [9] 1.198983</div><div class='input'>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 
 <span class='co'># show before / after</span>
-        <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='kw'>NULL</span>,<span class='kw'>xlim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>45</span>),<span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>2</span>),<span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Different (but integer) intervals"</span>,
-                        <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"Age"</span>, <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>axes</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-        <span class='no'>x1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='no'>AgeIntRandom</span>))
-        <span class='fu'><a href='https://rdrr.io/r/graphics/rect.html'>rect</a></span>(<span class='no'>x1</span>[-<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x1</span>)],<span class='fl'>1</span>,<span class='no'>x1</span>[-<span class='fl'>1</span>],<span class='fl'>2</span>,<span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span>(<span class='fl'>.8</span>), <span class='kw'>border</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
-        <span class='no'>x2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='no'>AgeInt5</span>))
-        <span class='fu'><a href='https://rdrr.io/r/graphics/rect.html'>rect</a></span>(<span class='no'>x2</span>[-<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x2</span>)],<span class='fl'>0</span>,<span class='no'>x2</span>[-<span class='fl'>1</span>],<span class='fl'>1</span>,<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"palegreen1"</span>, <span class='kw'>border</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
-        <span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span>(<span class='fl'>23</span>,<span class='fl'>1.5</span>,<span class='st'>"Original (arbitrary grouping)"</span>,<span class='kw'>font</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>1.5</span>)
-        <span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span>(<span class='fl'>23</span>,<span class='fl'>.5</span>,<span class='st'>"Standard to rescale to (arbitrary grouping)"</span>,<span class='kw'>font</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>1.5</span>)
-        <span class='fu'><a href='https://rdrr.io/r/graphics/axis.html'>axis</a></span>(<span class='fl'>1</span>)
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='cn'>NULL</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>45</span><span class='op'>)</span>,ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>2</span><span class='op'>)</span>,main <span class='op'>=</span> <span class='st'>"Different (but integer) intervals"</span>,
+      xlab <span class='op'>=</span> <span class='st'>"Age"</span>, ylab <span class='op'>=</span> <span class='st'>""</span>, axes <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+  <span class='va'>x1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>AgeIntRandom</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/rect.html'>rect</a></span><span class='op'>(</span><span class='va'>x1</span><span class='op'>[</span><span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>x1</span><span class='op'>)</span><span class='op'>]</span>,<span class='fl'>1</span>,<span class='va'>x1</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>,<span class='fl'>2</span>,col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>.8</span><span class='op'>)</span>, border <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span>
+  <span class='va'>x2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>AgeInt5</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/rect.html'>rect</a></span><span class='op'>(</span><span class='va'>x2</span><span class='op'>[</span><span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>x2</span><span class='op'>)</span><span class='op'>]</span>,<span class='fl'>0</span>,<span class='va'>x2</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>,<span class='fl'>1</span>,col <span class='op'>=</span> <span class='st'>"palegreen1"</span>, border <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>23</span>,<span class='fl'>1.5</span>,<span class='st'>"Original (arbitrary grouping)"</span>,font <span class='op'>=</span> <span class='fl'>2</span>, cex<span class='op'>=</span><span class='fl'>1.5</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>23</span>,<span class='fl'>.5</span>,<span class='st'>"Standard to rescale to (arbitrary grouping)"</span>,font <span class='op'>=</span> <span class='fl'>2</span>, cex<span class='op'>=</span><span class='fl'>1.5</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/axis.html'>axis</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
 
 <span class='co'># adjustment factors:</span>
-        <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='fu'><a href='int2age.html'>int2age</a></span>(<span class='no'>AgeInt5</span>), <span class='no'>perturb</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>2</span>))
-        <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='fu'><a href='int2age.html'>int2age</a></span>(<span class='no'>AgeIntRandom</span>), <span class='no'>pop1resc</span> / <span class='no'>pop1</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>16</span>)
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='int2age.html'>int2age</a></span><span class='op'>(</span><span class='va'>AgeInt5</span><span class='op'>)</span>, <span class='va'>perturb</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='int2age.html'>int2age</a></span><span class='op'>(</span><span class='va'>AgeIntRandom</span><span class='op'>)</span>, <span class='va'>pop1resc</span> <span class='op'>/</span> <span class='va'>pop1</span>, pch <span class='op'>=</span> <span class='fl'>16</span><span class='op'>)</span>
 <span class='co'># non-recursive is less disruptive for uniform</span>
-        <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='fu'><a href='int2age.html'>int2age</a></span>(<span class='no'>AgeIntRandom</span>), <span class='no'>pop1resc1</span> / <span class='no'>pop1</span>, <span class='kw'>pch</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)
+  <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='int2age.html'>int2age</a></span><span class='op'>(</span><span class='va'>AgeIntRandom</span><span class='op'>)</span>, <span class='va'>pop1resc1</span> <span class='op'>/</span> <span class='va'>pop1</span>, pch <span class='op'>=</span> <span class='fl'>16</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
 
 <span class='co'># show before / after under uniform (in pop1) assumption.</span>
-        <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='kw'>NULL</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>45</span>), <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>150</span>), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Uniform constraint"</span>)
-        <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>0</span>:<span class='fl'>44</span>, <span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span>(<span class='no'>pop1</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeIntRandom</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
-        <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>0</span>:<span class='fl'>44</span>, <span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span>(<span class='no'>pop2</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeInt5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)
-        <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>0</span>:<span class='fl'>44</span>, <span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span>(<span class='no'>pop1resc</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeIntRandom</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>),
-<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"orange"</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-        <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>0</span>:<span class='fl'>44</span>, <span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span>(<span class='no'>pop1resc1</span>, <span class='kw'>AgeInt</span> <span class='kw'>=</span> <span class='no'>AgeIntRandom</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>),
-<span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"magenta"</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-        <span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='st'>"topright"</span>,
-        <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>),
-        <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"red"</span>, <span class='st'>"blue"</span>, <span class='st'>"orange"</span>, <span class='st'>"magenta"</span>),
-        <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>),
-                   <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Original N1"</span>, <span class='st'>"Prior N2"</span>,
-                    <span class='st'>"Rescaled N1 recursive"</span>, <span class='st'>"Rescaled N1 1 pass"</span>))
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='cn'>NULL</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>45</span><span class='op'>)</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>150</span><span class='op'>)</span>, main <span class='op'>=</span> <span class='st'>"Uniform constraint"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>44</span>, <span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span><span class='op'>(</span><span class='va'>pop1</span>, AgeInt <span class='op'>=</span> <span class='va'>AgeIntRandom</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>44</span>, <span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span><span class='op'>(</span><span class='va'>pop2</span>, AgeInt <span class='op'>=</span> <span class='va'>AgeInt5</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>44</span>, <span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span><span class='op'>(</span><span class='va'>pop1resc</span>, AgeInt <span class='op'>=</span> <span class='va'>AgeIntRandom</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>,
+col <span class='op'>=</span> <span class='st'>"orange"</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>44</span>, <span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span><span class='op'>(</span><span class='va'>pop1resc1</span>, AgeInt <span class='op'>=</span> <span class='va'>AgeIntRandom</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>,
+col <span class='op'>=</span> <span class='st'>"magenta"</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>,
+        lty <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span>,
+        col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"red"</span>, <span class='st'>"blue"</span>, <span class='st'>"orange"</span>, <span class='st'>"magenta"</span><span class='op'>)</span>,
+        lwd <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span>,
+       legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Original N1"</span>, <span class='st'>"Prior N2"</span>,
+                    <span class='st'>"Rescaled N1 recursive"</span>, <span class='st'>"Rescaled N1 1 pass"</span><span class='op'>)</span><span class='op'>)</span>
 
-}</div></pre>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -300,11 +306,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

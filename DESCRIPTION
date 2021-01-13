@@ -1,8 +1,8 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.09.28
-Date: 2020-11-02
+Version: 01.11.03
+Date: 2021-01-12
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
           email = "tim.riffe@gmail.com", comment = c(ORCID = "0000-0002-2673-4622")),
@@ -10,6 +10,7 @@ Authors@R: c(
    person("Ilya", "Kashnitsky", role = "aut", comment = c(ORCID = "0000-0003-1835-8687")),
    person("Monica", "Alexander", role = "aut", comment = c(ORCID = "0000-0002-8135-3435")),
    person("Marius D.", "Pascariu", role = "aut", comment = c(ORCID = "0000-0002-2568-6489")),
+   person("Sara", "Hertog", role = "aut"),
    person("Sean", "Fennell", role = "aut"),
    person("Jorge", "Cimentada", role = "ctb", comment = c(ORCID = "0000-0001-5594-1156")),
    person("Juan", "Galeano", role = "ctb", comment = c(ORCID = "0000-0002-3682-1797")),
@@ -30,8 +31,7 @@ Suggests:
     knitr,
     rmarkdown,
     DT,
-    ggplot2,
-    bibtex (>= 0.4.2)
+    ggplot2
 RdMacros: Rdpack
 Imports:
     demogR,
@@ -47,8 +47,12 @@ Imports:
     tidybayes,
     ungroup,
     lubridate,
-    fertestr
+    fertestr,
+    DemoToolsData
 BugReports: https://github.com/timriffe/DemoTools/issues
-Remotes: https://github.com/josehcms/fertestr
+Remotes: 
+    https://github.com/josehcms/fertestr,
+    https://github.com/mpascariu/ungroup,
+    https://github.com/timriffe/DemoToolsData
 Encoding: UTF-8
 VignetteBuilder: knitr

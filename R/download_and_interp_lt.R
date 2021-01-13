@@ -16,7 +16,7 @@ interp_coh_graduate_dx_qx_chunk <- function(chunk){
   x         <- sqrt(chunk$Age)
   Date      <- chunk$Date[1]
   CDF       <- cumsum(chunk$dx)
-  mono_fun  <- stats::splinefun(CDF~x)
+  mono_fun  <- stats::splinefun(CDF~x, method = "monoH.FC")
   
   xout      <- 0:100
   sqxout    <- sqrt(xout)
@@ -40,12 +40,12 @@ interp_coh_download_mortality <- function(country, sex, date1, date2){
   
   dates_out  <- c(dec.date(date1),year_seq)
  
-  DX <-lapply(dates_out,fertestr::FetchLifeTableWpp2019,
+  DX <-suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,
          locations = country, 
          sex = sex) %>% 
     lapply("[[","dx") %>% 
     dplyr::bind_cols() %>% 
-    as.matrix()
+    as.matrix())
   
   dimnames(DX) <- list(c(0,1,seq(5,100,by=5)),
                   dates_out)
@@ -59,16 +59,20 @@ interp_coh_download_mortality <- function(country, sex, date1, date2){
     dplyr::do(interp_coh_graduate_dx_qx_chunk(chunk = .data)) %>% 
     dplyr::ungroup() %>% 
     reshape2::acast(Age~Date, value.var = "qx")
-  
+  QX[QX < 0] <- 0
   # discount first and last periods.
   
   f1    <- diff(dates_out)[1]
   f2    <- date2 - floor(date2)
   
-  QX[, 1] <- QX[, 1] ^ (1/f1)
-  QX[, ncol(QX)] <- QX[,ncol(QX)] ^ (1/f2)
-
+  # assume linear px change within age class
   PX <- 1 - QX
+  PX[,1] <- PX[,1] ^f1
+  PX[,ncol(PX)] <- PX[,ncol(PX)] ^f2
+  # QX[, 1] <- QX[, 1] ^ (1/f1)
+  # QX[, ncol(QX)] <- QX[,ncol(QX)] ^ (1/f2)
+
+  # PX <- 1 - QX
 
   PX
 }

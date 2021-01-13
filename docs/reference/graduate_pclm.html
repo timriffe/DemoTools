@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>wrapper for <code>ungroup::pclm</code> method of splitting binned counts — graduate_pclm • DemoTools</title>
+<title>wrapper for ungroup::pclm method of splitting binned counts — graduate_pclm • DemoTools</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="wrapper for <code>ungroup::pclm</code> method of splitting binned counts — graduate_pclm" />
+<meta property="og:title" content="wrapper for ungroup::pclm method of splitting binned counts — graduate_pclm" />
 <meta property="og:description" content="This is exactly the function pclm() from the ungroup package, except with arguments using standard DemoTools argument names." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.25</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +162,7 @@
     <p>This is exactly the function <code>pclm()</code> from the <code>ungroup</code> package, except with arguments using standard <code>DemoTools</code> argument names.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>graduate_pclm</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>graduate_pclm</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, OAnew <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,39 +192,40 @@
 
     <p>Pascariu MD, Dańko MJ, Schöley J, Rizzi S (2018).
 &#8220;ungroup: An R package for efficient estimation of smooth distributions from coarsely binned data.&#8221;
-<em>Age</em>, <b>10</b>.
+<em>Age</em>, <b>10</b>, 0.
 
 Rizzi S, Gampe J, Eilers PH (2015).
 &#8220;Efficient estimation of smooth distributions from coarsely grouped data.&#8221;
-<em>American journal of epidemiology</em>, <b>182</b>, 138--147.</p>
+<em>American journal of epidemiology</em>, <b>182</b>(2), 138--147.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/ungroup/man/pclm.html'>pclm</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>a5</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>,<span class='fl'>100</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>)
-<span class='no'>p5</span>  <span class='kw'>&lt;-</span> <span class='no'>pop5_mat</span>[, <span class='fl'>1</span>]
-<span class='no'>p1</span>  <span class='kw'>&lt;-</span> <span class='fu'>graduate_pclm</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>p5</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>)
-<span class='no'>p1s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>p5</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>a5</span>, <span class='no'>p5</span>/<span class='fl'>5</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"s"</span>,<span class='kw'>xlim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>40</span>,<span class='fl'>60</span>),<span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2000</span>,<span class='fl'>4000</span>))
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>0</span>:<span class='fl'>100</span>, <span class='no'>p1</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>0</span>:<span class='fl'>100</span>, <span class='no'>p1s</span>, <span class='kw'>lwd</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>,<span class='kw'>lty</span><span class='kw'>=</span><span class='st'>"8282"</span>)
-}
+    <pre class="examples"><div class='input'><span class='va'>a5</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>p5</span>  <span class='op'>&lt;-</span> <span class='va'>pop5_mat</span><span class='op'>[</span>, <span class='fl'>1</span><span class='op'>]</span>
+<span class='va'>p1</span>  <span class='op'>&lt;-</span> <span class='fu'>graduate_pclm</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>p5</span>, Age <span class='op'>=</span> <span class='va'>a5</span><span class='op'>)</span>
+<span class='va'>p1s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>p5</span>, Age <span class='op'>=</span> <span class='va'>a5</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>a5</span>, <span class='va'>p5</span><span class='op'>/</span><span class='fl'>5</span>, type <span class='op'>=</span> <span class='st'>"s"</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>,<span class='fl'>60</span><span class='op'>)</span>,ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2000</span>,<span class='fl'>4000</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>p1</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>p1s</span>, lwd <span class='op'>=</span> <span class='fl'>1</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>,lty<span class='op'>=</span><span class='st'>"8282"</span><span class='op'>)</span>
+<span class='op'>}</span>
 <span class='co'># example of how to graduate rates by splitting deaths using population</span>
 <span class='co'># as PCLM offset</span>
-<span class='no'>dth.ind</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>49</span>, <span class='fl'>14</span>, <span class='fl'>9</span>, <span class='fl'>39</span>, <span class='fl'>60</span>, <span class='fl'>101</span>, <span class='fl'>147</span>, <span class='fl'>178</span>, <span class='fl'>177</span>, <span class='fl'>232</span>)
-<span class='no'>pop.ind</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7231</span>, <span class='fl'>28400</span>, <span class='fl'>66836</span>, <span class='fl'>52380</span>, <span class='fl'>38022</span>, <span class='fl'>36886</span>, <span class='fl'>26145</span>, <span class='fl'>14205</span>, <span class='fl'>6406</span>,
-             <span class='fl'>3322</span>)
-<span class='no'>age</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>15</span>,<span class='fl'>25</span>,<span class='fl'>35</span>,<span class='fl'>45</span>,<span class='fl'>55</span>,<span class='fl'>65</span>,<span class='fl'>75</span>)
-<span class='no'>mx</span> <span class='kw'>&lt;-</span> <span class='fu'>graduate_pclm</span>(<span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>dth.ind</span>,
-              <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>age</span>,
-              <span class='kw'>OAnew</span> <span class='kw'>=</span> <span class='fl'>85</span>,
-              <span class='kw'>offset</span> <span class='kw'>=</span> <span class='no'>pop.ind</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>age</span>, <span class='no'>dth.ind</span> / <span class='no'>pop.ind</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'s'</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='st'>'y'</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>85</span>))
-  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fl'>0</span>:<span class='fl'>85</span>, <span class='no'>mx</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)
-}</div></pre>
+<span class='va'>dth.ind</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>49</span>, <span class='fl'>14</span>, <span class='fl'>9</span>, <span class='fl'>39</span>, <span class='fl'>60</span>, <span class='fl'>101</span>, <span class='fl'>147</span>, <span class='fl'>178</span>, <span class='fl'>177</span>, <span class='fl'>232</span><span class='op'>)</span>
+<span class='va'>pop.ind</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>7231</span>, <span class='fl'>28400</span>, <span class='fl'>66836</span>, <span class='fl'>52380</span>, <span class='fl'>38022</span>, <span class='fl'>36886</span>, <span class='fl'>26145</span>, <span class='fl'>14205</span>, <span class='fl'>6406</span>, 
+             <span class='fl'>3322</span><span class='op'>)</span>
+<span class='va'>age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>15</span>,<span class='fl'>25</span>,<span class='fl'>35</span>,<span class='fl'>45</span>,<span class='fl'>55</span>,<span class='fl'>65</span>,<span class='fl'>75</span><span class='op'>)</span>
+<span class='va'>mx</span> <span class='op'>&lt;-</span> <span class='fu'>graduate_pclm</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>dth.ind</span>, 
+              Age <span class='op'>=</span> <span class='va'>age</span>, 
+              OAnew <span class='op'>=</span> <span class='fl'>85</span>, 
+              offset <span class='op'>=</span> <span class='va'>pop.ind</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>dth.ind</span> <span class='op'>/</span> <span class='va'>pop.ind</span>, type <span class='op'>=</span> <span class='st'>'s'</span>, log <span class='op'>=</span> <span class='st'>'y'</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>85</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>85</span>, <span class='va'>mx</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -236,11 +237,11 @@ Rizzi S, Gampe J, Eilers PH (2015).
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

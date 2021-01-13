@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.25</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +162,7 @@
     <p>This method offers both ordinary and modified Beers splitting, with an optional <a href='https://www.census.gov/data/software/dapps.html'>Demographic Analysis &amp; Population Projection System Software</a> adjustment <code>johnson</code> for ages under 10.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>graduate_beers</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='no'>AgeInt</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"mod"</span>, <span class='kw'>johnson</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>graduate_beers</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, <span class='va'>AgeInt</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, method <span class='op'>=</span> <span class='st'>"mod"</span>, johnson <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -204,57 +204,63 @@
 
     <p>Beers HS (1945).
 &#8220;Modified-interpolation formulas that minimize fourth differences.&#8221;
-<em>Record of the American Institute of Actuaries</em>, <b>34</b>, 14--20.
+<em>Record of the American Institute of Actuaries</em>, <b>34</b>(69), 14--20.
 
 Shryock HS, Siegel JS, Larmon EA (1973).
 <em>The methods and materials of demography</em>.
 US Bureau of the Census.
 
-Siegel Jacob S, Swanson David A (2004).
+Siegel Jacob S, Swanson David A (eds.) (2004).
 <em>The Methods and Materials of Demography</em>, 2 edition.
 Elsevier Academic Press, California, USA, San Diego, USA.
 
 Stover J, Johnson P, Zaba B, Zwahlen M, Dabis F, Ekpini RE (2008).
 &#8220;The Spectrum projection package: improvements in estimating mortality, ART needs, PMTCT impact and uncertainty bounds.&#8221;
-<em>Sexually Transmitted Infections</em>, <b>84</b>, i24--i30.</p>
+<em>Sexually Transmitted Infections</em>, <b>84</b>(Suppl 1), i24--i30.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>p5</span> <span class='kw'>&lt;-</span> <span class='no'>pop5_mat</span>
-<span class='no'>a5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>p5</span>))
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>p5</span>) <span class='co'># this is the entire matrix</span></div><div class='output co'>#&gt;     1950  1951  1952  1953  1954
+    <pre class="examples"><div class='input'><span class='va'>p5</span> <span class='op'>&lt;-</span> <span class='va'>pop5_mat</span>
+<span class='va'>a5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>p5</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>p5</span><span class='op'>)</span> <span class='co'># this is the entire matrix</span>
+</div><div class='output co'>#&gt;     1950  1951  1952  1953  1954
 #&gt; 0  54170 57424 60272 62727 64816
 #&gt; 5  44775 44475 44780 45681 47137
 #&gt; 10 42142 41752 41804 42101 42508
 #&gt; 15 38464 39628 40229 40474 40532
 #&gt; 20 34406 34757 35155 35599 36083
-#&gt; 25 30386 30605 30978 31439 31940</div><div class='input'><span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'>graduate_beers</span>(<span class='no'>p5</span>[,<span class='fl'>1</span>], <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>a5</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>p1</span>)</div><div class='output co'>#&gt;         0         1         2         3         4         5 
+#&gt; 25 30386 30605 30978 31439 31940</div><div class='input'><span class='va'>p1</span> <span class='op'>&lt;-</span> <span class='fu'>graduate_beers</span><span class='op'>(</span><span class='va'>p5</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>p1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         0         1         2         3         4         5 
 #&gt; 11952.235 11325.417 10766.300 10274.882  9851.165  9494.302 </div><div class='input'><span class='co'># note some negatives in high ages</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='no'>p1</span>)</div><div class='output co'>#&gt;      99     100     101     102     103     104 
-#&gt;  0.3184 -0.0886 -0.2724 -0.2281  0.0443  0.5448 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>p1</span>) - <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>p5</span>[,<span class='fl'>1</span>])</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>p1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      99     100     101     102     103     104 
+#&gt;  0.3184 -0.0886 -0.2724 -0.2281  0.0443  0.5448 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>p1</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>p5</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
 <span class='co'># another case, starting with single ages</span>
 <span class='co'># note beers() groups ages.</span>
-<span class='no'>Value</span>        <span class='kw'>&lt;-</span> <span class='no'>pop1m_ind</span>
-<span class='no'>Age</span>          <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>100</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>Value</span>) <span class='kw'>&lt;-</span> <span class='no'>Age</span>
-<span class='no'>ord1</span> <span class='kw'>&lt;-</span>  <span class='fu'>graduate_beers</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"ord"</span>)
-<span class='no'>mod1</span> <span class='kw'>&lt;-</span> <span class='fu'>graduate_beers</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"mod"</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Age</span>,<span class='no'>Value</span>,
-<span class='kw'>ylab</span> <span class='kw'>=</span> <span class='st'>'The counts'</span>, <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>'Age groups'</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>, <span class='no'>ord1</span>, <span class='kw'>t</span><span class='kw'>=</span><span class='st'>'l'</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>'blue'</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>, <span class='no'>mod1</span>, <span class='kw'>t</span> <span class='kw'>=</span> <span class='st'>'l'</span>, <span class='kw'>col</span> <span class='kw'>=</span><span class='st'>'red'</span>, <span class='kw'>lty</span> <span class='kw'>=</span><span class='fl'>2</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='fl'>80</span>,<span class='fl'>15000000</span>,
-      <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Ordinary'</span>,
-                 <span class='st'>'Modified'</span>),
-      <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'blue'</span>, <span class='st'>'red'</span>),
-      <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>))
-}
+<span class='va'>Value</span>        <span class='op'>&lt;-</span> <span class='va'>pop1m_ind</span>
+<span class='va'>Age</span>          <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>Value</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>Age</span>
+<span class='va'>ord1</span> <span class='op'>&lt;-</span>  <span class='fu'>graduate_beers</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, method <span class='op'>=</span> <span class='st'>"ord"</span><span class='op'>)</span>
+<span class='va'>mod1</span> <span class='op'>&lt;-</span> <span class='fu'>graduate_beers</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, method <span class='op'>=</span> <span class='st'>"mod"</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>Value</span>,
+ylab <span class='op'>=</span> <span class='st'>'The counts'</span>, xlab <span class='op'>=</span> <span class='st'>'Age groups'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>ord1</span>, t<span class='op'>=</span><span class='st'>'l'</span>, col<span class='op'>=</span><span class='st'>'blue'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>mod1</span>, t <span class='op'>=</span> <span class='st'>'l'</span>, col <span class='op'>=</span><span class='st'>'red'</span>, lty <span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='fl'>80</span>,<span class='fl'>15000000</span>,
+      legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Ordinary'</span>,
+                 <span class='st'>'Modified'</span><span class='op'>)</span>,
+      col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'blue'</span>, <span class='st'>'red'</span><span class='op'>)</span>,
+      lty <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'># notice this negative value. Yuck!</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='no'>mod1</span>)</div><div class='output co'>#&gt;        95        96        97        98        99       100 
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>mod1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;        95        96        97        98        99       100 
 #&gt;  59273.54  47761.30  31560.53  10671.23 -14906.60  72373.00 </div><div class='input'><span class='co'># this replaces ages 90+, guaranteed no negatives.</span>
-<span class='fu'><a href='graduate_mono_closeout.html'>graduate_mono_closeout</a></span>(<span class='no'>Value</span>, <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>, <span class='kw'>pops</span> <span class='kw'>=</span> <span class='no'>mod1</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;            0            1            2            3            4            5 
+<span class='fu'><a href='graduate_mono_closeout.html'>graduate_mono_closeout</a></span><span class='op'>(</span><span class='va'>Value</span>, Age <span class='op'>=</span> <span class='va'>Age</span>, pops <span class='op'>=</span> <span class='va'>mod1</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;            0            1            2            3            4            5 
 #&gt;  9549663.507 10101199.499 10562432.945 10933363.847 11213992.203 11404022.043 
 #&gt;            6            7            8            9           10           11 
 #&gt; 11503489.930 11515538.375 11441201.536 11284656.084 11051631.663 10751592.372 
@@ -291,17 +297,18 @@ Stover J, Johnson P, Zaba B, Zwahlen M, Dabis F, Ekpini RE (2008).
 <span class='co'># graduate() deals with this automatically.</span>
 
 <span class='co'># This replicates Johnson_2016_BEERSP.XLS, males</span>
-<span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>184499</span>,<span class='fl'>752124</span>-<span class='fl'>184499</span>,<span class='fl'>582662</span>,<span class='fl'>463534</span>,<span class='fl'>369976</span>,<span class='fl'>286946</span>,<span class='fl'>235867</span>,
-                <span class='fl'>199561</span>,<span class='fl'>172133</span>,<span class='fl'>151194</span>,<span class='fl'>131502</span>,<span class='fl'>113439</span>,<span class='fl'>95614</span>,
-                <span class='fl'>78777</span>,<span class='fl'>60157</span>,<span class='fl'>40960</span>,<span class='fl'>21318</span>,<span class='fl'>25451</span>)
-<span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>5</span>,<span class='fl'>80</span>,<span class='kw'>by</span><span class='kw'>=</span><span class='fl'>5</span>))
-<span class='no'>Age0</span>        <span class='kw'>&lt;-</span> <span class='fl'>184499</span>
-<span class='no'>johnson</span>     <span class='kw'>&lt;-</span> <span class='fu'>graduate_beers</span>(
-                         <span class='kw'>Value</span> <span class='kw'>=</span> <span class='no'>M</span>,
-                         <span class='kw'>Age</span> <span class='kw'>=</span> <span class='no'>Age</span>,
-                         <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-                               <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"ord"</span>,
-                               <span class='kw'>johnson</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></pre>
+<span class='va'>M</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>184499</span>,<span class='fl'>752124</span><span class='op'>-</span><span class='fl'>184499</span>,<span class='fl'>582662</span>,<span class='fl'>463534</span>,<span class='fl'>369976</span>,<span class='fl'>286946</span>,<span class='fl'>235867</span>,
+    <span class='fl'>199561</span>,<span class='fl'>172133</span>,<span class='fl'>151194</span>,<span class='fl'>131502</span>,<span class='fl'>113439</span>,<span class='fl'>95614</span>,
+    <span class='fl'>78777</span>,<span class='fl'>60157</span>,<span class='fl'>40960</span>,<span class='fl'>21318</span>,<span class='fl'>25451</span><span class='op'>)</span>
+<span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>80</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>Age0</span>        <span class='op'>&lt;-</span> <span class='fl'>184499</span>
+<span class='va'>johnson</span>     <span class='op'>&lt;-</span> <span class='fu'>graduate_beers</span><span class='op'>(</span>
+             Value <span class='op'>=</span> <span class='va'>M</span>,
+             Age <span class='op'>=</span> <span class='va'>Age</span>,
+             OAG <span class='op'>=</span> <span class='cn'>TRUE</span>,
+             method <span class='op'>=</span> <span class='st'>"ord"</span>,
+             johnson <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -313,11 +320,11 @@ Stover J, Johnson P, Zaba B, Zwahlen M, Dabis F, Ekpini RE (2008).
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

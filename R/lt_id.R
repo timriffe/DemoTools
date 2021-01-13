@@ -144,6 +144,8 @@ lt_id_d_l <- function(ndx, radix = sum(ndx)) {
 #' @return nqx vector of lifetable death probabilities.
 #' @export
 lt_id_d_q <- function(ndx) {
+  rad <- sum(ndx)
+  ndx <- ndx / rad
   N   <- length(ndx)
   CDF <- cumsum(ndx)
   lx  <- c(sum(ndx),1 - CDF[-N])

@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.25</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +162,7 @@
     <p>Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking. Whipple's index is a summary measure of age heaping on ages ending usually in the digits 0 or 5 used to determine variability in the quality of age reporting between regions or countries and its evolution over time. It assumes a linear distribution of ages in each five-year age range. Digits refer to terminal age digits. For example, 9, 19, 29, etc are all of digit 9.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_heaping_whipple</span>(<span class='no'>Value</span>, <span class='no'>Age</span>, <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fl'>65</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>5</span>))</pre>
+    <pre class="usage"><span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, ageMin <span class='op'>=</span> <span class='fl'>25</span>, ageMax <span class='op'>=</span> <span class='fl'>65</span>, digit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,18 +201,22 @@
 <em>Les structures par sexe et âge en Afrique</em>.
 GDA, Paris, France.
 
-United States Census Bureau (2017-nov).
+United States Census Bureau (2017).
 &#8220;Population Analysis System (PAS) Software.&#8221;
 <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>99</span>
+    <pre class="examples"><div class='input'> <span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
 <span class='co'># 2.34,replicates SINGAGE males</span>
- (<span class='no'>w05</span> <span class='kw'>&lt;-</span> <span class='fu'>check_heaping_whipple</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>5</span>)))</div><div class='output co'>#&gt; [1] 2.33873</div><div class='input'>
+ <span class='op'>(</span><span class='va'>w05</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 2.33873</div><div class='input'>
  <span class='co'># implements formula from Roger et al. (1981, p. 148)</span>
- (<span class='no'>w0</span> <span class='kw'>&lt;-</span> <span class='fu'>check_heaping_whipple</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>0</span>))</div><div class='output co'>#&gt; [1] 2.601614</div><div class='input'> (<span class='no'>w5</span> <span class='kw'>&lt;-</span> <span class='fu'>check_heaping_whipple</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>5</span>))</div><div class='output co'>#&gt; [1] 1.786339</div><div class='input'>
+ <span class='op'>(</span><span class='va'>w0</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 2.601614</div><div class='input'> <span class='op'>(</span><span class='va'>w5</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1.786339</div><div class='input'>
  <span class='co'># Whipple types</span>
- <span class='fu'>check_heaping_whipple</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, <span class='kw'>digit</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; [1] 0.5561028</div></pre>
+ <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.5561028</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -224,11 +228,11 @@ United States Census Bureau (2017-nov).
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

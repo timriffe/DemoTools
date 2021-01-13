@@ -218,15 +218,20 @@ census_cohort_adjust <- function(pop, age, date){
 
 
 # the survival probabilities approach -------------------------------------
-
-foo <- interp_coh_download_mortality("Russian Federation","male","2002-10-16","2010-10-25")
+load_this <- FALSE
+if (load_this) {
+  # blocking this off lets us to 
+  devtools::load_all()
+  library(magrittr)
+  library(tidyverse)
+pxt <- suppressMessages(interp_coh_download_mortality("Russian Federation","male","2002-10-16","2010-10-25"))
 # a note for future: interp_coh_download_mortality should use {countrycode} to better match the country names. As of now, just Russia won't work
 
 # convert the AP output to CP 
-px_triangles <- foo %>% 
+px_triangles <- pxt %>% 
   as_tibble(rownames = "age") %>%
   pivot_longer(
-    names_to = "year", values_to = "value", cols = -1,
+    names_to = "year", values_to = "px", cols = -1,
     values_drop_na = TRUE
   ) %>% 
   mutate(
@@ -237,10 +242,10 @@ px_triangles <- foo %>%
   # in triangles
   mutate(
     # year_frac = year - floor(year) # for now just .5 ~ sqrt
-    lower = value %>% raise_to_power(.5), 
-    upper = value %>% raise_to_power(1 - .5) # .5 to be changed to year_frac
+    lower = px %>% raise_to_power(.5), 
+    upper = px %>% raise_to_power(1 - .5) # .5 to be changed to year_frac
   ) %>% 
-  select(-value) %>% 
+  select(-px) %>% 
   pivot_longer(
     names_to = "triangle", values_to = "value", cols = lower:upper
   ) %>% 
@@ -286,13 +291,20 @@ date1 = "2002-10-16"; date2 = "2010-10-25"; age1 = 0:100; age2 = 0:100
 date1 <- dec.date(date1)
 date2 <- dec.date(date2)
 
-# !!! do we plan to allow age1 != age2 ?
+# IK: do we plan to allow age1 != age2 ?
+# TR: for now we force them to be equal. Later a wrapper can take care of cleaning up these details.
+# we have OPAG() to extend open ages; graduate() to spit to single-
+# any other adjustments should be done in advance (smoothing, __ )
 
 c1c <-census_cohort_adjust(c1, age1, date1)
 c2c <-census_cohort_adjust(c2, age2, date2)
 
-# correction for the first year age 0 -- only take firsth for the remaining of the year
-births[1] <- births[1] * (1 - c1c$f1)
+# correction for the first year age 0 -- only take first for the remaining of the year
+births[1] <- births[1] * (1 - c1c$f1) # TR: good
+
+# TR: correction for the last year age 0
+Nyrs <- length(births)
+births[Nyrs] <- births[Nyrs] * c2c$f1
 
 # input
 input <- tibble(
@@ -302,14 +314,14 @@ input <- tibble(
   arrange(cohort) %>% 
   bind_rows(
     tibble(
-      cohort = 1:length(births) + floor(c1c$date) -1,
+      cohort = 1:length(births) + floor(c1c$date) - 1,
       pop = births
     )
   ) %>% 
   # treat the duplicated cohort of the first census year, 2002
   group_by(cohort) %>% 
-  summarise(pop = pop %>% sum) %>% 
-  ungroup()
+  summarise(pop = pop %>% sum,
+            .groups = "drop") 
 
 # population c2 observed
 pop_c2 <- tibble(
@@ -330,11 +342,56 @@ input %>%
   view() # a correction needed for the last cohort?
 
 
-# now produce the multipliers for cohort changes in the time frame
-# period-cohort parallelograms
-pc_pc <- px_triangles %>% 
+# estimates of jan 1 population,
+# prior to redistribution of the residual
+# includes partial year estimate on the right-hand side,
+# excludes c1.
+
+pop_jan1_pre <-
+  px_triangles %>% 
   group_by(year, cohort) %>% 
   summarise(
     n_triangles = n(),
-    coh_p = value %>% prod
-  )
+    coh_p = value %>% prod,
+    .groups = "drop"
+  ) %>% 
+  arrange(cohort, year) %>% 
+  group_by(cohort) %>% 
+  mutate(coh_lx = cumprod(coh_p)) %>% 
+  ungroup() %>% 
+  left_join(input, by = "cohort") %>% 
+  mutate(pop_jan1_pre = pop * coh_lx,
+         age = floor(year) - cohort,
+         year = floor(year) + 1,
+         year = ifelse(year == max(year), year + f2 - 1, year)) 
+
+resid <-
+  pop_jan1_pre %>% 
+  dplyr::filter(year == max(year)) %>% 
+  left_join(pop_c2, by = "cohort") %>% 
+  mutate(resid = pop_c2_obs - pop_jan1_pre,
+         rel_resid = resid / pop_c2_obs) %>% 
+  select(cohort, resid)
+
+# determine uniform error discounts:
+
+resid_discounts <- 
+  approx(x=c(date1, date2),
+       y=c(0,1),
+       xout=seq(ceiling(date1),floor(date2))) %>% 
+  as.data.frame() %>% 
+  select(year = x, discount= y)
+
+pop_jan1 <-
+  pop_jan1_pre %>% 
+  left_join(resid, by = "cohort") %>% 
+  left_join(resid_discounts, by = "year") %>% 
+  mutate(resid = ifelse(is.na(resid),0,resid),
+         discount = ifelse(year == max(year),1,discount),
+         pop_jan1 = pop_jan1_pre + resid * discount) 
+  
+pop_jan1 %>% 
+  reshape2::acast(age~year, value.var = "pop_jan1") %>% 
+  view()
+  
+}

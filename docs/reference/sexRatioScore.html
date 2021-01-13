@@ -83,7 +83,7 @@ age defines the index. This comes from the PAS spreadsheet called AGESEX." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.25</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@ age defines the index. This comes from the PAS spreadsheet called AGESEX." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -132,13 +132,13 @@ age defines the index. This comes from the PAS spreadsheet called AGESEX." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -168,7 +168,7 @@ if the ratio were constant. The average absolute difference over
 age defines the index. This comes from the PAS spreadsheet called AGESEX.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sexRatioScore</span>(<span class='no'>Males</span>, <span class='no'>Females</span>, <span class='no'>Age</span>, <span class='kw'>ageMin</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>ageMax</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>Age</span>), <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>sexRatioScore</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, ageMin <span class='op'>=</span> <span class='fl'>0</span>, ageMax <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -212,17 +212,18 @@ It is also assumed that the final age group is open, unless <code>ageMax &lt; ma
 &#8220;Accuracy tests for census age distributions tabulated in five-year and ten-year groups.&#8221;
 <em>Population Bulletin</em>, 59--79.
 
-United States Census Bureau (2017-nov).
+United States Census Bureau (2017).
 &#8220;Population Analysis System (PAS) Software.&#8221;
 <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Males</span>   <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4677000</span>,<span class='fl'>4135000</span>,<span class='fl'>3825000</span>,<span class='fl'>3647000</span>,<span class='fl'>3247000</span>,<span class='fl'>2802000</span>,<span class='fl'>2409000</span>,<span class='fl'>2212000</span>,
-                <span class='fl'>1786000</span>,<span class='fl'>1505000</span>,<span class='fl'>1390000</span>,<span class='fl'>984000</span>,<span class='fl'>745000</span>,<span class='fl'>537000</span>,<span class='fl'>346000</span>,<span class='fl'>335000</span>)
-<span class='no'>Females</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4544000</span>,<span class='fl'>4042000</span>,<span class='fl'>3735000</span>,<span class='fl'>3647000</span>,<span class='fl'>3309000</span>,<span class='fl'>2793000</span>,<span class='fl'>2353000</span>,<span class='fl'>2112000</span>,
-                <span class='fl'>1691000</span>,<span class='fl'>1409000</span>,<span class='fl'>1241000</span>,<span class='fl'>887000</span>,<span class='fl'>697000</span>,<span class='fl'>525000</span>,<span class='fl'>348000</span>,<span class='fl'>366000</span>)
-<span class='no'>Age</span>     <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>75</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='fu'>sexRatioScore</span>(<span class='no'>Males</span>, <span class='no'>Females</span>, <span class='no'>Age</span>)  <span class='co'># 2.2, matches PAS</span></div><div class='output co'>#&gt; [1] 2.248535</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>Males</span>   <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4677000</span>,<span class='fl'>4135000</span>,<span class='fl'>3825000</span>,<span class='fl'>3647000</span>,<span class='fl'>3247000</span>,<span class='fl'>2802000</span>,<span class='fl'>2409000</span>,<span class='fl'>2212000</span>,
+    <span class='fl'>1786000</span>,<span class='fl'>1505000</span>,<span class='fl'>1390000</span>,<span class='fl'>984000</span>,<span class='fl'>745000</span>,<span class='fl'>537000</span>,<span class='fl'>346000</span>,<span class='fl'>335000</span><span class='op'>)</span>
+<span class='va'>Females</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4544000</span>,<span class='fl'>4042000</span>,<span class='fl'>3735000</span>,<span class='fl'>3647000</span>,<span class='fl'>3309000</span>,<span class='fl'>2793000</span>,<span class='fl'>2353000</span>,<span class='fl'>2112000</span>,
+    <span class='fl'>1691000</span>,<span class='fl'>1409000</span>,<span class='fl'>1241000</span>,<span class='fl'>887000</span>,<span class='fl'>697000</span>,<span class='fl'>525000</span>,<span class='fl'>348000</span>,<span class='fl'>366000</span><span class='op'>)</span>
+<span class='va'>Age</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>75</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='fu'>sexRatioScore</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span><span class='op'>)</span>  <span class='co'># 2.2, matches PAS</span>
+</div><div class='output co'>#&gt; [1] 2.248535</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -234,11 +235,11 @@ United States Census Bureau (2017-nov).
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

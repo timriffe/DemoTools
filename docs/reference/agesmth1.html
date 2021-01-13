@@ -83,7 +83,7 @@ constrained to the original total in all cases." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.25</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@ constrained to the original total in all cases." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -132,13 +132,13 @@ constrained to the original total in all cases." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -168,16 +168,16 @@ but local totals are not not constrained for any of the <code>agesmth1()</code> 
 constrained to the original total in all cases.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>agesmth1</span>(
-  <span class='no'>Value</span>,
-  <span class='no'>Age</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"loess"</span>,
-  <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>degree</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='no'>trans</span>,
-  <span class='kw'>pow</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>agesmth1</span><span class='op'>(</span>
+  <span class='va'>Value</span>,
+  <span class='va'>Age</span>,
+  method <span class='op'>=</span> <span class='st'>"loess"</span>,
+  OAG <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  degree <span class='op'>=</span> <span class='fl'>2</span>,
+  <span class='va'>trans</span>,
+  pow <span class='op'>=</span> <span class='fl'>2</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -231,22 +231,23 @@ Predictions are only returned for the original age groups.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/lm.html'>lm</a></code>, <code><a href='https://rdrr.io/r/stats/loess.html'>loess</a></code> <code><a href='poly_smth1.html'>poly_smth1</a></code>, <code><a href='loess_smth1.html'>loess_smth1</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>Age</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>:<span class='fl'>99</span>
+    <pre class="examples"><div class='input'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
  <span class='co'>#cols &lt;- RColorBrewer::brewer.pal(7,"Reds")[3:7]</span>
- <span class='no'>cols</span> <span class='kw'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#FC9272"</span>, <span class='st'>"#FB6A4A"</span>, <span class='st'>"#EF3B2C"</span>, <span class='st'>"#CB181D"</span>, <span class='st'>"#99000D"</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>Age</span>,<span class='no'>pop1m_pasex</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>, <span class='fu'>agesmth1</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"poly"</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>),<span class='kw'>col</span><span class='kw'>=</span><span class='no'>cols</span>[<span class='fl'>1</span>])
- <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>, <span class='fu'>agesmth1</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"poly"</span>, <span class='kw'>degree</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>cols</span>[<span class='fl'>2</span>])
- <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>, <span class='fu'>agesmth1</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"poly"</span>, <span class='kw'>degree</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-       <span class='kw'>trans</span> <span class='kw'>=</span> <span class='st'>"log"</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>cols</span>[<span class='fl'>3</span>])
- <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>, <span class='fu'>agesmth1</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"poly"</span>, <span class='kw'>degree</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-       <span class='kw'>trans</span> <span class='kw'>=</span> <span class='st'>"power"</span>, <span class='kw'>pow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>cols</span>[<span class='fl'>4</span>])
- <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>, <span class='fu'>agesmth1</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"poly"</span>, <span class='kw'>degree</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-       <span class='kw'>trans</span> <span class='kw'>=</span> <span class='st'>"power"</span>, <span class='kw'>pow</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='no'>cols</span>[<span class='fl'>5</span>])
- <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>, <span class='fu'>agesmth1</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"loess"</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"royalblue"</span>)
- <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='no'>Age</span>, <span class='fu'>agesmth1</span>(<span class='no'>pop1m_pasex</span>, <span class='no'>Age</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"loess"</span>, <span class='kw'>span</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>OAG</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)
-}</div></pre>
+ <span class='va'>cols</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#FC9272"</span>, <span class='st'>"#FB6A4A"</span>, <span class='st'>"#EF3B2C"</span>, <span class='st'>"#CB181D"</span>, <span class='st'>"#99000D"</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>pop1m_pasex</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='fu'>agesmth1</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, method<span class='op'>=</span><span class='st'>"poly"</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>,col<span class='op'>=</span><span class='va'>cols</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='fu'>agesmth1</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, method<span class='op'>=</span><span class='st'>"poly"</span>, degree <span class='op'>=</span> <span class='fl'>3</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='va'>cols</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='fu'>agesmth1</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, method<span class='op'>=</span><span class='st'>"poly"</span>, degree <span class='op'>=</span> <span class='fl'>3</span>,
+       trans <span class='op'>=</span> <span class='st'>"log"</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='va'>cols</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='fu'>agesmth1</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, method<span class='op'>=</span><span class='st'>"poly"</span>, degree <span class='op'>=</span> <span class='fl'>3</span>,
+       trans <span class='op'>=</span> <span class='st'>"power"</span>, pow <span class='op'>=</span> <span class='fl'>2</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='va'>cols</span><span class='op'>[</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='fu'>agesmth1</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, method<span class='op'>=</span><span class='st'>"poly"</span>, degree <span class='op'>=</span> <span class='fl'>4</span>,
+       trans <span class='op'>=</span> <span class='st'>"power"</span>, pow <span class='op'>=</span> <span class='fl'>3</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='va'>cols</span><span class='op'>[</span><span class='fl'>5</span><span class='op'>]</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='fu'>agesmth1</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, method<span class='op'>=</span><span class='st'>"loess"</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"royalblue"</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='fu'>agesmth1</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, method<span class='op'>=</span><span class='st'>"loess"</span>, span <span class='op'>=</span> <span class='fl'>1</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -258,11 +259,11 @@ Predictions are only returned for the original age groups.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

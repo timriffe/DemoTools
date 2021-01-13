@@ -34,8 +34,8 @@ AGEN <-
            consecutive  = TRUE,
            ageMin = 0,
            ageMax = max(c(Age1, Age2))) {
-    age1_5 <- Age1[Age1 %% 5 == 0]
-    age2_5 <- Age2[Age2 %% 5 == 0]
+    age1_5 <- Age1[Age1 %% N == 0]
+    age2_5 <- Age2[Age2 %% N == 0]
     
     # ages in common only
     ageN   <- sort(intersect(age1_5, age2_5))
@@ -79,13 +79,17 @@ AGEN <-
 calcAgeN <- function(Age, N = 5, shiftdown = 0) {
   shift <- abs(shiftdown)
   stopifnot(shift < N)
-  (Age + shift) - (Age + shift) %% N
+  Ngroups <- (Age + shift) - (Age + shift) %% N
+  l <- rle(Ngroups)$lengths
+  inds <- cumsum(l) - l + 1
+  rep(Age[inds], times = l)
 }
 
 #' repeat age lower bounds once for each single age
 #' @description This is a frequent grouping situation. For a given vector of lower age bounds, repeat each value N times, where N is the width of the corresponding age interval. Age intervals are in this case calculated from the original Age vector.
 #' @details If {OAG = TRUE} then the last value is not repeated, otherwise the final age interval is assumed to be the same width as the penultimate. Here intervals do not need to be of uniform width.
 #' @param Age integer. Vector of lower age bounds.
+#' @param AgeInt integer vector of age group widths.
 #' @param OAG logical. Whether or not the final age group open. Default \code{FALSE}. See details
 #' @return integer vector of elements of \code{Age} repeated once for each implied single age.
 #' @export
@@ -93,8 +97,11 @@ calcAgeN <- function(Age, N = 5, shiftdown = 0) {
 #' age1 <- seq(0,100,by=5)
 #' (ageN1 <- age2ageN(age1, OAG = FALSE))
 #' (ageN2 <- age2ageN(age1, OAG = TRUE))
-age2ageN <- function(Age, OAG = FALSE) {
-  rep(Age, times = age2int(Age, OAG = OAG, OAvalue = 1))
+age2ageN <- function(Age, AgeInt = NULL, OAG = FALSE) {
+  if (is.null(AgeInt)){
+    AgeInt <- age2int(Age, OAG = OAG, OAvalue = 1)
+  }
+  rep(Age, times = AgeInt)
 }
 
 #' repeat age lower bounds once for each single age

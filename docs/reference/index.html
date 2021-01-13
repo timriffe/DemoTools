@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.09.25</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -128,13 +128,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fa fa-twitter"></span>
+    <span class="fas fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -391,6 +391,12 @@
           <p><code><a href="interp.html">interp()</a></code> </p>
         </td>
         <td><p>Interpolate between two population age distributions.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="interp_coh_bare.html">interp_coh_bare()</a></code> </p>
+        </td>
+        <td><p>component-free intercensalcohort interpolation</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -416,6 +422,13 @@
           <p><code><a href="mig_estimate_rc.html">mig_estimate_rc()</a></code> </p>
         </td>
         <td><p>Estimate Rogers-Castro migration age schedule</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mig_resid_stock.html">mig_resid_stock()</a></code> <code><a href="mig_resid_stock.html">mig_resid_cohort()</a></code> <code><a href="mig_resid_stock.html">mig_resid_time()</a></code> </p>
+        </td>
+        <td><p>Estimate net migration using residual methods: stock change,
+time even flow and cohort even flow</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -801,6 +814,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="lt_single2abridged.html">lt_single2abridged()</a></code> </p>
+        </td>
+        <td><p>calculate an abridged life table that is consistent with a life table by single year of age</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="lt_single_mx.html">lt_single_mx()</a></code> </p>
         </td>
         <td><p>calculate a single age lifetable</p></td>
@@ -810,6 +829,12 @@
           <p><code><a href="lt_single_qx.html">lt_single_qx()</a></code> </p>
         </td>
         <td><p>calculate a single age lifetable from qx</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="single2abridged.html">single2abridged()</a></code> </p>
+        </td>
+        <td><p>Convert single age groups to five-year group abridged</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -918,7 +943,7 @@
       <tr>
         
         <td>
-          <p><code><a href="basepop_five.html">basepop_five()</a></code> <code><a href="basepop_five.html">basepop_single()</a></code> </p>
+          <p><code><a href="basepop_five.html">basepop_five()</a></code> </p>
         </td>
         <td><p>BPA and BPE methods for adjusting age groups under 10</p></td>
       </tr><tr>
@@ -927,6 +952,12 @@
           <p><code><a href="calcAgeN.html">calcAgeN()</a></code> </p>
         </td>
         <td><p>Calculate which large age group single ages belong to.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="census_cohort_adjust.html">census_cohort_adjust()</a></code> </p>
+        </td>
+        <td><p>shift census populations to match single year cohorts</p></td>
       </tr><tr>
         
         <td>
@@ -1177,11 +1208,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
