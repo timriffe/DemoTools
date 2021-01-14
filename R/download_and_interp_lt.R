@@ -66,8 +66,8 @@ interp_coh_download_mortality <- function(country, sex, date1, date2){
   f2    <- date2 - floor(date2)
   
   # assume linear px change within age class
-  PX <- 1 - QX
-  PX[,1] <- PX[,1] ^f1
+  PX            <- 1 - QX
+  PX[,1]        <- PX[,1] ^f1
   PX[,ncol(PX)] <- PX[,ncol(PX)] ^f2
   # QX[, 1] <- QX[, 1] ^ (1/f1)
   # QX[, ncol(QX)] <- QX[,ncol(QX)] ^ (1/f2)

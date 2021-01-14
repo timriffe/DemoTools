@@ -62,7 +62,18 @@ census_cohort_adjust <- function(pop, age, date){
 #'   pivot_wider(names_from = year, values_from = "pop_jan1") %>%
 #'   arrange(age) %>%
 #'   View()
-interp_coh <- function(country, sex, c1, c2, date1, date2, age1, age2=age1, births, ...) {
+interp_coh <- function(country, 
+                       sex, 
+                       c1, 
+                       c2, 
+                       date1, 
+                       date2, 
+                       age1, 
+                       age2 = age1, 
+                       lxMat = NULL,
+                       lxdates = NULL,
+                       births = NULL, 
+                       ...) {
   
   # convert the dates into decimal nu mbers
   date1 <- dec.date(date1)
@@ -73,9 +84,20 @@ interp_coh <- function(country, sex, c1, c2, date1, date2, age1, age2=age1, birt
   f2 <- date2 %>% subtract(date2 %>% floor)
   
   # get the lexis surface of survival probabilities
-  pxt <- suppressMessages(
-    interp_coh_download_mortality(country, sex, date1, date2)
-  )
+  if (is.null(lxMat)){
+    pxt <- suppressMessages(
+      interp_coh_download_mortality(country, sex, date1, date2)
+    )
+  } else {
+    # do the necessary interpolation and graduation to bring lx up to spec and make it into px,
+    # recycle machinery in download_and_interp_lt.R as needed.
+    # Don't tinker with the q graduation in there, it will be replaced soon.
+  }
+
+  if (is.null(births)){
+    # do something to get them.
+  }
+  
   # a note for future: interp_coh_download_mortality should use {countrycode} to better match the country names. As of now, just Russia won't work [ISSUE #166]
   
   # convert the AP output to CP 
