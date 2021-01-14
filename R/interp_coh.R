@@ -46,8 +46,11 @@ census_cohort_adjust <- function(pop, age, date){
 #' @param age1 integer vector. single ages of `c1`
 #' @param age2 integer vector. single ages of `c2` 
 #' @param births integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years
+#' @param midyear logical. `FALSE` means all Jan 1 dates between `date1` and `date2` are returned. `TRUE` means all July 1 intercensal dates are returned.
 #' @export
 #' @examples 
+#' 
+#' \dontrun{
 #' interp_coh(
 #' country = "Russian Federation", 
 #' sex = "male",
@@ -60,8 +63,8 @@ census_cohort_adjust <- function(pop, age, date){
 #' ) %>% 
 #'   select(age, year, pop_jan1) %>% 
 #'   pivot_wider(names_from = year, values_from = "pop_jan1") %>%
-#'   arrange(age) %>%
-#'   View()
+#'   arrange(age) 
+#' }
 interp_coh <- function(
   c1, 
   c2, 
@@ -70,11 +73,12 @@ interp_coh <- function(
   age1, 
   age2 = age1, 
   lxMat = NULL,
-  age_lx,
+  age_lx = NULL,
   dates_lx = NULL,
   births = NULL, 
   country = NULL, 
   sex = "both", 
+  midyear = FALSE,
   ...
 ) {
   
@@ -120,7 +124,8 @@ interp_coh <- function(
     }
     
     # ensure lx fills timepoints.
-    lxMat <- interp_lxMat(
+    # would like to pass ... here for the lifetable part
+    pxt <- interp_coh_lxMat_pxt(
                  lxMat, 
                  dates_lx = dates_lx,
                  age_lx = age_lx,
@@ -132,6 +137,7 @@ interp_coh <- function(
 
   # fetch WPP births if not provided by user
   if (is.null(births)){
+    # TR: this can live in a helper function
     # load WPP births
     requireNamespace("DemoToolsData", quietly = TRUE)
     WPP2019_births <- DemoToolsData::WPP2019_births 
@@ -201,9 +207,9 @@ interp_coh <- function(
     group_by(cohort) %>% 
     summarise(
       n_triangles = n(),
-      coh_p = value %>% prod
-    ) %>% 
-    ungroup()
+      coh_p = value %>% prod,
+      .groups = "drop"
+    ) 
   
   # adjust the census population vectors
   c1c <-census_cohort_adjust(c1, age1, date1)
@@ -294,14 +300,40 @@ interp_coh <- function(
       pop_jan1 = pop_jan1_pre + resid * discount
     ) 
   
-  return(pop_jan1) 
-  # # Tim, let's think in what for the output should come
-  # # I'd say an age~year wide table, i.e.
-  # out <- pop_jan1 %>% 
-  #   select(age, year, pop_jan1) %>% 
-  #   pivot_wider(names_from = year, values_from = "pop_jan1") %>%
-  #   arrange(age) %>% 
-  #   view()
+
+  PopAP <- pop_jan1 %>% 
+     select(age, year, pop_jan1) %>% 
+     pivot_wider(names_from = year, values_from = "pop_jan1") %>%
+     arrange(age) 
+  
+  # now we either return Jan1 dates or July 1 dates.
+  if (midyear){
+    dates_midyear <- (floor(date1) + .5):(floor(date2) + .5)
+    dates_midyear <- dates_midyear[between(dates_midyear,date1,date2)]
+   
+    matinterp <- PopAP %>% 
+      dplyr::filter(age <= max(age1)) %>% 
+      select(-age) %>% 
+      as.matrix()
+    yrsIn <- c(date1, as.numeric(colnames(matinterp)))
+    matinterp <- cbind(c1,matinterp)
+    out <- interp(matinterp, 
+           datesIn = yrsIn,
+           datesOut = dates_midyear,
+           rule = 1)
+  } else {
+    yrsIn <- c(date1, as.numeric(colnames(matinterp)))
+    matinterp <- PopAP %>% 
+      dplyr::filter(age <= max(age1)) %>% 
+      select(-age) %>% 
+      as.matrix()
+    dates_out <- (floor(date1) + 1):floor(date2)
+    out <- interp(matinterp, 
+                  datesIn = yrsIn,
+                  datesOut =dates_out,
+                  rule = 1)
+  }
+  
 }
 
 # old code kept for now ---------------------------------------------------

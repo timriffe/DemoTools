@@ -12,11 +12,12 @@ interp_coh(
   age1,
   age2 = age1,
   lxMat = NULL,
-  Age_lx,
+  age_lx = NULL,
   dates_lx = NULL,
   births = NULL,
   country = NULL,
   sex = "both",
+  midyear = FALSE,
   ...
 )
 }
@@ -36,11 +37,15 @@ interp_coh(
 \item{country}{text string. The country of the census}
 
 \item{sex}{text string. Sex of the sub-population}
+
+\item{midyear}{logical. \code{FALSE} means all Jan 1 dates between \code{date1} and \code{date2} are returned. \code{TRUE} means all July 1 intercensal dates are returned.}
 }
 \description{
 Cohorts between two censuses are interpolated flexibly using linear, exponential, or power rules. The lower and upper intercensal triangles are filled using within-age interpolation. This function is experimental and still in development.
 }
 \examples{
+
+\dontrun{
 interp_coh(
 country = "Russian Federation", 
 sex = "male",
@@ -53,8 +58,8 @@ births = c(719511L, 760934L, 772973L, 749554L, 760831L, 828772L, 880543L, 905380
 ) \%>\% 
   select(age, year, pop_jan1) \%>\% 
   pivot_wider(names_from = year, values_from = "pop_jan1") \%>\%
-  arrange(age) \%>\%
-  View()
+  arrange(age) 
+}
 }
 \seealso{
 interp

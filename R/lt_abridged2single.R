@@ -6,9 +6,10 @@
 #' data (`ndx` of the abridged life table) offset by `nLx` life table exposures. Returns fitted single year `nMx`.
 #' @details Similar to `lt_single_mx()`` details, forthcoming
 #' @inheritParams lt_abridged
-#' @param ndx numeric. Vector of lifetable deaths at abridged ages.
+#' @param ndx numeric. Vector of lifetable deaths at abridged ages. 
 #' @param nLx numeric. Vector of lifetable exposure at abridged ages.
 #' @param ... optional arguments passed to `pclm()`
+#' @details `ndx` and `nLx` could refer to death counts and exposures, respectively.
 #' @return Single-year lifetable in data.frame with columns
 #' \itemize{
 #'   \item{Age}{integer. Lower bound of single year age class},
@@ -26,7 +27,6 @@
 #' 
 #' @export
 #' @importFrom ungroup pclm
-#' @importFrom stats fitted
 #' @examples
 #'  Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
 #'          .01332,.01528,.01757,.02092,.02517,.03225,.04241,.06056,

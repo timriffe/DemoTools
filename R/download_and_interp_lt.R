@@ -27,6 +27,17 @@ interp_coh_graduate_dx_qx_chunk <- function(chunk){
   tibble(Age = xout, Date = rep(Date, length(xout)), qx = qx1)
 }
 
+lt_a2s_chunk <- function(chunk, OAnew, ...){
+  ndx <- chunk$dx
+  nLx <- chunk$Lx
+  Age <- chunk$x
+  
+  lt_abridged2single(ndx = ndx, 
+                     nLx = nLx, 
+                     Age = Age, 
+                     OAnew = OAnew, 
+                     ...)
+}
 
 interp_coh_download_mortality <- function(country, sex, date1, date2, OAnew = 100){
 
@@ -40,17 +51,7 @@ interp_coh_download_mortality <- function(country, sex, date1, date2, OAnew = 10
   
   dates_out  <- c(dec.date(date1),year_seq)
  
-  lt_a2s_chunk <- function(chunk, OAnew, ...){
-    ndx <- chunk$dx
-    nLx <- chunk$Lx
-    Age <- chunk$x
-    
-    lt_abridged2single(ndx = ndx, 
-                       nLx = nLx, 
-                       Age = Age, 
-                       OAnew = OAnew, 
-                       ...)
-  }
+
   
   PX <-suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,
                                locations = country, 
@@ -84,7 +85,12 @@ interp_coh_download_mortality <- function(country, sex, date1, date2, OAnew = 10
 #                         dplyr::bind_cols() %>% 
 #                         as.matrix())
 
-interp_coh_lxMat_pxt <- function(lxMat, dates_lx, age_lx, date1, date2, ...){
+interp_coh_lxMat_pxt <- function(lxMat, 
+                                 dates_lx, 
+                                 age_lx, 
+                                 date1, 
+                                 date2, 
+                                 OAnew, ...){
   # TR: this is a temp functin, a stop-gap. Some redundant code with
   # interp_coh_download_mortality(), which it itself temporary.
   # the age graduation will move to lt_abridged2single() as soon as it's
@@ -99,24 +105,40 @@ interp_coh_lxMat_pxt <- function(lxMat, dates_lx, age_lx, date1, date2, ...){
   
   dates_out  <- c(dec.date(date1),year_seq)
   
-  lxfull     <- interp(
-                  popmat = lxMat, 
-                  datesIn = dates_lx,
-                  datesOut = dates_out,
-                  rule = 2) 
-  rownames(lxfull) <- age_lx
-  lxlong <- reshape2::melt(lxfull, 
-                           varnames = c("Age","Date"), 
-                           value.var = "lx")
-  QX <-
-    lxlong %>% 
-    dplyr::group_by(.data$Date) %>% 
-    dplyr::mutate(dx = lt_id_l_d(.data$lx)) %>% 
-    dplyr::do(interp_coh_graduate_dx_qx_chunk(chunk = .data)) %>% 
-    dplyr::ungroup() %>% 
-    reshape2::acast(Age~Date, value.var = "qx")
-  QX[QX < 0] <- 0
+  # get ndx andnLx from lt_abridged()
+  
+  a1 <- 0:OAnew
+  qx1 <- matrix(ncol = ncol(lxMat),
+                nrow = length(a1), 
+                dimnames = list(a1,
+                                dates_lx))
+  for (i in 1:ncol(lxMat)){
+    LTA     <- lt_abridged(Age = age_lx, 
+                           lx = lxMat[, i], 
+                           OAnew = OAnew, 
+                           radix = 1e6,
+                           ...)
     
+    LT1     <- lt_abridged2single(ndx = LTA$ndx, 
+                                  nLx = LTA$nLx, 
+                                  Age = LTA$Age, 
+                                  OAnew = OAnew,
+                                  ...)
+    qx1[, i] <- LT1$nqx
+  }
+  
+  logit_qx <- log(qx1 / (1-qx1))
+  
+  logit_qx_interp     <- 
+                       interp(
+                         popmat = logit_qx, 
+                         datesIn = dates_lx,
+                         datesOut = dates_out,
+                         rule = 2) 
+  
+  QX    <- exp(logit_qx_interp) / (1 + exp(logit_qx_interp))
+  QX[nrow(QX)] <- 1
+  
   
   f1    <- diff(dates_out)[1]
   f2    <- date2 - floor(date2)
