@@ -989,9 +989,9 @@ graduate_mono   <- function(
   # The open age group is maintained as-is.
   if (OAG) {
     out                 <- c(out, OAvalue)
-    names(out)          <- AgeS
   }
-
+  age1 <- min(Age):(min(Age) + length(out) - 1)
+  names(out) <- age1
   out
 }
 
