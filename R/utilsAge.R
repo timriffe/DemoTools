@@ -575,7 +575,7 @@ names2age <- function(...) {
 #' @param AgeInt1 integer vector. Age interval widths for population 1.
 #' @param Value2 numeric vector. A vector of demographic counts for population 2.
 #' @param AgeInt2 integer vector. Age interval widths for population 2.
-#' @param splitfun function to use for splitting \code{pop1}. Presently on \code{graduate_uniform()} works.
+#' @param splitfun function to use for splitting \code{Value1}. Presently only \code{graduate_uniform()} works.
 #' @param recursive logical. Shall we repeat the split/regroup/rescale process until stable? See details. Default \code{FALSE}.
 #' @param tol numeric. Default 1e-3. The numerical tolerance for the residual. Used to detect stability if \code{recursive = TRUE}.
 #' @export
