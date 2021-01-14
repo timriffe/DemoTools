@@ -23,11 +23,11 @@ rescaleAgeGroups(
 
 \item{AgeInt2}{integer vector. Age interval widths for population 2.}
 
-\item{splitfun}{function to use for splitting \code{Value1}. Presently only \code{graduate_uniform()} works.}
+\item{splitfun}{function to use for splitting \code{Value1}. Reasonable (and tested) choices are either \code{graduate_uniform} or \code{graduate_mono}.}
 
 \item{recursive}{logical. Shall we repeat the split/regroup/rescale process until stable? See details. Default \code{FALSE}.}
 
-\item{tol}{numeric. Default 1e-3. The numerical tolerance for the residual. Used to detect stability if \code{recursive = TRUE}.}
+\item{tol}{numeric. Default \code{1e-3}. The numerical tolerance for the residual. Used to detect stability if \code{recursive = TRUE}.}
 }
 \description{
 This method rescales a vector of counts in arbitrary (integer) age groups to approximate a vector of counts in a potentially different age grouping. Common use cases will be to scale single ages (whose age pattern we wish to roughly maintain) to sum to abridged or 5-year age groups from another source. The counts to be rescaled could potentially be in any grouping (see example).
