@@ -28,7 +28,7 @@ interp_coh_graduate_dx_qx_chunk <- function(chunk){
 }
 
 
-interp_coh_download_mortality <- function(country, sex, date1, date2){
+interp_coh_download_mortality <- function(country, sex, date1, date2, OAnew = 100){
 
   date1      <- dec.date(date1)
   date2      <- dec.date(date2)
@@ -40,39 +40,39 @@ interp_coh_download_mortality <- function(country, sex, date1, date2){
   
   dates_out  <- c(dec.date(date1),year_seq)
  
-  DX <-suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,
-         locations = country, 
-         sex = sex) %>% 
-    lapply("[[","dx") %>% 
-    dplyr::bind_cols() %>% 
-    as.matrix())
+  lt_a2s_chunk <- function(chunk, OAnew, ...){
+    ndx <- chunk$dx
+    nLx <- chunk$Lx
+    Age <- chunk$x
+    
+    lt_abridged2single(ndx = ndx, 
+                       nLx = nLx, 
+                       Age = Age, 
+                       OAnew = OAnew, 
+                       ...)
+  }
   
-  dimnames(DX) <- list(c(0,1,seq(5,100,by=5)),
-                  dates_out)
-
+  PX <-suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,
+                               locations = country, 
+                               sex = sex)) %>% 
+                          lapply(function(X){
+                            X[,c("year","x","dx","Lx")]
+                          }) %>% 
+                          dplyr::bind_rows() %>% 
+    group_by(year) %>% 
+    do(lt_a2s_chunk(chunk = .data, OAnew = OAnew)) %>% 
+    mutate(px = 1-nqx) %>% 
+    reshape2::acast("Age~year", value.var = "px")
   
-  DXlong <- reshape2::melt(DX, varnames = c("Age","Date"), value.name = "dx")
-  
-  QX <-
-    DXlong %>% 
-    dplyr::group_by(Date) %>% 
-    dplyr::do(interp_coh_graduate_dx_qx_chunk(chunk = .data)) %>% 
-    dplyr::ungroup() %>% 
-    reshape2::acast(Age~Date, value.var = "qx")
-  QX[QX < 0] <- 0
+  PX[PX > 1] <- 1
   # discount first and last periods.
   
   f1    <- diff(dates_out)[1]
   f2    <- date2 - floor(date2)
   
   # assume linear px change within age class
-  PX            <- 1 - QX
-  PX[,1]        <- PX[,1] ^f1
-  PX[,ncol(PX)] <- PX[,ncol(PX)] ^f2
-  # QX[, 1] <- QX[, 1] ^ (1/f1)
-  # QX[, ncol(QX)] <- QX[,ncol(QX)] ^ (1/f2)
-
-  # PX <- 1 - QX
+  PX[, 1]        <- PX[,1] ^f1
+  PX[,ncol(PX)] <- PX[, ncol(PX)] ^f2
 
   PX
 }
