@@ -27,30 +27,30 @@
 #' @export
 #' @importFrom ungroup pclm
 
-  Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
-          .01332,.01528,.01757,.02092,.02517,.03225,.04241,.06056,
-          .08574,.11840,.16226,.23745)
-  excheckUN <-  c(35.000,42.901,47.190,44.438,
-                  40.523,36.868,33.691,30.567,27.500,24.485,21.504,18.599,
-                  15.758,13.080,10.584,8.466,6.729,5.312,4.211)
-  Age = c(0,1,seq(5,85,by=5))
-  AgeInt <- inferAgeIntAbr(vec = Mx)
-  #
-  LTabr  <- lt_abridged(nMx = Mx,
-                       Age = Age,
-                       AgeInt = AgeInt,
-                       axmethod = "un",
-                       Sex = "m",
-                       mod = TRUE)
-  ndx <- LTabr$ndx
-  nLx <- LTabr$nLx
-  
-  lt_abridged2single(ndx, 
-                     nLx, 
-                     Age, 
-                     axmethod = "un",
-                     Sex = "m",
-                     mod = TRUE)
+ # Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
+ #         .01332,.01528,.01757,.02092,.02517,.03225,.04241,.06056,
+ #         .08574,.11840,.16226,.23745)
+ # excheckUN <-  c(35.000,42.901,47.190,44.438,
+ #                 40.523,36.868,33.691,30.567,27.500,24.485,21.504,18.599,
+ #                 15.758,13.080,10.584,8.466,6.729,5.312,4.211)
+ # Age = c(0,1,seq(5,85,by=5))
+ # AgeInt <- inferAgeIntAbr(vec = Mx)
+ # #
+ # LTabr  <- lt_abridged(nMx = Mx,
+ #                      Age = Age,
+ #                      AgeInt = AgeInt,
+ #                      axmethod = "un",
+ #                      Sex = "m",
+ #                      mod = TRUE)
+ # ndx <- LTabr$ndx
+ # nLx <- LTabr$nLx
+ # 
+ # lt_abridged2single(ndx, 
+ #                    nLx, 
+ #                    Age, 
+ #                    axmethod = "un",
+ #                    Sex = "m",
+ #                    mod = TRUE)
 
 lt_abridged2single <- function(ndx,
                                nLx,
