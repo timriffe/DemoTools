@@ -80,6 +80,8 @@ data (\code{ndx} of the abridged life table) offset by \code{nLx} life table exp
 }
 \details{
 Similar to `lt_single_mx()`` details, forthcoming
+
+\code{ndx} and \code{nLx} could refer to death counts and exposures, respectively.
 }
 \examples{
  Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
