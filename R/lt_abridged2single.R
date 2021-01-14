@@ -58,6 +58,7 @@
 lt_abridged2single <- function(ndx,
                                nLx,
                                Age,
+                               AgeInt = NULL,
                                a0rule = "ak", 
                                Sex = "m",
                                region = "w",
@@ -76,6 +77,9 @@ lt_abridged2single <- function(ndx,
   NN    <- length(Age)
   stopifnot(length(nLx) == NN & length(ndx) == NN)
 
+  if (is.null(AgeInt)){
+    AgeInt <- age2int(Age, OAvalue = 5)
+  }
 
   # use pclm to ungroup to single year of age from 1 to maxage_closed+5
 

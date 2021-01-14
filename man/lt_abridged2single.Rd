@@ -8,6 +8,7 @@ lt_abridged2single(
   ndx,
   nLx,
   Age,
+  AgeInt = NULL,
   a0rule = "ak",
   Sex = "m",
   region = "w",
@@ -28,6 +29,8 @@ lt_abridged2single(
 \item{nLx}{numeric. Vector of lifetable exposure at abridged ages.}
 
 \item{Age}{integer. A vector of ages of the lower integer bound of the age classes.}
+
+\item{AgeInt}{integer. Vector of age class widths. Default \code{inferAgeIntAbr(Age = Age)}.}
 
 \item{a0rule}{character. Either \code{"ak"} (default) or \code{"cd"}.}
 
