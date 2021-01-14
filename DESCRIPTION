@@ -1,8 +1,8 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.11.03
-Date: 2021-01-12
+Version: 01.11.06
+Date: 2021-01-14
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
           email = "tim.riffe@gmail.com", comment = c(ORCID = "0000-0002-2673-4622")),
@@ -52,7 +52,6 @@ Imports:
 BugReports: https://github.com/timriffe/DemoTools/issues
 Remotes: 
     https://github.com/josehcms/fertestr,
-    https://github.com/mpascariu/ungroup,
     https://github.com/timriffe/DemoToolsData
 Encoding: UTF-8
 VignetteBuilder: knitr

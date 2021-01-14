@@ -141,20 +141,23 @@ lt_rule_m_extrapolate <- function(mx,
                                   x,
                                   x_fit = x,
                                   x_extr,
-                                  law = c("kannisto",
-                                          "kannisto_makeham",
-                                          "makeham",
-                                          "gompertz",
-                                          "ggompertz",
-                                          "beard",
-                                          "beard_makeham",
-                                          "quadratic"
-                                          ),
-                                  opt.method = c("LF2", "LF1", "LF3",
-                                                 "LF4", "LF5", "LF6",
-                                                 "poissonL", "binomialL"),
+                                  law = "kannisto",
+                                  opt.method = "poissonL",
                                   ...) {
 
+  all_the_laws_we_care_about <- c("kannisto",
+                                  "kannisto_makeham",
+                                  "makeham",
+                                  "gompertz",
+                                  "ggompertz",
+                                  "beard",
+                                  "beard_makeham",
+                                  "quadratic")
+  law <- match.arg(law, choices = all_the_laws_we_care_about)
+  
+  opt.choices <- c("poissonL","LF2", "LF1", "LF3",
+                   "LF4", "LF5", "LF6", "binomialL")
+  opt.method <- match.arg(opt.method, opt.choices)
   # Save the input
   input <- as.list(environment())
 
@@ -163,8 +166,8 @@ lt_rule_m_extrapolate <- function(mx,
     x = x,
     mx = mx,
     fit.this.x = x_fit,
-    law = match.arg(law),
-    opt.method = match.arg(opt.method),
+    law = law,
+    opt.method = opt.method,
     ...
   )
 
