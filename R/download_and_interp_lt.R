@@ -84,7 +84,7 @@ interp_coh_download_mortality <- function(country, sex, date1, date2, OAnew = 10
 #                         dplyr::bind_cols() %>% 
 #                         as.matrix())
 
-interp_coh_lxMat_pxt <- function(lxMat, dates_lx, Age_lx, date1, date2, ...){
+interp_coh_lxMat_pxt <- function(lxMat, dates_lx, age_lx, date1, date2, ...){
   # TR: this is a temp functin, a stop-gap. Some redundant code with
   # interp_coh_download_mortality(), which it itself temporary.
   # the age graduation will move to lt_abridged2single() as soon as it's
@@ -104,7 +104,7 @@ interp_coh_lxMat_pxt <- function(lxMat, dates_lx, Age_lx, date1, date2, ...){
                   datesIn = dates_lx,
                   datesOut = dates_out,
                   rule = 2) 
-  rownames(lxfull) <- Age_lx
+  rownames(lxfull) <- age_lx
   lxlong <- reshape2::melt(lxfull, 
                            varnames = c("Age","Date"), 
                            value.var = "lx")

@@ -70,7 +70,7 @@ interp_coh <- function(
   age1, 
   age2 = age1, 
   lxMat = NULL,
-  Age_lx,
+  age_lx,
   dates_lx = NULL,
   births = NULL, 
   country = NULL, 
@@ -108,22 +108,22 @@ interp_coh <- function(
       dates_lx <- seq(date1,date2,length.out = ncol(lxMat))
       cat("lxMat specified, but not dates_lx\nAssuming:",paste(dates_lx,collapse=", "),"\n")
     }
-    if (is.null(Age_lx)){
+    if (is.null(age_lx)){
       if (nrow(lxMat)  < 26){
      
         N      <- nrow(lxMat)
-        Age_lx <- c(0,1,seq(5,5*(N-2),by=5))
+        age_lx <- c(0,1,seq(5,5*(N-2),by=5))
       } else {
-        Age_lx <- 1:nrow(lxMat) - 1
+        age_lx <- 1:nrow(lxMat) - 1
       }
-      cat("lxMat specified, but Age_lx missing\nAssuming:",paste(Age_lx,collapse=", "),"\n")
+      cat("lxMat specified, but Age_lx missing\nAssuming:",paste(age_lx,collapse=", "),"\n")
     }
     
     # ensure lx fills timepoints.
     lxMat <- interp_lxMat(
                  lxMat, 
                  dates_lx = dates_lx,
-                 Age_lx = Age_lx,
+                 age_lx = age_lx,
                  date1 = date1, 
                  date2 = date2)
     
