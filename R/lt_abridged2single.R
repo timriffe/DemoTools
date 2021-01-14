@@ -71,39 +71,38 @@ lt_abridged2single <- function(ndx,
   stopifnot(is_abridged(Age))
   NN <- length(Age)
   stopifnot(length(nLx) == NN & length(ndx) == NN)
-  
-  # starting age of last closed age group
-  maxage_closed <- ifelse(OAG, max(Age) - 5, max(Age))  
-  useAge        <- Age > 0 & Age <= maxage_closed
 
-  # use pclm to ungroup to single year of age from 1 to maxage_closed+4
-  
+
+  # use pclm to ungroup to single year of age from 1 to maxage_closed+5
+
   # TR:
   # adding in a pre-split of nLx, not because it's really needed,
   # but so that we can do an intermediate rescale step to make
   # sure our single-age mx is on the right scale. Hard to describe,
   # but if we *don't* do this life expectancy is greatly exaggerated.
-  L1.1 <- pclm(x      = Age[useAge],
-            y      = nLx[useAge],
-            nlast  = 5) 
+  L1.1 <- pclm(x = Age[-length(Age)],
+               y = nLx[-length(Age)],
+               nlast = 5)
+
   age1 <- 0:length(fitted(L1.1))
-  ageint1 <- rep(1,length(age1))
+  ageint1 <- diff(age1)
+
   # we can ensure scale of nLx because it's a count
-  L1.2 <- rescaleAgeGroups(Value1 = c(nLx[1], fitted( L1.1)),
+  L1.2 <- rescaleAgeGroups(Value1 = fitted(L1.1),
                            AgeInt1 = ageint1,
                            Value2 = nLx[-NN],
                            AgeInt2 = AgeInt[-NN],
                            splitfun = graduate_uniform)
-  
-  M1.1 <- pclm(x   = Age[useAge],
-            y      = ndx[useAge],
-            nlast  = 5,
-            offset = L1.2[-1])
-  
-  # splice original 1M0 with fitted 1Mx 
+
+  M1.1 <- pclm(x = Age[-length(Age)],
+               y = ndx[-length(Age)],
+               nlast = 5)
+               ## offset = L1.2[-1])
+
+  # splice original 1M0 with fitted 1Mx
   M1.1 <- c(ndx[1]/nLx[1], fitted(M1.1))
-  
-  # 
+
+  #
   ndx2 <- M1.1 * L1.2
   # ndx is here rescaled to sum properly, also easier to ensure
   # because it's a count..
