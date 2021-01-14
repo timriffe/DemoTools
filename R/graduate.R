@@ -965,6 +965,7 @@ graduate_mono   <- function(
 
   # if age is single return as-is
   if (is_single(Age)) {
+    names(Value) <- Age
     return(Value)
   }
 

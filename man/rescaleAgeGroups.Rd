@@ -23,7 +23,7 @@ rescaleAgeGroups(
 
 \item{AgeInt2}{integer vector. Age interval widths for population 2.}
 
-\item{splitfun}{function to use for splitting \code{pop1}. Presently on \code{graduate_uniform()} works.}
+\item{splitfun}{function to use for splitting \code{Value1}. Presently only \code{graduate_uniform()} works.}
 
 \item{recursive}{logical. Shall we repeat the split/regroup/rescale process until stable? See details. Default \code{FALSE}.}
 

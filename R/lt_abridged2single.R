@@ -26,31 +26,34 @@
 #' 
 #' @export
 #' @importFrom ungroup pclm
-
- # Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
- #         .01332,.01528,.01757,.02092,.02517,.03225,.04241,.06056,
- #         .08574,.11840,.16226,.23745)
- # excheckUN <-  c(35.000,42.901,47.190,44.438,
- #                 40.523,36.868,33.691,30.567,27.500,24.485,21.504,18.599,
- #                 15.758,13.080,10.584,8.466,6.729,5.312,4.211)
- # Age = c(0,1,seq(5,85,by=5))
- # AgeInt <- inferAgeIntAbr(vec = Mx)
- # #
- # LTabr  <- lt_abridged(nMx = Mx,
- #                      Age = Age,
- #                      AgeInt = AgeInt,
- #                      axmethod = "un",
- #                      Sex = "m",
- #                      mod = TRUE)
- # ndx <- LTabr$ndx
- # nLx <- LTabr$nLx
- # 
- # lt_abridged2single(ndx, 
- #                    nLx, 
- #                    Age, 
- #                    axmethod = "un",
- #                    Sex = "m",
- #                    mod = TRUE)
+#' @importFrom stats fitted
+#' @examples
+#'  Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
+#'          .01332,.01528,.01757,.02092,.02517,.03225,.04241,.06056,
+#'          .08574,.11840,.16226,.23745)
+#'  excheckUN <-  c(35.000,42.901,47.190,44.438,
+#'                  40.523,36.868,33.691,30.567,27.500,24.485,21.504,18.599,
+#'                  15.758,13.080,10.584,8.466,6.729,5.312,4.211)
+#'  Age = c(0,1,seq(5,85,by=5))
+#'  AgeInt <- inferAgeIntAbr(vec = Mx)
+#'  #
+#'  LTabr  <- lt_abridged(nMx = Mx,
+#'                       Age = Age,
+#'                       AgeInt = AgeInt,
+#'                       axmethod = "un",
+#'                       Sex = "m",
+#'                       mod = TRUE)
+#'  ndx <- LTabr$ndx
+#'  nLx <- LTabr$nLx
+#'  
+#'  LT1 <- lt_abridged2single(ndx, 
+#'                     nLx, 
+#'                     Age, 
+#'                     axmethod = "un",
+#'                     Sex = "m",
+#'                     mod = TRUE)
+#' LTabr$ex[1]
+#' LT1$ex[1]
 
 lt_abridged2single <- function(ndx,
                                nLx,
@@ -69,7 +72,8 @@ lt_abridged2single <- function(ndx,
                                ...) {
   radix <- sum(ndx)
   stopifnot(is_abridged(Age))
-  NN <- length(Age)
+  
+  NN    <- length(Age)
   stopifnot(length(nLx) == NN & length(ndx) == NN)
 
 
@@ -84,23 +88,25 @@ lt_abridged2single <- function(ndx,
                y = nLx[-length(Age)],
                nlast = 5)
 
-  age1 <- 0:length(fitted(L1.1))
+  age1 <- 0:length(L1.1$fitted)
   ageint1 <- diff(age1)
 
   # we can ensure scale of nLx because it's a count
-  L1.2 <- rescaleAgeGroups(Value1 = fitted(L1.1),
+  L1.2 <- rescaleAgeGroups(Value1 = L1.1$fitted,
                            AgeInt1 = ageint1,
                            Value2 = nLx[-NN],
                            AgeInt2 = AgeInt[-NN],
-                           splitfun = graduate_uniform)
+                           splitfun = graduate_mono)
 
-  M1.1 <- pclm(x = Age[-length(Age)],
-               y = ndx[-length(Age)],
-               nlast = 5)
-               ## offset = L1.2[-1])
+  # exclude 0 and OAG
+  use_these <- Age > 0 & Age < max(Age)
+  M1.1 <- pclm(x = Age[use_these],
+               y = ndx[use_these],
+               nlast = 5,
+               offset = L1.2[-1])
 
   # splice original 1M0 with fitted 1Mx
-  M1.1 <- c(ndx[1]/nLx[1], fitted(M1.1))
+  M1.1 <- c(ndx[1]/nLx[1], M1.1$fitted)
 
   #
   ndx2 <- M1.1 * L1.2
@@ -110,12 +116,13 @@ lt_abridged2single <- function(ndx,
                    AgeInt1 = ageint1,
                    Value2 = ndx[-NN],
                    AgeInt2 = AgeInt[-NN],
-                   splitfun = graduate_uniform)
+                   splitfun = graduate_mono)
   
   # this version of 1Mx should pass roughly through the middle of the
   # nMx step function implied by the input parameters
   M1.2 <- ndx3 / L1.2
-  
+  # Add on OAG
+  M1.2 <- c(M1.2,ndx[NN] / nLx[NN])
   # To see the difference, compare M1.1 with M1.2
   ind <- age1 >= min(extrapFit) & 
     age1 <= (max(extrapFit) + AgeInt[Age ==  max(extrapFit)] - 1)
@@ -130,7 +137,7 @@ lt_abridged2single <- function(ndx,
                      IMR = IMR,
                      mod = mod,
                      SRB = SRB,
-                     OAG = FALSE,
+                     OAG = TRUE,
                      OAnew = OAnew,
                      extrapLaw = extrapLaw,
                      extrapFrom = extrapFrom,

@@ -676,7 +676,11 @@ rescaleAgeGroups <- function(Value1,
   
   # step 2) regroup to groups of Value2
   AgeN2       <- rep(Age2, times = AgeInt2)
-  beforeN     <- groupAges(ValueS, AgeS, AgeN = AgeN2)
+  
+  # breaks here w graduate_mono()
+  beforeN     <- groupAges(Value = ValueS, 
+                           Age = AgeS, 
+                           AgeN = AgeN2)
   
   # step 3) now repeat values of Value1 and Value2 for each single age
   # then rescale single age values.
@@ -687,7 +691,9 @@ rescaleAgeGroups <- function(Value1,
   
   # step 4) group back to original age classes
   AgeN1       <- rep(Age1, times = AgeInt1)
-  out         <- groupAges(SRescale, AgeS, AgeN = AgeN1)
+  out         <- groupAges(Value = SRescale, 
+                           Age = AgeS, 
+                           AgeN = AgeN1)
   
   # step 5a) if no recursion, return now
   if (!recursive) {
@@ -698,7 +704,9 @@ rescaleAgeGroups <- function(Value1,
   # Risky if an arbitrary splitting function is used...
   # equivalent of a while loop with no escape.
   newN        <- splitfun(out, AgeInt = AgeInt1)
-  check       <- groupAges(newN, AgeS, AgeN = AgeN2)
+  check       <- groupAges(Value = newN, 
+                           Age = AgeS, 
+                           AgeN = AgeN2)
   if (max(abs(check - Value2)) < tol) {
     return(out)
   } else {
