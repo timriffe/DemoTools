@@ -71,7 +71,8 @@ interp_coh <- function(country,
                        age1, 
                        age2 = age1, 
                        lxMat = NULL,
-                       lxdates = NULL,
+                       Age_lx,
+                       dates_lx = NULL,
                        births = NULL, 
                        ...) {
   
@@ -92,6 +93,31 @@ interp_coh <- function(country,
     # do the necessary interpolation and graduation to bring lx up to spec and make it into px,
     # recycle machinery in download_and_interp_lt.R as needed.
     # Don't tinker with the q graduation in there, it will be replaced soon.
+    if (is.null(dates_lx)){
+      # if lx dates not given we assume dates evenly distributed from date1 to date2?
+      dates_lx <- seq(date1,date2,length.out = ncol(lxMat))
+      cat("lxMat specified, but not dates_lx\nAssuming:",paste(dates_lx,collapse=", "),"\n")
+    }
+    if (is.null(Age_lx)){
+      if (nrow(lxMat)  < 26){
+     
+        N      <- nrow(lxMat)
+        Age_lx <- c(0,1,seq(5,5*(N-2),by=5))
+      } else {
+        Age_lx <- 1:nrow(lxMat) - 1
+      }
+      cat("lxMat specified, but Age_lx missing\nAssuming:",paste(Age_lx,collapse=", "),"\n")
+    }
+    
+    # ensure lx fills timepoints.
+    lxMat <- interp_lxMat(
+                 lxMat, 
+                 dates_lx = dates_lx,
+                 Age_lx = Age_lx,
+                 date1 = date1, 
+                 date2 = date2)
+    
+    
   }
 
   if (is.null(births)){
