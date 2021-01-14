@@ -45,7 +45,7 @@ census_cohort_adjust <- function(pop, age, date){
 #' @param date2 reference date of c2`. Either a Date class object or an unambiguous character string in the format "YYYY-MM-DD".
 #' @param age1 integer vector. single ages of `c1`
 #' @param age2 integer vector. single ages of `c2` 
-#' @param age2 integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years
+#' @param births integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years
 #' @export
 #' @examples 
 #' interp_coh(
@@ -62,21 +62,31 @@ census_cohort_adjust <- function(pop, age, date){
 #'   pivot_wider(names_from = year, values_from = "pop_jan1") %>%
 #'   arrange(age) %>%
 #'   View()
-interp_coh <- function(country, 
-                       sex, 
-                       c1, 
-                       c2, 
-                       date1, 
-                       date2, 
-                       age1, 
-                       age2 = age1, 
-                       lxMat = NULL,
-                       Age_lx,
-                       dates_lx = NULL,
-                       births = NULL, 
-                       ...) {
+interp_coh <- function(
+  c1, 
+  c2, 
+  date1, 
+  date2, 
+  age1, 
+  age2 = age1, 
+  lxMat = NULL,
+  Age_lx,
+  dates_lx = NULL,
+  births = NULL, 
+  country = NULL, 
+  sex = "both", 
+  ...
+) {
   
-  # convert the dates into decimal nu mbers
+  # If lxMat or births are missing -- message requiring country and sex
+  if (is.null(lxMat) & is.null(country)) {
+    cat("lxMat not specified, please specify country and sex\n")
+  } 
+  if (is.null(births) & is.null(country)) {
+    cat("births not specified, please specify country and sex\n")
+  }
+  
+  # convert the dates into decimal numbers
   date1 <- dec.date(date1)
   date2 <- dec.date(date2)
   
@@ -120,8 +130,41 @@ interp_coh <- function(country,
     
   }
 
+  # fetch WPP births if not provided by user
   if (is.null(births)){
-    # do something to get them.
+    # load WPP births
+    requireNamespace("DemoToolsData", quietly = TRUE)
+    WPP2019_births <- DemoToolsData::WPP2019_births 
+    
+    # format filtering criteria -- country and years
+    cntr_iso3 <- country %>% countrycode::countrycode(
+      ., origin = "country.name", destination  = "iso3c"
+    )
+    yrs_births <- seq(floor(date1), floor(date2), 1)
+    
+    # filter out country and years
+    b_filt <- 
+      WPP2019_births %>% 
+      dplyr::filter(
+        ISO3 == cntr_iso3,
+        Year %in% yrs_births
+      )
+    
+    # extract births depending on sex
+    if (sex == "both"){
+      births <- b_filt %>% pull(TBirths)
+    }
+    if(sex == "male") {
+      births <- b_filt %>% 
+        mutate(male_births = TBirths * SRB / (SRB + 1)) %>% 
+        pull(male_births)
+    }
+    if(sex == "female") {
+      births <- b_filt %>% 
+        mutate(female_births = TBirths / (SRB + 1)) %>% 
+        pull(female_births)
+    }
+    cat("Births fetched from WPP for:", paste(country, sex), "population, years", paste(yrs_births, collapse = ", "), "\n")
   }
   
   # a note for future: interp_coh_download_mortality should use {countrycode} to better match the country names. As of now, just Russia won't work [ISSUE #166]
