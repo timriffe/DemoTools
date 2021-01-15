@@ -236,16 +236,16 @@ interp_coh <- function(
     )] %>%
     .[, `:=`(year = ifelse(year == max(year), year + f2 - 1, year))]
 
-  # calculate the discrepancy (migration) -- to be disrtibuted uniformly in cohorts
+  # calculate the discrepancy (migration) -- to be disrtibuted uniformly in
+  # cohorts
   resid <-
     pop_jan1_pre %>%
-    dplyr::filter(year == max(year)) %>%
-    left_join(pop_c2, by = "cohort") %>%
-    mutate(
-      resid = pop_c2_obs - pop_jan1_pre,
-      rel_resid = resid / pop_c2_obs # only used in the process for diagnostics
-    ) %>%
-    select(cohort, resid)
+    .[year == max(year)] %>%
+    .[pop_c2, on = "cohort"] %>%
+    .[, `:=`(resid = pop_c2_obs - pop_jan1_pre)] %>%
+    # Only used in the process for diagnostics
+    .[, `:=`(rel_resid = resid / pop_c2_obs)] %>%
+    .[, .(cohort, resid)]
 
   # determine uniform error discounts:
   resid_discounts <-
@@ -254,22 +254,23 @@ interp_coh <- function(
       y = c(0, 1),
       xout = seq(ceiling(date1), floor(date2))
     ) %>%
-    as.data.frame() %>%
-    select(year = x, discount= y)
+    as.data.table() %>%
+    .[, .(year = x, discount = y)]
 
   # output
   pop_jan1 <-
     pop_jan1_pre %>%
-    left_join(resid, by = "cohort") %>%
-    left_join(resid_discounts, by = "year") %>%
-    mutate(
-      resid = ifelse(is.na(resid),0,resid),
-      discount = ifelse(year == max(year),1,discount),
-      pop_jan1 = pop_jan1_pre + resid * discount
-    )
+    merge(resid, by = "cohort", all = TRUE) %>%
+    merge(resid_discounts, by = "year", all = TRUE) %>%
+    .[, `:=`(
+      resid = ifelse(is.na(resid), 0, resid),
+      discount = ifelse(year == max(year), 1, discount)
+    )] %>%
+    .[, `:=`(pop_jan1 = pop_jan1_pre + resid * discount)]
 
 
-  PopAP <- pop_jan1 %>%
+  PopAP <-
+    pop_jan1 %>%
      select(age, year, pop_jan1) %>%
      pivot_wider(names_from = year, values_from = "pop_jan1") %>%
      arrange(age)
