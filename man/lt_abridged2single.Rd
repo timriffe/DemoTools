@@ -79,13 +79,9 @@ an abridged life table, using the \code{ungroup::pclm()} to ungroup binned count
 data (\code{ndx} of the abridged life table) offset by \code{nLx} life table exposures. Returns fitted single year \code{nMx}.
 }
 \details{
-
 Similar to \code{lt_single_mx()} details, forthcoming. All steps are constrained to the original \code{ndx} and \code{nLx} values.
 
-Similar to `lt_single_mx()`` details, forthcoming
-
 \code{ndx} and \code{nLx} could refer to death counts and exposures, respectively.
-
 }
 \examples{
 
