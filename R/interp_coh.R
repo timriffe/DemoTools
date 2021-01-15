@@ -48,6 +48,7 @@ census_cohort_adjust <- function(pop, age, date){
 #' @param births integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years
 #' @param midyear logical. `FALSE` means all Jan 1 dates between `date1` and `date2` are returned. `TRUE` means all July 1 intercensal dates are returned.
 #' @export
+#' @importFrom countrycode countrycode
 #' @examples 
 #' 
 #' \dontrun{
@@ -143,33 +144,24 @@ interp_coh <- function(
     WPP2019_births <- DemoToolsData::WPP2019_births 
     
     # format filtering criteria -- country and years
-    cntr_iso3 <- country %>% countrycode::countrycode(
-      ., origin = "country.name", destination  = "iso3c"
+    cntr_iso3 <- countrycode::countrycode(
+      country,
+      origin = "country.name", 
+      destination  = "iso3c"
     )
     yrs_births <- seq(floor(date1), floor(date2), 1)
     
     # filter out country and years
-    b_filt <- 
-      WPP2019_births %>% 
-      dplyr::filter(
-        ISO3 == cntr_iso3,
-        Year %in% yrs_births
-      )
+    ind       <- WPP2019_births$ISO3 == cntr_iso3 & WPP2019_births$Year %in% yrs_births
+    b_filt    <- WPP2019_births[ind, ]
+    bt        <- b_filt$TBirths
+    SRB       <- b_filt$SRB
     
     # extract births depending on sex
-    if (sex == "both"){
-      births <- b_filt %>% pull(TBirths)
-    }
-    if(sex == "male") {
-      births <- b_filt %>% 
-        mutate(male_births = TBirths * SRB / (SRB + 1)) %>% 
-        pull(male_births)
-    }
-    if(sex == "female") {
-      births <- b_filt %>% 
-        mutate(female_births = TBirths / (SRB + 1)) %>% 
-        pull(female_births)
-    }
+    if (sex == "both")  births  <- bt
+    if(sex == "male")   births  <- bt * SRB ( 1 + SRB) 
+    if(sex == "female") births  <- bt / (SRB + 1)
+    
     cat("Births fetched from WPP for:", paste(country, sex), "population, years", paste(yrs_births, collapse = ", "), "\n")
   }
   
@@ -705,6 +697,3 @@ interp_coh <- function(
 # }
 # 
 # 
-
-
-
