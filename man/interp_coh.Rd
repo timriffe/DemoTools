@@ -47,18 +47,18 @@ Cohorts between two censuses are interpolated flexibly using linear, exponential
 
 \dontrun{
 interp_coh(
-country = "Russian Federation", 
+country = "Russian Federation",
 sex = "male",
-c1 = pop1m_rus2002, 
-c2 = pop1m_rus2010, 
-date1 = "2002-10-16", 
-date2 = "2010-10-25", 
+c1 = pop1m_rus2002,
+c2 = pop1m_rus2010,
+date1 = "2002-10-16",
+date2 = "2010-10-25",
 age1 = 0:100,
 births = c(719511L, 760934L, 772973L, 749554L, 760831L, 828772L, 880543L, 905380L, 919639L)
-) \%>\% 
-  select(age, year, pop_jan1) \%>\% 
+) \%>\%
+  select(age, year, pop_jan1) \%>\%
   pivot_wider(names_from = year, values_from = "pop_jan1") \%>\%
-  arrange(age) 
+  arrange(age)
 }
 }
 \seealso{
