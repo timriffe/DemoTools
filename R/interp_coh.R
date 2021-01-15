@@ -189,6 +189,7 @@ interp_coh <- function(
   y <- NULL
   discount <- NULL
   .N <- NULL
+  . <- NULL
 
   px_triangles <-
     pxt %>%
