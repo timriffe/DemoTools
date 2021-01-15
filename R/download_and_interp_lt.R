@@ -23,7 +23,9 @@ lt_a2s_chunk <- function(chunk, OAnew, ...){
 }
 
 interp_coh_download_mortality <- function(country, sex, date1, date2, OAnew = 100){
-
+  
+  . <- NULL
+  
   date1      <- dec.date(date1)
   date2      <- dec.date(date2)
   
@@ -88,7 +90,7 @@ interp_coh_lxMat_pxt <- function(lxMat,
   
   year_seq   <- year1:year2
   
-  dates_out  <- c(dec.date(date1),year_seq)
+  dates_out  <- c(dec.date(date1), year_seq)
   
   # get ndx andnLx from lt_abridged()
   

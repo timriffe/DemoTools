@@ -7,7 +7,9 @@
 census_cohort_adjust(pop, age, date)
 }
 \arguments{
-\item{age}{integer. Lower bound of single age groups}
+\item{pop}{numeric vector. Population counts in age groups, presumably from a census with an exact reference date.}
+
+\item{age}{integer vector. Lower bound of single age groups}
 
 \item{date}{Either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.}
 }

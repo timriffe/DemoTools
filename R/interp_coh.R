@@ -1,6 +1,7 @@
 #' shift census populations to match single year cohorts
 #' @description Matches the (single) ages of a census to single cohorts. For use in intercensal interpolations. Ages are potentially blended to match single cohort line assuming that the population in each age is uniformly distributed over the age group.
-#' @param age integer. Lower bound of single age groups
+#' @param pop numeric vector. Population counts in age groups, presumably from a census with an exact reference date.
+#' @param age integer vector. Lower bound of single age groups
 #' @param date Either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.
 #'@export
 #' @examples
@@ -43,14 +44,14 @@ census_cohort_adjust <- function(pop, age, date){
 #' @param date2 reference date of c2`. Either a Date class object or an unambiguous character string in the format "YYYY-MM-DD".
 #' @param age1 integer vector. single ages of `c1`
 #' @param age2 integer vector. single ages of `c2`
-#' @param lxMat
-#' @param age_lx
-#' @param dates_lx
+#' @param lxMat numeric matrix containing lifetable survivorship, `l(x)`. Each row is an age group and each column a time point. At least two intercensal time points needed.
+#' @param age_lx integer vector. Age classes in `lxMat`
+#' @param dates_lx date, character, or numeric vector of the column time points for `lxMat`. If these are calendar-year estimates, then you can choose mid-year time points
 #' @param births integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years
 #' @param country text string. The country of the census
-#' @param sex text string. Sex of the sub-population
+#' @param sex character string, either `"male"`, `"female"`, or `"both"`
 #' @param midyear logical. `FALSE` means all Jan 1 dates between `date1` and `date2` are returned. `TRUE` means all July 1 intercensal dates are returned.
-#' @param ...
+#' @param ... optional arguments passed to 
 #' @export
 #' @importFrom countrycode countrycode
 #' @importFrom data.table := as.data.table melt data.table dcast between
@@ -107,9 +108,7 @@ interp_coh <- function(
       interp_coh_download_mortality(country, sex, date1, date2)
     )
   } else {
-    # do the necessary interpolation and graduation to bring lx up to spec and make it into px,
-    # recycle machinery in download_and_interp_lt.R as needed.
-    # Don't tinker with the q graduation in there, it will be replaced soon.
+
     if (is.null(dates_lx)){
       # if lx dates not given we assume dates evenly distributed from date1 to date2?
       dates_lx <- seq(date1,date2,length.out = ncol(lxMat))
@@ -133,7 +132,8 @@ interp_coh <- function(
       dates_lx = dates_lx,
       age_lx = age_lx,
       date1 = date1,
-      date2 = date2)
+      date2 = date2,
+      ...)
   }
 
   # fetch WPP births if not provided by user
@@ -173,23 +173,23 @@ interp_coh <- function(
   # variables to avoid having R CMD checks with no visible binding
   # for global variable.
 
-  age <- NULL
-  year <- NULL
-  px <- NULL
-  lower <- NULL
-  upper <- NULL
+  age      <- NULL
+  year     <- NULL
+  px       <- NULL
+  lower    <- NULL
+  upper    <- NULL
   triangle <- NULL
-  adj <- NULL
-  value <- NULL
-  pop <- NULL
-  coh_p <- NULL
-  coh_lx <- NULL
+  adj      <- NULL
+  value    <- NULL
+  pop      <- NULL
+  coh_p    <- NULL
+  coh_lx   <- NULL
   pop_c2_obs <- NULL
-  x <- NULL
-  y <- NULL
+  x        <- NULL
+  y        <- NULL
   discount <- NULL
-  .N <- NULL
-  . <- NULL
+  .N       <- NULL
+  .        <- NULL
 
   px_triangles <-
     pxt %>%

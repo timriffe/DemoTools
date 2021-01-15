@@ -34,13 +34,21 @@ interp_coh(
 
 \item{age2}{integer vector. single ages of \code{c2}}
 
+\item{lxMat}{numeric matrix containing lifetable survivorship, \code{l(x)}. Each row is an age group and each column a time point. At least two intercensal time points needed.}
+
+\item{age_lx}{integer vector. Age classes in \code{lxMat}}
+
+\item{dates_lx}{date, character, or numeric vector of the column time points for \code{lxMat}. If these are calendar-year estimates, then you can choose mid-year time points}
+
 \item{births}{integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years}
 
 \item{country}{text string. The country of the census}
 
-\item{sex}{text string. Sex of the sub-population}
+\item{sex}{character string, either \code{"male"}, \code{"female"}, or \code{"both"}}
 
 \item{midyear}{logical. \code{FALSE} means all Jan 1 dates between \code{date1} and \code{date2} are returned. \code{TRUE} means all July 1 intercensal dates are returned.}
+
+\item{...}{optional arguments passed to}
 }
 \description{
 Cohorts between two censuses are interpolated flexibly using linear, exponential, or power rules. The lower and upper intercensal triangles are filled using within-age interpolation. This function is experimental and still in development.
