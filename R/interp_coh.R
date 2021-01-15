@@ -47,10 +47,12 @@ census_cohort_adjust <- function(pop, age, date){
 #' @param lxMat numeric matrix containing lifetable survivorship, `l(x)`. Each row is an age group and each column a time point. At least two intercensal time points needed.
 #' @param age_lx integer vector. Age classes in `lxMat`
 #' @param dates_lx date, character, or numeric vector of the column time points for `lxMat`. If these are calendar-year estimates, then you can choose mid-year time points
-#' @param births integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years
+#' @param births integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years. The first and last years should include all births in the given year; don't discount them in advance.
+#' @param years_births numeric vector of calendar years of births.
 #' @param country text string. The country of the census
 #' @param sex character string, either `"male"`, `"female"`, or `"both"`
 #' @param midyear logical. `FALSE` means all Jan 1 dates between `date1` and `date2` are returned. `TRUE` means all July 1 intercensal dates are returned.
+#' @param verbose logical. Shall we send informative messages to the console?
 #' @param ... optional arguments passed to 
 #' @export
 #' @importFrom countrycode countrycode
@@ -74,24 +76,36 @@ interp_coh <- function(
                        c2,
                        date1,
                        date2,
-                       age1,
-                       age2 = age1,
+                       age1 = 1:length(c1) - 1,
+                       age2 = 1:length(c2) - 1,
                        lxMat = NULL,
                        age_lx = NULL,
                        dates_lx = NULL,
                        births = NULL,
+                       years_births = NULL,
                        country = NULL,
                        sex = "both",
                        midyear = FALSE,
+                       verbose = TRUE,
                        ...
                        ) {
 
+  stopifnot(length(age1) == length(c1))
+  stopifnot(length(age2) == length(c2))
+  
+  stopifnot(is_single(age1))
+  stopifnot(is_single(age2))
+  
+  if (length(age1) != length(age2) & verbose){
+    cat("\nFYI: age ranges are different for c1 and c2\nWe'll still get intercensal estimates,\nbut returned data will be chopped off after age", max(age1))
+  }
+   
   # If lxMat or births are missing -- message requiring country and sex
   if (is.null(lxMat) & is.null(country)) {
-    cat("lxMat not specified, please specify country and sex\n")
+    stop("lxMat not specified, please specify country and sex\n")
   }
   if (is.null(births) & is.null(country)) {
-    cat("births not specified, please specify country and sex\n")
+    stop("births not specified, please specify country and sex\n")
   }
 
   # convert the dates into decimal numbers
@@ -99,13 +113,13 @@ interp_coh <- function(
   date2 <- dec.date(date2)
 
   # let's store the proportions separately
-  f1 <- date1 %>% magrittr::subtract(date1 %>% floor)
-  f2 <- date2 %>% magrittr::subtract(date2 %>% floor)
+  f1    <- date1 %>% magrittr::subtract(date1 %>% floor)
+  f2    <- date2 %>% magrittr::subtract(date2 %>% floor)
 
   # get the lexis surface of survival probabilities
   if (is.null(lxMat)){
     pxt <- suppressMessages(
-      interp_coh_download_mortality(country, sex, date1, date2)
+      interp_coh_download_mortality(country, sex, date1, date2, OAnew = max(age1) + 1)
     )
   } else {
 
@@ -133,9 +147,10 @@ interp_coh <- function(
       age_lx = age_lx,
       date1 = date1,
       date2 = date2,
+      OAnew = max(age1) + 1,
       ...)
   }
-
+  yrs_births   <- seq(floor(date1), floor(date2), 1)
   # fetch WPP births if not provided by user
   if (is.null(births)) {
     # TR: this can live in a helper function
@@ -147,9 +162,7 @@ interp_coh <- function(
     cntr_iso3 <- countrycode::countrycode(
                                 country,
                                 origin = "country.name",
-                                destination  = "iso3c"
-                              )
-    yrs_births <- seq(floor(date1), floor(date2), 1)
+                                destination  = "iso3c")
 
     # filter out country and years
     ind       <- WPP2019_births$ISO3 == cntr_iso3 & WPP2019_births$Year %in% yrs_births
@@ -159,12 +172,25 @@ interp_coh <- function(
 
     # extract births depending on sex
     if (sex == "both")  births  <- bt
-    if(sex == "male")   births  <- bt * SRB ( 1 + SRB)
+    if(sex == "male")   births  <- bt * SRB / ( 1 + SRB)
     if(sex == "female") births  <- bt / (SRB + 1)
 
     cat("Births fetched from WPP for:", paste(country, sex), "population, years", paste(yrs_births, collapse = ", "), "\n")
   }
-
+  
+  # check length of births, also filter using provided dates if necessary
+  if (!is.null(years_births)){
+    stopifnot(length(births) != length(years_births))
+    
+    years_births <- floor(years_births)
+    yrs_keep     <- years_births[years_births %in% yrs_births]
+    years_births <- years_births[yrs_keep]
+    births       <- births[yrs_keep]
+  }
+  
+  # now that births should be available we can do this check.
+  stopifnot(length(births) == length(yrs_births))
+  
   # a note for future: interp_coh_download_mortality should use {countrycode} to
   # better match the country names. As of now, just Russia won't work
   # [ISSUE #166]
@@ -331,9 +357,8 @@ interp_coh <- function(
   } else {
     yrsIn <- c(date1, as.numeric(colnames(matinterp)))
     matinterp <- cbind(c1, matinterp)
-    # Since datesOut needs a decimal, I add 0.01 just
-    # so it works
-    dates_out <- (floor(date1) + 1):floor(date2) + 0.01
+
+    dates_out <- (floor(date1) + 1):floor(date2) %>% as.double()
     out <- interp(
       matinterp,
       datesIn = yrsIn,
