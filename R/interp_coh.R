@@ -268,22 +268,19 @@ interp_coh <- function(
     )] %>%
     .[, `:=`(pop_jan1 = pop_jan1_pre + resid * discount)]
 
-
   PopAP <-
     pop_jan1 %>%
-     select(age, year, pop_jan1) %>%
-     pivot_wider(names_from = year, values_from = "pop_jan1") %>%
-     arrange(age)
+    .[, .(age, year, pop_jan1)] %>%
+    data.table::dcast(age ~ year, value.var = "pop_jan1") %>%
+    .[order(age)]
+
+  matinterp <-PopAP[age <= max(age1), -1] %>% as.matrix()
 
   # now we either return Jan1 dates or July 1 dates.
-  if (midyear){
+  if (midyear) {
     dates_midyear <- (floor(date1) + .5):(floor(date2) + .5)
     dates_midyear <- dates_midyear[between(dates_midyear,date1,date2)]
 
-    matinterp <- PopAP %>%
-      dplyr::filter(age <= max(age1)) %>%
-      select(-age) %>%
-      as.matrix()
     yrsIn <- c(date1, as.numeric(colnames(matinterp)))
     matinterp <- cbind(c1,matinterp)
     out <- interp(matinterp,
@@ -292,10 +289,6 @@ interp_coh <- function(
            rule = 1)
   } else {
     yrsIn <- c(date1, as.numeric(colnames(matinterp)))
-    matinterp <- PopAP %>%
-      dplyr::filter(age <= max(age1)) %>%
-      select(-age) %>%
-      as.matrix()
     dates_out <- (floor(date1) + 1):floor(date2)
     out <- interp(matinterp,
                   datesIn = yrsIn,
