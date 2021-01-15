@@ -49,7 +49,8 @@ Imports:
     lubridate,
     fertestr,
     DemoToolsData,
-    data.table (>= 1.13.6)
+    data.table (>= 1.13.6),
+    countrycode
 BugReports: https://github.com/timriffe/DemoTools/issues
 Remotes: 
     https://github.com/josehcms/fertestr,
