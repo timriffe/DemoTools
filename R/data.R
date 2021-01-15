@@ -113,6 +113,30 @@
 #'   \url{http://}
 "popA_later"
 
+#' Russian census 2002 male population by 1 year age groups
+#'
+#' Male population by 1 year age groups from Russian census help on 2002-10-16
+#' @docType data
+#' @format
+#'   A numeric vector of length 101
+#'
+#' @source
+#'   The data comes from
+#'   \url{http://www.demoscope.ru/weekly/ssp/rus2002_01.php}
+"pop1m_rus2002"
+
+#' Russian census 2010 male population by 1 year age groups
+#'
+#' Male population by 1 year age groups from Russian census help on 2010-10-25
+#' @docType data
+#' @format
+#'   A numeric vector of length 101
+#'
+#' @source
+#'   The data comes from
+#'   \url{http://www.demoscope.ru/weekly/ssp/rus_age1_10.php}
+"pop1m_rus2010"
+
 
 # model life tables --fitted LogQuad models -------------------------------
  
