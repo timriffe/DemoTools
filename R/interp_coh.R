@@ -96,8 +96,8 @@ interp_coh <- function(
   date2 <- dec.date(date2)
 
   # let's store the proportions separately
-  f1 <- date1 %>% subtract(date1 %>% floor)
-  f2 <- date2 %>% subtract(date2 %>% floor)
+  f1 <- date1 %>% magrittr::subtract(date1 %>% floor)
+  f2 <- date2 %>% magrittr::subtract(date2 %>% floor)
 
   # get the lexis surface of survival probabilities
   if (is.null(lxMat)){
@@ -165,7 +165,9 @@ interp_coh <- function(
     cat("Births fetched from WPP for:", paste(country, sex), "population, years", paste(yrs_births, collapse = ", "), "\n")
   }
 
-  # a note for future: interp_coh_download_mortality should use {countrycode} to better match the country names. As of now, just Russia won't work [ISSUE #166]
+  # a note for future: interp_coh_download_mortality should use {countrycode} to
+  # better match the country names. As of now, just Russia won't work
+  # [ISSUE #166]
   px_triangles <-
     pxt %>%
     data.table::as.data.table(keep.rownames = "age") %>%
@@ -192,13 +194,17 @@ interp_coh <- function(
     .[, `:=`(cohort = subtract(year, age) %>% subtract(adj) %>% floor())]
 
   # cohort changes over the whole period
-  px_cum1 <- px_triangles[, .(n_triangles = .N, coh_p = prod(value)), keyby = .(cohort)]
+  px_cum1 <-
+    px_triangles[, .(
+      n_triangles = .N,
+      coh_p = prod(value)), keyby = .(cohort)]
 
   # adjust the census population vectors
-  c1c <-census_cohort_adjust(c1, age1, date1)
-  c2c <-census_cohort_adjust(c2, age2, date2)
+  c1c <- census_cohort_adjust(c1, age1, date1)
+  c2c <- census_cohort_adjust(c2, age2, date2)
 
-  # correction for the first year age 0 -- only take first for the remaining of the year
+  # correction for the first year age 0 -- only take first for the remaining of
+  # the year
   births[1] <- births[1] * (1 - f1)
 
   # correction for the last year age 0
@@ -249,12 +255,12 @@ interp_coh <- function(
 
   # determine uniform error discounts:
   resid_discounts <-
-    approx(
+    stats::approx(
       x = c(date1, date2),
       y = c(0, 1),
       xout = seq(ceiling(date1), floor(date2))
     ) %>%
-    as.data.table() %>%
+    data.table::as.data.table() %>%
     .[, .(year = x, discount = y)]
 
   # output
@@ -274,26 +280,31 @@ interp_coh <- function(
     data.table::dcast(age ~ year, value.var = "pop_jan1") %>%
     .[order(age)]
 
-  matinterp <-PopAP[age <= max(age1), -1] %>% as.matrix()
+  matinterp <- PopAP[age <= max(age1), -1] %>% as.matrix()
 
   # now we either return Jan1 dates or July 1 dates.
   if (midyear) {
     dates_midyear <- (floor(date1) + .5):(floor(date2) + .5)
-    dates_midyear <- dates_midyear[between(dates_midyear,date1,date2)]
+    between_dates <- data.table::between(dates_midyear, date1, date2)
+    dates_midyear <- dates_midyear[between_dates]
 
     yrsIn <- c(date1, as.numeric(colnames(matinterp)))
-    matinterp <- cbind(c1,matinterp)
-    out <- interp(matinterp,
-           datesIn = yrsIn,
-           datesOut = dates_midyear,
-           rule = 1)
+    matinterp <- cbind(c1, matinterp)
+    out <- interp(
+      matinterp,
+      datesIn = yrsIn,
+      datesOut = dates_midyear,
+      rule = 1
+    )
   } else {
     yrsIn <- c(date1, as.numeric(colnames(matinterp)))
     dates_out <- (floor(date1) + 1):floor(date2)
-    out <- interp(matinterp,
-                  datesIn = yrsIn,
-                  datesOut =dates_out,
-                  rule = 1)
+    out <- interp(
+      matinterp,
+      datesIn = yrsIn,
+      datesOut = dates_out,
+      rule = 1
+    )
   }
 
 }
