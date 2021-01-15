@@ -8,24 +8,7 @@
 # goal will be to fill a mortality surface between two censuses.
 # args should be date1, date2, country.
 
-interp_coh_graduate_dx_qx_chunk <- function(chunk){
-  
-  # This is a temporary internal method: graduate
-  # dx using mono spline on CDF and sqrt(age) (works OK)
-  # then convert to qx using identity.
-  x         <- sqrt(chunk$Age)
-  Date      <- chunk$Date[1]
-  CDF       <- cumsum(chunk$dx)
-  mono_fun  <- stats::splinefun(CDF~x, method = "monoH.FC")
-  
-  xout      <- 0:100
-  sqxout    <- sqrt(xout)
-  CDF1      <- mono_fun(sqxout)
-  dx1       <- diff(c(0,CDF1)) 
-  qx1       <- lt_id_d_q(dx1)
-  
-  tibble(Age = xout, Date = rep(Date, length(xout)), qx = qx1)
-}
+
 
 lt_a2s_chunk <- function(chunk, OAnew, ...){
   ndx <- chunk$dx
@@ -49,31 +32,33 @@ interp_coh_download_mortality <- function(country, sex, date1, date2, OAnew = 10
   
   year_seq   <- year1:year2
   
-  dates_out  <- c(dec.date(date1),year_seq)
- 
+  dates_out  <- c(dec.date(date1), year_seq)
 
   
-  PX <-suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,
+  PX <- suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,
                                locations = country, 
                                sex = sex)) %>% 
                           lapply(function(X){
                             X[,c("year","x","dx","Lx")]
                           }) %>% 
-                          dplyr::bind_rows() %>% 
-    group_by(year) %>% 
-    do(lt_a2s_chunk(chunk = .data, OAnew = OAnew)) %>% 
-    mutate(px = 1-nqx) %>% 
-    reshape2::acast("Age~year", value.var = "px")
+   lapply(lt_a2s_chunk, OAnew = OAnew) %>% 
+   lapply(function(X){
+     1 - X$nqx
+   }) %>% 
+    do.call("cbind",.)
   
-  PX[PX > 1] <- 1
+
+  dimnames(PX)   <- list(0:OAnew, dates_out)
+  
+  PX[PX > 1]     <- 1
   # discount first and last periods.
   
-  f1    <- diff(dates_out)[1]
-  f2    <- date2 - floor(date2)
+  f1             <- diff(dates_out)[1]
+  f2             <- date2 - floor(date2)
   
   # assume linear px change within age class
-  PX[, 1]        <- PX[,1] ^f1
-  PX[,ncol(PX)] <- PX[, ncol(PX)] ^f2
+  PX[, 1]        <- PX[, 1] ^f1
+  PX[,ncol(PX)]  <- PX[, ncol(PX)] ^f2
 
   PX
 }
@@ -107,7 +92,7 @@ interp_coh_lxMat_pxt <- function(lxMat,
   
   # get ndx andnLx from lt_abridged()
   
-  a1 <- 0:OAnew
+  a1  <- 0:OAnew
   qx1 <- matrix(ncol = ncol(lxMat),
                 nrow = length(a1), 
                 dimnames = list(a1,
@@ -127,7 +112,8 @@ interp_coh_lxMat_pxt <- function(lxMat,
     qx1[, i] <- LT1$nqx
   }
   
-  logit_qx <- log(qx1 / (1-qx1))
+  # We do linear interpolation of the logit-transformed qx.
+  logit_qx  <- log(qx1 / (1 - qx1))
   
   logit_qx_interp     <- 
                        interp(
@@ -135,22 +121,21 @@ interp_coh_lxMat_pxt <- function(lxMat,
                          datesIn = dates_lx,
                          datesOut = dates_out,
                          rule = 2) 
+  # transform back
+  QX            <- exp(logit_qx_interp) / (1 + exp(logit_qx_interp))
   
-  QX    <- exp(logit_qx_interp) / (1 + exp(logit_qx_interp))
-  QX[nrow(QX)] <- 1
+  
+  QX[nrow(QX)]  <- 1
   
   
-  f1    <- diff(dates_out)[1]
-  f2    <- date2 - floor(date2)
+  f1            <- diff(dates_out)[1]
+  f2            <- date2 - floor(date2)
   
   # assume linear px change within age class
   PX            <- 1 - QX
-  PX[,1]        <- PX[,1] ^f1
-  PX[,ncol(PX)] <- PX[,ncol(PX)] ^f2
-  # QX[, 1] <- QX[, 1] ^ (1/f1)
-  # QX[, ncol(QX)] <- QX[,ncol(QX)] ^ (1/f2)
-  
-  # PX <- 1 - QX
+  PX[,1]        <- PX[, 1] ^f1
+  PX[,ncol(PX)] <- PX[, ncol(PX)] ^f2
+
   
   PX
 }
