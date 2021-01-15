@@ -24,7 +24,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Depends:
     R (>= 3.6),
-    Rcpp (>= 0.12.0)
+    Rcpp (>= 0.12.0),
 Suggests:
     covr,
     testthat (>= 2.1.0),
@@ -48,7 +48,9 @@ Imports:
     ungroup,
     lubridate,
     fertestr,
-    DemoToolsData
+    DemoToolsData,
+    data.table (>= 1.13.6),
+    countrycode
 BugReports: https://github.com/timriffe/DemoTools/issues
 Remotes: 
     https://github.com/josehcms/fertestr,
