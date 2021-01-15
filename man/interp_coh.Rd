@@ -22,7 +22,9 @@ interp_coh(
 )
 }
 \arguments{
-\item{c1}{numeric vector. The second (right) census in single age groups}
+\item{c1}{numeric vector. The first (left) census in single age groups}
+
+\item{c2}{numeric vector. The second (right) census in single age groups}
 
 \item{date1}{reference date of c1`. Either a Date class object or an unambiguous character string in the format "YYYY-MM-DD".}
 

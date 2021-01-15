@@ -37,16 +37,20 @@ census_cohort_adjust <- function(pop, age, date){
 #' component-free intercensal cohort interpolation
 #' @description Cohorts between two censuses are interpolated flexibly using linear, exponential, or power rules. The lower and upper intercensal triangles are filled using within-age interpolation. This function is experimental and still in development.
 #' @seealso interp
-#' @param country text string. The country of the census
-#' @param sex text string. Sex of the sub-population
 #' @param c1 numeric vector. The first (left) census in single age groups
-#' @param c1 numeric vector. The second (right) census in single age groups
+#' @param c2 numeric vector. The second (right) census in single age groups
 #' @param date1 reference date of c1`. Either a Date class object or an unambiguous character string in the format "YYYY-MM-DD".
 #' @param date2 reference date of c2`. Either a Date class object or an unambiguous character string in the format "YYYY-MM-DD".
 #' @param age1 integer vector. single ages of `c1`
 #' @param age2 integer vector. single ages of `c2`
+#' @param lxMat
+#' @param age_lx
+#' @param dates_lx
 #' @param births integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years
+#' @param country text string. The country of the census
+#' @param sex text string. Sex of the sub-population
 #' @param midyear logical. `FALSE` means all Jan 1 dates between `date1` and `date2` are returned. `TRUE` means all July 1 intercensal dates are returned.
+#' @param ...
 #' @export
 #' @importFrom countrycode countrycode
 #' @importFrom data.table := as.data.table melt data.table dcast between
@@ -65,21 +69,21 @@ census_cohort_adjust <- function(pop, age, date){
 #' )
 #' }
 interp_coh <- function(
-  c1,
-  c2,
-  date1,
-  date2,
-  age1,
-  age2 = age1,
-  lxMat = NULL,
-  age_lx = NULL,
-  dates_lx = NULL,
-  births = NULL,
-  country = NULL,
-  sex = "both",
-  midyear = FALSE,
-  ...
-  ) {
+                       c1,
+                       c2,
+                       date1,
+                       date2,
+                       age1,
+                       age2 = age1,
+                       lxMat = NULL,
+                       age_lx = NULL,
+                       dates_lx = NULL,
+                       births = NULL,
+                       country = NULL,
+                       sex = "both",
+                       midyear = FALSE,
+                       ...
+                       ) {
 
   # If lxMat or births are missing -- message requiring country and sex
   if (is.null(lxMat) & is.null(country)) {
@@ -125,11 +129,11 @@ interp_coh <- function(
     # ensure lx fills timepoints.
     # would like to pass ... here for the lifetable part
     pxt <- interp_coh_lxMat_pxt(
-                 lxMat,
-                 dates_lx = dates_lx,
-                 age_lx = age_lx,
-                 date1 = date1,
-                 date2 = date2)
+      lxMat,
+      dates_lx = dates_lx,
+      age_lx = age_lx,
+      date1 = date1,
+      date2 = date2)
   }
 
   # fetch WPP births if not provided by user
@@ -141,10 +145,10 @@ interp_coh <- function(
 
     # format filtering criteria -- country and years
     cntr_iso3 <- countrycode::countrycode(
-      country,
-      origin = "country.name",
-      destination  = "iso3c"
-    )
+                                country,
+                                origin = "country.name",
+                                destination  = "iso3c"
+                              )
     yrs_births <- seq(floor(date1), floor(date2), 1)
 
     # filter out country and years
@@ -165,6 +169,27 @@ interp_coh <- function(
   # better match the country names. As of now, just Russia won't work
   # [ISSUE #166]
 
+  # Since we're using data.table, we need to create these empty
+  # variables to avoid having R CMD checks with no visible binding
+  # for global variable.
+
+  age <- NULL
+  year <- NULL
+  px <- NULL
+  lower <- NULL
+  upper <- NULL
+  triangle <- NULL
+  adj <- NULL
+  value <- NULL
+  pop <- NULL
+  coh_p <- NULL
+  coh_lx <- NULL
+  pop_c2_obs <- NULL
+  x <- NULL
+  y <- NULL
+  discount <- NULL
+  .N <- NULL
+
   px_triangles <-
     pxt %>%
     data.table::as.data.table(keep.rownames = "age") %>%
@@ -178,11 +203,11 @@ interp_coh <- function(
   # No need for assignment: data.table assigns without creating a copy
   px_triangles[, `:=`(age = as.numeric(age),
                       year = as.numeric(year),
-                      lower = raise_to_power(px, 0.5),
-                      upper = raise_to_power(px, 1 - 0.5))]
+                      lower = magrittr::raise_to_power(px, 0.5),
+                      upper = magrittr::raise_to_power(px, 1 - 0.5))]
 
   px_triangles <-
-    px_triangles[, .(age, year, lower, upper)] %>%
+    px_triangles[, list(age, year, lower, upper)] %>%
     data.table::melt(
                   id.vars = c("age", "year"),
                   measure.vars = c("lower", "upper"),
@@ -191,12 +216,12 @@ interp_coh <- function(
                   variable.factor = FALSE
                 )
 
-    px_triangles[, `:=`(adj = ifelse(triangle == "upper", 1, 0))]
-    px_triangles[, `:=`(cohort = subtract(year, age) %>% subtract(adj) %>% floor())]
+  px_triangles[, `:=`(adj = ifelse(triangle == "upper", 1, 0))]
+  px_triangles[, `:=`(cohort = magrittr::subtract(year, age) %>% magrittr::subtract(adj) %>% floor())]
 
   # cohort changes over the whole period
-  px_cum1 <- px_triangles[, .(n_triangles = .N, coh_p = prod(value)),
-                         keyby = .(cohort)]
+  px_cum1 <- px_triangles[, list(n_triangles = .N, coh_p = prod(value)),
+                          keyby = list(cohort)]
 
   # adjust the census population vectors
   c1c <- census_cohort_adjust(c1, age1, date1)
@@ -220,7 +245,7 @@ interp_coh <- function(
     data.table::data.table(cohort = c1c$cohort, pop = c1c$pop) %>%
     .[order(cohort)] %>%
     rbind(cohort_dt) %>%
-    .[, .(pop = sum(pop)), keyby = .(cohort)]
+    .[, list(pop = sum(pop)), keyby = list(cohort)]
 
   # population c2 observed
   pop_c2 <- data.frame(
@@ -230,10 +255,10 @@ interp_coh <- function(
 
   pop_jan1_pre <-
     px_triangles %>%
-    .[, .(n_triangles = .N, coh_p = prod(value)), keyby = .(year, cohort)] %>%
+    .[, list(n_triangles = .N, coh_p = prod(value)), keyby = list(year, cohort)] %>%
     .[order(cohort, year)]
 
-  pop_jan1_pre[, `:=`(coh_lx = cumprod(coh_p)), keyby = .(cohort)]
+  pop_jan1_pre[, `:=`(coh_lx = cumprod(coh_p)), keyby = list(cohort)]
 
   pop_jan1_pre <- pop_jan1_pre[input, on = "cohort"]
 
@@ -252,20 +277,20 @@ interp_coh <- function(
     .[year == max(year)] %>%
     .[pop_c2, on = "cohort"]
 
-    resid[, `:=`(resid = pop_c2_obs - pop_jan1_pre)]
-    # Only used in the process for diagnostics
-    resid[, `:=`(rel_resid = resid / pop_c2_obs)]
-    resid <- resid[, .(cohort, resid)]
+  resid[, `:=`(resid = pop_c2_obs - pop_jan1_pre)]
+  # Only used in the process for diagnostics
+  resid[, `:=`(rel_resid = resid / pop_c2_obs)]
+  resid <- resid[, list(cohort, resid)]
 
   # determine uniform error discounts:
   resid_discounts <-
     stats::approx(
-      x = c(date1, date2),
-      y = c(0, 1),
-      xout = seq(ceiling(date1), floor(date2))
-    ) %>%
+             x = c(date1, date2),
+             y = c(0, 1),
+             xout = seq(ceiling(date1), floor(date2))
+           ) %>%
     data.table::as.data.table() %>%
-    .[, .(year = x, discount = y)]
+    .[, list(year = x, discount = y)]
 
   # output
   pop_jan1 <-
@@ -273,16 +298,16 @@ interp_coh <- function(
     merge(resid, by = "cohort", all = TRUE) %>%
     merge(resid_discounts, by = "year", all = TRUE)
 
-    pop_jan1[, `:=`(
-      resid = ifelse(is.na(resid), 0, resid),
-      discount = ifelse(year == max(year), 1, discount)
-      )]
+  pop_jan1[, `:=`(
+    resid = ifelse(is.na(resid), 0, resid),
+    discount = ifelse(year == max(year), 1, discount)
+  )]
 
-    pop_jan1[, `:=`(pop_jan1 = pop_jan1_pre + resid * discount)]
+  pop_jan1[, `:=`(pop_jan1 = pop_jan1_pre + resid * discount)]
 
   PopAP <-
     pop_jan1 %>%
-    .[, .(age, year, pop_jan1)] %>%
+    .[, list(age, year, pop_jan1)] %>%
     data.table::dcast(age ~ year, value.var = "pop_jan1") %>%
     .[order(age)]
 
@@ -304,7 +329,10 @@ interp_coh <- function(
     )
   } else {
     yrsIn <- c(date1, as.numeric(colnames(matinterp)))
-    dates_out <- (floor(date1) + 1):floor(date2)
+    matinterp <- cbind(c1, matinterp)
+    # Since datesOut needs a decimal, I add 0.01 just
+    # so it works
+    dates_out <- (floor(date1) + 1):floor(date2) + 0.01
     out <- interp(
       matinterp,
       datesIn = yrsIn,
@@ -312,7 +340,7 @@ interp_coh <- function(
       rule = 1
     )
   }
-
+  out
 }
 
 # old code kept for now ---------------------------------------------------
