@@ -79,15 +79,14 @@ an abridged life table, using the \code{ungroup::pclm()} to ungroup binned count
 data (\code{ndx} of the abridged life table) offset by \code{nLx} life table exposures. Returns fitted single year \code{nMx}.
 }
 \details{
-Similar to `lt_single_mx()`` details, forthcoming
+Similar to \code{lt_single_mx()} details, forthcoming. All steps are constrained to the original \code{ndx} and \code{nLx} values.
 }
 \examples{
+
+
  Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
          .01332,.01528,.01757,.02092,.02517,.03225,.04241,.06056,
          .08574,.11840,.16226,.23745)
- excheckUN <-  c(35.000,42.901,47.190,44.438,
-                 40.523,36.868,33.691,30.567,27.500,24.485,21.504,18.599,
-                 15.758,13.080,10.584,8.466,6.729,5.312,4.211)
  Age = c(0,1,seq(5,85,by=5))
  AgeInt <- inferAgeIntAbr(vec = Mx)
  #
@@ -108,4 +107,11 @@ Similar to `lt_single_mx()`` details, forthcoming
                     mod = TRUE)
 LTabr$ex[1]
 LT1$ex[1]
+\dontrun{
+plot(Age, LTabr$nMx,type = 's', log = 'y')
+lines(LT1$Age, LT1$nMx)
+
+plot(Age, LTabr$lx,type='S')
+lines(LT1$Age, LT1$lx)
+}
 }
