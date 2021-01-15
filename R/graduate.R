@@ -1340,6 +1340,7 @@ graduate <- function(Value,
   ind0 <- out < 0
   if (any(ind0)){
     # which
+  
     agen         <- rep(Age, times = AgeInt)
     problem.ages <- agen[ind0]
     out[ind0]    <- 0

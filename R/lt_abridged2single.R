@@ -4,7 +4,7 @@
 #' @description Computes single year of age life table by graduating the mortality schedule of
 #' an abridged life table, using the `ungroup::pclm()` to ungroup binned count
 #' data (`ndx` of the abridged life table) offset by `nLx` life table exposures. Returns fitted single year `nMx`.
-#' @details Similar to `lt_single_mx()`` details, forthcoming
+#' @details Similar to `lt_single_mx()` details, forthcoming. All steps are constrained to the original `ndx` and `nLx` values.
 #' @inheritParams lt_abridged
 #' @param ndx numeric. Vector of lifetable deaths at abridged ages.
 #' @param nLx numeric. Vector of lifetable exposure at abridged ages.
@@ -28,12 +28,11 @@
 #' @importFrom ungroup pclm
 #' @importFrom stats fitted
 #' @examples
+#'
+#'
 #'  Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
 #'          .01332,.01528,.01757,.02092,.02517,.03225,.04241,.06056,
 #'          .08574,.11840,.16226,.23745)
-#'  excheckUN <-  c(35.000,42.901,47.190,44.438,
-#'                  40.523,36.868,33.691,30.567,27.500,24.485,21.504,18.599,
-#'                  15.758,13.080,10.584,8.466,6.729,5.312,4.211)
 #'  Age = c(0,1,seq(5,85,by=5))
 #'  AgeInt <- inferAgeIntAbr(vec = Mx)
 #'  #
@@ -54,7 +53,13 @@
 #'                     mod = TRUE)
 #' LTabr$ex[1]
 #' LT1$ex[1]
-
+#' \dontrun{
+#' plot(Age, LTabr$nMx,type = 's', log = 'y')
+#' lines(LT1$Age, LT1$nMx)
+#' 
+#' plot(Age, LTabr$lx,type='S')
+#' lines(LT1$Age, LT1$lx)
+#' }
 lt_abridged2single <- function(ndx,
                                nLx,
                                Age,
@@ -71,7 +76,15 @@ lt_abridged2single <- function(ndx,
                                extrapFrom = max(Age)-1,
                                extrapFit = Age[Age >= 60 & Age < max(Age)],
                                ...) {
-  radix <- sum(ndx)
+  # SH: decimals < 1 don't perform so well in PCLM
+  BigRadix  <- 5e6
+  radixKeep <- sum(ndx)
+  ndx       <- ndx * BigRadix / radixKeep
+  nLx       <- nLx * BigRadix / radixKeep
+  
+
+  
+  
   stopifnot(is_abridged(Age))
   
   NN    <- length(Age)
@@ -80,61 +93,98 @@ lt_abridged2single <- function(ndx,
   if (is.null(AgeInt)){
     AgeInt <- age2int(Age, OAvalue = 5)
   }
-
+  # graduation will be better if we first extend OAG:
+  LTA <- lt_abridged(Deaths = ndx,
+                     Exposures = nLx,
+                     Age = Age,
+                     AgeInt = AgeInt,
+                     radix = 5e6,
+                     axmethod = "un", 
+                     a0rule = a0rule, 
+                     Sex = Sex, 
+                     IMR = IMR, 
+                     region = region, 
+                     mod = mod, 
+                     SRB = SRB, 
+                     OAG = OAG, 
+                     OAnew = 130, # we cut down later
+                     extrapFit = extrapFit)
   # use pclm to ungroup to single year of age from 1 to maxage_closed+5
-
+  
+  ndxE    <- LTA$ndx
+  nLxE    <- LTA$nLx
+  AgeE    <- LTA$Age
+  AgeIntE <- LTA$AgeInt
+  AgeIntE[is.na(AgeIntE)] <- 5
+  NE      <- length(AgeIntE)
   # TR:
   # adding in a pre-split of nLx, not because it's really needed,
   # but so that we can do an intermediate rescale step to make
   # sure our single-age mx is on the right scale. Hard to describe,
   # but if we *don't* do this life expectancy is greatly exaggerated.
-  L1.1 <- pclm(x = Age[-length(Age)],
-               y = nLx[-length(Age)],
-               nlast = 5)
+  L1.1 <- pclm(x = AgeE[-NE],
+               y = nLxE[-NE],
+               nlast = 5)$fitted
 
-  age1 <- 0:length(L1.1$fitted)
+  age1    <- 0:length(L1.1 )
   ageint1 <- diff(age1)
 
   # we can ensure scale of nLx because it's a count
-  L1.2 <- rescaleAgeGroups(Value1 = L1.1$fitted,
+  L1.2 <- rescaleAgeGroups(Value1 = L1.1,
                            AgeInt1 = ageint1,
-                           Value2 = nLx[-NN],
-                           AgeInt2 = AgeInt[-NN],
+                           Value2 = nLxE[-NE],
+                           AgeInt2 = AgeIntE[-NE],
                            splitfun = graduate_mono)
 
+  # TR: idea is to remove step-artifacts of scaling
+  L1.3 <- graduate(Value = L1.2, 
+           Age = names2age(L1.2),
+           AgeInt = rep(1,length(L1.2)),
+           method = "sprague",
+           OAG = FALSE,
+           keep0 = TRUE)
+  
   # exclude 0 and OAG
-  use_these <- Age > 0 & Age < max(Age)
-  M1.1 <- pclm(x = Age[use_these],
-               y = ndx[use_these],
+  use_these <- AgeE > 0 & AgeE < max(AgeE)
+  M1.1 <- pclm(x = AgeE[use_these],
+               y = ndxE[use_these],
                nlast = 5,
-               offset = L1.2[-1])
+               offset = L1.3[-1])$fitted
 
   # splice original 1M0 with fitted 1Mx
-  M1.1 <- c(ndx[1]/nLx[1], M1.1$fitted)
+  M1.1 <- c(ndx[1]/nLx[1], M1.1)
 
   #
   ndx2 <- M1.1 * L1.2
   # ndx is here rescaled to sum properly, also easier to ensure
   # because it's a count..
   ndx3 <- rescaleAgeGroups(Value1 = ndx2,
-                   AgeInt1 = ageint1,
-                   Value2 = ndx[-NN],
-                   AgeInt2 = AgeInt[-NN],
+                   AgeInt1 = rep(1,length(ndx2)),
+                   Value2 = ndxE[-NN],
+                   AgeInt2 = AgeIntE[-NN],
                    splitfun = graduate_mono)
+  
+  ndx4 <-  graduate(Value = ndx3, 
+                    Age = names2age(ndx3),
+                    AgeInt = age2int( names2age(ndx3),OAG = TRUE, OAvalue = 1),
+                    method = "sprague",
+                    OAG = FALSE,
+                    keep0 = TRUE,
+                    constrain = TRUE)
   
   # this version of 1Mx should pass roughly through the middle of the
   # nMx step function implied by the input parameters
-  M1.2 <- ndx3 / L1.2
+  M1.2 <- ndx4 / L1.2
   # Add on OAG
-  M1.2 <- c(M1.2,ndx[NN] / nLx[NN])
+  M1.2 <- c(ndx[1] / nLx[1],M1.2[-1],ndx[NN] / nLx[NN])
   # To see the difference, compare M1.1 with M1.2
   ind <- age1 >= min(extrapFit) & 
-    age1 <= (max(extrapFit) + AgeInt[Age ==  max(extrapFit)] - 1)
+    age1 <= (max(extrapFit) + AgeInt[AgeE ==  max(extrapFit)] - 1)
   extrap_fit <- age1[ind]
   # compute life table columns from single year mx
   LT <- lt_single_mx(nMx = M1.2, 
                      Age = age1, 
-                     radix = radix,
+                     radix = radixKeep,
                      a0rule = a0rule, 
                      Sex = Sex,
                      region = region,
