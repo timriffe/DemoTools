@@ -9,15 +9,17 @@ interp_coh(
   c2,
   date1,
   date2,
-  age1,
-  age2 = age1,
+  age1 = 1:length(c1) - 1,
+  age2 = 1:length(c2) - 1,
   lxMat = NULL,
   age_lx = NULL,
   dates_lx = NULL,
   births = NULL,
+  years_births = NULL,
   country = NULL,
   sex = "both",
   midyear = FALSE,
+  verbose = TRUE,
   ...
 )
 }
@@ -40,13 +42,17 @@ interp_coh(
 
 \item{dates_lx}{date, character, or numeric vector of the column time points for \code{lxMat}. If these are calendar-year estimates, then you can choose mid-year time points}
 
-\item{births}{integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years}
+\item{births}{integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years. The first and last years should include all births in the given year; don't discount them in advance.}
+
+\item{years_births}{numeric vector of calendar years of births.}
 
 \item{country}{text string. The country of the census}
 
 \item{sex}{character string, either \code{"male"}, \code{"female"}, or \code{"both"}}
 
 \item{midyear}{logical. \code{FALSE} means all Jan 1 dates between \code{date1} and \code{date2} are returned. \code{TRUE} means all July 1 intercensal dates are returned.}
+
+\item{verbose}{logical. Shall we send informative messages to the console?}
 
 \item{...}{optional arguments passed to}
 }

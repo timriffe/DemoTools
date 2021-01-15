@@ -126,7 +126,9 @@ interp_coh <- function(
     if (is.null(dates_lx)){
       # if lx dates not given we assume dates evenly distributed from date1 to date2?
       dates_lx <- seq(date1,date2,length.out = ncol(lxMat))
-      cat("lxMat specified, but not dates_lx\nAssuming:",paste(dates_lx,collapse=", "),"\n")
+      if (verbose) {
+        cat("lxMat specified, but not dates_lx\nAssuming:",paste(dates_lx,collapse=", "),"\n")
+      }
     }
     if (is.null(age_lx)){
       if (nrow(lxMat)  < 26){
@@ -136,7 +138,9 @@ interp_coh <- function(
       } else {
         age_lx <- 1:nrow(lxMat) - 1
       }
-      cat("lxMat specified, but Age_lx missing\nAssuming:",paste(age_lx,collapse=", "),"\n")
+      if (verbose) {
+        cat("lxMat specified, but Age_lx missing\nAssuming:",paste(age_lx,collapse=", "),"\n")
+      } 
     }
 
     # ensure lx fills timepoints.
