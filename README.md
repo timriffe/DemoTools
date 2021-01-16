@@ -4,12 +4,12 @@
 
 [![R build status](https://github.com/timriffe/DemoTools/workflows/R-CMD-check/badge.svg)](https://github.com/timriffe/DemoTools/actions)
 [![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) 
-[![](https://img.shields.io/badge/devel%20version-01.12.02-yellow.svg)](https://github.com/timriffe/DemoTools)
+[![](https://img.shields.io/badge/devel%20version-01.12.03-yellow.svg)](https://github.com/timriffe/DemoTools)
 [![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 # Tools for aggregate demographic analysis
-Date: 2021-01-16
+Date: 2021-01-17
  
 `DemoTools` is an R package that contains simple functions often used in demographic analysis. It is in active development. 
 
