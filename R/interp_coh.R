@@ -151,7 +151,7 @@ interp_coh <- function(
     # ensure lx fills timepoints.
     # would like to pass ... here for the lifetable part
     pxt <- interp_coh_lxMat_pxt(
-      lxMat,
+      lxMat = lxMat,
       dates_lx = dates_lx,
       age_lx = age_lx,
       date1 = date1,
@@ -879,8 +879,7 @@ interp_coh_lxMat_pxt <- function(lxMat,
   # transform back
   QX            <- exp(logit_qx_interp) / (1 + exp(logit_qx_interp))
   
-  
-  QX[nrow(QX)]  <- 1
+  QX[nrow(QX), ]  <- 1
   
   
   f1            <- diff(dates_out)[1]
