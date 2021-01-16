@@ -112,6 +112,11 @@ interp_coh <- function(
   date1 <- dec.date(date1)
   date2 <- dec.date(date2)
 
+  DD <- date2 - date1
+  if (DD >= 15 & verbose){
+    cat("\nFYI, there are",DD,"years between c1 and c2\nBe wary.\n")
+  }
+  
   # let's store the proportions separately
   f1    <- date1 %>% magrittr::subtract(date1 %>% floor)
   f2    <- date2 %>% magrittr::subtract(date2 %>% floor)
@@ -157,7 +162,7 @@ interp_coh <- function(
   yrs_births   <- seq(floor(date1), floor(date2), 1)
   # fetch WPP births if not provided by user
   if (is.null(births)) {
-    # TR: this can live in a helper function
+ 
     # load WPP births
     requireNamespace("DemoToolsData", quietly = TRUE)
     WPP2019_births <- DemoToolsData::WPP2019_births
@@ -179,7 +184,10 @@ interp_coh <- function(
     if(sex == "male")   births  <- bt * SRB / ( 1 + SRB)
     if(sex == "female") births  <- bt / (SRB + 1)
 
-    cat("Births fetched from WPP for:", paste(country, sex), "population, years", paste(yrs_births, collapse = ", "), "\n")
+    if (verbose){
+      cat("Births fetched from WPP for:", paste(country, sex), "population, years", paste(yrs_births, collapse = ", "), "\n")
+    }
+    
   }
   
   # check length of births, also filter using provided dates if necessary
