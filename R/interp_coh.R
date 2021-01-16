@@ -192,7 +192,7 @@ interp_coh <- function(
   
   # check length of births, also filter using provided dates if necessary
   if (!is.null(years_births)){
-    stopifnot(length(births) != length(years_births))
+    stopifnot(length(births) == length(years_births))
     
     years_births <- floor(years_births)
     yrs_keep     <- years_births[years_births %in% yrs_births]
