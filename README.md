@@ -4,7 +4,7 @@
 
 [![R build status](https://github.com/timriffe/DemoTools/workflows/R-CMD-check/badge.svg)](https://github.com/timriffe/DemoTools/actions)
 [![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) 
-[![](https://img.shields.io/badge/devel%20version-01.12.01-yellow.svg)](https://github.com/timriffe/DemoTools)
+[![](https://img.shields.io/badge/devel%20version-01.12.02-yellow.svg)](https://github.com/timriffe/DemoTools)
 [![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
