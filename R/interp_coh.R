@@ -194,9 +194,12 @@ interp_coh <- function(
   if (!is.null(years_births)){
     stopifnot(length(births) == length(years_births))
     
-    years_births <- floor(years_births)
-    yrs_keep     <- years_births[years_births %in% yrs_births]
-    years_births <- years_births[yrs_keep]
+    years_births <- floor(years_births) 
+    yrs_keep     <- data.table::between(years_births,
+                                        min(yrs_births),
+                                        max(yrs_births),
+                                        incbounds = TRUE)
+
     births       <- births[yrs_keep]
   }
   
@@ -276,7 +279,7 @@ interp_coh <- function(
 
   cohort_dt <-
     data.table::data.table(
-                  cohort = 1:length(births) + floor(date1) - 1,
+                  cohort = yrs_births,
                   pop = births
                 )
 
@@ -326,7 +329,7 @@ interp_coh <- function(
     stats::approx(
              x = c(date1, date2),
              y = c(0, 1),
-             xout = seq(ceiling(date1), floor(date2))
+             xout = seq(ceiling(date1), floor(date2), by = 1)
            ) %>%
     data.table::as.data.table() %>%
     .[, list(year = x, discount = y)]
@@ -351,7 +354,7 @@ interp_coh <- function(
     .[order(age)]
 
   matinterp <- PopAP[age <= max(age1), -1] %>% as.matrix()
-
+  rownames(matinterp) <- age1
   # now we either return Jan1 dates or July 1 dates.
   if (midyear) {
     dates_midyear <- (floor(date1) + .5):(floor(date2) + .5)
