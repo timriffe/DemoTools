@@ -965,6 +965,7 @@ graduate_mono   <- function(
 
   # if age is single return as-is
   if (is_single(Age)) {
+    names(Value) <- Age
     return(Value)
   }
 
@@ -989,9 +990,9 @@ graduate_mono   <- function(
   # The open age group is maintained as-is.
   if (OAG) {
     out                 <- c(out, OAvalue)
-    names(out)          <- AgeS
   }
-
+  age1 <- min(Age):(min(Age) + length(out) - 1)
+  names(out) <- age1
   out
 }
 
@@ -1339,6 +1340,7 @@ graduate <- function(Value,
   ind0 <- out < 0
   if (any(ind0)){
     # which
+  
     agen         <- rep(Age, times = AgeInt)
     problem.ages <- agen[ind0]
     out[ind0]    <- 0

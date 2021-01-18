@@ -30,6 +30,7 @@ Authors:
 
 Other contributors:
 \itemize{
+  \item Peter Johnson [contributor]
   \item Jorge Cimentada (\href{https://orcid.org/0000-0001-5594-1156}{ORCID}) [contributor]
   \item Juan Galeano (\href{https://orcid.org/0000-0002-3682-1797}{ORCID}) [contributor]
   \item Derek Burk [contributor]

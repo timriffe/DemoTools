@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -265,7 +265,7 @@ function.</p></td>
 <span class='co'># Plot the results</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>mx</span>, pch <span class='op'>=</span> <span class='fl'>16</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>, <span class='fl'>110</span><span class='op'>)</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0.6</span><span class='op'>)</span>, cex <span class='op'>=</span> <span class='fl'>1.5</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>mx</span>, pch <span class='op'>=</span> <span class='fl'>16</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>, <span class='fl'>110</span><span class='op'>)</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0.6</span><span class='op'>)</span>, cex <span class='op'>=</span> <span class='fl'>1.5</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>x_fit</span>, <span class='va'>mx</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>x_fit</span><span class='op'>)</span><span class='op'>]</span>, pch <span class='op'>=</span> <span class='fl'>16</span>, col <span class='op'>=</span> <span class='fl'>4</span>, cex <span class='op'>=</span> <span class='fl'>1.5</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>x_extr</span>, <span class='va'>f1</span><span class='op'>$</span><span class='va'>values</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>x_extr</span><span class='op'>)</span><span class='op'>]</span>, lty <span class='op'>=</span> <span class='fl'>1</span>, col <span class='op'>=</span> <span class='fl'>2</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>x_extr</span>, <span class='va'>f2</span><span class='op'>$</span><span class='va'>values</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>x_extr</span><span class='op'>)</span><span class='op'>]</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='fl'>3</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
@@ -310,7 +310,7 @@ function.</p></td>
 
 <span class='co'># Plot</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>x1</span>, <span class='va'>mx1</span>, log <span class='op'>=</span> <span class='st'>"y"</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.001</span>, <span class='fl'>5</span><span class='op'>)</span>,
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>x1</span>, <span class='va'>mx1</span>, log <span class='op'>=</span> <span class='st'>"y"</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.001</span>, <span class='fl'>5</span><span class='op'>)</span>,
      pch <span class='op'>=</span> <span class='fl'>16</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>65</span>, <span class='fl'>125</span><span class='op'>)</span>, cex <span class='op'>=</span> <span class='fl'>1.3</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>x_fit</span>, <span class='va'>mx1</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>x_fit</span><span class='op'>)</span><span class='op'>]</span>, pch <span class='op'>=</span> <span class='fl'>16</span>, col <span class='op'>=</span> <span class='fl'>4</span>, cex <span class='op'>=</span> <span class='fl'>1.5</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>x_extr</span>, <span class='va'>g1</span><span class='op'>$</span><span class='va'>values</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>x_extr</span><span class='op'>)</span><span class='op'>]</span>, lty <span class='op'>=</span> <span class='fl'>1</span>, col <span class='op'>=</span> <span class='fl'>2</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
@@ -337,7 +337,7 @@ function.</p></td>
 <span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span><span class='op'>(</span><span class='va'>mx_matrix</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>age <span class='op'>=</span> <span class='va'>x1</span>, year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"year1"</span>, <span class='st'>"year2"</span>, <span class='st'>"year3"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='va'>F1</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx_matrix</span>, x <span class='op'>=</span> <span class='va'>x1</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"kannisto"</span><span class='op'>)</span>
-<span class='va'>F1</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='input'><span class='va'>F1</span>
 </div><div class='output co'>#&gt; $input
 #&gt; $input$mx
 #&gt;      year
@@ -487,7 +487,7 @@ function.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">

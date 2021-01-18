@@ -1,8 +1,8 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.11.02
-Date: 2021-01-06
+Version: 01.12.04
+Date: 2021-01-18
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
           email = "tim.riffe@gmail.com", comment = c(ORCID = "0000-0002-2673-4622")),
@@ -12,6 +12,7 @@ Authors@R: c(
    person("Marius D.", "Pascariu", role = "aut", comment = c(ORCID = "0000-0002-2568-6489")),
    person("Sara", "Hertog", role = "aut"),
    person("Sean", "Fennell", role = "aut"),
+   person("Peter", "Johnson", role = "ctb"),
    person("Jorge", "Cimentada", role = "ctb", comment = c(ORCID = "0000-0001-5594-1156")),
    person("Juan", "Galeano", role = "ctb", comment = c(ORCID = "0000-0002-3682-1797")),
    person("Derek", "Burk", role = "ctb"),
@@ -24,7 +25,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Depends:
     R (>= 3.6),
-    Rcpp (>= 0.12.0)
+    Rcpp (>= 0.12.0),
 Suggests:
     covr,
     testthat (>= 2.1.0),
@@ -48,11 +49,12 @@ Imports:
     ungroup,
     lubridate,
     fertestr,
-    DemoToolsData
+    DemoToolsData,
+    data.table (>= 1.13.6),
+    countrycode
 BugReports: https://github.com/timriffe/DemoTools/issues
 Remotes: 
     https://github.com/josehcms/fertestr,
-    https://github.com/mpascariu/ungroup,
     https://github.com/timriffe/DemoToolsData
 Encoding: UTF-8
 VignetteBuilder: knitr
