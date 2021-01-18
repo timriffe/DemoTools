@@ -11,6 +11,7 @@ interp_coh(
   date2,
   age1 = 1:length(c1) - 1,
   age2 = 1:length(c2) - 1,
+  dates_out = NULL,
   lxMat = NULL,
   age_lx = NULL,
   dates_lx = NULL,
@@ -35,6 +36,8 @@ interp_coh(
 \item{age1}{integer vector. single ages of \code{c1}}
 
 \item{age2}{integer vector. single ages of \code{c2}}
+
+\item{dates_out}{vector of desired output dates coercible to numeric using \code{dec.date()}}
 
 \item{lxMat}{numeric matrix containing lifetable survivorship, \code{l(x)}. Each row is an age group and each column a time point. At least two intercensal time points needed.}
 
