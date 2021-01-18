@@ -4,12 +4,12 @@
 \alias{census_cohort_adjust}
 \title{shift census populations to match single year cohorts}
 \usage{
-census_cohort_adjust(Pop, Age, date)
+census_cohort_adjust(pop, age, date)
 }
 \arguments{
-\item{Pop}{numeric vector. Population counts in single ages}
+\item{pop}{numeric vector. Population counts in age groups, presumably from a census with an exact reference date.}
 
-\item{Age}{integer. Lower bound of single age groups}
+\item{age}{integer vector. Lower bound of single age groups}
 
 \item{date}{Either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.}
 }
@@ -17,14 +17,14 @@ census_cohort_adjust(Pop, Age, date)
 Matches the (single) ages of a census to single cohorts. For use in intercensal interpolations. Ages are potentially blended to match single cohort line assuming that the population in each age is uniformly distributed over the age group.
 }
 \examples{
-Pop <- seq(10000,100,length.out = 101)
-Age <- 0:100
+pop <- seq(10000,100,length.out = 101)
+age <- 0:100
 d1 <- "2020-01-01"
 d2 <- "2020-07-01"
 d3 <- "2020-12-21"
 
-census_cohort_adjust(Pop,Age,d1)
-census_cohort_adjust(Pop,Age,d2)
-census_cohort_adjust(Pop,Age,d3)
-census_cohort_adjust(Pop,Age,2020.5)
+census_cohort_adjust(pop, age, d1)
+census_cohort_adjust(pop, age, d2)
+census_cohort_adjust(pop, age, d3)
+census_cohort_adjust(pop, age, 2020.5)
 }

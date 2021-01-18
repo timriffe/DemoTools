@@ -83,7 +83,7 @@ and United Nations methods." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -278,7 +278,7 @@ compare the results from a variety of methods.</p>
 <span class='va'>ma3</span> <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5</span><span class='op'>(</span><span class='va'>pop5m_pasex</span>,<span class='va'>Ages</span>,OAG<span class='op'>=</span><span class='cn'>TRUE</span>,method<span class='op'>=</span><span class='st'>"MAV"</span>,n<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
 
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>Ages</span>,<span class='va'>pop5m_pasex</span>,pch<span class='op'>=</span><span class='fl'>16</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Ages</span>,<span class='va'>pop5m_pasex</span>,pch<span class='op'>=</span><span class='fl'>16</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Ages</span>, <span class='va'>cf</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Ages</span>, <span class='va'>arr</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Ages</span>, <span class='va'>strong</span>, col <span class='op'>=</span> <span class='st'>"#FF000080"</span>, lwd <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
@@ -305,7 +305,7 @@ compare the results from a variety of methods.</p>
     method <span class='op'>=</span> <span class='st'>"Strong"</span>,
     OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
  <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>pop1m_pasex</span>,pch<span class='op'>=</span><span class='fl'>16</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>pop1m_pasex</span>,pch<span class='op'>=</span><span class='fl'>16</span><span class='op'>)</span>
  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span><span class='op'>(</span><span class='va'>V5</span>,Age<span class='op'>=</span><span class='va'>Age5</span>,OAG<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>, lty<span class='op'>=</span><span class='fl'>2</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span><span class='op'>(</span><span class='va'>cf2</span>,Age<span class='op'>=</span><span class='va'>Age5</span>,OAG<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>,col<span class='op'>=</span><span class='st'>"blue"</span><span class='op'>)</span>
  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'><a href='graduate_uniform.html'>graduate_uniform</a></span><span class='op'>(</span><span class='va'>st2</span>,Age<span class='op'>=</span><span class='va'>Age5</span>,OAG<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>,col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
@@ -323,7 +323,7 @@ compare the results from a variety of methods.</p>
 <span class='va'>spr2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span><span class='va'>cf2</span>, Age<span class='op'>=</span><span class='va'>Age5</span>,OAG<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='va'>spr3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span><span class='va'>st2</span>, Age<span class='op'>=</span><span class='va'>Age5</span>,OAG<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>Value</span>,pch<span class='op'>=</span><span class='fl'>16</span>, main <span class='op'>=</span> <span class='st'>"Smoothing as pre-step to graduation"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>Value</span>,pch<span class='op'>=</span><span class='fl'>16</span>, main <span class='op'>=</span> <span class='st'>"Smoothing as pre-step to graduation"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>spr1</span>,lty<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>spr2</span>,col<span class='op'>=</span><span class='st'>"blue"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>spr3</span>,col<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span>
@@ -347,7 +347,7 @@ compare the results from a variety of methods.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">

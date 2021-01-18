@@ -19,6 +19,18 @@
     <loc>https://timriffe.github.io/DemoTools//reference/IRD.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/OPAG.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/OPAG_fit_stable_standard.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/OPAG_nLx_warp_r.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/OPAG_r_min.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools//reference/OPAG_simple.html</loc>
   </url>
   <url>
@@ -95,6 +107,12 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/dec.date.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/downloadSRB.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools//reference/downloadnLx.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools//reference/dth5_zigzag.html</loc>

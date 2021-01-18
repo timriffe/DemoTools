@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
       <h1 data-toc-skip>Graduation with DemoTools</h1>
                         <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
-            <h4 class="date">2020-12-22</h4>
+            <h4 class="date">2021-01-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/graduation_with_demotools.Rmd"><code>vignettes/graduation_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>graduation_with_demotools.Rmd</code></div>
@@ -152,7 +152,7 @@
 <span class="va">Value</span> <span class="op">&lt;-</span> <span class="va">pop5_mat</span><span class="op">[</span>,<span class="fl">4</span><span class="op">]</span>
 <span class="va">Age</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">pop5_mat</span><span class="op">)</span><span class="op">)</span>
   
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">Age</span>, <span class="va">Value</span>, type <span class="op">=</span> <span class="st">'p'</span>,
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Age</span>, <span class="va">Value</span>, type <span class="op">=</span> <span class="st">'p'</span>,
      ylab <span class="op">=</span> <span class="st">'Population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age'</span>,
      main <span class="op">=</span> <span class="st">'Original 5-year age-group population'</span><span class="op">)</span></code></pre></div>
@@ -177,7 +177,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <code class="sourceCode R"><span class="va">sprague</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"sprague"</span><span class="op">)</span>
 <span class="va">single.age</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span><span class="op">(</span><span class="va">sprague</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">sprague</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">sprague</span>, type <span class="op">=</span> <span class="st">'l'</span>,
      ylab <span class="op">=</span> <span class="st">'Population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age'</span>,
      main <span class="op">=</span> <span class="st">'Graduation with Sprague method'</span><span class="op">)</span></code></pre></div>
@@ -199,7 +199,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <span class="va">beers.modified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"beers(mod)"</span><span class="op">)</span>
 
 <span class="va">single.age</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span><span class="op">(</span><span class="va">beers.ordinary</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">beers.ordinary</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">beers.ordinary</span>, type <span class="op">=</span> <span class="st">'l'</span>,
      ylab <span class="op">=</span> <span class="st">'Population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age'</span>,
      main <span class="op">=</span> <span class="st">'Graduation with Beers methods'</span><span class="op">)</span>
@@ -224,7 +224,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <code class="sourceCode R"><span class="va">mono.grad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"mono"</span><span class="op">)</span>
 
 <span class="va">single.age</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span><span class="op">(</span><span class="va">mono.grad</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">mono.grad</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">mono.grad</span>, type <span class="op">=</span> <span class="st">'l'</span>,
      ylab <span class="op">=</span> <span class="st">'Population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age'</span>,
      main <span class="op">=</span> <span class="st">'Graduation with monotone spline'</span><span class="op">)</span></code></pre></div>
@@ -245,7 +245,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <code class="sourceCode R"><span class="va">pclm.grad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"pclm"</span><span class="op">)</span>
 
 <span class="va">single.age</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span><span class="op">(</span><span class="va">pclm.grad</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">pclm.grad</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">pclm.grad</span>, type <span class="op">=</span> <span class="st">'l'</span>,
      ylab <span class="op">=</span> <span class="st">'Population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age'</span>,
      main <span class="op">=</span> <span class="st">'Graduation with pclm'</span><span class="op">)</span></code></pre></div>
@@ -266,7 +266,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <code class="sourceCode R"><span class="va">unif.grad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"unif"</span><span class="op">)</span>
 
 <span class="va">single.age</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/names2age.html">names2age</a></span><span class="op">(</span><span class="va">unif.grad</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">unif.grad</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">unif.grad</span>, type <span class="op">=</span> <span class="st">'l'</span>,
      ylab <span class="op">=</span> <span class="st">'Population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age'</span>,
      main <span class="op">=</span> <span class="st">'Graduation with uniform distribution'</span><span class="op">)</span></code></pre></div>
@@ -283,7 +283,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <h3 class="hasAnchor">
 <a href="#comparison-of-all-methods" class="anchor"></a>Comparison of all methods</h3>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">beers.ordinary</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">single.age</span>, <span class="va">beers.ordinary</span>, type <span class="op">=</span> <span class="st">'l'</span>,
      ylab <span class="op">=</span> <span class="st">'Population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age'</span>,
      main <span class="op">=</span> <span class="st">'Graduation with multiple methods'</span><span class="op">)</span>
@@ -339,9 +339,9 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
                  recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">pop1resc</span>
 <span class="co">#&gt;         0         1         6         8        10        14        18        19 </span>
-<span class="co">#&gt; 135.55335 273.50500  70.58495 131.03187 360.85480 187.37570  69.38283 177.99330 </span>
+<span class="co">#&gt;  13.78861 369.55222  76.78674  27.15103 303.39771 178.86055  46.64916 179.93240 </span>
 <span class="co">#&gt;        21        24        28        31        34        37        40 </span>
-<span class="co">#&gt;  98.65960 129.22195  74.18987 129.11419 249.05249 119.81250 307.01850</span></code></pre></div>
+<span class="co">#&gt; 190.94577 247.00658 170.54058 294.41331 224.48613 116.79964 369.03465</span></code></pre></div>
 </div>
 </div>
 <div id="graduation-as-a-light-smoother" class="section level2">
@@ -395,7 +395,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 
 
       <footer><div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
