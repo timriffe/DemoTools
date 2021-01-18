@@ -116,20 +116,20 @@
 #'                           extrapLaw = "Coale-Guo")
 
 interp_lc_lim <- function(Males = NULL, 
-                     Females = NULL, 
-                     type = "m", 
-                     dates_in = as.numeric(colnames(Males)), 
-                     Age = as.numeric(rownames(Males)), 
-                     dates_out, # TR: is there a default? If not, then default can be dates_in, right? 
-                                # In which case it's a cheap smoother
-                     dates_e0 = NULL,
-                     e0_Males = NULL, 
-                     e0_Females = NULL, 
-                     prev_divergence = FALSE, 
-                     OAnew = max(Age), 
-                     OAG = TRUE, 
-                     extrapLaw = NULL){
-
+                          Females = NULL, 
+                          type = "m", 
+                          dates_in = as.numeric(colnames(Males)), 
+                          Age = as.numeric(rownames(Males)), 
+                          dates_out, # TR: is there a default? If not, then default can be dates_in, right? 
+                          # In which case it's a cheap smoother
+                          dates_e0 = NULL,
+                          e0_Males = NULL, 
+                          e0_Females = NULL, 
+                          prev_divergence = FALSE, 
+                          OAnew = max(Age), 
+                          OAG = TRUE, 
+                          extrapLaw = NULL){
+  
   # get always Mx -----------------------------------------------------------
   
   # TR: note, we may as well offer to pass in args to lt_abridged(), which offers lots of control
@@ -141,17 +141,17 @@ interp_lc_lim <- function(Males = NULL,
   if (type == "m"){
     nMxm = Males
     nMxf = Females
-    } else {
-      if (type == "l"){
-        # TR: also lt_abridged() accepts lx as an input arg. So this could loo like the below
-        Males = apply(Males, 2, function(x){lt_id_l_d(x)/x})
-        Females = apply(Females, 2, function(x){lt_id_l_d(x)/x})
-      } # is q
-      nMxm <- apply(Males, 2, function(x) {
-                    lt_abridged(nqx = x, Age = Age, Sex = "m", axmethod = "un")$nMx})
-      nMxf <- apply(Females, 2, function(x) {
-                    lt_abridged(nqx = x, Age = Age, Sex = "f", axmethod = "un")$nMx})
-    }
+  } else {
+    if (type == "l"){
+      # TR: also lt_abridged() accepts lx as an input arg. So this could loo like the below
+      Males = apply(Males, 2, function(x){lt_id_l_d(x)/x})
+      Females = apply(Females, 2, function(x){lt_id_l_d(x)/x})
+    } # is q
+    nMxm <- apply(Males, 2, function(x) {
+      lt_abridged(nqx = x, Age = Age, Sex = "m", axmethod = "un")$nMx})
+    nMxf <- apply(Females, 2, function(x) {
+      lt_abridged(nqx = x, Age = Age, Sex = "f", axmethod = "un")$nMx})
+  }
   
   # smooth to 100+ from 80-------------------------------------------------------
   if(!is.null(extrapLaw)){
@@ -172,9 +172,9 @@ interp_lc_lim <- function(Males = NULL,
   
   # males
   # lee carter using svd better maybe? That´s what paper suggests
-    # mx_svd <- svd(log(nMxm)-axm)
-    # bx     <- mx_svd$u[, 1]/sum(mx_svd$u[, 1])
-    # kt     <- mx_svd$d[1] * mx_svd$v[, 1] * sum(mx_svd$u[, 1])
+  # mx_svd <- svd(log(nMxm)-axm)
+  # bx     <- mx_svd$u[, 1]/sum(mx_svd$u[, 1])
+  # kt     <- mx_svd$d[1] * mx_svd$v[, 1] * sum(mx_svd$u[, 1])
   axm   <- rowSums(log(nMxm))/nYears
   ktom  <- colSums(log(nMxm))-sum(axm)
   bxm   <- rowSums(sweep(log(nMxm) - axm, MARGIN = 2, ktom, `*`))/sum(ktom^2)
@@ -219,7 +219,7 @@ interp_lc_lim <- function(Males = NULL,
       Years_extrap <- dates_out<min(Years)
       nMxm_hat[,Years_extrap] <- nMxm_hat_div[,Years_extrap]
       nMxf_hat[,Years_extrap] <- nMxf_hat_div[,Years_extrap]
-  
+      
     }
   } else { # fit e0 at each target year
     
@@ -274,7 +274,7 @@ interp_lc_lim <- function(Males = NULL,
                               sex = "f",
                               e0_target = e0f[j])$minimum
     }
-  
+    
     # get rates with optim k
     nMxm_hat <- exp(axm + sweep(matrix(bxm,nAge,length(dates_out)),MARGIN=2,ktm_star,`*`))
     nMxf_hat <- exp(axf + sweep(matrix(bxf,nAge,length(dates_out)),MARGIN=2,ktf_star,`*`))
@@ -292,7 +292,7 @@ interp_lc_lim <- function(Males = NULL,
                    rep("f", nAge * nYears_Target))) %>% 
     select(Year, Sex, everything())
   return(out)
-
+  
 }
 
 # additional functions -------------------------------------------------------------------
@@ -314,8 +314,8 @@ interp_linear <- function(x,y,x_star){
     }
     # avoid dividing by zero if target years matches observed ones 
     out[i] = y[x==x1] + 
-            ifelse(x[x==x2] - x[x==x1]==0,0,(y[x==x2] - y[x==x1])/(x[x==x2] - x[x==x1])) * 
-            (xt-x[x==x1])
+      ifelse(x[x==x2] - x[x==x1]==0,0,(y[x==x2] - y[x==x1])/(x[x==x2] - x[x==x1])) * 
+      (xt-x[x==x1])
   }
   return(out)
 }
