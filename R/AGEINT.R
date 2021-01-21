@@ -218,8 +218,8 @@ interp <- function(popmat,
   # -----------------------
   
   # coerce dates to decimal if necessary
-  datesIn  <- sapply(as.numeric(datesIn), dec.date)
-  datesOut <- sapply(as.numeric(datesOut), dec.date)
+  datesIn  <- dec.date(datesIn)
+  datesOut <- dec.date(datesOut)
   
   
   # carry out transform 1
