@@ -166,7 +166,7 @@ df %>%
 Let's fit a Rogers-Castro migration age schedule to these data. Below, we choose to estimate parameters associated with the pre-working age, working and retirement components (but not post retirement).
 
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 
 rc_res <- mig_estimate_rc(
   ages, mx_FL_sim,
@@ -193,7 +193,7 @@ rc_res
 ```
 
 We can plot the observed data and estimated fit using the `fit_df` object:
-```{r}
+```{r, eval=FALSE}
 rc_res[["fit_df"]] %>%
   ggplot(aes(ages, data)) +
   geom_point(aes(color = "data")) +
