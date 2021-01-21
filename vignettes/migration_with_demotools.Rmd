@@ -188,7 +188,7 @@ The resulting `rc_res` object is shown below. The `pars_df` shows the median est
 
 The `fit_df` object in `rc_res` shows the data and estimated median $m(x)$ values at each age $x$, along with the lower and upper bound of the 95% credible interval of the fits, and the squared difference between data and the median estimate.
 
-```{r}
+```{r, eval = FALSE}
 rc_res
 ```
 
