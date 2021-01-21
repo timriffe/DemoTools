@@ -17,12 +17,12 @@
 #' d2 <- "2020-07-01"
 #' d3 <- "2020-12-21"
 #'
-#' shift_census_to_cohorts(pop, age, d1)
-#' shift_census_to_cohorts(pop, age, d2)
-#' shift_census_to_cohorts(pop, age, d3)
-#' shift_census_to_cohorts(pop, age, 2020.5)
+#' shift_census_ages_to_cohorts(pop, age, d1)
+#' shift_census_ages_to_cohorts(pop, age, d2)
+#' shift_census_ages_to_cohorts(pop, age, d3)
+#' shift_census_ages_to_cohorts(pop, age, 2020.5)
 
-shift_census_to_cohorts <- function(pop, 
+shift_census_ages_to_cohorts <- function(pop, 
                                    age, 
                                    date, 
                                    censusYearOpt = "frac", 
@@ -377,8 +377,8 @@ interp_coh <- function(
   #                          keyby = list(cohort)]
 
   # adjust the census population vectors
-  c1c <- shift_census_to_cohorts(c1, age1, date1, censusYearOpt = "frac")
-  c2c <- shift_census_to_cohorts(c2, age2, date2, censusYearOpt = "frac")
+  c1c <- shift_census_ages_to_cohorts(c1, age1, date1, censusYearOpt = "frac")
+  c2c <- shift_census_ages_to_cohorts(c2, age2, date2, censusYearOpt = "frac")
 
   # correction for the first year age 0 -- only take first for the remaining of
   # the year
