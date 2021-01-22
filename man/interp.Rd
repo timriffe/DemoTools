@@ -10,6 +10,7 @@ interp(
   datesOut,
   method = c("linear", "exponential", "power"),
   power = 2,
+  extrap = FALSE,
   ...
 )
 }
