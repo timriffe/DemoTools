@@ -207,6 +207,22 @@ interp_coh <- function(
     available_dates <- data.table::between(dates_lx, date1, date2)
     if (!all(available_dates)) stop("All `dates_lx` must be within the range of `date1` and `date2`")
 
+    # if the shortest distance from dates_lx to date1 or date2 is greater than 7
+    # warn
+    dates_df <- expand.grid(dates_lx = dates_lx, dates = c(date1, date2))
+    dates_df$diff <- with(dates_df, abs(dates_lx - dates))
+    if (min(dates_df$diff) > 7) {
+      d_lx <- dates_df$dates_lx[which.min(dates_df$dif)]
+      date_compare <- dates_df$dates[which.min(dates_df$dif)]
+      cat(
+        "The shortest distance from `dates_lx` (",
+        d_lx,
+        ") to `date1/date2`(",
+        date_compare,
+        ") is greater than 7 years. Be wary."
+      )
+    }
+
     ic_period <- date2 - date1
     lx_mm <- range(dates_lx)
     overlap <- min(c(lx_mm[2], date2)) - c(max(lx_mm[1], date1))

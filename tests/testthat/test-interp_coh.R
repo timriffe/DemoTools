@@ -544,25 +544,25 @@ test_that("interp_coh shows appropriate warnings when verbose = TRUE", {
 
   # 3) if the shortest distance from dates_lx to date1 or date2 is greater than 7
   # TODO
-  ## expect_output(
-  ##   interp_coh(
-  ##     c1 = pop1m_rus2002,
-  ##     c2 = pop1m_rus2010,
-  ##     date1 = "2000-10-16",
-  ##     date2 = "2017-10-25",
-  ##     lxMat = lxmat[, 1:2],
-  ##     dates_lx = c(2008, 2009),
-  ##     age_lx = age_lx,
-  ##     births = c(719511L, 760934L, 772973L, 749554L, 760831L,
-  ##                828772L, 880543L, 905380L, 919639L, 719511L,
-  ##                760934L, 772973L, 749554L, 760831L, 828772L,
-  ##                749554L, 760831L, 828772L),
-  ##     years_births = 2000:2017,
-  ##     verbose = TRUE
-  ##   ),
-  ##   regexp = "FYI, there are 15.02466 years between c1 and c2\nBe wary.",
-  ##   fixed = TRUE
-  ## )
+  expect_output(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2000-10-16",
+      date2 = "2017-10-25",
+      lxMat = lxmat[, 1:2],
+      dates_lx = c(2008, 2009),
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L, 760831L,
+                 828772L, 880543L, 905380L, 919639L, 719511L,
+                 760934L, 772973L, 749554L, 760831L, 828772L,
+                 749554L, 760831L, 828772L),
+      years_births = 2000:2017,
+      verbose = TRUE
+    ),
+    regexp = "The shortest distance from `dates_lx` ( 2008 ) to `date1/date2`( 2000.79 ) is greater than 7 years. Be wary.",
+    fixed = TRUE
+  )
 
   # 4) any negatives detected in output (to be imputed with 0s)
   # TODO
