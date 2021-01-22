@@ -96,13 +96,16 @@
 #'                     0.018559, 0.026524, 0.041711, 0.066135, 0.106604, 0.174691, 0.291021),22,5)
 
 #' # Some visual review of input data - some inconsistencies by age and year
+#' \dontrun{
 #' plot(Age, Males[,5],t="o",log="y",main="nMx input Males")
 #' lines(Age,Males[,1],t="o",log="y",col=2)
 #' plot(Age, Males[,5],t="o",log="y",main="nMx input Females")
 #' lines(Age,Males[,1],t="o",log="y",col=2)
-#' 
+#' }
 #' # LC with limited data
-#' lc_lim_data <- interp_lc_lim(Males, Females, "m", dates_in = Years, Age, dates_out)
+#' lc_lim_data <- interp_lc_lim(Males, 
+#' Females, 
+#' type = "m", dates_in = Years, Age, dates_out)
 #' 
 #' # LC with  limited data and non-divergence btw sex
 #' lc_lim_nondiv <- interp_lc_lim(Males, Females, "m", dates_in = Years, Age, dates_out,
@@ -135,7 +138,10 @@ interp_lc_lim <- function(Males = NULL,
                           prev_divergence = FALSE, 
                           OAnew = max(Age), 
                           OAG = TRUE, 
-                          extrapLaw = NULL){
+                          extrapLaw = NULL,
+                          ...){
+  ExtraArgs <- as.list(match.call())
+  # capture args to filter out optional lifetable args to pass on in a named way?
   
   # get always Mx -----------------------------------------------------------
   
@@ -151,8 +157,8 @@ interp_lc_lim <- function(Males = NULL,
   } else {
     if (type == "l"){
       # TR: also lt_abridged() accepts lx as an input arg. So this could loo like the below
-      Males = apply(Males, 2, function(x){lt_id_l_d(x)/x})
-      Females = apply(Females, 2, function(x){lt_id_l_d(x)/x})
+      Males = apply(Males, 2, lt_id_l_q)
+      Females = apply(Females, 2, lt_id_l_q)
     } # is q
     nMxm <- apply(Males, 2, function(x) {
       lt_abridged(nqx = x, Age = Age, Sex = "m", axmethod = "un")$nMx})
@@ -161,10 +167,13 @@ interp_lc_lim <- function(Males = NULL,
   }
   
   # smooth to 100+ from 80-------------------------------------------------------
+  
+  # TR: Maybe we cut this out: the lt_mx() can handle lots of kinds of
+  # extrapolation?
   if(!is.null(extrapLaw)){
     if(extrapLaw == "Coale-Guo"){ # always from 80
-      nMxm = apply(Males,2, coale_guo, age=Age)
-      nMxf = apply(Females,2, coale_guo, age=Age)
+      nMxm = apply(Males, 2, coale_guo, age = Age)
+      nMxf = apply(Females, 2, coale_guo, age = Age)
     }else{
       # call lt_rule_m_extrapolate
     }
@@ -186,19 +195,19 @@ interp_lc_lim <- function(Males = NULL,
   lt_mx <- function(x = NULL, type = "m", # accepts "q" or "l"
                     Age = NULL, Sex = NULL, ...){
     if(type=="l"){
-      x = lt_id_l_d(x)/x[1]
+      x = lt_id_l_q(x)
       type = "q"
     }
     if(is_abridged(Age)){
-      if(type=="m"){
+      if (type=="m"){
         lt_abridged(nMx = x, Age = Age, Sex = Sex, ...)  
-      }else{
+      } else {
         lt_abridged(nqx = x, Age = Age, Sex = Sex, ...)  
       }
-    }else{
-      if(type=="m"){
+    } else {
+      if (type == "m"){
         lt_single_mx(nMx = x, Age = Age, Sex = Sex, ...) 
-      }else{
+      } else {
         lt_single_qx(nqx = x, Age = Age, Sex = Sex, ...) 
       }
     }
@@ -213,10 +222,18 @@ interp_lc_lim <- function(Males = NULL,
   # TR: Perhaps coale-guo should just become an extra option for lt_rule_m_extrapolate()?
   # IW: decided to be included in ... (?)
   
+  
+  # axmethod = "pas", a0rule = "ak", Sex = "m", 
+  # IMR = NA, region = "w", mod = TRUE, SRB = 1.05, OAG = TRUE, 
+  # OAnew = max(Age), extrapLaw = "kannisto", extrapFrom = max(Age), 
+  # extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)]
+  # I added a capture of extra args entering the function all at the top.
+  # instead of ... pass things in by name, above a list of default values for
+  # lt_abridged(). 
   nMxm <- apply(Males, 2, function(x) {
-    lt_mx(x, Age = Age, type = type, Sex = "m", ...)$nMx})
+    lt_mx(x, Age = Age, type = type, Sex = "m")$nMx})
   nMxf <- apply(Females, 2, function(x) {
-    lt_mx(x, Age = Age, type = type, Sex = "f", ...)$nMx}) 
+    lt_mx(x, Age = Age, type = type, Sex = "f")$nMx}) 
 
   # LC at unequal intervals ---------------------------------------------------------
   
