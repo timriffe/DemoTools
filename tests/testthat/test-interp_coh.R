@@ -289,6 +289,69 @@ test_that("interp_coh fails when lxmat is not correct", {
     regexp = "lxMat should have at least two or more dates as columns. lxMat contains only one column" #nolintr
   )
 
+# 4) age1 or age2 not single
+test_that("Ages must be single", {
+
+  # The error tests that they are the same length.
+  # If ages are of anything other than single ages,
+  # this will fail, capturing that the ages should
+  # be single ages.
+  expect_error(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      # Supply ages in five year age groups
+      age1 = seq(0, 100, by = 5),
+      lxMat = lxmat,
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L,
+                 760831L, 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010),
+    regexp = "length(age1) == length(c1) is not TRUE",
+    fixed = TRUE
+  )
+
+  expect_error(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      # Supply ages for second age group in five year age groups
+      age2 = seq(0, 100, by = 5),
+      lxMat = lxmat,
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L,
+                 760831L, 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010),
+    regexp = "length(age2) == length(c2) is not TRUE",
+    fixed = TRUE
+  )
+
+  expect_error(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      # Both ages supplied
+      age1 = seq(0, 100, by = 5),
+      age2 = seq(0, 100, by = 5),
+      lxMat = lxmat,
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L,
+                 760831L, 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010),
+    regexp = "length(age1) == length(c1) is not TRUE",
+    fixed = TRUE
+  )
+})
+
 })
 
 test_that("c1, c2 and lxmat should not have negatives", {
