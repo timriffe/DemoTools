@@ -1,7 +1,7 @@
 check_form <- function(x) {
   expect_is(x, "matrix")
   expect_true(nrow(x) == 101)
-  expect_true(ncol(x) == 8)
+  #expect_true(ncol(x) == 8)
   expect_true(length(colnames(x)) != 0)
 }
 
@@ -23,9 +23,10 @@ test_that("interp_coh works without midyear", {
     )
 
   check_form(res)
+  expect_true(ncol(res) == 8)
 })
 
-test_that("interp_coh works without midyear", {
+test_that("interp_coh works with midyear", {
 
   res <-
     interp_coh(
@@ -41,4 +42,5 @@ test_that("interp_coh works without midyear", {
     )
 
   check_form(res)
+  expect_true(ncol(res) == 9) # we get an extra midyear on the right side
 })
