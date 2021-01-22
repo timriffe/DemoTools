@@ -294,23 +294,25 @@ test_that("interp_coh fails when lxmat is not correct", {
     regexp = "lxMat should have at least two or more dates as columns. lxMat contains only one column" #nolintr
   )
 
-  # 3.2) lxMat give, but the date range in it doesn't overlap
-  #      with the date range of date1 to date2 (i.e. 100% extrapolation implied)
-  # TODO
-  ## expect_error(
-  ##   interp_coh(
-  ##     c1 = pop1m_rus2002,
-  ##     c2 = pop1m_rus2010,
-  ##     date1 = "2002-10-16",
-  ##     date2 = "2010-10-25",
-  ##     lxMat = lxmat,
-  ##     dates_lx = c(mortdate1,mortdate2,mortdate3),
-  ##     age_lx = age_lx,
-  ##     births = c(719511L, 760934L, 772973L, 749554L, 
-  ##                760831L, 828772L, 880543L, 905380L, 919639L),
-  ##     years_births = 2002:2010),
-  ##   regexp = "lxMat should have at least two or more dates as columns. lxMat contains only one column" #nolintr
-  ## )
+  ## 3.2) lxMat give, but the date range in it doesn't overlap
+  ## with the date range of date1 to date2 (i.e. 100% extrapolation implied)
+  expect_output(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2000-10-16",
+      date2 = "2014-10-25",
+      # Make up some very long dates
+      lxMat = lxmat[, 1:2],
+      dates_lx = c(2007, 2008),
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L,
+                 760831L, 828772L, 880543L, 905380L,
+                 919639L, 719511L, 760934L, 772973L,
+                 749554L, 760831L, 828772L),
+      years_births = 2000:2014),
+    regexp = "Range between `date1` and `date2` must overlap with `lx_dates` for at least 25% of the range or 6 years." #nolintr
+  )
 
 })
 

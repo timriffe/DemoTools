@@ -203,6 +203,17 @@ interp_coh <- function(
         cat("lxMat specified, but not dates_lx\nAssuming:",paste(dates_lx,collapse=", "),"\n")
       }
     }
+
+    ic_period <- date2 - date1
+    lx_mm <- range(dates_lx)
+    overlap <- min(c(lx_mm[2], date2)) - c(max(lx_mm[1], date1))
+    extrap_low <- lx_mm[1] - min(lx_mm[1],date1)
+    extrap_high <- max(lx_mm[2],date2) - lx_mm[2]
+    t1 <- overlap / ic_period < .25
+    t2 <- extrap_low > 6
+    t3 <- extrap_high > 6
+    if (any(c(t1, t2, t3))) cat("\nRange between `date1` and `date2` must overlap with `lx_dates` for at least 25% of the range or 6 years.\n")
+
     if (is.null(age_lx)){
       if (nrow(lxMat)  < 26){
 
