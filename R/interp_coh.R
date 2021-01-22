@@ -54,7 +54,7 @@ census_cohort_adjust <- function(pop, age, date){
 #' @param sex character string, either `"male"`, `"female"`, or `"both"`
 #' @param midyear logical. `FALSE` means all Jan 1 dates between `date1` and `date2` are returned. `TRUE` means all July 1 intercensal dates are returned.
 #' @param verbose logical. Shall we send informative messages to the console?
-#' @param ... optional arguments passed to 
+#' @param ... optional arguments passed to
 #' @export
 #' @importFrom countrycode countrycode
 #' @importFrom data.table := as.data.table melt data.table dcast between
@@ -94,14 +94,14 @@ interp_coh <- function(
 
   stopifnot(length(age1) == length(c1))
   stopifnot(length(age2) == length(c2))
-  
+
   stopifnot(is_single(age1))
   stopifnot(is_single(age2))
-  
+
   if (length(age1) != length(age2) & verbose){
     cat("\nFYI: age ranges are different for c1 and c2\nWe'll still get intercensal estimates,\nbut returned data will be chopped off after age", max(age1))
   }
-   
+
   # If lxMat or births are missing -- message requiring country and sex
   if (is.null(lxMat) & is.null(country)) {
     stop("lxMat not specified, please specify country and sex\n")
@@ -122,7 +122,7 @@ interp_coh <- function(
     stop("lxMat should have at least two or more dates as columns. lxMat contains only one column") #nolintr
   }
 
-  # TR: resolve dates_out 
+  # TR: resolve dates_out
   # if some dates were given, let's coerce to numeric and ensure valid
   if (!is.null(dates_out)){
     dates_out          <- sapply(dates_out, dec.date)
@@ -134,14 +134,14 @@ interp_coh <- function(
       stop("\nno valid dates to interpolate to\n")
     }
 
-    
+
     # if we still have valid dates, then check we're not extrapolating
-    dates_out_keep     <- data.table::between(dates_out, 
-                                              date1, 
-                                              date2, 
+    dates_out_keep     <- data.table::between(dates_out,
+                                              date1,
+                                              date2,
                                               incbounds = FALSE)
     dates_out_for_real <- dates_out[dates_out_keep]
-    
+
     # warn about any dates lost due to extrap request:
     if (length(dates_out_for_real) != length(dates_out) & verbose){
       cat("\nFollowing dates requested, but not returned\nbecause they'd require extrapolation:\n",paste(dates_out[!dates_out_keep],collapse = ", "),"\n")
@@ -175,20 +175,17 @@ interp_coh <- function(
                                         incbounds = FALSE)
     }
   }
-  
-  
+
+
   DD <- date2 - date1
   if (DD >= 15 & verbose){
     cat("\nFYI, there are",DD,"years between c1 and c2\nBe wary.\n")
   }
-  
+
   # let's store the proportions separately
   f1    <- date1 %>% magrittr::subtract(date1 %>% floor)
   f2    <- date2 %>% magrittr::subtract(date2 %>% floor)
 
-
-
-  
   # get the lexis surface of survival probabilities
   if (is.null(lxMat)){
     if (verbose) cat(paste0("\nlxMat not provided. Downloading lxMat for ", country, ", gender: ", "`", sex, "`, for years between ", round(date1, 1), " and ", round(date2, 1), "\n"))
@@ -215,7 +212,7 @@ interp_coh <- function(
       }
       if (verbose) {
         cat("lxMat specified, but Age_lx missing\nAssuming:",paste(age_lx,collapse=", "),"\n")
-      } 
+      }
     }
 
     # ensure lx fills timepoints.
@@ -229,19 +226,19 @@ interp_coh <- function(
       OAnew = max(age1) + 1,
       ...)
   }
-  
+
   yrs_births   <- seq(floor(date1), floor(date2), 1)
-  
+
   # TR: if right-side is jan 1 then we can cut it off of pxt.
   if (f2 == 0){
     pxt        <- pxt[, -ncol(pxt)]
     yrs_births <- yrs_births[-length(yrs_births)]
     f2         <- 1
   }
-  
+
   # fetch WPP births if not provided by user
   if (is.null(births)) {
- 
+
     # load WPP births
     requireNamespace("DemoToolsData", quietly = TRUE)
     WPP2019_births <- DemoToolsData::WPP2019_births
@@ -266,14 +263,14 @@ interp_coh <- function(
     if (verbose){
       cat("Births fetched from WPP for:", paste(country, sex), "population, years", paste(yrs_births, collapse = ", "), "\n")
     }
-    
+
   }
-  
+
   # check length of births, also filter using provided dates if necessary
   if (!is.null(years_births)){
     stopifnot(length(births) == length(years_births))
-    
-    years_births <- floor(years_births) 
+
+    years_births <- floor(years_births)
     yrs_keep     <- data.table::between(years_births,
                                         min(yrs_births),
                                         max(yrs_births),
@@ -281,10 +278,10 @@ interp_coh <- function(
 
     births       <- births[yrs_keep]
   }
-  
+
   # now that births should be available we can do this check.
   stopifnot(length(births) == length(yrs_births))
-  
+
   # a note for future: interp_coh_download_mortality should use {countrycode} to
   # better match the country names. As of now, just Russia won't work
   # [ISSUE #166]
@@ -374,7 +371,7 @@ interp_coh <- function(
     pop_c2_obs = c2c$pop
   )
 
-  
+
   pop_jan1_pre <-
     px_triangles %>%
     .[, list(n_triangles = .N, coh_p = prod(value)), keyby = list(year, cohort)] %>%
@@ -405,9 +402,9 @@ interp_coh <- function(
   resid <- resid[, list(cohort, resid)]
 
   # This should just be one value per cohort.
-  
+
   # determine uniform error discounts:
- 
+
   resid_discounts <-
     stats::approx(
              x = c(date1, date2),
@@ -439,15 +436,15 @@ interp_coh <- function(
 
   matinterp <- PopAP[age <= max(age1), -1] %>% as.matrix()
   rownames(matinterp) <- age1
-  
+
   # Handle negatives (small pops, or large negative residuals relative to pop size)
   ind <- matinterp < 0
   if (any(ind) & verbose){
     cat("\n",sum(ind),"negatives detected in output.\nThese have been imputed with 0s.\n")
     matinterp[ind] <- 0
   }
-  
-  
+
+
   yrsIn     <- as.numeric(colnames(matinterp))
   if (all(yrsIn > date1)){
     matinterp <- cbind(c1, matinterp)
@@ -840,7 +837,7 @@ interp_coh <- function(
 #
 #
 
-# This script does nothing yet, still in development, deciding how to 
+# This script does nothing yet, still in development, deciding how to
 # graduate abridged lifetables
 
 # This is a temporary script to hold a utility function for
@@ -856,69 +853,69 @@ lt_a2s_chunk <- function(chunk, OAnew, ...){
   ndx <- chunk$dx
   nLx <- chunk$Lx
   Age <- chunk$x
-  
-  lt_abridged2single(ndx = ndx, 
-                     nLx = nLx, 
-                     Age = Age, 
-                     OAnew = OAnew, 
+
+  lt_abridged2single(ndx = ndx,
+                     nLx = nLx,
+                     Age = Age,
+                     OAnew = OAnew,
                      ...)
 }
 
 interp_coh_download_mortality <- function(country, sex, date1, date2, OAnew = 100){
-  
+
   . <- NULL
-  
+
   date1      <- dec.date(date1)
   date2      <- dec.date(date2)
-  
+
   year1      <- floor(date1) + 1
   year2      <- floor(date2)
-  
+
   year_seq   <- year1:year2
-  
+
   dates_out  <- c(dec.date(date1), year_seq)
-  
-  
+
+
   PX <- suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,
-                                locations = country, 
-                                sex = sex)) %>% 
+                                locations = country,
+                                sex = sex)) %>%
     lapply(function(X){
       X[,c("year","x","dx","Lx")]
-    }) %>% 
-    lapply(lt_a2s_chunk, OAnew = OAnew) %>% 
+    }) %>%
+    lapply(lt_a2s_chunk, OAnew = OAnew) %>%
     lapply(function(X){
       1 - X$nqx
-    }) %>% 
+    }) %>%
     do.call("cbind",.)
-  
-  
+
+
   dimnames(PX)   <- list(0:OAnew, dates_out)
-  
+
   PX[PX > 1]     <- 1
   # discount first and last periods.
-  
+
   f1             <- diff(dates_out)[1]
   f2             <- date2 - floor(date2)
-  
+
   # assume linear px change within age class
   PX[, 1]        <- PX[, 1] ^f1
   PX[,ncol(PX)]  <- PX[, ncol(PX)] ^f2
-  
+
   PX
 }
 
 # lxMat <-suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,
-#                              locations = country, 
-#                              sex = sex) %>% 
-#                         lapply("[[","lx") %>% 
-#                         dplyr::bind_cols() %>% 
+#                              locations = country,
+#                              sex = sex) %>%
+#                         lapply("[[","lx") %>%
+#                         dplyr::bind_cols() %>%
 #                         as.matrix())
 
-interp_coh_lxMat_pxt <- function(lxMat, 
-                                 dates_lx, 
-                                 age_lx, 
-                                 date1, 
-                                 date2, 
+interp_coh_lxMat_pxt <- function(lxMat,
+                                 dates_lx,
+                                 age_lx,
+                                 date1,
+                                 date2,
                                  OAnew, ...){
   # TR: this is a temp functin, a stop-gap. Some redundant code with
   # interp_coh_download_mortality(), which it itself temporary.
@@ -926,72 +923,72 @@ interp_coh_lxMat_pxt <- function(lxMat,
   # fixed.
   date1      <- dec.date(date1)
   date2      <- dec.date(date2)
-  
+
   year1      <- floor(date1) + 1
   year2      <- floor(date2)
-  
+
   year_seq   <- year1:year2
-  
+
   dates_out  <- c(dec.date(date1), year_seq)
-  
+
   # get ndx andnLx from lt_abridged()
-  
+
   a1  <- 0:OAnew
   qx1 <- matrix(ncol = ncol(lxMat),
-                nrow = length(a1), 
+                nrow = length(a1),
                 dimnames = list(a1,
                                 dates_lx))
   for (i in 1:ncol(lxMat)){
-    
+
     if (is_abridged(age_lx)){
-      LTA     <- lt_abridged(Age = age_lx, 
-                             lx = lxMat[, i], 
-                             OAnew = OAnew, 
+      LTA     <- lt_abridged(Age = age_lx,
+                             lx = lxMat[, i],
+                             OAnew = OAnew,
                              radix = 1e6,
                              ...)
-      LT1     <- lt_abridged2single(ndx = LTA$ndx, 
-                                  nLx = LTA$nLx, 
-                                  Age = LTA$Age, 
+      LT1     <- lt_abridged2single(ndx = LTA$ndx,
+                                  nLx = LTA$nLx,
+                                  Age = LTA$Age,
                                   OAnew = OAnew,
                                   ...)
       qx1[, i] <- LT1$nqx
     } else {
       qx             <- lt_id_l_q(lxMat[, i])
-      
+
       LT1 <- lt_single_qx(nqx = qx,
-                          Age=1:length(qx)-1, 
+                          Age=1:length(qx)-1,
                           OAnew = OAnew,
                           ...)
-      
-      
+
+
       qx1[, i] <- LT1$nqx
     }
 
   }
-  
+
   # We do linear interpolation of the logit-transformed qx.
   logit_qx  <- log(qx1 / (1 - qx1))
-  
-  logit_qx_interp     <- 
+
+  logit_qx_interp     <-
     interp(
-      popmat = logit_qx, 
+      popmat = logit_qx,
       datesIn = dates_lx,
       datesOut = dates_out,
-      rule = 2) 
+      rule = 2)
   # transform back
   QX            <- exp(logit_qx_interp) / (1 + exp(logit_qx_interp))
-  
+
   QX[nrow(QX), ]  <- 1
-  
-  
+
+
   f1            <- diff(dates_out)[1]
   f2            <- date2 - floor(date2)
-  
+
   # assume linear px change within age class
   PX            <- 1 - QX
   PX[,1]        <- PX[, 1] ^f1
   PX[,ncol(PX)] <- PX[, ncol(PX)] ^f2
-  
-  
+
+
   PX
 }
