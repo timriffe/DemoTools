@@ -384,16 +384,38 @@ interp_lc_lim <- function(Males = NULL,
   
   # life tables output ------------------------------------------------------------
   # TR: can use ... to pass in optional args.
-  out <- rbind(
-    do.call(rbind, apply(nMxm_hat, 2, function(x) {
-      lt_abridged(nMx = x, Age = Age, Sex = "m", axmethod = "un",a0rule = "ak")})),
-    do.call(rbind, apply(nMxf_hat, 2, function(x) {
-      lt_abridged(nMx = x, Age = Age, Sex = "f", axmethod = "un",a0rule = "ak")}))) %>% 
-    mutate(Year = rep(sort(rep(dates_out,nAge)), 2), 
-           Sex = c(rep("m", nAge * nYears_Target),
-                   rep("f", nAge * nYears_Target))) %>% 
+  colnames(nMxm_hat) <- dates_out
+  colnames(nMxf_hat) <- dates_out
+  . = NULL
+  Males_out <-
+    lapply(colnames(nMxm_hat), function(x,MX,Age) {
+        mx <- MX[, x]
+        LT <- lt_abridged(nMx = mx, 
+                          Age = Age, 
+                          Sex = "m", 
+                          axmethod = "un", 
+                          a0rule = "ak")
+        LT$Sex  <- "m"
+        LT$Year <- as.numeric(x)
+        LT
+      }, MX = nMxm_hat, Age = Age) %>% 
+    do.call("rbind", .)
+  
+  Females_out <-
+    lapply(colnames(nMxf_hat), function(x,MX,Age) {
+      mx <- MX[, x]
+      LT <- lt_abridged(nMx = mx, 
+                        Age = Age, 
+                        Sex = "f", 
+                        axmethod = "un", 
+                        a0rule = "ak")
+      LT$Sex  <- "m"
+      LT$Year <- as.numeric(x)
+      LT
+    }, MX = nMxf_hat, Age = Age) %>% 
+    do.call("rbind", .)
 
-    select(Year, Sex, everything())
+    out <- rbind(Males_out, Females_out)
   return(out)
   
 }
