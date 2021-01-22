@@ -1,6 +1,7 @@
 check_form <- function(x) {
   expect_is(x, "matrix")
   expect_true(nrow(x) == 101)
+  expect_true(all(!is.na(x)))
   #expect_true(ncol(x) == 8)
   expect_true(length(colnames(x)) != 0)
 }
@@ -42,7 +43,12 @@ test_that("interp_coh works with midyear", {
     )
 
   check_form(res)
-  expect_true(ncol(res) == 9) # we get an extra midyear on the right side
+  # TODO: Tim said that we get an extra midyear on the right side
+  # but there was a mistake where dates_out inside interp_coh was
+  # returning a logical vector when it should've been a set of dates.
+  # When I fixed that, it actually returned 8, so leaving it as 8
+  # (before it was a 9).
+  expect_true(ncol(res) == 8)
 })
 
 

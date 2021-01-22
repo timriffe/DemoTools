@@ -169,10 +169,11 @@ interp_coh <- function(
       left_date  <- floor(date1) + .5
       right_date <- ceiling(date2) - .5
       dates_out  <- left_date:right_date
-      dates_out  <- data.table::between(dates_out,
-                                        date1,
-                                        date2,
-                                        incbounds = FALSE)
+      dates_out_lgl  <- data.table::between(dates_out,
+                                            date1,
+                                            date2,
+                                            incbounds = FALSE)
+      dates_out <- dates_out[dates_out_lgl]
     }
   }
 
@@ -457,12 +458,12 @@ interp_coh <- function(
   colnames(matinterp) <- yrsIn
   # now we either return Jan1 dates or July 1 dates.
 
-    out <- interp(
-      matinterp,
-      datesIn = yrsIn,
-      datesOut = dates_out,
-      rule = 1
-    )
+  out <- interp(
+    matinterp,
+    datesIn = yrsIn,
+    datesOut = dates_out,
+    rule = 1
+  )
 
   out
 }
@@ -947,10 +948,10 @@ interp_coh_lxMat_pxt <- function(lxMat,
                              radix = 1e6,
                              ...)
       LT1     <- lt_abridged2single(ndx = LTA$ndx,
-                                  nLx = LTA$nLx,
-                                  Age = LTA$Age,
-                                  OAnew = OAnew,
-                                  ...)
+                                    nLx = LTA$nLx,
+                                    Age = LTA$Age,
+                                    OAnew = OAnew,
+                                    ...)
       qx1[, i] <- LT1$nqx
     } else {
       qx             <- lt_id_l_q(lxMat[, i])
