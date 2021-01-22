@@ -196,18 +196,39 @@ interp <- function(popmat,
                    datesOut,
                    method = c("linear", "exponential", "power"),
                    power = 2,
+                   extrap = F,
                    ...) {
   # ... args passed to stats::approx . Can give control over extrap assumptions
+  # IW: extrap=T for extrapolate following each slope in extreme pairwise. 
+      # If not is explicit extrap=T, returns NA at those points
+  
   # a basic check
   stopifnot(ncol(popmat) == length(datesIn))
   
   # no sense documenting this wrapper ...
-  .approxwrap <- function(x, y, xout, ...) {
-    stats::approx(x = x,
-                  y = y,
-                  xout = xout,
-                  ...)$y
+  .approxwrap <- function(x, y, xout, extrap, ...) {
+    
+    # interp
+    yout = stats::approx(x = x,
+                         y = y,
+                         xout = xout,
+                         ...)$y
+    
+    if(extrap == T){
+      # extrap (each side)
+      rg <- range(x)
+      xext <- xout < r[1]
+      if(any(xext))
+        yout[xext] <- (y[2]-y[1])/(x[2]-x[1])*(xout[xext]-x[1])+y[1]
+      xext <- xout > r[2]
+      n <- length(y)
+      if(any(xext))
+        yout[xext] <- (y[n]-y[n-1])/(x[n]-x[n-1])*(xout[xext]-x[n-1])+y[n-1]
+    }
+    
+    return(yout)
   }
+  
   
   # -----------------------
   # clean method declaration
@@ -242,6 +263,7 @@ interp <- function(popmat,
                .approxwrap,
                x = datesIn,
                xout = datesOut,
+               extrap = extrap,
                ...)
   dims            <- dim(int)
   if (!is.null(dims)) {
@@ -259,6 +281,9 @@ interp <- function(popmat,
   if (method == "power") {
     int           <- int ^ power
   }
+  
+  # IW: no negatives when extrapolate. Thinking in pop and lt expressions
+  int[int<0] <- 0
   
   int
 }
