@@ -352,9 +352,44 @@ test_that("Ages must be single", {
   )
 })
 
+test_that("interp_coh fails if arguments not supplied to download data ", {
+
+  # 5) no births given, and no country/sex given
+  expect_error(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      lxMat = lxmat,
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      age_lx = age_lx,
+      years_births = 2002:2010),
+    regexp = "births not specified, please specify country and sex",
+    fixed = TRUE
+  )
+
+  # 6) no lxMat given, and no country/sex given
+  expect_error(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L,
+                 760831L, 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010),
+    regexp = "lxMat not specified, please specify country and sex",
+    fixed = TRUE
+  )
 })
 
 test_that("c1, c2 and lxmat should not have negatives", {
+
+  # 7) c1, c2, lxMat, or births have negatives
+
   c1_neg <- pop1m_rus2002
   c1_neg[1] <- -c1_neg[1]
 
