@@ -168,7 +168,7 @@ interp_lc_lim <- function(Males = NULL,
   
   # smooth to 100+ from 80-------------------------------------------------------
   
-  # TR: Maybe we cut this out: the lt_mx() can handle lots of kinds of
+  # TR: Maybe we cut this out: the lt_mx_ambiguous() can handle lots of kinds of
   # extrapolation?
   if(!is.null(extrapLaw)){
     if(extrapLaw == "Coale-Guo"){ # always from 80
@@ -191,27 +191,7 @@ interp_lc_lim <- function(Males = NULL,
   
   # same fun for abrev or simple --------------------------------------------
   
-  # probably a better name here
-  lt_mx <- function(x = NULL, type = "m", # accepts "q" or "l"
-                    Age = NULL, Sex = NULL, ...){
-    if(type=="l"){
-      x = lt_id_l_q(x)
-      type = "q"
-    }
-    if(is_abridged(Age)){
-      if (type=="m"){
-        lt_abridged(nMx = x, Age = Age, Sex = Sex, ...)  
-      } else {
-        lt_abridged(nqx = x, Age = Age, Sex = Sex, ...)  
-      }
-    } else {
-      if (type == "m"){
-        lt_single_mx(nMx = x, Age = Age, Sex = Sex, ...) 
-      } else {
-        lt_single_qx(nqx = x, Age = Age, Sex = Sex, ...) 
-      }
-    }
-  } 
+
   
   # get always Mx and smooth it -----------------------------------------------------------
   
@@ -231,9 +211,9 @@ interp_lc_lim <- function(Males = NULL,
   # instead of ... pass things in by name, above a list of default values for
   # lt_abridged(). 
   nMxm <- apply(Males, 2, function(x) {
-    lt_mx(x, Age = Age, type = type, Sex = "m")$nMx})
+    lt_mx_ambiguous(x, Age = Age, type = type, Sex = "m")$nMx})
   nMxf <- apply(Females, 2, function(x) {
-    lt_mx(x, Age = Age, type = type, Sex = "f")$nMx}) 
+    lt_mx_ambiguous(x, Age = Age, type = type, Sex = "f")$nMx}) 
 
   # LC at unequal intervals ---------------------------------------------------------
   
@@ -323,7 +303,7 @@ interp_lc_lim <- function(Males = NULL,
 
     # IW: interp modified. Accepts matrix, so have to rbind and only get 1st row
     e0m = interp(rbind(e0_Males,e0_Males),dates_e0,dates_out,extrap = TRUE)[1,]
-    e0f = interp(rbind(e0_Females,dates_e0),dates_out,extrap = TRUE)[1,]
+    e0f = interp(rbind(e0_Females,e0_Females),dates_e0,dates_out,extrap = TRUE)[1,]
 
     
     # avoid divergence extrapolating to 1950 (?): same bx but not kt
@@ -452,7 +432,7 @@ interp_linear <- function(x,y,x_star){
 # TR: recommend lc_lim_kt_min(), following name conventions elsewhere in package
 lc_lim_kt_min <- function(k,ax,bx,age,sex,e0_target){
   Mx_hat <- exp(ax + bx * k)
-  e0 <- lt_mx(nMx = Mx_hat, Age = age, Sex = sex)$ex[1]
+  e0 <- lt_mx_ambiguous(nMx = Mx_hat, Age = age, Sex = sex)$ex[1]
   return(((e0-e0_target)/e0_target)^2)
 }
 
@@ -469,4 +449,24 @@ coale_guo <- function(m,age=Age){
   return(m)
 }
 
-
+# probably a better name here
+lt_mx_ambiguous <- function(x = NULL, type = "m", # accepts "q" or "l"
+                  Age = NULL, Sex = NULL, ...){
+  if(type=="l"){
+    x = lt_id_l_q(x)
+    type = "q"
+  }
+  if(is_abridged(Age)){
+    if (type=="m"){
+      lt_abridged(nMx = x, Age = Age, Sex = Sex, ...)  
+    } else {
+      lt_abridged(nqx = x, Age = Age, Sex = Sex, ...)  
+    }
+  } else {
+    if (type == "m"){
+      lt_single_mx(nMx = x, Age = Age, Sex = Sex, ...) 
+    } else {
+      lt_single_qx(nqx = x, Age = Age, Sex = Sex, ...) 
+    }
+  }
+} 
