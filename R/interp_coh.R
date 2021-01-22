@@ -119,6 +119,10 @@ interp_coh <- function(
   }
   
   # TR: resolve dates_out 
+
+  if (!is.null(lxMat) && ncol(lxMat) == 1) {
+    stop("lxMat should have at least two or more dates as columns. lxMat contains only one column") #nolintr
+  }
   
   # if some dates were given, let's coerce to numeric and ensure valid
   if (!is.null(dates_out)){
@@ -130,7 +134,7 @@ interp_coh <- function(
     if (length(dates_out) == 0){
       stop("\nno valid dates to interpolate to\n")
     }
-    
+
     
     # if we still have valid dates, then check we're not extrapolating
     dates_out_keep     <- data.table::between(dates_out, 

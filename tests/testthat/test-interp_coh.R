@@ -250,3 +250,44 @@ test_that("interp_coh errors if not given correctly", {
   )
 })
 
+# We should error if
+test_that("interp_coh fails when lxmat is not correct", {
+  # Downloads some data
+  mortdate1 <- 2003
+  mortdate2 <- 2006
+  mortdate3 <- 2010
+  age_lx <- c(0,1,seq(5,100,by=5))
+  lx1 <- fertestr::FetchLifeTableWpp2019(
+                     locations = "Russian Federation",
+                     year = mortdate1,
+                     sex = "male")$lx
+
+  lx2 <- fertestr::FetchLifeTableWpp2019(
+                     locations = "Russian Federation",
+                     year = mortdate2, sex = "male")$lx
+
+  lx3 <- fertestr::FetchLifeTableWpp2019(
+                     locations = "Russian Federation",
+                     year = mortdate3, sex = "male")$lx
+
+  lxmat <- cbind(lx1,lx2,lx3)
+
+  # 3.1) lxMat given, but only one column
+
+  expect_error(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      lxMat = lxmat[, 1, drop = FALSE],
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L, 
+                 760831L, 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010),
+    regexp = "lxMat should have at least two or more dates as columns. lxMat contains only one column" #nolintr
+  )
+
+})
+
