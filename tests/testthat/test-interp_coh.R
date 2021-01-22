@@ -448,3 +448,25 @@ test_that("c1, c2 and lxmat should not have negatives", {
   )
 
 })
+test_that("interp_coh throws download messages when verbose = TRUE", {
+
+  # 1) lx is downloaded
+  expect_output(
+    interp_coh(
+      country = "Russian Federation",
+      sex = "both",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L, 760831L,
+                 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010,
+      verbose = TRUE
+    ),
+    regexp = "lxMat not provided. Downloading lxMat for Russian Federation, gender: `both`, for years between 2002.8 and 2010.8"
+  )
+
+})
+

@@ -191,6 +191,8 @@ interp_coh <- function(
   
   # get the lexis surface of survival probabilities
   if (is.null(lxMat)){
+    if (verbose) cat(paste0("\nlxMat not provided. Downloading lxMat for ", country, ", gender: ", "`", sex, "`, for years between ", round(date1, 1), " and ", round(date2, 1), "\n"))
+
     pxt <- suppressMessages(
       interp_coh_download_mortality(country, sex, date1, date2, OAnew = max(age1) + 1)
     )
