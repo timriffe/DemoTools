@@ -109,61 +109,61 @@ test_that("interp_coh works well with different time points", {
                      year = mortdate1,
                      sex = "male")$lx
 
-                     lx2 <- fertestr::FetchLifeTableWpp2019(
-                                        locations = "Russian Federation",
-                                        year = mortdate2, sex = "male")$lx
+  lx2 <- fertestr::FetchLifeTableWpp2019(
+                     locations = "Russian Federation",
+                     year = mortdate2, sex = "male")$lx
 
-                                        lx3 <- fertestr::FetchLifeTableWpp2019(
-                                                           locations = "Russian Federation",
-                                                           year = mortdate3, sex = "male")$lx
+  lx3 <- fertestr::FetchLifeTableWpp2019(
+                     locations = "Russian Federation",
+                     year = mortdate3, sex = "male")$lx
 
-                                                           lxmat2 <- cbind(lx1,lx3)
-                                                           lxmat3 <- cbind(lx1,lx2,lx3)
+  lxmat2 <- cbind(lx1,lx3)
+  lxmat3 <- cbind(lx1,lx2,lx3)
 
-                                                           # with 2 mort timepoints
-                                                           res1 <- interp_coh(
-                                                             c1 = pop1m_rus2002,
-                                                             c2 = pop1m_rus2010,
-                                                             date1 = "2002-10-16",
-                                                             date2 = "2010-10-25",
-                                                             lxMat = lxmat2,
-                                                             dates_lx = c(mortdate1,mortdate3),
-                                                             age_lx = age_lx,
-                                                             births = c(719511L, 760934L, 772973L, 749554L,
-                                                                        760831L, 828772L, 880543L, 905380L, 919639L),
-                                                             years_births = 2002:2010)
+  # with 2 mort timepoints
+  res1 <- interp_coh(
+   c1 = pop1m_rus2002,
+   c2 = pop1m_rus2010,
+   date1 = "2002-10-16",
+   date2 = "2010-10-25",
+   lxMat = lxmat2,
+   dates_lx = c(mortdate1,mortdate3),
+   age_lx = age_lx,
+   births = c(719511L, 760934L, 772973L, 749554L,
+              760831L, 828772L, 880543L, 905380L, 919639L),
+   years_births = 2002:2010)
 
-                                                           check_form(res1)
+  check_form(res1)
 
-                                                           # with 3 mort timepoints
-                                                           res2 <- interp_coh(
-                                                             c1 = pop1m_rus2002,
-                                                             c2 = pop1m_rus2010,
-                                                             date1 = "2002-10-16",
-                                                             date2 = "2010-10-25",
-                                                             lxMat = lxmat3,
-                                                             dates_lx = c(mortdate1,mortdate2,mortdate3),
-                                                             age_lx = age_lx,
-                                                             births = c(719511L, 760934L, 772973L, 749554L, 
-                                                                        760831L, 828772L, 880543L, 905380L, 919639L),
-                                                             years_births = 2002:2010)
+  # with 3 mort timepoints
+  res2 <- interp_coh(
+   c1 = pop1m_rus2002,
+   c2 = pop1m_rus2010,
+   date1 = "2002-10-16",
+   date2 = "2010-10-25",
+   lxMat = lxmat3,
+   dates_lx = c(mortdate1,mortdate2,mortdate3),
+   age_lx = age_lx,
+   births = c(719511L, 760934L, 772973L, 749554L, 
+              760831L, 828772L, 880543L, 905380L, 919639L),
+   years_births = 2002:2010)
 
-                                                           check_form(res2)
+  check_form(res2)
 
-                                                           # Same as previous but with extra birth year specified (engage birth year filtering)
-                                                           res3 <- interp_coh(
-                                                             c1 = pop1m_rus2002,
-                                                             c2 = pop1m_rus2010,
-                                                             date1 = "2002-10-16",
-                                                             date2 = "2010-10-25",
-                                                             lxMat = lxmat3,
-                                                             dates_lx = c(mortdate1,mortdate2,mortdate3),
-                                                             age_lx = age_lx,
-                                                             births = c(719511L, 760934L, 772973L, 749554L, 
-                                                                        760831L, 828772L, 880543L, 905380L, 919639L,1e6),
-                                                             years_births = 2002:2011)
+  # Same as previous but with extra birth year specified (engage birth year filtering)
+  res3 <- interp_coh(
+   c1 = pop1m_rus2002,
+   c2 = pop1m_rus2010,
+   date1 = "2002-10-16",
+   date2 = "2010-10-25",
+   lxMat = lxmat3,
+   dates_lx = c(mortdate1,mortdate2,mortdate3),
+   age_lx = age_lx,
+   births = c(719511L, 760934L, 772973L, 749554L, 
+              760831L, 828772L, 880543L, 905380L, 919639L,1e6),
+   years_births = 2002:2011)
 
-                                                           check_form(res3)
+  check_form(res3)
 
 })
 
@@ -212,7 +212,7 @@ test_that("Test for stationary population using interp_coh", {
   # here's the test:
   # now that's what I call a deterministic stationary population.
   # :-)
-  expect_true(all(abs(diff(t(Pxt))) < 1e9)) 
+  expect_true(all(abs(diff(t(Pxt))) < 1e9))
 })
 
 
@@ -273,7 +273,6 @@ test_that("interp_coh fails when lxmat is not correct", {
   lxmat <- cbind(lx1,lx2,lx3)
 
   # 3.1) lxMat given, but only one column
-
   expect_error(
     interp_coh(
       c1 = pop1m_rus2002,
@@ -289,8 +288,29 @@ test_that("interp_coh fails when lxmat is not correct", {
     regexp = "lxMat should have at least two or more dates as columns. lxMat contains only one column" #nolintr
   )
 
+  # 3.2) lxMat give, but the date range in it doesn't overlap
+  #      with the date range of date1 to date2 (i.e. 100% extrapolation implied)
+  # TODO
+  ## expect_error(
+  ##   interp_coh(
+  ##     c1 = pop1m_rus2002,
+  ##     c2 = pop1m_rus2010,
+  ##     date1 = "2002-10-16",
+  ##     date2 = "2010-10-25",
+  ##     lxMat = lxmat,
+  ##     dates_lx = c(mortdate1,mortdate2,mortdate3),
+  ##     age_lx = age_lx,
+  ##     births = c(719511L, 760934L, 772973L, 749554L, 
+  ##                760831L, 828772L, 880543L, 905380L, 919639L),
+  ##     years_births = 2002:2010),
+  ##   regexp = "lxMat should have at least two or more dates as columns. lxMat contains only one column" #nolintr
+  ## )
+
+})
+
+
 # 4) age1 or age2 not single
-test_that("Ages must be single", {
+test_that("Ages must be single in interp_coh", {
 
   # The error tests that they are the same length.
   # If ages are of anything other than single ages,
@@ -448,6 +468,80 @@ test_that("c1, c2 and lxmat should not have negatives", {
   )
 
 })
+
+
+test_that("interp_coh shows appropriate warnings when verbose = TRUE", {
+
+  # 1) age1 and age2 not same range
+  # TODO
+  ## expect_error(
+  ##   interp_coh(
+  ##     c1 = pop1m_rus2002,
+  ##     c2 = pop1m_rus2010,
+  ##     date1 = "2002-10-16",
+  ##     date2 = "2010-10-25",
+  ##     lxMat = lxmat,
+  ##     dates_lx = c(mortdate1,mortdate2,mortdate3),
+  ##     age_lx = age_lx,
+  ##     births = c(719511L, 760934L, 772973L, 749554L, 760831L,
+  ##                828772L, 880543L, 905380L, 919639L),
+  ##     years_births = 2002:2010,
+  ##     verbose = TRUE
+  ##   ),
+  ##   regexp = "No negative values allowed in `lxMat`"
+  ## )
+
+  # 2) date2 - date1 > 15
+  expect_output(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      # Here I set the year to 2020
+      date2 = "2017-10-25",
+      lxMat = lxmat,
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      age_lx = age_lx,
+      # Add fake births/years_births so that they exceed more
+      # than 15 years
+      births = c(719511L, 760934L, 772973L, 749554L, 760831L,
+                 828772L, 880543L, 905380L, 919639L, 919639L,
+                 760831L, 880543L, 719511L, 760934L, 772973L,
+                 749554L),
+      years_births = 2002:2017,
+      verbose = TRUE
+    ),
+    regexp = "FYI, there are 15.02466 years between c1 and c2\nBe wary.",
+    fixed = TRUE
+  )
+
+  # 3) if the shortest distance from dates_lx to date1 or date2 is greater than 7
+  # TODO
+  ## expect_output(
+  ##   interp_coh(
+  ##     c1 = pop1m_rus2002,
+  ##     c2 = pop1m_rus2010,
+  ##     date1 = "2000-10-16",
+  ##     date2 = "2017-10-25",
+  ##     lxMat = lxmat[, 1:2],
+  ##     dates_lx = c(2008, 2009),
+  ##     age_lx = age_lx,
+  ##     births = c(719511L, 760934L, 772973L, 749554L, 760831L,
+  ##                828772L, 880543L, 905380L, 919639L, 719511L,
+  ##                760934L, 772973L, 749554L, 760831L, 828772L,
+  ##                749554L, 760831L, 828772L),
+  ##     years_births = 2000:2017,
+  ##     verbose = TRUE
+  ##   ),
+  ##   regexp = "FYI, there are 15.02466 years between c1 and c2\nBe wary.",
+  ##   fixed = TRUE
+  ## )
+
+  # 4) any negatives detected in output (to be imputed with 0s)
+  # TODO
+
+})
+
 test_that("interp_coh throws download messages when verbose = TRUE", {
 
   # 1) lx is downloaded
@@ -468,5 +562,40 @@ test_that("interp_coh throws download messages when verbose = TRUE", {
     regexp = "lxMat not provided. Downloading lxMat for Russian Federation, gender: `both`, for years between 2002.8 and 2010.8"
   )
 
-})
+  # 2) births are downloaded
+  expect_output(
+    interp_coh(
+      country = "Russian Federation",
+      sex = "both",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      lxMat = lxmat,
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age_lx = age_lx,
+      verbose = TRUE
+    ),
+    regexp = "Births fetched from WPP for: Russian Federation both population, years 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010"
+  )
 
+  # 3) dates_lx or years_births are being assumed anything
+  expect_output(
+    interp_coh(
+      country = "Russian Federation",
+      sex = "both",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      lxMat = lxmat,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L, 760831L,
+                 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010,
+      verbose = TRUE
+    ),
+    regexp = "lxMat specified, but not dates_lx\nAssuming: 2002.78904109589, 2006.80136986301, 2010.81369863014",
+    fixed = TRUE
+  )
+})
