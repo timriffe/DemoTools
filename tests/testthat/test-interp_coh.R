@@ -291,3 +291,62 @@ test_that("interp_coh fails when lxmat is not correct", {
 
 })
 
+test_that("c1, c2 and lxmat should not have negatives", {
+  c1_neg <- pop1m_rus2002
+  c1_neg[1] <- -c1_neg[1]
+
+  expect_error(
+    interp_coh(
+      c1 = c1_neg,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      lxMat = lxmat,
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L, 760831L,
+                 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010
+    ),
+    regexp = "No negative values allowed in `c1`"
+  )
+
+  c2_neg <- pop1m_rus2010
+  c2_neg[1] <- -c2_neg[1]
+
+  expect_error(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = c2_neg,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      lxMat = lxmat,
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L, 760831L,
+                 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010
+    ),
+    regexp = "No negative values allowed in `c2`"
+  )
+
+  lxmat_neg <- lxmat
+  lxmat_neg[2, 1] <- -lxmat_neg[2, 1]
+
+  expect_error(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      lxMat = lxmat_neg,
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L, 760831L,
+                 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010
+    ),
+    regexp = "No negative values allowed in `lxMat`"
+  )
+
+})

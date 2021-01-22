@@ -117,13 +117,12 @@ interp_coh <- function(
   if (is.na(date1) | is.na(date2)){
     stop("\nCensus dates didn't parse\n")
   }
-  
-  # TR: resolve dates_out 
 
   if (!is.null(lxMat) && ncol(lxMat) == 1) {
     stop("lxMat should have at least two or more dates as columns. lxMat contains only one column") #nolintr
   }
-  
+
+  # TR: resolve dates_out 
   # if some dates were given, let's coerce to numeric and ensure valid
   if (!is.null(dates_out)){
     dates_out          <- sapply(dates_out, dec.date)
@@ -151,7 +150,11 @@ interp_coh <- function(
       stop("\nuh oh! This method is strictly for cohort component interpolation\nYour requested dates_out didn't have anything between date1 and date2\n")
     }
   }
-  
+
+  if (any(c1 < 0)) stop("No negative values allowed in `c1`")
+  if (any(c2 < 0)) stop("No negative values allowed in `c2`")
+  if (any(lxMat < 0)) stop("No negative values allowed in `lxMat`")
+
   # If dates_out not given, then we resolve using the midyear argument.
   # If FALSE (default) we return intermediate Jan 1, not including c1 and c2
   # If TRUE we return intermediate July 1 (.5) dates, not including c1 and c2
