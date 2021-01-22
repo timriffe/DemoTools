@@ -314,6 +314,25 @@ test_that("interp_coh fails when lxmat is not correct", {
     regexp = "Range between `date1` and `date2` must overlap with `lx_dates` for at least 25% of the range or 6 years." #nolintr
   )
 
+  # Full error when dates_lx are now within the date1 and date2 threshold.
+  expect_error(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2000-10-16",
+      date2 = "2014-10-25",
+      # Make up some very long dates
+      lxMat = lxmat[, 1:2],
+      dates_lx = c(2020, 2021),
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L,
+                 760831L, 828772L, 880543L, 905380L,
+                 919639L, 719511L, 760934L, 772973L,
+                 749554L, 760831L, 828772L),
+      years_births = 2000:2014),
+    regexp = "All `dates_lx` must be within the range of `date1` and `date2`"
+  )
+
 })
 
 
