@@ -99,7 +99,7 @@ interp_coh <- function(
   stopifnot(is_single(age2))
 
   if (length(age1) != length(age2) & verbose){
-    cat("\nFYI: age ranges are different for c1 and c2\nWe'll still get intercensal estimates,\nbut returned data will be chopped off after age", max(age1))
+    cat("\nFYI: age ranges are different for c1 and c2\nWe'll still get intercensal estimates,\nbut returned data will be chopped off after age", max(age1), "\n")
   }
 
   # If lxMat or births are missing -- message requiring country and sex
@@ -211,7 +211,7 @@ interp_coh <- function(
     # warn
     dates_df <- expand.grid(dates_lx = dates_lx, dates = c(date1, date2))
     dates_df$diff <- with(dates_df, abs(dates_lx - dates))
-    if (min(dates_df$diff) > 7) {
+    if (min(dates_df$diff) > 7 && verbose) {
       d_lx <- dates_df$dates_lx[which.min(dates_df$dif)]
       date_compare <- dates_df$dates[which.min(dates_df$dif)]
       cat(

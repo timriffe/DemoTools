@@ -302,10 +302,11 @@ test_that("interp_coh fails when lxmat is not correct", {
       c2 = pop1m_rus2010,
       date1 = "2000-10-16",
       date2 = "2014-10-25",
-      # Make up some very long dates
+      # Make up some very dates that are above 6 years within date1 and date2
       lxMat = lxmat[, 1:2],
       dates_lx = c(2007, 2008),
       age_lx = age_lx,
+      # Make up some births to fit the dates from above.
       births = c(719511L, 760934L, 772973L, 749554L,
                  760831L, 828772L, 880543L, 905380L,
                  919639L, 719511L, 760934L, 772973L,
@@ -500,23 +501,22 @@ test_that("c1, c2 and lxmat should not have negatives", {
 test_that("interp_coh shows appropriate warnings when verbose = TRUE", {
 
   # 1) age1 and age2 not same range
-  # TODO
-  ## expect_error(
-  ##   interp_coh(
-  ##     c1 = pop1m_rus2002,
-  ##     c2 = pop1m_rus2010,
-  ##     date1 = "2002-10-16",
-  ##     date2 = "2010-10-25",
-  ##     lxMat = lxmat,
-  ##     dates_lx = c(mortdate1,mortdate2,mortdate3),
-  ##     age_lx = age_lx,
-  ##     births = c(719511L, 760934L, 772973L, 749554L, 760831L,
-  ##                828772L, 880543L, 905380L, 919639L),
-  ##     years_births = 2002:2010,
-  ##     verbose = TRUE
-  ##   ),
-  ##   regexp = "No negative values allowed in `lxMat`"
-  ## )
+  expect_output(
+    interp_coh(
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010[-length(pop1m_rus2010)],
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      # Both ages supplied
+      lxMat = lxmat,
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L,
+                 760831L, 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010),
+    regexp = "\nFYI: age ranges are different for c1 and c2\nWe'll still get intercensal estimates,\nbut returned data will be chopped off after age 100 ",
+    fixed = TRUE
+  )
 
   # 2) date2 - date1 > 15
   expect_output(
@@ -543,7 +543,6 @@ test_that("interp_coh shows appropriate warnings when verbose = TRUE", {
   )
 
   # 3) if the shortest distance from dates_lx to date1 or date2 is greater than 7
-  # TODO
   expect_output(
     interp_coh(
       c1 = pop1m_rus2002,
