@@ -20,14 +20,16 @@
 #' @param Age numeric. Vector with inferior limit of abridged age classes with data. Same number of rows than input matrix.
 #' @param Sex character. Either male `"m"`, female` "f"`.
 #' @param dates_out numeric. Vector of decimal years to interpolate or extrapolate.
+#' @param ... Arguments passed to `\link{lt_abridged}`.
 #' @param dates_e0 numeric. Vector of decimal years where `"e_0"` should be fitted when apply method.
 #' @param e0_Males numeric. Vector of life expectancy by year to be fitted. Same length than `"dates_e0"`.
 #' @param e0_Females numeric. Vector of life expectancy by year to be fitted. Same length than `"dates_e0"`.
 #' @param prev_divergence logical. Whether or not prevent divergence and sex crossover. Default `FALSE.`
 #' @param OAG logical. Whether or not the last element of `nMx` (or `nqx` or `lx`) is an open age group. Default `TRUE.`
-#' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include
-#'   `"Coale-Guo"` or other functions in `"lt_abridged"` function.
-#' @inheritParams lt_a_closeout #???
+#' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include  `"Coale-Guo"` or other functions in `"lt_abridged"` function.
+# #' @inheritParams lt_a_closeout #???
+# # #' `"Coale-Guo"` or other functions in `"\link{lt_abridged}"` function.
+# #' @inheritParams lt_a_closeout #??? IW: what put here
 
 #' @export
 # TR: you can use markdown for this sort of thing, just getting used to it
@@ -95,13 +97,16 @@
 #'                     0.018559, 0.026524, 0.041711, 0.066135, 0.106604, 0.174691, 0.291021),22,5)
 
 #' # Some visual review of input data - some inconsistencies by age and year
+#' \dontrun{
 #' plot(Age, Males[,5],t="o",log="y",main="nMx input Males")
 #' lines(Age,Males[,1],t="o",log="y",col=2)
 #' plot(Age, Males[,5],t="o",log="y",main="nMx input Females")
 #' lines(Age,Males[,1],t="o",log="y",col=2)
-#' 
+#' }
 #' # LC with limited data
-#' lc_lim_data <- interp_lc_lim(Males, Females, "m", dates_in = Years, Age, dates_out)
+#' lc_lim_data <- interp_lc_lim(Males, 
+#' Females, 
+#' type = "m", dates_in = Years, Age, dates_out)
 #' 
 #' # LC with  limited data and non-divergence btw sex
 #' lc_lim_nondiv <- interp_lc_lim(Males, Females, "m", dates_in = Years, Age, dates_out,
@@ -123,17 +128,21 @@ interp_lc_lim <- function(Males = NULL,
                           type = "m", 
                           dates_in = as.numeric(colnames(Males)), 
                           Age = as.numeric(rownames(Males)), 
-                          dates_out, # TR: is there a default? If not, then default can be dates_in, right? 
-                          # In which case it's a cheap smoother
+                          dates_out = NULL, 
+                                     # TR: is there a default? If not, then default can be dates_in, right? 
+                                     # IW: It would be the same that user already has, but building lifetables
+                          # In which case it's a cheap smoother. IW: I don´t understand this
 
                           dates_e0 = NULL,
                           e0_Males = NULL, 
                           e0_Females = NULL, 
                           prev_divergence = FALSE, 
-<<<<<<< HEAD
                           OAnew = max(Age), 
                           OAG = TRUE, 
-                          extrapLaw = NULL){
+                          extrapLaw = NULL,
+                          ...){
+  ExtraArgs <- as.list(match.call())
+  # capture args to filter out optional lifetable args to pass on in a named way?
   
   # get always Mx -----------------------------------------------------------
   
@@ -149,8 +158,8 @@ interp_lc_lim <- function(Males = NULL,
   } else {
     if (type == "l"){
       # TR: also lt_abridged() accepts lx as an input arg. So this could loo like the below
-      Males = apply(Males, 2, function(x){lt_id_l_d(x)/x})
-      Females = apply(Females, 2, function(x){lt_id_l_d(x)/x})
+      Males = apply(Males, 2, lt_id_l_q)
+      Females = apply(Females, 2, lt_id_l_q)
     } # is q
     nMxm <- apply(Males, 2, function(x) {
       lt_abridged(nqx = x, Age = Age, Sex = "m", axmethod = "un")$nMx})
@@ -159,10 +168,13 @@ interp_lc_lim <- function(Males = NULL,
   }
   
   # smooth to 100+ from 80-------------------------------------------------------
+  
+  # TR: Maybe we cut this out: the lt_mx_ambiguous() can handle lots of kinds of
+  # extrapolation?
   if(!is.null(extrapLaw)){
     if(extrapLaw == "Coale-Guo"){ # always from 80
-      nMxm = apply(Males,2, coale_guo, age=Age)
-      nMxf = apply(Females,2, coale_guo, age=Age)
+      nMxm = apply(Males, 2, coale_guo, age = Age)
+      nMxf = apply(Females, 2, coale_guo, age = Age)
     }else{
       # call lt_rule_m_extrapolate
     }
@@ -179,27 +191,7 @@ interp_lc_lim <- function(Males = NULL,
   
   # same fun for abrev or simple --------------------------------------------
   
-  # probably a better name here
-  lt_mx <- function(x = NULL, type = "m", # accepts "q" or "l"
-                    Age = NULL, Sex = NULL, ...){
-    if(type=="l"){
-      x = lt_id_l_d(x)/x[1]
-      type = "q"
-    }
-    if(is_abridged(Age)){
-      if(type=="m"){
-        lt_abridged(nMx = x, Age = Age, Sex = Sex, ...)  
-      }else{
-        lt_abridged(nqx = x, Age = Age, Sex = Sex, ...)  
-      }
-    }else{
-      if(type=="m"){
-        lt_single_mx(nMx = x, Age = Age, Sex = Sex, ...) 
-      }else{
-        lt_single_qx(nqx = x, Age = Age, Sex = Sex, ...) 
-      }
-    }
-  } 
+
   
   # get always Mx and smooth it -----------------------------------------------------------
   
@@ -210,10 +202,18 @@ interp_lc_lim <- function(Males = NULL,
   # TR: Perhaps coale-guo should just become an extra option for lt_rule_m_extrapolate()?
   # IW: decided to be included in ... (?)
   
+  
+  # axmethod = "pas", a0rule = "ak", Sex = "m", 
+  # IMR = NA, region = "w", mod = TRUE, SRB = 1.05, OAG = TRUE, 
+  # OAnew = max(Age), extrapLaw = "kannisto", extrapFrom = max(Age), 
+  # extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)]
+  # I added a capture of extra args entering the function all at the top.
+  # instead of ... pass things in by name, above a list of default values for
+  # lt_abridged(). 
   nMxm <- apply(Males, 2, function(x) {
-    lt_mx(x, Age = Age, type = type, Sex = "m", ...)$nMx})
+    lt_mx_ambiguous(x, Age = Age, type = type, Sex = "m")$nMx})
   nMxf <- apply(Females, 2, function(x) {
-    lt_mx(x, Age = Age, type = type, Sex = "f", ...)$nMx}) 
+    lt_mx_ambiguous(x, Age = Age, type = type, Sex = "f")$nMx}) 
 
   # LC at unequal intervals ---------------------------------------------------------
   
@@ -228,11 +228,12 @@ interp_lc_lim <- function(Males = NULL,
   # bx     <- mx_svd$u[, 1]/sum(mx_svd$u[, 1])
   # kt     <- mx_svd$d[1] * mx_svd$v[, 1] * sum(mx_svd$u[, 1])
 
-  axm   <- rowSums(log(nMxm))/nYears
+  axm   <- rowSums(log(nMxm))/ndates_in 
   ktom  <- colSums(log(nMxm))-sum(axm)
   bxm   <- rowSums(sweep(log(nMxm) - axm, MARGIN = 2, ktom, `*`))/sum(ktom^2)
   cm    <- 0
-  cm[2] <- d1m <- (ktom[nYears] - ktom[1])/(dates_in[nYears] - dates_in[1]) # slope
+  cm[2] <- d1m <- (ktom[ndates_in] - ktom[1])/(dates_in[ndates_in] - dates_in[1]) # slope
+
 
   cm[1] <- ktom[1] - cm[2] * dates_in[1] # intercept
   ktm   <- cm[1] + cm[2] * dates_out # interpolate/extrapolate
@@ -240,11 +241,19 @@ interp_lc_lim <- function(Males = NULL,
   
   # females. Not happy with this sex duplication lines
 
-  axf   <- rowSums(log(nMxf))/nYears
+
+  # axf   <- rowSums(log(nMxf))/nYears
+  # ktof  <- colSums(log(nMxf))-sum(axf)
+  # bxf   <- rowSums(sweep(log(nMxf) - axf, MARGIN = 2, ktof, `*`))/sum(ktof^2)
+  # cf    <- 0
+  # cf[2] <- d1f <- (ktof[nYears] - ktof[1])/(dates_in[nYears] - dates_in[1])
+
+  axf   <- rowSums(log(nMxf))/ndates_in
   ktof  <- colSums(log(nMxf))-sum(axf)
   bxf   <- rowSums(sweep(log(nMxf) - axf, MARGIN = 2, ktof, `*`))/sum(ktof^2)
   cf    <- 0
-  cf[2] <- d1f <- (ktof[nYears] - ktof[1])/(dates_in[nYears] - dates_in[1])
+  cf[2] <- d1f <- (ktof[ndates_in] - ktof[1])/(dates_in[ndates_in] - dates_in[1])
+
 
   cf[1] <- ktof[1] - cf[2] * dates_in[1]
   ktf   <- cf[1] + cf[2] * dates_out
@@ -263,7 +272,9 @@ interp_lc_lim <- function(Males = NULL,
       kt = (ktm + ktf) * .5 # equal size male and female
       # possible error in line 335, should be bxm = (bxm + bxf) * .5
 
-      for (j in 1:nYears_Target){
+      for (j in 1:ndates_out){
+
+
         for (i in 1:nAge){
           bxm[i] = (bxm[i] + bxf[i]) * .5
         }
@@ -276,6 +287,13 @@ interp_lc_lim <- function(Males = NULL,
       # only for those years extra to 1950
       Years_extrap <- dates_out<min(Years)
 
+
+      # TR: maybe use bxf here? IW: already both sex unified. vba code rares. For sure improve this
+      nMxf_hat_div <- nMxf[,1] * exp(sweep(matrix(bxm,nAge,length(dates_out)),MARGIN=2,kt-k0,`*`))
+      # only for those years extra to 1950
+      Years_extrap <- dates_out<min(dates_in)
+
+
       nMxm_hat[,Years_extrap] <- nMxm_hat_div[,Years_extrap]
       nMxf_hat[,Years_extrap] <- nMxf_hat_div[,Years_extrap]
       
@@ -285,8 +303,11 @@ interp_lc_lim <- function(Males = NULL,
     # stepwise linear intra/extrapolation to target years
     # TR: can you just use DemoTools::interp() here?
     # it's build for Lexis surfaces. There's also stats::approx()
-    e0m = interp_linear(dates_e0,e0_Males,dates_out)
-    e0f = interp_linear(dates_e0,e0_Females,dates_out)
+
+    # IW: interp modified. Accepts matrix, so have to rbind and only get 1st row
+    e0m = interp(rbind(e0_Males,e0_Males),dates_e0,dates_out,extrap = TRUE)[1,]
+    e0f = interp(rbind(e0_Females,e0_Females),dates_e0,dates_out,extrap = TRUE)[1,]
+
 
     
     # avoid divergence extrapolating to 1950 (?): same bx but not kt
@@ -297,7 +318,9 @@ interp_lc_lim <- function(Males = NULL,
     # males. Optimize kt for each LC extrap/interp
     ktm_star = c()
 
-    for (j in 1:nYears_Target){
+
+    for (j in 1:ndates_out){
+
 
       d1m = d1f # error here in the LC female output
       if (d1m >= 0){
@@ -307,6 +330,7 @@ interp_lc_lim <- function(Males = NULL,
       }
       k0 = k0m + d1m * j
       k0 = ifelse(abs(k1) > .1, abs(k1), .1)
+
 
       ktm_star[j] <- optimize(f = kt_obj_fun,
 
@@ -321,7 +345,9 @@ interp_lc_lim <- function(Males = NULL,
     # females
     ktf_star = c()
 
-    for(j in 1:nYears_Target){
+    for(j in 1:ndates_out){
+
+
       #j=1
       d1f = 0 # error here in the LC female output
       if(d1f>=0){
@@ -332,8 +358,8 @@ interp_lc_lim <- function(Males = NULL,
       k0 = k0f + d1f * j
       k0 = ifelse(abs(k1) > .1, abs(k1), .1)
 
-      ktf_star[j] <- optimize(f = kt_obj_fun,
 
+      ktf_star[j] <- optimize(f = lc_lim_kt_min,
                               interval = c(-20, 20),
                               ax = axf,
                               bx = bxf,
@@ -349,24 +375,45 @@ interp_lc_lim <- function(Males = NULL,
   
   # life tables output ------------------------------------------------------------
   # TR: can use ... to pass in optional args.
-  out <- rbind(
-    do.call(rbind, apply(nMxm_hat, 2, function(x) {
+  colnames(nMxm_hat) <- dates_out
+  colnames(nMxf_hat) <- dates_out
+  . = NULL
+  Males_out <-
+    lapply(colnames(nMxm_hat), function(x,MX,Age) {
+        mx <- MX[, x]
+        LT <- lt_abridged(nMx = mx, 
+                          Age = Age, 
+                          Sex = "m", 
+                          axmethod = "un", 
+                          a0rule = "ak")
+        LT$Sex  <- "m"
+        LT$Year <- as.numeric(x)
+        LT
+      }, MX = nMxm_hat, Age = Age) %>% 
+    do.call("rbind", .)
+  
+  Females_out <-
+    lapply(colnames(nMxf_hat), function(x,MX,Age) {
+      mx <- MX[, x]
+      LT <- lt_abridged(nMx = mx, 
+                        Age = Age, 
+                        Sex = "f", 
+                        axmethod = "un", 
+                        a0rule = "ak")
+      LT$Sex  <- "m"
+      LT$Year <- as.numeric(x)
+      LT
+    }, MX = nMxf_hat, Age = Age) %>% 
+    do.call("rbind", .)
 
-      lt_abridged(nMx = x, Age = Age, Sex = "m", axmethod = "un",a0rule = "ak")})),
-    do.call(rbind, apply(nMxf_hat, 2, function(x) {
-      lt_abridged(nMx = x, Age = Age, Sex = "f", axmethod = "un",a0rule = "ak")}))) %>% 
-    mutate(Year = rep(sort(rep(dates_out,nAge)), 2), 
-           Sex = c(rep("m", nAge * nYears_Target),
-                   rep("f", nAge * nYears_Target))) %>% 
-
-    select(Year, Sex, everything())
+    out <- rbind(Males_out, Females_out)
   return(out)
   
 }
 
 # additional functions -------------------------------------------------------------------
 
-<<<<<<< HEAD
+
 # interpolation between pairwise points
 # TR: we have interp(), for example. Does this do the same?
 interp_linear <- function(x,y,x_star){
@@ -392,11 +439,12 @@ interp_linear <- function(x,y,x_star){
 
 # optimize k for fitting e0
 
-# TR: recommend lc_lim_kt_min(), following name conventions elsewhere in package
-kt_obj_fun <- function(k,ax,bx,age,sex,e0_target){
-  Mx_hat <- exp(ax + bx * k)
-  e0 <- lt_abridged(nMx = Mx_hat, Age = age, Sex = sex, axmethod = "un", a0rule = "cd")$ex[1]
 
+
+# TR: recommend lc_lim_kt_min(), following name conventions elsewhere in package
+lc_lim_kt_min <- function(k,ax,bx,age,sex,e0_target){
+  Mx_hat <- exp(ax + bx * k)
+  e0 <- lt_mx_ambiguous(nMx = Mx_hat, Age = age, Sex = sex)$ex[1]
   return(((e0-e0_target)/e0_target)^2)
 }
 
@@ -413,4 +461,26 @@ coale_guo <- function(m,age=Age){
   return(m)
 }
 
+
+# probably a better name here
+lt_mx_ambiguous <- function(x = NULL, type = "m", # accepts "q" or "l"
+                  Age = NULL, Sex = NULL, ...){
+  if(type=="l"){
+    x = lt_id_l_q(x)
+    type = "q"
+  }
+  if(is_abridged(Age)){
+    if (type=="m"){
+      lt_abridged(nMx = x, Age = Age, Sex = Sex, ...)  
+    } else {
+      lt_abridged(nqx = x, Age = Age, Sex = Sex, ...)  
+    }
+  } else {
+    if (type == "m"){
+      lt_single_mx(nMx = x, Age = Age, Sex = Sex, ...) 
+    } else {
+      lt_single_qx(nqx = x, Age = Age, Sex = Sex, ...) 
+    }
+  }
+} 
 
