@@ -213,12 +213,13 @@ interp <- function(popmat,
   # clean method declaration
   # match.arg does partial matching and it's safer:
   # match.arg("lin", c("linear", "exponential", "power"))
-  method <- tolower(match.arg(method))
+  method <- tolower(match.arg(method, 
+                              choices = c("linear", "exponential", "power")))
   # -----------------------
   
   # coerce dates to decimal if necessary
-  datesIn  <- sapply(datesIn, dec.date)
-  datesOut <- sapply(datesOut, dec.date)
+  datesIn  <- dec.date(datesIn)
+  datesOut <- dec.date(datesOut)
   
   
   # carry out transform 1

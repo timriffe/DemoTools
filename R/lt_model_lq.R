@@ -128,14 +128,14 @@ lt_model_lq <- function(
    
    # TR: I see this is why you want NULLs, but maybe there's
    # a better way? Rather then passing in values, we can pass
-   # in logicals. Looking inside find.my.case I see that it 
+   # in logicals. Looking inside find_my_case I see that it 
    # just composes vectors of length 5. We can mimick this like so.
    par_ind <- c(q0_5 = !is.null(q0_5), 
                 q0_1 = !is.null(q0_1), 
                 q15_45 = !is.null(q15_45), 
                 q15_35 = !is.null(q15_35), 
                 e0 = !is.null(e0))
-   my_case <- find.my.case(par_ind = par_ind)
+   my_case <- find_my_case(par_ind = par_ind)
 
    cf      <- coef(fitted_logquad)
    x       <- fitted_logquad$input$x
@@ -471,7 +471,7 @@ lthat.logquad <- function(coefs,
 #' @param  par_ind logical vector of length 5
 #' @keywords internal
  
-find.my.case <- function(par_ind) {
+find_my_case <- function(par_ind) {
  # need to reverse logicals to minimize code changes below
  
  # TR: more robust would be to pick out by name:

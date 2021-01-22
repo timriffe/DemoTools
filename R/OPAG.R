@@ -77,6 +77,7 @@ OPAG_simple    <-
     # stopifnot(is_single(StAge))
     # OAG can be less than or equal to max age
     stopifnot(OAnow %in% Age)
+    stopifnot(OAnew %in% StAge)
     # age and pop vectors must match lengths, assume ordered
     stopifnot(length(Pop) == length(Age))
     # age concordance
