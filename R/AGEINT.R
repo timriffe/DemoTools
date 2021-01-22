@@ -217,10 +217,10 @@ interp <- function(popmat,
     if (extrap){
       # extrap (each side)
       rg <- range(x)
-      xext <- xout < r[1]
+      xext <- xout < rg[1]
       if(any(xext))
         yout[xext] <- (y[2]-y[1])/(x[2]-x[1])*(xout[xext]-x[1])+y[1]
-      xext <- xout > r[2]
+      xext <- xout > rg[2]
       n <- length(y)
       if(any(xext))
         yout[xext] <- (y[n]-y[n-1])/(x[n]-x[n-1])*(xout[xext]-x[n-1])+y[n-1]
