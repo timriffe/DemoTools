@@ -256,27 +256,28 @@ test_that("interp_coh errors if not given correctly", {
   )
 })
 
+# Downloads data used below
+mortdate1 <- 2003
+mortdate2 <- 2006
+mortdate3 <- 2010
+age_lx <- c(0,1,seq(5,100,by=5))
+lx1 <- fertestr::FetchLifeTableWpp2019(
+                   locations = "Russian Federation",
+                   year = mortdate1,
+                   sex = "male")$lx
+
+lx2 <- fertestr::FetchLifeTableWpp2019(
+                   locations = "Russian Federation",
+                   year = mortdate2, sex = "male")$lx
+
+lx3 <- fertestr::FetchLifeTableWpp2019(
+                   locations = "Russian Federation",
+                   year = mortdate3, sex = "male")$lx
+
+lxmat <- cbind(lx1,lx2,lx3)
+
 # We should error if
 test_that("interp_coh fails when lxmat is not correct", {
-  # Downloads some data
-  mortdate1 <- 2003
-  mortdate2 <- 2006
-  mortdate3 <- 2010
-  age_lx <- c(0,1,seq(5,100,by=5))
-  lx1 <- fertestr::FetchLifeTableWpp2019(
-                     locations = "Russian Federation",
-                     year = mortdate1,
-                     sex = "male")$lx
-
-  lx2 <- fertestr::FetchLifeTableWpp2019(
-                     locations = "Russian Federation",
-                     year = mortdate2, sex = "male")$lx
-
-  lx3 <- fertestr::FetchLifeTableWpp2019(
-                     locations = "Russian Federation",
-                     year = mortdate3, sex = "male")$lx
-
-  lxmat <- cbind(lx1,lx2,lx3)
 
   # 3.1) lxMat given, but only one column
   expect_error(
