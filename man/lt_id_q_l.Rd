@@ -4,7 +4,7 @@
 \alias{lt_id_q_l}
 \title{Derive lifetable survivorship (lx) from death probabilities.}
 \usage{
-lt_id_q_l(nqx, radix = 100000)
+lt_id_q_l(nqx, radix = 1e+05)
 }
 \arguments{
 \item{nqx}{numeric. Vector of age specific death probabilities.}

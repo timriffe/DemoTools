@@ -7,7 +7,7 @@
 lt_single_mx(
   nMx,
   Age = 1:length(nMx) - 1,
-  radix = 100000,
+  radix = 1e+05,
   a0rule = "ak",
   Sex = "m",
   region = "w",
