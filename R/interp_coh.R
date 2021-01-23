@@ -491,7 +491,7 @@ interp_coh <- function(
   out <- interp(
     matinterp,
     datesIn = yrsIn,
-    datesOut = dates_out,
+    datesOut = as.numeric(dates_out),
     rule = 1
   )
 
