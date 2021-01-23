@@ -7,7 +7,7 @@
 lt_single_qx(
   nqx,
   Age = 1:length(nqx) - 1,
-  radix = 1e+05,
+  radix = 100000,
   a0rule = "ak",
   Sex = "m",
   region = "w",

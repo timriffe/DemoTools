@@ -12,7 +12,7 @@ lt_abridged(
   lx = NULL,
   Age,
   AgeInt = age2int(Age = Age, OAvalue = 5),
-  radix = 1e+05,
+  radix = 100000,
   axmethod = "pas",
   a0rule = "ak",
   Sex = "m",
