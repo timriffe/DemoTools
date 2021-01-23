@@ -495,6 +495,14 @@ interp_coh <- function(
     rule = 1
   )
 
+  if (any(out < 0)) {
+    if (verbose) {
+      cat("\nSome of the interpolated values resulted to be negative, replacing with zeroes\n") #nolintr
+    }
+
+    out[out < 0] <- 0
+  }
+
   out
 }
 

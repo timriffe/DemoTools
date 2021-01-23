@@ -565,8 +565,35 @@ test_that("interp_coh shows appropriate warnings when verbose = TRUE", {
   )
 
   # 4) any negatives detected in output (to be imputed with 0s)
-  # TODO
+  # TODO: I couldn't come up with an example where the resulting
+  # interpolated values ended up being negative. Tim said these
+  # would happen for very small cells. The idea would be to test
+  # that the message is produced saying that negatives are being
+  # replace by negatives and check that there are no negatives
+  # in the output
+  # c1 <- pop1m_rus2002
+  # c1[100] <- 1
+  # c1[101] <- 1
+  # c2 <- pop1m_rus2002
+  # c2[100] <- 1
+  # c2[101] <- 1
+  # set.seed(23151)
+  # births <- sample(1:2, size = 10, replace = TRUE)
+  # lxmat_dummy <- lxmat[, 1:2]
+  # lxmat_dummy[22, ] <- c(0.000000000000001, 0.000000000000001)
 
+  # interp_coh(
+  #   c1 = c1,
+  #   c2 = c2,
+  #   date1 = "2000-10-16",
+  #   date2 = "2009-10-25",
+  #   lxMat = lxmat[, 1:2],
+  #   dates_lx = c(2004, 2005),
+  #   age_lx = age_lx,
+  #   births = births,
+  #   years_births = 2000:2009,
+  #   verbose = TRUE
+  # )
 })
 
 test_that("interp_coh throws download messages when verbose = TRUE", {
