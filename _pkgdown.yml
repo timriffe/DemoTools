@@ -51,13 +51,11 @@ reference:
     desc: Functions to interpolate counts
     contents:
       - '`interp`'
-      - '`interp_coh_bare`'
+      - '`interp_coh`'
   - title: "Migration"
-    desc: Functions for migration models
+    desc: Functions for migration models or estimation
     contents:
-      - '`mig_calculate_rc`'
-      - '`mig_estimate_rc`'
-      - '`mig_resid_stock`'
+      - starts_with("mig_")
   - title: "Miscelaneous data operations"
     contents:
       - '`groupAges`'
@@ -85,7 +83,6 @@ reference:
   - title: "Auxiliary population structure functions"
     contents:      
       - '`basepop_five`'
-      - '`basepop_single`'
       - '`calcAgeN`'
       - '`census_cohort_adjust`'
       - '`dec.date`'

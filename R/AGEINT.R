@@ -242,7 +242,6 @@ interp <- function(popmat,
   datesIn  <-  dec.date(datesIn)
   datesOut <-  dec.date(datesOut)
   
-  
   # carry out transform 1
   if (method == "exponential") {
     if (any(popmat == 0)) {

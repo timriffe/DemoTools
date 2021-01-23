@@ -431,6 +431,14 @@ interp_coh <- function(
   matinterp <- PopAP[age <= max(age1), -1] %>% as.matrix()
   rownames(matinterp) <- age1
   
+  # Handle negatives (small pops, or large negative residuals relative to pop size)
+  ind <- matinterp < 0
+  if (any(ind) & verbose){
+    cat("\n",sum(ind),"negatives detected in output.\nThese have been imputed with 0s.\n")
+    matinterp[ind] <- 0
+  }
+  
+  
   yrsIn     <- as.numeric(colnames(matinterp))
   if (all(yrsIn > date1)){
     matinterp <- cbind(c1, matinterp)
