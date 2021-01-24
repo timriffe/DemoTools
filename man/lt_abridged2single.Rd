@@ -5,10 +5,14 @@
 \title{create a life table by single year of age by graduating an abridged life table}
 \usage{
 lt_abridged2single(
-  ndx,
-  nLx,
+  Deaths = NULL,
+  Exposures = NULL,
+  nMx = NULL,
+  nqx = NULL,
+  lx = NULL,
   Age,
-  AgeInt = NULL,
+  radix = 1e+05,
+  axmethod = "un",
   a0rule = "ak",
   Sex = "m",
   region = "w",
@@ -18,19 +22,27 @@ lt_abridged2single(
   OAG = TRUE,
   OAnew = max(Age),
   extrapLaw = "kannisto",
-  extrapFrom = max(Age) - 1,
+  extrapFrom = max(Age),
   extrapFit = Age[Age >= 60 & Age < max(Age)],
   ...
 )
 }
 \arguments{
-\item{ndx}{numeric. Vector of lifetable deaths at abridged ages.}
+\item{Deaths}{numeric. Vector of death counts in abridged age classes.}
 
-\item{nLx}{numeric. Vector of lifetable exposure at abridged ages.}
+\item{Exposures}{numeric. Vector of population exposures in abridged age classes.}
+
+\item{nMx}{numeric. Vector of mortality rates in abridged age classes.}
+
+\item{nqx}{numeric. Vector of conditional death probabilities in abridged age classes.}
+
+\item{lx}{numeric. Vector of lifetable survivorship at abridged ages.}
 
 \item{Age}{integer. A vector of ages of the lower integer bound of the age classes.}
 
-\item{AgeInt}{integer. Vector of age class widths. Default \code{inferAgeIntAbr(Age = Age)}.}
+\item{radix}{numeric. Lifetable radix, \ifelse{html}{\out{l<sub>0}}{\eqn{l_0}}. Default 100000.}
+
+\item{axmethod}{character. Either \code{"pas"} or \code{"un"}.}
 
 \item{a0rule}{character. Either \code{"ak"} (default) or \code{"cd"}.}
 
@@ -55,7 +67,7 @@ lt_abridged2single(
 
 \item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>          =60}.}
 
-\item{...}{optional arguments passed to \code{pclm()}}
+\item{...}{optional arguments passed to \code{pclm()}. For example, if you pass an expicit \code{lambda} parameter via the \code{control} argument, you can speed up estimation}
 }
 \value{
 Single-year lifetable in data.frame with columns
@@ -74,36 +86,25 @@ Single-year lifetable in data.frame with columns
 }
 }
 \description{
-Computes single year of age life table by graduating the mortality schedule of
-an abridged life table, using the \code{ungroup::pclm()} to ungroup binned count
-data (\code{ndx} of the abridged life table) offset by \code{nLx} life table exposures. Returns fitted single year \code{nMx}.
+Computes single year of age life table by graduating the mortality schedule of an abridged life table, using the \code{ungroup::pclm()} to ungroup binned count data. Returns complete single-age lifetable.
 }
 \details{
-Similar to \code{lt_single_mx()} details, forthcoming. All steps are constrained to the original \code{ndx} and \code{nLx} values.
-
-\code{ndx} and \code{nLx} could refer to death counts and exposures, respectively.
+Similar to \code{lt_abridged()} details, forthcoming.
 }
 \examples{
-
-
  Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
          .01332,.01528,.01757,.02092,.02517,.03225,.04241,.06056,
          .08574,.11840,.16226,.23745)
  Age = c(0,1,seq(5,85,by=5))
  AgeInt <- inferAgeIntAbr(vec = Mx)
- #
- LTabr  <- lt_abridged(nMx = Mx,
-                      Age = Age,
-                      AgeInt = AgeInt,
+ LTabr <- lt_abridged(nMx = Mx,
+                      Age = Age, 
                       axmethod = "un",
                       Sex = "m",
                       mod = TRUE)
- ndx <- LTabr$ndx
- nLx <- LTabr$nLx
  
- LT1 <- lt_abridged2single(ndx, 
-                    nLx, 
-                    Age, 
+ LT1 <- lt_abridged2single_simple(nMx = Mx,
+                    Age = Age, 
                     axmethod = "un",
                     Sex = "m",
                     mod = TRUE)

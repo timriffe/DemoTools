@@ -43,11 +43,6 @@ test_that("interp_coh works with midyear", {
     )
 
   check_form(res)
-  # TODO: Tim said that we get an extra midyear on the right side
-  # but there was a mistake where dates_out inside interp_coh was
-  # returning a logical vector when it should've been a set of dates.
-  # When I fixed that, it actually returned 8, so leaving it as 8
-  # (before it was a 9).
   expect_true(ncol(res) == 8)
 })
 
@@ -180,7 +175,7 @@ test_that("Test for stationary population using interp_coh", {
                        year = 2003, sex = "male"
                      )
 
-  LT1   <- lt_abridged2single(ndx = LT$dx, nLx = LT$Lx, Age = LT$x, OAnew = 110)
+  LT1   <- lt_abridged2single(nMx = LT$mx, Age = LT$x, OAnew = 110)
 
   # We could get close by just taking lx from LT1,
   # But we can get even closer by converting this

@@ -255,6 +255,7 @@ interp_coh <- function(
       date1 = date1,
       date2 = date2,
       OAnew = max(age1) + 1,
+      control = list(deg = 3, lambda = 100),
       ...)
   }
 
@@ -889,14 +890,12 @@ interp_coh <- function(
 # or more efficient options become available.
 
 lt_a2s_chunk <- function(chunk, OAnew, ...){
-  ndx <- chunk$dx
-  nLx <- chunk$Lx
+  nMx <- chunk$mx
   Age <- chunk$x
-
-  lt_abridged2single(ndx = ndx,
-                     nLx = nLx,
+  lt_abridged2single(nMx = nMx,
                      Age = Age,
                      OAnew = OAnew,
+                     control = list(deg = 3, lambda = 100),
                      ...)
 }
 
@@ -919,7 +918,7 @@ interp_coh_download_mortality <- function(country, sex, date1, date2, OAnew = 10
                                 locations = country,
                                 sex = sex)) %>%
     lapply(function(X){
-      X[,c("year","x","dx","Lx")]
+      X[,c("year","x","mx")]
     }) %>%
     lapply(lt_a2s_chunk, OAnew = OAnew) %>%
     lapply(function(X){
@@ -980,14 +979,13 @@ interp_coh_lxMat_pxt <- function(lxMat,
   for (i in 1:ncol(lxMat)){
 
     if (is_abridged(age_lx)){
-      LTA     <- lt_abridged(Age = age_lx,
-                             lx = lxMat[, i],
-                             OAnew = OAnew,
-                             radix = 1e6,
-                             ...)
-      LT1     <- lt_abridged2single(ndx = LTA$ndx,
-                                    nLx = LTA$nLx,
-                                    Age = LTA$Age,
+      # LTA     <- lt_abridged(Age = age_lx,
+      #                        lx = lxMat[, i],
+      #                        OAnew = OAnew,
+      #                        radix = 1e6,
+      #                        ...)
+      LT1     <- lt_abridged2single(lx = lxMat[, i],
+                                    Age = age_lx,
                                     OAnew = OAnew,
                                     ...)
       qx1[, i] <- LT1$nqx
