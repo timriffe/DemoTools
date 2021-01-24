@@ -1,8 +1,10 @@
 
 # Author: tim
 ###############################################################################
-
-
+# old:
+#  rstan (>= 2.18.1),
+# new:
+#  rstan (>= 2.26.1),
 # Tried adding this to Remotes:
 # list in DESCRIPTION:
 # github::hsbadr/rstan/StanHeaders@develop,

@@ -23,9 +23,35 @@
 #' }
 #' 
 #' @export
+#' @examples
+#'  Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
+#'          .01332,.01528,.01757,.02092,.02517,.03225,.04241,.06056,
+#'          .08574,.11840,.16226,.23745)
+#'  Age = c(0,1,seq(5,85,by=5))
+#'  AgeInt <- inferAgeIntAbr(vec = Mx)
+#'  LTabr <- lt_abridged(nMx = Mx,
+#'                       Age = Age, 
+#'                       axmethod = "un",
+#'                       Sex = "m",
+#'                       mod = TRUE)
+#'  
+#'  LT1 <- lt_abridged2single_simple(nMx = Mx,
+#'                     Age = Age, 
+#'                     axmethod = "un",
+#'                     Sex = "m",
+#'                     mod = TRUE)
+#' LTabr$ex[1]
+#' LT1$ex[1]
+#' \dontrun{
+#' plot(Age, LTabr$nMx,type = 's', log = 'y')
+#' lines(LT1$Age, LT1$nMx)
 #' 
-lt_abridged2single_simple <- function(Age,
+#' plot(Age, LTabr$lx,type='S')
+#' lines(LT1$Age, LT1$lx)
+#' }
+lt_abridged2single_simple <- function(
                                nMx,
+                               Age,
                                radix = 1e5,
                                axmethod = "un",
                                a0rule = "ak", 
@@ -35,7 +61,7 @@ lt_abridged2single_simple <- function(Age,
                                mod = TRUE,
                                SRB = 1.05,
                                OAG = TRUE,
-                               OAnew = OAnew,
+                               OAnew = max(Age),
                                extrapLaw = "kannisto",
                                extrapFrom = max(Age),
                                extrapFit = Age[Age >= 60 & Age < max(Age)]) {
@@ -45,19 +71,33 @@ lt_abridged2single_simple <- function(Age,
   stopifnot(length(nMx) == NN)
   
   # first extend the abridged life table to OAG = 130 with a big radix so that we don't lose info later when rounding ndx and nLx to integers
-  lt_abr <- lt_abridged(Age = Age, nMx = nMx, Sex = Sex, radix = 1e8, axmethod = axmethod, a0rule = a0rule,
-                        region = region, IMR = IMR, mod = mod, SRB = SRB, OAG = OAG, OAnew = 130,
-                        extrapLaw = extrapLaw, extrapFrom = extrapFrom, extrapFit = extrapFit)
+  lt_abr <- lt_abridged(Age = Age, 
+                        nMx = nMx, 
+                        Sex = Sex, 
+                        radix = 1e8, 
+                        axmethod = axmethod, 
+                        a0rule = a0rule,
+                        region = region, 
+                        IMR = IMR, 
+                        mod = mod, 
+                        SRB = SRB, 
+                        OAG = OAG, 
+                        OAnew = 130,
+                        extrapLaw = extrapLaw, 
+                        extrapFrom = extrapFrom, 
+                        extrapFit = extrapFit)
   
   # use pclm to ungroup to single year of age from 1 to 129
   # need to round ndx and nLx since pclm doesn't perform with values bw 0 and 1
-  M <- pclm(x      = lt_abr$Age[2:27],
-            y      = round(lt_abr$ndx[2:27]),
+  ind <- lt_abr$Age >= 1 & lt_abr$Age <= 125
+  M <- pclm(x      = lt_abr$Age[ind],
+            y      = round(lt_abr$ndx[ind]),
             nlast  = 5,
-            offset = round(lt_abr$nLx[2:27]))
+            offset = round(lt_abr$nLx[ind]))
   
   # splice original 1M0 with fitted 1Mx and momega from extended abridged LT
-  M <- c(nMx[1], fitted(M), lt_abr$ndx[28]/lt_abr$nLx[28])
+  oai <- lt_abr$Age == 130
+  M <- c(nMx[1], M$fitted, lt_abr$nMx[oai])
   
   # redefine Age and extrapFit for single year ages
   Age = 1:length(M) - 1
