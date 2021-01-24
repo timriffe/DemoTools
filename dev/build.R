@@ -2,6 +2,12 @@
 # Author: tim
 ###############################################################################
 
+
+# Tried adding this to Remotes:
+# list in DESCRIPTION:
+# github::hsbadr/rstan/StanHeaders@develop,
+# github::hsbadr/rstan/rstan/rstan@develop
+
 shhh <- function(expr){
 	capture.output(x <- suppressPackageStartupMessages(
 					suppressMessages(suppressWarnings(expr))))

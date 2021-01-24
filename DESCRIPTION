@@ -35,26 +35,26 @@ Suggests:
     ggplot2
 RdMacros: Rdpack
 Imports:
+    countrycode,
+    data.table (>= 1.13.6),
     demogR,
+    DemoToolsData,
     dplyr,
+    fertestr,
+    lubridate,
     magrittr,
     methods,
     MortalityLaws (>= 1.7.0),
     RcppParallel (>= 5.0.1),
     Rdpack,
     rlang,
-    rstan (>= 2.26.0),
+    rstan (>= 2.18.1),
     tibble,
     tidybayes,
-    ungroup,
-    lubridate,
-    fertestr,
-    DemoToolsData,
-    data.table (>= 1.13.6),
-    countrycode
+    ungroup
 BugReports: https://github.com/timriffe/DemoTools/issues
 Remotes: 
-    https://github.com/josehcms/fertestr,
-    https://github.com/timriffe/DemoToolsData
+    github::josehcms/fertestr,
+    github::timriffe/DemoToolsData
 Encoding: UTF-8
 VignetteBuilder: knitr
