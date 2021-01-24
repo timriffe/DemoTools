@@ -36,7 +36,7 @@
 #'                       Sex = "m",
 #'                       mod = TRUE)
 #'  
-#'  LT1 <- lt_abridged2single_simple(nMx = Mx,
+#'  LT1 <- lt_abridged2single(nMx = Mx,
 #'                     Age = Age, 
 #'                     axmethod = "un",
 #'                     Sex = "m",
