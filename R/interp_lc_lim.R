@@ -48,7 +48,7 @@
 #' \insertRef{Li2004}{DemoTools}
 #' @examples
 #' 
-#'# Usgin Lee-Carter method for Sweden, assuming only is available mortality rates 
+#'# Using Lee-Carter method for Sweden, assuming only is available mortality rates 
 #'for years 1980, 1990, 2000 and 2010
 #'# Got from HMD, period rates:
 #'Males <- matrix(
@@ -90,7 +90,7 @@
 #'# LC with limited data
 #'lc_lim_data <- interp_lc_lim(Males, Females, type = "m", 
 #'                             dates_in=dates_in, Age=Age, dates_out=dates_out)
-#'\dontshow{
+#'\dontrun{
 #'lc_lim_data %>% ggplot(aes(Age,nMx,col=factor(Year))) + 
 #'                geom_step() + scale_y_log10() + facet_wrap(~Sex)
 #'}
@@ -99,7 +99,7 @@
 #'lc_lim_nondiv <- interp_lc_lim(Males, Females, type = "m", 
 #'                               dates_in=dates_in, Age=Age, dates_out=dates_out,
 #'                               prev_divergence = T)
-#'\dontshow{
+#'\dontrun{
 #'lc_lim_nondiv %>% ggplot(aes(Age,nMx,col=factor(Year))) + 
 #'                  geom_step() + scale_y_log10() + facet_wrap(~Sex)
 #'}
@@ -116,7 +116,7 @@
 #'                               dates_e0 = dates_e0,
 #'                               e0_Males = e0_Males, 
 #'                               e0_Females = e0_Females)
-#'\dontshow{                           
+#'\dontrun{                           
 #'ggplot() + 
 #'  geom_line(data = lc_lim_fite0 %>% filter(Age==0), aes(Year,ex,col=factor(Sex))) + 
 #'  geom_point(data = data.frame(Sex = c(rep("m",length(e0_Males)), rep("f",length(e0_Males))),
@@ -131,7 +131,7 @@
 #'                               type = "m", 
 #'                               dates_in=dates_in, Age=Age[1:18], dates_out=dates_out,
 #'                               OAG = F, OAnew = 100, extrapLaw = "kannisto")
-#'\dontshow{ 
+#'\dontrun{ 
 #'lc_lim_extOAg %>% ggplot(aes(Age,nMx,col=factor(Year))) + 
 #'  geom_step() + scale_y_log10() + facet_wrap(~Sex)
 #'}
@@ -145,7 +145,6 @@ interp_lc_lim <- function(Males = NULL,
                           dates_out = NULL, 
                                      # TR: is there a default? If not, then default can be dates_in, right? 
                                      # IW: It would be the same that user already has, but building lifetables
-                          # In which case it's a cheap smoother. IW: I don´t understand this
                           dates_e0 = NULL,
                           e0_Males = NULL, 
                           e0_Females = NULL, 
@@ -155,7 +154,7 @@ interp_lc_lim <- function(Males = NULL,
                           extrapLaw = NULL,
                           ...){
   
-  # capture args to filter out optional lifetable args to pass on in a named way?
+  # TR: capture args to filter out optional lifetable args to pass on in a named way?
   ExtraArgs <- as.list(match.call())
     
   # get always Mx -----------------------------------------------------------
@@ -169,21 +168,41 @@ interp_lc_lim <- function(Males = NULL,
   # extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)]
   # I added a capture of extra args entering the function all at the top.
   # instead of ... pass things in by name, above a list of default values for
-  # lt_abridged(). 
+  # lt_abridged(), most of which are the same for lt_single*()
   nMxm <- apply(Males, 2, function(x) {
-    lt_mx_ambiguous(x, Age = Age, type = type, Sex = "m", OAnew = OAnew, extrapLaw=extrapLaw)$nMx}) # IW: add this last 2 args to smooth, but change it as you suggested lines before
+    lt_mx_ambiguous(x, 
+                    Age = Age, 
+                    type = type, 
+                    Sex = "m", 
+                    OAnew = OAnew, 
+                    extrapLaw = extrapLaw)$nMx}) # IW: add this last 2 args to smooth,
+                                                 # but change it as you suggested lines before
   nMxf <- apply(Females, 2, function(x) {
-    lt_mx_ambiguous(x, Age = Age, type = type, Sex = "f", OAnew = OAnew, extrapLaw=extrapLaw)$nMx}) 
+    lt_mx_ambiguous(x, 
+                    Age = Age, 
+                    type = type, 
+                    Sex = "f", 
+                    OAnew = OAnew, 
+                    extrapLaw=extrapLaw)$nMx}) 
   
   # extend age in case was asked, dont add another if abr/simple
-  Age <- lt_mx_ambiguous(x = Females[,1], Age = Age, type = type, Sex = "f", 
-                         OAnew = OAnew, extrapLaw=extrapLaw)$Age
-  
+  # TR: Um, this is a bit laborius, right?
+  # Age <- lt_mx_ambiguous(x = Females[,1], 
+  #                        Age = Age, 
+  #                        type = type, 
+  #                        Sex = "f", 
+  #                        OAnew = OAnew, 
+  #                        extrapLaw = extrapLaw)$Age
+  if (is_abridged(Age)){
+    Age <- inferAgeAbr(nMxf[,1])
+  } else {
+    Age <- 1:nrow(nMxf)-1
+  }
   # LC at unequal intervals ---------------------------------------------------------
 
-  ndates_in = length(dates_in)
-  ndates_out = length(dates_out)
-  nAge = length(Age)
+  ndates_in  <- length(dates_in)
+  ndates_out <- length(dates_out)
+  nAge       <- length(Age)
   
   # a basic check
   stopifnot(ncol(Males) ==  ndates_in & ncol(Females) == ndates_in)
@@ -331,31 +350,31 @@ lc_lim_kt_min <- function(k,ax,bx,age,sex,e0_target){
 # coale-guo extension nMx from 80 - INCOMPLETE!!!
 # TR: can this generalize to arbitrary age classes;
 # and also remove position indexing?
-coale_guo_kisker <- function(m, x, xout, ...){
-  m = nMxf[,1]; x=Age; xout=seq(80,110,5); xextr=seq(80,100,5)
-  
-  if(is_abridged(x)){
-    x_80 = which(x==80)
-    r = .2 * log(m[x_80]/m[x_80-1])
-    m80 = (m[x_80] + m[x_80-1])/2
-    mA = 0.66 + m80 # max at 110
-    s = (log(mA/m80) - 30 * r)/900 
-    m = c(m[1:18], m[18] * exp(r*(xout-80)+s*(xout-80)^2))
-    m = m[c(rep(T,x_80-1), xout %in% xextr)]
-  }else{
-    k_80 = log(m[x_80]/m[x_80-1])
-    obj_fun <- function(s,x,m){
-      k_start = log(m[2]/m[1])
-      m_hat = m[1] * exp(k_start + (x-x[1]) * s)
-      sum(((m-m_hat)/m)^2)
-    }
-    coale_guo_kisker(m,x, xout){
-      m = Mx[80:101,"Male"]
-      mmm = optimize(obj_fun,interval = c(0,1000),x=79:100,m=m)
-    }
-    }
-  return(m)
-}
+# coale_guo_kisker <- function(m, x, xout){
+#   #m = nMxf[,1]; x=Age; xout=seq(80,110,5); xextr=seq(80,100,5)
+#   
+#   if(is_abridged(x)){
+#     x_80 = which(x==80)
+#     r = .2 * log(m[x_80]/m[x_80-1])
+#     m80 = (m[x_80] + m[x_80-1])/2
+#     mA = 0.66 + m80 # max at 110
+#     s = (log(mA/m80) - 30 * r)/900 
+#     m = c(m[1:18], m[18] * exp(r*(xout-80)+s*(xout-80)^2))
+#     m = m[c(rep(T,x_80-1), xout %in% xextr)]
+#   } else {
+#     k_80 = log(m[x_80]/m[x_80-1])
+#     obj_fun <- function(s,x,m){
+#       k_start = log(m[2]/m[1])
+#       m_hat = m[1] * exp(k_start + (x-x[1]) * s)
+#       sum(((m-m_hat)/m)^2)
+#     }
+#     coale_guo_kisker(m,x, xout){
+#       m = Mx[80:101,"Male"]
+#       mmm = optimize(obj_fun,interval = c(0,1000),x=79:100,m=m)
+#     }
+#     }
+#   return(m)
+# }
 
 # get lt for abrev/single ages and m/l/q input
 lt_mx_ambiguous <- function(x = NULL, type = "m", # accepts "q" or "l"
