@@ -95,7 +95,6 @@ This function is ported from \code{MortalityEstimate::wilmothLT} experimental pa
 \examples{
 
 # Build life tables with various choices of 2 input parameters
-\dontrun{
 # case 1: Using 5q0 and e0
 L1 <- lt_model_lq(Sex = "b", q0_5 = 0.05, e0 = 65)
 L1
@@ -124,5 +123,5 @@ L7 <- lt_model_lq(Sex = "b", q15_45 = 0.125, e0 = 65)
 
 # case 8: Using 35q15 and e0
 L8 <- lt_model_lq(Sex = "b", q15_35 = 0.15, e0 = 65)
-}
+
 }
