@@ -562,14 +562,18 @@ basepop_five <- function(country = NULL,
   }
   
   if (is.null(nLxDatesIn)) {
-    nLxDatesIn <- c(abs(8 - refDate), refDate + 0.5)
+    # re PJ issue #183 suggested default
+    nLxDatesIn <- refDate - c(0.5, 7.5)
+    #nLxDatesIn <- c(abs(8 - refDate), refDate + 0.5)
     if (verbose) {
       cat(paste0("Assuming the two prior dates for the nLx matrix to be: ", paste0(nLxDatesIn, collapse = ", ")), sep = "\n")
     }
   }
 
   if (is.null(AsfrDatesIn)) {
-    AsfrDatesIn <- abs(c(8, 0.5) - refDate)
+    # re PJ issue #183 suggested default
+    AsfrDatesIn <- refDate - c(0.5, 7.5)
+    #AsfrDatesIn <- abs(c(8, 0.5) - refDate)
     if (verbose) {
       cat(paste0("Assuming the two prior dates for the Asfr matrix to be: ", paste0(AsfrDatesIn, collapse = ", ")), sep = "\n")
     }
