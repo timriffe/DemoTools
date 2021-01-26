@@ -86,7 +86,7 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   
   # TR: capture args to filter out optional lifetable args to pass on in a named way?
   ExtraArgs <- as.list(match.call())
-  
+    
   # get always Mx -----------------------------------------------------------
   
   dates_in <- unique(data$Date)
@@ -135,11 +135,11 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   # define kind of input
   types <- c(nMx = NA_real_, nqx = NA_real_, lx = NA_real_)
   data <- data %>% 
-    add_column(!!!types[setdiff(names(types), names(data))]) %>%
-    mutate(type = ifelse(!is.na(nMx),"m",
-                         ifelse(!is.na(nqx), "q", "l")),
-           Value = ifelse(!is.na(nMx), nMx,
-                          ifelse(!is.na(nqx), nqx, lx)))
+              add_column(!!!types[setdiff(names(types), names(data))]) %>%
+              mutate(type = ifelse(!is.na(nMx),"m",
+                                   ifelse(!is.na(nqx), "q", "l")),
+                     Value = ifelse(!is.na(nMx), nMx,
+                                   ifelse(!is.na(nqx), nqx, lx)))
   
   # build asked lt with Single arg and get rates. 
   # IW: tried show_query lazing data with dtplyr but not wking yet
@@ -154,27 +154,27 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
                               OAnew = OAnew, 
                               extrapLaw = extrapLaw, ...)[c("Age","nMx")]) %>% 
     ungroup()
-  
+
   # need a matrix by sex. Maybe with split in one sentence. sorry the spread,will change w pivot
   nMxm <- data %>% 
-    filter(Sex == "m") %>% 
-    spread(Date,nMx) %>% 
-    select(-Age, -Sex) %>% 
-    as.matrix()
+              filter(Sex == "m") %>% 
+              spread(Date,nMx) %>% 
+              select(-Age, -Sex) %>% 
+              as.matrix()
   
   nMxf <- data %>% 
-    filter(Sex == "f") %>% 
-    spread(Date,nMx) %>% 
-    select(-Age, -Sex) %>% 
-    as.matrix()
+              filter(Sex == "f") %>% 
+              spread(Date,nMx) %>% 
+              select(-Age, -Sex) %>% 
+              as.matrix()
   
   # LC at unequal intervals ---------------------------------------------------------
-  
+
   Age = sort(unique(data$Age))
   ndates_in  <- length(dates_in)
   ndates_out <- length(dates_out)
   nAge       <- length(Age)
-  
+
   # males
   # lee carter using svd better. That´s what paper suggests
   axm      <- rowSums(log(nMxm))/ndates_in 
@@ -212,18 +212,18 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
     if (prev_divergence){
       kt = (ktm + ktf) * .5 # equal size male and female
       # error in vba code line 335
-      # for (j in 1:ndates_out){
-      #   for (i in 1:nAge){
-      #     bxm[i] = (bxm[i] + bxf[i]) * .5
-      #   }
-      # }
+        # for (j in 1:ndates_out){
+        #   for (i in 1:nAge){
+        #     bxm[i] = (bxm[i] + bxf[i]) * .5
+        #   }
+        # }
       bx = (bxm + bxf) * .5
       k0 = (k0m + k0f) * .5
       nMxm_hat_div <- nMxm[,1] * exp(sweep(matrix(bx,nAge,length(dates_out)),MARGIN=2,kt-k0,`*`))
       nMxf_hat_div <- nMxf[,1] * exp(sweep(matrix(bx,nAge,length(dates_out)),MARGIN=2,kt-k0,`*`))
       
       # only for those years before min(dates_in). vba code explicit on that. 
-      # IW: why not for dates_out>max(dates_in) also?
+        # IW: why not for dates_out>max(dates_in) also?
       dates_extrap <- dates_out < min(dates_in)
       nMxm_hat[,dates_extrap] <- nMxm_hat_div[,dates_extrap]
       nMxf_hat[,dates_extrap] <- nMxf_hat_div[,dates_extrap]
@@ -235,17 +235,17 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
     # IW: Use interp(). Accepts matrix, so have to rbind and only get 1st row
     # source("R/AGEINT.R")
     e0m <- interp(rbind(e0_Males, 
-                        e0_Males), 
-                  dates_e0,
-                  dates_out,
-                  extrap = TRUE)[1, ]
+                       e0_Males), 
+                 dates_e0,
+                 dates_out,
+                 extrap = TRUE)[1, ]
     
     e0f <- interp(rbind(e0_Females, 
-                        e0_Females),
-                  dates_e0,
-                  dates_out,
-                  extrap = TRUE)[1, ]
-    
+                       e0_Females),
+                 dates_e0,
+                 dates_out,
+                 extrap = TRUE)[1, ]
+
     # avoid divergence: same bx but not kt.
     if (prev_divergence){
       bxm <- bxf <- (bxm + bxf) * .5
@@ -278,23 +278,23 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   
   # life tables output ------------------------------------------------------------
   
-  
+ 
   colnames(nMxm_hat) <- dates_out
   colnames(nMxf_hat) <- dates_out
   . = NULL
   # TR: can use ... to pass in optional args. 
   Males_out <-
     lapply(colnames(nMxm_hat), function(x,MX,Age) {
-      mx <- MX[, x]
-      LT <- lt_mx_ambiguous(x = mx, 
-                            Age = Age, 
-                            Sex = "m", 
-                            axmethod = "un", 
-                            a0rule = "ak")
-      LT$Sex  <- "m"
-      LT$Date <- as.numeric(x)
-      LT
-    }, MX = nMxm_hat, Age = Age) %>% 
+        mx <- MX[, x]
+        LT <- lt_mx_ambiguous(x = mx, 
+                              Age = Age, 
+                              Sex = "m", 
+                              axmethod = "un", 
+                              a0rule = "ak")
+        LT$Sex  <- "m"
+        LT$Date <- as.numeric(x)
+        LT
+      }, MX = nMxm_hat, Age = Age) %>% 
     do.call("rbind", .)
   
   Females_out <-
@@ -310,8 +310,8 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
       LT
     }, MX = nMxf_hat, Age = Age) %>% 
     do.call("rbind", .)
-  
-  out <- rbind(Males_out, Females_out)
+
+    out <- rbind(Males_out, Females_out)
   return(out)
   
 }
