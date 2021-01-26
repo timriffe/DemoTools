@@ -99,20 +99,22 @@ lt_abridged2single <- function(
   
   # use pclm to ungroup to single year of age from 1 to 129
   # need to round ndx and nLx since pclm doesn't perform with values bw 0 and 1
-  ind <- lt_abr$Age >= 1 & lt_abr$Age <= 125
+  ndx <- round(lt_abr$ndx)
+  nLx <- round(lt_abr$nLx)
+  ind <- lt_abr$Age >= 1 & lt_abr$Age <= 125 & ndx>0 & nLx>0
   M <- pclm(x      = lt_abr$Age[ind],
-            y      = round(lt_abr$ndx[ind]),
+            y      = ndx[ind],
             nlast  = 5,
-            offset = round(lt_abr$nLx[ind]),
+            offset = nLx[ind],
             ...)
   
   # splice original 1M0 with fitted 1Mx and momega from extended abridged LT
-  oai <- lt_abr$Age == 130
-  M <- c(nMx[1], M$fitted, lt_abr$nMx[oai])
+  M <- c(lt_abr$nMx[1], M$fitted)
   
-  # redefine Age and extrapFit for single year ages
+  # redefine Age and extrapFit for single year ages and new maxage
   Age = 1:length(M) - 1
-  extrapFit = Age[Age >= min(extrapFit) & Age <= max(Age)] 
+  extrapFit = Age[Age >= min(extrapFit, (max(Age)-20)) & Age <= max(Age)] 
+  extrapFrom = max(Age)
   
   # compute life table columns from single year mx
   LT <- lt_single_mx(nMx = M, 
@@ -124,7 +126,7 @@ lt_abridged2single <- function(
                      IMR = IMR,
                      mod = mod,
                      SRB = SRB,
-                     OAG = TRUE,
+                     OAG = FALSE,
                      OAnew = OAnew,
                      extrapLaw = extrapLaw,
                      extrapFrom = min(extrapFrom, 110), # always refit from 110 even if extrapFrom > 110
