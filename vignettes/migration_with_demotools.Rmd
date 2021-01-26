@@ -166,7 +166,7 @@ df %>%
 Let's fit a Rogers-Castro migration age schedule to these data. Below, we choose to estimate parameters associated with the pre-working age, working and retirement components (but not post retirement).
 
 
-```{r, eval = FALSE}
+```{r}
 
 rc_res <- mig_estimate_rc(
   ages, mx_FL_sim,
@@ -188,12 +188,12 @@ The resulting `rc_res` object is shown below. The `pars_df` shows the median est
 
 The `fit_df` object in `rc_res` shows the data and estimated median $m(x)$ values at each age $x$, along with the lower and upper bound of the 95% credible interval of the fits, and the squared difference between data and the median estimate.
 
-```{r, eval = FALSE}
+```{r}
 rc_res
 ```
 
 We can plot the observed data and estimated fit using the `fit_df` object:
-```{r, eval=FALSE}
+```{r}
 rc_res[["fit_df"]] %>%
   ggplot(aes(ages, data)) +
   geom_point(aes(color = "data")) +
