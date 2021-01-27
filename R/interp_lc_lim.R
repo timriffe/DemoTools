@@ -62,10 +62,6 @@
 #'   mutate(Sex=ifelse(Sex=="Male","m","f")) %>% 
 #'   filter(Date %in% dates_in, Age<=100)
 #' 
-#' # need this by now
-#' source("R/interp_lc_lim.R")
-#' source("R/lt_abridged2single.R")
-#' 
 #' # abr ages
 #' lc_lim_data <- interp_lc_lim(data = data, dates_out = dates_out)
 #' 
@@ -127,7 +123,7 @@
 
 interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)  
                           dates_out = dates_in, 
-                          Single = F,
+                          Single = FALSE,
                           dates_e0 = NULL,
                           e0_Males = NULL, 
                           e0_Females = NULL, 
@@ -143,7 +139,7 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   
   # get always Mx -----------------------------------------------------------
   
-  dates_in <- unique(data$Date)
+  dates_in  <- unique(data$Date) %>% dec.date()
   dates_out <- dec.date(dates_out)
   
   # Two tries for dates_e0, otherwise we error
@@ -187,44 +183,92 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   }
   
   # define kind of input
-  types <- c(nMx = NA_real_, nqx = NA_real_, lx = NA_real_)
-  data <- data %>% 
-    add_column(!!!types[setdiff(names(types), names(data))]) %>%
-    mutate(type = ifelse(!is.na(nMx),"m",
-                         ifelse(!is.na(nqx), "q", "l")),
-           Value = ifelse(!is.na(nMx), nMx,
-                          ifelse(!is.na(nqx), nqx, lx)))
+  # types <- c(nMx = NA_real_, nqx = NA_real_, lx = NA_real_)
+  # data <- data %>% 
+  #   add_column(!!!types[setdiff(names(types), names(data))]) %>%
+  #   mutate(type = ifelse(!is.na(nMx),"m",
+  #                        ifelse(!is.na(nqx), "q", "l")),
+  #          Value = ifelse(!is.na(nMx), nMx,
+  #                         ifelse(!is.na(nqx), nqx, lx)))
   
   # build asked lt with Single arg and get rates. 
   # IW: tried show_query lazing data with dtplyr but not wking yet
-  # 
-  data <- data %>% 
-    arrange(Date, Sex, Age) %>% 
-    group_by(Date, Sex) %>%
-    summarise(lt_mx_ambiguous(x = Value, 
-                              Age = Age, 
-                              type = unique(type),
-                              Single = Single,
-                              OAnew = OAnew, 
-                              extrapLaw = extrapLaw, ...)[c("Age","nMx")]) %>% 
-    ungroup()
+  # TR: how about lapply() %>% do.call("rbind") ?
+  # here written out, not elegant. data.table() is preferred, 
+  # but this is also fine
+  . <- NULL
+  data <- split(data, list(data$Sex, data$Date)) %>% 
+    lapply(function(X){
+      
+      types     <- c("nMx","nqx","lx")
+      lt_ambiguous_arg_types <- c("m","q","l")
+      this_type <- lt_ambiguous_arg_types[types %in% colnames(X)]
+      this_col  <- types[types %in% colnames(X)]
+      this_sex  <- unique(X[["Sex"]])
+      this_date <- unique(X[["Date"]])
+      # TR: other args not passed in are scoped one level up
+      out <- lt_ambiguous(x = X[[this_col]], 
+                   Age = X[["Age"]], 
+                   type = this_type,
+                   Sex = this_sex,
+                   Single = Single,
+                   OAnew = OAnew, 
+                   extrapLaw = extrapLaw,
+                   ... = ...)
+      out$Sex <- this_sex
+      out$Date <- this_date
+      out
+    }) %>% 
+    do.call("rbind", .)
+    
+  datadt <-
+    data %>% 
+    as.data.table()  
   
+  nMxf <-
+    datadt %>% 
+    subset(Sex == "f") %>% 
+    data.table::dcast(Age ~ Date, value.var = "nMx") %>% 
+    .[order(Age)]
+  Age  <- nMxf[["Age"]]
+
+  nMxf <- nMxf[, -1] %>% as.matrix()
+  rownames(nMxf) <- AgeLT
+  
+  nMxm <-
+    datadt %>% 
+    subset(Sex == "m") %>% 
+    data.table::dcast(Age ~ Date, value.var = "nMx") %>% 
+    .[order(Age)]
+  nMxm <- nMxm[, -1] %>% as.matrix()
+  rownames(nMxm) <- AgeLT
   # need a matrix by sex. Maybe with split in one sentence. sorry the spread,will change w pivot
-  nMxm <- data %>% 
-    filter(Sex == "m") %>% 
-    spread(Date,nMx) %>% 
-    select(-Age, -Sex) %>% 
-    as.matrix()
   
-  nMxf <- data %>% 
-    filter(Sex == "f") %>% 
-    spread(Date,nMx) %>% 
-    select(-Age, -Sex) %>% 
-    as.matrix()
+  # A data.table example of doing this, ripped from interp_coh()
+  # PopAP <-
+  #   pop_jan1 %>%
+  #   .[, list(age, year, pop_jan1)] %>%
+  #   data.table::dcast(age ~ year, value.var = "pop_jan1") %>%
+  #   .[order(age)]
+  # 
+  # matinterp <- PopAP[age <= max(age1), -1] %>% as.matrix()
+  # rownames(matinterp) <- age1
+  
+  # nMxm <- data %>% 
+  #   filter(Sex == "m") %>% 
+  #   pivot_wider(names_from = Date, values_from = nMx) %>% 
+  #   select(-Age, -Sex) %>% 
+  #   as.matrix()
+  # 
+  # nMxf <- data %>% 
+  #   filter(Sex == "f") %>% 
+  #   spread(Date,nMx) %>% 
+  #   select(-Age, -Sex) %>% 
+  #   as.matrix()
   
   # LC at unequal intervals ---------------------------------------------------------
   
-  Age = sort(unique(data$Age))
+  #Age = sort(unique(data$Age)) # defined above for rownames
   ndates_in  <- length(dates_in)
   ndates_out <- length(dates_out)
   nAge       <- length(Age)
@@ -423,42 +467,60 @@ lc_lim_kt_min <- function(k,
 
 
 # get lt for abrev/single ages and m/l/q input
-lt_mx_ambiguous <- function(x = NULL, 
-                            type = "m", # accepts "q" or "l"
-                            Age = NULL, 
-                            Sex = NULL, 
-                            Single = F,
-                            ...){
+# TR: this looks sufficiently ambiguous, love it, haha.
+# I'm removing the else {} clauses, since this function should be pretty hermetic.
+lt_ambiguous <- function(x = NULL, 
+                         type = "m", # accepts"m", "q", or "l"
+                         Age = NULL, 
+                         Sex = NULL, 
+                         Single = FALSE,
+                         ...){
   if (type == "l"){
     x = lt_id_l_q(x)
     type = "q"
   }
+  
+  # a final catch
+  out <- NULL
+  # Abridged input lt
   if (is_abridged(Age)){
-    if (type == "m"){
-      if(Single == T){
-        out <- lt_abridged2single(nMx = x, Age = Age, Sex = Sex, ...)
-      }else{
-        out <- lt_abridged(nMx = x, Age = Age, Sex = Sex, ...)  
-      }
-    } else {
-      if(Single == T){
-        out <- lt_abridged2single(nqx = x, Age = Age, Sex = Sex, ...)
-      }else{
-        out <- lt_abridged(nqx = x, Age = Age, Sex = Sex, ...)   
-      } 
+    
+    # If we have nMx
+    if (type == "m" & Single){
+      out <- lt_abridged2single(nMx = x, Age = Age, Sex = Sex, ...)
     }
-  } else {
-    if (type == "m"){
-      out <- lt_single_mx(nMx = x, Age = Age, Sex = Sex, ...)
-      if(Single != T){
-        out <- lt_single2abridged(lx = out$lx,lx = out$Lx, ex = out$ex) # no ... args in dev fun
-      }
-    } else {
-      out <- lt_single_qx(nqx = x, Age = Age, Sex = Sex, ...)
-      if(Single != T){
-        out <- lt_single2abridged(lx = out$lx,lx = out$Lx, ex = out$ex) # no ... args in dev fun
-      }
+    if (type == "m" & !Single){
+      out <- out <- lt_abridged(nMx = x, Age = Age, Sex = Sex, ...)  
+    }
+    # If we have nMx
+    if (type == "q" & Single){
+      out <- lt_abridged2single(nqx = x, Age = Age, Sex = Sex, ...)
+    }
+    if (type == "q" & !Single){
+      out <- out <- lt_abridged(nqx = x, Age = Age, Sex = Sex, ...)  
     }
   }
+
+  if (is_single(Age)){
+    if (type == "m" & Single){
+      out <- lt_single_mx(nMx = x, Age = Age, Sex = Sex, ...)
+    }
+    if (type == "m" & !Single){
+      out <- lt_single_mx(nMx = x, Age = Age, Sex = Sex, ...)
+      out <- lt_single2abridged(lx = out$lx,nLx = out$Lx, ex = out$ex) 
+    }
+    if (type == "q" & Single){
+      out <- lt_single_qx(nqx = x, Age = Age, Sex = Sex, ...)
+    }
+    if (type == "q" & !Single){
+      out <- lt_single_qx(qx = x, Age = Age, Sex = Sex, ...)
+      out <- lt_single2abridged(lx = out$lx,nLx = out$Lx, ex = out$ex) 
+    }
+  }
+    
+  if (is.null(out)){
+    # a final catch
+    stop("please check function arguments")
+  }  
   return(out)
 }

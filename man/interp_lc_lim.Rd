@@ -5,17 +5,14 @@
 \title{Lee-Carter method with limited data.}
 \usage{
 interp_lc_lim(
-  Males = NULL,
-  Females = NULL,
-  type = "m",
-  dates_in = as.numeric(colnames(Males)),
-  Age = as.numeric(rownames(Males)),
+  data = NULL,
   dates_out = dates_in,
+  Single = F,
   dates_e0 = NULL,
   e0_Males = NULL,
   e0_Females = NULL,
   prev_divergence = FALSE,
-  OAnew = max(Age),
+  OAnew = max(data$Age),
   OAG = TRUE,
   extrapLaw = NULL,
   verbose = TRUE,
@@ -23,15 +20,7 @@ interp_lc_lim(
 )
 }
 \arguments{
-\item{Males}{numeric. Matrix of abridged age classes by year.}
-
-\item{Females}{numeric. Matrix of abridged age classes by year.}
-
-\item{type}{character. Either rates \code{"m"}, conditionated probabilities \code{"q"} or survival function \code{"l"} included in matrices}
-
-\item{dates_in}{numeric. Vector of observed decimal years for input matrix. Same number of columns as input matrices.}
-
-\item{Age}{numeric. Vector with inferior limit of abridged age classes with data. Same number of rows than input matrix.}
+\item{data}{data.frame with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)}
 
 \item{dates_out}{numeric. Vector of decimal years to interpolate or extrapolate.}
 
@@ -78,6 +67,86 @@ Coale-Guo method allows to smooth rates at older ages.
 }
 \note{
 Draft Version
+}
+\examples{
+# Using Lee-Carter method for Sweden, assuming only is available mortality rates
+library(dtplyr)
+library(tidyverse)
+library(HMDHFDplus)
+library(ungroup)
+library(DemoTools)
+
+# LC with limited data
+dates_in <- seq(1980,2010,10)
+dates_out <- seq(1948,2018,5)
+data <- readHMDweb("SWE", "Mx_5x1", user, pass, fixup = TRUE)\%>\% 
+  select(Date = Year, Age, Male, Female) \%>\% 
+  gather(Sex,nMx,-Date,-Age) \%>\% 
+  mutate(Sex=ifelse(Sex=="Male","m","f")) \%>\% 
+  filter(Date \%in\% dates_in, Age<=100)
+
+# need this by now
+source("R/interp_lc_lim.R")
+source("R/lt_abridged2single.R")
+
+# abr ages
+lc_lim_data <- interp_lc_lim(data = data, dates_out = dates_out)
+
+\dontrun{
+  lc_lim_data \%>\% ggplot(aes(Age,nMx,col=factor(Date))) +
+    geom_step() + scale_y_log10() + facet_wrap(~Sex)
+}
+
+# simple ages - takes like 2 minutes
+start <- Sys.time()
+lc_lim_data <- interp_lc_lim(data = data, dates_out = dates_out, OAnew = 100,
+                             Single = T)
+Sys.time() - start
+
+\dontrun{
+  lc_lim_data \%>\% ggplot(aes(Age,nMx,col=factor(Date))) +
+    geom_step() + scale_y_log10() + facet_wrap(~Sex)
+}
+
+# Avoiding cross-over between sex
+lc_lim_nondiv <- interp_lc_lim(data = data, dates_out = dates_out, OAnew = 100,
+                               prev_divergence = T)
+\dontrun{
+  lc_lim_nondiv \%>\% ggplot(aes(Age,nMx,col=factor(Date))) + 
+    geom_step() + scale_y_log10() + facet_wrap(~Sex)
+}
+
+# Using information about e0 in some years, replicate an estimate of e0 in dates_out 
+# improve performance next step maybe
+dates_e0 <- seq(1960,2015,5)
+e0_Males <- readHMDweb("SWE", "E0per", user, pass, fixup = TRUE) \%>\% 
+  filter(Year \%in\% dates_e0) \%>\% pull(Male)
+e0_Females <- readHMDweb("SWE", "E0per", user, pass, fixup = TRUE) \%>\% 
+  filter(Year \%in\% dates_e0) \%>\% pull(Female)
+# needs that by the moment for interp: source("R/AGEINT.R")
+lc_lim_fite0 <- interp_lc_lim(data = data, dates_out = dates_out, OAnew = 100,
+                              dates_e0 = dates_e0,
+                              e0_Males = e0_Males, 
+                              e0_Females = e0_Females)
+\dontrun{                           
+  ggplot() + 
+    geom_line(data = lc_lim_fite0 \%>\% filter(Age==0), aes(Date,ex,col=factor(Sex))) + 
+    geom_point(data = data.frame(Sex = c(rep("m",length(e0_Males)), rep("f",length(e0_Males))),
+                                 ex = c(e0_Males, e0_Females),
+                                 Year = rep(dates_e0,2)),
+               aes(Year,ex,col=factor(Sex)))
+}
+
+# smooth and/or extend open age group, in this case input is for 80+, and smoothing with Kannisto law
+# Coale-Guo is coming ;)...
+lc_lim_extOAg <- interp_lc_lim(data = data \%>\% filter(Age<=80), 
+                               dates_out = dates_out, OAnew = 100,
+                               OAG = F, extrapLaw = "kannisto")
+\dontrun{ 
+  lc_lim_extOAg \%>\% ggplot(aes(Age,nMx,col=factor(Date))) + 
+    geom_step() + scale_y_log10() + facet_wrap(~Sex)
+}
+#End
 }
 \references{
 \insertRef{Li2005}{DemoTools}
