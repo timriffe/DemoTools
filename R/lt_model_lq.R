@@ -57,7 +57,6 @@
 #' @examples 
 #' 
 #' # Build life tables with various choices of 2 input parameters
-#' \dontrun{
 #' # case 1: Using 5q0 and e0
 #' L1 <- lt_model_lq(Sex = "b", q0_5 = 0.05, e0 = 65)
 #' L1
@@ -87,7 +86,7 @@
 #' 
 #' # case 8: Using 35q15 and e0
 #' L8 <- lt_model_lq(Sex = "b", q15_35 = 0.15, e0 = 65)
-#' }
+#' 
 #' @export
 lt_model_lq <- function(
  Sex, # has to be specified always
@@ -144,7 +143,7 @@ lt_model_lq <- function(
    # TR: functions should have all parameters passed in.
    if (my_case %in% c("C1", "C2", "C3")) {
        if (my_case == "C1"){
-         fun.k <- function(k, cf, x, q0_5, radix, Sex, par2) {
+         fun.k <- function(k, cf, x, q0_5, radix, Sex, par2, axmethod, a0rule, IMR, mod) {
                lthat.logquad(coefs = cf, 
                              x = x, 
                              q0_5 = q0_5, 
@@ -159,7 +158,7 @@ lt_model_lq <- function(
          par2 <- e0
        }
        if (my_case == "C2"){
-           fun.k <- function(k, cf, x, q0_5, radix, Sex, par2) { 
+           fun.k <- function(k, cf, x, q0_5, radix, Sex, par2, axmethod, a0rule, IMR, mod) { 
                lt <- lthat.logquad(coefs = cf, 
                                    x = x, 
                                    q0_5 = q0_5, 
@@ -175,7 +174,7 @@ lt_model_lq <- function(
            par2 <- q15_45
        } 
        if (my_case == "C3"){
-           fun.k <- function(k, cf, x, q0_5, radix, Sex, par2) { 
+           fun.k <- function(k, cf, x, q0_5, radix, Sex, par2, axmethod, a0rule, IMR, mod) { 
                lt <- lthat.logquad(coefs = cf, 
                                    x = x, 
                                    q0_5 = q0_5, 
@@ -219,7 +218,7 @@ lt_model_lq <- function(
    # after finding 5q0 (assume k=0, but it doesn't matter), these become Cases 1-3
    
    if (my_case %in% c("C4","C5","C6") ) {
-       fun.q0_5a <- function(q0_5, q0_1, cf, x, radix, Sex){
+       fun.q0_5a <- function(q0_5, q0_1, cf, x, radix, Sex, axmethod, a0rule, IMR, mod){
            lthat.logquad(coefs = cf, 
                          x = x, 
                          q0_5 = q0_5, 

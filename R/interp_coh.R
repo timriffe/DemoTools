@@ -3,6 +3,12 @@
 #' @param pop numeric vector. Population counts in age groups, presumably from a census with an exact reference date.
 #' @param age integer vector. Lower bound of single age groups
 #' @param date Either a \code{Date} class object or an unambiguous character string in the format \code{"YYYY-MM-DD"}.
+#' @param censusYearOpt character or `NA`. Options include:
+#' * `"frac"` keep the partial cohort observed in the year of the census.
+#' * `"drop"` remove the partial cohort from the census year (and trim other outputs to match)
+#' * `"extrap"` inflate the partial cohort from the census year. Specifically we keep it the same as the input age 0.
+#' * `NA` return `NA` for the census year cohort size.
+#' @param OAG logical. Is the highest age group an open age? If `TRUE`
 #'@export
 #' @examples
 #' pop <- seq(10000,100,length.out = 101)
@@ -11,18 +17,33 @@
 #' d2 <- "2020-07-01"
 #' d3 <- "2020-12-21"
 #'
-#' census_cohort_adjust(pop, age, d1)
-#' census_cohort_adjust(pop, age, d2)
-#' census_cohort_adjust(pop, age, d3)
-#' census_cohort_adjust(pop, age, 2020.5)
-census_cohort_adjust <- function(pop, age, date){
+#' shift_census_ages_to_cohorts(pop, age, d1)
+#' shift_census_ages_to_cohorts(pop, age, d2)
+#' shift_census_ages_to_cohorts(pop, age, d3)
+#' shift_census_ages_to_cohorts(pop, age, 2020.5)
 
+shift_census_ages_to_cohorts <- function(pop, 
+                                   age, 
+                                   date, 
+                                   censusYearOpt = "frac", 
+                                   OAG = TRUE){
+
+  
   stopifnot(is_single(age))
-
+  
   date       <- dec.date(date)
   yr         <- floor(date)
-
   f1         <- date - yr
+  
+  if (OAG){
+    N   <- length(pop)
+    pop <- pop[-N]
+    age <- age[-N]
+  }
+  
+  if (is.na(censusYearOpt)){
+    censusYearOpt <- "NA"
+  }
 
   upper_part_of_cohort <- pop * f1
   lower_part_of_cohort <- pop * (1 - f1)
@@ -32,7 +53,27 @@ census_cohort_adjust <- function(pop, age, date){
 
   cohorts    <- yr - age - 1 + shift
 
-  list(pop = pop_out, cohort = cohorts, date = date, f1 = f1)
+  age_out    <- round(f1) + age
+  
+  if (censusYearOpt == "drop"){
+    pop_out <- pop_out[-1]
+    age_out <- age_out[-1]
+    cohorts <- cohorts[-1]
+  }
+  if (censusYearOpt == "extrap"){
+    pop_out[1] <- pop[1]
+    # identical to:
+    # pop_out[1] <- pop_out[1] + (1-f1) *  pop[1]
+  }
+  if (censusYearOpt == "NA"){
+    pop_out[1] <- NA_real_
+  }
+  
+  list(cohort_size = pop_out, 
+       birth_year = cohorts, 
+       age = age_out,
+       date = date, 
+       f1 = f1)
 }
 
 #' component-free intercensal cohort interpolation
@@ -374,8 +415,8 @@ interp_coh <- function(
   #                          keyby = list(cohort)]
 
   # adjust the census population vectors
-  c1c <- census_cohort_adjust(c1, age1, date1)
-  c2c <- census_cohort_adjust(c2, age2, date2)
+  c1c <- shift_census_ages_to_cohorts(c1, age1, date1, censusYearOpt = "frac")
+  c2c <- shift_census_ages_to_cohorts(c2, age2, date2, censusYearOpt = "frac")
 
   # correction for the first year age 0 -- only take first for the remaining of
   # the year
@@ -392,15 +433,15 @@ interp_coh <- function(
                 )
 
   input <-
-    data.table::data.table(cohort = c1c$cohort, pop = c1c$pop) %>%
+    data.table::data.table(cohort = c1c$birth_year, pop = c1c$cohort_size) %>%
     .[order(cohort)] %>%
     rbind(cohort_dt) %>%
     .[, list(pop = sum(pop)), keyby = list(cohort)]
 
   # population c2 observed
   pop_c2 <- data.frame(
-    cohort = c2c$cohort,
-    pop_c2_obs = c2c$pop
+    cohort = c2c$birth_year,
+    pop_c2_obs = c2c$cohort_size
   )
 
 
@@ -469,12 +510,22 @@ interp_coh <- function(
   matinterp <- PopAP[age <= max(age1), -1] %>% as.matrix()
   rownames(matinterp) <- age1
 
+  # Handle NAs perhaps c1 needs OPAG beforehand?)
+  ind <- is.na(matinterp)
+  if (any(ind) & verbose){
+    cat("\n",sum(ind),"NA detected in output.\nThese have been imputed with 0s.\nThis could happen in the highest ages,\nand you may consider extending the open ages of the census inputs?\n")
+    matinterp[ind] <- 0
+  }
+  
   # Handle negatives (small pops, or large negative residuals relative to pop size)
-  ind <- matinterp < 0
+  ind <- matinterp < 0 
   if (any(ind) & verbose){
     cat("\n",sum(ind),"negatives detected in output.\nThese have been imputed with 0s.\n")
     matinterp[ind] <- 0
   }
+  
+  
+  
 
 
   yrsIn     <- as.numeric(colnames(matinterp))
