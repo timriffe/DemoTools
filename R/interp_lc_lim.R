@@ -233,7 +233,7 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   Age  <- nMxf[["Age"]]
 
   nMxf <- nMxf[, -1] %>% as.matrix()
-  rownames(nMxf) <- AgeLT
+  rownames(nMxf) <- Age
   
   nMxm <-
     datadt %>% 
@@ -241,7 +241,7 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
     data.table::dcast(Age ~ Date, value.var = "nMx") %>% 
     .[order(Age)]
   nMxm <- nMxm[, -1] %>% as.matrix()
-  rownames(nMxm) <- AgeLT
+  rownames(nMxm) <- Age
   # need a matrix by sex. Maybe with split in one sentence. sorry the spread,will change w pivot
   
   # A data.table example of doing this, ripped from interp_coh()
@@ -273,6 +273,7 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   ndates_out <- length(dates_out)
   nAge       <- length(Age)
   
+  # IW: make this modular
   # males
   # lee carter using svd better. That´s what paper suggests
   axm      <- rowSums(log(nMxm))/ndates_in 
@@ -359,7 +360,7 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
                               age = Age,
                               sex = "m",
                               e0_target = e0m[j])$minimum
-      ktf_star[j] <- optimize(f = lc_lim_kt_min,
+      ktf_star[j] <- optimize(f = lc_lim_kt_min, # TR: add ...
                               interval = c(-20, 20),
                               ax = axf,
                               bx = bxf,
@@ -370,6 +371,10 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
     
     # get rates with optim k.
     # TR: this expression could look less R-esoteric. So, we want to multiply k into columns 
+    
+    # TR: the sweep stuff can look something like this.
+    # B <- exp(axm + bxm %*% t(ktm_star))
+   
     nMxm_hat <- exp(axm + sweep(matrix(bxm, nAge, length(dates_out)), MARGIN = 2, ktm_star, `*`))
     nMxf_hat <- exp(axf + sweep(matrix(bxf, nAge, length(dates_out)), MARGIN = 2, ktf_star, `*`))
   }
@@ -384,12 +389,13 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   Males_out <-
     lapply(colnames(nMxm_hat), function(x,MX,Age) {
       mx <- MX[, x]
-      LT <- lt_mx_ambiguous(x = mx, 
+      LT <- lt_ambiguous(x = mx, 
                             Age = Age, 
                             Sex = "m", 
                             Single = Single,
                             axmethod = "un", 
-                            a0rule = "ak")
+                            a0rule = "ak",
+                            ... = ...) # quida de esto
       LT$Sex  <- "m"
       LT$Date <- as.numeric(x)
       LT
@@ -399,7 +405,7 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   Females_out <-
     lapply(colnames(nMxf_hat), function(x,MX,Age) {
       mx <- MX[, x]
-      LT <- lt_mx_ambiguous(x = mx, 
+      LT <- lt_ambiguous(x = mx, 
                             Age = Age, 
                             Sex = "f", 
                             Single = Single,
@@ -428,11 +434,13 @@ lc_lim_kt_min <- function(k,
                           bx,
                           age,
                           sex,
-                          e0_target){
+                          e0_target,
+                          ...){
   Mx_hat <- interp_lc_lim_abk_m(k, ax, bx)
-  e0 <- lt_mx_ambiguous(x = Mx_hat, 
+  e0 <- lt_ambiguous(x = Mx_hat, 
                         Age = age, 
-                        Sex = sex)$ex[1]
+                        Sex = sex,
+                         ...)$ex[1]
   return(((e0-e0_target)/e0_target)^2)
 }
 
