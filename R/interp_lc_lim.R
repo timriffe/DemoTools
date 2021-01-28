@@ -25,6 +25,7 @@
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked?
 #' @param OAnew integer. Inferior limit of the open age group when extrapolate with `extrapLaw`.
 #' @param OAnew logical.
+#' @param verbose logical. Default `FALSE`.
 #' @param ... Other arguments to be passed on to the \code{\link[lt_abridged]{lt_abridged}} function.
 #' @seealso
 #' \code{\link[lt_abridged]{lt_abridged}}
