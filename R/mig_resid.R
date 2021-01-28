@@ -1,5 +1,5 @@
 
-#TODO 
+# TODO 
 # This is a high priority
 # -[ ] make sure mig_resid_cohort() handles dimensions properly (named indexing; no waste dims)
 # -[ ] make sure mig_resid_time() handles dimensions properly
