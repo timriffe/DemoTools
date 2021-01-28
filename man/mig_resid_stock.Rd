@@ -236,7 +236,7 @@ pop_f <-
     415.883, 133.756, 18.362, 1083.119, 1063.736, 1045.012, 1096.489,
     1213.687, 1322.39, 1401.18, 1431.462, 1447.757, 1392.552, 1457.502,
     1526.287, 1399.672, 1340.065, 1180.192, 1054.342, 943.985, 853.051,
-    496.821, 162.711, 25.414)
+    496.821, 162.711, 25.414) / 1000
 
 # Vector of age-specific fertility rates
 asfr <- c(50.369, 202.131, 206.141, 149.211, 87.253, 31.052,
@@ -507,8 +507,12 @@ colnames(sr_f_mat) <- all_years[-length(all_years)]
 interval <- 5
 ages <- seq(0, 100, by = interval)
 years <- seq(1950, 2050, by = interval)
-ages_fertility <- seq(15, 45, by = interval)
-
+ages_fertility     <- seq(15, 45, by = interval)
+rownames(asfr_mat) <- ages_fertility
+rownames(pop_m_mat) <- ages
+rownames(pop_f_mat) <- ages
+rownames(sr_m_mat) <- ages
+rownames(sr_f_mat) <- ages
 mig_res <-
   mig_resid_stock(
     pop_m_mat = pop_m_mat,

@@ -7,7 +7,7 @@
 interp_lc_lim(
   data = NULL,
   dates_out = dates_in,
-  Single = F,
+  Single = FALSE,
   dates_e0 = NULL,
   e0_Males = NULL,
   e0_Females = NULL,
@@ -84,10 +84,6 @@ data <- readHMDweb("SWE", "Mx_5x1", user, pass, fixup = TRUE)\%>\%
   gather(Sex,nMx,-Date,-Age) \%>\% 
   mutate(Sex=ifelse(Sex=="Male","m","f")) \%>\% 
   filter(Date \%in\% dates_in, Age<=100)
-
-# need this by now
-source("R/interp_lc_lim.R")
-source("R/lt_abridged2single.R")
 
 # abr ages
 lc_lim_data <- interp_lc_lim(data = data, dates_out = dates_out)
