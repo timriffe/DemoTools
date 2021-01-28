@@ -815,8 +815,11 @@ migresid_net_surv_first_ageg <- function(net_mig, pop_mat, births, sr_mat) {
   # 21 yrs of population
   # 20 yrs of sr
   p    <- ncol(net_mig)
-  pyrs <- colnames(pop_mat)[-1]
-  byrs <- pyrs %>% as.numeric() %>% '-'(1) %>% as.character()
+  pyrs <- colnames(pop_mat)[-1] 
+  
+  # TR: a little hack
+  D    <- pyrs %>% as.numeric() %>% diff() %>% '['(1)
+  byrs <- pyrs %>% as.numeric() %>% '-'(D ) %>% as.character()
   # TR: note net_mig col labels seem to be one too high
   # we want byrs indexing on the left
   net_mig[1, ] <- pop_mat[1, pyrs] - births[byrs] * sr_mat[1, byrs]
