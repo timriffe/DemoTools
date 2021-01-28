@@ -1,3 +1,9 @@
+# Age/year sequence of all the data from above
+interval <- 5
+ages <- seq(0, 100, by = interval)
+years <- seq(1950, 2050, by = interval)
+ages_fertility <- seq(15, 45, by = interval)
+
 # Vector of population for males
 pop_m <-
   c(835, 671, 570.999, 544, 552, 550, 513, 487.998, 432.002,
@@ -329,15 +335,15 @@ all_years <- c("1950", "1955", "1960", "1965", "1970", "1975",
 # Population for males as matrix
 pop_m_mat <- matrix(pop_m, nrow = 21, ncol = 21)
 colnames(pop_m_mat) <- all_years
-
+rownames(pop_m_mat) <- ages
 # Population for females as matrix
 pop_f_mat <- matrix(pop_f, nrow = 21, ncol = 21)
 colnames(pop_f_mat) <- all_years
-
+rownames(pop_f_mat) <- ages
 # Age-specific-fertility-rate for as matrix
 asfr_mat <- matrix(asfr, nrow = 7, ncol = 20)
 colnames(asfr_mat) <- all_years[-length(all_years)]
-
+rownames(asfr_mat) <- ages_fertility
 # Sex ratio at birth as vector
 srb_vec <- c(1.058, 1.057, 1.055, 1.055, 1.06, 1.056, 1.056, 1.052, 1.056,
              1.054, 1.054, 1.053, 1.054, 1.053, 1.056, 1.056, 1.056, 1.056,
@@ -352,12 +358,6 @@ colnames(sr_m_mat) <- all_years[-length(all_years)]
 # Survival ratio for females as matrix
 sr_f_mat <- matrix(sr_f, nrow = 21, ncol = 20)
 colnames(sr_f_mat) <- all_years[-length(all_years)]
-
-# Age/year sequence of all the data from above
-interval <- 5
-ages <- seq(0, 100, by = interval)
-years <- seq(1950, 2050, by = interval)
-ages_fertility <- seq(15, 45, by = interval)
 
 test_that("mig_resid_stock returns correct result", {
   mig_m_correct <- c(1.78993, 51.6027, 29.15413, 7.37114, 21.61505, 47.86478,
@@ -424,7 +424,7 @@ test_that("mig_resid_stock returns correct result", {
 
   mig_m_correct <- matrix(mig_m_correct, nrow = 21, ncol = 20)
   colnames(mig_m_correct) <- all_years[-length(all_years)]
-
+  rownames(mig_m_correct) <- ages
   mig_f_correct <- c(113.17294, 95.34564, 39.38204, 18.93728, 35.06867,
                      46.52932, 49.2666, 42.94238, 29.4034, 18.57087, 13.71191, 10.0067,
                      11.50849, 22.50025, 29.00955, 16.82217, 19.0866, 7.008, 2.73785,
@@ -489,7 +489,7 @@ test_that("mig_resid_stock returns correct result", {
 
   mig_f_correct <- matrix(mig_f_correct, nrow = 21, ncol = 20)
   colnames(mig_f_correct) <- all_years[-length(all_years)]
-
+  rownames(mig_f_correct) <- ages
   mig_res <-
     mig_resid_stock(
       pop_m_mat = pop_m_mat,
@@ -505,8 +505,8 @@ test_that("mig_resid_stock returns correct result", {
   net_mig_m <- mig_res$mig_m
   net_mig_f <- mig_res$mig_f
 
-  colnames(mig_m_correct) <- NULL
-  colnames(net_mig_m) <- NULL
+  # colnames(mig_m_correct) <- NULL
+  # colnames(net_mig_m) <- NULL
 
   expect_equal(
     mig_m_correct,
@@ -514,8 +514,8 @@ test_that("mig_resid_stock returns correct result", {
     tolerance = 0.00001
   )
 
-  colnames(mig_f_correct) <- NULL
-  colnames(net_mig_f) <- NULL
+  # colnames(mig_f_correct) <- NULL
+  # colnames(net_mig_f) <- NULL
 
   expect_equal(
     mig_f_correct,
@@ -590,7 +590,7 @@ test_that("mig_resid_cohort returns correct result", {
 
   mig_m_correct <- matrix(mig_m_correct, nrow = 21, ncol = 20)
   colnames(mig_m_correct) <- all_years[-length(all_years)]
-
+  rownames(mig_m_correct) <- ages
   mig_f_correct <- c(171.72132, 69.20081, 29.46478, 27.29601, 41.33304,
                      48.61861, 46.88562, 36.86299, 24.5104, 16.56536, 12.26265, 11.3008,
                      18.40401, 29.00225, 27.17509, 23.83314, 19.13202, 8.57065, 3.41816,
@@ -656,7 +656,7 @@ test_that("mig_resid_cohort returns correct result", {
 
   mig_f_correct <- matrix(mig_f_correct, nrow = 21, ncol = 20)
   colnames(mig_f_correct) <- all_years[-length(all_years)]
-
+  rownames(mig_f_correct) <- ages
   mig_res <-
     mig_resid_cohort(
       pop_m_mat = pop_m_mat,
@@ -672,8 +672,8 @@ test_that("mig_resid_cohort returns correct result", {
   net_mig_m <- mig_res$mig_m
   net_mig_f <- mig_res$mig_f
 
-  colnames(mig_m_correct) <- NULL
-  colnames(net_mig_m) <- NULL
+  # colnames(mig_m_correct) <- NULL
+  # colnames(net_mig_m) <- NULL
 
   expect_equal(
     mig_m_correct,
@@ -681,8 +681,8 @@ test_that("mig_resid_cohort returns correct result", {
     tolerance = 0.00001
   )
 
-  colnames(mig_f_correct) <- NULL
-  colnames(net_mig_f) <- NULL
+  # colnames(mig_f_correct) <- NULL
+  # colnames(net_mig_f) <- NULL
 
   expect_equal(
     mig_f_correct,
@@ -761,7 +761,7 @@ test_that("mig_resid_time returns correct result", {
 
   mig_m_correct <- matrix(mig_m_correct, nrow = 21, ncol = 20)
   colnames(mig_m_correct) <- all_years[-length(all_years)]
-
+  rownames(mig_m_correct) <- ages
   mig_f_correct <- c(226.34587, -21.03743, 99.34158, -59.68098, 128.43541,
                      -31.83782, 129.37808, -38.94365, 96.19692, -54.63552, 78.96184,
                      -52.98591, 70.21102, -13.67057, 68.3376, -10.37708, 43.47334,
@@ -832,7 +832,7 @@ test_that("mig_resid_time returns correct result", {
 
   mig_f_correct <- matrix(mig_f_correct, nrow = 21, ncol = 20)
   colnames(mig_f_correct) <- all_years[-length(all_years)]
-
+  rownames(mig_f_correct) <- ages
   mig_res <-
     mig_resid_time(
       pop_m_mat = pop_m_mat,
@@ -848,17 +848,11 @@ test_that("mig_resid_time returns correct result", {
   net_mig_m <- mig_res$mig_m
   net_mig_f <- mig_res$mig_f
 
-  colnames(mig_m_correct) <- NULL
-  colnames(net_mig_m) <- NULL
-
   expect_equal(
     mig_m_correct,
     net_mig_m,
     tolerance = 0.00001
   )
-
-  colnames(mig_f_correct) <- NULL
-  colnames(net_mig_f) <- NULL
 
   expect_equal(
     mig_f_correct,
