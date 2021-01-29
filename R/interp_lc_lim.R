@@ -26,27 +26,27 @@
 #' @param OAnew integer. Inferior limit of the open age group when extrapolate with `extrapLaw`.
 #' @param OAnew logical.
 #' @param verbose logical. Default `FALSE`.
-#' @param ... Other arguments to be passed on to the \code{\link[lt_abridged]{lt_abridged}} function.
+#' @param ... Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.
 #' @seealso
 #' \code{\link[DemoTools]{lt_abridged}}
 #' @export
 # TR: you can use markdown for this sort of thing, just getting used to it
 #' @return Lifetable in a data.frame with columns
-#' \itemize{
-#'   \item{Date}{numeric. Dates included in dates_out},
-#'   \item{Sex}{character. Male `"m"` or female `"f"`},
-#'   \item{Age}{integer. Lower bound of abridged age class},
-#'   \item{AgeInt}{integer. Age class widths.}
-#'   \item{nMx}{numeric. Age-specific central death rates.}
-#'   \item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
-#'   \item{nqx}{numeric. Age-specific conditional death probabilities.}
-#'   \item{lx}{numeric. Lifetable survivorship}
-#'   \item{ndx}{numeric. Lifetable deaths distribution.}
-#'   \item{nLx}{numeric. Lifetable exposure.}
-#'   \item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
-#'   \item{Tx}{numeric. Lifetable total years left to live above age x.}
-#'   \item{ex}{numeric. Age-specific remaining life expectancy.}
-#' }
+#' 
+#' * `Date` numeric. Dates included in dates_out,
+#' * `Sex` character. Male `"m"` or female `"f"`,
+#' * `Age` integer. Lower bound of abridged age class,
+#' * `AgeInt`` integer. Age class widths.
+#' * `nMx` numeric. Age-specific central death rates.
+#' * `nAx` numeric. Average time spent in interval by those deceased in interval. 
+#' * `nqx` numeric. Age-specific conditional death probabilities.
+#' * `lx` numeric. Lifetable survivorship
+#' * `ndx` numeric. Lifetable deaths distribution.
+#' * `nLx` numeric. Lifetable exposure.
+#' * `Sx` numeric. Survivor ratios in uniform 5-year age groups.
+#' * `Tx` numeric. Lifetable total years left to live above age x.
+#' * `ex` numeric. Age-specific remaining life expectancy.
+#' 
 #' @references
 #' \insertRef{Li2005}{DemoTools}
 #' \insertRef{Li2004}{DemoTools}
@@ -243,7 +243,7 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
     as.data.table()  
   
   # avoids 'no visible binding' warning
-  .Sex <- NULL
+  Sex <- NULL
   
   nMxf <-
     datadt %>% 
@@ -272,13 +272,13 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   
   # IW: make this modular
   # males
-  lc_estimate_m <- lc_estimate(nMxm, dates_in, dates_out)
+  lc_estimate_m <- interp_lc_lim_estimate(nMxm, dates_in, dates_out)
   axm <- lc_estimate_m[[1]]
   bxm <- lc_estimate_m[[2]]
   ktm <- lc_estimate_m[[3]]
   k0m <- lc_estimate_m[[4]]
   # females
-  lc_estimate_f <- lc_estimate(nMxf, dates_in, dates_out)
+  lc_estimate_f <- interp_lc_lim_estimate(nMxf, dates_in, dates_out)
   axf <- lc_estimate_m[[1]]
   bxf <- lc_estimate_m[[2]]
   ktf <- lc_estimate_m[[3]]
@@ -338,14 +338,14 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
     # Optimize kt for each LC extrap/interp and sex
     ktm_star = ktf_star = c()
     for (j in 1:ndates_out){
-      ktm_star[j] <- optimize(f = lc_lim_kt_min,
+      ktm_star[j] <- optimize(f = interp_lc_lim_kt_min,
                               interval = c(-20, 20),
                               ax = axm,
                               bx = bxm,
                               age = Age,
                               sex = "m",
                               e0_target = e0m[j])$minimum
-      ktf_star[j] <- optimize(f = lc_lim_kt_min, # TR: add ...
+      ktf_star[j] <- optimize(f = interp_lc_lim_kt_min, # TR: add ...
                               interval = c(-20, 20),
                               ax = axf,
                               bx = bxf,
@@ -409,7 +409,7 @@ interp_lc_lim_abk_m <- function(k,ax,bx){
 }
 # optimize k for fitting e0
 # TR: recommend lc_lim_kt_min(), following name conventions elsewhere in package
-lc_lim_kt_min <- function(k,
+interp_lc_lim_kt_min <- function(k,
                           ax,
                           bx,
                           age,
@@ -426,7 +426,7 @@ lc_lim_kt_min <- function(k,
 
 # estimate lc functions for limited data
 # IW: if wants normal LC (and data suitable for that), this is the fun to modify
-lc_estimate <- function(M, dates_in, dates_out){
+interp_lc_lim_estimate <- function(M, dates_in, dates_out){
       ndates_in  <- length(dates_in)
       ax         <- rowSums(log(M))/ndates_in
       M_svd      <- svd(log(M)-ax)
@@ -440,61 +440,3 @@ lc_estimate <- function(M, dates_in, dates_out){
       return(list(ax,bx,kt,k0))
 }
 
-# get lt for abrev/single ages and m/l/q input
-# TR: this looks sufficiently ambiguous, love it, haha.
-# I'm removing the else {} clauses, since this function should be pretty hermetic.
-lt_ambiguous <- function(x = NULL, 
-                         type = "m", # accepts"m", "q", or "l"
-                         Age = NULL, 
-                         Sex = NULL, 
-                         Single = FALSE,
-                         ...){
-  if (type == "l"){
-    x = lt_id_l_q(x)
-    type = "q"
-  }
-  
-  # a final catch
-  out <- NULL
-  # Abridged input lt
-  if (is_abridged(Age)){
-    
-    # If we have nMx
-    if (type == "m" & Single){
-      out <- lt_abridged2single(nMx = x, Age = Age, Sex = Sex, ...)
-    }
-    if (type == "m" & !Single){
-      out <- out <- lt_abridged(nMx = x, Age = Age, Sex = Sex, ...)  
-    }
-    # If we have nMx
-    if (type == "q" & Single){
-      out <- lt_abridged2single(nqx = x, Age = Age, Sex = Sex, ...)
-    }
-    if (type == "q" & !Single){
-      out <- out <- lt_abridged(nqx = x, Age = Age, Sex = Sex, ...)  
-    }
-  }
-
-  if (is_single(Age)){
-    if (type == "m" & Single){
-      out <- lt_single_mx(nMx = x, Age = Age, Sex = Sex, ...)
-    }
-    if (type == "m" & !Single){
-      out <- lt_single_mx(nMx = x, Age = Age, Sex = Sex, ...)
-      out <- lt_single2abridged(lx = out$lx,nLx = out$Lx, ex = out$ex) 
-    }
-    if (type == "q" & Single){
-      out <- lt_single_qx(nqx = x, Age = Age, Sex = Sex, ...)
-    }
-    if (type == "q" & !Single){
-      out <- lt_single_qx(qx = x, Age = Age, Sex = Sex, ...)
-      out <- lt_single2abridged(lx = out$lx,nLx = out$Lx, ex = out$ex) 
-    }
-  }
-    
-  if (is.null(out)){
-    # a final catch
-    stop("please check function arguments")
-  }  
-  return(out)
-}
