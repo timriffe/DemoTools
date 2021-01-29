@@ -20,7 +20,7 @@ reference:
     desc: Indicators to evaluate the degreee of age heaping
     contents: 
           - starts_with("check_heaping")
-  - title: "Evaluate consitenty of age structures"
+  - title: "Evaluate consistency of age structures"
     desc: Methods to assess the consistency of age structures
     contents:           
           - '`ageRatioScore`'
@@ -52,6 +52,11 @@ reference:
     contents:
       - '`interp`'
       - '`interp_coh`'
+  - title: "Extrapolation" 
+    desc: Functions to interpolate/extrapolate rates or counts
+      - '`interp_lc_lim`'
+      - '`lt_rule_m_extrapolate`'
+      - '`OPAG`'
   - title: "Migration"
     desc: Functions for migration models or estimation
     contents:
@@ -84,7 +89,7 @@ reference:
     contents:      
       - '`basepop_five`'
       - '`calcAgeN`'
-      - '`census_cohort_adjust`'
+      - '`shift_census_ages_to_cohorts`'
       - '`dec.date`'
       - '`dth5_zigzag`'
       - '`fitted_logquad_b`'
@@ -93,8 +98,12 @@ reference:
   - title: "Internal"
     desc: Internal functions
     contents:
+      - '`OPAG_fit_stable_standard`'
+      - '`OPAG_nLx_warp_r`'
+      - '`OPAG_r_min`'
       - '`OPAG_simple`'
-      - '`interp`'
+      - '`downloadSRB`'
+      - '`downloadnLx`'
       - '`ADM`'
       - '`age2ageN`'
       - '`age2int`'

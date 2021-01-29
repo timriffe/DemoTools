@@ -25,6 +25,8 @@ interp(
 
 \item{power}{numeric power to interpolate by, if \code{method = "power"}. Default 2.}
 
+\item{extrap}{logical. In case \code{datesOut} is out of range of datesIn, do extrapolation using slope in extreme pairwise. Deafult \code{FALSE}.}
+
 \item{...}{arguments passed to \code{stats::approx}. For example, \code{rule}, which controls extrapolation behavior.}
 }
 \value{
