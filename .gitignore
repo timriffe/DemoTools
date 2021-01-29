@@ -20,3 +20,4 @@ Spreadsheets
 *.o
 *.so
 docs/
+.RData
