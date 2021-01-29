@@ -3,30 +3,38 @@
 
 #' Lee-Carter method with limited data.
 #' 
-#' @description Given a matrix of age (rows) by year (cols) for each sex, this function interpolate/extrapolate life tables 
+#' @description Given a data frame with dates, sex and mortality data by age (rates, conditionated probabilities of death 
+#' or survival function), this function interpolate/extrapolate life tables 
 #' using the method for limited data suggested by  Li et. al (2004) (at least three observed years). 
 #'
-#' @details Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN. Only useful for abridged ages.
+#' @details Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN. Useful for abridged or single ages, and allows
+#' output in both formats also.
 #' The main options are the use of non-divergent method for sex coherency (Li & Lee, 2005),
-#' and the possibility of fitting `"k"` to replicate `"e_0"` at some given years. 
-#' Coale-Guo method allows to smooth rates at older ages.
+#' and the possibility of fitting `"k"` to replicate `"e_0"` at some given dates. 
 #'
 #' @note Draft Version
 #'
 #' @param data data.frame with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)  
 #' @param dates_out numeric. Vector of decimal years to interpolate or extrapolate.
-#' @param ... Arguments passed to `\link{lt_abridged}`.
+#' @param Single logical. Wheter or not the lifetable output is by single ages.
 #' @param dates_e0 numeric. Vector of decimal years where `"e_0"` should be fitted when apply method.
 #' @param e0_Males numeric. Vector of life expectancy by year to be fitted. Same length than `"dates_e0"`.
 #' @param e0_Females numeric. Vector of life expectancy by year to be fitted. Same length than `"dates_e0"`.
 #' @param prev_divergence logical. Whether or not prevent divergence and sex crossover. Default `FALSE.`
 #' @param OAG logical. Whether or not the last element of `nMx` (or `nqx` or `lx`) is an open age group. Default `TRUE.`
-#' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include  `"Coale-Guo"` or other functions in `"lt_abridged"` function.
+#' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked?
+#' @param OAnew integer. Inferior limit of the open age group when extrapolate with `extrapLaw`.
+#' @param OAnew logical.
+#' @param verbose logical. Default `FALSE`.
+#' @param ... Other arguments to be passed on to the \code{\link[lt_abridged]{lt_abridged}} function.
+#' @seealso
+#' \code{\link[lt_abridged]{lt_abridged}}
 #' @export
 # TR: you can use markdown for this sort of thing, just getting used to it
 #' @return Lifetable in a data.frame with columns
 #' \itemize{
-#'   \item{Year}{integer. Years included in dates_out},
+#'   \item{Date}{numeric. Dates included in dates_out},
+#'   \item{Sex}{character. Male `"m"` or female `"f"`},
 #'   \item{Age}{integer. Lower bound of abridged age class},
 #'   \item{AgeInt}{integer. Age class widths.}
 #'   \item{nMx}{numeric. Age-specific central death rates.}
@@ -43,81 +51,86 @@
 #' \insertRef{Li2005}{DemoTools}
 #' \insertRef{Li2004}{DemoTools}
 #' 
-# TR: Example commented out because we don't know dimension of first data objects, as Age and dates_in
-# were not previously defined.
 #' @examples
-#' # Using Lee-Carter method for Sweden, assuming only is available mortality rates
-#' library(dtplyr)
-#' library(tidyverse)
-#' library(HMDHFDplus)
-#' library(ungroup)
-#' library(DemoTools)
+#' # Get data for Sweden (loaded from Human Mortality Database)
+#' Age <- c(0,1,seq(5,100,5))
+#' dates_in <- as.Date(c("1990-07-01", "2000-07-01", "2010-07-01"))
+#' data <- data.frame(Date= c(rep(sort(rep(dates_in, length(Age))),2)),
+#'                    Age = rep(Age,  2 * length(dates_in)),
+#'                    Sex = c(rep("m", length(Age) * length(dates_in)),
+#'                            rep("f", length(Age) * length(dates_in))),
+#'                    nMx = c(0.006807, 0.000333, 0.000185, 0.000165, 0.000624, 
+#'                            0.000859, 0.000955, 0.001081, 0.001375, 0.002098, 0.003206, 0.004996, 
+#'                            0.009028, 0.014406, 0.023247, 0.039929, 0.067969, 0.110134, 0.180245, 
+#'                            0.265287, 0.402896, 0.5, 0.004052, 0.000131, 9.8e-05, 0.000139, 
+#'                            0.000473, 0.000761, 0.000733, 0.000759, 0.000984, 0.001526, 0.0026, 
+#'                            0.004038, 0.00628, 0.010852, 0.018433, 0.031859, 0.0543, 0.093116, 
+#'                            0.1638, 0.264152, 0.423773, 0.567665, 0.002712, 0.000159, 5e-05, 
+#'                            9.9e-05, 0.00034, 0.000661, 0.000726, 0.000674, 0.000703, 0.001146, 
+#'                            0.001939, 0.003303, 0.005405, 0.009007, 0.014105, 0.023629, 0.043337, 
+#'                            0.077892, 0.141126, 0.241389, 0.379467, 0.678112, 0.005418, 0.000218, 
+#'                            0.000131, 0.000165, 0.000268, 0.000325, 0.000433, 0.000536, 0.000776, 
+#'                            0.001246, 0.002037, 0.002875, 0.005079, 0.007333, 0.012102, 0.020741, 
+#'                            0.038245, 0.07144, 0.128579, 0.220927, 0.347505, 0.50933, 0.002837, 
+#'                            0.000116, 9.3e-05, 0.000129, 0.000232, 0.000248, 0.000256, 0.000281, 
+#'                            0.000655, 0.000936, 0.0017, 0.002723, 0.004497, 0.006826, 0.010464, 
+#'                            0.017542, 0.031884, 0.061459, 0.115478, 0.204387, 0.335873, 0.484215, 
+#'                            0.002402, 0.00014, 7.7e-05, 8e-05, 0.000196, 0.000248, 0.000257, 
+#'                            0.000327, 0.000428, 0.000673, 0.001203, 0.002056, 0.003418, 0.005943, 
+#'                            0.009141, 0.015038, 0.027323, 0.051479, 0.103552, 0.192314, 0.311358, 
+#'                            0.479488))
+#' dates_out <- as.Date(paste0(seq(1948,2018,5),"-07-01"))
 #' 
-#' # LC with limited data
-#' dates_in <- seq(1980,2010,10)
-#' dates_out <- seq(1948,2018,5)
-#' data <- readHMDweb("SWE", "Mx_5x1", user, pass, fixup = TRUE)%>% 
-#'   select(Date = Year, Age, Male, Female) %>% 
-#'   gather(Sex,nMx,-Date,-Age) %>% 
-#'   mutate(Sex=ifelse(Sex=="Male","m","f")) %>% 
-#'   filter(Date %in% dates_in, Age<=100)
-#' 
-#' # abr ages
-#' lc_lim_data <- interp_lc_lim(data = data, dates_out = dates_out)
+#' # with abrev ages
+#' lc_lim_data <- interp_lc_lim(data = data, dates_out = dates_out, OAG = F)
 #' 
 #' \dontrun{
 #'   lc_lim_data %>% ggplot(aes(Age,nMx,col=factor(Date))) +
 #'     geom_step() + scale_y_log10() + facet_wrap(~Sex)
 #' }
 #' 
-#' # simple ages - takes like 2 minutes
-#' start <- Sys.time()
-#' lc_lim_data <- interp_lc_lim(data = data, dates_out = dates_out, OAnew = 100,
-#'                              Single = T)
-#' Sys.time() - start
+#' # with simple ages as output
+#' lc_lim_data_single <- interp_lc_lim(data = data, dates_out = dates_out, OAG = F,
+#'                                     Single = TRUE)
 #' 
 #' \dontrun{
-#'   lc_lim_data %>% ggplot(aes(Age,nMx,col=factor(Date))) +
+#'   lc_lim_data_single %>% ggplot(aes(Age,nMx,col=factor(Date))) +
 #'     geom_step() + scale_y_log10() + facet_wrap(~Sex)
 #' }
 #' 
 #' # Avoiding cross-over between sex
-#' lc_lim_nondiv <- interp_lc_lim(data = data, dates_out = dates_out, OAnew = 100,
-#'                                prev_divergence = T)
+#' lc_lim_nondiv <- interp_lc_lim(data = data, dates_out = dates_out, OAG = F,
+#'                                prev_divergence = TRUE)
 #' \dontrun{
 #'   lc_lim_nondiv %>% ggplot(aes(Age,nMx,col=factor(Date))) + 
 #'     geom_step() + scale_y_log10() + facet_wrap(~Sex)
 #' }
 #' 
-#' # Using information about e0 in some years, replicate an estimate of e0 in dates_out 
-#' # improve performance next step maybe
-#' dates_e0 <- seq(1960,2015,5)
-#' e0_Males <- readHMDweb("SWE", "E0per", user, pass, fixup = TRUE) %>% 
-#'   filter(Year %in% dates_e0) %>% pull(Male)
-#' e0_Females <- readHMDweb("SWE", "E0per", user, pass, fixup = TRUE) %>% 
-#'   filter(Year %in% dates_e0) %>% pull(Female)
-#' # needs that by the moment for interp: source("R/AGEINT.R")
-#' lc_lim_fite0 <- interp_lc_lim(data = data, dates_out = dates_out, OAnew = 100,
+#' # Using information about e0 for past years
+#' dates_e0 <- as.Date(paste0(seq(1960,2015,5),"-07-01"))   
+#' e0_Males <- c(71.24, 71.74, 72.23, 72.17, 72.78, 73.78, 74.81, 76.18, 77.38, 78.42, 79.52, 80.32)
+#' e0_Females <- c(74.88, 76.08, 77.21, 77.95, 78.85, 79.69, 80.4, 81.44, 82.02, 82.75, 83.47, 84.02)
+#' lc_lim_fite0 <- interp_lc_lim(data = data, dates_out = dates_out, OAG = F,
 #'                               dates_e0 = dates_e0,
 #'                               e0_Males = e0_Males, 
 #'                               e0_Females = e0_Females)
 #' \dontrun{                           
 #'   ggplot() + 
-#'     geom_line(data = lc_lim_fite0 %>% filter(Age==0), aes(Date,ex,col=factor(Sex))) + 
 #'     geom_point(data = data.frame(Sex = c(rep("m",length(e0_Males)), rep("f",length(e0_Males))),
 #'                                  ex = c(e0_Males, e0_Females),
-#'                                  Year = rep(dates_e0,2)),
-#'                aes(Year,ex,col=factor(Sex)))
+#'                                  Date = rep(dec.date(dates_e0),2)),
+#'                aes(Date,ex,col=factor(Sex)))+
+#'     geom_line(data = lc_lim_fite0[lc_lim_fite0$Age==0,], aes(Date,ex,col=factor(Sex)))
 #' }
 #' 
-#' # smooth and/or extend open age group, in this case input is for 80+, and smoothing with Kannisto law
-#' # Coale-Guo is coming ;)...
-#' lc_lim_extOAg <- interp_lc_lim(data = data %>% filter(Age<=80), 
+#' # smooth and/or extend open age group, in this case input is for 80+
+#' lc_lim_extOAg <- interp_lc_lim(data = data[data$Age<=80,], 
 #'                                dates_out = dates_out, OAnew = 100,
 #'                                OAG = F, extrapLaw = "kannisto")
 #' \dontrun{ 
-#'   lc_lim_extOAg %>% ggplot(aes(Age,nMx,col=factor(Date))) + 
-#'     geom_step() + scale_y_log10() + facet_wrap(~Sex)
+#'   ggplot() + 
+#'     geom_step(data = lc_lim_extOAg, aes(Age,nMx,col=factor(Date))) +
+#'     scale_y_log10() + facet_wrap(~Sex)
 #' }
 #' #End
 
@@ -182,24 +195,28 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
     stop("\nSorry we need some column called nMx, nqx or lx\n")
   }
   
-  # define kind of input
-  # types <- c(nMx = NA_real_, nqx = NA_real_, lx = NA_real_)
-  # data <- data %>% 
-  #   add_column(!!!types[setdiff(names(types), names(data))]) %>%
-  #   mutate(type = ifelse(!is.na(nMx),"m",
-  #                        ifelse(!is.na(nqx), "q", "l")),
-  #          Value = ifelse(!is.na(nMx), nMx,
-  #                         ifelse(!is.na(nqx), nqx, lx)))
+  # cases for smooth older ages by default. And warn it (not sure if warning or message). Better cat?
+  # IW: maybe you want more conditions, go ahead.
+  # Extrap
+  if(is.null(extrapLaw)){
+    Ageext <- sort(unique(data$Age))
+    extrapFrom <- max(Ageext)
+    OAnew      <- 100
+    if(max(Ageext) < 90){
+      extrapLaw  <- "gompertz"
+      if (verbose) message("A Gompertz function was fitted for older ages.")
+      extrapFit = Ageext[Ageext >= 30 & ifelse(OAG, Ageext < max(Ageext), TRUE)]
+    }else{
+      extrapLaw  <- "kannisto"
+      if (verbose) message("A Kannisto function was fitted for older ages.")
+    }  
+  }
   
-  # build asked lt with Single arg and get rates. 
-  # IW: tried show_query lazing data with dtplyr but not wking yet
-  # TR: how about lapply() %>% do.call("rbind") ?
   # here written out, not elegant. data.table() is preferred, 
   # but this is also fine
   . <- NULL
   data <- split(data, list(data$Sex, data$Date)) %>% 
     lapply(function(X){
-      
       types     <- c("nMx","nqx","lx")
       lt_ambiguous_arg_types <- c("m","q","l")
       this_type <- lt_ambiguous_arg_types[types %in% colnames(X)]
@@ -242,29 +259,6 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
     .[order(Age)]
   nMxm <- nMxm[, -1] %>% as.matrix()
   rownames(nMxm) <- Age
-  # need a matrix by sex. Maybe with split in one sentence. sorry the spread,will change w pivot
-  
-  # A data.table example of doing this, ripped from interp_coh()
-  # PopAP <-
-  #   pop_jan1 %>%
-  #   .[, list(age, year, pop_jan1)] %>%
-  #   data.table::dcast(age ~ year, value.var = "pop_jan1") %>%
-  #   .[order(age)]
-  # 
-  # matinterp <- PopAP[age <= max(age1), -1] %>% as.matrix()
-  # rownames(matinterp) <- age1
-  
-  # nMxm <- data %>% 
-  #   filter(Sex == "m") %>% 
-  #   pivot_wider(names_from = Date, values_from = nMx) %>% 
-  #   select(-Age, -Sex) %>% 
-  #   as.matrix()
-  # 
-  # nMxf <- data %>% 
-  #   filter(Sex == "f") %>% 
-  #   spread(Date,nMx) %>% 
-  #   select(-Age, -Sex) %>% 
-  #   as.matrix()
   
   # LC at unequal intervals ---------------------------------------------------------
   
@@ -275,37 +269,25 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   
   # IW: make this modular
   # males
-  # lee carter using svd better. That´s what paper suggests
-  axm      <- rowSums(log(nMxm))/ndates_in 
-  # ktom   <- colSums(log(nMxm))-sum(axm)
-  # bxm    <- rowSums(sweep(log(nMxm) - axm, MARGIN = 2, ktom, `*`))/sum(ktom^2)
-  nMxm_svd <- svd(log(nMxm)-axm)
-  bxm      <- nMxm_svd$u[,1]/sum(nMxm_svd$u[,1])
-  ktom     <- nMxm_svd$d[1] * nMxm_svd$v[,1] * sum(nMxm_svd$u[,1])
-  cm       <- 0 # parameters
-  cm[2]    <- d1m <- (ktom[ndates_in] - ktom[1])/(dates_in[ndates_in] - dates_in[1]) # slope
-  cm[1]    <- ktom[1] - cm[2] * dates_in[1] # intercept
-  ktm      <- cm[1] + cm[2] * dates_out # interpolate/extrapolate
-  k0m      <- cm[1] + cm[2] * dates_in[1] # first year
-  
-  # females. IW: not happy with this sex duplication lines, maybe a lee-carter function?
-  axf      <- rowSums(log(nMxf))/ndates_in
-  nMxf_svd <- svd(log(nMxf)-axf)
-  bxf      <- nMxf_svd$u[, 1]/sum(nMxf_svd$u[, 1])
-  ktof     <- nMxf_svd$d[1] * nMxf_svd$v[, 1] * sum(nMxf_svd$u[, 1])
-  cf       <- 0
-  cf[2]    <- d1f <- (ktof[ndates_in] - ktof[1])/(dates_in[ndates_in] - dates_in[1])
-  cf[1]    <- ktof[1] - cf[2] * dates_in[1]
-  ktf      <- cf[1] + cf[2] * dates_out
-  k0f      <- cf[1] + cf[2] * dates_in[1]
+  lc_estimate_m <- lc_estimate(nMxm, dates_in, dates_out)
+  axm <- lc_estimate_m[[1]]
+  bxm <- lc_estimate_m[[2]]
+  ktm <- lc_estimate_m[[3]]
+  k0m <- lc_estimate_m[[4]]
+  # females
+  lc_estimate_f <- lc_estimate(nMxf, dates_in, dates_out)
+  axf <- lc_estimate_m[[1]]
+  bxf <- lc_estimate_m[[2]]
+  ktf <- lc_estimate_m[[3]]
+  k0f <- lc_estimate_m[[4]]
   
   # ask if prevent divergence and replicate target e0 ---------------------------------------------------------
   
   if (is.null(dates_e0)){ # not rep e0
     
     # basic
-    nMxm_hat <- exp(axm + sweep(matrix(bxm, nAge, length(dates_out)),MARGIN=2, ktm,`*`))
-    nMxf_hat <- exp(axf + sweep(matrix(bxf, nAge, length(dates_out)),MARGIN=2, ktf,`*`))
+    nMxm_hat <- exp(axm + bxm %*% t(ktm))
+    nMxf_hat <- exp(axf + bxf %*% t(ktf))
     
     # avoid divergence extrapolating to 1950: same bx and kt
     if (prev_divergence){
@@ -318,8 +300,8 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
       # }
       bx = (bxm + bxf) * .5
       k0 = (k0m + k0f) * .5
-      nMxm_hat_div <- nMxm[,1] * exp(sweep(matrix(bx,nAge,length(dates_out)),MARGIN=2,kt-k0,`*`))
-      nMxf_hat_div <- nMxf[,1] * exp(sweep(matrix(bx,nAge,length(dates_out)),MARGIN=2,kt-k0,`*`))
+      nMxm_hat_div <- nMxm[,1] * exp(bx %*% t(kt-k0))
+      nMxf_hat_div <- nMxf[,1] * exp(bx %*% t(kt-k0))
       
       # only for those years before min(dates_in). vba code explicit on that. 
       # IW: why not for dates_out>max(dates_in) also?
@@ -370,17 +352,11 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
     }
     
     # get rates with optim k.
-    # TR: this expression could look less R-esoteric. So, we want to multiply k into columns 
-    
-    # TR: the sweep stuff can look something like this.
-    # B <- exp(axm + bxm %*% t(ktm_star))
-   
-    nMxm_hat <- exp(axm + sweep(matrix(bxm, nAge, length(dates_out)), MARGIN = 2, ktm_star, `*`))
-    nMxf_hat <- exp(axf + sweep(matrix(bxf, nAge, length(dates_out)), MARGIN = 2, ktf_star, `*`))
+    nMxm_hat <- exp(axm + bxm %*% t(ktm_star))
+    nMxf_hat <- exp(axf + bxf %*% t(ktf_star))
   }
   
   # life tables output ------------------------------------------------------------
-  
   
   colnames(nMxm_hat) <- dates_out
   colnames(nMxf_hat) <- dates_out
@@ -410,7 +386,8 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
                             Sex = "f", 
                             Single = Single,
                             axmethod = "un", 
-                            a0rule = "ak")
+                            a0rule = "ak",
+                            ... = ...)
       LT$Sex  <- "f"
       LT$Date <- as.numeric(x)
       LT
@@ -444,35 +421,21 @@ lc_lim_kt_min <- function(k,
   return(((e0-e0_target)/e0_target)^2)
 }
 
-# coale-guo extension nMx from 80 - INCOMPLETE!!!
-# TR: can this generalize to arbitrary age classes;
-# and also remove position indexing?
-# coale_guo_kisker <- function(m, x, xout){
-#   #m = nMxf[,1]; x=Age; xout=seq(80,110,5); xextr=seq(80,100,5)
-#   
-#   if(is_abridged(x)){
-#     x_80 = which(x==80)
-#     r = .2 * log(m[x_80]/m[x_80-1])
-#     m80 = (m[x_80] + m[x_80-1])/2
-#     mA = 0.66 + m80 # max at 110
-#     s = (log(mA/m80) - 30 * r)/900 
-#     m = c(m[1:18], m[18] * exp(r*(xout-80)+s*(xout-80)^2))
-#     m = m[c(rep(T,x_80-1), xout %in% xextr)]
-#   } else {
-#     k_80 = log(m[x_80]/m[x_80-1])
-#     obj_fun <- function(s,x,m){
-#       k_start = log(m[2]/m[1])
-#       m_hat = m[1] * exp(k_start + (x-x[1]) * s)
-#       sum(((m-m_hat)/m)^2)
-#     }
-#     coale_guo_kisker(m,x, xout){
-#       m = Mx[80:101,"Male"]
-#       mmm = optimize(obj_fun,interval = c(0,1000),x=79:100,m=m)
-#     }
-#     }
-#   return(m)
-# }
-
+# estimate lc functions for limited data
+# IW: if wants normal LC (and data suitable for that), this is the fun to modify
+lc_estimate <- function(M, dates_in, dates_out){
+      ndates_in  <- length(dates_in)
+      ax         <- rowSums(log(M))/ndates_in
+      M_svd      <- svd(log(M)-ax)
+      bx         <- M_svd$u[, 1]/sum(M_svd$u[, 1])
+      kto        <- M_svd$d[1] * M_svd$v[, 1] * sum(M_svd$u[, 1])
+      c          <- 0
+      c[2]       <- (kto[ndates_in] - kto[1])/(dates_in[ndates_in] - dates_in[1])
+      c[1]       <- kto[1] - c[2] * dates_in[1]
+      kt         <- c[1] + c[2] * dates_out
+      k0         <- c[1] + c[2] * dates_in[1]
+      return(list(ax,bx,kt,k0))
+}
 
 # get lt for abrev/single ages and m/l/q input
 # TR: this looks sufficiently ambiguous, love it, haha.
