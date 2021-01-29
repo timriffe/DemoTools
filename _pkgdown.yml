@@ -20,7 +20,7 @@ reference:
     desc: Indicators to evaluate the degreee of age heaping
     contents: 
           - starts_with("check_heaping")
-  - title: "Evaluate consitenty of age structures"
+  - title: "Evaluate consistency of age structures"
     desc: Methods to assess the consistency of age structures
     contents:           
           - '`ageRatioScore`'

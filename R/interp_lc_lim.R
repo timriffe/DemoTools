@@ -1,4 +1,10 @@
-# Author: ...
+# TODO for next week
+# -[ ] test against the spreadsheet output (assuming necessary pre-processing is done)
+# -[ ] test success for different combinations of inputs (single, abdiged, mixed)
+# -[ ] test warnings if verbose = TRUE
+# -[ ] test exect_error() for example min time points.
+# -[ ] make single-sex version; interp_lc_lim will be wrapper, flexible w optional crossover constraint
+# -[ ] document auxiliary functions add @export
 ###############################################################################
 
 #' Lee-Carter method with limited data.
@@ -279,10 +285,10 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   k0m <- lc_estimate_m[[4]]
   # females
   lc_estimate_f <- interp_lc_lim_estimate(nMxf, dates_in, dates_out)
-  axf <- lc_estimate_m[[1]]
-  bxf <- lc_estimate_m[[2]]
-  ktf <- lc_estimate_m[[3]]
-  k0f <- lc_estimate_m[[4]]
+  axf <- lc_estimate_f[[1]]
+  bxf <- lc_estimate_f[[2]]
+  ktf <- lc_estimate_f[[3]]
+  k0f <- lc_estimate_f[[4]]
   
   # ask if prevent divergence and replicate target e0 ---------------------------------------------------------
   
