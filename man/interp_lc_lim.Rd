@@ -34,11 +34,13 @@ interp_lc_lim(
 
 \item{prev_divergence}{logical. Whether or not prevent divergence and sex crossover. Default \code{FALSE.}}
 
-\item{OAnew}{integer. Inferior limit of the open age group when extrapolate with \code{extrapLaw}.}
+\item{OAnew}{logical.}
 
 \item{OAG}{logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE.}}
 
 \item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked?}
+
+\item{verbose}{logical. Default \code{FALSE}.}
 
 \item{...}{Other arguments to be passed on to the \code{\link[lt_abridged]{lt_abridged}} function.}
 }
@@ -162,5 +164,5 @@ lc_lim_extOAg <- interp_lc_lim(data = data[data$Age<=80,],
 \insertRef{Li2004}{DemoTools}
 }
 \seealso{
-\code{\link[lt_abridged]{lt_abridged}}
+\code{\link[DemoTools]{lt_abridged}}
 }

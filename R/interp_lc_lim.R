@@ -28,7 +28,7 @@
 #' @param verbose logical. Default `FALSE`.
 #' @param ... Other arguments to be passed on to the \code{\link[lt_abridged]{lt_abridged}} function.
 #' @seealso
-#' \code{\link[lt_abridged]{lt_abridged}}
+#' \code{\link[DemoTools]{lt_abridged}}
 #' @export
 # TR: you can use markdown for this sort of thing, just getting used to it
 #' @return Lifetable in a data.frame with columns
@@ -241,6 +241,9 @@ interp_lc_lim <- function(data = NULL, # with cols: Date, Sex, Age, nMx (opt), n
   datadt <-
     data %>% 
     as.data.table()  
+  
+  # avoids 'no visible binding' warning
+  .Sex <- NULL
   
   nMxf <-
     datadt %>% 
