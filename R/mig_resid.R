@@ -568,6 +568,11 @@ mig_resid_stock <- function(pop_m_mat,
                             srb_vec,
                             ages,
                             ages_fertility) {
+  #new args years_pop, years_asfr, years_sr, years_srb (to be fed to checker)
+  years_pop <- colnames(pop_m_mat)
+  years_sr <- colnames(sr_m_mat)
+  years_asfr <- colnames(asfr_mat)
+  year_srb <- colnames(srb_vec)
 
   stopifnot(
     is.matrix(pop_m_mat),
@@ -579,18 +584,20 @@ mig_resid_stock <- function(pop_m_mat,
     is.numeric(ages),
     is.numeric(ages_fertility)
   )
-  # Check in dimensions are ok
-  if(ncol(asfr_mat) == ncol(pop_f_mat)-1){
+  # Check in dimensions are ok - still working on this
+  if(ncol(asfr_mat) == ncol(pop_f_mat) -1 & nrow(sr_f_mat) == nrow(pop_f_mat) -1){
     print("matrix dimensions are correct")
+    else {
+    print("check matrix dimension")
   }
-  else if(ncol(sr_f_mat) == ncol(pop_m_mat) -1){
-    print("matrix dimensions are correct")
+  
+  #if there are extra years, drop it - still thinking the best way to deal with it
+  if(colnames(asfr_mat) != colnames(sr_f_mat)){
+    asfr_mat <- asfr_mat[, colnames(sr_f_mat)]
+    sr_f_mat <- sr_f_mat[, colnames(sr_f_mat)]
   }
-  #if there are extra years, drop it
-  if(colnames(asfr_mat) == colnames(sr_f_mat)){
-    
-    
-  }
+  else if(ncol(asfr_mat))
+}
 
   # Migration net of only survivors
   net_mig_m <- migresid_net_surv(pop_m_mat, sr_m_mat)
