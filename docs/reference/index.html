@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.12.05</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.000</span>
       </span>
     </div>
 
@@ -239,7 +239,7 @@
     </tbody><tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-evaluate-consitenty-of-age-structures" class="hasAnchor"><a href="#section-evaluate-consitenty-of-age-structures" class="anchor"></a>Evaluate consitenty of age structures</h2>
+          <h2 id="section-evaluate-consistency-of-age-structures" class="hasAnchor"><a href="#section-evaluate-consistency-of-age-structures" class="anchor"></a>Evaluate consistency of age structures</h2>
           <p class="section-desc"><p>Methods to assess the consistency of age structures</p></p>
         </th>
       </tr>
@@ -398,6 +398,15 @@
         </td>
         <td><p>component-free intercensal cohort interpolation</p></td>
       </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-extrapolation" class="hasAnchor"><a href="#section-extrapolation" class="anchor"></a>Extrapolation</h2>
+          <p class="section-desc"><p>Functions to interpolate/extrapolate rates or counts - ‘<code>interp_lc_lim</code>’ - ‘<code>lt_rule_m_extrapolate</code>’ - ‘<code>OPAG</code>’</p></p>
+        </th>
+      </tr>
+      
+      
     </tbody><tbody>
       <tr>
         <th colspan="2">
@@ -700,6 +709,12 @@ time even flow and cohort even flow</p></td>
       </tr><tr>
         
         <td>
+          <p><code><a href="lt_ambiguous.html">lt_ambiguous()</a></code> </p>
+        </td>
+        <td><p>calculate an abidged or single age lifetable from abridged or sinlge age data</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="lt_id_L_T.html">lt_id_L_T()</a></code> </p>
         </td>
         <td><p>Derive lifetable total person years left to live from exposure.</p></td>
@@ -991,7 +1006,7 @@ time even flow and cohort even flow</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="census_cohort_adjust.html">census_cohort_adjust()</a></code> </p>
+          <p><code><a href="shift_census_ages_to_cohorts.html">shift_census_ages_to_cohorts()</a></code> </p>
         </td>
         <td><p>shift census populations to match single year cohorts</p></td>
       </tr><tr>
@@ -1040,15 +1055,39 @@ time even flow and cohort even flow</p></td>
       <tr>
         
         <td>
+          <p><code><a href="OPAG_fit_stable_standard.html">OPAG_fit_stable_standard()</a></code> </p>
+        </td>
+        <td><p>creates stable standard based on optimizing the growth rate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="OPAG_nLx_warp_r.html">OPAG_nLx_warp_r()</a></code> </p>
+        </td>
+        <td><p>Warps a given stationary population into a stable population</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="OPAG_r_min.html">OPAG_r_min()</a></code> </p>
+        </td>
+        <td><p>calculates residual for optimizing growth rate r for OPAG family</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="OPAG_simple.html">OPAG_simple()</a></code> </p>
         </td>
         <td><p>redistripute an open age group count over higher ages proportional to an arbitrary standard</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="interp.html">interp()</a></code> </p>
+          <p><code><a href="downloadSRB.html">downloadSRB()</a></code> </p>
         </td>
-        <td><p>Interpolate between two population age distributions.</p></td>
+        <td><p>Extract SRB estimates from WPP2019</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="downloadnLx.html">downloadnLx()</a></code> </p>
+        </td>
+        <td><p>Extract Lx estimates from WPP2019</p></td>
       </tr><tr>
         
         <td>

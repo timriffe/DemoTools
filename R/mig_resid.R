@@ -588,7 +588,7 @@ mig_resid_stock <- function(pop_m_mat,
   if(ncol(asfr_mat) == ncol(pop_f_mat) -1 & nrow(sr_f_mat) == nrow(pop_f_mat) -1){
     print("matrix dimensions are correct")
     else {
-    print("check matrix dimension")
+    print("check matrix dimensions")
   }
   
   #if there are extra years, drop it - still thinking the best way to deal with it
