@@ -1,3 +1,30 @@
+
+#TODO 
+# This is a high priority
+# -[ ] make sure mig_resid_cohort() handles dimensions properly (named indexing; no waste dims)
+# -[ ] make sure mig_resid_time() handles dimensions properly
+# -[ ] check dims of incoming arguments.
+# -[ ] new args years_pop, years_asfr, years_sr, years_srb (to be fed to checker)
+# -[ ] write a dimension checker + trimming mig_resid_dim_check()
+# -[ ] make this checker/trimmer the first step in mig_resid*()
+
+# This can come next
+# -[ ] make new package data. usethis::use_data(pop_m_mat)
+# -[ ] document new package data in data.R following other examples
+
+# Then this
+# -[ ] write wrapper function, mig_resid() with an argumet 'method' 
+#      with options "cohort", "stock" or "time", and all other args the same.
+
+# Then this
+# -[ ] unit tests
+
+# Then this
+# -[ ] sanity checks: do estimated migration patterns actually look reasonable in 
+#      periods/places that are known to be strong in or out migration places.
+
+
+
 #' Estimate net migration using residual methods: stock change,
 #' time even flow and cohort even flow
 #'
@@ -192,7 +219,7 @@
 #'     415.883, 133.756, 18.362, 1083.119, 1063.736, 1045.012, 1096.489,
 #'     1213.687, 1322.39, 1401.18, 1431.462, 1447.757, 1392.552, 1457.502,
 #'     1526.287, 1399.672, 1340.065, 1180.192, 1054.342, 943.985, 853.051,
-#'     496.821, 162.711, 25.414)
+#'     496.821, 162.711, 25.414) / 1000
 #'
 #' # Vector of age-specific fertility rates
 #' asfr <- c(50.369, 202.131, 206.141, 149.211, 87.253, 31.052,
@@ -463,8 +490,12 @@
 #' interval <- 5
 #' ages <- seq(0, 100, by = interval)
 #' years <- seq(1950, 2050, by = interval)
-#' ages_fertility <- seq(15, 45, by = interval)
-#'
+#' ages_fertility     <- seq(15, 45, by = interval)
+#' rownames(asfr_mat) <- ages_fertility
+#' rownames(pop_m_mat) <- ages
+#' rownames(pop_f_mat) <- ages
+#' rownames(sr_m_mat) <- ages
+#' rownames(sr_f_mat) <- ages
 #' mig_res <-
 #'   mig_resid_stock(
 #'     pop_m_mat = pop_m_mat,
@@ -553,21 +584,22 @@ mig_resid_stock <- function(pop_m_mat,
   net_mig_m <- migresid_net_surv(pop_m_mat, sr_m_mat)
   net_mig_f <- migresid_net_surv(pop_f_mat, sr_f_mat)
 
-  fertility_index <- which(ages %in% ages_fertility)
+ # fertility_index <- which(ages %in% ages_fertility)
 
   # Returns all births for all years
   age_interval <- unique(diff(ages))
   all_births <- migresid_births(
     pop_f_mat,
     asfr_mat,
-    fertility_index,
+   # fertility_index,
     age_interval
   )
 
   # With all_births already calculated, separate between
   # female/male births with the sex ratio at birth
-  births_m <- all_births[2:length(all_births)] * (srb_vec / (1 + srb_vec))
-  births_f <- all_births[2:length(all_births)] * (1 / (1 + srb_vec))
+  byrs     <- names(all_births)
+  births_m <- all_births * (srb_vec[byrs] / (1 + srb_vec[byrs]))
+  births_f <- all_births * (1 / (1 + srb_vec[byrs]))
 
   net_mig_m <- migresid_net_surv_first_ageg(
     net_mig_m,
@@ -585,8 +617,8 @@ mig_resid_stock <- function(pop_m_mat,
 
   # First year is empty, so we exclude
   list(
-    mig_m = net_mig_m[, -1],
-    mig_f = net_mig_f[, -1]
+    mig_m = net_mig_m,
+    mig_f = net_mig_f
   )
 }
 
@@ -646,10 +678,16 @@ mig_resid_cohort <- function(pop_m_mat,
   mig_rectangle_m <- mig_upper_m + mig_lower_m
   mig_rectangle_f <- mig_upper_f + mig_lower_f
 
-  list(
-    mig_m = mig_rectangle_m[, -1],
-    mig_f = mig_rectangle_f[, -1]
-  )
+ list(
+   mig_m = mig_rectangle_m[, -1],
+   mig_f = mig_rectangle_f[, -1]
+ )
+ # TR: we prefer this, but somewhere earlier in processing
+ # we get an extra column 1 full of NAs. So let's just not let that happen
+  # list(
+  #   mig_m = mig_rectangle_m,
+  #   mig_f = mig_rectangle_f
+  # )
 }
 
 #' @rdname mig_resid_stock
@@ -663,6 +701,13 @@ mig_resid_time <- function(pop_m_mat,
                            ages,
                            ages_fertility) {
 
+  # TR: add chunk (maybe a new function?) that
+  # checks dimensions; names dimensions if necessary (and warns if so)
+  # and trims dimensions if necessary (warning user if needed).
+  # warning does mean warning() it just means cat("\nwatch out!\n")
+  # Not important, but theese could be silenced using a new 'verbose' arg
+  
+  
   # Estimate stock method
   mig_res <-
     mig_resid_stock(
@@ -708,20 +753,23 @@ mig_resid_time <- function(pop_m_mat,
 # Net migration is pop minus the people that survived from the previous
 # age/cohort
 migresid_net_surv <- function(pop_mat, sr_mat) {
-  n <- nrow(pop_mat)
-  p <- ncol(pop_mat)
-  survived <- pop_mat[-n, -p] * sr_mat[-1, ]
-  res <- pop_mat[-1, -1] - survived
+  n                <- nrow(pop_mat)
+  p                <- ncol(pop_mat)
+  survived         <- pop_mat[-n, -p] * sr_mat[-1, ]
+  res              <- pop_mat[-1, -1] - survived
   res[nrow(res), ] <- NA
-  res <- rbind(matrix(NA, nrow = 1, ncol = ncol(res)), res)
-  res <- cbind(matrix(NA, nrow = nrow(res), ncol = 1), res)
-  res <- migresid_net_surv_last_ageg(res, pop_mat, sr_mat)
+  res              <- rbind(matrix(NA, nrow = 1, ncol = ncol(res)), res)
+  #res              <- cbind(matrix(NA, nrow = nrow(res), ncol = 1), res)
+  res              <- migresid_net_surv_last_ageg(res, pop_mat, sr_mat)
+  rownames(res)    <- rownames(pop_mat)
+  colnames(res)    <- colnames(pop_mat)[-p]
   res
 }
 
 # Net migration for last age group is pop for that age group in
 # year j, minus the people from the previous age group the survived
 migresid_net_surv_last_ageg <- function(net_mig, pop_mat, sr_mat) {
+  # TR: this uses position indexing.
   n <- nrow(pop_mat)
   p <- ncol(pop_mat)
   previous_year <- 1:(p - 1)
@@ -729,33 +777,52 @@ migresid_net_surv_last_ageg <- function(net_mig, pop_mat, sr_mat) {
     (pop_mat[n, previous_year] + pop_mat[n - 1, previous_year]) *
     sr_mat[n, previous_year]
 
-  net_mig[nrow(net_mig), 2:ncol(net_mig)] <- pop_mat[n, 2:p] - survived
+  net_mig[nrow(net_mig), ] <- pop_mat[n, 2:p] - survived
   net_mig
 }
 
 migresid_births <- function(pop_f_mat,
                             asfr_mat,
-                            fertility_index,
+                            #fertility_index,
                             age_interval) {
-  p <- ncol(pop_f_mat)
-
+  p         <- ncol(pop_f_mat)
+  asfr_ages <- rownames(asfr_mat)
   # Sum female pop from previous year and this year
-  f_pop <- pop_f_mat[fertility_index, -1] + pop_f_mat[fertility_index, -p]
-
+  # f_pop <- pop_f_mat[asfr_ages, -1] + pop_f_mat[asfr_ages, -p]
+  yrs     <- colnames(pop_f_mat) %>% as.numeric()
+  yrs_out <- yrs[-p] + diff(yrs) / 2
+  f_expos <-  interp(
+                pop_f_mat[asfr_ages, ], 
+                datesIn = yrs, 
+                datesOut = yrs_out, 
+                method = "linear")
+  asfr_years  <- yrs[-p] %>% as.character()
   # Births that occurred for all age groups for all years
   # based on the age-specific fertility rate (asfr) from
   # previous years to the population
-  these_births <- age_interval * (0.5 * (f_pop) * asfr_mat[, -p]) / 1000
-
-  all_births <- c(NA, colSums(these_births))
-  col_names <- attr(pop_f_mat, "dimnames")[[2]]
-  all_births <- stats::setNames(all_births, col_names)
-  all_births
+  these_births <- age_interval * (f_expos * asfr_mat[ , asfr_years]) # / 1000
+  these_births <- colSums(these_births)
+  names(these_births) <- asfr_years
+  # all_births <- c(NA, colSums(these_births))
+  # col_names  <- attr(pop_f_mat, "dimnames")[[2]]
+  # all_births <- stats::setNames(all_births, col_names)
+  # all_births
+  these_births
 }
 
 migresid_net_surv_first_ageg <- function(net_mig, pop_mat, births, sr_mat) {
-  p <- ncol(net_mig)
-  net_mig[1, 2:p] <- pop_mat[1, 2:p] - births * sr_mat[1, ]
+  # 20 yrs of births
+  # 21 yrs of population
+  # 20 yrs of sr
+  p    <- ncol(net_mig)
+  pyrs <- colnames(pop_mat)[-1] 
+  
+  # TR: a little hack
+  D    <- pyrs %>% as.numeric() %>% diff() %>% '['(1)
+  byrs <- pyrs %>% as.numeric() %>% '-'(D ) %>% as.character()
+  # TR: note net_mig col labels seem to be one too high
+  # we want byrs indexing on the left
+  net_mig[1, ] <- pop_mat[1, pyrs] - births[byrs] * sr_mat[1, byrs]
   net_mig
 }
 
@@ -769,20 +836,20 @@ migresid_bounds <- function(net_mig, sr_mat) {
   p <- ncol(net_mig)
 
   # Upper bound is net mig / 2 times the survival ratio ^ 0.5
-  mig_upper <- net_mig / (2 * sr_mat^0.5)
-  mig_upper <- cbind(matrix(NA, ncol = 1, nrow = n), mig_upper)
-  mig_lower <- mig_upper
+  mig_upper      <- net_mig / (2 * sr_mat^0.5)
+  mig_upper      <- cbind(matrix(NA, ncol = 1, nrow = n), mig_upper)
+  mig_lower      <- mig_upper
   mig_upper[1, ] <- NA
   mig_upper[n, ] <- NA
   mig_lower[n, ] <- NA
-  mig_lower <- mig_lower[-1, ]
-  empty_matrix <- matrix(NA, ncol = ncol(mig_lower), nrow = 1)
-  mig_lower <- rbind(mig_lower, empty_matrix)
+  mig_lower      <- mig_lower[-1, ]
+  empty_matrix   <- matrix(NA, ncol = ncol(mig_lower), nrow = 1)
+  mig_lower      <- rbind(mig_lower, empty_matrix)
 
   # Estimate upper bounds for the first age group. Why
   # no lower bound for the first age group? because we have
   # no previous age group.
-  p_upper <- ncol(mig_upper)
+  p_upper        <- ncol(mig_upper)
   mig_upper[1, 2:p_upper] <- net_mig[1, -p_upper] / (sr_mat[1, -p_upper]^0.5)
 
   list(upper = mig_upper, lower = mig_lower)

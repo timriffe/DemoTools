@@ -10,6 +10,7 @@ interp(
   datesOut,
   method = c("linear", "exponential", "power"),
   power = 2,
+  extrap = FALSE,
   ...
 )
 }
@@ -23,6 +24,8 @@ interp(
 \item{method}{string. The method to use for the interpolation, either \code{"linear"}, \code{"exponential"}, or \code{"power"}. Default \code{"linear"}.}
 
 \item{power}{numeric power to interpolate by, if \code{method = "power"}. Default 2.}
+
+\item{extrap}{logical. In case \code{datesOut} is out of range of datesIn, do extrapolation using slope in extreme pairwise. Deafult \code{FALSE}.}
 
 \item{...}{arguments passed to \code{stats::approx}. For example, \code{rule}, which controls extrapolation behavior.}
 }
