@@ -859,16 +859,14 @@ lt_infer_radix_from_1L0 <- function(L0){
 #' @param nLx either `NULL` or a numeric vector of lifetable exposure. If it's the second then we just pass it back.
 #' @param country character country name available UN Pop Div `LocName` set
 #' @param gender `"male"`, `"female"`, or `"both"`
-#' @param nLxDatesIn numeric vector of three decimal dates produced by (or passed through) `basepop_ive()`
+#' @param nLxDatesIn numeric vector of three decimal dates produced by (or passed through) `basepop_five()`
 #'
 #' @return numeric matrix of `nLx` with `length(nLxDatesIn)` and abrdiged ages in rows.
 #' @export
 #'
-#' @importFrom rlang .data
 downloadnLx <- function(nLx, country, gender, nLxDatesIn) {
   requireNamespace("fertestr", quietly = TRUE)
   requireNamespace("magrittr", quietly = TRUE)
-  requireNamespace("dplyr", quietly = TRUE)
   verbose <- getOption("basepop_verbose", TRUE)
     if (!is.null(nLx)) {
       # TR: ensure colnames passed
@@ -887,10 +885,11 @@ downloadnLx <- function(nLx, country, gender, nLxDatesIn) {
       if (verbose) {
         cat(paste0("Downloading nLx data for ", country, ", years ", paste(nLxDatesIn,collapse=", "), ", gender ", gender), sep = "\n")
       }
+      . <- NULL
   nLx <-
     lapply(nLxDatesIn, function(x) {
       fertestr::FetchLifeTableWpp2019(country, x, gender)$Lx
-    }) %>% dplyr::bind_cols() %>% as.matrix()
+    }) %>% do.call("cbind", .) %>% as.matrix()
 
   colnames(nLx) <- nLxDatesIn
   n             <- nrow(nLx)
@@ -921,7 +920,7 @@ downloadAsfr <- function(Asfrmat, country, AsfrDatesIn) {
       res        <- fertestr::FetchFertilityWpp2019(country, x)["asfr"]
       names(res) <- NULL
       as.matrix(res)[2:nrow(res), , drop = FALSE]
-    })
+    }) 
 
   Asfrmat           <- do.call(cbind, tmp)
   colnames(Asfrmat) <- AsfrDatesIn
