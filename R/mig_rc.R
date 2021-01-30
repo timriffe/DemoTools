@@ -132,13 +132,14 @@
 #' 0.0102,0.0109,0.0107,0.0143,0.0135,0.0134,0.0116,0.0099,
 #' 0.0093,0.0083,0.0078,0.0067,0.0069,0.0054)
 #' # fit the model
-#' 
+#'
+#' \dontrun{
 #' res <- mig_estimate_rc(ages, mig_rate, 
 #' pre_working_age = TRUE, 
 #' working_age = TRUE, 
 #' retirement = FALSE, 
 #' post_retirement = FALSE)
-#' \dontrun{
+#' 
 #' # plot the results and data
 #' plot(ages, mig_rate, ylab = "migration rate", xlab = "age")
 #' lines(ages, res[["fit_df"]]$median, col = "red")
