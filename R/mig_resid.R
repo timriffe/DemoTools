@@ -587,17 +587,21 @@ mig_resid_stock <- function(pop_m_mat,
   # Check in dimensions are ok - still working on this
   if(ncol(asfr_mat) == ncol(pop_f_mat) -1 & nrow(sr_f_mat) == nrow(pop_f_mat) -1){
     print("matrix dimensions are correct")
+  }
     else {
     print("check matrix dimensions")
   }
   
   #if there are extra years, drop it - still thinking the best way to deal with it
-  if(colnames(asfr_mat) != colnames(sr_f_mat)){
+  if(ncols(asfr_mat) != ncols(sr_f_mat)){
     asfr_mat <- asfr_mat[, colnames(sr_f_mat)]
-    sr_f_mat <- sr_f_mat[, colnames(sr_f_mat)]
+    sr_f_mat <- sr_f_mat[, colnames(asfr_mat)]
   }
-  else if(ncol(asfr_mat))
-}
+  else {
+    asfr_mat
+    sr_f_mat
+  }
+
 
   # Migration net of only survivors
   net_mig_m <- migresid_net_surv(pop_m_mat, sr_m_mat)
