@@ -566,13 +566,15 @@ mig_resid_stock <- function(pop_m_mat,
                             sr_f_mat,
                             asfr_mat,
                             srb_vec,
-                            ages,
-                            ages_fertility) {
-  #new args years_pop, years_asfr, years_sr, years_srb (to be fed to checker)
-  years_pop <- colnames(pop_m_mat)
-  years_sr <- colnames(sr_m_mat)
-  years_asfr <- colnames(asfr_mat)
-  year_srb <- colnames(srb_vec)
+                            ages = NULL,
+                            ages_fertility = NULL,
+                            years_pop = NULL,
+                            years_sr = NULL,
+                            years_asfr = NULL,
+                            years_srb = NULL) {
+  # this arg list can feed into the checker
+  args_list <- as.list(match.call())
+
 
   stopifnot(
     is.matrix(pop_m_mat),
@@ -584,20 +586,7 @@ mig_resid_stock <- function(pop_m_mat,
     is.numeric(ages),
     is.numeric(ages_fertility)
   )
-  # Check in dimensions are ok - still working on this
-  if(ncol(asfr_mat) == ncol(pop_f_mat) -1 & nrow(sr_f_mat) == nrow(pop_f_mat) -1){
-    print("matrix dimensions are correct")
-    else {
-    print("check matrix dimensions")
-  }
-  
-  #if there are extra years, drop it - still thinking the best way to deal with it
-  if(colnames(asfr_mat) != colnames(sr_f_mat)){
-    asfr_mat <- asfr_mat[, colnames(sr_f_mat)]
-    sr_f_mat <- sr_f_mat[, colnames(sr_f_mat)]
-  }
-  else if(ncol(asfr_mat))
-}
+
 
   # Migration net of only survivors
   net_mig_m <- migresid_net_surv(pop_m_mat, sr_m_mat)
@@ -901,3 +890,135 @@ migresid_bounds_last_ageg <- function(net_mig_m,
     mig_upper_f = mig_upper_f
   )
 }
+
+
+mig_resid_dim_checker <- function(arg_list){
+
+  pop_m_mat       <- arg_list$pop_m_mat
+  pop_f_mat       <- arg_list$pop_f_mat
+  sr_m_mat        <- arg_list$sr_m_mat
+  sr_f_mat        <- arg_list$sr_f_mat
+  asfr_mat        <- arg_list$asfr_mat
+  srb_vec         <- arg_list$srb_vec
+  ages            <- arg_list$ages
+  ages_fertility  <- arg_list$ages_fertility
+  
+  # Make sure to add these year args to top level mig_resid* funcions.
+  years_pop       <- arg_list$years_pop
+  years_sr        <- arg_list$years_sr   
+  years_asfr      <- arg_list$years_asfr
+  years_srb       <- arg_list$years_srb
+  
+  # Make sure to add verbose arg to top level mig_resid*() functions.
+  verbose         <- arg_list$verbose  
+  # These are easier to insist on:
+  stopifnot(all(dim(pop_m_mat) == dim(pop_f_mat)))
+  stopifnot(all(dim(sr_m_mat) == dim(sr_f_mat)))
+  
+  # These args, could be NULL, so look to dimnames:
+  if (is.null(ages)){
+    ages             <- rownames(pop_m_mat) %>% as.numeric()
+  }
+  if (is.null(years_pop)){
+    ages_fertility   <- rownames(asfr_mat) %>% as.numeric()
+  }
+  if (is.null(years_pop)){
+    years_pop        <- colnames(pop_m_mat) %>% as.numeric()
+  }
+  if (is.null(years_asfr)){
+    # TR: let's be careful that this doesn't end up hard coded at 15-45 or 15-49
+    # when used throughout the functions. Hypothetically, it could have same ages
+    # as pop or mort, but have 0s in non-fertile ages, make sense? This note
+    # may be out of place, but came to mind here.
+    years_asfr       <- colnames(asfr_mat) %>% as.numeric()
+  }
+  if (is.null(years_sr)){
+    years_sr         <- colnames(sr_m_mat) %>% as.numeric()
+  }
+  if (is.null(years_srb)){
+    years_srb        <- names(srb_vec) %>% as.numeric()
+  }
+ 
+  # Note, after the above, the years/ ages could still be NULL,
+  # In this case we demand that dimensions already conform with expectations
+  
+  # For ages, we can guess from dims. For years, we can't guess from dims.
+  # Therefore at least one of the year vectors needs to be non-NULL, AND
+  # the dims of matrices to which NULL years correspond must already be correct.
+  
+  np    <- ncol(pop_f_mat)
+  nsr   <- ncol(sr_m_mat)
+  nfert <- ncol(asfr_mat)
+  nsrb  <- length(srb_vec)
+  
+  dims_already_correct <- all(diff(c(np-1,nsr,nfert,nsrb) == 0))
+  
+  ind_nulls <- c(years_pop = is.null(years_pop), 
+                 years_asfr = is.null(years_asfr), 
+                 years_srb = is.null(years_srb), 
+                 years_sr = is.null(years_sr))
+  
+  # it's easiest to just force users to give year ranges via args
+  # or dimnames. If neither is available, just make them do it.
+  if (any(ind_nulls)){
+    stop("Year references must be given, either via function args or dimnames. Following references missing:\n",paste(names(ind_nulls)[ind_nulls],collapse=", "))
+  }
+  
+
+  # 1) assign names
+  colnames(pop_m_mat)    <- years_pop
+  colnames(pop_f_mat)    <- years_pop
+  colnames(asfr_mat)     <- years_fertility
+  colnames(sr_m_mat)     <- years_sr
+  colnames(sr_f_mat)     <- years_sr
+  names(srb_vec)         <- years_srb
+  
+  # maybe there should be more thorough checks on age? 
+  # we might be assigning NULL here...
+  rownames(pop_m_mat)    <- ages
+  rownames(pop_f_mat)    <- ages
+  rownames(sr_m_mat)     <- ages
+  rownames(sr_f_mat)     <- ages
+  rownames(asfr_mat)     <- ages_fertility
+  
+  # 2) determine ranges
+  # if dims aren't already correct
+  yr1    <- max(c(min(years_pop),
+                  min(years_sr),
+                  min(years_asfr),
+                  min(years_srb)))
+  yrlast <- min(c(max(years_pop[-np]),
+                  max(years_sr),
+                  max(years_asfr),
+                  max(years_srb)))
+  
+  interval      <- diff(years_asfr)[1] %>% as.integer()
+  
+  # just remember we need 1 more for pops!
+  years_final   <- seq(yr1, yrlast, by = interval)
+  years_final_p <- c(years_final, max(years_final) + interval)
+  # trim
+  pop_m_mat     <- pop_m_mat[, years_final_p ]
+  
+  if (ncol(pop_m_mat)!=np){
+    # TR: should have one of these per trim step?
+    if (verbose){
+      cat("\npop_m_mat years have trimmed\n")
+    }
+  }
+  
+  pop_f_mat     <- pop_f_mat[, years_final_p ]
+  sr_m_mat      <- sr_m_mat[, years_final ]
+  sr_f_mat      <- sr_f_mat[, years_final ]
+  asfr_mat      <- asfr_mat[, years_final ]
+  srb_vec       <- srb_vec[ years_final ]
+  
+  out <- list(pop_m_mat = pop_m_mat,
+              pop_f_mat = pop_f_mat,
+              sr_m_mat = sr_m_mat,
+              sr_f_mat = sr_f_mat,
+              asfr_mat = asfr_mat,
+              srb_vec = srb_vec)
+  
+  
+  }
