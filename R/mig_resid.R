@@ -1021,4 +1021,20 @@ mig_resid_dim_checker <- function(arg_list){
               srb_vec = srb_vec)
   
   
-  }
+}
+
+
+# match.call.defaults <- function(...) {
+#   call <- evalq(match.call(expand.dots = FALSE), parent.frame(1))
+#   formals <- evalq(formals(), parent.frame(1))
+#   
+#   for(i in setdiff(names(formals), names(call)))
+#     call[i] <- list( formals[[i]] )
+#   
+#   
+#   match.call(sys.function(sys.parent()), call)
+# }
+
+# foo <- function(a,b=NULL,...){match.call.defaults()}
+# foo(a=1,x=5)
+# foo(a = 1, b = NULL, ... = pairlist(x = 5))
