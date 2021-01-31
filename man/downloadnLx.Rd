@@ -13,7 +13,7 @@ downloadnLx(nLx, country, gender, nLxDatesIn)
 
 \item{gender}{\code{"male"}, \code{"female"}, or \code{"both"}}
 
-\item{nLxDatesIn}{numeric vector of three decimal dates produced by (or passed through) \code{basepop_ive()}}
+\item{nLxDatesIn}{numeric vector of three decimal dates produced by (or passed through) \code{basepop_five()}}
 }
 \value{
 numeric matrix of \code{nLx} with \code{length(nLxDatesIn)} and abrdiged ages in rows.
