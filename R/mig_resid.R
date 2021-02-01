@@ -496,17 +496,18 @@
 #' rownames(pop_f_mat) <- ages
 #' rownames(sr_m_mat) <- ages
 #' rownames(sr_f_mat) <- ages
-# mig_res <-
-#  mig_resid_stock(
-#    pop_m_mat = pop_m_mat,
-#     pop_f_mat = pop_f_mat,
-#    sr_m_mat = sr_m_mat,
-#    sr_f_mat = sr_f_mat,
-#    asfr_mat = asfr_mat,
-#    srb_vec = srb_vec,
-#     ages = ages,
-#    ages_fertility = ages_fertility
-#  )
+#'
+#' mig_res <-
+#'  mig_resid_stock(
+#'    pop_m_mat = pop_m_mat,
+#'     pop_f_mat = pop_f_mat,
+#'    sr_m_mat = sr_m_mat,
+#'    sr_f_mat = sr_f_mat,
+#'    asfr_mat = asfr_mat,
+#'    srb_vec = srb_vec,
+#'     ages = ages,
+#'    ages_fertility = ages_fertility
+#'  )
 #'
 #' # Net migration for males using stock change method
 #' mig_res$mig_m
