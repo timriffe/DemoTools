@@ -12,7 +12,7 @@ interp_lc_lim(
   e0_Males = NULL,
   e0_Females = NULL,
   prev_divergence = FALSE,
-  OAG = T,
+  OAG = TRUE,
   verbose = TRUE,
   ...
 )
@@ -37,10 +37,6 @@ interp_lc_lim(
 \item{verbose}{logical. Default \code{FALSE}.}
 
 \item{...}{Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.}
-
-\item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked?}
-
-\item{OAnew}{integer. Inferior limit of the open age group when extrapolate with \code{extrapLaw}.}
 }
 \value{
 Lifetable in a data.frame with columns
