@@ -574,7 +574,10 @@ mig_resid_stock <- function(pop_m_mat,
                             years_srb = NULL) {
   # this arg list can feed into the checker
   args_list <- as.list(match.call())
+<<<<<<< HEAD
   mig_resid_dim_checker(args_list)
+=======
+>>>>>>> 362ae9857574b05c519c8de40548461d6b9070dd
 
 
   stopifnot(
@@ -587,6 +590,7 @@ mig_resid_stock <- function(pop_m_mat,
     is.numeric(ages),
     is.numeric(ages_fertility)
   )
+<<<<<<< HEAD
   
 
 # <<<<<<< HEAD
@@ -609,6 +613,8 @@ mig_resid_stock <- function(pop_m_mat,
 #   }
 # =======
 # >>>>>>> 362ae9857574b05c519c8de40548461d6b9070dd
+=======
+>>>>>>> 362ae9857574b05c519c8de40548461d6b9070dd
 
 
   # Migration net of only survivors
