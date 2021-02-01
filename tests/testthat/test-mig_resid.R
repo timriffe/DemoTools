@@ -490,6 +490,7 @@ test_that("mig_resid_stock returns correct result", {
   mig_f_correct <- matrix(mig_f_correct, nrow = 21, ncol = 20)
   colnames(mig_f_correct) <- all_years[-length(all_years)]
   rownames(mig_f_correct) <- ages
+
   mig_res <-
     mig_resid_stock(
       pop_m_mat = pop_m_mat,
@@ -505,17 +506,11 @@ test_that("mig_resid_stock returns correct result", {
   net_mig_m <- mig_res$mig_m
   net_mig_f <- mig_res$mig_f
 
-  # colnames(mig_m_correct) <- NULL
-  # colnames(net_mig_m) <- NULL
-
   expect_equal(
     mig_m_correct,
     net_mig_m,
     tolerance = 0.00001
   )
-
-  # colnames(mig_f_correct) <- NULL
-  # colnames(net_mig_f) <- NULL
 
   expect_equal(
     mig_f_correct,
@@ -523,6 +518,32 @@ test_that("mig_resid_stock returns correct result", {
     tolerance = 0.00001
   )
 
+  # Test that mig_resid, the generic method maker, dispatches
+  # correctly
+  mig_res <-
+    mig_resid(
+      pop_m_mat = pop_m_mat,
+      pop_f_mat = pop_f_mat,
+      sr_m_mat = sr_m_mat,
+      sr_f_mat = sr_f_mat,
+      asfr_mat = asfr_mat,
+      srb_vec = srb_vec,
+      ages = ages,
+      ages_fertility = ages_fertility,
+      method = "stock"
+    )
+
+  expect_equal(
+    mig_m_correct,
+    mig_res$mig_m,
+    tolerance = 0.00001
+  )
+
+  expect_equal(
+    mig_f_correct,
+    mig_res$mig_f,
+    tolerance = 0.00001
+  )
 })
 
 test_that("mig_resid_cohort returns correct result", {
@@ -672,23 +693,45 @@ test_that("mig_resid_cohort returns correct result", {
   net_mig_m <- mig_res$mig_m
   net_mig_f <- mig_res$mig_f
 
-  # colnames(mig_m_correct) <- NULL
-  # colnames(net_mig_m) <- NULL
-
   expect_equal(
     mig_m_correct,
     net_mig_m,
     tolerance = 0.00001
   )
 
-  # colnames(mig_f_correct) <- NULL
-  # colnames(net_mig_f) <- NULL
-
   expect_equal(
     mig_f_correct,
     net_mig_f,
     tolerance = 0.00001
   )
+
+  # Test that mig_resid, the generic method maker, dispatches
+  # correctly
+  mig_res <-
+    mig_resid(
+      pop_m_mat = pop_m_mat,
+      pop_f_mat = pop_f_mat,
+      sr_m_mat = sr_m_mat,
+      sr_f_mat = sr_f_mat,
+      asfr_mat = asfr_mat,
+      srb_vec = srb_vec,
+      ages = ages,
+      ages_fertility = ages_fertility,
+      method = "cohort"
+    )
+
+  expect_equal(
+    mig_m_correct,
+    mig_res$mig_m,
+    tolerance = 0.00001
+  )
+
+  expect_equal(
+    mig_f_correct,
+    mig_res$mig_f,
+    tolerance = 0.00001
+  )
+
 })
 
 test_that("mig_resid_time returns correct result", {
@@ -857,6 +900,33 @@ test_that("mig_resid_time returns correct result", {
   expect_equal(
     mig_f_correct,
     net_mig_f,
+    tolerance = 0.00001
+  )
+
+  # Test that mig_resid, the generic method maker, dispatches
+  # correctly
+  mig_res <-
+    mig_resid(
+      pop_m_mat = pop_m_mat,
+      pop_f_mat = pop_f_mat,
+      sr_m_mat = sr_m_mat,
+      sr_f_mat = sr_f_mat,
+      asfr_mat = asfr_mat,
+      srb_vec = srb_vec,
+      ages = ages,
+      ages_fertility = ages_fertility,
+      method = "time"
+    )
+
+  expect_equal(
+    mig_m_correct,
+    mig_res$mig_m,
+    tolerance = 0.00001
+  )
+
+  expect_equal(
+    mig_f_correct,
+    mig_res$mig_f,
     tolerance = 0.00001
   )
 })

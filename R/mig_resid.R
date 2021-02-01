@@ -47,6 +47,10 @@
 #' an evenly distribution within the 5-year period, and half of the migrants
 #' get exposed both fertility and mortality within this period.
 #'
+#' \code{mig_resid} is a general function able to call the three methods only by
+#' specifying the \code{method} argument. By default it is set to the
+#' \code{stock} method. See the examples section.
+#'
 #' @param pop_m_mat A \code{numeric} matrix with population counts. Rows should
 #' be ages and columns should be years. Only five year age groups are supported.
 #' See examples.
@@ -100,16 +104,38 @@
 #' @param years_srb Years used in the column names of sex-ratio at birth. If
 #' \code{srb_r_mat} is not named, these names are used. Otherwise ignored.
 #'
+#' @param method which residual migration method to use. This only works when
+#' using \code{mig_resid} and the possible options are 'stock', 'cohort' and
+#' 'time', with 'stock' being the default.
+#'
 #' @return A list with two matrices. One is for males (called `mig_m`) and the
 #' other for females (called `mig_f`). Both matrices contain net migration
 #' estimates by age/period using one of the three methods.
 #'
 #' @examples
 #'
+#' library(DemoTools)
+#'
 #' # The data is loaded with DemoTools
 #'
 #' ################ Stock change method #####################
 #'
+#' # Either use the generic mig_resid
+#' mig_res <-
+#'  mig_resid(
+#'    pop_m_mat = pop_m_mat,
+#'    pop_f_mat = pop_f_mat,
+#'    sr_m_mat = sr_m_mat,
+#'    sr_f_mat = sr_f_mat,
+#'    asfr_mat = asfr_mat,
+#'    srb_vec = srb_vec,
+#'    ages = ages,
+#'    ages_fertility = ages_fertility,
+#'    # With the stock method
+#'    method = "stock"
+#'  )
+#'
+#' # Or directly the mid_resid_stock function
 #' mig_res <-
 #'  mig_resid_stock(
 #'    pop_m_mat = pop_m_mat,
@@ -132,6 +158,22 @@
 #' ################ cohort even flow method  #####################
 #'
 #' # We reuse the same data from before
+#' # Either use the generic mig_resid
+#' mig_res <-
+#'  mig_resid(
+#'    pop_m_mat = pop_m_mat,
+#'    pop_f_mat = pop_f_mat,
+#'    sr_m_mat = sr_m_mat,
+#'    sr_f_mat = sr_f_mat,
+#'    asfr_mat = asfr_mat,
+#'    srb_vec = srb_vec,
+#'    ages = ages,
+#'    ages_fertility = ages_fertility,
+#'    # With the cohort method
+#'    method = "cohort"
+#'  )
+#'
+#' # Or directly the mid_resid_cohort function
 #'
 #' mig_res <-
 #'   mig_resid_cohort(
@@ -154,6 +196,22 @@
 #' ################ time even flow method  #####################
 #'
 #' # We reuse the same data from before
+#' # Either use the generic mig_resid
+#' mig_res <-
+#'  mig_resid(
+#'    pop_m_mat = pop_m_mat,
+#'    pop_f_mat = pop_f_mat,
+#'    sr_m_mat = sr_m_mat,
+#'    sr_f_mat = sr_f_mat,
+#'    asfr_mat = asfr_mat,
+#'    srb_vec = srb_vec,
+#'    ages = ages,
+#'    ages_fertility = ages_fertility,
+#'    # With the time method
+#'    method = "time"
+#'  )
+#'
+#' # Or directly the mid_resid_time function
 #'
 #' mig_res <-
 #'   mig_resid_time(
@@ -173,6 +231,48 @@
 #' # Net migration for females using the time even flow method
 #' mig_res$mig_f
 #'
+#' @export
+mig_resid <- function(pop_m_mat,
+                      pop_f_mat,
+                      sr_m_mat,
+                      sr_f_mat,
+                      asfr_mat,
+                      srb_vec,
+                      ages = NULL,
+                      ages_fertility = NULL,
+                      years_pop = NULL,
+                      years_sr = NULL,
+                      years_asfr = NULL,
+                      years_srb = NULL,
+                      method = c("stock", "cohort", "time")) {
+
+  method <- match.arg(method)
+  cat(paste0("Using ", method, " residual migration method\n"))
+
+  fun <- switch(
+    method,
+    stock = mig_resid_stock,
+    cohort = mig_resid_cohort,
+    time = mig_resid_time
+  )
+
+  res <- fun(pop_m_mat = pop_m_mat,
+             pop_f_mat = pop_f_mat,
+             sr_m_mat = sr_m_mat,
+             sr_f_mat = sr_f_mat,
+             asfr_mat = asfr_mat,
+             srb_vec = srb_vec,
+             ages = ages,
+             ages_fertility = ages_fertility,
+             years_pop = years_pop,
+             years_sr = years_sr,
+             years_asfr = years_asfr,
+             years_srb = years_srb)
+
+  res
+}
+
+#' @rdname mig_resid
 #' @export
 mig_resid_stock <- function(pop_m_mat,
                             pop_f_mat,
@@ -197,8 +297,6 @@ mig_resid_stock <- function(pop_m_mat,
   sr_f_mat  <- args_list$sr_f_mat
   asfr_mat  <- args_list$asfr_mat
   srb_vec   <- args_list$srb_vec
-
-
 
   stopifnot(
     is.matrix(pop_m_mat),
@@ -278,7 +376,7 @@ mig_resid_stock <- function(pop_m_mat,
   )
 }
 
-#' @rdname mig_resid_stock
+#' @rdname mig_resid
 #' @export
 mig_resid_cohort <- function(pop_m_mat,
                              pop_f_mat,
@@ -361,7 +459,7 @@ mig_resid_cohort <- function(pop_m_mat,
   # )
 }
 
-#' @rdname mig_resid_stock
+#' @rdname mig_resid
 #' @export
 mig_resid_time <- function(pop_m_mat,
                            pop_f_mat,
