@@ -173,6 +173,7 @@
 #'     }
 #' @source Human Mortality Database. Retrieved 2019-11-28, from <https://mortality.org>
 "fitted_logquad_f"
+
 #' 
 #' LogQuad model for MALES fitted for all HMD life tables
 #'
@@ -191,9 +192,10 @@
 #' @source Human Mortality Database. Retrieved 2019-11-28, from <https://mortality.org>
 "fitted_logquad_m"
 
+#' Population matrix for males five year age groups between 1950 and 2050
+#'
 #' Population matrix for males five year age groups between 1950 and 2050 for
 #' unknown country
-#'
 #' @docType data
 #' @format
 #'   A matrix of dimensions 21 x 21
@@ -202,9 +204,10 @@
 #'   Migration residual PAS spreadhseet
 "pop_m_mat"
 
+#' Population matrix for females five year age groups between 1950 and 2050
+#'
 #' Population matrix for females five year age groups between 1950 and 2050 for
 #' unknown country
-#'
 #' @docType data
 #' @format
 #'   A matrix of dimensions 21 x 21
@@ -214,8 +217,9 @@
 "pop_f_mat"
 
 #' Survival rates matrix for males five year age groups between 1950 and 2045
-#' for unknown country
 #'
+#' Survival rates matrix for males five year age groups between 1950 and 2045
+#' for unknown country
 #' @docType data
 #' @format
 #'   A matrix of dimensions 21 x 20
@@ -225,8 +229,9 @@
 "sr_m_mat"
 
 #' Survival rates matrix for females five year age groups between 1950 and 2045
-#' for unknown country
 #'
+#' Survival rates matrix for females five year age groups between 1950 and 2045
+#' for unknown country
 #' @docType data
 #' @format
 #'   A matrix of dimensions 21 x 20
@@ -235,9 +240,10 @@
 #'   Migration residual PAS spreadhseet
 "sr_f_mat"
 
-#' Age-specific fertility rates for age groups 15 to 45 between 1950
-#' and 2045 for unknown country
+#' Age-specific fertility rates for age groups 15 to 45 between 1950 and 2045
 #'
+#' Age-specific fertility rates for age groups 15 to 45 between 1950 and 2045
+#' for unknown country
 #' @docType data
 #' @format
 #'   A matrix of dimensions 7 x 20
@@ -246,8 +252,9 @@
 #'   Migration residual PAS spreadhseet
 "asfr_mat"
 
-#' Sex ratio at birth between 1950 and 2045 for unknown country
+#' Sex ratio at birth between 1950 and 2045
 #'
+#' Sex ratio at birth between 1950 and 2045 for unknown country
 #' @docType data
 #' @format
 #'   A vector of length 20
@@ -258,6 +265,8 @@
 
 #' Ages between 0 and 100 abridged in five year age groups
 #'
+#' Ages between 0 and 100 abridged in five year age groups for unknown
+#' country
 #' @docType data
 #' @format
 #'   A vector of length 21
@@ -268,6 +277,8 @@
 
 #' Ages between 15 and 45 in five year age groups
 #'
+#' Ages between 15 and 45 in five year age groups for unknown
+#' country
 #' @docType data
 #' @format
 #'   A vector of length 7

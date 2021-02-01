@@ -3,8 +3,7 @@
 \docType{data}
 \name{pop_m_mat}
 \alias{pop_m_mat}
-\title{Population matrix for males five year age groups between 1950 and 2050 for
-unknown country}
+\title{Population matrix for males five year age groups between 1950 and 2050}
 \format{
 A matrix of dimensions 21 x 21
 }

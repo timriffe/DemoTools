@@ -14,6 +14,7 @@ Migration residual PAS spreadhseet
 ages
 }
 \description{
-Ages between 0 and 100 abridged in five year age groups
+Ages between 0 and 100 abridged in five year age groups for unknown
+country
 }
 \keyword{datasets}

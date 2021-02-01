@@ -3,8 +3,7 @@
 \docType{data}
 \name{asfr_mat}
 \alias{asfr_mat}
-\title{Age-specific fertility rates for age groups 15 to 45 between 1950
-and 2045 for unknown country}
+\title{Age-specific fertility rates for age groups 15 to 45 between 1950 and 2045}
 \format{
 A matrix of dimensions 7 x 20
 }
@@ -15,7 +14,7 @@ Migration residual PAS spreadhseet
 asfr_mat
 }
 \description{
-Age-specific fertility rates for age groups 15 to 45 between 1950
-and 2045 for unknown country
+Age-specific fertility rates for age groups 15 to 45 between 1950 and 2045
+for unknown country
 }
 \keyword{datasets}

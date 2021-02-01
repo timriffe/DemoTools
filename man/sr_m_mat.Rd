@@ -3,8 +3,7 @@
 \docType{data}
 \name{sr_m_mat}
 \alias{sr_m_mat}
-\title{Survival rates matrix for males five year age groups between 1950 and 2045
-for unknown country}
+\title{Survival rates matrix for males five year age groups between 1950 and 2045}
 \format{
 A matrix of dimensions 21 x 20
 }

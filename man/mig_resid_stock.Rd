@@ -14,8 +14,12 @@ mig_resid_stock(
   sr_f_mat,
   asfr_mat,
   srb_vec,
-  ages,
-  ages_fertility
+  ages = NULL,
+  ages_fertility = NULL,
+  years_pop = NULL,
+  years_sr = NULL,
+  years_asfr = NULL,
+  years_srb = NULL
 )
 
 mig_resid_cohort(
@@ -25,8 +29,12 @@ mig_resid_cohort(
   sr_f_mat,
   asfr_mat,
   srb_vec,
-  ages,
-  ages_fertility
+  ages = NULL,
+  ages_fertility = NULL,
+  years_pop = NULL,
+  years_sr = NULL,
+  years_asfr = NULL,
+  years_srb = NULL
 )
 
 mig_resid_time(
@@ -36,8 +44,12 @@ mig_resid_time(
   sr_f_mat,
   asfr_mat,
   srb_vec,
-  ages,
-  ages_fertility
+  ages = NULL,
+  ages_fertility = NULL,
+  years_pop = NULL,
+  years_sr = NULL,
+  years_asfr = NULL,
+  years_srb = NULL
 )
 }
 \arguments{
@@ -78,6 +90,21 @@ The years should be the same as the years in \code{sr_m_mat},
 
 \item{ages_fertility}{A \code{numeric} vector of ages used in the rows in
 \code{asfr_mat}.}
+
+\item{years_pop}{Years used in the column names of population. If
+\code{pop_m_mat} or \code{pop_f_mat} doesn't have column names, these
+names are used. Otherwise ignored.}
+
+\item{years_sr}{Years used in the column names of survival rates. If
+\code{sr_r_mat} doesn't have column names, these names are used. Otherwise
+ignored.}
+
+\item{years_asfr}{Years used in the column names of age-specific fertility
+rate. If code{asfr_r_mat} doesn't have column names, these names are used.
+Otherwise ignored.}
+
+\item{years_srb}{Years used in the column names of sex-ratio at birth. If
+\code{srb_r_mat} is not named, these names are used. Otherwise ignored.}
 }
 \value{
 A list with two matrices. One is for males (called \code{mig_m}) and the
@@ -108,18 +135,20 @@ get exposed both fertility and mortality within this period.
 }
 \examples{
 
+# The data is loaded with DemoTools
+
 ################ Stock change method #####################
 
 mig_res <-
  mig_resid_stock(
-    pop_m_mat = pop_m_mat,
-    pop_f_mat = pop_f_mat,
-    sr_m_mat = sr_m_mat,
-    sr_f_mat = sr_f_mat,
-    asfr_mat = asfr_mat,
-    srb_vec = srb_vec,
-    ages = ages,
-    ages_fertility = ages_fertility
+   pop_m_mat = pop_m_mat,
+   pop_f_mat = pop_f_mat,
+   sr_m_mat = sr_m_mat,
+   sr_f_mat = sr_f_mat,
+   asfr_mat = asfr_mat,
+   srb_vec = srb_vec,
+   ages = ages,
+   ages_fertility = ages_fertility
  )
 
 # Net migration for males using stock change method

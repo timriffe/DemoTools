@@ -3,7 +3,7 @@
 \docType{data}
 \name{srb_vec}
 \alias{srb_vec}
-\title{Sex ratio at birth between 1950 and 2045 for unknown country}
+\title{Sex ratio at birth between 1950 and 2045}
 \format{
 A vector of length 20
 }
