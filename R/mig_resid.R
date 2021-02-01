@@ -958,6 +958,21 @@ migresid_bounds_last_ageg <- function(net_mig_m,
 
 mig_resid_dim_checker <- function(arg_list){
 
+  # TR: objectives, either we get args from a properly captured arg_list,
+  # or we simply pass in all args by name (maybe the easiest to be certain of)
+  # ground rules:
+  # age ranges should match for sr and pop. If they don't then we should trim to the
+  # lowest common denominator, right?
+  # year ranges depend on the input:
+  # sr, asfr, srb need to have same years, but pop needs one extra year on the right side.
+  
+  # Each data argument should be given adequate dimnames for purposes of named selection
+  # Each data argument should be trimmed as appropriate for conformable computations
+  # If trimming happens, we warn if verbose.
+  # This function basically just needs to return data inputs whose dimensions are
+  # guaranteed to not cause problems in downstream mig_resid*() calcs.
+  # the reason why we do this here is so that these many lines of code aren't repeated.
+  
   pop_m_mat       <- arg_list$pop_m_mat
   pop_f_mat       <- arg_list$pop_f_mat
   sr_m_mat        <- arg_list$sr_m_mat
