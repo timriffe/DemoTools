@@ -496,17 +496,17 @@
 #' rownames(pop_f_mat) <- ages
 #' rownames(sr_m_mat) <- ages
 #' rownames(sr_f_mat) <- ages
-#' mig_res <-
-#'  mig_resid_stock(
-#'    pop_m_mat = pop_m_mat,
-#'     pop_f_mat = pop_f_mat,
-#'    sr_m_mat = sr_m_mat,
-#'    sr_f_mat = sr_f_mat,
-#'    asfr_mat = asfr_mat,
-#'    srb_vec = srb_vec,
-#'     ages = ages,
-#'    ages_fertility = ages_fertility
-#'  )
+mig_res <-
+ mig_resid_stock(
+   pop_m_mat = pop_m_mat,
+    pop_f_mat = pop_f_mat,
+   sr_m_mat = sr_m_mat,
+   sr_f_mat = sr_f_mat,
+   asfr_mat = asfr_mat,
+   srb_vec = srb_vec,
+    ages = ages,
+   ages_fertility = ages_fertility
+ )
 #'
 #' # Net migration for males using stock change method
 #' mig_res$mig_m
@@ -574,10 +574,16 @@ mig_resid_stock <- function(pop_m_mat,
                             years_srb = NULL) {
   # this arg list can feed into the checker
   args_list <- as.list(match.call())
-<<<<<<< HEAD
+
   mig_resid_dim_checker(args_list)
-=======
->>>>>>> 362ae9857574b05c519c8de40548461d6b9070dd
+  
+  pop_m_mat <- args_list$pop_m_mat
+  pop_f_mat <- args_list$pop_f_mat
+  sr_m_mat  <- args_list$sr_m_mat
+  sr_f_mat  <- args_list$sr_f_mat
+  asfr_mat  <- args_list$asfr_mat
+  srb_vec   <- args_list$srb_vec
+
 
 
   stopifnot(
@@ -590,7 +596,7 @@ mig_resid_stock <- function(pop_m_mat,
     is.numeric(ages),
     is.numeric(ages_fertility)
   )
-<<<<<<< HEAD
+
   
 
 # <<<<<<< HEAD
@@ -613,8 +619,7 @@ mig_resid_stock <- function(pop_m_mat,
 #   }
 # =======
 # >>>>>>> 362ae9857574b05c519c8de40548461d6b9070dd
-=======
->>>>>>> 362ae9857574b05c519c8de40548461d6b9070dd
+
 
 
   # Migration net of only survivors
@@ -675,7 +680,15 @@ mig_resid_cohort <- function(pop_m_mat,
                              years_srb = NULL) {
   # this arg list can feed into the checker
   args_list <- as.list(match.call())
+  
   mig_resid_dim_checker(args_list)
+  
+  pop_m_mat <- args_list$pop_m_mat
+  pop_f_mat <- args_list$pop_f_mat
+  sr_m_mat  <- args_list$sr_m_mat
+  sr_f_mat  <- args_list$sr_f_mat
+  asfr_mat  <- args_list$asfr_mat
+  srb_vec   <- args_list$srb_vec
 
   # Estimate stock method
   mig_res <-
@@ -750,7 +763,15 @@ mig_resid_time <- function(pop_m_mat,
                            years_srb = NULL) {
   # this arg list can feed into the checker
   args_list <- as.list(match.call())
+  
   mig_resid_dim_checker(args_list)
+  
+  pop_m_mat <- args_list$pop_m_mat
+  pop_f_mat <- args_list$pop_f_mat
+  sr_m_mat  <- args_list$sr_m_mat
+  sr_f_mat  <- args_list$sr_f_mat
+  asfr_mat  <- args_list$asfr_mat
+  srb_vec   <- args_list$srb_vec
 
   # TR: add chunk (maybe a new function?) that
   # checks dimensions; names dimensions if necessary (and warns if so)
