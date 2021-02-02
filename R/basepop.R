@@ -883,7 +883,9 @@ downloadnLx <- function(nLx, country, gender, nLxDatesIn) {
     if (is.null(country)) stop("You need to provide a country to download the data for nLx")
       
       if (verbose) {
-        cat(paste0("Downloading nLx data for ", country, ", years ", paste(nLxDatesIn,collapse=", "), ", gender ", gender), sep = "\n")
+        cat(paste0("Downloading nLx data for ", country, 
+                   ", years ", paste(nLxDatesIn,collapse=", "), 
+                   ", gender ", gender), sep = "\n")
       }
       . <- NULL
   nLx <-
