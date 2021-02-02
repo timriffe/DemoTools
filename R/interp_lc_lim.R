@@ -129,10 +129,11 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
   # I added a capture of extra args entering the function all at the top.
   # instead of ... pass things in by name, above a list of default values for
   # lt_abridged(), most of which are the same for lt_single*()
-  ExtraArgs <- as.list(match.call()) # note, this doesn't capture NULL defaults!
+  # note, this doesn't capture NULL defaults!
   # TR: ExtraArgs has a problem in that it won't capture & pass NULL defaults
   # mget(names(formals()),sys.frame(sys.nframe()))
-
+  # IW: this captures everything: dots & NULLS
+  ExtraArgs <- c(as.list(environment()), list(...))
 
   dates_in  <- unique(input$Date) %>% dec.date()
   dates_out <- dec.date(dates_out)
@@ -171,68 +172,11 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
   # and maybe this function shouldn't be anonymous, but rather called inside
   # inputdt[, new_function(.SD,...),by=list(Sex,Date)] # or similar.
   . <- NULL
-  input <- split(input, list(input$Sex, input$Date)) %>% 
-    lapply(function(X, ...){
-      
-      
-      # TR: note I made lt_ambiguous() flexible on the inside,
-      # so you could actually use types as its type arg.
-      # That would simplify this code some.
-      types     <- c("nMx","nqx","lx")
-      lt_ambiguous_arg_types <- c("m","q","l")
-      this_type <- lt_ambiguous_arg_types[types %in% colnames(X)]
-      this_col  <- types[types %in% colnames(X)]
-      this_sex  <- unique(X[["Sex"]])
-      this_date <- unique(X[["Date"]])
-      
-      # cases for smooth older ages by default
-      if(!"extrapLaw" %in% names(ExtraArgs) ){  
-      Ageext <- sort(unique(X$Age))
-        this_extrapFrom <- max(Ageext)
-        this_OAnew = 100
-        if(this_extrapFrom < 90){
-          this_extrapLaw  <- "gompertz"
-          if (verbose) message(paste0("A Gompertz function was fitted for older ages for sex ",
-                                      this_sex, " and date ",this_date))
-          # TR: changed this. 30 could be sort of low in some situations.
-          this_extrapFit = Ageext[Ageext >= (this_extrapFrom - 30) & ifelse(OAG, Ageext < max(Ageext), TRUE)]
-        }else{
-          this_extrapLaw  <- "kannisto"
-          if (verbose) message(paste0("A Kannisto function was fitted for older ages for sex ",
-                                      this_sex, " and date ",this_date))
-          this_extrapFit = Ageext[Ageext >= 60 & ifelse(OAG, Ageext < max(Ageext), TRUE)]
-        }
-        # TR: other args not passed in are scoped one level up
-          out <- lt_ambiguous(x = X[[this_col]], 
-                            Age = X[["Age"]], 
-                            type = this_type,
-                            Sex = this_sex,
-                            Single = Single,
-                            extrapLaw = this_extrapLaw,
-                            extrapFit = this_extrapFit,
-                            extrapFrom = this_extrapFrom, 
-                            OAnew = this_OAnew, 
-                            ... = ...)
-      }else{
-        out <- lt_ambiguous(x = X[[this_col]], 
-                            Age = X[["Age"]], 
-                            type = this_type,
-                            Sex = this_sex,
-                            Single = Single,
-                            extrapLaw = ExtraArgs$extrapLaw, # not the best way maybe
-                            ... = ...)  
-      }
-      
-      out$Sex <- this_sex
-      out$Date <- this_date
-      out
-    }) %>% 
-    do.call("rbind", .)
-    
-  inputdt <-
-    input %>% 
-    as.data.table()  
-  
+  inputdt <- split(input, list(input$Sex, input$Date)) %>% 
+              lapply(FUN = lt_smooth_ambiguous, ExtraArgs = ExtraArgs) %>% 
+              do.call("rbind", .)%>% 
+              as.data.table() 
+
   # avoids 'no visible binding' warning
   Sex <- NULL
   
@@ -261,7 +205,6 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
   ndates_out <- length(dates_out)
   nAge       <- length(Age)
   
-  # IW: make this modular
   # males
   lc_estimate_m <- interp_lc_lim_estimate(nMxm, dates_in, dates_out)
   axm <- lc_estimate_m[[1]]
@@ -454,3 +397,64 @@ interp_lc_lim_estimate <- function(M, dates_in, dates_out){
       return(list(ax,bx,kt,k0))
 }
 
+# smooth rule previous to solve ambiguous
+#' 
+#' @description Considering different mortality input for each sex/year data, 
+#' smooth olders with gompertz or kannisto in case no law was specified, 
+#' and return a data.frame with standard LT. 
+#' @details Gompertz is chosen if last age is less than 90. Else Kannisto. 
+#' @param input data.frame. with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)  
+#' @param ExtraArgs list. Parameters produced in `interp_lc_lim` environment function.
+#' @export
+lt_smooth_ambiguous <- function(input, ExtraArgs, ...){
+  
+  # get only cols with values (could entry nMx for some sex/year and nqx or lx for other)
+  X <- input[!sapply(input, function(x) all(is.na(x)))]
+  
+  types     <- c("nMx","nqx","lx")
+  this_type <- types[types %in% colnames(X)]
+  this_sex  <- unique(X[["Sex"]])
+  this_date <- unique(X[["Date"]])
+  
+  # cases for smooth older ages by default
+  if(!"extrapLaw" %in% names(ExtraArgs) ){  
+    Ageext <- sort(unique(X$Age))
+    this_extrapFrom <- max(Ageext)
+    this_OAnew = 100
+    if(this_extrapFrom < 90){
+      this_extrapLaw  <- "gompertz"
+      if (ExtraArgs$verbose) message(paste0("A Gompertz function was fitted for older ages for sex ",
+                                  this_sex, " and date ",this_date))
+      # TR: changed this. 30 could be sort of low in some situations.
+      this_extrapFit = Ageext[Ageext >= (this_extrapFrom - 30) & ifelse(ExtraArgs$OAG, Ageext < max(Ageext), TRUE)]
+    }else{
+      this_extrapLaw  <- "kannisto"
+      if (ExtraArgs$verbose) message(paste0("A Kannisto function was fitted for older ages for sex ",
+                                  this_sex, " and date ",this_date))
+      this_extrapFit = Ageext[Ageext >= 60 & ifelse(ExtraArgs$OAG, Ageext < max(Ageext), TRUE)]
+    }
+    # TR: other args not passed in are scoped one level up
+    out <- lt_ambiguous(x = X[[this_type]], 
+                        Age = X[["Age"]], 
+                        type = this_type,
+                        Sex = this_sex,
+                        Single = ExtraArgs$Single,
+                        extrapLaw = this_extrapLaw,
+                        extrapFit = this_extrapFit,
+                        extrapFrom = this_extrapFrom, 
+                        OAnew = this_OAnew,
+                        ... = ...)
+  }else{
+    out <- lt_ambiguous(x = X[[this_type]], 
+                        Age = X[["Age"]], 
+                        type = this_type,
+                        Sex = this_sex,
+                        Single = ExtraArgs$Single,
+                        extrapLaw = ExtraArgs$extrapLaw,
+                        ... = ...)  
+  }
+  
+  out$Sex <- this_sex
+  out$Date <- this_date
+  out
+}
