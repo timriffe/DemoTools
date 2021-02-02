@@ -306,6 +306,17 @@ mig_resid_stock <- function(pop_m_mat,
   asfr_mat  <- args_list$asfr_mat
   srb_vec   <- args_list$srb_vec
 
+  stopifnot(
+    is.matrix(pop_m_mat),
+    is.matrix(pop_f_mat),
+    is.matrix(sr_m_mat),
+    is.matrix(sr_f_mat),
+    is.matrix(asfr_mat),
+    is.numeric(srb_vec)
+    ## is.numeric(ages),
+    ## is.numeric(ages_fertility)
+  )
+
 # <<<<<<< HEAD
 #   # Check in dimensions are ok - still working on this
 #   if(ncol(asfr_mat) == ncol(pop_f_mat) -1 & nrow(sr_f_mat) == nrow(pop_f_mat) -1){
@@ -698,17 +709,6 @@ mig_resid_dim_checker <- function(arg_list){
   years_srb       <- arg_list$years_srb
   verbose         <- arg_list$verbose
 
-  stopifnot(
-    is.matrix(pop_m_mat),
-    is.matrix(pop_f_mat),
-    is.matrix(sr_m_mat),
-    is.matrix(sr_f_mat),
-    is.matrix(asfr_mat),
-    is.numeric(srb_vec),
-    is.numeric(ages),
-    is.numeric(ages_fertility)
-  )
-
   # These are easier to insist on:
   stopifnot(all(dim(pop_m_mat) == dim(pop_f_mat)))
   stopifnot(all(dim(sr_m_mat) == dim(sr_f_mat)))
@@ -717,10 +717,20 @@ mig_resid_dim_checker <- function(arg_list){
   if (is.null(ages)){
     ages             <- rownames(pop_m_mat) %>% as.numeric()
   }
+
+  if (ages[1] != 0) {
+    stop(
+      paste0(
+        "Ages must begin at zero. Ages currently begin at ", ages[1]
+      )
+    )
+  }
+
   if (is.null(years_pop)){
     ages_fertility   <- rownames(asfr_mat) %>% as.numeric()
     years_pop        <- colnames(pop_m_mat) %>% as.numeric()
   }
+
   if (is.null(years_asfr)){
     # TR: let's be careful that this doesn't end up hard coded at 15-45 or 15-49
     # when used throughout the functions. Hypothetically, it could have same ages
@@ -728,9 +738,11 @@ mig_resid_dim_checker <- function(arg_list){
     # may be out of place, but came to mind here.
     years_asfr       <- colnames(asfr_mat) %>% as.numeric()
   }
+
   if (is.null(years_sr)){
     years_sr         <- colnames(sr_m_mat) %>% as.numeric()
   }
+
   if (is.null(years_srb)){
     years_srb        <- names(srb_vec) %>% as.numeric()
   }
@@ -759,7 +771,6 @@ mig_resid_dim_checker <- function(arg_list){
   if (any(ind_nulls)){
     stop("Year references must be given, either via function args or dimnames. Following references missing:\n",paste(names(ind_nulls)[ind_nulls],collapse=", "))
   }
-
 
   # 1) assign names
   colnames(pop_m_mat)    <- years_pop

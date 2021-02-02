@@ -934,50 +934,50 @@ test_that("mig_resid_time returns correct result", {
 
 test_that("all mig_resid methods throw warnings when data is trimmed", {
 
-  expect_output(
-    mig_resid_stock(
-      pop_m_mat = pop_m_mat,
-      pop_f_mat = pop_f_mat,
-      sr_m_mat = sr_m_mat,
-      sr_f_mat = sr_f_mat,
-      asfr_mat = asfr_mat,
-      srb_vec = srb_vec[1:16],
-      ages = ages,
-      ages_fertility = ages_fertility,
-      verbose = TRUE
-    ),
-    regexp = "Years 2035, 2040, 2045, 2050 have been trimmed from all the data"
-  )
+  all_funs <- list(mig_resid_stock, mig_resid_cohort, mig_resid_time)
 
-  expect_output(
-    mig_resid_cohort(
-      pop_m_mat = pop_m_mat,
-      pop_f_mat = pop_f_mat,
-      sr_m_mat = sr_m_mat,
-      sr_f_mat = sr_f_mat,
-      asfr_mat = asfr_mat,
-      srb_vec = srb_vec[1:16],
-      ages = ages,
-      ages_fertility = ages_fertility,
-      verbose = TRUE
-    ),
-    regexp = "Years 2035, 2040, 2045, 2050 have been trimmed from all the data"
-  )
-
-  expect_output(
-    mig_resid_time(
-      pop_m_mat = pop_m_mat,
-      pop_f_mat = pop_f_mat,
-      sr_m_mat = sr_m_mat,
-      sr_f_mat = sr_f_mat,
-      asfr_mat = asfr_mat,
-      srb_vec = srb_vec[1:16],
-      ages = ages,
-      ages_fertility = ages_fertility,
-      verbose = TRUE
-    ),
-    regexp = "Years 2035, 2040, 2045, 2050 have been trimmed from all the data"
-  )
+  for (fun in all_funs) {
+    expect_output(
+      fun(
+        pop_m_mat = pop_m_mat,
+        pop_f_mat = pop_f_mat,
+        sr_m_mat = sr_m_mat,
+        sr_f_mat = sr_f_mat,
+        asfr_mat = asfr_mat,
+        srb_vec = srb_vec[1:16],
+        ages = ages,
+        ages_fertility = ages_fertility,
+        verbose = TRUE
+      ),
+      regexp = "Years 2035, 2040, 2045, 2050 have been trimmed from all the data"
+    )
+  }
 
 })
 
+test_that("all mig_resid methods throw errors when ages do not begin at zero ", {
+
+  all_funs <- list(mig_resid_stock, mig_resid_cohort, mig_resid_time)
+  ages[1] <- 1
+
+  for (fun in all_funs) {
+    # when age is supplied
+    expect_error(
+      fun(
+        pop_m_mat = pop_m_mat,
+        pop_f_mat = pop_f_mat,
+        sr_m_mat = sr_m_mat,
+        sr_f_mat = sr_f_mat,
+        asfr_mat = asfr_mat,
+        srb_vec = srb_vec,
+        ages = ages,
+        ages_fertility = ages_fertility,
+        verbose = TRUE
+      ),
+      regexp = "Ages must begin at zero. Ages currently begin at 1"
+    )
+  }
+
+  # TODO we should add a test checking that this passes alright when ages
+  # is not provided but inferred from the matrices
+})
