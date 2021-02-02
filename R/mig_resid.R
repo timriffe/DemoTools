@@ -306,19 +306,6 @@ mig_resid_stock <- function(pop_m_mat,
   asfr_mat  <- args_list$asfr_mat
   srb_vec   <- args_list$srb_vec
 
-  stopifnot(
-    is.matrix(pop_m_mat),
-    is.matrix(pop_f_mat),
-    is.matrix(sr_m_mat),
-    is.matrix(sr_f_mat),
-    is.matrix(asfr_mat),
-    is.numeric(srb_vec),
-    is.numeric(ages),
-    is.numeric(ages_fertility)
-  )
-
-
-
 # <<<<<<< HEAD
 #   # Check in dimensions are ok - still working on this
 #   if(ncol(asfr_mat) == ncol(pop_f_mat) -1 & nrow(sr_f_mat) == nrow(pop_f_mat) -1){
@@ -710,6 +697,17 @@ mig_resid_dim_checker <- function(arg_list){
   years_asfr      <- arg_list$years_asfr
   years_srb       <- arg_list$years_srb
   verbose         <- arg_list$verbose
+
+  stopifnot(
+    is.matrix(pop_m_mat),
+    is.matrix(pop_f_mat),
+    is.matrix(sr_m_mat),
+    is.matrix(sr_f_mat),
+    is.matrix(asfr_mat),
+    is.numeric(srb_vec),
+    is.numeric(ages),
+    is.numeric(ages_fertility)
+  )
 
   # These are easier to insist on:
   stopifnot(all(dim(pop_m_mat) == dim(pop_f_mat)))
