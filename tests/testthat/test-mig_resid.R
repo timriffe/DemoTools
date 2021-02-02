@@ -503,6 +503,7 @@ test_that("mig_resid_stock returns correct result", {
       ages_fertility = ages_fertility
     )
 
+  mig_resid_cohortet_mig_m <- mig_res$mig_m
   net_mig_m <- mig_res$mig_m
   net_mig_f <- mig_res$mig_f
 
@@ -930,3 +931,53 @@ test_that("mig_resid_time returns correct result", {
     tolerance = 0.00001
   )
 })
+
+test_that("all mig_resid methods throw warnings when data is trimmed", {
+
+  expect_output(
+    mig_resid_stock(
+      pop_m_mat = pop_m_mat,
+      pop_f_mat = pop_f_mat,
+      sr_m_mat = sr_m_mat,
+      sr_f_mat = sr_f_mat,
+      asfr_mat = asfr_mat,
+      srb_vec = srb_vec[1:16],
+      ages = ages,
+      ages_fertility = ages_fertility,
+      verbose = TRUE
+    ),
+    regexp = "Years 2035, 2040, 2045, 2050 have been trimmed from all the data"
+  )
+
+  expect_output(
+    mig_resid_cohort(
+      pop_m_mat = pop_m_mat,
+      pop_f_mat = pop_f_mat,
+      sr_m_mat = sr_m_mat,
+      sr_f_mat = sr_f_mat,
+      asfr_mat = asfr_mat,
+      srb_vec = srb_vec[1:16],
+      ages = ages,
+      ages_fertility = ages_fertility,
+      verbose = TRUE
+    ),
+    regexp = "Years 2035, 2040, 2045, 2050 have been trimmed from all the data"
+  )
+
+  expect_output(
+    mig_resid_time(
+      pop_m_mat = pop_m_mat,
+      pop_f_mat = pop_f_mat,
+      sr_m_mat = sr_m_mat,
+      sr_f_mat = sr_f_mat,
+      asfr_mat = asfr_mat,
+      srb_vec = srb_vec[1:16],
+      ages = ages,
+      ages_fertility = ages_fertility,
+      verbose = TRUE
+    ),
+    regexp = "Years 2035, 2040, 2045, 2050 have been trimmed from all the data"
+  )
+
+})
+

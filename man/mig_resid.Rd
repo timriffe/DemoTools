@@ -21,6 +21,7 @@ mig_resid(
   years_sr = NULL,
   years_asfr = NULL,
   years_srb = NULL,
+  verbose = TRUE,
   method = c("stock", "cohort", "time")
 )
 
@@ -36,7 +37,8 @@ mig_resid_stock(
   years_pop = NULL,
   years_sr = NULL,
   years_asfr = NULL,
-  years_srb = NULL
+  years_srb = NULL,
+  verbose = TRUE
 )
 
 mig_resid_cohort(
@@ -51,7 +53,8 @@ mig_resid_cohort(
   years_pop = NULL,
   years_sr = NULL,
   years_asfr = NULL,
-  years_srb = NULL
+  years_srb = NULL,
+  verbose = TRUE
 )
 
 mig_resid_time(
@@ -66,7 +69,8 @@ mig_resid_time(
   years_pop = NULL,
   years_sr = NULL,
   years_asfr = NULL,
-  years_srb = NULL
+  years_srb = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -123,6 +127,10 @@ Otherwise ignored.}
 \item{years_srb}{Years used in the column names of sex-ratio at birth. If
 \code{srb_r_mat} is not named, these names are used. Otherwise ignored.}
 
+\item{verbose}{Default set to TRUE. If TRUE, the function prints important
+operations carried out in the function like if years were trimmed from the
+data.}
+
 \item{method}{which residual migration method to use. This only works when
 using \code{mig_resid} and the possible options are 'stock', 'cohort' and
 'time', with 'stock' being the default.}
@@ -167,6 +175,7 @@ library(DemoTools)
 ################ Stock change method #####################
 
 # Either use the generic mig_resid
+
 mig_res <-
  mig_resid(
    pop_m_mat = pop_m_mat,

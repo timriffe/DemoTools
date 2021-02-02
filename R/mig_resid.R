@@ -104,6 +104,10 @@
 #' @param years_srb Years used in the column names of sex-ratio at birth. If
 #' \code{srb_r_mat} is not named, these names are used. Otherwise ignored.
 #'
+#' @param verbose Default set to TRUE. If TRUE, the function prints important
+#' operations carried out in the function like if years were trimmed from the
+#' data.
+#'
 #' @param method which residual migration method to use. This only works when
 #' using \code{mig_resid} and the possible options are 'stock', 'cohort' and
 #' 'time', with 'stock' being the default.
@@ -121,6 +125,7 @@
 #' ################ Stock change method #####################
 #'
 #' # Either use the generic mig_resid
+#'
 #' mig_res <-
 #'  mig_resid(
 #'    pop_m_mat = pop_m_mat,
@@ -244,10 +249,11 @@ mig_resid <- function(pop_m_mat,
                       years_sr = NULL,
                       years_asfr = NULL,
                       years_srb = NULL,
+                      verbose = TRUE,
                       method = c("stock", "cohort", "time")) {
 
   method <- match.arg(method)
-  cat(paste0("Using ", method, " residual migration method\n"))
+  if (verbose) cat(paste0("Using ", method, " residual migration method\n"))
 
   fun <- switch(
     method,
@@ -267,7 +273,8 @@ mig_resid <- function(pop_m_mat,
              years_pop = years_pop,
              years_sr = years_sr,
              years_asfr = years_asfr,
-             years_srb = years_srb)
+             years_srb = years_srb,
+             verbose = verbose)
 
   res
 }
@@ -285,7 +292,8 @@ mig_resid_stock <- function(pop_m_mat,
                             years_pop = NULL,
                             years_sr = NULL,
                             years_asfr = NULL,
-                            years_srb = NULL) {
+                            years_srb = NULL,
+                            verbose = TRUE) {
 
   args_list_raw <- as.list(environment())
 
@@ -389,7 +397,8 @@ mig_resid_cohort <- function(pop_m_mat,
                              years_pop = NULL,
                              years_sr = NULL,
                              years_asfr = NULL,
-                             years_srb = NULL) {
+                             years_srb = NULL,
+                             verbose = TRUE) {
   # this arg list can feed into the checker
   args_list_raw <- as.list(environment())
 
@@ -472,7 +481,8 @@ mig_resid_time <- function(pop_m_mat,
                            years_pop = NULL,
                            years_sr = NULL,
                            years_asfr = NULL,
-                           years_srb = NULL) {
+                           years_srb = NULL,
+                           verbose = TRUE) {
   # this arg list can feed into the checker
   args_list_raw <- as.list(environment())
 
@@ -699,9 +709,8 @@ mig_resid_dim_checker <- function(arg_list){
   years_sr        <- arg_list$years_sr
   years_asfr      <- arg_list$years_asfr
   years_srb       <- arg_list$years_srb
-
-  # Make sure to add verbose arg to top level mig_resid*() functions.
   verbose         <- arg_list$verbose
+
   # These are easier to insist on:
   stopifnot(all(dim(pop_m_mat) == dim(pop_f_mat)))
   stopifnot(all(dim(sr_m_mat) == dim(sr_f_mat)))
@@ -792,27 +801,36 @@ mig_resid_dim_checker <- function(arg_list){
   years_final_p <- as.character(years_final_p)
 
   # trim
-  pop_m_mat     <- pop_m_mat[, years_final_p]
+  pop_m_mat_trim     <- pop_m_mat[, years_final_p]
 
-  if (ncol(pop_m_mat)!=np){
-    # TR: should have one of these per trim step?
-    if (verbose){
-      cat("\npop_m_mat years have trimmed\n")
-    }
+  if (ncol(pop_m_mat) != length(years_final_p) && verbose) {
+
+    years_excluded <- paste0(
+      setdiff(colnames(pop_m_mat), years_final_p),
+      collapse = ", "
+    )
+
+    warn_msg <- paste0(
+      "Years ",
+      years_excluded,
+      " have been trimmed from all the data\n"
+    )
+
+    cat(warn_msg)
   }
 
-  pop_f_mat     <- pop_f_mat[, years_final_p ]
-  sr_m_mat      <- sr_m_mat[, years_final ]
-  sr_f_mat      <- sr_f_mat[, years_final ]
-  asfr_mat      <- asfr_mat[, years_final ]
-  srb_vec       <- srb_vec[ years_final ]
+  pop_f_mat_trim     <- pop_f_mat[, years_final_p ]
+  sr_m_mat_trim      <- sr_m_mat[, years_final ]
+  sr_f_mat_trim      <- sr_f_mat[, years_final ]
+  asfr_mat_trim      <- asfr_mat[, years_final ]
+  srb_vec_trim       <- srb_vec[ years_final ]
 
-  out <- list(pop_m_mat = pop_m_mat,
-              pop_f_mat = pop_f_mat,
-              sr_m_mat = sr_m_mat,
-              sr_f_mat = sr_f_mat,
-              asfr_mat = asfr_mat,
-              srb_vec = srb_vec)
+  out <- list(pop_m_mat = pop_m_mat_trim,
+              pop_f_mat = pop_f_mat_trim,
+              sr_m_mat = sr_m_mat_trim,
+              sr_f_mat = sr_f_mat_trim,
+              asfr_mat = asfr_mat_trim,
+              srb_vec = srb_vec_trim)
 
 
 }
