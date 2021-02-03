@@ -124,7 +124,8 @@
 #'
 #' ################ Stock change method #####################
 #'
-#' # Either use the generic mig_resid
+#' # Generic mig_resid method which allows to choose either stock,
+#' # cohort or time method for five year ages groups
 #'
 #' mig_res <-
 #'  mig_resid(
@@ -140,7 +141,25 @@
 #'    method = "stock"
 #'  )
 #'
+#' # For single ages
+#'
+#' mig_res <-
+#'  mig_resid(
+#'    pop_m_mat = pop_m_mat_single,
+#'    pop_f_mat = pop_f_mat_single,
+#'    sr_m_mat = sr_m_mat_single,
+#'    sr_f_mat = sr_f_mat_single,
+#'    asfr_mat = asfr_mat_single,
+#'    srb_vec = srb_vec_single,
+#'    ages = ages_single,
+#'    ages_asfr = ages_asfr_single,
+#'    # With the stock method
+#'    method = "stock"
+#'  )
+#'
 #' # Or directly the mid_resid_stock function
+#' # (works for both single and five year age groups)
+#'
 #' mig_res <-
 #'  mig_resid_stock(
 #'    pop_m_mat = pop_m_mat,
@@ -163,7 +182,9 @@
 #' ################ cohort even flow method  #####################
 #'
 #' # We reuse the same data from before
-#' # Either use the generic mig_resid
+#' # Either use the generic mig_resid choosing 'cohort'
+#'
+#' # Five year age groups
 #' mig_res <-
 #'  mig_resid(
 #'    pop_m_mat = pop_m_mat,
@@ -175,6 +196,21 @@
 #'    ages = ages,
 #'    ages_asfr = ages_asfr,
 #'    # With the cohort method
+#'    method = "cohort"
+#'  )
+#'
+#' # Single ages
+#' mig_res <-
+#'  mig_resid(
+#'    pop_m_mat = pop_m_mat_single,
+#'    pop_f_mat = pop_f_mat_single,
+#'    sr_m_mat = sr_m_mat_single,
+#'    sr_f_mat = sr_f_mat_single,
+#'    asfr_mat = asfr_mat_single,
+#'    srb_vec = srb_vec_single,
+#'    ages = ages_single,
+#'    ages_asfr = ages_asfr_single,
+#'    # With the stock method
 #'    method = "cohort"
 #'  )
 #'
@@ -201,7 +237,9 @@
 #' ################ time even flow method  #####################
 #'
 #' # We reuse the same data from before
-#' # Either use the generic mig_resid
+#' # Either use the generic mig_resid with the 'time' method
+#'
+#' # For five year age groups
 #' mig_res <-
 #'  mig_resid(
 #'    pop_m_mat = pop_m_mat,
@@ -216,7 +254,23 @@
 #'    method = "time"
 #'  )
 #'
+#' # For single ages
+#' mig_res <-
+#'  mig_resid(
+#'    pop_m_mat = pop_m_mat_single,
+#'    pop_f_mat = pop_f_mat_single,
+#'    sr_m_mat = sr_m_mat_single,
+#'    sr_f_mat = sr_f_mat_single,
+#'    asfr_mat = asfr_mat_single,
+#'    srb_vec = srb_vec_single,
+#'    ages = ages_single,
+#'    ages_asfr = ages_asfr_single,
+#'    # With the stock method
+#'    method = "stock"
+#'  )
+#'
 #' # Or directly the mid_resid_time function
+#' # (works for both five and single year ages)
 #'
 #' mig_res <-
 #'   mig_resid_time(

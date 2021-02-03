@@ -286,3 +286,100 @@
 #' @source
 #'   Migration residual PAS spreadhseet
 "ages_asfr"
+
+#' Population matrix for males single ages between 1999 and 2019
+#'
+#' Population matrix for males single ages between 1999 and 2019 for
+#' Sweden
+#' @docType data
+#' @format
+#'   A matrix of dimensions 101 x 21
+#'
+#' @source
+#'   Migration residual PAS spreadhseet
+"pop_m_mat_single"
+
+#' Population matrix for females single ages between 1999 and 2019
+#'
+#' Population matrix for females single ages between 1999 and 2019 for
+#' Sweden
+#' @docType data
+#' @format
+#'   A matrix of dimensions 101 x 21
+#'
+#' @source
+#'   Migration residual PAS spreadhseet
+"pop_f_mat_single"
+
+#' Survival rates matrix for males single ages between 1999 and 2019
+#'
+#' Survival rates matrix for males single ages between 1999 and 2019 for
+#' Sweden
+#'
+#' @docType data
+#' @format
+#'   A matrix of dimensions 101 x 20
+#'
+#' @source
+#'   Migration residual PAS spreadhseet
+"sr_m_mat_single"
+
+#' Survival rates matrix for females single ages between 1999 and 2019
+#'
+#' Survival rates matrix for females single ages between 1999 and 2019 for
+#' Sweden
+#'
+#' @docType data
+#' @format
+#'   A matrix of dimensions 101 x 20
+#'
+#' @source
+#'   Migration residual PAS spreadhseet
+"sr_f_mat_single"
+
+#' Age-specific fertility rates for single ages 15 to 49 between 1999 and 2018
+#'
+#' Age-specific fertility rates for single ages 15 to 49 between 1999 and 2018
+#' for Sweden
+#'
+#' @docType data
+#' @format
+#'   A matrix of dimensions 35 x 20
+#'
+#' @source
+#'   Migration residual PAS spreadhseet
+"asfr_mat_single"
+
+#' Sex ratio at birth between 1999 and 2019
+#'
+#' Sex ratio at birth between 1999 and 2019 for Sweden
+#'
+#' @docType data
+#' @format
+#'   A vector of length 20
+#'
+#' @source
+#'   Migration residual PAS spreadhseet
+"srb_vec_single"
+
+#' Single ages between 0 and 100
+#'
+#' Single ages between 0 and 100 for Sweden, 1999-2019.
+#' @docType data
+#' @format
+#'   A vector of length 101
+#'
+#' @source
+#'   Migration residual PAS spreadhseet
+"ages_single"
+
+#' Single ages between 15 and 49
+#'
+#' Single ages between 15 and 49 for Sweden
+#' @docType data
+#' @format
+#'   A vector of length 36
+#'
+#' @source
+#'   Migration residual PAS spreadhseet
+"ages_asfr_single"
