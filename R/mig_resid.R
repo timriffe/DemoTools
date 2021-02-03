@@ -312,9 +312,9 @@ mig_resid_stock <- function(pop_m_mat,
     is.matrix(sr_m_mat),
     is.matrix(sr_f_mat),
     is.matrix(asfr_mat),
-    is.numeric(srb_vec)
-    ## is.numeric(ages),
-    ## is.numeric(ages_fertility)
+    is.numeric(srb_vec),
+    is.numeric(ages),
+    is.numeric(ages_fertility)
   )
 
 # <<<<<<< HEAD
@@ -337,8 +337,6 @@ mig_resid_stock <- function(pop_m_mat,
 #   }
 # =======
 # >>>>>>> 362ae9857574b05c519c8de40548461d6b9070dd
-
-
 
   # Migration net of only survivors
   net_mig_m <- migresid_net_surv(pop_m_mat, sr_m_mat)
@@ -397,6 +395,7 @@ mig_resid_cohort <- function(pop_m_mat,
                              years_asfr = NULL,
                              years_srb = NULL,
                              verbose = TRUE) {
+
   # this arg list can feed into the checker
   args_list_raw <- as.list(environment())
 
@@ -455,15 +454,9 @@ mig_resid_cohort <- function(pop_m_mat,
   mig_rectangle_f <- mig_upper_f + mig_lower_f
 
  list(
-   mig_m = mig_rectangle_m[, -1],
-   mig_f = mig_rectangle_f[, -1]
+   mig_m = mig_rectangle_m,
+   mig_f = mig_rectangle_f
  )
- # TR: we prefer this, but somewhere earlier in processing
- # we get an extra column 1 full of NAs. So let's just not let that happen
-  # list(
-  #   mig_m = mig_rectangle_m,
-  #   mig_f = mig_rectangle_f
-  # )
 }
 
 #' @rdname mig_resid
@@ -521,7 +514,7 @@ mig_resid_time <- function(pop_m_mat,
   net_mig_m[1, ] <- 2 * net_mig_m[1, ]
   net_mig_f[1, ] <- 2 * net_mig_f[1, ]
 
-  # Adjust age groups 5-10  to 100+ (of whatever maximum age groups)
+  # Adjust age groups 5-10  to 100+ (or whatever maximum age groups)
   for (i in 2:nrow(net_mig_m)) {
     double_pop_m <- (2 * net_mig_m[i, ])
     double_pop_f <- (2 * net_mig_f[i, ])
@@ -549,9 +542,14 @@ migresid_net_surv <- function(pop_mat, sr_mat) {
   p                <- ncol(pop_mat)
   survived         <- pop_mat[-n, -p] * sr_mat[-1, ]
   res              <- pop_mat[-1, -1] - survived
+
+  # We convert the first/last age group to NA because
+  # they need special treatment and will be treated.
+  # The last age group is treated by
+  # migresid_net_surv_last_age and the first age group
+  # is treated by migresid_net_surv_first_ageg.
   res[nrow(res), ] <- NA
   res              <- rbind(matrix(NA, nrow = 1, ncol = ncol(res)), res)
-  #res              <- cbind(matrix(NA, nrow = nrow(res), ncol = 1), res)
   res              <- migresid_net_surv_last_ageg(res, pop_mat, sr_mat)
   rownames(res)    <- rownames(pop_mat)
   colnames(res)    <- colnames(pop_mat)[-p]
@@ -565,11 +563,14 @@ migresid_net_surv_last_ageg <- function(net_mig, pop_mat, sr_mat) {
   n <- nrow(pop_mat)
   p <- ncol(pop_mat)
   previous_year <- 1:(p - 1)
-  survived <-
-    (pop_mat[n, previous_year] + pop_mat[n - 1, previous_year]) *
-    sr_mat[n, previous_year]
+  survived <- (pop_mat[n, previous_year] + pop_mat[n - 1, previous_year]) * sr_mat[n, previous_year]
 
-  net_mig[nrow(net_mig), ] <- pop_mat[n, 2:p] - survived
+  # Why -1? Because we want to get the ones that survived
+  # from the previous cohort. So for example, pop_mat begins
+  # with 1955 and survived begins in 1950 with the same length.
+  # Or in others, getting the migration in 1995 net of who survived
+  # in -1 year.
+  net_mig[nrow(net_mig), ] <- pop_mat[n, -1] - survived
   net_mig
 }
 
@@ -577,6 +578,7 @@ migresid_births <- function(pop_f_mat,
                             asfr_mat,
                             #fertility_index,
                             age_interval) {
+
   p         <- ncol(pop_f_mat)
   asfr_ages <- rownames(asfr_mat)
   # Sum female pop from previous year and this year
@@ -584,9 +586,9 @@ migresid_births <- function(pop_f_mat,
   yrs     <- colnames(pop_f_mat) %>% as.numeric()
   yrs_out <- yrs[-p] + diff(yrs) / 2
   f_expos <-  interp(
-                pop_f_mat[asfr_ages, ], 
-                datesIn = yrs, 
-                datesOut = yrs_out, 
+                pop_f_mat[asfr_ages, ],
+                datesIn = yrs,
+                datesOut = yrs_out,
                 method = "linear")
   asfr_years  <- yrs[-p] %>% as.character()
   # Births that occurred for all age groups for all years
@@ -607,8 +609,8 @@ migresid_net_surv_first_ageg <- function(net_mig, pop_mat, births, sr_mat) {
   # 21 yrs of population
   # 20 yrs of sr
   p    <- ncol(net_mig)
-  pyrs <- colnames(pop_mat)[-1] 
-  
+  pyrs <- colnames(pop_mat)[-1]
+
   # TR: a little hack
   D    <- pyrs %>% as.numeric() %>% diff() %>% '['(1)
   byrs <- pyrs %>% as.numeric() %>% '-'(D ) %>% as.character()
@@ -629,7 +631,6 @@ migresid_bounds <- function(net_mig, sr_mat) {
 
   # Upper bound is net mig / 2 times the survival ratio ^ 0.5
   mig_upper      <- net_mig / (2 * sr_mat^0.5)
-  mig_upper      <- cbind(matrix(NA, ncol = 1, nrow = n), mig_upper)
   mig_lower      <- mig_upper
   mig_upper[1, ] <- NA
   mig_upper[n, ] <- NA
@@ -641,8 +642,7 @@ migresid_bounds <- function(net_mig, sr_mat) {
   # Estimate upper bounds for the first age group. Why
   # no lower bound for the first age group? because we have
   # no previous age group.
-  p_upper        <- ncol(mig_upper)
-  mig_upper[1, 2:p_upper] <- net_mig[1, -p_upper] / (sr_mat[1, -p_upper]^0.5)
+  mig_upper[1, ] <- net_mig[1, ] / (sr_mat[1, ]^0.5)
 
   list(upper = mig_upper, lower = mig_lower)
 }
@@ -657,15 +657,14 @@ migresid_bounds_last_ageg <- function(net_mig_m,
 
 
   # last age group
-  n <- nrow(mig_upper_m)
-  p <- ncol(mig_upper_m)
+  nr <- nrow(mig_upper_m)
 
-  mig_lower_m[n - 1, ] <- mig_upper_m[n - 1, ]
-  mig_lower_f[n - 1, ] <- mig_upper_f[n - 1, ]
-  mig_upper_m[n, 2:p] <- net_mig_m[n, -p] * 0.5
-  mig_upper_f[n, 2:p] <- net_mig_f[n, -p] * 0.5
-  mig_lower_m[n, 2:p] <- net_mig_m[n, -p] * 0.5
-  mig_lower_f[n, 2:p] <- net_mig_f[n, -p] * 0.5
+  mig_lower_m[nr - 1, ] <- mig_upper_m[nr - 1, ]
+  mig_lower_f[nr - 1, ] <- mig_upper_f[nr - 1, ]
+  mig_upper_m[nr, ] <- net_mig_m[nr, ] * 0.5
+  mig_upper_f[nr, ] <- net_mig_f[nr, ] * 0.5
+  mig_lower_m[nr, ] <- net_mig_m[nr, ] * 0.5
+  mig_lower_f[nr, ] <- net_mig_f[nr, ] * 0.5
 
   list(
     mig_lower_m = mig_lower_m,
