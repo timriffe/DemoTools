@@ -18,6 +18,8 @@ interp_lc_lim_kt_min(k, ax, bx, age, sex, e0_target, ...)
 \item{sex}{numeric.}
 
 \item{e0_target}{numeric.}
+
+\item{...}{Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.}
 }
 \description{
 Optimize estimated k from LC with limited data model,

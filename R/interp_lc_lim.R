@@ -20,6 +20,7 @@
 #' @param prev_divergence logical. Whether or not prevent divergence and sex crossover. Default `FALSE.`
 #' @param OAG logical. Whether or not the last element of `nMx` (or `nqx` or `lx`) is an open age group. Default `TRUE.`
 #' @param verbose logical. Default `FALSE`.
+#' @param error_sheet logical. Just to reproduce UN spreadsheets. Will be removed. Default `FALSE`.
 #' @param ... Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.
 #' @seealso
 #' \code{\link[DemoTools]{lt_abridged}}
@@ -352,6 +353,7 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
 #' @param age numeric. 
 #' @param sex numeric.
 #' @param e0_target numeric.
+#' @param ... Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.
 #' @export
 interp_lc_lim_kt_min <- function(k,
                           ax,
@@ -383,6 +385,7 @@ interp_lc_lim_abk_m <- function(k,ax,bx){
 #' @param M numeric. Matrix with many rows as ages and columns as dates_in.
 #' @param dates_in numeric. Vector of dates with input rates.
 #' @param dates_out numeric. Vector of dates for estimate a set of rates.
+#' @param ... Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.
 #' @references
 #' \insertRef{Li2004}{DemoTools}
 #' @export
@@ -410,13 +413,14 @@ interp_lc_lim_estimate <- function(M, dates_in, dates_out, SVD = F){
 }
 
 # smooth rule previous to solve ambiguous
-#' 
+#' Smooth and apply lt_ambiguous
 #' @description Considering different mortality input for each sex/year data, 
 #' smooth olders with gompertz or kannisto in case no law was specified, 
 #' and return a data.frame with standard LT. 
 #' @details Gompertz is chosen if last age is less than 90. Else Kannisto. 
 #' @param input data.frame. with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)  
 #' @param ExtraArgs list. Parameters produced in `interp_lc_lim` environment function.
+#' @param ... Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.
 #' @export
 lt_smooth_ambiguous <- function(input, ExtraArgs, ...){
   

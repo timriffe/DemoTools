@@ -4,7 +4,7 @@
 \alias{interp_lc_lim_estimate}
 \title{Estimate LC with limited data params}
 \usage{
-interp_lc_lim_estimate(M, dates_in, dates_out)
+interp_lc_lim_estimate(M, dates_in, dates_out, SVD = F)
 }
 \arguments{
 \item{M}{numeric. Matrix with many rows as ages and columns as dates_in.}
@@ -12,6 +12,8 @@ interp_lc_lim_estimate(M, dates_in, dates_out)
 \item{dates_in}{numeric. Vector of dates with input rates.}
 
 \item{dates_out}{numeric. Vector of dates for estimate a set of rates.}
+
+\item{...}{Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.}
 }
 \description{
 Estimate LC with limited data from a matrix of rates (age by dates).

@@ -14,6 +14,7 @@ interp_lc_lim(
   prev_divergence = FALSE,
   OAG = TRUE,
   verbose = TRUE,
+  error_sheet = FALSE,
   ...
 )
 }
@@ -35,6 +36,8 @@ interp_lc_lim(
 \item{OAG}{logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE.}}
 
 \item{verbose}{logical. Default \code{FALSE}.}
+
+\item{error_sheet}{logical. Just to reproduce UN spreadsheets. Will be removed. Default \code{FALSE}.}
 
 \item{...}{Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.}
 }
