@@ -77,7 +77,7 @@
 #' if the last year in these matrices is 2050, then the last year in
 #' \code{asfr_mat} should be 2045**. This row will usually have fewer age groups
 #' (rows) than in the population matrices or survival matrices, so the user
-#' needs to supply the specific ages in the \code{ages_fertility} argument.
+#' needs to supply the specific ages in the \code{ages_asfr} argument.
 #'
 #' @param srb_vec A \code{numeric} vector of sex ratios at birth for every year.
 #' The years should be the same as the years in \code{sr_m_mat},
@@ -86,7 +86,7 @@
 #' @param ages A \code{numeric} vector of ages used in the rows in
 #' \code{pop_m_mat}, \code{pop_f_mat}, \code{sr_m_mat}, \code{sr_f_mat}.
 #'
-#' @param ages_fertility A \code{numeric} vector of ages used in the rows in
+#' @param ages_asfr A \code{numeric} vector of ages used in the rows in
 #' \code{asfr_mat}.
 #'
 #' @param years_pop Years used in the column names of population. If
@@ -135,7 +135,7 @@
 #'    asfr_mat = asfr_mat,
 #'    srb_vec = srb_vec,
 #'    ages = ages,
-#'    ages_fertility = ages_fertility,
+#'    ages_asfr = ages_asfr,
 #'    # With the stock method
 #'    method = "stock"
 #'  )
@@ -150,7 +150,7 @@
 #'    asfr_mat = asfr_mat,
 #'    srb_vec = srb_vec,
 #'    ages = ages,
-#'    ages_fertility = ages_fertility
+#'    ages_asfr = ages_asfr
 #'  )
 #'
 #' # Net migration for males using stock change method
@@ -173,7 +173,7 @@
 #'    asfr_mat = asfr_mat,
 #'    srb_vec = srb_vec,
 #'    ages = ages,
-#'    ages_fertility = ages_fertility,
+#'    ages_asfr = ages_asfr,
 #'    # With the cohort method
 #'    method = "cohort"
 #'  )
@@ -189,7 +189,7 @@
 #'     asfr_mat = asfr_mat,
 #'     srb_vec = srb_vec,
 #'     ages = ages,
-#'     ages_fertility = ages_fertility
+#'     ages_asfr = ages_asfr
 #'   )
 #'
 #' # Net migration for males using the cohort even flow method
@@ -211,7 +211,7 @@
 #'    asfr_mat = asfr_mat,
 #'    srb_vec = srb_vec,
 #'    ages = ages,
-#'    ages_fertility = ages_fertility,
+#'    ages_asfr = ages_asfr,
 #'    # With the time method
 #'    method = "time"
 #'  )
@@ -227,7 +227,7 @@
 #'     asfr_mat = asfr_mat,
 #'     srb_vec = srb_vec,
 #'     ages = ages,
-#'     ages_fertility = ages_fertility
+#'     ages_asfr = ages_asfr
 #'   )
 #'
 #' # Net migration for males using the time even flow method
@@ -244,7 +244,7 @@ mig_resid <- function(pop_m_mat,
                       asfr_mat,
                       srb_vec,
                       ages = NULL,
-                      ages_fertility = NULL,
+                      ages_asfr = NULL,
                       years_pop = NULL,
                       years_sr = NULL,
                       years_asfr = NULL,
@@ -269,7 +269,7 @@ mig_resid <- function(pop_m_mat,
              asfr_mat = asfr_mat,
              srb_vec = srb_vec,
              ages = ages,
-             ages_fertility = ages_fertility,
+             ages_asfr = ages_asfr,
              years_pop = years_pop,
              years_sr = years_sr,
              years_asfr = years_asfr,
@@ -288,7 +288,7 @@ mig_resid_stock <- function(pop_m_mat,
                             asfr_mat,
                             srb_vec,
                             ages = NULL,
-                            ages_fertility = NULL,
+                            ages_asfr = NULL,
                             years_pop = NULL,
                             years_sr = NULL,
                             years_asfr = NULL,
@@ -314,7 +314,7 @@ mig_resid_stock <- function(pop_m_mat,
     is.matrix(asfr_mat),
     is.numeric(srb_vec),
     is.numeric(ages),
-    is.numeric(ages_fertility)
+    is.numeric(ages_asfr)
   )
 
 # <<<<<<< HEAD
@@ -342,7 +342,7 @@ mig_resid_stock <- function(pop_m_mat,
   net_mig_m <- migresid_net_surv(pop_m_mat, sr_m_mat)
   net_mig_f <- migresid_net_surv(pop_f_mat, sr_f_mat)
 
- # fertility_index <- which(ages %in% ages_fertility)
+ # fertility_index <- which(ages %in% ages_asfr)
 
   # Returns all births for all years
   age_interval <- unique(diff(ages))
@@ -389,7 +389,7 @@ mig_resid_cohort <- function(pop_m_mat,
                              asfr_mat,
                              srb_vec,
                              ages = NULL,
-                             ages_fertility = NULL,
+                             ages_asfr = NULL,
                              years_pop = NULL,
                              years_sr = NULL,
                              years_asfr = NULL,
@@ -418,7 +418,7 @@ mig_resid_cohort <- function(pop_m_mat,
       asfr_mat = asfr_mat,
       srb_vec = srb_vec,
       ages = ages,
-      ages_fertility = ages_fertility
+      ages_asfr = ages_asfr
     )
 
   net_mig_m <- mig_res$mig_m
@@ -468,7 +468,7 @@ mig_resid_time <- function(pop_m_mat,
                            asfr_mat,
                            srb_vec,
                            ages = NULL,
-                           ages_fertility = NULL,
+                           ages_asfr = NULL,
                            years_pop = NULL,
                            years_sr = NULL,
                            years_asfr = NULL,
@@ -503,7 +503,7 @@ mig_resid_time <- function(pop_m_mat,
       asfr_mat = asfr_mat,
       srb_vec = srb_vec,
       ages = ages,
-      ages_fertility = ages_fertility
+      ages_asfr = ages_asfr
     )
 
   # Separate male/female net migration
@@ -699,7 +699,7 @@ mig_resid_dim_checker <- function(arg_list){
   asfr_mat        <- arg_list$asfr_mat
   srb_vec         <- arg_list$srb_vec
   ages            <- arg_list$ages
-  ages_fertility  <- arg_list$ages_fertility
+  ages_asfr  <- arg_list$ages_asfr
 
   # Make sure to add these year args to top level mig_resid* funcions.
   years_pop       <- arg_list$years_pop
@@ -726,7 +726,7 @@ mig_resid_dim_checker <- function(arg_list){
   }
 
   if (is.null(years_pop)){
-    ages_fertility   <- rownames(asfr_mat) %>% as.numeric()
+    ages_asfr   <- rownames(asfr_mat) %>% as.numeric()
     years_pop        <- colnames(pop_m_mat) %>% as.numeric()
   }
 
@@ -785,7 +785,7 @@ mig_resid_dim_checker <- function(arg_list){
   rownames(pop_f_mat)    <- ages
   rownames(sr_m_mat)     <- ages
   rownames(sr_f_mat)     <- ages
-  rownames(asfr_mat)     <- ages_fertility
+  rownames(asfr_mat)     <- ages_asfr
 
   # 2) determine ranges
   # if dims aren't already correct

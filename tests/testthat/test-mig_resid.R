@@ -2,7 +2,7 @@
 interval <- 5
 ages <- seq(0, 100, by = interval)
 years <- seq(1950, 2050, by = interval)
-ages_fertility <- seq(15, 45, by = interval)
+ages_asfr <- seq(15, 45, by = interval)
 
 # Vector of population for males
 pop_m <-
@@ -343,7 +343,7 @@ rownames(pop_f_mat) <- ages
 # Age-specific-fertility-rate for as matrix
 asfr_mat <- matrix(asfr, nrow = 7, ncol = 20)
 colnames(asfr_mat) <- all_years[-length(all_years)]
-rownames(asfr_mat) <- ages_fertility
+rownames(asfr_mat) <- ages_asfr
 # Sex ratio at birth as vector
 srb_vec <- c(1.058, 1.057, 1.055, 1.055, 1.06, 1.056, 1.056, 1.052, 1.056,
              1.054, 1.054, 1.053, 1.054, 1.053, 1.056, 1.056, 1.056, 1.056,
@@ -500,7 +500,7 @@ test_that("mig_resid_stock returns correct result", {
       asfr_mat = asfr_mat,
       srb_vec = srb_vec,
       ages = ages,
-      ages_fertility = ages_fertility
+      ages_asfr = ages_asfr
     )
 
   mig_resid_cohortet_mig_m <- mig_res$mig_m
@@ -530,7 +530,7 @@ test_that("mig_resid_stock returns correct result", {
       asfr_mat = asfr_mat,
       srb_vec = srb_vec,
       ages = ages,
-      ages_fertility = ages_fertility,
+      ages_asfr = ages_asfr,
       method = "stock"
     )
 
@@ -688,7 +688,7 @@ test_that("mig_resid_cohort returns correct result", {
       asfr_mat = asfr_mat,
       srb_vec = srb_vec,
       ages = ages,
-      ages_fertility = ages_fertility
+      ages_asfr = ages_asfr
     )
 
   net_mig_m <- mig_res$mig_m
@@ -717,7 +717,7 @@ test_that("mig_resid_cohort returns correct result", {
       asfr_mat = asfr_mat,
       srb_vec = srb_vec,
       ages = ages,
-      ages_fertility = ages_fertility,
+      ages_asfr = ages_asfr,
       method = "cohort"
     )
 
@@ -886,7 +886,7 @@ test_that("mig_resid_time returns correct result", {
       asfr_mat = asfr_mat,
       srb_vec = srb_vec,
       ages = ages,
-      ages_fertility = ages_fertility
+      ages_asfr = ages_asfr
     )
 
   net_mig_m <- mig_res$mig_m
@@ -915,7 +915,7 @@ test_that("mig_resid_time returns correct result", {
       asfr_mat = asfr_mat,
       srb_vec = srb_vec,
       ages = ages,
-      ages_fertility = ages_fertility,
+      ages_asfr = ages_asfr,
       method = "time"
     )
 
@@ -946,7 +946,7 @@ test_that("all mig_resid methods throw warnings when data is trimmed", {
         asfr_mat = asfr_mat,
         srb_vec = srb_vec[1:16],
         ages = ages,
-        ages_fertility = ages_fertility,
+        ages_asfr = ages_asfr,
         verbose = TRUE
       ),
       regexp = "Years 2035, 2040, 2045, 2050 have been trimmed from all the data"
@@ -971,7 +971,7 @@ test_that("all mig_resid methods throw errors when ages do not begin at zero ", 
         asfr_mat = asfr_mat,
         srb_vec = srb_vec,
         ages = ages,
-        ages_fertility = ages_fertility,
+        ages_asfr = ages_asfr,
         verbose = TRUE
       ),
       regexp = "Ages must begin at zero. Ages currently begin at 1"

@@ -16,7 +16,7 @@ mig_resid(
   asfr_mat,
   srb_vec,
   ages = NULL,
-  ages_fertility = NULL,
+  ages_asfr = NULL,
   years_pop = NULL,
   years_sr = NULL,
   years_asfr = NULL,
@@ -33,7 +33,7 @@ mig_resid_stock(
   asfr_mat,
   srb_vec,
   ages = NULL,
-  ages_fertility = NULL,
+  ages_asfr = NULL,
   years_pop = NULL,
   years_sr = NULL,
   years_asfr = NULL,
@@ -49,7 +49,7 @@ mig_resid_cohort(
   asfr_mat,
   srb_vec,
   ages = NULL,
-  ages_fertility = NULL,
+  ages_asfr = NULL,
   years_pop = NULL,
   years_sr = NULL,
   years_asfr = NULL,
@@ -65,7 +65,7 @@ mig_resid_time(
   asfr_mat,
   srb_vec,
   ages = NULL,
-  ages_fertility = NULL,
+  ages_asfr = NULL,
   years_pop = NULL,
   years_sr = NULL,
   years_asfr = NULL,
@@ -100,7 +100,7 @@ one column less than \code{pop_m_mat} and \code{pop_f_mat}. For example,
 if the last year in these matrices is 2050, then the last year in
 \code{asfr_mat} should be 2045**. This row will usually have fewer age groups
 (rows) than in the population matrices or survival matrices, so the user
-needs to supply the specific ages in the \code{ages_fertility} argument.}
+needs to supply the specific ages in the \code{ages_asfr} argument.}
 
 \item{srb_vec}{A \code{numeric} vector of sex ratios at birth for every year.
 The years should be the same as the years in \code{sr_m_mat},
@@ -109,7 +109,7 @@ The years should be the same as the years in \code{sr_m_mat},
 \item{ages}{A \code{numeric} vector of ages used in the rows in
 \code{pop_m_mat}, \code{pop_f_mat}, \code{sr_m_mat}, \code{sr_f_mat}.}
 
-\item{ages_fertility}{A \code{numeric} vector of ages used in the rows in
+\item{ages_asfr}{A \code{numeric} vector of ages used in the rows in
 \code{asfr_mat}.}
 
 \item{years_pop}{Years used in the column names of population. If
@@ -185,7 +185,7 @@ mig_res <-
    asfr_mat = asfr_mat,
    srb_vec = srb_vec,
    ages = ages,
-   ages_fertility = ages_fertility,
+   ages_asfr = ages_asfr,
    # With the stock method
    method = "stock"
  )
@@ -200,7 +200,7 @@ mig_res <-
    asfr_mat = asfr_mat,
    srb_vec = srb_vec,
    ages = ages,
-   ages_fertility = ages_fertility
+   ages_asfr = ages_asfr
  )
 
 # Net migration for males using stock change method
@@ -223,7 +223,7 @@ mig_res <-
    asfr_mat = asfr_mat,
    srb_vec = srb_vec,
    ages = ages,
-   ages_fertility = ages_fertility,
+   ages_asfr = ages_asfr,
    # With the cohort method
    method = "cohort"
  )
@@ -239,7 +239,7 @@ mig_res <-
     asfr_mat = asfr_mat,
     srb_vec = srb_vec,
     ages = ages,
-    ages_fertility = ages_fertility
+    ages_asfr = ages_asfr
   )
 
 # Net migration for males using the cohort even flow method
@@ -261,7 +261,7 @@ mig_res <-
    asfr_mat = asfr_mat,
    srb_vec = srb_vec,
    ages = ages,
-   ages_fertility = ages_fertility,
+   ages_asfr = ages_asfr,
    # With the time method
    method = "time"
  )
@@ -277,7 +277,7 @@ mig_res <-
     asfr_mat = asfr_mat,
     srb_vec = srb_vec,
     ages = ages,
-    ages_fertility = ages_fertility
+    ages_asfr = ages_asfr
   )
 
 # Net migration for males using the time even flow method
