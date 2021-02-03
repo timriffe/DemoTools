@@ -115,6 +115,7 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
                           prev_divergence = FALSE, 
                           OAG = TRUE,
                           verbose = TRUE,
+                          error_sheet = FALSE,
                           ...){
   
   # TR: capture args to filter out optional lifetable args to pass on in a named way?
@@ -230,12 +231,18 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
     if (prev_divergence){
       kt = (ktm + ktf) * .5 # equal size male and female
       # error in vba code line 335
-      # for (j in 1:ndates_out){
-      #   for (i in 1:nAge){
-      #     bxm[i] = (bxm[i] + bxf[i]) * .5
-      #   }
-      # }
-      bx = (bxm + bxf) * .5
+      if(error_sheet){
+        bx = 0
+        for (j in 1:ndates_out){
+          for (i in 1:nAge){
+            bxm[i] = (bxm[i] + bxf[i]) * .5
+          }
+        }
+        bx = bxm 
+      }else{
+        bx = (bxm + bxf) * .5  
+      }
+      
       k0 = (k0m + k0f) * .5
       nMxm_hat_div <- nMxm[,1] * exp(bx %*% t(kt-k0))
       nMxf_hat_div <- nMxf[,1] * exp(bx %*% t(kt-k0))
@@ -379,13 +386,18 @@ interp_lc_lim_abk_m <- function(k,ax,bx){
 #' @references
 #' \insertRef{Li2004}{DemoTools}
 #' @export
-interp_lc_lim_estimate <- function(M, dates_in, dates_out){
+interp_lc_lim_estimate <- function(M, dates_in, dates_out, SVD = F){
       ndates_in  <- length(dates_in)
-      # usual LC
       ax         <- rowSums(log(M))/ndates_in
-      M_svd      <- svd(log(M)-ax)
-      bx         <- M_svd$u[, 1]/sum(M_svd$u[, 1])
-      kto        <- M_svd$d[1] * M_svd$v[, 1] * sum(M_svd$u[, 1])
+      # IW: change needed to replicate spreadsheet
+      if(SVD==TRUE){
+        M_svd      <- svd(log(M)-ax)
+        bx         <- M_svd$u[, 1]/sum(M_svd$u[, 1])
+        kto        <- M_svd$d[1] * M_svd$v[, 1] * sum(M_svd$u[, 1])  
+      }else{
+        kto  <- colSums(log(M))-sum(ax)
+        bx   <- rowSums(sweep(log(M) - ax, MARGIN = 2, kto, `*`))/sum(kto^2)
+      }
       # linear model
       c          <- 0
       c[2]       <- (kto[ndates_in] - kto[1])/(dates_in[ndates_in] - dates_in[1])
