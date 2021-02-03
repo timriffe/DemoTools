@@ -202,7 +202,7 @@
 #'
 #' @source
 #'   Migration residual PAS spreadhseet
-"pop_m_mat"
+"pop_m_mat_five"
 
 #' Population matrix for females five year age groups between 1950 and 2050
 #'
@@ -214,7 +214,7 @@
 #'
 #' @source
 #'   Migration residual PAS spreadhseet
-"pop_f_mat"
+"pop_f_mat_five"
 
 #' Survival rates matrix for males five year age groups between 1950 and 2045
 #'
@@ -226,7 +226,7 @@
 #'
 #' @source
 #'   Migration residual PAS spreadhseet
-"sr_m_mat"
+"sr_m_mat_five"
 
 #' Survival rates matrix for females five year age groups between 1950 and 2045
 #'
@@ -238,7 +238,7 @@
 #'
 #' @source
 #'   Migration residual PAS spreadhseet
-"sr_f_mat"
+"sr_f_mat_five"
 
 #' Age-specific fertility rates for age groups 15 to 45 between 1950 and 2045
 #'
@@ -250,7 +250,7 @@
 #'
 #' @source
 #'   Migration residual PAS spreadhseet
-"asfr_mat"
+"asfr_mat_five"
 
 #' Sex ratio at birth between 1950 and 2045
 #'
@@ -261,7 +261,7 @@
 #'
 #' @source
 #'   Migration residual PAS spreadhseet
-"srb_vec"
+"srb_vec_five"
 
 #' Ages between 0 and 100 abridged in five year age groups
 #'
@@ -273,7 +273,7 @@
 #'
 #' @source
 #'   Migration residual PAS spreadhseet
-"ages"
+"ages_five"
 
 #' Ages between 15 and 45 in five year age groups
 #'
@@ -285,7 +285,7 @@
 #'
 #' @source
 #'   Migration residual PAS spreadhseet
-"ages_asfr"
+"ages_asfr_five"
 
 #' Population matrix for males single ages between 1999 and 2019
 #'

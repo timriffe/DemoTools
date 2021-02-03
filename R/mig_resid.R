@@ -129,14 +129,14 @@
 #'
 #' mig_res <-
 #'  mig_resid(
-#'    pop_m_mat = pop_m_mat,
-#'    pop_f_mat = pop_f_mat,
-#'    sr_m_mat = sr_m_mat,
-#'    sr_f_mat = sr_f_mat,
-#'    asfr_mat = asfr_mat,
-#'    srb_vec = srb_vec,
-#'    ages = ages,
-#'    ages_asfr = ages_asfr,
+#'    pop_m_mat = pop_m_mat_five,
+#'    pop_f_mat = pop_f_mat_five,
+#'    sr_m_mat = sr_m_mat_five,
+#'    sr_f_mat = sr_f_mat_five,
+#'    asfr_mat = asfr_mat_five,
+#'    srb_vec = srb_vec_five,
+#'    ages = ages_five,
+#'    ages_asfr = ages_asfr_five,
 #'    # With the stock method
 #'    method = "stock"
 #'  )
@@ -162,14 +162,14 @@
 #'
 #' mig_res <-
 #'  mig_resid_stock(
-#'    pop_m_mat = pop_m_mat,
-#'    pop_f_mat = pop_f_mat,
-#'    sr_m_mat = sr_m_mat,
-#'    sr_f_mat = sr_f_mat,
-#'    asfr_mat = asfr_mat,
-#'    srb_vec = srb_vec,
-#'    ages = ages,
-#'    ages_asfr = ages_asfr
+#'    pop_m_mat = pop_m_mat_five,
+#'    pop_f_mat = pop_f_mat_five,
+#'    sr_m_mat = sr_m_mat_five,
+#'    sr_f_mat = sr_f_mat_five,
+#'    asfr_mat = asfr_mat_five,
+#'    srb_vec = srb_vec_five,
+#'    ages = ages_five,
+#'    ages_asfr = ages_asfr_five
 #'  )
 #'
 #' # Net migration for males using stock change method
@@ -187,14 +187,14 @@
 #' # Five year age groups
 #' mig_res <-
 #'  mig_resid(
-#'    pop_m_mat = pop_m_mat,
-#'    pop_f_mat = pop_f_mat,
-#'    sr_m_mat = sr_m_mat,
-#'    sr_f_mat = sr_f_mat,
-#'    asfr_mat = asfr_mat,
-#'    srb_vec = srb_vec,
-#'    ages = ages,
-#'    ages_asfr = ages_asfr,
+#'    pop_m_mat = pop_m_mat_five,
+#'    pop_f_mat = pop_f_mat_five,
+#'    sr_m_mat = sr_m_mat_five,
+#'    sr_f_mat = sr_f_mat_five,
+#'    asfr_mat = asfr_mat_five,
+#'    srb_vec = srb_vec_five,
+#'    ages = ages_five,
+#'    ages_asfr = ages_asfr_five,
 #'    # With the cohort method
 #'    method = "cohort"
 #'  )
@@ -218,14 +218,14 @@
 #'
 #' mig_res <-
 #'   mig_resid_cohort(
-#'     pop_m_mat = pop_m_mat,
-#'     pop_f_mat = pop_f_mat,
-#'     sr_m_mat = sr_m_mat,
-#'     sr_f_mat = sr_f_mat,
-#'     asfr_mat = asfr_mat,
-#'     srb_vec = srb_vec,
-#'     ages = ages,
-#'     ages_asfr = ages_asfr
+#'     pop_m_mat = pop_m_mat_five,
+#'     pop_f_mat = pop_f_mat_five,
+#'     sr_m_mat = sr_m_mat_five,
+#'     sr_f_mat = sr_f_mat_five,
+#'     asfr_mat = asfr_mat_five,
+#'     srb_vec = srb_vec_five,
+#'     ages = ages_five,
+#'     ages_asfr = ages_asfr_five
 #'   )
 #'
 #' # Net migration for males using the cohort even flow method
@@ -242,14 +242,14 @@
 #' # For five year age groups
 #' mig_res <-
 #'  mig_resid(
-#'    pop_m_mat = pop_m_mat,
-#'    pop_f_mat = pop_f_mat,
-#'    sr_m_mat = sr_m_mat,
-#'    sr_f_mat = sr_f_mat,
-#'    asfr_mat = asfr_mat,
-#'    srb_vec = srb_vec,
-#'    ages = ages,
-#'    ages_asfr = ages_asfr,
+#'    pop_m_mat = pop_m_mat_five,
+#'    pop_f_mat = pop_f_mat_five,
+#'    sr_m_mat = sr_m_mat_five,
+#'    sr_f_mat = sr_f_mat_five,
+#'    asfr_mat = asfr_mat_five,
+#'    srb_vec = srb_vec_five,
+#'    ages = ages_five,
+#'    ages_asfr = ages_asfr_five,
 #'    # With the time method
 #'    method = "time"
 #'  )
@@ -274,14 +274,14 @@
 #'
 #' mig_res <-
 #'   mig_resid_time(
-#'     pop_m_mat = pop_m_mat,
-#'     pop_f_mat = pop_f_mat,
-#'     sr_m_mat = sr_m_mat,
-#'     sr_f_mat = sr_f_mat,
-#'     asfr_mat = asfr_mat,
-#'     srb_vec = srb_vec,
-#'     ages = ages,
-#'     ages_asfr = ages_asfr
+#'     pop_m_mat = pop_m_mat_five,
+#'     pop_f_mat = pop_f_mat_five,
+#'     sr_m_mat = sr_m_mat_five,
+#'     sr_f_mat = sr_f_mat_five,
+#'     asfr_mat = asfr_mat_five,
+#'     srb_vec = srb_vec_five,
+#'     ages = ages_five,
+#'     ages_asfr = ages_asfr_five
 #'   )
 #'
 #' # Net migration for males using the time even flow method

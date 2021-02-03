@@ -622,4 +622,61 @@ rownames(pop_f_mat) <- ages
 rownames(sr_m_mat) <- ages
 rownames(sr_f_mat) <- ages
 
+mig_res <-
+  mig_resid_stock(
+    pop_m_mat = pop_m_mat,
+    pop_f_mat = pop_f_mat,
+    sr_m_mat = sr_m_mat,
+    sr_f_mat = sr_f_mat,
+    asfr_mat = asfr_mat,
+    srb_vec = srb_vec,
+    ages = ages,
+    ages_asfr = ages_fertility
+  )
+
+mig_res <-
+  mig_resid_cohort(
+    pop_m_mat = pop_m_mat,
+    pop_f_mat = pop_f_mat,
+    sr_m_mat = sr_m_mat,
+    sr_f_mat = sr_f_mat,
+    asfr_mat = asfr_mat,
+    srb_vec = srb_vec,
+    ages = ages,
+    ages_asfr = ages_fertility
+  )
+
+mig_res <-
+  mig_resid_time(
+    pop_m_mat = pop_m_mat,
+    pop_f_mat = pop_f_mat,
+    sr_m_mat = sr_m_mat,
+    sr_f_mat = sr_f_mat,
+    asfr_mat = asfr_mat,
+    srb_vec = srb_vec,
+    ages = ages,
+    ages_asfr = ages_fertility
+  )
+
+# Save data
+pop_m_mat_five = pop_m_mat
+pop_f_mat_five = pop_f_mat
+sr_m_mat_five = sr_m_mat
+sr_f_mat_five = sr_f_mat
+asfr_mat_five = asfr_mat
+srb_vec_five = srb_vec
+ages_five = ages
+ages_asfr_five = ages_fertility
+
+usethis::use_data(pop_m_mat_five,
+                  pop_f_mat_five,
+                  sr_m_mat_five,
+                  sr_f_mat_five,
+                  asfr_mat_five,
+                  srb_vec_five,
+                  ages_five,
+                  ages_asfr_five,
+                  overwrite = TRUE)
+
+
 # End
