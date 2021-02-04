@@ -2,7 +2,7 @@
 interval <- 5
 ages <- seq(0, 100, by = interval)
 years <- seq(1950, 2050, by = interval)
-ages_fertility <- seq(15, 45, by = interval)
+ages_asfr <- seq(15, 45, by = interval)
 
 # Vector of population for males
 pop_m <-
@@ -343,7 +343,7 @@ rownames(pop_f_mat) <- ages
 # Age-specific-fertility-rate for as matrix
 asfr_mat <- matrix(asfr, nrow = 7, ncol = 20)
 colnames(asfr_mat) <- all_years[-length(all_years)]
-rownames(asfr_mat) <- ages_fertility
+rownames(asfr_mat) <- ages_asfr
 # Sex ratio at birth as vector
 srb_vec <- c(1.058, 1.057, 1.055, 1.055, 1.06, 1.056, 1.056, 1.052, 1.056,
              1.054, 1.054, 1.053, 1.054, 1.053, 1.056, 1.056, 1.056, 1.056,
@@ -490,6 +490,7 @@ test_that("mig_resid_stock returns correct result", {
   mig_f_correct <- matrix(mig_f_correct, nrow = 21, ncol = 20)
   colnames(mig_f_correct) <- all_years[-length(all_years)]
   rownames(mig_f_correct) <- ages
+
   mig_res <-
     mig_resid_stock(
       pop_m_mat = pop_m_mat,
@@ -499,14 +500,12 @@ test_that("mig_resid_stock returns correct result", {
       asfr_mat = asfr_mat,
       srb_vec = srb_vec,
       ages = ages,
-      ages_fertility = ages_fertility
+      ages_asfr = ages_asfr
     )
 
+  mig_resid_cohortet_mig_m <- mig_res$mig_m
   net_mig_m <- mig_res$mig_m
   net_mig_f <- mig_res$mig_f
-
-  # colnames(mig_m_correct) <- NULL
-  # colnames(net_mig_m) <- NULL
 
   expect_equal(
     mig_m_correct,
@@ -514,15 +513,38 @@ test_that("mig_resid_stock returns correct result", {
     tolerance = 0.00001
   )
 
-  # colnames(mig_f_correct) <- NULL
-  # colnames(net_mig_f) <- NULL
-
   expect_equal(
     mig_f_correct,
     net_mig_f,
     tolerance = 0.00001
   )
 
+  # Test that mig_resid, the generic method maker, dispatches
+  # correctly
+  mig_res <-
+    mig_resid(
+      pop_m_mat = pop_m_mat,
+      pop_f_mat = pop_f_mat,
+      sr_m_mat = sr_m_mat,
+      sr_f_mat = sr_f_mat,
+      asfr_mat = asfr_mat,
+      srb_vec = srb_vec,
+      ages = ages,
+      ages_asfr = ages_asfr,
+      method = "stock"
+    )
+
+  expect_equal(
+    mig_m_correct,
+    mig_res$mig_m,
+    tolerance = 0.00001
+  )
+
+  expect_equal(
+    mig_f_correct,
+    mig_res$mig_f,
+    tolerance = 0.00001
+  )
 })
 
 test_that("mig_resid_cohort returns correct result", {
@@ -666,14 +688,11 @@ test_that("mig_resid_cohort returns correct result", {
       asfr_mat = asfr_mat,
       srb_vec = srb_vec,
       ages = ages,
-      ages_fertility = ages_fertility
+      ages_asfr = ages_asfr
     )
 
   net_mig_m <- mig_res$mig_m
   net_mig_f <- mig_res$mig_f
-
-  # colnames(mig_m_correct) <- NULL
-  # colnames(net_mig_m) <- NULL
 
   expect_equal(
     mig_m_correct,
@@ -681,14 +700,39 @@ test_that("mig_resid_cohort returns correct result", {
     tolerance = 0.00001
   )
 
-  # colnames(mig_f_correct) <- NULL
-  # colnames(net_mig_f) <- NULL
-
   expect_equal(
     mig_f_correct,
     net_mig_f,
     tolerance = 0.00001
   )
+
+  # Test that mig_resid, the generic method maker, dispatches
+  # correctly
+  mig_res <-
+    mig_resid(
+      pop_m_mat = pop_m_mat,
+      pop_f_mat = pop_f_mat,
+      sr_m_mat = sr_m_mat,
+      sr_f_mat = sr_f_mat,
+      asfr_mat = asfr_mat,
+      srb_vec = srb_vec,
+      ages = ages,
+      ages_asfr = ages_asfr,
+      method = "cohort"
+    )
+
+  expect_equal(
+    mig_m_correct,
+    mig_res$mig_m,
+    tolerance = 0.00001
+  )
+
+  expect_equal(
+    mig_f_correct,
+    mig_res$mig_f,
+    tolerance = 0.00001
+  )
+
 })
 
 test_that("mig_resid_time returns correct result", {
@@ -842,7 +886,7 @@ test_that("mig_resid_time returns correct result", {
       asfr_mat = asfr_mat,
       srb_vec = srb_vec,
       ages = ages,
-      ages_fertility = ages_fertility
+      ages_asfr = ages_asfr
     )
 
   net_mig_m <- mig_res$mig_m
@@ -859,4 +903,81 @@ test_that("mig_resid_time returns correct result", {
     net_mig_f,
     tolerance = 0.00001
   )
+
+  # Test that mig_resid, the generic method maker, dispatches
+  # correctly
+  mig_res <-
+    mig_resid(
+      pop_m_mat = pop_m_mat,
+      pop_f_mat = pop_f_mat,
+      sr_m_mat = sr_m_mat,
+      sr_f_mat = sr_f_mat,
+      asfr_mat = asfr_mat,
+      srb_vec = srb_vec,
+      ages = ages,
+      ages_asfr = ages_asfr,
+      method = "time"
+    )
+
+  expect_equal(
+    mig_m_correct,
+    mig_res$mig_m,
+    tolerance = 0.00001
+  )
+
+  expect_equal(
+    mig_f_correct,
+    mig_res$mig_f,
+    tolerance = 0.00001
+  )
+})
+
+test_that("all mig_resid methods throw warnings when data is trimmed", {
+
+  all_funs <- list(mig_resid_stock, mig_resid_cohort, mig_resid_time)
+
+  for (fun in all_funs) {
+    expect_output(
+      fun(
+        pop_m_mat = pop_m_mat,
+        pop_f_mat = pop_f_mat,
+        sr_m_mat = sr_m_mat,
+        sr_f_mat = sr_f_mat,
+        asfr_mat = asfr_mat,
+        srb_vec = srb_vec[1:16],
+        ages = ages,
+        ages_asfr = ages_asfr,
+        verbose = TRUE
+      ),
+      regexp = "Years 2035, 2040, 2045, 2050 have been trimmed from all the data"
+    )
+  }
+
+})
+
+test_that("all mig_resid methods throw errors when ages do not begin at zero ", {
+
+  all_funs <- list(mig_resid_stock, mig_resid_cohort, mig_resid_time)
+  ages[1] <- 1
+
+  for (fun in all_funs) {
+    # when age is supplied
+    expect_error(
+      fun(
+        pop_m_mat = pop_m_mat,
+        pop_f_mat = pop_f_mat,
+        sr_m_mat = sr_m_mat,
+        sr_f_mat = sr_f_mat,
+        asfr_mat = asfr_mat,
+        srb_vec = srb_vec,
+        ages = ages,
+        ages_asfr = ages_asfr,
+        verbose = TRUE
+      ),
+      regexp = "Ages must begin at zero. Ages currently begin at 1"
+    )
+  }
+
+  # TODO we should add a test checking that this passes alright when ages
+  # is not provided but inferred from the matrices
 })
