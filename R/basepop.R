@@ -154,7 +154,12 @@
 #'
 #' @param refDate The reference year for which the reported population pertain
 #' (these are the population counts in `Females_five` and
-#' \code{Males_five}). Can either be a decimal date, a `Date` class
+#' \code{Males_five}). Can either be a decimal date, a `Date` class.
+#' If \code{nLxDatesIn} or \code{AsfrDatesIn} are not supplied and the
+#' corresponding \code{nLxFemale/Male}/\code{AsfrMat} is not supplied,
+#' \code{refDate} must be at a minimum 1962.5. This is because we can only
+#' fetch WPP data from 1955 onwards, and these minimum date is assumed to be
+#' 7.5 years before \code{refDate}, meaning 1955.
 #'
 #' @param Age integer vector of lower bounds of abridged age groups given in `Females_five` and `Males_five`.
 #'
@@ -868,37 +873,46 @@ downloadnLx <- function(nLx, country, gender, nLxDatesIn) {
   requireNamespace("fertestr", quietly = TRUE)
   requireNamespace("magrittr", quietly = TRUE)
   verbose <- getOption("basepop_verbose", TRUE)
-    if (!is.null(nLx)) {
-     # TR: ensure colnames passed
-      nLx <- as.matrix(nLx)
-      colnames(nLx) <- nLxDatesIn
+  if (!is.null(nLx)) {
+    # TR: ensure colnames passed
+    nLx <- as.matrix(nLx)
+    colnames(nLx) <- nLxDatesIn
+    n             <- nrow(nLx)
+    Age           <- c(0,1,seq(5,(n-2)*5,by=5))
+    rownames(nLx) <- Age
+    return(nLx)
+  }
 
-
-      n             <- nrow(nLx)
-      Age           <- c(0,1,seq(5,(n-2)*5,by=5))
-      rownames(nLx) <- Age
-      return(nLx)
-    }
-
-    if (is.null(nLx)){
+  if (is.null(nLx)){
 
     if (is.null(country)) stop("You need to provide a country to download the data for nLx")
 
-      if (verbose) {
-        cat(paste0("Downloading nLx data for ", country, ", years ", paste(nLxDatesIn,collapse=", "), ", gender ", gender), sep = "\n")
-      }
-      . <- NULL
-  nLx <-
-    lapply(nLxDatesIn, function(x) {
-      fertestr::FetchLifeTableWpp2019(country, x, gender)$Lx
-    }) %>% do.call("cbind", .) %>% as.matrix()
+    if (verbose) {
+      cat(paste0("Downloading nLx data for ", country, ", years ", paste(nLxDatesIn,collapse=", "), ", gender ", gender), sep = "\n")
+    }
 
-  colnames(nLx) <- nLxDatesIn
-  n             <- nrow(nLx)
-  Age           <- c(0,1,seq(5,(n-2)*5,by=5))
-  rownames(nLx) <- Age
-  return(nLx)
-   }
+    . <- NULL
+
+    ind_invalidyear <- which(nLxDatesIn < 1955)
+    if (length(ind_invalidyear) != 0) {
+      invalid_yrs <- paste0(nLxDatesIn[ind_invalidyear], collapse = ", ")
+      cat("nLxDate(s)", invalid_yrs, "is/are below 1955. Capping at 1955\n")
+      nLxDatesIn[ind_invalidyear] <- 1955
+    }
+
+    nLx <-
+      lapply(nLxDatesIn, function(x) {
+        fertestr::FetchLifeTableWpp2019(country, x, gender)$Lx
+      }) %>%
+      do.call("cbind", .) %>%
+      as.matrix()
+
+    colnames(nLx) <- nLxDatesIn
+    n             <- nrow(nLx)
+    Age           <- c(0,1,seq(5,(n-2)*5,by=5))
+    rownames(nLx) <- Age
+    return(nLx)
+  }
 }
 
 downloadAsfr <- function(Asfrmat, country, AsfrDatesIn) {
@@ -912,10 +926,17 @@ downloadAsfr <- function(Asfrmat, country, AsfrDatesIn) {
 
   if (is.null(country)) stop("You need to provide a country to download the data for Asfrmat")
 
+  ind_invalidyear <- which(AsfrDatesIn < 1955)
+  if (length(ind_invalidyear) != 0) {
+    invalid_yrs <- paste0(AsfrDatesIn[ind_invalidyear], collapse = ", ")
+    cat("AsfrDate(s)", invalid_yrs, "is/are below 1955. Capping at 1955\n")
+    AsfrDatesIn[ind_invalidyear] <- 1955
+  }
+
   tmp <-
     lapply(AsfrDatesIn, function(x) {
 
-      if (verbose) {
+     if (verbose) {
         cat(paste0("Downloading Asfr data for ", country, ", year ", x), sep = "\n")
       }
 
