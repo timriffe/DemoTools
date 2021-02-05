@@ -873,9 +873,6 @@ downloadnLx <- function(nLx, country, gender, nLxDatesIn) {
       nLx <- as.matrix(nLx)
       colnames(nLx) <- nLxDatesIn
 
-      if (min(nLxDatesIn) < 1950) {
-        stop(paste0("The minimum date allowed in nLxDatesIn should be 1950. The current minimum date is ", min(nLxDatesIn)))
-      }
 
       n             <- nrow(nLx)
       Age           <- c(0,1,seq(5,(n-2)*5,by=5))
@@ -909,11 +906,6 @@ downloadAsfr <- function(Asfrmat, country, AsfrDatesIn) {
   verbose <- getOption("basepop_verbose", TRUE)
 
   if (!is.null(Asfrmat)) {
-
-    if (min(AsfrDatesIn) < 1950) {
-      stop(paste0("The minimum date allowed in AsfrDatesIn should be 1950. The current minimum date is ", min(AsfrDatesIn)))
-    }
-
     # TR: can we assume colnames are AsfrDatesIn ?
     return(Asfrmat)
   }
