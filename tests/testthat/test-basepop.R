@@ -586,40 +586,23 @@ test_that("basepop_five can download from dates provided", {
   expect_true(sum(grepl("^Assuming the two", output)) == 2)
 })
 
+test_that("basepop fails when nLx has date below 1950", {
 
-# TR: deprecated. now always for both sexes
-# test_that("basepop_five only estimates male counts when female = FALSE", {
-# 
-#   female <-
-#       basepop_five(
-#         country = country,
-#         refDate = refDate,
-#         Females_five = pop_female_counts,
-#         verbose = FALSE
-#       )
-# 
-#   male1 <-
-#     basepop_five(
-#       country = country,
-#       refDate = refDate,
-#       Females_five = pop_female_counts,
-#       Males_five = pop_male_counts,
-#       verbose = FALSE
-#     )
-# 
-#   # Even if male1 specifies the male vector, `female = FALSE`
-#   # hasn't been set
-#   expect_true(all(female == male1))
-# 
-#   male2 <-
-#     basepop_five(
-#       country = country,
-#       refDate = refDate,
-#       Females_five = pop_female_counts,
-#       Males_five = pop_male_counts,
-#       female = FALSE,
-#       verbose = FALSE
-#     )
-# 
-#   expect_true(all(female != male2))
-# })
+  nLxDatesIn[1] <- 1945
+  expect_error(
+    basepop_five(
+      refDate = 1986.21,
+      Males_five = smoothed_males,
+      Females_five = smoothed_females,
+      SRB = sex_ratio,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
+      AsfrMat = AsfrMat,
+      AsfrDatesIn = AsfrDatesIn,
+      method = "linear",
+      radix = 100000
+    ),
+    regexp = "The minimum date allowed in nLxDatesIn should be 1950. The current minimum date is 1945" #nolintr
+  )
+})
