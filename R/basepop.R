@@ -909,6 +909,11 @@ downloadAsfr <- function(Asfrmat, country, AsfrDatesIn) {
   verbose <- getOption("basepop_verbose", TRUE)
 
   if (!is.null(Asfrmat)) {
+
+    if (min(AsfrDatesIn) < 1950) {
+      stop(paste0("The minimum date allowed in AsfrDatesIn should be 1950. The current minimum date is ", min(AsfrDatesIn)))
+    }
+
     # TR: can we assume colnames are AsfrDatesIn ?
     return(Asfrmat)
   }

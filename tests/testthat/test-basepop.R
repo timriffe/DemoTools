@@ -588,7 +588,28 @@ test_that("basepop_five can download from dates provided", {
 
 test_that("basepop fails when nLx has date below 1950", {
 
-  nLxDatesIn[1] <- 1945
+  tmp_nlx <- nLxDatesIn
+  tmp_nlx[1] <- 1945
+  expect_error(
+    basepop_five(
+      refDate = 1986.21,
+      Males_five = smoothed_males,
+      Females_five = smoothed_females,
+      SRB = sex_ratio,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = tmp_nlx,
+      AsfrMat = AsfrMat,
+      AsfrDatesIn = AsfrDatesIn,
+      method = "linear",
+      radix = 100000
+    ),
+    regexp = "The minimum date allowed in nLxDatesIn should be 1950. The current minimum date is 1945" #nolintr
+  )
+
+
+  tmp_asfr <- AsfrDatesIn
+  tmp_asfr[1] <- 1945
   expect_error(
     basepop_five(
       refDate = 1986.21,
@@ -599,10 +620,11 @@ test_that("basepop fails when nLx has date below 1950", {
       nLxMale = nLxMale,
       nLxDatesIn = nLxDatesIn,
       AsfrMat = AsfrMat,
-      AsfrDatesIn = AsfrDatesIn,
+      AsfrDatesIn = tmp_asfr,
       method = "linear",
       radix = 100000
     ),
-    regexp = "The minimum date allowed in nLxDatesIn should be 1950. The current minimum date is 1945" #nolintr
+    regexp = "The minimum date allowed in AsfrDatesIn should be 1950. The current minimum date is 1945" #nolintr
   )
+
 })
