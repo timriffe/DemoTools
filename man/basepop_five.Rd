@@ -28,7 +28,12 @@ names/codes.}
 
 \item{refDate}{The reference year for which the reported population pertain
 (these are the population counts in \code{Females_five} and
-\code{Males_five}). Can either be a decimal date, a \code{Date} class}
+\code{Males_five}). Can either be a decimal date, a \code{Date} class.
+If \code{nLxDatesIn} or \code{AsfrDatesIn} are not supplied and the
+corresponding \code{nLxFemale/Male}/\code{AsfrMat} is not supplied,
+\code{refDate} must be at a minimum 1962.5. This is because we can only
+fetch WPP data from 1955 onwards, and these minimum date is assumed to be
+7.5 years before \code{refDate}, meaning 1955.}
 
 \item{Age}{integer vector of lower bounds of abridged age groups given in \code{Females_five} and \code{Males_five}.}
 
