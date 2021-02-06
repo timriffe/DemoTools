@@ -269,7 +269,12 @@ outputH5_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
 outputH6_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
                                extrapLaw = "gompertz", OAnew = 100, 
                                extrapFrom = 60, extrapFit = seq(50,95,5), radix = 1)
-
+expect_s3_class(outputH1_test, "data.frame")
+expect_s3_class(outputH2_test, "data.frame")
+expect_s3_class(outputH3_test, "data.frame")
+expect_s3_class(outputH4_test, "data.frame")
+expect_s3_class(outputH5_test, "data.frame")
+expect_s3_class(outputH6_test, "data.frame")
 
 # I - messages/warnings -------------------------------------------------------
 
@@ -277,21 +282,22 @@ outputH6_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
 outputI1_test <- interp_lc_lim(input = input %>% dplyr::filter(Date %in% dates_in[1:2]), 
                                dates_out = seq(1953,2018,5))
 
+expect_error(outputI1_test)
+
 # choose e0_dates for you
 outputI2_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
                                # dates_e0 = unique(e0_swe$Date),
                                e0_Males = e0_swe$e0[e0_swe$Sex=="m"], 
                                e0_Females = e0_swe$e0[e0_swe$Sex=="f"])
 expect_error(outputI2_test)
-
-e0_dates_mod <- unique(e0_swe$Date)[1:length(unique(input$Date))]
-e0_swe_mod <- e0_swe %>% dplyr::filter(Date %in% e0_dates_mod) 
-expect_output(interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
-                            # dates_e0 = unique(e0_swe$Date),
-                            e0_Males = e0_swe_mod$e0[e0_swe_mod$Sex=="m"], 
-                            e0_Females = e0_swe_mod$e0[e0_swe_mod$Sex=="f"]), 
-              cat("\ndates_e0 not specified, assuming:\n",
-                  paste(dates_in,collapse = ", "),"\n" ))
+# e0_dates_mod <- unique(e0_swe$Date)[1:length(unique(input$Date))]
+# e0_swe_mod <- e0_swe %>% dplyr::filter(Date %in% e0_dates_mod) 
+# expect_output(interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
+#                             # dates_e0 = unique(e0_swe$Date),
+#                             e0_Males = e0_swe_mod$e0[e0_swe_mod$Sex=="m"], 
+#                             e0_Females = e0_swe_mod$e0[e0_swe_mod$Sex=="f"]), 
+#               cat("\ndates_e0 not specified, assuming:\n",
+#                   paste(dates_in,collapse = ", "),"\n" ))
 
 # tell me you´ll fit with gompertz in case max(Age) is <90
 expect_message(interp_lc_lim(input = input %>% dplyr::filter(Age < 85),

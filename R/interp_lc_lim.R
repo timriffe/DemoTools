@@ -385,7 +385,7 @@ interp_lc_lim_kt_min <- function(k,
                           sex,
                           e0_target,
                           ...){
-  Mx_hat <- interp_lc_lim_abk_m(k, ax, bx)
+  Mx_hat <- as.numeric(interp_lc_lim_abk_m(k, ax, bx))
   e0 <- lt_ambiguous(x = Mx_hat, 
                         Age = age, 
                         Sex = sex,
@@ -429,7 +429,7 @@ interp_lc_lim_estimate <- function(M, dates_in, dates_out, SVD = F){
       c[2]       <- (kto[ndates_in] - kto[1])/(dates_in[ndates_in] - dates_in[1])
       c[1]       <- kto[1] - c[2] * dates_in[1]
       # explanation ratio
-      R = 1- sum((log(M) - (ax + bx %*% kto))^2)/sum((log(M)-ax)^2)
+      R = 1- sum((log(M) - (ax + bx %*% t(kto)))^2)/sum((log(M)-ax)^2)
       # extrapolated k
       kt         <- c[1] + c[2] * dates_out
       # initial k (useful for avoiding divegence case)
