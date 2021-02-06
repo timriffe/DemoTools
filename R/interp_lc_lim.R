@@ -4,10 +4,10 @@
 #' or survival function), this function interpolate/extrapolate life tables 
 #' using the method for limited data suggested by  Li et. al (2004) (at least three observed years). 
 #'
-#' @details Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN. Useful for abridged or single ages, and allows
-#' output in both formats also.
-#' The main options are the use of non-divergent method for sex coherency (Li & Lee, 2005),
-#' and the possibility of fitting `"k"` to replicate `"e_0"` at some given dates. 
+#' @details Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN. 
+#' Useful for abridged or single ages, and allows output in both formats also.
+#' One option is the use of non-divergent method for sex coherency (Li & Lee, 2005).
+#' The other is the possibility of fitting `"k"` to replicate `"e_0"` at some given dates. 
 #'
 #' @note Draft Version
 #'
@@ -21,6 +21,7 @@
 #' @param OAG logical. Whether or not the last element of `nMx` (or `nqx` or `lx`) is an open age group. Default `TRUE.`
 #' @param verbose logical. Default `FALSE`.
 #' @param error_sheet logical. Just to reproduce UN spreadsheets. Will be removed. Default `FALSE`.
+#' @param SVD logical. Use Singular Value Decomposition for estimate b and k. Default `FALSE`.
 #' @param ... Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.
 #' @seealso
 #' \code{\link[DemoTools]{lt_abridged}}
@@ -107,7 +108,7 @@
 #'   }
 #' #End
 
-interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)  
+interp_lc_lim <- function(input = NULL,
                           dates_out = dates_in, 
                           Single = FALSE,
                           dates_e0 = NULL,
@@ -117,6 +118,7 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
                           OAG = TRUE,
                           verbose = TRUE,
                           error_sheet = FALSE,
+                          SVD = FALSE,
                           ...){
   
   # TR: capture args to filter out optional lifetable args to pass on in a named way?
@@ -135,13 +137,21 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
   # TR: ExtraArgs has a problem in that it won't capture & pass NULL defaults
   # mget(names(formals()),sys.frame(sys.nframe()))
   # IW: this captures everything: dots & NULLS
-  ExtraArgs <- c(as.list(environment()), list(...))
+  ExtraArgs = c(as.list(environment()), list(...))
+  ExtraArgs = ExtraArgs[! names(ExtraArgs) %in% c("input","Single")]
 
   dates_in  <- unique(input$Date) %>% dec.date()
   dates_out <- dec.date(dates_out)
   
+  # take care if lc with limited data is suitable
+  if (length(dates_in)<3){
+    stop("\nYou need three observed dates at least.")
+  }
+  if (all(diff(dates_in)==1)){
+    stop("\nYou have single-year-interval data and probably should use basic Lee-Carter method.")
+  }
+  
   # Two tries for dates_e0, otherwise we error
-  # IW: the option for replicate e0 is optional
   if(!is.null(e0_Males)){
     if (is.null(dates_e0)){
       if (length(e0_Males) == length(dates_in)){
@@ -175,7 +185,9 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
   # inputdt[, new_function(.SD,...),by=list(Sex,Date)] # or similar.
   . <- NULL
   inputdt <- split(input, list(input$Sex, input$Date)) %>% 
-              lapply(FUN = lt_smooth_ambiguous, ExtraArgs = ExtraArgs) %>% 
+              lapply(
+                function(X) do.call(lt_smooth_ambiguous,
+                                    c(list(input=X), ExtraArgs))) %>% 
               do.call("rbind", .)%>% 
               as.data.table() 
 
@@ -208,13 +220,13 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
   nAge       <- length(Age)
   
   # males
-  lc_estimate_m <- interp_lc_lim_estimate(nMxm, dates_in, dates_out)
+  lc_estimate_m <- interp_lc_lim_estimate(nMxm, dates_in, dates_out, SVD)
   axm <- lc_estimate_m[[1]]
   bxm <- lc_estimate_m[[2]]
   ktm <- lc_estimate_m[[3]]
   k0m <- lc_estimate_m[[4]]
   # females
-  lc_estimate_f <- interp_lc_lim_estimate(nMxf, dates_in, dates_out)
+  lc_estimate_f <- interp_lc_lim_estimate(nMxf, dates_in, dates_out, SVD)
   axf <- lc_estimate_f[[1]]
   bxf <- lc_estimate_f[[2]]
   ktf <- lc_estimate_f[[3]]
@@ -228,10 +240,10 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
     nMxm_hat <- exp(axm + bxm %*% t(ktm))
     nMxf_hat <- exp(axf + bxf %*% t(ktf))
     
-    # avoid divergence extrapolating to 1950: same bx and kt
+    # avoid divergence extrapolating
     if (prev_divergence){
       kt = (ktm + ktf) * .5 # equal size male and female
-      # error in vba code line 335
+      # error in vba code line 335. A parameter controls that only for reproducing purpose
       if(error_sheet){
         bx = 0
         for (j in 1:ndates_out){
@@ -243,13 +255,15 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
       }else{
         bx = (bxm + bxf) * .5  
       }
-      
       k0 = (k0m + k0f) * .5
+      
+      # apply common factor to rates with already specific factor (formula 6 in Li (2005)), 
+      # but specific factor is not estimated considering common one, using SVD of residuals.
       nMxm_hat_div <- nMxm[,1] * exp(bx %*% t(kt-k0))
       nMxf_hat_div <- nMxf[,1] * exp(bx %*% t(kt-k0))
       
-      # only for those years before min(dates_in). vba code explicit on that. 
-      # IW: why not for dates_out>max(dates_in) also?
+      # only for those years before min(dates_in). UN code explicit on that. 
+      # IW: why not for dates_out>max(dates_in) also? Ask UN.
       dates_extrap <- dates_out < min(dates_in)
       nMxm_hat[,dates_extrap] <- nMxm_hat_div[,dates_extrap]
       nMxf_hat[,dates_extrap] <- nMxf_hat_div[,dates_extrap]
@@ -305,18 +319,26 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
   colnames(nMxm_hat) <- dates_out
   colnames(nMxf_hat) <- dates_out
   . = NULL
+  # valid_params <- c("radix","axmethod","a0rule","IMR","region","mod","SRB",
+  #                   "OAG","OAnew","extrapLaw","extrapFrom","extrapFit")
+  # ExtraArgs = ExtraArgs[names(ExtraArgs) %in% valid_params]
   # TR: can use ... to pass in optional args. 
+
   Males_out <-
     lapply(colnames(nMxm_hat), function(x,MX,Age) {
+
       mx <- MX[, x]
-      LT <- lt_ambiguous(x = mx, 
+      LT <- lt_ambiguous(x = mx,
+                            type = "m",
                             Age = Age, 
-                            Sex = "m", 
+                            Sex = "m",
                             Single = Single,
-                            ... = ...) # quida de esto
+                            ...)
+                          #,... = ...) # quida de esto
       LT$Sex  <- "m"
       LT$Date <- as.numeric(x)
       LT
+      
     }, MX = nMxm_hat, Age = Age) %>% 
     do.call("rbind", .)
   
@@ -325,9 +347,10 @@ interp_lc_lim <- function(input = NULL, # with cols: Date, Sex, Age, nMx (opt), 
       mx <- MX[, x]
       LT <- lt_ambiguous(x = mx, 
                             Age = Age, 
-                            Sex = "f", 
+                            Sex = "f",
                             Single = Single,
-                            ... = ...)
+                            ...)
+                          # ,... = ...)
       LT$Sex  <- "f"
       LT$Date <- as.numeric(x)
       LT
@@ -392,24 +415,26 @@ interp_lc_lim_abk_m <- function(k,ax,bx){
 interp_lc_lim_estimate <- function(M, dates_in, dates_out, SVD = F){
       ndates_in  <- length(dates_in)
       ax         <- rowSums(log(M))/ndates_in
-      # IW: change needed to replicate spreadsheet
       if(SVD==TRUE){
+        # Singular Value Decomposition
         M_svd      <- svd(log(M)-ax)
         bx         <- M_svd$u[, 1]/sum(M_svd$u[, 1])
         kto        <- M_svd$d[1] * M_svd$v[, 1] * sum(M_svd$u[, 1])  
       }else{
-        kto  <- colSums(log(M))-sum(ax)
-        bx   <- rowSums(sweep(log(M) - ax, MARGIN = 2, kto, `*`))/sum(kto^2)
+        # likelihood method
+        kto  <- colSums(log(M))-sum(ax) # because sum(bx)==1
+        bx   <- (log(M) - ax)%*%kto/sum(kto^2)
       }
-      # linear model
       c          <- 0
       c[2]       <- (kto[ndates_in] - kto[1])/(dates_in[ndates_in] - dates_in[1])
       c[1]       <- kto[1] - c[2] * dates_in[1]
+      # explanation ratio
+      R = 1- sum((log(M) - (ax + bx %*% kto))^2)/sum((log(M)-ax)^2)
       # extrapolated k
       kt         <- c[1] + c[2] * dates_out
       # initial k (useful for avoiding divegence case)
       k0         <- c[1] + c[2] * dates_in[1]
-      return(list(ax,bx,kt,k0))
+      return(list(ax,bx,kt,k0,R))
 }
 
 # smooth rule previous to solve ambiguous
@@ -422,8 +447,11 @@ interp_lc_lim_estimate <- function(M, dates_in, dates_out, SVD = F){
 #' @param ExtraArgs list. Parameters produced in `interp_lc_lim` environment function.
 #' @param ... Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.
 #' @export
-lt_smooth_ambiguous <- function(input, ExtraArgs, ...){
+lt_smooth_ambiguous <- function(input, ...){
   
+  ExtraArgs = c(as.list(environment()), list(...))
+  ExtraArgs = ExtraArgs[! names(ExtraArgs) %in% c("input")]
+
   # get only cols with values (could entry nMx for some sex/year and nqx or lx for other)
   X <- input[!sapply(input, function(x) all(is.na(x)))]
   
@@ -433,7 +461,7 @@ lt_smooth_ambiguous <- function(input, ExtraArgs, ...){
   this_date <- unique(X[["Date"]])
   
   # cases for smooth older ages by default
-  if(!"extrapLaw" %in% names(ExtraArgs) ){  
+  if(!"extrapLaw" %in% names(ExtraArgs)){  
     Ageext <- sort(unique(X$Age))
     this_extrapFrom <- max(Ageext)
     this_OAnew = 100
@@ -450,24 +478,23 @@ lt_smooth_ambiguous <- function(input, ExtraArgs, ...){
       this_extrapFit = Ageext[Ageext >= 60 & ifelse(ExtraArgs$OAG, Ageext < max(Ageext), TRUE)]
     }
     # TR: other args not passed in are scoped one level up
+    thisExtraArgs <- ExtraArgs[!names(ExtraArgs) %in% 
+                                 c("extrapLaw","extrapFit","extrapFrom","OAnew","Single")]
     out <- lt_ambiguous(x = X[[this_type]], 
                         Age = X[["Age"]], 
                         type = this_type,
                         Sex = this_sex,
-                        Single = ExtraArgs$Single,
                         extrapLaw = this_extrapLaw,
                         extrapFit = this_extrapFit,
                         extrapFrom = this_extrapFrom, 
                         OAnew = this_OAnew,
-                        ... = ...)
+                        ...)
   }else{
     out <- lt_ambiguous(x = X[[this_type]], 
                         Age = X[["Age"]], 
                         type = this_type,
                         Sex = this_sex,
-                        Single = ExtraArgs$Single,
-                        extrapLaw = ExtraArgs$extrapLaw,
-                        ... = ...)  
+                        ...)  
   }
   
   out$Sex <- this_sex

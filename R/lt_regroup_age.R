@@ -220,11 +220,17 @@ lt_abridged2single <- function(
 #' @export
 
 lt_ambiguous <- function(x = NULL, 
-                         type = "m", # accepts"m", "q", or "l"
+                         type = "m",
                          Age = NULL, 
                          Sex = NULL, 
                          Single = FALSE,
                          ...){
+  
+  # keep extra args for some methods
+  ExtraArgs = c(as.list(environment()), list(...))
+  valid_params <- c("radix","axmethod","a0rule","IMR","region","mod","SRB",
+                    "OAG","OAnew","extrapLaw","extrapFrom","extrapFit")
+  ExtraArgs = ExtraArgs[names(ExtraArgs) %in% valid_params]
   
   # TR: adds flexibility when specifying type to reduce user errors
   type                  <- tolower(type)
@@ -248,31 +254,31 @@ lt_ambiguous <- function(x = NULL,
       out <- lt_abridged2single(nMx = x, Age = Age, Sex = Sex, ...)
     }
     if (type == "m" & !Single){
-      out <- out <- lt_abridged(nMx = x, Age = Age, Sex = Sex, ...)  
+      out <- lt_abridged(nMx = x, Age = Age, Sex = Sex, ...)  
     }
     # If we have nMx
     if (type == "q" & Single){
-      out <- lt_abridged2single(nqx = x, Age = Age, Sex = Sex, ...)
+      out <- lt_abridged2single(nqx = x, Age = Age, Sex = Sex,  ...)
     }
     if (type == "q" & !Single){
-      out <- out <- lt_abridged(nqx = x, Age = Age, Sex = Sex, ...)  
+      out <- lt_abridged(nqx = x, Age = Age, Sex = Sex,  ...)  
     }
   }
   
   if (is_single(Age)){
     if (type == "m" & Single){
-      out <- lt_single_mx(nMx = x, Age = Age, Sex = Sex, ...)
+      out <- lt_single_mx(nMx = x, Age = Age, Sex = Sex,  ...)
     }
     if (type == "m" & !Single){
-      out <- lt_single_mx(nMx = x, Age = Age, Sex = Sex, ...)
-      out <- lt_single2abridged(lx = out$lx,nLx = out$Lx, ex = out$ex) 
+      out <- lt_single_mx(nMx = x, Age = Age, Sex = Sex,  ...)
+      out <- lt_single2abridged(lx = out$lx,nLx = out$nLx, ex = out$ex) 
     }
     if (type == "q" & Single){
-      out <- lt_single_qx(nqx = x, Age = Age, Sex = Sex, ...)
+      out <- lt_single_qx(nqx = x, Age = Age, Sex = Sex,  ...)
     }
     if (type == "q" & !Single){
-      out <- lt_single_qx(qx = x, Age = Age, Sex = Sex, ...)
-      out <- lt_single2abridged(lx = out$lx,nLx = out$Lx, ex = out$ex) 
+      out <- lt_single_qx(qx = x, Age = Age, Sex = Sex,  ...)
+      out <- lt_single2abridged(lx = out$lx,nLx = out$nLx, ex = out$ex) 
     }
   }
   

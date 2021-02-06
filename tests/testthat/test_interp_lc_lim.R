@@ -1,9 +1,17 @@
-
 # tests against spreadsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" -------------------------------------------------------------
+
+# summary
+# A to E tests againts spreadsheet
+# F testing args from main fun
+# G mixing input: single/abr with output single/abr, and mixing input nMx and lx
+# H passing lt arguments
+# I text/messages/warnings
+
 # tolerance: .05% difference in e_0
 tolerance_admited <- .005 
 
-### data included in spredsheet
+# data included in spredsheet -------------------------------------------------------------
+
 Age <- c(0,1,seq(5,100,5))
 dates_in <- c(1980.671, 1991.668, 1996.586, 2000.586, 2010.71)
 input <- data.frame(Date= c(rep(sort(rep(dates_in, length(Age))),2)),
@@ -44,16 +52,18 @@ input <- data.frame(Date= c(rep(sort(rep(dates_in, length(Age))),2)),
                              0.018559, 0.026524, 0.041711, 0.066135, 0.106604, 0.174691, 0.291021)
                      )
 
-### A) test with input nMx, allowing cross-over, and NOT reproducing e0 at given years
+# A to E tests againts spreadsheet -------------------------------------------------------------
+
+# A - test with input nMx, allowing cross-over, and NOT reproducing e0 at given years
 outputA <- data.frame(Date = seq(1950,2015,5),
                       Sex = c(rep("m",14),rep("f",14)),
                       e0 = c(55.25,58.41,61.17,63.58,65.68,67.49,69.07,70.46,71.69,72.78,73.75,74.63,75.43,76.15,60.37,63.90,
                             66.97,69.64,71.92,73.89,75.58,77.06,78.35,79.48,80.48,81.36,82.15,82.86)) %>% 
-                      arrange(Sex, Date)
+                      dplyr::arrange(Sex, Date)
 outputA_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5)) %>% 
                       dplyr::filter(Age == 0) %>% 
                       dplyr::select(Date, Sex, e0=ex) %>% 
-                      arrange(Sex, Date)
+                      dplyr::arrange(Sex, Date)
 test_that("lc w lim data works", {
   expect_equal(
     as.numeric(outputA_test[,"e0"]), 
@@ -62,17 +72,17 @@ test_that("lc w lim data works", {
   )
 })
 
-### B) test with input nMx, NOT allowing cross-over, and NOT reproducing e0 at given years
+# B - test with input nMx, NOT allowing cross-over, and NOT reproducing e0 at given years
 outputB <- data.frame(Date = seq(1950,2015,5),
                       Sex = c(rep("m",14),rep("f",14)),
                       e0 = c(54.42,57.48,60.24,62.72,64.95,66.94,69.07,70.46,71.69,72.78,73.75,74.63,75.43,76.15,63.15,65.93,
                              68.39,70.56,72.46,74.13,75.58,77.06,78.35,79.48,80.48,81.36,82.15,82.86))%>% 
-                      arrange(Sex, Date)
+  dplyr::arrange(Sex, Date)
 outputB_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5), 
                               prev_divergence = TRUE, error_sheet = TRUE) %>% 
                         dplyr::filter(Age == 0) %>% 
                         dplyr::select(Date, Sex, e0=ex) %>% 
-                        arrange(Sex, Date)
+  dplyr::arrange(Sex, Date)
 
 test_that("lc w lim data and prev divergence works", {
   # allow for rounding differences, so maximum absolute difference of 1
@@ -83,7 +93,7 @@ test_that("lc w lim data and prev divergence works", {
   )
 })
 
-### C) test input nMx, allowing cross-over, and reproducing e0 at given years (e0_swe)
+# C - test input nMx, allowing cross-over, and reproducing e0 at given years (e0_swe)
 data("e0_swe")
 outputC <- data.frame(Date = seq(1950,2015,5),
                       Sex = c(rep("m",14),rep("f",14)),
@@ -91,16 +101,15 @@ outputC <- data.frame(Date = seq(1950,2015,5),
                              75.51,76.77,77.89,78.98,79.91,80.73,73.09,74.28,
                              75.47,76.64,77.59,78.39,79.26,80.05,80.91,81.74,
                              82.38,83.10,83.75,84.31)) %>% 
-                             arrange(Sex, Date)
+  dplyr::arrange(Sex, Date)
 outputC_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
                               dates_e0 = unique(e0_swe$Date),
                               e0_Males = e0_swe$e0[e0_swe$Sex=="m"], 
                               e0_Females = e0_swe$e0[e0_swe$Sex=="f"]) %>% 
                           dplyr::filter(Age == 0) %>% 
                           dplyr::select(Date, Sex, e0=ex) %>% 
-                          arrange(Sex, Date)
+                          dplyr::arrange(Sex, Date)
 test_that("lc w lim data and fitting e0 works", {
-  # allow for rounding differences, so maximum absolute difference of 1
   expect_equal(
     as.numeric(outputC_test[,"e0"]), 
     as.numeric(outputC[,"e0"]), 
@@ -108,7 +117,7 @@ test_that("lc w lim data and fitting e0 works", {
   )
 })
 
-### D) test with input nqx, allowing cross-over, and NOT reproducing e0 at given years
+# D - test with input nqx, allowing cross-over, and NOT reproducing e0 at given years
 input_nqx <- split(input, list(input$Date, input$Sex), drop = F) %>% 
                 lapply(function(X){
                         LT = lt_abridged(nMx = X[["nMx"]], 
@@ -118,8 +127,8 @@ input_nqx <- split(input, list(input$Date, input$Sex), drop = F) %>%
                         LT$Sex = X$Sex
                         LT}) %>% 
                 do.call("rbind", .) %>% 
-                select(Date, Sex, Age, nqx)
-# pate in spreadsheet: input_nqx %>% tidyr::spread(Date,nqx) %>% write.csv("testD.csv")
+  dplyr::select(Date, Sex, Age, nqx)
+# paste in spreadsheet: input_nqx %>% tidyr::spread(Date,nqx) %>% write.csv("testD.csv")
 outputD <- data.frame(Date = seq(1950,2015,5),
                       Sex = c(rep("m",14),rep("f",14)),
                       e0 = c(55.28,58.43,61.18,63.60,
@@ -130,11 +139,11 @@ outputD <- data.frame(Date = seq(1950,2015,5),
                              75.61,77.08,78.37,79.51,
                              80.50,81.39,82.18,82.89
                       )) %>% 
-                      arrange(Sex, Date)
+  dplyr::arrange(Sex, Date)
 outputD_test <- interp_lc_lim(input = input_nqx, dates_out = seq(1953,2018,5)) %>% 
                     dplyr::filter(Age == 0) %>% 
                     dplyr::select(Date, Sex, e0=ex) %>% 
-                    arrange(Sex, Date)
+  dplyr::arrange(Sex, Date)
 
 test_that("lc w lim data and nqx as input works", {
   expect_equal(
@@ -144,3 +153,152 @@ test_that("lc w lim data and nqx as input works", {
   )
 })
   
+# E - test with input lx, allowing cross-over, and NOT reproducing e0 at given years
+input_lx <- split(input, list(input$Date, input$Sex), drop = F) %>% 
+                    lapply(function(X){
+                      LT = lt_abridged(nMx = X[["nMx"]], 
+                                       Age = X[["Age"]],
+                                       Sex = unique(X[["Sex"]]))
+                      LT$Date = X$Date
+                      LT$Sex = X$Sex
+                      LT}) %>% 
+                    do.call("rbind", .) %>% 
+  dplyr::select(Date, Sex, Age, lx)
+# paste in spreadsheet: input_lx %>% tidyr::spread(Date,lx) %>% xlsx::write.xlsx("testD.xlsx")
+outputE <- data.frame(Date = seq(1950,2015,5),
+                      Sex = c(rep("m",14),rep("f",14)),
+                      e0 = c(55.28,58.43,61.18,63.60,
+                             65.69,67.50,69.09,70.47,
+                             71.70,72.79,73.77,74.65,
+                             75.44,76.17,60.37,63.91,
+                             66.98,69.65,71.94,73.91,
+                             75.61,77.08,78.37,79.51,
+                             80.50,81.39,82.18,82.89)) %>% 
+  dplyr::arrange(Sex, Date)
+outputE_test <- interp_lc_lim(input = input_lx, dates_out = seq(1953,2018,5)) %>% 
+                      dplyr::filter(Age == 0) %>% 
+                      dplyr::select(Date, Sex, e0=ex) %>% 
+  dplyr::arrange(Sex, Date)
+test_that("lc w lim data and nqx as input works", {
+  expect_equal(
+    as.numeric(outputE_test[,"e0"]), 
+    as.numeric(outputE[,"e0"]), 
+    tolerance = tolerance_admited
+  )
+})
+
+
+# F - testing args ------------------------------------------------------------
+
+# single ages out
+outputF1_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
+                               Single = T, extrapLaw = "kannisto", 
+                               extrapFit = seq(60,90,5))
+expect_length(unique(outputF1_test$Age), 130)
+
+# single out diff OAG
+outputF2_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
+                               Single = T, extrapLaw = "makeham", OAnew = 100)
+expect_length(unique(outputF2_test$Age), 101)
+
+# bunch of args
+outputF3_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
+                               prev_divergence = T,
+                               dates_e0 = unique(e0_swe$Date),
+                               e0_Males = e0_swe$e0[e0_swe$Sex=="m"], 
+                               e0_Females = e0_swe$e0[e0_swe$Sex=="f"],
+                               Single = T, verbose = F, SVD = T,
+                               extrapLaw = "ggompertz", OAnew = 100)
+expect_s3_class(outputF3_test, "data.frame")
+expect_length(unique(outputF3_test$ex), 101 * 2 * length(seq(1953,2018,5)))
+
+
+# G - mixing input --------------------------------------------------------
+
+# some dates gives rates and some lx
+input_mix1 <- rbind(input %>% 
+                     dplyr::filter(Date %in% dates_in[1:2]) %>% 
+                     mutate(lx = NA),
+                   input_lx %>% 
+                     dplyr::filter(Date %in% dates_in[3:5]) %>% 
+                     mutate(nMx = NA)
+                   )
+outputG1_test <- interp_lc_lim(input = input_mix1, dates_out = seq(1953,2018,5))
+expect_s3_class(outputG1_test, "data.frame")
+expect_true(all(outputG1_test$nMx > 0))
+
+# some single and abr ages
+input_single <- split(input, list(input$Date, input$Sex), drop = F) %>% 
+                  lapply(function(X){
+                    LT = lt_abridged2single(nMx = X[["nMx"]], 
+                                     Age = X[["Age"]],
+                                     Sex = unique(X[["Sex"]]),
+                                     OAnew = 100)
+                    LT$Date = unique(X$Date)
+                    LT$Sex = unique(X$Sex)
+                    LT}) %>% 
+                  do.call("rbind", .) %>% 
+  dplyr::select(Date, Sex, Age, nMx)
+input_mix2 <- rbind(input %>% 
+                      dplyr::filter(Date %in% dates_in[1:2]),
+                    input_single %>% 
+                      dplyr::filter(Date %in% dates_in[3:5])
+                    )
+outputG2_test <- interp_lc_lim(input = input_mix2, dates_out = seq(1953,2018,5))
+expect_length(unique(outputG2_test$Age), 22)
+
+outputG3_test <- interp_lc_lim(input = input_mix2, dates_out = seq(1953,2018,5),
+                               Single = T)
+expect_length(unique(outputG3_test$Age), 130)
+
+
+
+# H - lt args -------------------------------------------------------------
+
+# various comb args from lt functions
+outputH1_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
+                              a0rule = "cd")
+outputH2_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
+                              axmethod = "un")
+outputH3_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
+                              region = "n")
+outputH4_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
+                              extrapLaw = "makeham")
+outputH5_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
+                              extrapLaw = "makeham", OAnew = 95)
+outputH6_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
+                               extrapLaw = "gompertz", OAnew = 100, 
+                               extrapFrom = 60, extrapFit = seq(50,95,5), radix = 1)
+
+
+# I - messages/warnings -------------------------------------------------------
+
+# need n(dates)>2
+outputI1_test <- interp_lc_lim(input = input %>% dplyr::filter(Date %in% dates_in[1:2]), 
+                               dates_out = seq(1953,2018,5))
+
+# choose e0_dates for you
+outputI2_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
+                               # dates_e0 = unique(e0_swe$Date),
+                               e0_Males = e0_swe$e0[e0_swe$Sex=="m"], 
+                               e0_Females = e0_swe$e0[e0_swe$Sex=="f"])
+expect_error(outputI2_test)
+
+e0_dates_mod <- unique(e0_swe$Date)[1:length(unique(input$Date))]
+e0_swe_mod <- e0_swe %>% dplyr::filter(Date %in% e0_dates_mod) 
+expect_output(interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
+                            # dates_e0 = unique(e0_swe$Date),
+                            e0_Males = e0_swe_mod$e0[e0_swe_mod$Sex=="m"], 
+                            e0_Females = e0_swe_mod$e0[e0_swe_mod$Sex=="f"]), 
+              cat("\ndates_e0 not specified, assuming:\n",
+                  paste(dates_in,collapse = ", "),"\n" ))
+
+# tell me you´ll fit with gompertz in case max(Age) is <90
+expect_message(interp_lc_lim(input = input %>% dplyr::filter(Age < 85),
+              dates_out = seq(1953,2018,5)),
+              "A Gompertz function was fitted for older ages for sex ")
+
+
+
+
+
