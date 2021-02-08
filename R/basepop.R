@@ -638,6 +638,12 @@ basepop_five <- function(country = NULL,
   AllArgs <- as.list(environment())
   ArgsCheck(AllArgs)
 
+  lower_bound <- abs(min(nLxDatesIn) - min(DatesOut))
+  upper_bound <- abs(max(nLxDatesIn) - max(DatesOut))
+
+  if (lower_bound > 5 || upper_bound > 5) {
+    stop("nLxDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates") 
+  }
 
   # Interpolate the gender specific nLx to the requested
   # dates out
@@ -653,6 +659,13 @@ basepop_five <- function(country = NULL,
     datesOut = DatesOut,
    ...
   )
+
+  lower_bound <- abs(min(AsfrDatesIn) - min(DatesOut))
+  upper_bound <- abs(max(AsfrDatesIn) - max(DatesOut))
+
+  if (lower_bound > 5 || upper_bound > 5) {
+    stop("AsfrDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates") 
+  }
 
   # Interpolate the asfr to the requested dates.
   # This is gender agnostic.

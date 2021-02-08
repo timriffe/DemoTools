@@ -610,42 +610,123 @@ test_that("basepop works with up to year 1955", {
 
 test_that("basepop caps nLxDatesIn to 1955 when provided a date below that", {
 
-  tmp_nlx <- nLxDatesIn
-  tmp_nlx[1] <- 1945
+  tmp_nlx <- c(1954, 1960)
   expect_output(
     tmp <-
       basepop_five(
         country = "Spain",
-        refDate = 1986.21,
+        refDate = 1960,
         Males_five = smoothed_males,
         Females_five = smoothed_females,
         SRB = sex_ratio,
         nLxDatesIn = tmp_nlx,
-        AsfrDatesIn = AsfrDatesIn,
+        AsfrDatesIn = c(1955, 1960),
         method = "linear",
         radix = 100000
       ),
-    regexp = "nLxDate\\(s\\) 1945 is/are below 1955\\. Capping at 1955",
+    regexp = "nLxDate\\(s\\) 1954 is/are below 1955\\. Capping at 1955",
     all = FALSE
   )
 
-
-  tmp_asfr <- AsfrDatesIn
-  tmp_asfr[1] <- 1945
+  tmp_asfr <- c(1954, 1960)
   expect_output(
+    tmp <-
+      basepop_five(
+        country = "Spain",
+        refDate = 1960,
+        Males_five = smoothed_males,
+        Females_five = smoothed_females,
+        SRB = sex_ratio,
+        nLxDatesIn = c(1955, 1960),
+        AsfrDatesIn = tmp_asfr,
+        method = "linear",
+        radix = 100000
+      ),
+    regexp = "AsfrDate\\(s\\) 1954 is/are below 1955\\. Capping at 1955",
+    all = FALSE
+  )
+
+})
+
+test_that("basepop fails when it implies an extrapolation of > 5 years", {
+
+  ## For nLxDatesIn ##
+
+  ## By setting refDate to 1974, the difference between 1974 - 7.5 and the
+  ## minimum of nLxDatesIn is greater than five.
+
+  expect_error(
     basepop_five(
-      country = "Spain",
-      refDate = 1986.21,
+      refDate = 1974,
       Males_five = smoothed_males,
       Females_five = smoothed_females,
       SRB = sex_ratio,
       nLxFemale = nLxFemale,
       nLxMale = nLxMale,
       nLxDatesIn = nLxDatesIn,
-      AsfrDatesIn = tmp_asfr,
-      method = "linear",
+      AsfrMat = AsfrMat,
+      AsfrDatesIn = AsfrDatesIn,
       radix = 100000
     ),
-    regexp = "AsfrDate\\(s\\) 1945 is/are below 1955\\. Capping at 1955",
+    regexp = "nLxDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates",
+    fixed = TRUE
   )
+
+  ## By setting refDate to 1995, the difference between 1995 - 0.5 and the
+  ## maximum of nLxDatesIn is greater than five.
+
+  expect_error(
+    basepop_five(
+      refDate = 1995,
+      Males_five = smoothed_males,
+      Females_five = smoothed_females,
+      SRB = sex_ratio,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
+      AsfrMat = AsfrMat,
+      AsfrDatesIn = AsfrDatesIn,
+      radix = 100000
+    ),
+    regexp = "nLxDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates",
+    fixed = TRUE
+  )
+
+  ## For AsfrDatesIn
+  ## Here we just provide AsfrDatesIn which we are much higher than refDate - 7.5
+  expect_error(
+    basepop_five(
+      refDate = 1986,
+      Males_five = smoothed_males,
+      Females_five = smoothed_females,
+      SRB = sex_ratio,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
+      AsfrMat = AsfrMat,
+      AsfrDatesIn = c(1925, 1930),
+      radix = 100000
+    ),
+    regexp = "AsfrDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates",
+    fixed = TRUE
+  )
+
+  ## Here we just provide AsfrDatesIn which we are much higher than refDate - 0.5
+  expect_error(
+    basepop_five(
+      refDate = 1986,
+      Males_five = smoothed_males,
+      Females_five = smoothed_females,
+      SRB = sex_ratio,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
+      AsfrMat = AsfrMat,
+      AsfrDatesIn = c(2020, 2025),
+      radix = 100000
+    ),
+    regexp = "AsfrDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates",
+    fixed = TRUE
+  )
+
 })
