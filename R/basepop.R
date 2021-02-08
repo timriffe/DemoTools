@@ -544,7 +544,7 @@ basepop_five <- function(country = NULL,
                          SRB = NULL,
                          radix = NULL,
                          verbose = TRUE) {
-
+  
   options(basepop_verbose = verbose)
   on.exit(options(basepop_verbose = NULL))
 
@@ -554,6 +554,7 @@ basepop_five <- function(country = NULL,
 
   if (!is.null(Age)){
     stopifnot(is_abridged(Age))
+    stopifnot(length(Age) != length(Females_five))
   } else {
     if (!is.null(names(Females_five))){
       Age <- names2age(Females_five)
@@ -565,7 +566,7 @@ basepop_five <- function(country = NULL,
       Age <- inferAgeIntAbr(Females_five)
     }
   }
-
+  
   if (is.null(nLxDatesIn)) {
     # re PJ issue #183 suggested default
     nLxDatesIn <- refDate - c(0.5, 7.5)
@@ -584,6 +585,9 @@ basepop_five <- function(country = NULL,
     }
   }
 
+  # ensure vectors named, for purposes of selection
+  names(Females_five) <- Age
+  names(Males_five)   <- Age
   ## obtain nLx for males and females
   ## If these arguments have been specified, they return
   ## the same thing and don't download the data
