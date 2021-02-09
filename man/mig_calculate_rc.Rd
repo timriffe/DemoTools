@@ -30,12 +30,12 @@ Models with less parameters gradually remove terms at the older ages. Parameters
 For a specific family to be included, values for all parameters in that family must be specified.
 }
 \examples{
-pars <- c(a1= 0.09, alpha1= 0.1, a2= 0.2, 
-alpha2= 0.1, mu2= 21, lambda2= 0.39, a3= 0.001, 
+\dontrun{
+pars <- c(a1= 0.09, alpha1= 0.1, a2= 0.2,
+alpha2= 0.1, mu2= 21, lambda2= 0.39, a3= 0.001,
 alpha3= 1, mu3= 67, lambda3= 0.6, c= 0.01)
 ages <- 0:75
 mx <- mig_calculate_rc(ages = ages, pars = pars)
-\dontrun{
 plot(ages, mx, type = 'l')
 }
 }
