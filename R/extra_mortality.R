@@ -23,6 +23,7 @@
 #'   \item{\code{"beard_makeham"}} -- The Beard-Makeham model;
 #'   \item{\code{"quadratic"}} -- The Quadratic model.
 #'   }
+#' @param opt.method character. Default `"LF2"`, see `MortalityLaws::MortalityLaw` for a description of choices.
 #' @param ... Other arguments to be passed on to the
 #' \code{\link[MortalityLaws]{MortalityLaw}} function.
 #' @seealso
@@ -142,7 +143,7 @@ lt_rule_m_extrapolate <- function(mx,
                                   x_fit = x,
                                   x_extr,
                                   law = "kannisto",
-                                  opt.method = "poissonL",
+                                  opt.method = "LF2",
                                   ...) {
 
   all_the_laws_we_care_about <- c("kannisto",
