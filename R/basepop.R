@@ -209,7 +209,13 @@
 #' automatically downloaded for the dates in `nLxDatesIn`.
 #'
 #' @param SRB A numeric. Sex ratio at birth (males / females). Default is set
-#' to 1.05
+#' to 1.046. Only a maximum of three values permitted.
+#'
+#' @param SRBDatesIn A vector of numeric years (for example, 1986). Only a maximum
+#' number of three dates allowed. These are
+#' the dates which pertain to the values in `SRB`. If not provided,
+#' the function automatically determines three dates which are 7.5 years,
+#' 2.5 and 0.5 years before `refDate`.
 #'
 #' @param radix starting point to use in the adjustment of the three first age
 #' groups. Default is NULL. If not provided, it is inferred based on the scale of age `1L0`.
@@ -542,9 +548,10 @@ basepop_five <- function(country = NULL,
                          AsfrDatesIn = NULL,
                          ...,
                          SRB = NULL,
+                         SRBDatesIn = NULL,
                          radix = NULL,
                          verbose = TRUE) {
-  
+
   options(basepop_verbose = verbose)
   on.exit(options(basepop_verbose = NULL))
 
@@ -566,7 +573,7 @@ basepop_five <- function(country = NULL,
       Age <- inferAgeIntAbr(Females_five)
     }
   }
-  
+
   if (is.null(nLxDatesIn)) {
     # re PJ issue #183 suggested default
     nLxDatesIn <- refDate - c(0.5, 7.5)
@@ -622,21 +629,14 @@ basepop_five <- function(country = NULL,
       country = country,
       AsfrDatesIn = AsfrDatesIn
     )
-  # get a vector of 3 SRB estimates matching the DatesOut dates.
-  # if SRB was given as a vector of length 3 then we take it as-is
-  # if only one value was given (or a vector of length not equal to 3),
-  # we repeat it 3 times and take the first 3 elements.
-  # if it's NULL and we have the country in the DB then we look it up.
-  # if it's NULL and we don't have the country then we assume 1.05,
-  # because tradition.
 
-  # TR saw no need for sapply()
-  # DatesOut  <- sapply(c(0.5, 2.5, 7.5), function(x) refDate - x)
   DatesOut <- refDate - c(0.5, 2.5, 7.5)
+  SRBDatesIn <- if (!is.null(SRBDatesIn)) SRBDatesIn else DatesOut
 
   SRB <- downloadSRB(SRB,
                      country,
-                     DatesOut)
+                     DatesOut = SRBDatesIn,
+                     verbose = verbose)
 
   ## Check all arguments
   AllArgs <- as.list(environment())
@@ -646,7 +646,7 @@ basepop_five <- function(country = NULL,
   upper_bound <- abs(max(nLxDatesIn) - max(DatesOut))
 
   if (lower_bound > 5 || upper_bound > 5) {
-    stop("nLxDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates") 
+    stop("nLxDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates")
   }
 
   # Interpolate the gender specific nLx to the requested
@@ -657,6 +657,7 @@ basepop_five <- function(country = NULL,
     datesOut = DatesOut,
     ...
   )
+
   nLxm <- interp(
     nLxMale,
     datesIn = nLxDatesIn,
@@ -668,7 +669,7 @@ basepop_five <- function(country = NULL,
   upper_bound <- abs(max(AsfrDatesIn) - max(DatesOut))
 
   if (lower_bound > 5 || upper_bound > 5) {
-    stop("AsfrDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates") 
+    stop("AsfrDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates")
   }
 
   # Interpolate the asfr to the requested dates.
@@ -972,50 +973,48 @@ downloadAsfr <- function(Asfrmat, country, AsfrDatesIn) {
 #' @param SRB sex ratio at birth. Either `NULL`, a scalar to assume constant, or a vector of length 3, assumed.
 #' @param country character country name available UN Pop Div `LocName` set
 #' @param DatesOut numeric vector of three decimal dates produced by `basepop_ive()`
+#' @param verbose Whether to print messages. Default set to TRUE.
 #'
 #' @return numeric vector with three SRB estimates
 #' @export
 #'
-#' @importFrom rlang .data
+downloadSRB <- function(SRB, country, DatesOut, verbose = TRUE){
 
-downloadSRB <- function(SRB, country, DatesOut){
-  requireNamespace("dplyr", quietly = TRUE)
-  requireNamespace("DemoToolsData", quietly = TRUE)
-  requireNamespace("rlang", quietly = TRUE) # for .data
-  verbose <- getOption("basepop_verbose", TRUE)
+  if (!is.null(SRB)) {
+    if (length(SRB) > 3) stop("SRB can only accept three dates at maximum")
 
+    rep_times <- 3 - length(SRB)
+    SRB <- c(SRB, rep(SRB, times = rep_times))
+    return(stats::setNames(SRB[1:3], DatesOut))
+  }
+
+  if (length(DatesOut) > 3) stop("SRB can only accept three dates at maximum")
   WPP2019_births <- DemoToolsData::WPP2019_births
-  # If not given and we have the country, then we use it
-  if (is.null(SRB) & !is.null(country)){
-    if (country %in% WPP2019_births$LocName){
-    # TODO: really this should take a weighted average of SRB
-    # over the period represented by each cetral date?
+  SRB_default <- round((1 - .4886) / .4886, 3)
 
-      SRB <- WPP2019_births %>%
-               dplyr::filter(.data$LocName == country,
-                             .data$Year %in% floor(DatesOut)) %>%
-               dplyr::pull(SRB)
-    }  else {
-      if (verbose){
-        cat(paste(country,"not available in WPP LocName list\n"))
-      }
+  if (!country %in% WPP2019_births$LocName) {
+    if (verbose) {
+      cat(paste(country, "not available in WPP LocName list\n"))
+      cat(paste("Assuming SRB to be", SRB_default, "\n"))
     }
-    # otherwise will need to assume
+
+    return(stats::setNames(rep(SRB_default, 3), DatesOut))
   }
 
-  # if still not given then assume something
-  if (is.null(SRB)){
-    SRB <- rep(1.05,3)
-    if (verbose){
-      cat(paste(country,"not available in WPP LocName list\n"))
-    }
+  ind <- WPP2019_births$LocName == country & WPP2019_births$Year %in% floor(DatesOut)
+  years_srb <- WPP2019_births[ind, "Year", drop = TRUE]
+  SRB <- stats::setNames(WPP2019_births[ind, "SRB", drop = TRUE], years_srb)
+
+  if (length(SRB) == 0) return(stats::setNames(rep(SRB_default, 3), DatesOut))
+
+  DatesOut <- floor(DatesOut)
+  yrs_present <- DatesOut %in% years_srb
+  if (any(!yrs_present)) {
+    yrs_not_present <- mean(SRB[as.character(DatesOut[yrs_present])])
+    yrs_not_present <- stats::setNames(rep(yrs_not_present, sum(!yrs_present)), DatesOut[!yrs_present])
+    SRB <- c(SRB, yrs_not_present)
   }
 
-  # if given but not with 3 elements then repeat and cut as necessary
-  if (is.numeric(SRB) & length(SRB) != 3){
-    SRB <- rep(SRB, 3)[1:3]
-  }
-  names(SRB) <-  DatesOut
-  # return, potentially the same as input
+  SRB <- SRB[order(as.numeric(names(SRB)))]
   SRB
 }
