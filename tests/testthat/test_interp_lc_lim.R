@@ -1,5 +1,7 @@
 # tests against spreadsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" -------------------------------------------------------------
 
+context("test-interp_lc_lim")
+
 # summary
 # A to E tests againts spreadsheet
 # F testing args from main fun
@@ -54,6 +56,9 @@ input <- data.frame(Date= c(rep(sort(rep(dates_in, length(Age))),2)),
 
 # A to E tests againts spreadsheet -------------------------------------------------------------
 
+# using e_dagger as summary measure
+e_dagger <- function(lx){-sum(lx/lx[1]*log(lx/lx[1]))}
+
 # A - test with input nMx, allowing cross-over, and NOT reproducing e0 at given years
 outputA <- data.frame(Date = seq(1950,2015,5),
                       Sex = c(rep("m",14),rep("f",14)),
@@ -77,7 +82,7 @@ outputB <- data.frame(Date = seq(1950,2015,5),
                       Sex = c(rep("m",14),rep("f",14)),
                       e0 = c(54.42,57.48,60.24,62.72,64.95,66.94,69.07,70.46,71.69,72.78,73.75,74.63,75.43,76.15,63.15,65.93,
                              68.39,70.56,72.46,74.13,75.58,77.06,78.35,79.48,80.48,81.36,82.15,82.86))%>% 
-  dplyr::arrange(Sex, Date)
+                      dplyr::arrange(Sex, Date)
 outputB_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5), 
                               prev_divergence = TRUE, error_sheet = TRUE) %>% 
                         dplyr::filter(Age == 0) %>% 
@@ -192,14 +197,12 @@ test_that("lc w lim data and nqx as input works", {
 
 # single ages out
 outputF1_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
-                               Single = T, extrapLaw = "kannisto", 
-                               extrapFit = seq(60,90,5))
-expect_length(unique(outputF1_test$Age), 130)
+                               Single = T)
+
 
 # single out diff OAG
 outputF2_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
                                Single = T, extrapLaw = "makeham", OAnew = 100)
-expect_length(unique(outputF2_test$Age), 101)
 
 # bunch of args
 outputF3_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
@@ -209,9 +212,13 @@ outputF3_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
                                e0_Females = e0_swe$e0[e0_swe$Sex=="f"],
                                Single = T, verbose = F, SVD = T,
                                extrapLaw = "ggompertz", OAnew = 100)
-expect_s3_class(outputF3_test, "data.frame")
-expect_length(unique(outputF3_test$ex), 101 * 2 * length(seq(1953,2018,5)))
 
+test_that("lc w lim data and nqx as input works", {
+  expect_length(unique(outputF1_test$Age), 130)
+  expect_s3_class(outputF3_test, "data.frame")
+  expect_length(unique(outputF2_test$Age), 101)
+  expect_length(unique(outputF3_test$ex), 101 * 2 * length(seq(1953,2018,5)))
+}
 
 # G - mixing input --------------------------------------------------------
 
@@ -224,8 +231,7 @@ input_mix1 <- rbind(input %>%
                      mutate(nMx = NA)
                    )
 outputG1_test <- interp_lc_lim(input = input_mix1, dates_out = seq(1953,2018,5))
-expect_s3_class(outputG1_test, "data.frame")
-expect_true(all(outputG1_test$nMx > 0))
+
 
 # some single and abr ages
 input_single <- split(input, list(input$Date, input$Sex), drop = F) %>% 
@@ -245,12 +251,16 @@ input_mix2 <- rbind(input %>%
                       dplyr::filter(Date %in% dates_in[3:5])
                     )
 outputG2_test <- interp_lc_lim(input = input_mix2, dates_out = seq(1953,2018,5))
-expect_length(unique(outputG2_test$Age), 22)
-
 outputG3_test <- interp_lc_lim(input = input_mix2, dates_out = seq(1953,2018,5),
                                Single = T)
-expect_length(unique(outputG3_test$Age), 130)
 
+
+test_that("mixing inputs works", {
+expect_s3_class(outputG1_test, "data.frame")
+expect_true(all(outputG1_test$nMx > 0))
+expect_length(unique(outputG2_test$Age), 22)
+expect_length(unique(outputG3_test$Age), 130)
+}
 
 
 # H - lt args -------------------------------------------------------------
@@ -269,12 +279,15 @@ outputH5_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
 outputH6_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
                                extrapLaw = "gompertz", OAnew = 100, 
                                extrapFrom = 60, extrapFit = seq(50,95,5), radix = 1)
+
+test_that("pass all lt args works", {
 expect_s3_class(outputH1_test, "data.frame")
 expect_s3_class(outputH2_test, "data.frame")
 expect_s3_class(outputH3_test, "data.frame")
 expect_s3_class(outputH4_test, "data.frame")
 expect_s3_class(outputH5_test, "data.frame")
 expect_s3_class(outputH6_test, "data.frame")
+}
 
 # I - messages/warnings -------------------------------------------------------
 
@@ -282,29 +295,24 @@ expect_s3_class(outputH6_test, "data.frame")
 outputI1_test <- interp_lc_lim(input = input %>% dplyr::filter(Date %in% dates_in[1:2]), 
                                dates_out = seq(1953,2018,5))
 
-expect_error(outputI1_test)
 
 # choose e0_dates for you
 outputI2_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
                                # dates_e0 = unique(e0_swe$Date),
                                e0_Males = e0_swe$e0[e0_swe$Sex=="m"], 
                                e0_Females = e0_swe$e0[e0_swe$Sex=="f"])
-expect_error(outputI2_test)
-# e0_dates_mod <- unique(e0_swe$Date)[1:length(unique(input$Date))]
-# e0_swe_mod <- e0_swe %>% dplyr::filter(Date %in% e0_dates_mod) 
-# expect_output(interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
-#                             # dates_e0 = unique(e0_swe$Date),
-#                             e0_Males = e0_swe_mod$e0[e0_swe_mod$Sex=="m"], 
-#                             e0_Females = e0_swe_mod$e0[e0_swe_mod$Sex=="f"]), 
-#               cat("\ndates_e0 not specified, assuming:\n",
-#                   paste(dates_in,collapse = ", "),"\n" ))
-
-# tell me you´ll fit with gompertz in case max(Age) is <90
-expect_message(interp_lc_lim(input = input %>% dplyr::filter(Age < 85),
-              dates_out = seq(1953,2018,5)),
-              "A Gompertz function was fitted for older ages for sex ")
 
 
-
+test_that("mess and warns works", {
+  expect_error(outputI1_test)
+  expect_error(outputI2_test)
+  # tell me you´ll fit with gompertz in case max(Age) is <90
+  expect_output(interp_lc_lim(input = input %>% dplyr::filter(Age < 85),
+                               dates_out = seq(1953,2018,5)),
+                 regexp = "A Gompertz function was fitted for older ages for sex ")
+  expect_output(interp_lc_lim(input = input, dates_out = seq(1953,2018,5)),
+                regexp = "A Kannisto function was fitted for older ages for sex ")
+  
+  })
 
 

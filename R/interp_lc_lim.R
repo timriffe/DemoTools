@@ -117,7 +117,6 @@ interp_lc_lim <- function(input = NULL,
                           prev_divergence = FALSE, 
                           OAG = TRUE,
                           verbose = TRUE,
-                          error_sheet = FALSE,
                           SVD = FALSE,
                           ...){
   
@@ -243,18 +242,7 @@ interp_lc_lim <- function(input = NULL,
     # avoid divergence extrapolating
     if (prev_divergence){
       kt = (ktm + ktf) * .5 # equal size male and female
-      # error in vba code line 335. A parameter controls that only for reproducing purpose
-      if(error_sheet){
-        bx = 0
-        for (j in 1:ndates_out){
-          for (i in 1:nAge){
-            bxm[i] = (bxm[i] + bxf[i]) * .5
-          }
-        }
-        bx = bxm 
-      }else{
-        bx = (bxm + bxf) * .5  
-      }
+      bx = (bxm + bxf) * .5 # # error in vba code line 335. A parameter controls that only for reproducing purpose
       k0 = (k0m + k0f) * .5
       
       # apply common factor to rates with already specific factor (formula 6 in Li (2005)), 
@@ -299,14 +287,16 @@ interp_lc_lim <- function(input = NULL,
                               bx = bxm,
                               age = Age,
                               sex = "m",
-                              e0_target = e0m[j])$minimum
+                              e0_target = e0m[j],
+                              ...)$minimum
       ktf_star[j] <- optimize(f = interp_lc_lim_kt_min, # TR: add ...
                               interval = c(-20, 20),
                               ax = axf,
                               bx = bxf,
                               age = Age,
                               sex = "f",
-                              e0_target = e0f[j])$minimum
+                              e0_target = e0f[j],
+                              ...)$minimum
     }
     
     # get rates with optim k.
@@ -334,7 +324,6 @@ interp_lc_lim <- function(input = NULL,
                             Sex = "m",
                             Single = Single,
                             ...)
-                          #,... = ...) # quida de esto
       LT$Sex  <- "m"
       LT$Date <- as.numeric(x)
       LT
@@ -350,7 +339,6 @@ interp_lc_lim <- function(input = NULL,
                             Sex = "f",
                             Single = Single,
                             ...)
-                          # ,... = ...)
       LT$Sex  <- "f"
       LT$Date <- as.numeric(x)
       LT
@@ -467,13 +455,13 @@ lt_smooth_ambiguous <- function(input, ...){
     this_OAnew = 100
     if(this_extrapFrom < 90){
       this_extrapLaw  <- "gompertz"
-      if (ExtraArgs$verbose) message(paste0("A Gompertz function was fitted for older ages for sex ",
+      if (ExtraArgs$verbose) cat(paste0("A Gompertz function was fitted for older ages for sex ",
                                   this_sex, " and date ",this_date))
       # TR: changed this. 30 could be sort of low in some situations.
       this_extrapFit = Ageext[Ageext >= (this_extrapFrom - 30) & ifelse(ExtraArgs$OAG, Ageext < max(Ageext), TRUE)]
     }else{
       this_extrapLaw  <- "kannisto"
-      if (ExtraArgs$verbose) message(paste0("A Kannisto function was fitted for older ages for sex ",
+      if (ExtraArgs$verbose) cat(paste0("A Kannisto function was fitted for older ages for sex ",
                                   this_sex, " and date ",this_date))
       this_extrapFit = Ageext[Ageext >= 60 & ifelse(ExtraArgs$OAG, Ageext < max(Ageext), TRUE)]
     }

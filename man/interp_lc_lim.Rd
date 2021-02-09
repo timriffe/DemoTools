@@ -15,6 +15,7 @@ interp_lc_lim(
   OAG = TRUE,
   verbose = TRUE,
   error_sheet = FALSE,
+  SVD = FALSE,
   ...
 )
 }
@@ -38,6 +39,8 @@ interp_lc_lim(
 \item{verbose}{logical. Default \code{FALSE}.}
 
 \item{error_sheet}{logical. Just to reproduce UN spreadsheets. Will be removed. Default \code{FALSE}.}
+
+\item{SVD}{logical. Use Singular Value Decomposition for estimate b and k. Default \code{FALSE}.}
 
 \item{...}{Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.}
 }
@@ -65,10 +68,10 @@ or survival function), this function interpolate/extrapolate life tables
 using the method for limited data suggested by  Li et. al (2004) (at least three observed years).
 }
 \details{
-Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN. Useful for abridged or single ages, and allows
-output in both formats also.
-The main options are the use of non-divergent method for sex coherency (Li & Lee, 2005),
-and the possibility of fitting \code{"k"} to replicate \code{"e_0"} at some given dates.
+Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN.
+Useful for abridged or single ages, and allows output in both formats also.
+One option is the use of non-divergent method for sex coherency (Li & Lee, 2005).
+The other is the possibility of fitting \code{"k"} to replicate \code{"e_0"} at some given dates.
 }
 \note{
 Draft Version
