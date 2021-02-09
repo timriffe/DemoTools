@@ -554,7 +554,7 @@ basepop_five <- function(country = NULL,
 
   if (!is.null(Age)){
     stopifnot(is_abridged(Age))
-    stopifnot(length(Age) != length(Females_five))
+    stopifnot(length(Age) == length(Females_five))
   } else {
     if (!is.null(names(Females_five))){
       Age <- names2age(Females_five)
