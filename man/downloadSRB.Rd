@@ -4,7 +4,7 @@
 \alias{downloadSRB}
 \title{Extract SRB estimates from WPP2019}
 \usage{
-downloadSRB(SRB, country, DatesOut)
+downloadSRB(SRB, country, DatesOut, verbose = TRUE)
 }
 \arguments{
 \item{SRB}{sex ratio at birth. Either \code{NULL}, a scalar to assume constant, or a vector of length 3, assumed.}
@@ -12,6 +12,8 @@ downloadSRB(SRB, country, DatesOut)
 \item{country}{character country name available UN Pop Div \code{LocName} set}
 
 \item{DatesOut}{numeric vector of three decimal dates produced by \code{basepop_ive()}}
+
+\item{verbose}{Whether to print messages. Default set to TRUE.}
 }
 \value{
 numeric vector with three SRB estimates
