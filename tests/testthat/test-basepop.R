@@ -785,7 +785,7 @@ srb_checker <- function(x, ordered_name = FALSE) {
   # This only makes sense when we download the data from WPP because
   # otherwise we respect the order provided by the user.
   if (ordered_name) {
-    expect_true(names(x), as.character(sort(as.numeric(names(x)))))
+    expect_true(all(names(x) == as.character(sort(as.numeric(names(x))))))
   }
 }
 
@@ -824,8 +824,14 @@ test_that("downloadSRB works as expected", {
   )
 
   # Should impute the first two years with the last
-  srb_checker(downloadSRB(SRB = NULL, country = "Germany", DatesOut = 1948:1950))
+  srb_checker(
+    downloadSRB(SRB = NULL, country = "Germany", DatesOut = 1948:1950),
+    ordered_name = TRUE
+  )
 
   # Should impute all values
-  srb_checker(downloadSRB(SRB = NULL, country = "Germany", DatesOut = 1947:1949))
+  srb_checker(
+    downloadSRB(SRB = NULL, country = "Germany", DatesOut = 1947:1949),
+    ordered_name = TRUE
+  )
 })
