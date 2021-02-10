@@ -33,7 +33,7 @@ nLxMale <- matrix(c(87732,
 # includes age 10 patch
 nLxFemale <- matrix(c(89842,314521,372681,666666,353053,340650,326588,311481,
                       295396,278646,261260,241395,217419,90478,320755,
-                      382531,666666,364776, 353538,340687, 326701, 311573, 
+                      382531,666666,364776, 353538,340687, 326701, 311573,
                       295501, 278494, 258748,234587),
                     nrow = 13,
                     ncol = 2)
@@ -41,8 +41,8 @@ rownames(nLxFemale) <- c(0,1,seq(5,55,by=5))
 # (7) A set of age-specific fertility rates pertaining to an earlier and later
 # date
 
-AsfrMat <- matrix(c(0.2000,0.3000,0.3000, 0.2500, 0.2000, 
-                    0.1500, 0.0500,0.1500,0.2000,0.2750, 
+AsfrMat <- matrix(c(0.2000,0.3000,0.3000, 0.2500, 0.2000,
+                    0.1500, 0.0500,0.1500,0.2000,0.2750,
                     0.2250, 0.1750, 0.1250, 0.0500),
                   nrow = 7,
                   ncol = 2)
@@ -118,7 +118,7 @@ test_that("basepop_five - bpe matches the expected result from PASS", {
 
 
 # test_that("basepop_single fails if provided five year age groups", {
-# 
+#
 #   female_single <-
 #   c(
 #     `0` = 11673,
@@ -203,7 +203,7 @@ test_that("basepop_five - bpe matches the expected result from PASS", {
 #     `79` = 247,
 #     `80` = 4143
 #   )
-# 
+#
 #   # Correction for males
 #   # To test that males are checked for single ages, we first
 #   # correctly define the female pop counts as single ages
@@ -224,7 +224,7 @@ test_that("basepop_five - bpe matches the expected result from PASS", {
 #     "is_single(as.numeric(names(Males_single))) is not TRUE",
 #     fixed = TRUE
 #   )
-# 
+#
 #   # check that pop male counts are named
 #   expect_error(
 #     basepop_single(
@@ -243,7 +243,7 @@ test_that("basepop_five - bpe matches the expected result from PASS", {
 #     "!is.null(names(Males_single)) is not TRUE",
 #     fixed = TRUE
 #   )
-# 
+#
 #   # Check female counts are single ages
 #   expect_error(
 #     basepop_single(
@@ -260,7 +260,7 @@ test_that("basepop_five - bpe matches the expected result from PASS", {
 #     "is_single(as.numeric(names(Females_single))) is not TRUE",
 #     fixed = TRUE
 #   )
-# 
+#
 #   # Check that pop female counts are named
 #   expect_error(
 #     basepop_single(
@@ -277,7 +277,7 @@ test_that("basepop_five - bpe matches the expected result from PASS", {
 #     "!is.null(names(Females_single)) is not TRUE",
 #     fixed = TRUE
 #   )
-# 
+#
 #   # Works as well for smoothing
 #   expect_error(
 #     basepop_single(
@@ -344,7 +344,7 @@ smoothed_females <- smooth_age_5(Value = pop_female_counts,
                                  young.tail = "Original")
 
 # test_that("basepop_single does calculation for males when providing Males_single", {
-# 
+#
 #   # Since the default is for females, I saved the correct calculations for males
 #   # and just check that the current implementation matches it
 #   res <-
@@ -362,7 +362,7 @@ smoothed_females <- smooth_age_5(Value = pop_female_counts,
 #       method = "linear",
 #       radix = 100000
 #     )
-# 
+#
 #   correct_res_males <-
 #     c(
 #       `0` = 13315,
@@ -376,7 +376,7 @@ smoothed_females <- smooth_age_5(Value = pop_female_counts,
 #       `8` = 11019,
 #       `9` = 11319
 #     )
-# 
+#
 #   expect_equivalent(round(res[1:10], 0), correct_res_males)
 # })
 
@@ -462,7 +462,7 @@ test_that("basepop_five can download data for asfr", {
   #       female = TRUE
   #     )
   #   )
-  # 
+  #
   # expect_false(any(grepl("^Downloading nLx", output)))
 })
 
@@ -586,40 +586,252 @@ test_that("basepop_five can download from dates provided", {
   expect_true(sum(grepl("^Assuming the two", output)) == 2)
 })
 
+test_that("basepop works with up to year 1955", {
 
-# TR: deprecated. now always for both sexes
-# test_that("basepop_five only estimates male counts when female = FALSE", {
-# 
-#   female <-
-#       basepop_five(
-#         country = country,
-#         refDate = refDate,
-#         Females_five = pop_female_counts,
-#         verbose = FALSE
-#       )
-# 
-#   male1 <-
-#     basepop_five(
-#       country = country,
-#       refDate = refDate,
-#       Females_five = pop_female_counts,
-#       Males_five = pop_male_counts,
-#       verbose = FALSE
-#     )
-# 
-#   # Even if male1 specifies the male vector, `female = FALSE`
-#   # hasn't been set
-#   expect_true(all(female == male1))
-# 
-#   male2 <-
-#     basepop_five(
-#       country = country,
-#       refDate = refDate,
-#       Females_five = pop_female_counts,
-#       Males_five = pop_male_counts,
-#       female = FALSE,
-#       verbose = FALSE
-#     )
-# 
-#   expect_true(all(female != male2))
-# })
+  # This is where the test actually happens since
+  # internally we subtract 7.5 from the refDate to download
+  # the nLx and Asfr data. So the minimum year will be 1955.
+  res <-
+    basepop_five(
+      country = "Spain",
+      refDate= 1962.5,
+      Males_five = smoothed_males,
+      Females_five = smoothed_females,
+      SRB = sex_ratio,
+      method = "linear",
+      radix = 100000
+  )
+
+  expect_true("1955" %in% colnames(res$Asfr))
+  expect_true("1955" %in% colnames(res$nLxm))
+  expect_true("1955" %in% colnames(res$nLxf))
+
+})
+
+test_that("basepop works well with SRBDatesIn", {
+  # Most of the tests for SRBDatesIn are actually done when
+  # testing downloadSRB. These tests just make sure that
+  # basepop can handle NULL/Non-NULL SRBDatesIn dates. Everything
+  # else is forward to downloadSRB.
+
+  # Works when SRBDatesIn is NULL, meaning that it convert them
+  # to refDate - c(0.5, 2.5, 7.5)
+
+  expect_success({
+    res <-
+      basepop_five(
+        country = "Spain",
+        refDate= 1962.5,
+        Males_five = smoothed_males,
+        Females_five = smoothed_females,
+        SRB = sex_ratio,
+        SRBDatesIn = NULL,
+        method = "linear",
+        radix = 100000
+      )
+
+    expect_type(res, "list")
+  })
+
+  # Works when SRBDatesIn is an actual date. 
+  expect_success({
+    res <-
+      basepop_five(
+        country = "Spain",
+        refDate= 1962.5,
+        Males_five = smoothed_males,
+        Females_five = smoothed_females,
+        SRB = sex_ratio,
+        SRBDatesIn = 1960,
+        method = "linear",
+        radix = 100000
+      )
+
+    expect_type(res, "list")
+  })
+
+})
+
+
+test_that("basepop caps nLxDatesIn to 1955 when provided a date below that", {
+
+  tmp_nlx <- c(1954, 1960)
+  expect_output(
+    tmp <-
+      basepop_five(
+        country = "Spain",
+        refDate = 1960,
+        Males_five = smoothed_males,
+        Females_five = smoothed_females,
+        SRB = sex_ratio,
+        nLxDatesIn = tmp_nlx,
+        AsfrDatesIn = c(1955, 1960),
+        method = "linear",
+        radix = 100000
+      ),
+    regexp = "nLxDate\\(s\\) 1954 is/are below 1955\\. Capping at 1955",
+    all = FALSE
+  )
+
+  tmp_asfr <- c(1954, 1960)
+  expect_output(
+    tmp <-
+      basepop_five(
+        country = "Spain",
+        refDate = 1960,
+        Males_five = smoothed_males,
+        Females_five = smoothed_females,
+        SRB = sex_ratio,
+        nLxDatesIn = c(1955, 1960),
+        AsfrDatesIn = tmp_asfr,
+        method = "linear",
+        radix = 100000
+      ),
+    regexp = "AsfrDate\\(s\\) 1954 is/are below 1955\\. Capping at 1955",
+    all = FALSE
+  )
+
+})
+
+test_that("basepop fails when it implies an extrapolation of > 5 years", {
+
+  ## For nLxDatesIn ##
+
+  ## By setting refDate to 1974, the difference between 1974 - 7.5 and the
+  ## minimum of nLxDatesIn is greater than five.
+
+  expect_error(
+    basepop_five(
+      refDate = 1974,
+      Males_five = smoothed_males,
+      Females_five = smoothed_females,
+      SRB = sex_ratio,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
+      AsfrMat = AsfrMat,
+      AsfrDatesIn = AsfrDatesIn,
+      radix = 100000
+    ),
+    regexp = "nLxDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates",
+    fixed = TRUE
+  )
+
+  ## By setting refDate to 1995, the difference between 1995 - 0.5 and the
+  ## maximum of nLxDatesIn is greater than five.
+
+  expect_error(
+    basepop_five(
+      refDate = 1995,
+      Males_five = smoothed_males,
+      Females_five = smoothed_females,
+      SRB = sex_ratio,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
+      AsfrMat = AsfrMat,
+      AsfrDatesIn = AsfrDatesIn,
+      radix = 100000
+    ),
+    regexp = "nLxDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates",
+    fixed = TRUE
+  )
+
+  ## For AsfrDatesIn
+  ## Here we just provide AsfrDatesIn which we are much higher than refDate - 7.5
+  expect_error(
+    basepop_five(
+      refDate = 1986,
+      Males_five = smoothed_males,
+      Females_five = smoothed_females,
+      SRB = sex_ratio,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
+      AsfrMat = AsfrMat,
+      AsfrDatesIn = c(1925, 1930),
+      radix = 100000
+    ),
+    regexp = "AsfrDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates",
+    fixed = TRUE
+  )
+
+  ## Here we just provide AsfrDatesIn which we are much higher than refDate - 0.5
+  expect_error(
+    basepop_five(
+      refDate = 1986,
+      Males_five = smoothed_males,
+      Females_five = smoothed_females,
+      SRB = sex_ratio,
+      nLxFemale = nLxFemale,
+      nLxMale = nLxMale,
+      nLxDatesIn = nLxDatesIn,
+      AsfrMat = AsfrMat,
+      AsfrDatesIn = c(2020, 2025),
+      radix = 100000
+    ),
+    regexp = "AsfrDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates",
+    fixed = TRUE
+  )
+
+})
+
+srb_checker <- function(x, ordered_name = FALSE) {
+  expect_length(x, 3)
+  expect_named(x)
+  expect_type(x, "double")
+
+  # Check the names of x are returned ordered
+  # This only makes sense when we download the data from WPP because
+  # otherwise we respect the order provided by the user.
+  if (ordered_name) {
+    expect_true(all(names(x) == as.character(sort(as.numeric(names(x))))))
+  }
+}
+
+test_that("downloadSRB works as expected", {
+  # Should return same estimate three times
+  srb_checker(downloadSRB(c(1.05), DatesOut = c(1999, 1920, 1930)))
+
+  # Should return three values with the last being 1.05
+  srb_checker(downloadSRB(c(1.05, 1.07), DatesOut = c(1999, 1920, 1930)))
+
+  # Should return the same thing
+  srb_checker(downloadSRB(c(1.05, 1.07, 1.08), DatesOut = c(1999, 1920, 1930)))
+
+  # Should error
+  expect_error(
+    downloadSRB(1:4),
+    regexp = "SRB can only accept three dates at maximum",
+    fixed = TRUE
+  )
+
+  # Should return three SRBs
+  srb_checker(downloadSRB(SRB = NULL, country = "Spain", DatesOut = 1955:1957))
+
+  # Assumes SRB
+  expect_output(
+    downloadSRB(SRB = NULL, country = "Whatever", DatesOut = 1955:1957),
+    regexp = c("Whatever not available in WPP LocName list\nAssuming SRB to be 1.047"),
+    fixed = TRUE
+  )
+
+  # Should fail because of number of years
+  expect_error(
+    downloadSRB(SRB = NULL, country = "Whatever", DatesOut = 1955:1958),
+    regexp = "SRB can only accept three dates at maximum",
+    fixed = TRUE
+  )
+
+  # Should impute the first two years with the last
+  srb_checker(
+    downloadSRB(SRB = NULL, country = "Germany", DatesOut = 1948:1950),
+    ordered_name = TRUE
+  )
+
+  # Should impute all values
+  srb_checker(
+    downloadSRB(SRB = NULL, country = "Germany", DatesOut = 1947:1949),
+    ordered_name = TRUE
+  )
+})

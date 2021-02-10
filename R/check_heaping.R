@@ -234,6 +234,17 @@ check_heaping_bachi <- function(
 ){
   method        <- match.arg(method, c("orig","pasex"))
   
+  # ensure ageMax in range
+  maxA <- max(Age)
+  for (i in 1:3){
+    if (ageMax > maxA){
+      ageMax <- ageMax - 10
+    } else {
+      cat("\nageMax lowered to", ageMax, "\n")
+      break
+    }
+  }
+  
   Diff          <- ageMax - ageMin 
   age_inteveral <- Diff - Diff %% 10 - 1
  

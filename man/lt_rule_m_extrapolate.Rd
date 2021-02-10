@@ -10,7 +10,7 @@ lt_rule_m_extrapolate(
   x_fit = x,
   x_extr,
   law = "kannisto",
-  opt.method = "poissonL",
+  opt.method = "LF2",
   ...
 )
 }
@@ -37,11 +37,7 @@ The following options are available: \itemize{
 \item{\code{"quadratic"}} -- The Quadratic model.
 }}
 
-\item{opt.method}{How would you like to find the parameters? Specify the
-function to be optimize. Available options: the Poisson likelihood function
-\code{poissonL}; the Binomial likelihood function -\code{binomialL}; and
-6 other loss functions. For more details, check the \code{\link[MortalityLaws]{availableLF}}
-function.}
+\item{opt.method}{character. Default \code{"LF2"}, see \code{MortalityLaws::MortalityLaw} for a description of choices.}
 
 \item{...}{Other arguments to be passed on to the
 \code{\link[MortalityLaws]{MortalityLaw}} function.}
