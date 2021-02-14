@@ -10,8 +10,6 @@ lt_smooth_ambiguous(input, ...)
 \item{input}{data.frame. with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)}
 
 \item{...}{Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.}
-
-\item{ExtraArgs}{list. Parameters produced in \code{interp_lc_lim} environment function.}
 }
 \description{
 Considering different mortality input for each sex/year data,

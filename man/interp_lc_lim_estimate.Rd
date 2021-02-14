@@ -13,7 +13,7 @@ interp_lc_lim_estimate(M, dates_in, dates_out, SVD = F)
 
 \item{dates_out}{numeric. Vector of dates for estimate a set of rates.}
 
-\item{...}{Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.}
+\item{SVD}{logical. Use Singular Value Decomposition for estimate b and k or Maximum Likelihood Estimation. Default \code{FALSE} for Maximum Likelihood Estimation.}
 }
 \description{
 Estimate LC with limited data from a matrix of rates (age by dates).

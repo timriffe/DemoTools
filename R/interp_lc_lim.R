@@ -20,8 +20,7 @@
 #' @param prev_divergence logical. Whether or not prevent divergence and sex crossover. Default `FALSE.`
 #' @param OAG logical. Whether or not the last element of `nMx` (or `nqx` or `lx`) is an open age group. Default `TRUE.`
 #' @param verbose logical. Default `FALSE`.
-#' @param error_sheet logical. Just to reproduce UN spreadsheets. Will be removed. Default `FALSE`.
-#' @param SVD logical. Use Singular Value Decomposition for estimate b and k. Default `FALSE`.
+#' @param SVD logical. Use Singular Value Decomposition for estimate b and k or Maximum Likelihood Estimation. Default `FALSE` for Maximum Likelihood Estimation.
 #' @param ... Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.
 #' @seealso
 #' \code{\link[DemoTools]{lt_abridged}}
@@ -103,8 +102,8 @@
 #'                                extrapLaw = "makeham")
 #' \dontrun{
 #' ggplot() + 
-#'   geom_step(data = lc_lim_extOAg, aes(Age,nMx,col=factor(Date))) +
-#'   scale_y_log10() + facet_wrap(~Sex)
+#'   geom_step(data = lc_lim_extOAg, aes(Age,nMx,col=factor(round(Date,1)))) +
+#'   scale_y_log10() + scale_color_viridis_d() + theme_classic() + facet_wrap(~Sex)
 #'   }
 #' #End
 
@@ -120,25 +119,13 @@ interp_lc_lim <- function(input = NULL,
                           SVD = FALSE,
                           ...){
   
-  # TR: capture args to filter out optional lifetable args to pass on in a named way?
-  
-  # TR: note, we may as well offer to pass in args to lt_abridged(), which offers lots of control
-  # over extrapolation.
-  
-  # axmethod = "pas", a0rule = "ak", Sex = "m", 
-  # IMR = NA, region = "w", mod = TRUE, SRB = 1.05, OAG = TRUE, 
-  # OAnew = max(Age), extrapLaw = "kannisto", extrapFrom = max(Age), 
-  # extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)]
-  # I added a capture of extra args entering the function all at the top.
-  # instead of ... pass things in by name, above a list of default values for
-  # lt_abridged(), most of which are the same for lt_single*()
-  # note, this doesn't capture NULL defaults!
   # TR: ExtraArgs has a problem in that it won't capture & pass NULL defaults
   # mget(names(formals()),sys.frame(sys.nframe()))
   # IW: this captures everything: dots & NULLS
   ExtraArgs = c(as.list(environment()), list(...))
   ExtraArgs = ExtraArgs[! names(ExtraArgs) %in% c("input","Single")]
 
+  # dates
   dates_in  <- unique(input$Date) %>% dec.date()
   dates_out <- dec.date(dates_out)
   
@@ -246,7 +233,7 @@ interp_lc_lim <- function(input = NULL,
       k0 = (k0m + k0f) * .5
       
       # apply common factor to rates with already specific factor (formula 6 in Li (2005)), 
-      # but specific factor is not estimated considering common one, using SVD of residuals.
+      # not like Li´s paper way in this case. IW: we can improve this if UN wants.
       nMxm_hat_div <- nMxm[,1] * exp(bx %*% t(kt-k0))
       nMxf_hat_div <- nMxf[,1] * exp(bx %*% t(kt-k0))
       
@@ -309,11 +296,7 @@ interp_lc_lim <- function(input = NULL,
   colnames(nMxm_hat) <- dates_out
   colnames(nMxf_hat) <- dates_out
   . = NULL
-  # valid_params <- c("radix","axmethod","a0rule","IMR","region","mod","SRB",
-  #                   "OAG","OAnew","extrapLaw","extrapFrom","extrapFit")
-  # ExtraArgs = ExtraArgs[names(ExtraArgs) %in% valid_params]
-  # TR: can use ... to pass in optional args. 
-
+  
   Males_out <-
     lapply(colnames(nMxm_hat), function(x,MX,Age) {
 
@@ -396,7 +379,7 @@ interp_lc_lim_abk_m <- function(k,ax,bx){
 #' @param M numeric. Matrix with many rows as ages and columns as dates_in.
 #' @param dates_in numeric. Vector of dates with input rates.
 #' @param dates_out numeric. Vector of dates for estimate a set of rates.
-#' @param ... Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.
+#' @param SVD logical. Use Singular Value Decomposition for estimate b and k or Maximum Likelihood Estimation. Default `FALSE` for Maximum Likelihood Estimation.
 #' @references
 #' \insertRef{Li2004}{DemoTools}
 #' @export
@@ -422,7 +405,7 @@ interp_lc_lim_estimate <- function(M, dates_in, dates_out, SVD = F){
       kt         <- c[1] + c[2] * dates_out
       # initial k (useful for avoiding divegence case)
       k0         <- c[1] + c[2] * dates_in[1]
-      return(list(ax,bx,kt,k0,R))
+      return(list(ax=ax,bx=bx,kt=kt,k0=k0,R=R))
 }
 
 # smooth rule previous to solve ambiguous
@@ -432,7 +415,6 @@ interp_lc_lim_estimate <- function(M, dates_in, dates_out, SVD = F){
 #' and return a data.frame with standard LT. 
 #' @details Gompertz is chosen if last age is less than 90. Else Kannisto. 
 #' @param input data.frame. with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)  
-#' @param ExtraArgs list. Parameters produced in `interp_lc_lim` environment function.
 #' @param ... Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.
 #' @export
 lt_smooth_ambiguous <- function(input, ...){
@@ -456,13 +438,13 @@ lt_smooth_ambiguous <- function(input, ...){
     if(this_extrapFrom < 90){
       this_extrapLaw  <- "gompertz"
       if (ExtraArgs$verbose) cat(paste0("A Gompertz function was fitted for older ages for sex ",
-                                  this_sex, " and date ",this_date))
+                                  this_sex, " and date ",this_date,".\n"))
       # TR: changed this. 30 could be sort of low in some situations.
       this_extrapFit = Ageext[Ageext >= (this_extrapFrom - 30) & ifelse(ExtraArgs$OAG, Ageext < max(Ageext), TRUE)]
     }else{
       this_extrapLaw  <- "kannisto"
       if (ExtraArgs$verbose) cat(paste0("A Kannisto function was fitted for older ages for sex ",
-                                  this_sex, " and date ",this_date))
+                                  this_sex, " and date ",this_date,".\n"))
       this_extrapFit = Ageext[Ageext >= 60 & ifelse(ExtraArgs$OAG, Ageext < max(Ageext), TRUE)]
     }
     # TR: other args not passed in are scoped one level up
