@@ -226,12 +226,6 @@ lt_ambiguous <- function(x = NULL,
                          Single = FALSE,
                          ...){
   
-  # keep extra args for some methods
-  ExtraArgs = c(as.list(environment()), list(...))
-  valid_params <- c("radix","axmethod","a0rule","IMR","region","mod","SRB",
-                    "OAG","OAnew","extrapLaw","extrapFrom","extrapFit")
-  ExtraArgs = ExtraArgs[names(ExtraArgs) %in% valid_params]
-  
   # TR: adds flexibility when specifying type to reduce user errors
   type                  <- tolower(type)
   possible_types        <- c("m","m","m","q","q","q","l","l")

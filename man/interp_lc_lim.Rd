@@ -14,7 +14,7 @@ interp_lc_lim(
   prev_divergence = FALSE,
   OAG = TRUE,
   verbose = TRUE,
-  error_sheet = FALSE,
+  SVD = FALSE,
   ...
 )
 }
@@ -37,7 +37,7 @@ interp_lc_lim(
 
 \item{verbose}{logical. Default \code{FALSE}.}
 
-\item{error_sheet}{logical. Just to reproduce UN spreadsheets. Will be removed. Default \code{FALSE}.}
+\item{SVD}{logical. Use Singular Value Decomposition for estimate b and k or Maximum Likelihood Estimation. Default \code{FALSE} for Maximum Likelihood Estimation.}
 
 \item{...}{Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.}
 }
@@ -65,10 +65,10 @@ or survival function), this function interpolate/extrapolate life tables
 using the method for limited data suggested by  Li et. al (2004) (at least three observed years).
 }
 \details{
-Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN. Useful for abridged or single ages, and allows
-output in both formats also.
-The main options are the use of non-divergent method for sex coherency (Li & Lee, 2005),
-and the possibility of fitting \code{"k"} to replicate \code{"e_0"} at some given dates.
+Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN.
+Useful for abridged or single ages, and allows output in both formats also.
+One option is the use of non-divergent method for sex coherency (Li & Lee, 2005).
+The other is the possibility of fitting \code{"k"} to replicate \code{"e_0"} at some given dates.
 }
 \note{
 Draft Version
@@ -129,8 +129,8 @@ lc_lim_extOAg <- interp_lc_lim(input = mA_swe[mA_swe$Age<=80,], dates_out = date
                                extrapLaw = "makeham")
 \dontrun{
 ggplot() + 
-  geom_step(data = lc_lim_extOAg, aes(Age,nMx,col=factor(Date))) +
-  scale_y_log10() + facet_wrap(~Sex)
+  geom_step(data = lc_lim_extOAg, aes(Age,nMx,col=factor(round(Date,1)))) +
+  scale_y_log10() + scale_color_viridis_d() + theme_classic() + facet_wrap(~Sex)
   }
 #End
 }

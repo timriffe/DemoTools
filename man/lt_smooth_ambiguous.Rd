@@ -4,12 +4,10 @@
 \alias{lt_smooth_ambiguous}
 \title{Smooth and apply lt_ambiguous}
 \usage{
-lt_smooth_ambiguous(input, ExtraArgs, ...)
+lt_smooth_ambiguous(input, ...)
 }
 \arguments{
 \item{input}{data.frame. with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)}
-
-\item{ExtraArgs}{list. Parameters produced in \code{interp_lc_lim} environment function.}
 
 \item{...}{Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.}
 }
