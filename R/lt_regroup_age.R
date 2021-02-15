@@ -183,14 +183,18 @@ lt_abridged2single <- function(
   # splice original 1M0 with fitted 1Mx and momega from extended abridged LT
   M <- c(lt_abr$nMx[1], M$fitted)
   
+  # TR: handle closeout nMx as well. Should depend on OAnew and Age to 
+  # a certain extent.
+  
   # redefine Age and extrapFit for single year ages and new maxage
-  Age = 1:length(M) - 1
-  extrapFit = Age[Age >= min(extrapFit, (max(Age)-20)) & Age <= max(Age)] 
-  extrapFrom = max(Age)
+  a1         <- 1:length(M) - 1
+  extrapFit  <- a1[a1 >= min(extrapFit, (max(Age)-20)) & a1 <= max(Age)] 
+  # always refit from 110 even if extrapFrom > 110
+  extrapFrom <- min(max(Age), 110)
   
   # compute life table columns from single year mx
   LT <- lt_single_mx(nMx = M, 
-                     Age = Age, 
+                     Age = a1, 
                      radix = radix,
                      a0rule = a0rule, 
                      Sex = Sex,
@@ -201,7 +205,7 @@ lt_abridged2single <- function(
                      OAG = FALSE,
                      OAnew = OAnew,
                      extrapLaw = extrapLaw,
-                     extrapFrom = min(extrapFrom, 110), # always refit from 110 even if extrapFrom > 110
+                     extrapFrom = extrapFrom,
                      extrapFit = extrapFit) 
   
   return(LT)
