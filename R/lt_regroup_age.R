@@ -187,7 +187,7 @@ lt_abridged2single <- function(
   # a certain extent.
   
   # redefine Age and extrapFit for single year ages and new maxage
-  a1         <- 1:length(M) - 1
+  a1        <- 1:length(M) - 1
   extrapFit  <- a1[a1 >= min(extrapFit, (max(Age)-20)) & a1 <= max(Age)] 
   # always refit from 110 even if extrapFrom > 110
   extrapFrom <- min(max(Age), 110)
