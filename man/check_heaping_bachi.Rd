@@ -10,7 +10,8 @@ check_heaping_bachi(
   ageMin = 23,
   ageMax = 77,
   method = "orig",
-  details = FALSE
+  details = FALSE,
+  OAG = TRUE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ check_heaping_bachi(
 \item{method}{either \code{"orig"} or \code{"pasex"}}
 
 \item{details}{logical. Should a list of output be given}
+
+\item{OAG}{logical. Is the highest age group open?}
 }
 \value{
 The value of the index.

@@ -203,6 +203,7 @@ check_heaping_myers <- function(Value,
 #' @param ageMax the maximum age used for estimation, default `77`
 #' @param method either `"orig"` or `"pasex"`
 #' @param details logical. Should a list of output be given
+#' @param OAG logical. Is the highest age group open?
 #'
 #' @details `ageMax` is an inclusive upper bound, treated as interval. If you want ages
 #' 23 to 77, then give `ageMin = 23` and `ageMax = 77`, not 80. The `ageMin` is respected strictly, whereas `ageMax` could be higher than the actual maximum age used. You can see the age ranges actually used by specifying `details = TRUE`.
@@ -230,9 +231,17 @@ check_heaping_bachi <- function(
   ageMin = 23,
   ageMax = 77,
   method = "orig",
-  details = FALSE
+  details = FALSE,
+  OAG = TRUE
 ){
   method        <- match.arg(method, c("orig","pasex"))
+  stopifnot(length(Age) == length(Value))
+  
+  if (OAG){
+    N <- length(Value)
+    Value <- Value[-N]
+    Age   <- Age[-N]
+  }
   
   # ensure ageMax in range
   ageMaxin <- ageMax
