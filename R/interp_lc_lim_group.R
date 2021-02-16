@@ -232,6 +232,7 @@ interp_lc_lim_group <- function(input = NULL,
     nMx_hat[[i]] <- out
   }
   return(list(
+    # TR: no purrr please
             lt_hat = map_df(nMx_hat,I,.id = "id"), #IW: get out rownames
             lc_estimate = lc_estimate #IW: must bind
             ))
