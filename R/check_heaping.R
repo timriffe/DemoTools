@@ -237,15 +237,12 @@ check_heaping_bachi <- function(
   # ensure ageMax in range
   ageMaxin <- ageMax
   maxA <- max(Age)
-  for (i in 1:3){
-    if (ageMax > maxA){
-      ageMax <- ageMax - 10
-    } else {
-      if (ageMax < ageMaxin){
-        cat("\nageMax lowered to", ageMax, "\n")    
-      }
-      break
-    }
+
+  if (ageMax > maxA){
+    ageMax <- ageMin + 4 + 10 *floor((maxA - ageMin - 4)/10)
+  } 
+  if (ageMax < ageMaxin){
+    cat("\nageMax lowered to", ageMax, "\n")    
   }
   
   Diff          <- ageMax - ageMin 
