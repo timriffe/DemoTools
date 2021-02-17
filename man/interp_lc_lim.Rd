@@ -42,7 +42,9 @@ interp_lc_lim(
 \item{...}{Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.}
 }
 \value{
-Lifetable in a data.frame with columns
+List with:
+\itemize{
+\item Interpolated/extrapolated lifetables in a data.frame with columns:
 \itemize{
 \item \code{Date} numeric. Dates included in dates_out,
 \item \code{Sex} character. Male \code{"m"} or female \code{"f"},
@@ -57,6 +59,10 @@ Lifetable in a data.frame with columns
 \item \code{Sx} numeric. Survivor ratios in uniform 5-year age groups.
 \item \code{Tx} numeric. Lifetable total years left to live above age x.
 \item \code{ex} numeric. Age-specific remaining life expectancy.
+\item List with estimated Lee-Carter parameters for each sex:
+\item \code{kt} numeric time vector. Time trend in mortality level.
+\item \code{ax} numeric age vector. Average time of \verb{log(m_\{x,t\})}.
+\item \code{bx} numeric age vector. Pattern of change in response to \code{kt}.
 }
 }
 \description{

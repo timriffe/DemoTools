@@ -26,21 +26,26 @@
 #' \code{\link[DemoTools]{lt_abridged}}
 #' @export
 # TR: you can use markdown for this sort of thing, just getting used to it
-#' @return Lifetable in a data.frame with columns
-#' 
-#' * `Date` numeric. Dates included in dates_out,
-#' * `Sex` character. Male `"m"` or female `"f"`,
-#' * `Age` integer. Lower bound of abridged age class,
-#' * `AgeInt`` integer. Age class widths.
-#' * `nMx` numeric. Age-specific central death rates.
-#' * `nAx` numeric. Average time spent in interval by those deceased in interval. 
-#' * `nqx` numeric. Age-specific conditional death probabilities.
-#' * `lx` numeric. Lifetable survivorship
-#' * `ndx` numeric. Lifetable deaths distribution.
-#' * `nLx` numeric. Lifetable exposure.
-#' * `Sx` numeric. Survivor ratios in uniform 5-year age groups.
-#' * `Tx` numeric. Lifetable total years left to live above age x.
-#' * `ex` numeric. Age-specific remaining life expectancy.
+#' @return List with:
+#' \itemize{
+#'   \item Interpolated/extrapolated lifetables in a data.frame with columns:
+#'   * `Date` numeric. Dates included in dates_out,
+#'   * `Sex` character. Male `"m"` or female `"f"`,
+#'   * `Age` integer. Lower bound of abridged age class,
+#'   * `AgeInt`` integer. Age class widths.
+#'   * `nMx` numeric. Age-specific central death rates.
+#'   * `nAx` numeric. Average time spent in interval by those deceased in interval. 
+#'   * `nqx` numeric. Age-specific conditional death probabilities.
+#'   * `lx` numeric. Lifetable survivorship
+#'   * `ndx` numeric. Lifetable deaths distribution.
+#'   * `nLx` numeric. Lifetable exposure.
+#'   * `Sx` numeric. Survivor ratios in uniform 5-year age groups.
+#'   * `Tx` numeric. Lifetable total years left to live above age x.
+#'   * `ex` numeric. Age-specific remaining life expectancy.
+#'   \item List with estimated Lee-Carter parameters for each sex:
+#'   * `kt` numeric time vector. Time trend in mortality level.
+#'   * `ax` numeric age vector. Average time of `log(m_{x,t})`.
+#'   * `bx` numeric age vector. Pattern of change in response to `kt`.
 #' 
 #' @references
 #' \insertRef{Li2005}{DemoTools}
@@ -289,6 +294,8 @@ interp_lc_lim <- function(input = NULL,
     # get rates with optim k.
     nMxm_hat <- exp(axm + bxm %*% t(ktm_star))
     nMxf_hat <- exp(axf + bxf %*% t(ktf_star))
+    ktm <- ktm_star
+    ktf <- ktf_star
   }
   
   # life tables output ------------------------------------------------------------
@@ -327,13 +334,16 @@ interp_lc_lim <- function(input = NULL,
       LT
     }, MX = nMxf_hat, Age = Age) %>% 
     do.call("rbind", .)
+  lt_out <- rbind(Males_out, Females_out)
   
-  out <- rbind(Males_out, Females_out)
-  return(out)
-  
+  # for output
+  lc_params <- list(ax = data.frame(Male = axm, Female = axf),
+                    bx = data.frame(Male = bxm, Female = bxf),
+                    kt = data.frame(Male = ktm, Female = ktf))
+  return(list(lt_out = lt_out,
+              lc_params = lc_params)
+         )
 }
-
-
 
 #'  Optimize k
 #' @description Optimize estimated k from LC with limited data model, 
