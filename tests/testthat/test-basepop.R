@@ -608,6 +608,51 @@ test_that("basepop works with up to year 1955", {
 
 })
 
+test_that("basepop works well with SRBDatesIn", {
+  # Most of the tests for SRBDatesIn are actually done when
+  # testing downloadSRB. These tests just make sure that
+  # basepop can handle NULL/Non-NULL SRBDatesIn dates. Everything
+  # else is forward to downloadSRB.
+
+  # Works when SRBDatesIn is NULL, meaning that it convert them
+  # to refDate - c(0.5, 2.5, 7.5)
+
+  expect_success({
+    res <-
+      basepop_five(
+        country = "Spain",
+        refDate= 1962.5,
+        Males_five = smoothed_males,
+        Females_five = smoothed_females,
+        SRB = sex_ratio,
+        SRBDatesIn = NULL,
+        method = "linear",
+        radix = 100000
+      )
+
+    expect_type(res, "list")
+  })
+
+  # Works when SRBDatesIn is an actual date. 
+  expect_success({
+    res <-
+      basepop_five(
+        country = "Spain",
+        refDate= 1962.5,
+        Males_five = smoothed_males,
+        Females_five = smoothed_females,
+        SRB = sex_ratio,
+        SRBDatesIn = 1960,
+        method = "linear",
+        radix = 100000
+      )
+
+    expect_type(res, "list")
+  })
+
+})
+
+
 test_that("basepop caps nLxDatesIn to 1955 when provided a date below that", {
 
   tmp_nlx <- c(1954, 1960)
@@ -729,4 +774,64 @@ test_that("basepop fails when it implies an extrapolation of > 5 years", {
     fixed = TRUE
   )
 
+})
+
+srb_checker <- function(x, ordered_name = FALSE) {
+  expect_length(x, 3)
+  expect_named(x)
+  expect_type(x, "double")
+
+  # Check the names of x are returned ordered
+  # This only makes sense when we download the data from WPP because
+  # otherwise we respect the order provided by the user.
+  if (ordered_name) {
+    expect_true(all(names(x) == as.character(sort(as.numeric(names(x))))))
+  }
+}
+
+test_that("downloadSRB works as expected", {
+  # Should return same estimate three times
+  srb_checker(downloadSRB(c(1.05), DatesOut = c(1999, 1920, 1930)))
+
+  # Should return three values with the last being 1.05
+  srb_checker(downloadSRB(c(1.05, 1.07), DatesOut = c(1999, 1920, 1930)))
+
+  # Should return the same thing
+  srb_checker(downloadSRB(c(1.05, 1.07, 1.08), DatesOut = c(1999, 1920, 1930)))
+
+  # Should error
+  expect_error(
+    downloadSRB(1:4),
+    regexp = "SRB can only accept three dates at maximum",
+    fixed = TRUE
+  )
+
+  # Should return three SRBs
+  srb_checker(downloadSRB(SRB = NULL, country = "Spain", DatesOut = 1955:1957))
+
+  # Assumes SRB
+  expect_output(
+    downloadSRB(SRB = NULL, country = "Whatever", DatesOut = 1955:1957),
+    regexp = c("Whatever not available in WPP LocName list\nAssuming SRB to be 1.047"),
+    fixed = TRUE
+  )
+
+  # Should fail because of number of years
+  expect_error(
+    downloadSRB(SRB = NULL, country = "Whatever", DatesOut = 1955:1958),
+    regexp = "SRB can only accept three dates at maximum",
+    fixed = TRUE
+  )
+
+  # Should impute the first two years with the last
+  srb_checker(
+    downloadSRB(SRB = NULL, country = "Germany", DatesOut = 1948:1950),
+    ordered_name = TRUE
+  )
+
+  # Should impute all values
+  srb_checker(
+    downloadSRB(SRB = NULL, country = "Germany", DatesOut = 1947:1949),
+    ordered_name = TRUE
+  )
 })

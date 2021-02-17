@@ -17,6 +17,7 @@ basepop_five(
   AsfrDatesIn = NULL,
   ...,
   SRB = NULL,
+  SRBDatesIn = NULL,
   radix = NULL,
   verbose = TRUE
 )
@@ -83,7 +84,13 @@ might be interested in changing the interpolation method for the \verb{nLx*}
 matrices and the \code{Asfr} matrix. By default, it's linearly interpolated.}
 
 \item{SRB}{A numeric. Sex ratio at birth (males / females). Default is set
-to 1.05}
+to 1.046. Only a maximum of three values permitted.}
+
+\item{SRBDatesIn}{A vector of numeric years (for example, 1986). Only a maximum
+number of three dates allowed. These are
+the dates which pertain to the values in \code{SRB}. If not provided,
+the function automatically determines three dates which are 7.5 years,
+2.5 and 0.5 years before \code{refDate}.}
 
 \item{radix}{starting point to use in the adjustment of the three first age
 groups. Default is NULL. If not provided, it is inferred based on the scale of age \verb{1L0}.}

@@ -203,6 +203,7 @@ check_heaping_myers <- function(Value,
 #' @param ageMax the maximum age used for estimation, default `77`
 #' @param method either `"orig"` or `"pasex"`
 #' @param details logical. Should a list of output be given
+#' @param OAG logical. Is the highest age group open?
 #'
 #' @details `ageMax` is an inclusive upper bound, treated as interval. If you want ages
 #' 23 to 77, then give `ageMin = 23` and `ageMax = 77`, not 80. The `ageMin` is respected strictly, whereas `ageMax` could be higher than the actual maximum age used. You can see the age ranges actually used by specifying `details = TRUE`.
@@ -213,26 +214,50 @@ check_heaping_myers <- function(Value,
 #' \insertRef{shryock1973methods}{DemoTools}
 #' @export
 #' @examples
-#'  Age <- 0:99
-#'  check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "orig")
-#'  check_heaping_bachi(pop1m_ind, Age, ageMin = 23, ageMax = 77, method = "orig")
+#'  check_heaping_bachi(pop1m_pasex, Age = 0:99, 
+#'  ageMin = 23, ageMax = 77, method = "orig", OAG =FALSE)
+#'  check_heaping_bachi(pop1m_ind, Age = 0:100, 
+#'  ageMin = 23, ageMax = 77, method = "orig")
 #'  # default simpler
-#'  check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "pasex")
+#'  check_heaping_bachi(pop1m_pasex, Age = 0:99, 
+#'  ageMin = 23, ageMax = 77, method = "pasex", OAG = FALSE)
 #' # linear population, should give 0 for pasex
-#'  check_heaping_bachi(seq(100000,1000,by=-1000),Age, ageMin = 23, ageMax = 77, method = "pasex")
+#'  check_heaping_bachi(seq(100000,1000,by=-1000),Age = 0:99, 
+#'  ageMin = 23, ageMax = 77, method = "pasex", OAG = FALSE)
 #' # fully concentrated, should give 90 
 #'  pop_concetrated <- rep(c(100,rep(0,9)),10)
-#'  check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "pasex")
-#'  check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "orig")
+#'  check_heaping_bachi(pop_concetrated, Age = 0:99, 
+#'  ageMin = 23, ageMax = 77, method = "pasex")
+#'  check_heaping_bachi(pop_concetrated, Age = 0:99, 
+#'  ageMin = 23, ageMax = 77, method = "orig")
 check_heaping_bachi <- function(
   Value,
   Age,
   ageMin = 23,
   ageMax = 77,
   method = "orig",
-  details = FALSE
+  details = FALSE,
+  OAG = TRUE
 ){
   method        <- match.arg(method, c("orig","pasex"))
+  stopifnot(length(Age) == length(Value))
+  
+  if (OAG){
+    N <- length(Value)
+    Value <- Value[-N]
+    Age   <- Age[-N]
+  }
+  
+  # ensure ageMax in range
+  ageMaxin <- ageMax
+  maxA <- max(Age)
+
+  if (ageMax > maxA){
+    ageMax <- ageMin + 4 + 10 *floor((maxA - ageMin - 4)/10)
+  } 
+  if (ageMax < ageMaxin){
+    cat("\nageMax lowered to", ageMax, "\n")    
+  }
   
   Diff          <- ageMax - ageMin 
   age_inteveral <- Diff - Diff %% 10 - 1
