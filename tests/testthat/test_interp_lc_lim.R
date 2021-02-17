@@ -108,7 +108,7 @@ outputA_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5))
 test_that("lc w lim data works", {
   expect_equal(
     e_dagger_list(outputA), 
-    e_dagger_list(outputA_test$lt_out %>% dplyr::arrange(Date,Sex,Age)), 
+    e_dagger_list(outputA_test$lt_hat %>% dplyr::arrange(Date,Sex,Age)), 
     tolerance = tolerance_admited)
 })
 
@@ -153,7 +153,7 @@ test_that("lc w lim data and prev divergence works", {
   # allow for rounding differences, so maximum absolute difference of 1
   expect_equal(
     e_dagger_list(outputB), 
-    e_dagger_list(outputB_test$lt_out %>% dplyr::arrange(Date,Sex,Age)), 
+    e_dagger_list(outputB_test$lt_hat %>% dplyr::arrange(Date,Sex,Age)), 
     tolerance = tolerance_admited
   )
 })
@@ -201,7 +201,7 @@ outputC_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
 test_that("lc w lim data and fitting e0 works", {
   expect_equal(
     e_dagger_list(outputC), 
-    e_dagger_list(outputC_test$lt_out %>% dplyr::arrange(Date,Sex,Age)), 
+    e_dagger_list(outputC_test$lt_hat %>% dplyr::arrange(Date,Sex,Age)), 
     tolerance = tolerance_admited
   )
 })
@@ -257,12 +257,13 @@ outputD_test <- interp_lc_lim(input = input_nqx, dates_out = seq(1953,2018,5))
 test_that("lc w lim data and nqx as input works", {
   expect_equal(
     e_dagger_list(outputD), 
-    e_dagger_list(outputD_test$lt_out %>% dplyr::arrange(Date,Sex,Age)), 
+    e_dagger_list(outputD_test$lt_hat %>% dplyr::arrange(Date,Sex,Age)), 
     tolerance = tolerance_admited
   )
 })
   
 # E - test with input lx, allowing cross-over, and NOT reproducing e0 at given years
+
 input_lx <- split(input, list(input$Date, input$Sex), drop = F) %>% 
                     lapply(function(X){
                       LT = lt_abridged(nMx = X[["nMx"]], 
@@ -311,7 +312,7 @@ outputE_test <- interp_lc_lim(input = input_lx, dates_out = seq(1953,2018,5))
 test_that("lc w lim data and nqx as input works", {
   expect_equal(
     e_dagger_list(outputE), 
-    e_dagger_list(outputE_test$lt_out %>% dplyr::arrange(Date,Sex,Age)), 
+    e_dagger_list(outputE_test$lt_hat %>% dplyr::arrange(Date,Sex,Age)), 
     tolerance = tolerance_admited
   )
 })
@@ -337,10 +338,10 @@ outputF3_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
                                extrapLaw = "ggompertz", OAnew = 100)
 
 test_that("lc w lim data and nqx as input works", {
-  expect_length(unique(outputF1_test$lt_out$Age), 130)
-  expect_s3_class(outputF3_test$lt_out, "data.frame")
-  expect_length(unique(outputF2_test$lt_out$Age), 101)
-  expect_length(unique(outputF3_test$lt_out$ex), 101 * 2 * length(seq(1953,2018,5)))
+  expect_length(unique(outputF1_test$lt_hat$Age), 130)
+  expect_s3_class(outputF3_test$lt_hat, "data.frame")
+  expect_length(unique(outputF2_test$lt_hat$Age), 101)
+  expect_length(unique(outputF3_test$lt_hat$ex), 101 * 2 * length(seq(1953,2018,5)))
 })
 
 # G - mixing input --------------------------------------------------------
@@ -377,10 +378,10 @@ outputG3_test <- interp_lc_lim(input = input_mix2, dates_out = seq(1953,2018,5),
                                Single = T)
 
 test_that("mixing inputs works", {
-  expect_s3_class(outputG1_test$lt_out, "data.frame")
-  expect_true(all(outputG1_test$lt_out$nMx > 0))
-  expect_length(unique(outputG2_test$lt_out$Age), 22)
-  expect_length(unique(outputG3_test$lt_out$Age), 130)
+  expect_s3_class(outputG1_test$lt_hat, "data.frame")
+  expect_true(all(outputG1_test$lt_hat$nMx > 0))
+  expect_length(unique(outputG2_test$lt_hat$Age), 22)
+  expect_length(unique(outputG3_test$lt_hat$Age), 130)
 })
 
 # H - lt args -------------------------------------------------------------
@@ -401,12 +402,12 @@ outputH6_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
                                extrapFrom = 60, extrapFit = seq(50,95,5), radix = 1)
 
 test_that("pass all lt args works", {
-expect_s3_class(outputH1_test$lt_out, "data.frame")
-expect_s3_class(outputH2_test$lt_out, "data.frame")
-expect_s3_class(outputH3_test$lt_out, "data.frame")
-expect_s3_class(outputH4_test$lt_out, "data.frame")
-expect_s3_class(outputH5_test$lt_out, "data.frame")
-expect_s3_class(outputH6_test$lt_out, "data.frame")
+expect_s3_class(outputH1_test$lt_hat, "data.frame")
+expect_s3_class(outputH2_test$lt_hat, "data.frame")
+expect_s3_class(outputH3_test$lt_hat, "data.frame")
+expect_s3_class(outputH4_test$lt_hat, "data.frame")
+expect_s3_class(outputH5_test$lt_hat, "data.frame")
+expect_s3_class(outputH6_test$lt_hat, "data.frame")
   }
 )
 

@@ -334,13 +334,13 @@ interp_lc_lim <- function(input = NULL,
       LT
     }, MX = nMxf_hat, Age = Age) %>% 
     do.call("rbind", .)
-  lt_out <- rbind(Males_out, Females_out)
+  lt_hat <- rbind(Males_out, Females_out)
   
   # for output
   lc_params <- list(ax = data.frame(Male = axm, Female = axf),
                     bx = data.frame(Male = bxm, Female = bxf),
                     kt = data.frame(Male = ktm, Female = ktf))
-  return(list(lt_out = lt_out,
+  return(list(lt_hat = lt_out,
               lc_params = lc_params)
          )
 }
