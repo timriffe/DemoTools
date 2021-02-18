@@ -37,6 +37,8 @@
 #' \code{\link[DemoTools]{lt_abridged}}
 #' @export
 #' @importFrom data.table rbindlist
+#' @importFrom data.table setDT
+#' @importFrom data.table uniqueN
 #' @return List with:
 #' \itemize{
 #'   \item Lifetable in a data.frame with columns:
@@ -64,7 +66,6 @@
 #'
 #' @examples
 #' # mortality rates from Sweden, for specific dates. Each sex a group.
-#' data("mA_swe")
 #' mA_swe$id = c(rep("A",nrow(mA_swe)/2),
 #'              rep("B",nrow(mA_swe)/2))
 #' 
@@ -103,20 +104,25 @@ interp_lc_lim_group <- function(input = NULL,
                                 SVD = FALSE,
                                 ...){
   
+  # just make up empty placeholders for stuff used inside data.table
+  .    <- NULL
+  Date <- NULL
+  id   <- NULL
+  
   ExtraArgs = c(as.list(environment()), list(...))
   ExtraArgs = ExtraArgs[! names(ExtraArgs) %in% c("input","Single")]
   dates_out <- dec.date(dates_out)
   ndates_out <- length(dates_out)
   
   # enough obs dates
-  min_dates_in <- min(data.table::setDT(input)[, .(count = data.table::uniqueN(Date)), 
+  min_dates_in <- min(setDT(input)[, .(count = uniqueN(Date)), 
                                                by = id][,2])
   if (min_dates_in<3){
     stop("\nYou need three observed dates at least.")
   }
   
   # is data limited?
-  diff_dates_in <- unique(data.table::setDT(input)[, .(count = diff.Date(Date)), 
+  diff_dates_in <- unique(setDT(input)[, .(count = diff.Date(Date)), 
                                                    by = id][,2])
   if (all(diff_dates_in %in% c(0,1))){
     stop("\nYou have single-year-interval data and probably should use basic Lee-Carter method.")
@@ -127,20 +133,23 @@ interp_lc_lim_group <- function(input = NULL,
     stop("\nSorry we need some column called nMx, nqx or lx\n")
   }
   
-  # you gave no id - save it
-  if (!"id" %in% colnames(input)){
-    # but two sex
-    cases <- aggregate(Age~Date+Sex,input,FUN=length)
-    if(!any(cases$Age)==cases$Age[1]){
-      input$id = ifelse(Sex=="f",1,2)
-    }
-  }
+  # TR: I commented this out. 
+  # 1) id is used earlier than this, so there's still an error if it's missing
+  # 2)
+  # # you gave no id - save it
+  # if (!"id" %in% colnames(input)){
+  #   # but two sex
+  #   cases <- aggregate(Age~Date+Sex,input,FUN=length)
+  #   if(!any(cases$Age)==cases$Age[1]){
+  #     input$id = ifelse(Sex=="f",1,2)
+  #   }
+  # }
   
   ngroups <- length(unique(input$id))
-  groups <- unique(input$id)
+  groups  <- unique(input$id)
   # three objects, with number of elements as groups
-  nMx <- list()
-  nMx_hat <- list()
+  nMx         <- list()
+  nMx_hat     <- list()
   lc_estimate <- list()
   
   # get always Mx -----------------------------------------------------------
@@ -230,7 +239,7 @@ interp_lc_lim_group <- function(input = NULL,
         nMx_hat[[i]][,dates_extrap] <- nMx_hat_div[,dates_extrap]
       }
     }
-    . <- NULL
+   
     # return lt
     colnames(nMx_hat[[i]]) <- dates_out
     Sex_i = unique(input$Sex[input$id == i])

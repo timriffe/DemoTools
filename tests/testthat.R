@@ -9,5 +9,5 @@ shhh(library(testthat))
 shhh(library(DemoTools))
 shhh(library(magrittr))
 shhh(library(dplyr))
-
+shhh(library(tidyr))
 test_check("DemoTools")

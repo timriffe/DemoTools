@@ -6,6 +6,7 @@
 #' @param Single logical. Results by simple age. Default `FALSE`.
 #' Typically from pre-working age and working age parts of in Roger-Castro formula.
 #' @export
+#' @importFrom stats aggregate
 #' @return List with
 #' \itemize{
 #'   \item{params_RC} {data.frame. Roger-Castro parameters in a data.frame. Same as `mig_un_params` data.}
@@ -13,8 +14,8 @@
 #' }
 #' @examples
 #' # 10000 net migrants, comparing two possible families
-#' nm1 <- mig_un_flies(NM = 10000, family = "Male Labor")
-#' nm2 <- mig_un_flies(NM = 10000, family = "Family")
+#' nm1 <- mig_un_fam(NM = 10000, family = "Male Labor")
+#' nm2 <- mig_un_fam(NM = 10000, family = "Family")
 #' # See the female profile in for these models:
 #' \dontrun{
 #' plot(nm1$net_migr$age[nm1$net_migr$sex=="Female"],
@@ -25,15 +26,24 @@
 #' }
 
 
-mig_un_flies <- function(NM, family, Single = TRUE){
+mig_un_fam <- function(NM, family, Single = TRUE){
+  
+  # TR added for global binding warnings
+  sex             <- NULL
+  age             <- NULL
+  mig_un_params   <- NULL
+  mig_un_families <- NULL
+  .               <- NULL
   
   # chek
   if(NM==0) stop("Need some net migration.")
   mig_sign <- ifelse(NM<0, "Emigration", "Inmigration")
   
+  # TR: package data is immediately available, no
+  # need to explicitly load
   # load data
-  data("mig_un_params", envir = environment())
-  data("mig_un_families", envir = environment())
+  #data("mig_un_params", envir = environment())
+  #data("mig_un_families", envir = environment())
   
   # get asked 
   this_params <- mig_un_params[mig_un_params$family == family & 
@@ -53,11 +63,19 @@ mig_un_flies <- function(NM, family, Single = TRUE){
   # single age
   if(!Single){
     this_family$age <- trunc(this_family$age/5)*5
-    this_family     <- aggregate(nm~family+sex+age,this_family,sum)
+    # added @importFrom stats aggregate for this,
+    # but maybe there's a better way?
+    this_family     <- aggregate(as.formula('nm~family+age+sex'),
+                                 data=this_family,
+                                 FUN=sum)
   }
-  
+  this_family <-
+    this_family %>% 
+    as.data.table() %>% 
+    .[order(sex,age)] %>% 
+    as.data.frame()
   # out
-  list(net_migr = this_family %>% dplyr::arrange(sex,age),
+  list(net_migr = this_family,
        params_RC = this_params)
 }
 

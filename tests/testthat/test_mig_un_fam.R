@@ -1,7 +1,7 @@
-context("test-mig_un_flies")
+context("test-mig_un_fam")
 
 # get data spreadsheet----------------------------------------------------------------
-UN_flies <- 
+UN_fam <- 
   data.frame(
   Age = rep(seq(0,80,5),6),
   Type = c(rep("Family Immigration",17),
@@ -215,25 +215,32 @@ Female = c(
   -250.3,
   -158.9,
   -100.9)
-) %>% rename(Type=2, Age=1) %>% 
-      tidyr::gather(Sex,Prop,-Age,-Type) %>% 
-      mutate(Prop = Prop/100000)
+) %>% 
+  rename(Type=2, Age=1) %>% 
+  as.data.table() %>% 
+  data.table::melt(id.vars = c("Age","Type"),
+                   measure.vars = c("Male", "Female"),
+                   variable.name = "Sex",
+                   value.name = "Prop") %>% 
+  .[, Prop := Prop / 1e5] %>% 
+  as.data.frame()
+    
 
 
 # test --------------------------------------------------------------------
 
 tolerance_admited <- .005
-test_that("mig flies works", {
+test_that("mig fam works", {
   expect_equal(
-    mig_un_flies(NM = 1000,  family = "Family", Single = FALSE)$net_migr$nm,
-    UN_flies %>% dplyr::filter(Type == "Family Immigration") %>% dplyr::arrange(Sex) %>% dplyr::pull(Prop) * 1000,
+    mig_un_fam(NM = 1000,  family = "Family", Single = FALSE)$net_migr$nm,
+    UN_fam %>% dplyr::filter(Type == "Family Immigration") %>% dplyr::arrange(Sex) %>% dplyr::pull(Prop) * 1000,
     tolerance = tolerance_admited  * 1000)
   expect_equal(
-    mig_un_flies(NM = -1,  family = "Female Labor", Single = FALSE)$net_migr$nm,
-    UN_flies %>% dplyr::filter(Type == "Female Labor Emigration") %>% dplyr::arrange(Sex) %>% dplyr::pull(Prop),
+    mig_un_fam(NM = -1,  family = "Female Labor", Single = FALSE)$net_migr$nm,
+    UN_fam %>% dplyr::filter(Type == "Female Labor Emigration") %>% dplyr::arrange(Sex) %>% dplyr::pull(Prop),
     tolerance = tolerance_admited)
   expect_equal(
-    mig_un_flies(NM = -100000,  family = "Male Labor", Single = FALSE)$net_migr$nm,
-    UN_flies %>% dplyr::filter(Type == "Male Labor Emigration") %>% dplyr::arrange(Sex) %>% dplyr::pull(Prop) * 100000,
+    mig_un_fam(NM = -100000,  family = "Male Labor", Single = FALSE)$net_migr$nm,
+    UN_fam %>% dplyr::filter(Type == "Male Labor Emigration") %>% dplyr::arrange(Sex) %>% dplyr::pull(Prop) * 100000,
     tolerance = tolerance_admited * 100000)
 })

@@ -53,7 +53,7 @@
 #' 
 #' @examples
 #' # mortality rates from Sweden, for specific dates
-#' data("mA_swe")
+
 #' 
 #' # needs mortality rates in this dates: 
 #' dates_out <- as.Date(paste0(seq(1948,2018,5),"-07-01"))
@@ -87,7 +87,6 @@
 #' }
 #' 
 #' # Fitting information about e0 in Sweden for past years.
-#' data("e0_swe")
 #' lc_lim_fite0 <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE,
 #'                               dates_e0 = unique(e0_swe$Date),
 #'                               e0_Males = e0_swe$e0[e0_swe$Sex=="m"], 

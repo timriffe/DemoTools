@@ -82,7 +82,6 @@ Draft Version
 }
 \examples{
 # mortality rates from Sweden, for specific dates. Each sex a group.
-data("mA_swe")
 mA_swe$id = c(rep("A",nrow(mA_swe)/2),
              rep("B",nrow(mA_swe)/2))
 
