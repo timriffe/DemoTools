@@ -1,4 +1,13 @@
-#' Lee-Carter method with limited data.
+#' Lee-Carter method with limited data for groups.
+
+# tests:
+# Tests againts spreadsheet
+# test output againts `interp_lc_lim` function.
+# testing args from main fun
+# mixing input: single/abr with output single/abr, and mixing input nMx and lx
+# passing lt arguments
+# text/messages/warnings. Specially the case when no `id` is given
+
 #' 
 #' @description Given a data frame with groups (country, region, sex), dates, sex and mortality data by age (rates, conditionated probabilities of death 
 #' or survival function), this function interpolate/extrapolate life tables 
@@ -7,7 +16,9 @@
 #' @details Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN. 
 #' Useful for abridged or single ages, and allows output in both formats also.
 #' One option is the use of non-divergent method for sex coherency (Li & Lee, 2005).
-#' The other is the possibility of fitting `"k"` to replicate `"e_0"` at some given dates. 
+#' The other is the possibility of fitting `"k"` to replicate `"e_0"` at some given dates.
+#' `id` column in `input` argument works for separate between groups. In case only one population/sex is given, 
+#' is recommended to give some group name to `id`, if not the function will try to infer the case. 
 #'
 #' @note Draft Version
 #'
@@ -25,7 +36,7 @@
 #' @seealso
 #' \code{\link[DemoTools]{lt_abridged}}
 #' @export
-# TR: you can use markdown for this sort of thing, just getting used to it
+#' @importFrom data.table rbindlist
 #' @return List with:
 #' \itemize{
 #'   \item Lifetable in a data.frame with columns:
@@ -43,11 +54,10 @@
 #'   * `Tx` numeric. Lifetable total years left to live above age x.
 #'   * `ex` numeric. Age-specific remaining life expectancy.
 #'   \item List with parameters estimated for each group:
-#'   * `ax` 
-#'   * `bx` 
-#'   * `kt` 
-#'   * `R`
-#' 
+#'   * `kt` numeric time vector. Time trend in mortality level.
+#'   * `ax` numeric age vector. Average time of `log(m_{x,t})`.
+#'   * `bx` numeric age vector. Pattern of change in response to `kt`.
+#' }
 #' @references
 #' \insertRef{Li2005}{DemoTools}
 #' \insertRef{Li2004}{DemoTools}
@@ -55,8 +65,8 @@
 #' @examples
 #' # mortality rates from Sweden, for specific dates. Each sex a group.
 #' data("mA_swe")
-#' input$id = c(rep("A",length(Age) * 3),
-#'              rep("B",length(Age) * 3))
+#' mA_swe$id = c(rep("A",nrow(mA_swe)/2),
+#'              rep("B",nrow(mA_swe)/2))
 #' 
 #' # needs mortality rates in this dates: 
 #' dates_out <- as.Date(paste0(seq(1948,2018,5),"-07-01"))
@@ -72,7 +82,7 @@
 #' 
 #' # avoid cross-over between groups
 #' lc_lim_data <- interp_lc_lim_group(input = mA_swe, dates_out = dates_out,
-#'                                     prev_divergence = T, weights=list(A=.4,B=.6))
+#'                                     prev_divergence = TRUE, weights=list(A=.4,B=.6))
 #' 
 #' \dontrun{
 #' lc_lim_data[["lt_hat"]] %>% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
@@ -116,7 +126,16 @@ interp_lc_lim_group <- function(input = NULL,
   if (!any(names(input)%in%c("nMx", "nqx", "lx"))){
     stop("\nSorry we need some column called nMx, nqx or lx\n")
   }
-
+  
+  # you gave no id - save it
+  if (!"id" %in% colnames(input)){
+    # but two sex
+    cases <- aggregate(Age~Date+Sex,input,FUN=length)
+    if(!any(cases$Age)==cases$Age[1]){
+      input$id = ifelse(Sex=="f",1,2)
+    }
+  }
+  
   ngroups <- length(unique(input$id))
   groups <- unique(input$id)
   # three objects, with number of elements as groups
@@ -211,7 +230,7 @@ interp_lc_lim_group <- function(input = NULL,
         nMx_hat[[i]][,dates_extrap] <- nMx_hat_div[,dates_extrap]
       }
     }
-    
+    . <- NULL
     # return lt
     colnames(nMx_hat[[i]]) <- dates_out
     Sex_i = unique(input$Sex[input$id == i])
@@ -228,13 +247,14 @@ interp_lc_lim_group <- function(input = NULL,
         LT$Date <- as.numeric(x)
         LT
       }, MX = nMx_hat[[i]], Age = Age) %>% 
-      do.call("rbind", .)
+      rbindlist()
     nMx_hat[[i]] <- out
   }
+
   return(list(
-    # TR: no purrr please
-            lt_hat = map_df(nMx_hat,I,.id = "id"), #IW: get out rownames
-            lc_estimate = lc_estimate #IW: must bind
+            lt_hat = rbindlist(nMx_hat, idcol = "id"),
+            lc_params = lc_estimate #IW: must bind
+
             ))
 }
 
