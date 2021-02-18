@@ -338,7 +338,7 @@ outputF3_test <- interp_lc_lim(input = input, dates_out = seq(1953,2018,5),
                                extrapLaw = "ggompertz", OAnew = 100)
 
 test_that("lc w lim data and nqx as input works", {
-  expect_length(unique(outputF1_test$lt_hat$Age), 130)
+  expect_length(unique(outputF1_test$lt_hat$Age), 101)
   expect_s3_class(outputF3_test$lt_hat, "data.frame")
   expect_length(unique(outputF2_test$lt_hat$Age), 101)
   expect_length(unique(outputF3_test$lt_hat$ex), 101 * 2 * length(seq(1953,2018,5)))
@@ -381,7 +381,7 @@ test_that("mixing inputs works", {
   expect_s3_class(outputG1_test$lt_hat, "data.frame")
   expect_true(all(outputG1_test$lt_hat$nMx > 0))
   expect_length(unique(outputG2_test$lt_hat$Age), 22)
-  expect_length(unique(outputG3_test$lt_hat$Age), 130)
+  expect_length(unique(outputG3_test$lt_hat$Age), 101)
 })
 
 # H - lt args -------------------------------------------------------------

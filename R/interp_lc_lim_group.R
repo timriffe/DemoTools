@@ -57,7 +57,7 @@
 #'   * `kt` numeric time vector. Time trend in mortality level.
 #'   * `ax` numeric age vector. Average time of `log(m_{x,t})`.
 #'   * `bx` numeric age vector. Pattern of change in response to `kt`.
-#' 
+#' }
 #' @references
 #' \insertRef{Li2005}{DemoTools}
 #' \insertRef{Li2004}{DemoTools}
@@ -65,8 +65,8 @@
 #' @examples
 #' # mortality rates from Sweden, for specific dates. Each sex a group.
 #' data("mA_swe")
-#' mA_swe$id = c(rep("A",length(Age) * 3),
-#'              rep("B",length(Age) * 3))
+#' mA_swe$id = c(rep("A",nrow(mA_swe)/2),
+#'              rep("B",nrow(mA_swe)/2))
 #' 
 #' # needs mortality rates in this dates: 
 #' dates_out <- as.Date(paste0(seq(1948,2018,5),"-07-01"))
@@ -82,7 +82,7 @@
 #' 
 #' # avoid cross-over between groups
 #' lc_lim_data <- interp_lc_lim_group(input = mA_swe, dates_out = dates_out,
-#'                                     prev_divergence = T, weights=list(A=.4,B=.6))
+#'                                     prev_divergence = TRUE, weights=list(A=.4,B=.6))
 #' 
 #' \dontrun{
 #' lc_lim_data[["lt_hat"]] %>% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
@@ -132,7 +132,7 @@ interp_lc_lim_group <- function(input = NULL,
     # but two sex
     cases <- aggregate(Age~Date+Sex,input,FUN=length)
     if(!any(cases$Age)==cases$Age[1]){
-      input$id = ifelse(Sex="f",1,2)
+      input$id = ifelse(Sex=="f",1,2)
     }
   }
   

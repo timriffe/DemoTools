@@ -46,7 +46,7 @@
 #'   * `kt` numeric time vector. Time trend in mortality level.
 #'   * `ax` numeric age vector. Average time of `log(m_{x,t})`.
 #'   * `bx` numeric age vector. Pattern of change in response to `kt`.
-#' 
+#' }
 #' @references
 #' \insertRef{Li2005}{DemoTools}
 #' \insertRef{Li2004}{DemoTools}
@@ -59,7 +59,7 @@
 #' dates_out <- as.Date(paste0(seq(1948,2018,5),"-07-01"))
 #' 
 #' # apply LC with limited data to extrap/interpolate
-#' lc_lim_data <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE)
+#' lc_lim_data <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE)$lt_hat
 #' 
 #' \dontrun{
 #' lc_lim_data %>% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
@@ -69,7 +69,7 @@
 #' 
 #' # with simple ages as output
 #' lc_lim_data_single <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE,
-#'                                     Single = TRUE)
+#'                                     Single = TRUE)$lt_hat
 #' 
 #' \dontrun{
 #' lc_lim_data_single %>% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
@@ -79,7 +79,7 @@
 #' 
 #' # Avoiding cross-over between sex.
 #' lc_lim_nondiv <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE,
-#'                                prev_divergence = TRUE)
+#'                                prev_divergence = TRUE)$lt_hat
 #' \dontrun{
 #' lc_lim_nondiv %>% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
 #'   geom_step() + scale_color_viridis_d() + 
@@ -91,7 +91,7 @@
 #' lc_lim_fite0 <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE,
 #'                               dates_e0 = unique(e0_swe$Date),
 #'                               e0_Males = e0_swe$e0[e0_swe$Sex=="m"], 
-#'                               e0_Females = e0_swe$e0[e0_swe$Sex=="f"])
+#'                               e0_Females = e0_swe$e0[e0_swe$Sex=="f"])$lt_hat
 #' \dontrun{                               
 #' ggplot() + 
 #'   geom_point(data = e0_swe, aes(Date,e0,col=factor(Sex)))+
@@ -104,7 +104,7 @@
 #' lc_lim_extOAg <- interp_lc_lim(input = mA_swe[mA_swe$Age<=80,], dates_out = dates_out,
 #'                                OAG = FALSE,
 #'                                OAnew=100,
-#'                                extrapLaw = "makeham")
+#'                                extrapLaw = "makeham")$lt_hat
 #' \dontrun{
 #' ggplot() + 
 #'   geom_step(data = lc_lim_extOAg, aes(Age,nMx,col=factor(round(Date,1)))) +
@@ -340,7 +340,7 @@ interp_lc_lim <- function(input = NULL,
   lc_params <- list(ax = data.frame(Male = axm, Female = axf),
                     bx = data.frame(Male = bxm, Female = bxf),
                     kt = data.frame(Male = ktm, Female = ktf))
-  return(list(lt_hat = lt_out,
+  return(list(lt_hat = lt_hat,
               lc_params = lc_params)
          )
 }

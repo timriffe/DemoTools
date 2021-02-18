@@ -63,6 +63,7 @@ List with:
 \item \code{bx} numeric age vector. Pattern of change in response to \code{kt}.
 }
 }
+}
 \description{
 Given a data frame with groups (country, region, sex), dates, sex and mortality data by age (rates, conditionated probabilities of death
 or survival function), this function interpolate/extrapolate life tables
@@ -82,8 +83,8 @@ Draft Version
 \examples{
 # mortality rates from Sweden, for specific dates. Each sex a group.
 data("mA_swe")
-mA_swe$id = c(rep("A",length(Age) * 3),
-             rep("B",length(Age) * 3))
+mA_swe$id = c(rep("A",nrow(mA_swe)/2),
+             rep("B",nrow(mA_swe)/2))
 
 # needs mortality rates in this dates: 
 dates_out <- as.Date(paste0(seq(1948,2018,5),"-07-01"))
@@ -99,7 +100,7 @@ lc_lim_data[["lt_hat"]] \%>\% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
 
 # avoid cross-over between groups
 lc_lim_data <- interp_lc_lim_group(input = mA_swe, dates_out = dates_out,
-                                    prev_divergence = T, weights=list(A=.4,B=.6))
+                                    prev_divergence = TRUE, weights=list(A=.4,B=.6))
 
 \dontrun{
 lc_lim_data[["lt_hat"]] \%>\% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
