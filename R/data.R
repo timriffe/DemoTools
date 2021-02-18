@@ -412,3 +412,35 @@
 #' @source
 #'   Migration residual PAS spreadhseet
 "ages_asfr_single"
+
+#' Parameters for considered migration profiles
+#'
+#' Roger-Castro estimated parameters using `mig_estimate_rc` for Pre Working Age and Working Age profiles of migration.
+#' @docType data
+#' @format
+#'   A data frame with:
+#'   \describe{
+#'     \item{family}{Types Family, Male Labor or Female Labor.}
+#'     \item{sex}{Male and Female.}
+#'     \item{mig_sign}{Inmigration or Emigration.}
+#'     \item{param}{Parameters from Roger-Castro.}
+#'     \item{median}{median of posterior distribution using Monte Carlo Markov Chains in `mig_estimate_rc`.}
+#'     }
+#' @source UN spreadsheet "UNPD_Migration Age Profiles.xlsx"
+"mig_un_params"
+
+#' Proportion of net migrants by age and sex for considered migration profiles
+#'
+#' Roger-Castro estimated proportion of total net migrants using parameters from `mig_un_params` data.
+#' @docType data
+#' @format
+#'   A data frame with:
+#'   \describe{
+#'     \item{family}{Types Family, Male Labor or Female Labor.}
+#'     \item{sex}{Male and Female.}
+#'     \item{mig_sign}{Inmigration or Emigration.}
+#'     \item{age}{Simple ages from 0 to 80 (OAG).}
+#'     \item{prop}{Proportion of net migrants due to that sex and age.}
+#'     }
+#' @source UN spreadsheet "UNPD_Migration Age Profiles.xlsx"
+"mig_un_families"

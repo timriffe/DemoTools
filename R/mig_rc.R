@@ -280,9 +280,9 @@ real<lower=0> sigma;
     group_by(!!sym(".variable")) %>%
     summarise(median = median(!!sym(".value")),
               lower = quantile(!!sym(".value"), 0.025),
-              upper = quantile(!!sym(".value"), 0.975)) %>%
-    dplyr::rename("variable" = !!sym(".variable")) %>%
-    mutate("variable" = gsub("\\[1\\]", "", "variable"))
+              upper = quantile(!!sym(".value"), 0.975))%>%
+    dplyr::rename("variable" = !!sym(".variable")) #%>%
+    #mutate("variable" = gsub("\\[1\\]", "", "variable"))
 
   return(list(pars_df = pars_df, fit_df = dfit))
 

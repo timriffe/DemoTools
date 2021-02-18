@@ -26,22 +26,27 @@
 #' \code{\link[DemoTools]{lt_abridged}}
 #' @export
 # TR: you can use markdown for this sort of thing, just getting used to it
-#' @return Lifetable in a data.frame with columns
-#' 
-#' * `Date` numeric. Dates included in dates_out,
-#' * `Sex` character. Male `"m"` or female `"f"`,
-#' * `Age` integer. Lower bound of abridged age class,
-#' * `AgeInt`` integer. Age class widths.
-#' * `nMx` numeric. Age-specific central death rates.
-#' * `nAx` numeric. Average time spent in interval by those deceased in interval. 
-#' * `nqx` numeric. Age-specific conditional death probabilities.
-#' * `lx` numeric. Lifetable survivorship
-#' * `ndx` numeric. Lifetable deaths distribution.
-#' * `nLx` numeric. Lifetable exposure.
-#' * `Sx` numeric. Survivor ratios in uniform 5-year age groups.
-#' * `Tx` numeric. Lifetable total years left to live above age x.
-#' * `ex` numeric. Age-specific remaining life expectancy.
-#' 
+#' @return List with:
+#' \itemize{
+#'   \item Interpolated/extrapolated lifetables in a data.frame with columns:
+#'   * `Date` numeric. Dates included in dates_out,
+#'   * `Sex` character. Male `"m"` or female `"f"`,
+#'   * `Age` integer. Lower bound of abridged age class,
+#'   * `AgeInt`` integer. Age class widths.
+#'   * `nMx` numeric. Age-specific central death rates.
+#'   * `nAx` numeric. Average time spent in interval by those deceased in interval. 
+#'   * `nqx` numeric. Age-specific conditional death probabilities.
+#'   * `lx` numeric. Lifetable survivorship
+#'   * `ndx` numeric. Lifetable deaths distribution.
+#'   * `nLx` numeric. Lifetable exposure.
+#'   * `Sx` numeric. Survivor ratios in uniform 5-year age groups.
+#'   * `Tx` numeric. Lifetable total years left to live above age x.
+#'   * `ex` numeric. Age-specific remaining life expectancy.
+#'   \item List with estimated Lee-Carter parameters for each sex:
+#'   * `kt` numeric time vector. Time trend in mortality level.
+#'   * `ax` numeric age vector. Average time of `log(m_{x,t})`.
+#'   * `bx` numeric age vector. Pattern of change in response to `kt`.
+#' }
 #' @references
 #' \insertRef{Li2005}{DemoTools}
 #' \insertRef{Li2004}{DemoTools}
@@ -54,7 +59,7 @@
 #' dates_out <- as.Date(paste0(seq(1948,2018,5),"-07-01"))
 #' 
 #' # apply LC with limited data to extrap/interpolate
-#' lc_lim_data <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE)
+#' lc_lim_data <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE)$lt_hat
 #' 
 #' \dontrun{
 #' lc_lim_data %>% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
@@ -64,7 +69,7 @@
 #' 
 #' # with simple ages as output
 #' lc_lim_data_single <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE,
-#'                                     Single = TRUE)
+#'                                     Single = TRUE)$lt_hat
 #' 
 #' \dontrun{
 #' lc_lim_data_single %>% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
@@ -74,7 +79,7 @@
 #' 
 #' # Avoiding cross-over between sex.
 #' lc_lim_nondiv <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE,
-#'                                prev_divergence = TRUE)
+#'                                prev_divergence = TRUE)$lt_hat
 #' \dontrun{
 #' lc_lim_nondiv %>% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
 #'   geom_step() + scale_color_viridis_d() + 
@@ -86,7 +91,7 @@
 #' lc_lim_fite0 <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE,
 #'                               dates_e0 = unique(e0_swe$Date),
 #'                               e0_Males = e0_swe$e0[e0_swe$Sex=="m"], 
-#'                               e0_Females = e0_swe$e0[e0_swe$Sex=="f"])
+#'                               e0_Females = e0_swe$e0[e0_swe$Sex=="f"])$lt_hat
 #' \dontrun{                               
 #' ggplot() + 
 #'   geom_point(data = e0_swe, aes(Date,e0,col=factor(Sex)))+
@@ -99,7 +104,7 @@
 #' lc_lim_extOAg <- interp_lc_lim(input = mA_swe[mA_swe$Age<=80,], dates_out = dates_out,
 #'                                OAG = FALSE,
 #'                                OAnew=100,
-#'                                extrapLaw = "makeham")
+#'                                extrapLaw = "makeham")$lt_hat
 #' \dontrun{
 #' ggplot() + 
 #'   geom_step(data = lc_lim_extOAg, aes(Age,nMx,col=factor(round(Date,1)))) +
@@ -289,6 +294,8 @@ interp_lc_lim <- function(input = NULL,
     # get rates with optim k.
     nMxm_hat <- exp(axm + bxm %*% t(ktm_star))
     nMxf_hat <- exp(axf + bxf %*% t(ktf_star))
+    ktm <- ktm_star
+    ktf <- ktf_star
   }
   
   # life tables output ------------------------------------------------------------
@@ -327,13 +334,16 @@ interp_lc_lim <- function(input = NULL,
       LT
     }, MX = nMxf_hat, Age = Age) %>% 
     do.call("rbind", .)
+  lt_hat <- rbind(Males_out, Females_out)
   
-  out <- rbind(Males_out, Females_out)
-  return(out)
-  
+  # for output
+  lc_params <- list(ax = data.frame(Male = axm, Female = axf),
+                    bx = data.frame(Male = bxm, Female = bxf),
+                    kt = data.frame(Male = ktm, Female = ktf))
+  return(list(lt_hat = lt_hat,
+              lc_params = lc_params)
+         )
 }
-
-
 
 #'  Optimize k
 #' @description Optimize estimated k from LC with limited data model, 
