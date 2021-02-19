@@ -7,6 +7,7 @@
 #' Typically from pre-working age and working age parts of in Roger-Castro formula.
 #' @export
 #' @importFrom stats aggregate
+#' @importFrom stats as.formula
 #' @return List with
 #' \itemize{
 #'   \item{params_RC} {data.frame. Roger-Castro parameters in a data.frame. Same as `mig_un_params` data.}
@@ -46,12 +47,12 @@ mig_un_fam <- function(NM, family, Single = TRUE){
   #data("mig_un_families", envir = environment())
   
   # get asked 
-  this_params <- mig_un_params[mig_un_params$family == family & 
-                               mig_un_params$mig_sign == mig_sign, 
-                               c("family","sex","param","median")]
-  this_family <- mig_un_families[mig_un_families$family == family & 
-                                 mig_un_families$mig_sign == mig_sign, 
-                                 c("family","sex","age","prop")]
+  ind         <- mig_un_params$family == family & 
+                 mig_un_params$mig_sign == mig_sign
+  this_params <- mig_un_params[ind,   c("family","sex","param","median")]
+  ind         <- mig_un_families$family == family & 
+                 mig_un_families$mig_sign == mig_sign
+  this_family <- mig_un_families[ind,  c("family","sex","age","prop")]
   
   # get exact 1
   this_family$prop <- this_family$prop + this_family$prop/sum(this_family$prop) * (1-sum(this_family$prop))

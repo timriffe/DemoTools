@@ -25,7 +25,8 @@ library(TimUtils)
 
 # do this whenever new functions are added to /R, or whenever roxygen is updated
 devtools::document()
-  # do this whenever the vignette text is updated
+
+# do this whenever the vignette text is updated
 devtools::build_vignettes()
 
 # devtools::install_github("r-lib/pkgdown")
