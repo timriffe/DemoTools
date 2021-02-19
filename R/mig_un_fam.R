@@ -31,8 +31,8 @@ mig_un_fam <- function(NM, family, Single = TRUE){
   # TR added for global binding warnings
   sex             <- NULL
   age             <- NULL
-  mig_un_params   <- NULL
-  mig_un_families <- NULL
+  # mig_un_params   <- NULL
+  # mig_un_families <- NULL
   .               <- NULL
   
   # chek

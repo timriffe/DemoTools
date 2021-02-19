@@ -233,14 +233,15 @@ tolerance_admited <- .005
 test_that("mig fam works", {
   expect_equal(
     mig_un_fam(NM = 1000,  family = "Family", Single = FALSE)$net_migr$nm,
-    UN_fam %>% dplyr::filter(Type == "Family Immigration") %>% dplyr::arrange(Sex) %>% dplyr::pull(Prop) * 1000,
+    UN_fam %>% dplyr::filter(Type == "Family Immigration") %>% dplyr::arrange(desc(Sex)) %>% # sex is factor
+      dplyr::pull(Prop) * 1000,
     tolerance = tolerance_admited  * 1000)
   expect_equal(
     mig_un_fam(NM = -1,  family = "Female Labor", Single = FALSE)$net_migr$nm,
-    UN_fam %>% dplyr::filter(Type == "Female Labor Emigration") %>% dplyr::arrange(Sex) %>% dplyr::pull(Prop),
+    UN_fam %>% dplyr::filter(Type == "Female Labor Emigration") %>% dplyr::arrange(desc(Sex)) %>% dplyr::pull(Prop),
     tolerance = tolerance_admited)
   expect_equal(
     mig_un_fam(NM = -100000,  family = "Male Labor", Single = FALSE)$net_migr$nm,
-    UN_fam %>% dplyr::filter(Type == "Male Labor Emigration") %>% dplyr::arrange(Sex) %>% dplyr::pull(Prop) * 100000,
+    UN_fam %>% dplyr::filter(Type == "Male Labor Emigration") %>% dplyr::arrange(desc(Sex)) %>% dplyr::pull(Prop) * 100000,
     tolerance = tolerance_admited * 100000)
 })
