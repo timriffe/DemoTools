@@ -35,9 +35,9 @@ mig_un_fam <- function(NM, family, Single = TRUE){
   # mig_un_params   <- NULL
   # mig_un_families <- NULL
   .               <- NULL
-  
-  # chek
-  if(NM==0) stop("Need some net migration.")
+  mig_un_families <- DemoTools::mig_un_families
+  mig_un_params <- DemoTools::mig_un_params
+
   mig_sign <- ifelse(NM<0, "Emigration", "Inmigration")
   
   # TR: package data is immediately available, no
