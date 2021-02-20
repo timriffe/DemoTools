@@ -192,6 +192,35 @@
 #' @source Human Mortality Database. Retrieved 2019-11-28, from <https://mortality.org>
 "fitted_logquad_m"
 
+#' Swedish abridged mortality rates
+#'
+#' Mortality rates in tidy format for each sex in dates 1990-07-01, 2000-07-01, 2010-07-01
+#' @docType data
+#' @format
+#'   A data frame with:
+#'   \describe{
+#'     \item{Date}{Reference time for the rates estimate.}
+#'     \item{Age}{Inferior age for abridged groups. Carefull: last age 100 is not an OAG}
+#'     \item{Sex}{Male \code{m} and female \code{m}.}
+#'     \item{nMx}{Mortality rates.}
+#'     }
+#' @source Human Mortality Database. Retrieved 2021-20-01, from <https://mortality.org>
+"mA_swe"
+
+#' Swedish life expectancy at birth
+#'
+#' Life expectancy at birth by sex in tidy format for dates from 1960-07-01 to 2015-07-01 by 5 calendar years.
+#' @docType data
+#' @format
+#'   A data frame with:
+#'   \describe{
+#'     \item{Date}{Reference time.}
+#'     \item{Sex}{Male \code{m} and female \code{m}.}
+#'     \item{e0}{Life expectancy at birth.}
+#'     }
+#' @source Human Mortality Database. Retrieved 2021-20-01, from <https://mortality.org>
+"e0_swe"
+
 #' Population matrix for males five year age groups between 1950 and 2050
 #'
 #' Population matrix for males five year age groups between 1950 and 2050 for
@@ -383,3 +412,35 @@
 #' @source
 #'   Migration residual PAS spreadhseet
 "ages_asfr_single"
+
+#' Parameters for considered migration profiles
+#'
+#' Roger-Castro estimated parameters using `mig_estimate_rc` for Pre Working Age and Working Age profiles of migration.
+#' @docType data
+#' @format
+#'   A data frame with:
+#'   \describe{
+#'     \item{family}{Types Family, Male Labor or Female Labor.}
+#'     \item{sex}{Male and Female.}
+#'     \item{mig_sign}{Inmigration or Emigration.}
+#'     \item{param}{Parameters from Roger-Castro.}
+#'     \item{median}{median of posterior distribution using Monte Carlo Markov Chains in `mig_estimate_rc`.}
+#'     }
+#' @source UN spreadsheet "UNPD_Migration Age Profiles.xlsx"
+"mig_un_params"
+
+#' Proportion of net migrants by age and sex for considered migration profiles
+#'
+#' Roger-Castro estimated proportion of total net migrants using parameters from `mig_un_params` data.
+#' @docType data
+#' @format
+#'   A data frame with:
+#'   \describe{
+#'     \item{family}{Types Family, Male Labor or Female Labor.}
+#'     \item{sex}{Male and Female.}
+#'     \item{mig_sign}{Inmigration or Emigration.}
+#'     \item{age}{Simple ages from 0 to 80 (OAG).}
+#'     \item{prop}{Proportion of net migrants due to that sex and age.}
+#'     }
+#' @source UN spreadsheet "UNPD_Migration Age Profiles.xlsx"
+"mig_un_families"

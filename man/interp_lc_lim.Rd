@@ -5,22 +5,21 @@
 \title{Lee-Carter method with limited data.}
 \usage{
 interp_lc_lim(
-  data = NULL,
+  input = NULL,
   dates_out = dates_in,
   Single = FALSE,
   dates_e0 = NULL,
   e0_Males = NULL,
   e0_Females = NULL,
   prev_divergence = FALSE,
-  OAnew = max(data$Age),
   OAG = TRUE,
-  extrapLaw = NULL,
   verbose = TRUE,
+  SVD = FALSE,
   ...
 )
 }
 \arguments{
-\item{data}{data.frame with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)}
+\item{input}{data.frame with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)}
 
 \item{dates_out}{numeric. Vector of decimal years to interpolate or extrapolate.}
 
@@ -34,18 +33,18 @@ interp_lc_lim(
 
 \item{prev_divergence}{logical. Whether or not prevent divergence and sex crossover. Default \code{FALSE.}}
 
-\item{OAnew}{logical.}
-
 \item{OAG}{logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE.}}
 
-\item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked?}
-
 \item{verbose}{logical. Default \code{FALSE}.}
+
+\item{SVD}{logical. Use Singular Value Decomposition for estimate b and k or Maximum Likelihood Estimation. Default \code{FALSE} for Maximum Likelihood Estimation.}
 
 \item{...}{Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.}
 }
 \value{
-Lifetable in a data.frame with columns
+List with:
+\itemize{
+\item Interpolated/extrapolated lifetables in a data.frame with columns:
 \itemize{
 \item \code{Date} numeric. Dates included in dates_out,
 \item \code{Sex} character. Male \code{"m"} or female \code{"f"},
@@ -60,6 +59,11 @@ Lifetable in a data.frame with columns
 \item \code{Sx} numeric. Survivor ratios in uniform 5-year age groups.
 \item \code{Tx} numeric. Lifetable total years left to live above age x.
 \item \code{ex} numeric. Age-specific remaining life expectancy.
+\item List with estimated Lee-Carter parameters for each sex:
+\item \code{kt} numeric time vector. Time trend in mortality level.
+\item \code{ax} numeric age vector. Average time of \verb{log(m_\{x,t\})}.
+\item \code{bx} numeric age vector. Pattern of change in response to \code{kt}.
+}
 }
 }
 \description{
@@ -68,95 +72,71 @@ or survival function), this function interpolate/extrapolate life tables
 using the method for limited data suggested by  Li et. al (2004) (at least three observed years).
 }
 \details{
-Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN. Useful for abridged or single ages, and allows
-output in both formats also.
-The main options are the use of non-divergent method for sex coherency (Li & Lee, 2005),
-and the possibility of fitting \code{"k"} to replicate \code{"e_0"} at some given dates.
+Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN.
+Useful for abridged or single ages, and allows output in both formats also.
+One option is the use of non-divergent method for sex coherency (Li & Lee, 2005).
+The other is the possibility of fitting \code{"k"} to replicate \code{"e_0"} at some given dates.
 }
 \note{
 Draft Version
 }
 \examples{
-# Get data for Sweden (loaded from Human Mortality Database)
-Age <- c(0,1,seq(5,100,5))
-dates_in <- as.Date(c("1990-07-01", "2000-07-01", "2010-07-01"))
-data <- data.frame(Date= c(rep(sort(rep(dates_in, length(Age))),2)),
-                   Age = rep(Age,  2 * length(dates_in)),
-                   Sex = c(rep("m", length(Age) * length(dates_in)),
-                           rep("f", length(Age) * length(dates_in))),
-                   nMx = c(0.006807, 0.000333, 0.000185, 0.000165, 0.000624, 
-                           0.000859, 0.000955, 0.001081, 0.001375, 0.002098, 0.003206, 0.004996, 
-                           0.009028, 0.014406, 0.023247, 0.039929, 0.067969, 0.110134, 0.180245, 
-                           0.265287, 0.402896, 0.5, 0.004052, 0.000131, 9.8e-05, 0.000139, 
-                           0.000473, 0.000761, 0.000733, 0.000759, 0.000984, 0.001526, 0.0026, 
-                           0.004038, 0.00628, 0.010852, 0.018433, 0.031859, 0.0543, 0.093116, 
-                           0.1638, 0.264152, 0.423773, 0.567665, 0.002712, 0.000159, 5e-05, 
-                           9.9e-05, 0.00034, 0.000661, 0.000726, 0.000674, 0.000703, 0.001146, 
-                           0.001939, 0.003303, 0.005405, 0.009007, 0.014105, 0.023629, 0.043337, 
-                           0.077892, 0.141126, 0.241389, 0.379467, 0.678112, 0.005418, 0.000218, 
-                           0.000131, 0.000165, 0.000268, 0.000325, 0.000433, 0.000536, 0.000776, 
-                           0.001246, 0.002037, 0.002875, 0.005079, 0.007333, 0.012102, 0.020741, 
-                           0.038245, 0.07144, 0.128579, 0.220927, 0.347505, 0.50933, 0.002837, 
-                           0.000116, 9.3e-05, 0.000129, 0.000232, 0.000248, 0.000256, 0.000281, 
-                           0.000655, 0.000936, 0.0017, 0.002723, 0.004497, 0.006826, 0.010464, 
-                           0.017542, 0.031884, 0.061459, 0.115478, 0.204387, 0.335873, 0.484215, 
-                           0.002402, 0.00014, 7.7e-05, 8e-05, 0.000196, 0.000248, 0.000257, 
-                           0.000327, 0.000428, 0.000673, 0.001203, 0.002056, 0.003418, 0.005943, 
-                           0.009141, 0.015038, 0.027323, 0.051479, 0.103552, 0.192314, 0.311358, 
-                           0.479488))
+# mortality rates from Sweden, for specific dates
+
+# needs mortality rates in this dates: 
 dates_out <- as.Date(paste0(seq(1948,2018,5),"-07-01"))
 
-# with abrev ages
-lc_lim_data <- interp_lc_lim(data = data, dates_out = dates_out, OAG = F)
+# apply LC with limited data to extrap/interpolate
+lc_lim_data <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE)$lt_hat
 
 \dontrun{
-  lc_lim_data \%>\% ggplot(aes(Age,nMx,col=factor(Date))) +
-    geom_step() + scale_y_log10() + facet_wrap(~Sex)
+lc_lim_data \%>\% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
+  geom_step() + scale_color_viridis_d() + 
+  scale_y_log10() + theme_classic() + facet_wrap(~Sex)
 }
 
 # with simple ages as output
-lc_lim_data_single <- interp_lc_lim(data = data, dates_out = dates_out, OAG = F,
-                                    Single = TRUE)
+lc_lim_data_single <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE,
+                                    Single = TRUE)$lt_hat
 
 \dontrun{
-  lc_lim_data_single \%>\% ggplot(aes(Age,nMx,col=factor(Date))) +
-    geom_step() + scale_y_log10() + facet_wrap(~Sex)
+lc_lim_data_single \%>\% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
+  geom_step() + scale_color_viridis_d() + 
+  scale_y_log10() + theme_classic() + facet_wrap(~Sex)
 }
 
-# Avoiding cross-over between sex
-lc_lim_nondiv <- interp_lc_lim(data = data, dates_out = dates_out, OAG = F,
-                               prev_divergence = TRUE)
+# Avoiding cross-over between sex.
+lc_lim_nondiv <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE,
+                               prev_divergence = TRUE)$lt_hat
 \dontrun{
-  lc_lim_nondiv \%>\% ggplot(aes(Age,nMx,col=factor(Date))) + 
-    geom_step() + scale_y_log10() + facet_wrap(~Sex)
+lc_lim_nondiv \%>\% ggplot(aes(Age,nMx,col=factor(round(Date,1)))) +
+  geom_step() + scale_color_viridis_d() + 
+  scale_y_log10() + theme_classic() + facet_wrap(~Sex)
 }
 
-# Using information about e0 for past years
-dates_e0 <- as.Date(paste0(seq(1960,2015,5),"-07-01"))   
-e0_Males <- c(71.24, 71.74, 72.23, 72.17, 72.78, 73.78, 74.81, 76.18, 77.38, 78.42, 79.52, 80.32)
-e0_Females <- c(74.88, 76.08, 77.21, 77.95, 78.85, 79.69, 80.4, 81.44, 82.02, 82.75, 83.47, 84.02)
-lc_lim_fite0 <- interp_lc_lim(data = data, dates_out = dates_out, OAG = F,
-                              dates_e0 = dates_e0,
-                              e0_Males = e0_Males, 
-                              e0_Females = e0_Females)
-\dontrun{                           
-  ggplot() + 
-    geom_point(data = data.frame(Sex = c(rep("m",length(e0_Males)), rep("f",length(e0_Males))),
-                                 ex = c(e0_Males, e0_Females),
-                                 Date = rep(dec.date(dates_e0),2)),
-               aes(Date,ex,col=factor(Sex)))+
-    geom_line(data = lc_lim_fite0[lc_lim_fite0$Age==0,], aes(Date,ex,col=factor(Sex)))
+# Fitting information about e0 in Sweden for past years.
+lc_lim_fite0 <- interp_lc_lim(input = mA_swe, dates_out = dates_out, OAG = FALSE,
+                              dates_e0 = unique(e0_swe$Date),
+                              e0_Males = e0_swe$e0[e0_swe$Sex=="m"], 
+                              e0_Females = e0_swe$e0[e0_swe$Sex=="f"])$lt_hat
+\dontrun{                               
+ggplot() + 
+  geom_point(data = e0_swe, aes(Date,e0,col=factor(Sex)))+
+  geom_line(data = lc_lim_fite0[lc_lim_fite0$Age==0,], aes(Date,ex,col=factor(Sex)))+
+  labs(color = "Sex")+
+  theme_classic()
 }
 
-# smooth and/or extend open age group, in this case input is for 80+
-lc_lim_extOAg <- interp_lc_lim(data = data[data$Age<=80,], 
-                               dates_out = dates_out, OAnew = 100,
-                               OAG = F, extrapLaw = "kannisto")
-\dontrun{ 
-  ggplot() + 
-    geom_step(data = lc_lim_extOAg, aes(Age,nMx,col=factor(Date))) +
-    scale_y_log10() + facet_wrap(~Sex)
-}
+# smooth and/or extend open age group, in this case input is for 80+, and chosen law is Makeham.
+lc_lim_extOAg <- interp_lc_lim(input = mA_swe[mA_swe$Age<=80,], dates_out = dates_out,
+                               OAG = FALSE,
+                               OAnew=100,
+                               extrapLaw = "makeham")$lt_hat
+\dontrun{
+ggplot() + 
+  geom_step(data = lc_lim_extOAg, aes(Age,nMx,col=factor(round(Date,1)))) +
+  scale_y_log10() + scale_color_viridis_d() + theme_classic() + facet_wrap(~Sex)
+  }
 #End
 }
 \references{

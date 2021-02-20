@@ -9,15 +9,19 @@
 # -[ ] canonical test: if input census is an exact stable pop (use auxiliary function OPAG_nLx_warp_r)
 
 ###############################################################################
+
+
+
 context("test-OPAG")
 
 # data --------------------------------------------------------------------
 Pop   <- 
-Age   <- c()
+Age   <- c(0:85)
 OAnow <- c()
 StPop <- c()
-OAnew <- c()
-nLx
+StAge <- c(86:100)
+OAnew <- max(StAge)
+nLx <- 
 r <- 0.005
 AgeInt <- c()
 
@@ -51,4 +55,19 @@ test_that("OPAG_nLx_warp_r works", {
     tolerance = 1e-12
   )}
 )
+
+
+test_that("OPAG_fit_stable_standard works", {
+  expect_equal(
+    OPAG_fit_stable_standard(Pop_fit,
+                             Age_fit,
+                             AgeInt_fit,
+                             nLx,
+                             Age_nLx,
+                             AgeInt_nLx,          
+                             method = "uniform",
+                             continuous = TRUE), 
+               value,
+               tolerance = 0,0001)
+})
   
