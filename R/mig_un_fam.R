@@ -33,6 +33,7 @@ mig_un_fam <- function(NM, family, Single = TRUE){
   sex             <- NULL
   age             <- NULL
   .               <- NULL
+  
   mig_un_families <- DemoTools::mig_un_families
   mig_un_params   <- DemoTools::mig_un_params
 
@@ -55,6 +56,7 @@ mig_un_fam <- function(NM, family, Single = TRUE){
   
   # single age
   if(!Single){
+    nm              <- NULL
     this_family$age <- trunc(this_family$age/5)*5
     this_family     <- setDT(this_family)[order(sex,age), .(nm=sum(nm)), 
                                           by=.(family, age, sex)] %>% as.data.frame()
