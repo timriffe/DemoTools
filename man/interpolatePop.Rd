@@ -4,8 +4,15 @@
 \alias{interpolatePop}
 \title{Interpolate between two population age distributions.}
 \usage{
-interpolatePop(Pop1, Pop2, Date1, Date2, DesiredDate, method = "linear",
-  roundoutput = FALSE)
+interpolatePop(
+  Pop1,
+  Pop2,
+  Date1,
+  Date2,
+  DesiredDate,
+  method = "linear",
+  roundoutput = FALSE
+)
 }
 \arguments{
 \item{Pop1}{numeric. A vector of demographic counts by age at time 1 (earlier date).}
@@ -29,8 +36,8 @@ A vector of the interpolated population for the requested date.
 The interpolation is done by age (not cohort) using a linear or exponential function. This comes from the PAS spreadsheet called ADJINT.
 }
 \details{
-The age group structure of the output is the same as that of the input. Ideally, \code{DesiredDate} should be between the Date1 and Date2. 
-Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, 
+The age group structure of the output is the same as that of the input. Ideally, \code{DesiredDate} should be between the Date1 and Date2.
+Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"},
 or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
 }
 \examples{
@@ -43,7 +50,7 @@ interpolatePop(popA_earlier, popA_later, EarlyDate, LaterDate, DesiredDate)
 interpolatePop(popA_earlier, popA_later, EarlyDate, LaterDate, DesiredDate, method = "exponential")
 \dontrun{
 plot(popA_earlier, t ='l', col='red',
-    ylim = c(400,1220000), 
+    ylim = c(400,1220000),
     ylab = 'The counts', xlab = 'Age groups')
 
 lines(interpolatePop(popA_earlier, popA_later, EarlyDate, LaterDate, DesiredDate),
@@ -52,7 +59,7 @@ lines(interpolatePop(popA_earlier, popA_later, EarlyDate, LaterDate, DesiredDate
 lines(popA_later,
      t = 'l', col='blue')
 
-legend(12,1000000, 
+legend(12,1000000,
       legend = c('Pop in 1980-04-07',
                  'Pop in 1985-07-01',
                  'Pop in 1990-10-06'),

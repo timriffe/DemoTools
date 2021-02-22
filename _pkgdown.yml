@@ -1,0 +1,166 @@
+title: DemoTools
+url: https://timriffe.github.io/DemoTools/
+
+template: 
+  params:
+    bootswatch: yeti
+    
+home:
+  strip_header: true
+  title: DemoTools
+  description: Do you love demography and data? If so, you might enjoy using this package.
+  links:
+  - text: UN Deparment of Economic and Social Affairs Population
+    href: https://www.un.org/en/development/desa/population/index.asp
+  - text: Browse source code
+    href: https://github.com/timriffe/DemoTools/    
+  
+reference:
+  - title: "Evaluate age structure"
+    desc: Indicators to evaluate the degreee of age heaping
+    contents: 
+          - starts_with("check_heaping")
+  - title: "Evaluate consistency of age structures"
+    desc: Methods to assess the consistency of age structures
+    contents:           
+          - '`ageRatioScore`'
+          - '`sexRatioScore`'
+          - '`ageSexAccuracy`'
+          - '`IRD`'
+          - '`ID`'
+          - '`survRatioError`'
+  - title: "Evaluate patterns of heaping"
+    desc: Methods to assess in which ages heaping happens
+    contents:                     
+          - '`check_heaping_sawtooth`'
+          - '`check_heaping_roughness`'
+  - title: "Graduation"
+    desc: Functions to graduate demographic counts. Methods include Sprague, Beers ordinary, Beers modified, monotone spline, PCLM and uniform.
+    contents:
+      - '`graduate`'
+  - title: "Smoothing"
+    desc: Functions to smooth demographic counts. Methods include Carrier-Farrag, KKN, Arriaga, United Nations, Strong, spencer, Zigzag, Zelnik, MAV.
+    contents:
+      - '`smooth_age_5`'
+      - '`agesmth1`'
+  - title: "Lifetable"
+    desc: Functions to construct a lifetable
+    contents:
+      -  '`lt_abridged`'
+  - title: "Interpolation"
+    desc: Functions to interpolate counts
+    contents:
+      - '`interp`'
+      - '`interp_coh`'
+  - title: "Extrapolation" 
+    desc: Functions to interpolate/extrapolate rates or counts
+      - '`interp_lc_lim`'
+      - '`lt_rule_m_extrapolate`'
+      - '`OPAG`'
+  - title: "Migration"
+    desc: Functions for migration models or estimation
+    contents:
+      - starts_with("mig_")
+  - title: "Miscelaneous data operations"
+    contents:
+      - '`groupAges`'
+      - '`rescaleAgeGroups`'
+  - title: "Internal graduation"
+    contents:
+      - starts_with("graduate_")
+      - '`splitOscillate`'
+  - title: "Internal smoothing"
+    contents:
+      - starts_with("smooth_")
+      - ends_with("smth1")
+      - '`spencer`'
+      - '`zelnik`'
+  - title: "Auxiliary lifetable functions"
+    contents:      
+      - starts_with("lt_")
+      - '`single2abridged`'
+  - title: "Auxiliary checking functions"
+    contents:      
+      - starts_with("is_")
+  - title: "Datasets"
+    contents:      
+      - starts_with("pop")
+  - title: "Auxiliary population structure functions"
+    contents:      
+      - '`basepop_five`'
+      - '`calcAgeN`'
+      - '`shift_census_ages_to_cohorts`'
+      - '`dec.date`'
+      - '`dth5_zigzag`'
+      - '`fitted_logquad_b`'
+      - '`fitted_logquad_f`'
+      - '`fitted_logquad_m`'
+  - title: "Internal"
+    desc: Internal functions
+    contents:
+      - '`OPAG_fit_stable_standard`'
+      - '`OPAG_nLx_warp_r`'
+      - '`OPAG_r_min`'
+      - '`OPAG_simple`'
+      - '`downloadSRB`'
+      - '`downloadnLx`'
+      - '`ADM`'
+      - '`age2ageN`'
+      - '`age2int`'
+      - '`AGEN`'
+      - '`ageSexAccuracyDasGupta`'
+      - '`age_abridge_force`'
+      - '`avg_adj`'
+      - '`birthCohorts`'
+      - '`calcAgeAbr`'
+      - '`getModelLifeTable`'
+      - '`groupAges`'
+      - '`groupOAG`' 
+      - '`heapify`'
+      - '`inferAgeIntAbr`'
+      - '`int2age`' 
+      - '`int2ageN`'
+      - '`interpolatePop`'
+      - '`ma`' 
+      - '`mav`'
+      - '`maxA2abridged`'
+      - '`names2age`'
+      - '`ratx`'
+      - '`rescale_vector`'
+      - '`RDM`'
+      - '`rlog`'
+      - '`shift.vector`'
+      - '`simplify.text`'
+      - '`surv10`'
+      - '`surv5`'
+      - '`survN`'
+navbar:
+  type: reverse
+  title: "DemoTools"
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Short manuals"
+      menu:
+      - text: Handle age heaping
+        href: articles/Age-heaping_quality_with_Demotools.html
+      - text: Graduate demographic counts
+        href: articles/graduation_with_demotools.html
+      - text: Smooth demographic counts
+        href: articles/smoothing_with_demotools.html
+      - text: Construct a lifetable
+        href: articles/lifetables_with_demotools.html
+      - text: Model migration
+        href: articles/migration_with_demotools.html
+    - text: "Case study"
+      href: articles/case_study_1.html        
+    - text: "Functions"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+  right: 
+    - icon: fa-twitter
+      href: https://twitter.com/timriffe1
+    - icon: fa-github fa-lg
+      text: "github"
+      href: https://github.com/timriffe/DemoTools/

@@ -59,6 +59,8 @@ When filing an issue, the most important thing is to include a minimal reproduci
     the [reprex package](https://github.com/jennybc/reprex).
 
 ## Pull requests
+*   If you have something to contribute, please *fork* the repository, make 
+    the change in your fork, and then make a pull request.
 
 *   Your pull request will be easiest for us to read if you use a common
     style: <http://r-pkgs.had.co.nz/r.html#style>. Please pay particular
@@ -77,6 +79,8 @@ When filing an issue, the most important thing is to include a minimal reproduci
     
 *   Also run `devtools::check()` to make sure your function doesn't imply 
     downstream errors or warnings. More such checking will be taken care of by us.
+    
+*   Here are tips for syncing your fork with the main repository [syncing](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork)
 
 A pull request is a process, and unless you're a practiced contributor it's unlikely that your pull request will be accepted as is. Typically the process looks like this:
 

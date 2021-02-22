@@ -23,16 +23,16 @@
 #' size as all the other age groups. If \code{cohortSize} does not divide evenly into the largest age in the data,
 #' any additional (higher) ages needed are set as zero. For example, if cohortSize is 7 and the largest age is 90,
 #' then age 91 (necessary for the matrix sum) is set as zero. Dates can be given in three ways 1) a \code{Date} class object,
-#'  2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, 
-#' or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date. 
+#'  2) an unambiguous character string in the format \code{"YYYY-MM-DD"},
+#' or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
 
 #' @return A data frame with a decimal date corresponding to the midpoint of the birth cohort and resulting population counts.
 
 #' @export
 #' @references
 #' \insertRef{PAS}{DemoTools}
-#' 
-#' @examples 
+#'
+#' @examples
 #' Males      <- c(18052, 16523, 15555, 12063, 9654, 9256, 10058, 10035, 9785, 9025,
 #'                 7562, 6241, 5362, 4256, 3168, 1956, 1056, 568)
 #' Females    <- c(17274, 15915, 14455, 11475, 9202, 9226, 10162, 10633, 9962, 9226,
@@ -43,38 +43,41 @@
 #' birthCohorts(Females, Age, CensusDate)
 #' birthCohorts(Females, Age, CensusDate, cohortSize = 10)
 #' \dontrun{
-#' plot(birthCohorts(Males, Age, CensusDate), col = "red", 
+#' plot(birthCohorts(Males, Age, CensusDate), col = "red",
 #'   xlab = "Birth cohorts", ylab = "Births", fill =T,pch=2)
 #' points(birthCohorts(Females, Age, CensusDate), col = "blue", pch=3)
-#' legend("topleft", 
-#'		pch = 2:3, 
-#'		col = c("red","blue"), 
+#' legend("topleft",
+#'		pch = 2:3,
+#'		col = c("red","blue"),
 #'		legend = c("Males","Females"))
 #' }
 
-birthCohorts <- function(Value, Age, CensusDate, cohortSize = 5){
-      
-	  # TR: added date handling. dec.date() is in utils.R
-	  CensusDate   <- dec.date(CensusDate)
-      
-      singleAgeGroupBirths  <- splitUniform(Value, Age = Age)
-      
-      # Check that the cohort divides into the max age. If not, 
-	  # add some zeros to prevent errors when summing across the vector.
-      if (length(singleAgeGroupBirths) %% cohortSize != 0){
-                  singleAgeGroupBirths <- c(singleAgeGroupBirths, rep(0, each = cohortSize - length(singleAgeGroupBirths)%%cohortSize))
-      }
-      
-      # TR: replaced data.frame code with two vectors
-	  CohBirths       <- colSums(matrix(singleAgeGroupBirths, nrow = cohortSize))   
-	  yrs             <- rev(seq( 
-			                 CensusDate - length(singleAgeGroupBirths) + cohortSize / 2, 
-							 CensusDate,
-							 by = cohortSize))
-      # TR: now create a data.frame from scratch without coerce
-	  # is this just reclassifying pops in the census by birth year?
-	  # then why call it Births?
-	  outputDataFrame <- data.frame(Year = yrs, Births = CohBirths)
-      
-      return(outputDataFrame)
+birthCohorts <- function(Value, Age, CensusDate, cohortSize = 5) {
+  # TR: added date handling. dec.date() is in utils.R
+  CensusDate   <- dec.date(CensusDate)
+  
+  singleAgeGroupBirths  <- graduate_uniform(Value, Age = Age)
+  
+  # Check that the cohort divides into the max age. If not,
+  # add some zeros to prevent errors when summing across the vector.
+  if (length(singleAgeGroupBirths) %% cohortSize != 0) {
+    singleAgeGroupBirths <-
+      c(singleAgeGroupBirths,
+        rep(0, each = cohortSize - length(singleAgeGroupBirths) %% cohortSize))
+  }
+  
+  # TR: replaced data.frame code with two vectors
+  CohBirths       <-
+    colSums(matrix(singleAgeGroupBirths, nrow = cohortSize))
+  yrs             <- rev(seq(
+    CensusDate - length(singleAgeGroupBirths) + cohortSize / 2,
+    CensusDate,
+    by = cohortSize
+  ))
+  # TR: now create a data.frame from scratch without coerce
+  # is this just reclassifying pops in the census by birth year?
+  # then why call it Births?
+  outputDataFrame <- data.frame(Year = yrs, Births = CohBirths)
+  
+  return(outputDataFrame)
 }

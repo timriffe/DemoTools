@@ -4,10 +4,12 @@
 \name{pop5_mat}
 \alias{pop5_mat}
 \title{Matrix of population over 5 years}
-\format{A matrix of 21 rows and 5 columns}
+\format{
+A matrix of 21 rows and 5 columns
+}
 \source{
 The data comes from
-  \url{https://URL}
+\url{https://URL}
 }
 \usage{
 pop5_mat

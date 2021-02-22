@@ -4,10 +4,12 @@
 \name{popA_later}
 \alias{popA_later}
 \title{Abridged population from PAS AGEINT -- later}
-\format{A numeric vector of length 18}
+\format{
+A numeric vector of length 18
+}
 \source{
 The data comes from
-  \url{http://}
+\url{http://}
 }
 \usage{
 popA_later

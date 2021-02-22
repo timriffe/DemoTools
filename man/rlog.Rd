@@ -14,7 +14,7 @@ logarithms are computed.  Defaults to \code{e=exp(1)}.}
 }
 \description{
 Zeros happen. Logging zeros leads to errors in downstream code.
-For the sake of robustness, we replace zeros with a small positive number to be 
+For the sake of robustness, we replace zeros with a small positive number to be
 able to continue with calculations.
 }
 \details{

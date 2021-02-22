@@ -15,14 +15,10 @@ surv5(pop1, pop2)
 Survival function lx as a numeric vector with radix 1.
 }
 \description{
-This function reproduces calculations of \code{CENSUR~3.XLS} by 
-Griff Feeney. Censuses are assumed to be spaced 5 years apart and population counts for both censuses in 5-year age groups. 
-The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. 
-The cumulative product of this approximates the survival function lx.
+This function reproduces calculations of \code{CENSUR~3.XLS} by Griff Feeney. Censuses are assumed to be spaced 5 years apart and population counts for both censuses in 5-year age groups. The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. The cumulative product of this approximates the survival function lx.
 }
 \details{
-Checking for census spacing of 5 years must happen prior to this function. 
-Also, we assume the open age group has already been trimmed off.
+Checking for census spacing of 5 years must happen prior to this function. Also, we assume the open age group has already been trimmed off.
 }
 \examples{
 # 1965 vs 1970 pops
@@ -33,7 +29,7 @@ pop2 <- c(4292503,3988292,3852101,4492096,5347327,4571868,4190340,4085338,
 surv5(pop1,pop2)
 \dontrun{
 plot(seq(0,80,5),surv5(pop1,pop2), t ='l', col='red',
-    ylim = c(0,1), 
+    ylim = c(0,1),
     ylab = 'Survival function', xlab = 'Age')
 }
 }

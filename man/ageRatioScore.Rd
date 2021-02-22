@@ -4,8 +4,14 @@
 \alias{ageRatioScore}
 \title{Calculate the PAS age ratio score}
 \usage{
-ageRatioScore(Value, Age, ageMin = 0, ageMax = max(Age),
-  method = "UN", OAG = TRUE)
+ageRatioScore(
+  Value,
+  Age,
+  ageMin = 0,
+  ageMax = max(Age),
+  method = "UN",
+  OAG = TRUE
+)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in 5-year age groups.}
@@ -24,15 +30,15 @@ ageRatioScore(Value, Age, ageMin = 0, ageMax = max(Age),
 The value of the index.
 }
 \description{
-A single ratio is defined as the 100 times twice the size of an age group 
-to its neighboring two age groups. Under uniformity these would all be 100. The average 
+A single ratio is defined as the 100 times twice the size of an age group
+to its neighboring two age groups. Under uniformity these would all be 100. The average
 absolute deviation from 100 defines this index. This comes from the PAS spreadsheet called AGESEX
 }
 \details{
 Age groups must be of equal intervals. Five year age groups are assumed.
- It is also assumed that the final age group is open, unless \code{ageMax < max(Age)}.
- Setting \code{OAG = FALSE} will override this and potentially include \code{max(Age)} in calculations.
- The method argument determines the weighting of numerators and denominators, where the UN method puts
+It is also assumed that the final age group is open, unless \code{ageMax < max(Age)}.
+Setting \code{OAG = FALSE} will override this and potentially include \code{max(Age)} in calculations.
+The method argument determines the weighting of numerators and denominators, where the UN method puts
 twice the numerator over the sum of the adjacent ages classes, Zelnich does thrice the
 numerator over the sum of the whole range from the next lowest to the next highest age, and
 Ramachandran does four times the numerator over the same sum, but with the central age

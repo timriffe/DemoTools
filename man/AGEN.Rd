@@ -4,8 +4,14 @@
 \alias{AGEN}
 \title{Trim two age vectors to matching N-year age groups.}
 \usage{
-AGEN(Age1, Age2, N = 5, consecutive = TRUE, ageMin = 0,
-  ageMax = max(c(Age1, Age2)))
+AGEN(
+  Age1,
+  Age2,
+  N = 5,
+  consecutive = TRUE,
+  ageMin = 0,
+  ageMax = max(c(Age1, Age2))
+)
 }
 \arguments{
 \item{Age1}{integer. Vector of first age groups (lower bounds).}

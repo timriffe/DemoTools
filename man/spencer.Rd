@@ -21,21 +21,21 @@ Spencer's method is used to adjust distributions by year of age based on cumulat
 Single year age groups are assumed.
 }
 \examples{
-# data from GDA1981IREDA, Table 15 and 16, page 375-376: Ghana (1970 Males + Females), 
+# data from GDA1981IREDA, Table 15 and 16, page 375-376: Ghana (1970 Males + Females),
 # population between 10 and 40 years by single age.
 Pop  <-c(286487,282182,319718,345610,329133,324683,330555,269536,271593,253798,
          242297,165755,233159,185812,175647,187138,160864,128099,178568,123386,
          194999,113372,139088,106190,127482,178375,123286,95637,151514,82614,
          239243,74788,112354,61746,72366,144828,92563,53924,94635,52351,178832)
-Age  <-c(0:40) 
-sp_smoothed <- spencer(Value=Pop,Age=Age)
+Age  <-c(0:40)
+sp_smoothed <- spencer(Value    =Pop,Age=Age)
  \dontrun{
-plot(Age,Pop, col = "red", xlab = "Age", ylab = "Population",type ='l')
+plot(Age,Pop, col               = "red", xlab = "Age", ylab = "Population",type ='l')
 lines(Age,spencer(Pop,Age), col = "blue")
-legend("topright", 
-lty=1,
-col = c("red","blue"), 
-legend =  c("Original","Spencer"))
+legend("topright",
+lty                             =1,
+col                             = c("red","blue"),
+legend                          =  c("Original","Spencer"))
 }
 # on the fly unit test:
 Tab16answer <- c(rep(NA,10),233847,216876,201938,189873,179734,171529,164280,158214,

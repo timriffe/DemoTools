@@ -22,7 +22,7 @@ poly_smth1(Value, Age, degree = 2, trans, pow = 2, OAG = TRUE, ...)
 \item{...}{optional arguments passed to \code{stats::lm()}}
 }
 \description{
-Smooth data over age fitting linear models, preserving the open age group if necessary. 
+Smooth data over age fitting linear models, preserving the open age group if necessary.
 This is a wrapper to \code{stats::lm()} but using standard demographic arguments.
 }
 \details{
@@ -36,9 +36,9 @@ plot(Age,pop1m_pasex)
 lines(Age, poly_smth1(pop1m_pasex, Age, OAG = FALSE),col=cols[1])
 lines(Age, poly_smth1(pop1m_pasex, Age, degree = 3, OAG = FALSE), col = cols[2])
 lines(Age, poly_smth1(pop1m_pasex, Age, degree = 3, trans = "log", OAG = FALSE), col = cols[3])
-lines(Age, poly_smth1(pop1m_pasex, Age, degree = 3, 
+lines(Age, poly_smth1(pop1m_pasex, Age, degree = 3,
       trans = "power", pow = 2, OAG = FALSE), col = cols[4])
-lines(Age, poly_smth1(pop1m_pasex, Age, degree = 4, 
+lines(Age, poly_smth1(pop1m_pasex, Age, degree = 4,
       trans = "power", pow = 3, OAG = FALSE), col = cols[5])
 }
 }

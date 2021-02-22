@@ -4,8 +4,16 @@
 \alias{ageSexAccuracy}
 \title{Calculate an age-sex accuracy index}
 \usage{
-ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
-  method = "UN", adjust = TRUE, OAG = TRUE)
+ageSexAccuracy(
+  Males,
+  Females,
+  Age,
+  ageMin = 0,
+  ageMax = max(Age),
+  method = "UN",
+  adjust = TRUE,
+  OAG = TRUE
+)
 }
 \arguments{
 \item{Males}{numeric.  A vector of demographic counts in 5-year age groups for males.}
@@ -28,15 +36,15 @@ ageSexAccuracy(Males, Females, Age, ageMin = 0, ageMax = max(Age),
 The value of the index.
 }
 \description{
-This index is a composite consisting in the sum of thrice the sex 
+This index is a composite consisting in the sum of thrice the sex
 ratio index plus the age ratio index for males and females. This function is therefore
 a wrapper to \code{ageRatioScore()} and \code{sexRatioScore()}.
 }
 \details{
 Age groups must be of equal intervals. Five year age groups are assumed.
 If the final element of \code{Males} and \code{Females} is the open age group,
-then either make sure \code{ageMax} is lower than it, or leave \code{OAG} as \code{TRUE} so that it is properly removed for calculations. 
-The method argument is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators, 
+then either make sure \code{ageMax} is lower than it, or leave \code{OAG} as \code{TRUE} so that it is properly removed for calculations.
+The method argument is passed to \code{ageRatioScore()}, where it determines weightings of numerators and denominators,
 except in the case of Das Gupta, where it's a different method entirely (see \code{ageSexAccuracyDasGupta()}.
 }
 \examples{

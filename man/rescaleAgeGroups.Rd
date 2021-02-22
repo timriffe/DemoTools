@@ -4,9 +4,15 @@
 \alias{rescaleAgeGroups}
 \title{rescale counts in age groups to match counts in different age groups}
 \usage{
-rescaleAgeGroups(Value1, AgeInt1, Value2, AgeInt2,
-  splitfun = c(splitUniform, splitMono)[1], recursive = FALSE,
-  tol = 0.001)
+rescaleAgeGroups(
+  Value1,
+  AgeInt1,
+  Value2,
+  AgeInt2,
+  splitfun = graduate_uniform,
+  recursive = FALSE,
+  tol = 0.001
+)
 }
 \arguments{
 \item{Value1}{numeric vector. A vector of demographic counts for population 1.}
@@ -17,11 +23,11 @@ rescaleAgeGroups(Value1, AgeInt1, Value2, AgeInt2,
 
 \item{AgeInt2}{integer vector. Age interval widths for population 2.}
 
-\item{splitfun}{function to use for splitting \code{pop1}. Presently on \code{splitUniform()} works.}
+\item{splitfun}{function to use for splitting \code{Value1}. Reasonable (and tested) choices are either \code{graduate_uniform} or \code{graduate_mono}.}
 
 \item{recursive}{logical. Shall we repeat the split/regroup/rescale process until stable? See details. Default \code{FALSE}.}
 
-\item{tol}{numeric. Default 1e-3. The numerical tolerance for the residual. Used to detect stability if \code{recursive = TRUE}.}
+\item{tol}{numeric. Default \code{1e-3}. The numerical tolerance for the residual. Used to detect stability if \code{recursive = TRUE}.}
 }
 \description{
 This method rescales a vector of counts in arbitrary (integer) age groups to approximate a vector of counts in a potentially different age grouping. Common use cases will be to scale single ages (whose age pattern we wish to roughly maintain) to sum to abridged or 5-year age groups from another source. The counts to be rescaled could potentially be in any grouping (see example).
@@ -29,7 +35,7 @@ This method rescales a vector of counts in arbitrary (integer) age groups to app
 \details{
 If the final age group is open, define its age interval as 1.
 
-Presently the intermediate splitting function can either be \code{splitUniform()} or \code{splitMono()}. 
+Presently the intermediate splitting function can either be \code{graduate_uniform()} or \code{graduate_mono()}.
 
 The method is an original contribution. It works by first splitting the counts of \code{Value1} to single ages using the assumptions of \code{splitfun()}. \code{Value1} is then rescaled such that were it re-grouped to match the age classes of \code{Value2} they would be identical. If \code{recursive = FALSE}, the single-age rescaled \code{Value1} data are returned regrouped to their original ages. If \code{recursive = TRUE}, the process is repeated until \code{Value1} is rescaled such that it could be split and regrouped to \code{Value2} using the same process a single time with no need for further rescaling. If age groups in \code{Value1} are very irregular, \code{recursive = TRUE} can induce noise (see example). If the age groups of \code{Value1} nest cleanly within the age groups of \code{Value2} then recursion is unnecessary. This is the case, for example, whenever \code{Value1} is in single ages and \code{Value2} is in grouped ages, which is likely the most common usage scenario.
 }
@@ -37,7 +43,9 @@ The method is an original contribution. It works by first splitting the counts o
 # just to make a point about arbitrary integer age widths in both pop1 and pop2
 # note if pop1 is in single ages and pop2 is in groups things work much cleaner.
 set.seed(3)
-AgeIntRandom <- sample(1:5, size = 15,replace = TRUE)
+#set.seed(3)
+#AgeIntRandom <- sample(1:5, size = 15,replace = TRUE)
+AgeIntRandom <- c(1L, 5L, 2L, 2L, 4L, 4L, 1L, 2L, 3L, 4L, 3L, 3L, 3L, 3L, 5L)
 AgeInt5      <- rep(5, 9)
 original     <- runif(45, min = 0, max = 100)
 pop1         <- groupAges(original, 0:45, AgeN = int2ageN(AgeIntRandom, FALSE))
@@ -48,24 +56,24 @@ perturb      <- runif(length(pop2), min = 1.05, max = 1.2)
 pop2         <- pop2 * perturb
 
 # a recursively constrained solution
-(pop1resc <- rescaleAgeGroups(Value1 = pop1, 
+(pop1resc <- rescaleAgeGroups(Value1 = pop1,
 					AgeInt1 = AgeIntRandom,
-					Value2 = pop2, 
-					AgeInt2 = AgeInt5, 
-					splitfun = splitUniform, 
+					Value2 = pop2,
+					AgeInt2 = AgeInt5,
+					splitfun = graduate_uniform,
                  recursive = TRUE))
 # a single pass adjustment (no recursion)
-(pop1resc1 <- rescaleAgeGroups(Value1 = pop1, 
+(pop1resc1 <- rescaleAgeGroups(Value1 = pop1,
 					AgeInt1 = AgeIntRandom,
-					Value2 = pop2, 
-					AgeInt2 = AgeInt5, 
-					splitfun = splitUniform, 
+					Value2 = pop2,
+					AgeInt2 = AgeInt5,
+					splitfun = graduate_uniform,
 					recursive = FALSE))
 pop1resc / pop1
 perturb
 
 \dontrun{
-	
+
 # show before / after
 	plot(NULL,xlim=c(0,45),ylim=c(0,2),main = "Different (but integer) intervals",
 			xlab = "Age", ylab = "", axes = FALSE)
@@ -76,20 +84,20 @@ perturb
 	text(23,1.5,"Original (arbitrary grouping)",font = 2, cex=1.5)
 	text(23,.5,"Standard to rescale to (arbitrary grouping)",font = 2, cex=1.5)
 	axis(1)
-	
+
 # adjustment factors:
 	plot(int2age(AgeInt5), perturb, ylim = c(0, 2))
 	points(int2age(AgeIntRandom), pop1resc / pop1, pch = 16)
 # non-recursive is less disruptive for uniform
 	points(int2age(AgeIntRandom), pop1resc1 / pop1, pch = 16, col = "blue")
-	
+
 # show before / after under uniform (in pop1) assumption.
 	plot(NULL, xlim = c(0, 45), ylim = c(0, 150), main = "Uniform constraint")
-	lines(0:44, splitUniform(pop1, AgeInt = AgeIntRandom, OAG = FALSE), col = "red")
-	lines(0:44, splitUniform(pop2, AgeInt = AgeInt5, OAG = FALSE), col = "blue")
-	lines(0:44, splitUniform(pop1resc, AgeInt = AgeIntRandom, OAG = FALSE), 
+	lines(0:44, graduate_uniform(pop1, AgeInt = AgeIntRandom, OAG = FALSE), col = "red")
+	lines(0:44, graduate_uniform(pop2, AgeInt = AgeInt5, OAG = FALSE), col = "blue")
+	lines(0:44, graduate_uniform(pop1resc, AgeInt = AgeIntRandom, OAG = FALSE),
 col = "orange", lty = 2, lwd = 2)
-	lines(0:44, splitUniform(pop1resc1, AgeInt = AgeIntRandom, OAG = FALSE), 
+	lines(0:44, graduate_uniform(pop1resc1, AgeInt = AgeIntRandom, OAG = FALSE),
 col = "magenta", lty = 2, lwd = 2)
 	legend("topright",
         lty = c(1, 1, 2, 2),
@@ -97,7 +105,7 @@ col = "magenta", lty = 2, lwd = 2)
         lwd = c(1, 1, 2, 2),
 		   legend = c("Original N1", "Prior N2",
                     "Rescaled N1 recursive", "Rescaled N1 1 pass"))
-	
+
 }
 
 }

@@ -4,34 +4,33 @@
 \alias{IRD}
 \title{Index of relative difference.}
 \usage{
-IRD(pop1, pop2)
+IRD(pop1, pop2, log = FALSE)
 }
 \arguments{
 \item{pop1}{numeric. Vector of counts from population 1.}
 
 \item{pop2}{numeric. Vector of counts from population 2.}
+
+\item{log}{logical. Default \code{FALSE}. Shall we take the mean of the natural log of ratios?}
 }
 \value{
 The value of the index ranging from 0 to infinity.
 }
 \description{
-Calculate the relative percent difference between two population structures. A returned 
-value of zero means that the two population have identical structure.
+Calculate the relative percent difference between two population structures. A returned value of zero means that the two population have identical structure.
 }
 \details{
-Input populations are assumed to be ordered in the same way prior to calling the function. 
-It is only checked  that the vectors are of the same length. The input arguments could indeed be populations structured on multiple
-variables (more than just age), as long as they are ordered in the same way. It is advised to lower 
-the open age group for this method because each age has the same weight. Ages where one population 
-has a zero count and the other does not are thrown out.
+Input populations are assumed to be ordered in the same way prior to calling the function. It is only checked  that the vectors are of the same length. The input arguments could indeed be populations structured on multiple variables (more than just age), as long as they are ordered in the same way. It is advised to lower the open age group for this method because each age has the same weight. Ages where one population has a zero count and the other does not are thrown out.
+
+If \code{log = TRUE} then we return a simple mean of the absolute of the log of the element-wise ratios between \code{pop1} and \code{pop2}. In this case it doesn't matter which vector is which. This result is also on a percent scale, and the max is greater than 100.
 }
 \examples{
-pop1 <- c(7.38,14.16,14.79,17.36,15.11,10.14,8.50,7.28,5.28)
-pop2 <- c(6.48,12.27,15.25,15.10,14.66,10.80,8.95,9.28,7.21)
+pop1                     <- c(7.38,14.16,14.79,17.36,15.11,10.14,8.50,7.28,5.28)
+pop2                     <- c(6.48,12.27,15.25,15.10,14.66,10.80,8.95,9.28,7.21)
 IRD(pop1, pop2)     # 6.7 reproduces table 7.20 of Siegel & Swanson (2004)
 IRD(pop1,pop1)      # identical pops  = 0
-IRD(pop1, pop2 * 2) # only structure matters
-pop3      <- pop1
-pop3[1:7] <- 0
-IRD(pop1, pop3)     # theoretical max > 100 
+IRD(pop1, pop1 * 2) # only structure matters
+pop3                     <- pop1
+pop3[1:7]                <- 0
+IRD(pop1, pop3)     # theoretical max > 100
 }

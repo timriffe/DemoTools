@@ -1,93 +1,61 @@
+[<img src="logo.png" align="left" width=100 />](https://timriffe.github.io/DemoTools/)
+
 # DemoTools
 
-[![Build Status](https://travis-ci.org/timriffe/DemoTools.svg?branch=master)](https://travis-ci.org/timriffe/DemoTools)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/timriffe/DemoTools?branch=master&svg=true)](https://ci.appveyor.com/project/timriffe/DemoTools)
+[![R build status](https://github.com/timriffe/DemoTools/workflows/R-CMD-check/badge.svg)](https://github.com/timriffe/DemoTools/actions)
 [![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) 
-[![](https://img.shields.io/badge/devel%20version-0.15.17-yellow.svg)](https://github.com/timriffe/DemoTools)
+[![](https://img.shields.io/badge/devel%20version-01.13.19-yellow.svg)](https://github.com/timriffe/DemoTools)
 [![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
-# Tools for the evaluation, adjustment, and standardization of demographic data
-Date: 2018-12-29
+# Tools for aggregate demographic analysis
+Date: 2021-02-22
  
-This repository contains simple functions in a package format, and is in active development. This project is commissioned by the [UN Population Division](http://www.un.org/en/development/desa/population/) and financed by the [Bill and Melinda Gates Foundation](https://www.gatesfoundation.org/) as part of the [Making Family Planning Count](http://www.un.org/en/development/desa/population/projects/making-family-planning-count/index.shtml) project. Work is also done in collaboration with Sean Fennell, and [Jose Manuel Aburto](http://findresearcher.sdu.dk/portal/en/persons/jose-manuel-aburto(34dcae96-a13a-4c4d-a941-985152180869).html), [Ilya Kashnitsky](https://ikashnitsky.github.io/), [Marius Pascariu](http://findresearcher.sdu.dk:8080/portal/en/person/mpascariu) with minor contributions from [several more](https://github.com/timriffe/DemoTools/graphs/contributors)(thank you!). This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License ([CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)). 
+`DemoTools` is an R package that contains simple functions often used in demographic analysis. It is in active development. 
+
+This project is commissioned by the [UN Population Division](http://www.un.org/en/development/desa/population/) and financed by the [Bill and Melinda Gates Foundation](https://www.gatesfoundation.org/) as part of the [Making Family Planning Count](http://www.un.org/en/development/desa/population/projects/making-family-planning-count/index.shtml) project. Work is also done in collaboration with Sean Fennell, [José Manuel Aburto](https://github.com/jmaburto), [Ilya Kashnitsky](https://ikashnitsky.github.io/), [Marius Pascariu](https://github.com/mpascariu), [Jorge Cimentada](https://github.com/cimentadaj), [Monica Alexander](https://www.monicaalexander.com/), and with minor contributions from [several more](https://github.com/timriffe/DemoTools/graphs/contributors) (thank you!). This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 IGO ([CC BY-SA 3.0 IGO](https://creativecommons.org/licenses/by-sa/3.0/igo/)). 
+
+The idea behind `DemoTools` is to provide  a common set of functions that can be easily used by analysts and scientists working on demographic analysis and modelling. 
 
 If you detect a bug or have a suggestion please notify us using the [Issues](https://github.com/timriffe/DemoTools/issues) tab on github. Even better if you fix it and make a pull request! See [CONTRIBUTING.md](https://github.com/timriffe/DemoTools/blob/master/CONTRIBUTING.md) for more tips on reporting bugs or offering patches. 
+
+
+## <i class="fa fa-cog" aria-hidden="true"></i> Getting Started and installation
+
+If you are getting started with `DemoTools` we recommend taking a look at the tutorial articles and the examples in the package documentation. 
+
 
 You can load the ```DemoTools``` package in R like so:
 ```r
 # install.packages("devtools")
 
 library(devtools)
+# requires the development version of rstan, sorry!
+install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
 install_github("timriffe/DemoTools")
 ```
-(if either of the first two icons at the top of this README are red, then this might not be working at the moment. You can assume we're fixing it. If they're green, then it'll probably work.)
 
-You can then get started like so:
+## <i class="fa fa-pencil" aria-hidden="true"></i> Citation
+
+To cite `DemoTools` in publications, please use:
+
+Riffe T, Aburto JM, Alexander M,Fennell S, Kashnitsky I, Pascariu M and Gerland P. (2019) DemoTools: An R package of tools for aggregate demographic analysis
+   URL: https://github.com/timriffe/DemoTools/. 
+  
+A BibTeX entry for LaTeX users is:
+
 ```
-library(DemoTools)
-# interesting top-level functions include:
+@Misc{demotools,
+  Title		= {Demo{T}ools: {A}n {R} package of tools for aggregate demographic analysis},
+  Author    = {Riffe, T and Aburto, JM and Alexander, M and Fennell, S and Kashnitsky, I and Pascariu, M and Gerland, P},
+  Year      = {2019},
+  note		= {URL:~\url{https://github.com/timriffe/DemoTools/}}
+}
 
-# for age heaping:
-?Whipple
-?Myers
-?Bachi
-?CoaleLi
-?Noumbissi
-?Spoorenberg
-?KannistoHeap #(Kannisto's old-age heaping index)
-?Jdanov (Jdanov's old-age heaping index)
-?heapify  # induce heaping, to test evaluation functions
-
-# test if 5-year smoothing recommended:
-?zero_pref_sawtooth # is heaping much worse on 0s than on 5s?
-?five_year_roughness # measure of total roughness 
-
-# other age-structure quality measures:
-?ageRatioScore  # methods including "UN", "Zelnick", "Ramachandran"
-?sexRatioScore
-?ageSexAccuracy # methods including "UN", "Zelnick", "Ramachandran", and "Das Gupta"
-
-
-# Comparison methods
-?IRD (index of relative difference)
-?ID (index of dissimilarity)
-?survRatioError
-
-# graduation methods
-?sprague
-?beers # methods including "ord" and "mod", as well as johnson option for young ages
-?grabill
-?splitMono
-?monoCloseout
-?splitOscillate # accepting e.g. spragueSimple, beersSimple as split methods
-
-# various smoothing methods
-
-# * for 5-year age groups
-?agesmth # including Carrier-Farrag, Arriaga, Karup-King-Newton, United Nations, Strong, Zigzag, and MAV methods
-# * for single ages
-?agesmth1 # including loess and polynomial
-?spencer
-?zelnik
-
-
-# various lifetable evaluation and calculation functions
-?ADM # and ?RDM, implementing PAS LIFIT
-?LTabr # with fine control over a(x) assumptions, extrapolation, and open age groups
-
-# interpolation
-?interp (arithmetic, logarithmic, power)
-
-# redistribution
-?OPAG_simple # increase population open age, redistributing using a supplied standard.
-?rescaleAgeGroups (including for cases of different age groupings)
 ```
 
-These top-level functions have implied an even larger set of simple utilities, which itself is growing fast. Presently top-level + utilities = 113 documented functions, with more in development. 
+## <i class="fa fa-arrow-alt-circle-up" aria-hidden="true"></i> About top icons
+If either of the first two icons at the top of this README are red, then the installation might not be working. You can assume we're fixing it. If they're green, then it should work.
 
-Presently all functions are in a testing phase, but the aim is to end up with a set of robust generic functions around which wrappers can be easily built for various institutional data production needs. As-is, these functions may also be useful for DIY demographers. This set of methods is a cherry-pick from legacy methods collections, including PAS, DAPPS, MPCDA, MortPack, IREDA, UN Manual X, G. Feeney Spreadsheets, formulas found in Siegel and Swanson or Shyrock and Siegel, and various (apparent) first-implementations from formulas in papers, or ad hoc DIY approximations from old pros. 
-
-## about those icons 
 Every time this repository is updated the entire code base is rebuilt on a server somewhere, and undergoes a series of checks. This happens on a Linux machine and on a Windows machine. Any warnings or errors in these builds will yield a red fail tag, and successes are green passes. Code coverage indicates what percentage of lines of code undergo formal unit testing of some kind.
 

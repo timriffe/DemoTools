@@ -4,10 +4,12 @@
 \alias{age2ageN}
 \title{repeat age lower bounds once for each single age}
 \usage{
-age2ageN(Age, OAG = FALSE)
+age2ageN(Age, AgeInt = NULL, OAG = FALSE)
 }
 \arguments{
 \item{Age}{integer. Vector of lower age bounds.}
+
+\item{AgeInt}{integer vector of age group widths.}
 
 \item{OAG}{logical. Whether or not the final age group open. Default \code{FALSE}. See details}
 }

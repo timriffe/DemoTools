@@ -4,8 +4,7 @@
 \alias{OPAG_simple}
 \title{redistripute an open age group count over higher ages proportional to an arbitrary standard}
 \usage{
-OPAG_simple(Pop, Age, OAnow = max(Age), StPop, StAge,
-  OAnew = max(StAge))
+OPAG_simple(Pop, Age, OAnow = max(Age), StPop, StAge, OAnew = max(StAge))
 }
 \arguments{
 \item{Pop}{numeric vector of population counts}
@@ -27,7 +26,7 @@ This method could be useful whenever a reasonable standard is available. At pres
 In this implementation both the original population counts and the standard must be in single ages.
 }
 \examples{
- Pop <- c(38129,38382,38824,39275,39500,37304,35152,
+ Pop        <- c(38129,38382,38824,39275,39500,37304,35152,
  34061,33911,32875,31599,30376,29822,29691,28765,
  28695,28917,28203,29209,30316,29062,26977,26577,
  27727,28599,30513,31774,32347,34093,33736,32085,
@@ -38,23 +37,23 @@ In this implementation both the original population counts and the standard must
  10866,9311,6933,5030,3785,3551,2848,3080,
  2874,2368,2681,3165,3010,3009,2721,2705,
  2492,2244,1971,1644,1565,1307,5027)
- Age <- 0:85
+ Age        <- 0:85
  # standard pop taken from ages 55+
- StPop <- c(6258,6177,6089,5995,5894,5787,5672,5552,
+ StPop      <- c(6258,6177,6089,5995,5894,5787,5672,5552,
  5423,5286,5140,4985,4824,4652,4477,4293,
  4107,3912,3712,3502,3282,3055,2823,2591,
  2360,2138,1921,1710,1502,1297,1098,910,
  741,592,463,353,265,192,137,95,
- 63,42,26,17,9,13) 
- 
- StAge <- 55:100
- 
+ 63,42,26,17,9,13)
+
+ StAge      <- 55:100
+
 PopExtended <- OPAG_simple(
  		Pop = Pop,
  		Age = Age,
  		StPop = StPop,
  		StAge = StAge)
- 
+
 \dontrun{
  plot(Age, Pop, type = 'l',xlim=c(80,100),ylim=c(0,1e4))
 lines(0:100, PopExtended, col = "red", lty = 2)

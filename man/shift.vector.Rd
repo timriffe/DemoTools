@@ -17,9 +17,9 @@ shift.vector(x, shift = 0, fill = FALSE)
 The vector x, shifted left or right.
 }
 \description{
-Simple function to move the elements of a vector to earlier or 
+Simple function to move the elements of a vector to earlier or
 later positions depending on the value of \code{shift}. Auxiliary to other functions,
- rather multipurpose.
+rather multipurpose.
 }
 \details{
 Nothing fancy here. This is used for example in \code{Noumbissi()} to match denominator ranges to numerator positions using logical vectors.

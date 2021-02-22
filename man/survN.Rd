@@ -17,23 +17,12 @@ survN(pop1, pop2, interval)
 Survival function lx as a numeric vector with radix 1.
 }
 \description{
-This function reproduces calculations of \code{CENSUR~2.XLS} by 
-Griff Feeney. Censuses are assumed to be spaced N years apart and population counts for both censuses in 5-year age groups. 
-The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. 
-The cumulative product of this approximates the survival function lx.
+This function reproduces calculations of \code{CENSUR~2.XLS} by Griff Feeney. Censuses are assumed to be spaced N years apart and population counts for both censuses in 5-year age groups. The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. The cumulative product of this approximates the survival function lx.
 }
 \details{
-Checking for census spacing of N years must happen prior to this function. 
-Also, we assume the open age group has already been trimmed off.
+Checking for census spacing of N years must happen prior to this function. Also, we assume the open age group has already been trimmed off.
 
-We assume the open age group has already been trimmed off. 
-The time interval N must be measured as a decimal in advance
-and specified. This method uses a synthetic approximation of person-years lived in each age interval
-over the intercensal period and then a second approximation based on age-specific growth rates to 
-produce an estimate of lifetable px. This value of px is not bounded to [0,1], and therefore the 
-resulting lx approximation is not strictly positive or monotonically non-increasing, 
-so downstream usage of this result is limited. For example, is not advisable to use it in the 
-standard way to derive the lifetable dx.
+We assume the open age group has already been trimmed off. The time interval `N`` must be measured as a decimal in advance and specified. This method uses a synthetic approximation of person-years lived in each age interval over the intercensal period and then a second approximation based on age-specific growth rates to produce an estimate of lifetable \eqn{p(x)}. This value of \eqn{p(x)} is not bounded to \eqn{[0,1]}, and therefore the resulting lx approximation is not strictly positive or monotonically non-increasing, so downstream usage of this result is limited. For example, is not advisable to use it in the standard way to derive the lifetable dx.
 }
 \examples{
 # 1960 vs 1970 pops
@@ -45,7 +34,7 @@ interval <- 10
 survN(pop1,pop2,interval)
 \dontrun{
 plot(seq(0,80,5),survN(pop1,pop2,interval), t ='l', col='red',
-    ylim = c(0,1.1), 
+    ylim = c(0,1.1),
     ylab = 'Survival function', xlab = 'Age')
 }
 }

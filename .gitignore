@@ -2,7 +2,6 @@ Meta
 doc
 /.settings/
 /.project
-/src/
 /devdata/
 *.Rhistory
 /inst/REFERENCES.bib.bak
@@ -12,3 +11,13 @@ doc
 .Rhistory
 .Rapp.history
 .DS_Store
+inst/doc
+DemoToolsHexTests
+Spreadsheets
+*.cc
+*.cpp
+*.h
+*.o
+*.so
+docs/
+.RData

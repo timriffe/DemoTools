@@ -20,8 +20,8 @@ Age interval vector, of same length as \code{Age}.
 Determine age class intervals based on a vector of age class lower bounds.
 }
 \details{
-If the final age group is open, it is given a value of \code{NA} by default, or else a user-determined value. 
-If the final age group is closed, it is assumed to be equal to the next-lower interval. If the final age interval is 
+If the final age group is open, it is given a value of \code{NA} by default, or else a user-determined value.
+If the final age group is closed, it is assumed to be equal to the next-lower interval. If the final age interval is
 known and not equal to the next lowest interval, specify \code{OAG = TRUE} and assign its value to \code{OAvalue}.
 }
 \examples{

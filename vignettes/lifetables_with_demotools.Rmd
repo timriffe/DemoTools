@@ -1,0 +1,74 @@
+---
+title: "Lifetables with DemoTools"
+author: "José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{Lifetables with DemoTools}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+header-includes:
+- \usepackage{amsmath}
+- \usepackage{amssymb}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6, 
+  fig.height = 6,
+  fig.align = "center"
+)
+
+```
+
+## How to use `DemoTools` to construct an abridged lifetable
+
+### What is the lifetable?
+The lifetable is one of the most used tools in demographic research. It is designed to summarize the mortality profile of a population at a given point in time. In its simplest form, a lifetable is generated from age-specific death rates, and the resulting values give essential functions of mortality such as the survival function $\ell(x)$ and life expectancy $e(x)$ [@siegel2004methods]. Life expectancy is the most-used column of a lifetable. It expresses the average number of additional years that a survivor to age $x$ is expected to live beyond that age given the current conditions of mortality [@preston2000demography]. When measured from birth, life expectancy $e(0)$ expresses the average number of years a newborn from a hypothetical cohort is expected to live if he/she were to experience the current death-rates throughout his/her lifetime. One of the main advantages of the lifetable is that it gives a summary of the mortality profile of a population free of effects introduced by the size and composition of the population, allowing easy comparison between different populations.
+
+### The column $_nA_x$
+
+The column $_nA_x$ refers to the average number of person-years lived in the interval $x$ to $x+n$ by those who died in the interval. This is a key column when calculating period lifetables because it allows to convert from age-specific death rates $_nM_x$ to the probabiliy of dying between ages $x$ and $x+n$ denoted as $_nq_x$. There are several ways to calculate this column. `DemoTools` provides two options to calculate this column from which the user can choose, `PAS` and `UN`. The `PAS` option relies on following the rule of thumb given by Coale and Demeny for ages 0, and 1-4, and assumes interval midpoints in higher ages. This choice relies on the fact that the lower the level of mortality, the more heavily will infant deaths be concentrated at the earliest stages of infancy [@preston2000demography], and therefore the values of $_1A_0$ and  $_4A_1$ depend on the values of $_1q_0$ and $_4q_1$ [@Coale1983]. For age 0, there are two choices for the rule of thumb to apply: Andreev-Kingkade is the default, but the Coale-Demeny model pattern is also available. The `UN` option also relies on the Coale-Demeny rule of thumb for ages 1-4. For ages 5-9 onwards, it uses the formula developed by @greville1977short. 
+
+## Graduation as a lifetable step
+Abridged lifetables can be constructed with their own consequential $_nA_x$ assumptions, or they can be constructed by single ages and make a simpler lifetables after graduation. In the latter case the $_nA_x$ assumption is partly outsourced to the graduation and partly simplified by assuming midpoints (usually). The basic idea is that graduation followed by single age lifetable will produce an implied $nAx$, which can be backed out. The alternative is to do something sophisticated to get nAx well behaved at the level of abridged lifetables. 
+
+## Closing the lifetable
+
+An important step in the construction of lifetables is the choice to deal with the open-ended age interval. A standard way to deal with this final age group is by taking the inverse of the final $_nM_x$ as life expectancy for that age group. `DemoTools` instead offers variety of extrapolation methods implemented in the `MortalityLaws` package. For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 110 in the present implementation. By default, the extrapolation model is fit to ages 60 and higher, but the user can control this using the `extrapFit` argument (give the vector of ages, which must be a subset of `Age`). By default extrapolated values are used  starting with the input open age, but you can lower this age using the  `extrapFrom` argument. The choices given in this implementation are: Kannisto, Kannisto-Makeham, Makeham, Gompertz, Gamma-Gompertz, Beard,	Beard-Makeham and the Quadratic models. Documentation for these models can be foun in `MortalityLaws`.
+
+## Example with `DemoTools`
+
+```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
+library(DemoTools)
+library(DT)
+
+#Example witn Mexican data from UN
+ nMx <- c(0.11621,0.02268,0.00409,0.00212,0.00295,0.00418,0.00509,0.00609,
+ 0.00714,0.00808,0.00971,0.0125,0.0175,0.02551,0.03809,0.05595,0.08098,
+ 0.15353,0.2557)
+ 
+ AgeInt <- inferAgeIntAbr(vec = nMx)
+ 
+ MX.lifetable <- lt_abridged(nMx = nMx, Age = c(0,1,seq(5,85,by=5)), AgeInt = AgeInt,
+                       axmethod = "un",Sex = "m",	mod = FALSE)
+ MX.lifetable <- round(MX.lifetable,3)
+ 
+ datatable(MX.lifetable[,c(1,3,4,6,7,9,11)],
+           options = list(paging=FALSE,ordering=T,dom = 't'),
+           rownames = F,
+           caption = 'Lifetable for Mexican men')
+  
+ 
+```
+
+In this output, the `Age` column indicates the lower bound of each age group. The column `nMx` are the observed death rates, usually result from dividing the deaths observed in a calendar year by the mid-year population. The `nAX`, as described above, indicates the average number of person-years lived in the age-group by those who died. The column `lx` refers to the survival function. If divided by the initial value, i.e. 100,000, indicates the probability of surviving from birth to a given age. `ndx` is the age-at-death distribution and `Sx` are the survivorship ratios. Finally, `ex` is the life expectancy. For this example, males in Mexico had a life expectancty at birth of 52.58.
+
+
+
+
+## References

@@ -92,8 +92,6 @@ assess_pop <- function(Pop, Age, ageMin = 30, ageMax = min(c(70,max(Age[Age%%10 
 	c(Whipple = w_level, Myers = m_level, Roughness = r_level, Sawtooth = s_level)
 }
 
-
-
 # assessment coming from assess_pop()
 plan_pop_adjustment <- function(assessment){
 	

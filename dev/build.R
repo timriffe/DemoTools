@@ -1,11 +1,14 @@
 
 # Author: tim
 ###############################################################################
-me <- system("whoami",TRUE)
-if (me == "tim"){
-	setwd("/home/tim/git/DemoTools")
-}
-
+# old:
+#  rstan (>= 2.18.1),
+# new:
+#  rstan (>= 2.26.1),
+# Tried adding this to Remotes:
+# list in DESCRIPTION:
+# github::hsbadr/rstan/StanHeaders@develop,
+# github::hsbadr/rstan/rstan/rstan@develop
 
 shhh <- function(expr){
 	capture.output(x <- suppressPackageStartupMessages(
@@ -22,9 +25,13 @@ library(TimUtils)
 
 # do this whenever new functions are added to /R, or whenever roxygen is updated
 devtools::document()
+
 # do this whenever the vignette text is updated
 devtools::build_vignettes()
 
+# devtools::install_github("r-lib/pkgdown")
+pkgdown::build_site()
+  
 versionIncrement(
 		major = FALSE,       # only for releases
 		mid = FALSE,         # major functionality added
@@ -35,11 +42,12 @@ versionIncrement(
 # run this to get access to already-written functions
 shhh(load_all())
 
-
+# usethis::use_build_ignore(c("docs"))
 # do this whenever major changes happen
-devtools::check(force_suggests=TRUE,manual=TRUE)
+Sys.setenv('_R_CHECK_SYSTEM_CLOCK_' = 0)
+devtools::check(force_suggests = TRUE)
 
-#build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
+  #build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
 #?devtools::build
 #devtools::use_testthat("/home/tim/git/DemoTools")
 #dir("/home/tim/git/DemoTools/man")
@@ -50,7 +58,7 @@ install_github("timriffe/DemoTools")
 #use_coverage(pkg = "/home/tim/git/DemoTools", type = c("codecov", "coveralls"))
 
 # to update statement in README.md: approximates nr functions avail
-length(dir("/home/tim/git/DemoTools/man"))
+length(dir(here::here("man")))
 
 #library(badger)
 #badge_devel("timriffe/DemoTools", "yellow")
@@ -59,23 +67,18 @@ length(dir("/home/tim/git/DemoTools/man"))
 # mid-level increment (if a new top-level function is added)
 versionIncrement(
 		major = FALSE,        # only for releases
-		mid = TRUE,    # major functionality added
+		mid = TRUE,           # major functionality added
 		minor = FALSE,        # whenever documentation renewed, any patch, tweak, or fix
 		maxdigits = c(2,2,3), # maybe 4 required?
 		README = TRUE)  
 
-# -----------------------------------------
-# visualize function dependencies in DemoTools
-#install.packages("yaml")
-#install.packages("visNetwork")
-#devtools::install_github("datastorm-open/DependenciesGraphs")
-library(DependenciesGraphs)
-
-library(DemoTools) # The package we want to explore
-# before tinkering with an older function, note which functions depend on it
-deps <- funDependencies("package:DemoTools","aomegaMORTPAK")
-plot(deps)
-
+# top level increment
+versionIncrement(
+		major = TRUE,         # only for releases
+		mid = FALSE,          # major functionality added
+		minor = FALSE,        # whenever documentation renewed, any patch, tweak, or fix
+		maxdigits = c(2,2,3), # maybe 4 required?
+		README = TRUE)  
 
 # for setting options
 #candidates <- c( Sys.getenv("R_PROFILE"),
@@ -84,3 +87,23 @@ plot(deps)
 #		file.path(getwd(), ".Rprofile") )
 #
 #Filter(file.exists, candidates)
+
+# NOTE TO SELF
+# try goodpractice package
+
+# Extra once-off checks
+
+# checks run Aug 13, 2018
+check_win_devel()      # OK
+check_win_release()    # OK
+check_win_oldrelease() # OK
+
+check_rhub(email = "tim.riffe@gmail.com", interactive = FALSE)  # sent
+
+library(spelling)
+spell_check()
+
+# for notable moments of stability and cleanliness:
+release()
+
+

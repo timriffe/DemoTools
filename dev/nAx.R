@@ -54,8 +54,6 @@
 #'}
 # this is called a separation factor in the spreadsheet?
 # separate estimate of IMR optional
-# Markus: see if the model lifetables in refs/UN_1982... follow this rule of thumb for age 0.
-# You may need to try giving q0 as IMR, or else M0 as M0 to the function, not sure.
 geta0CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
 	# sex can be "m", "f", or "b"
 	# region can be "n","e","s","w",or
@@ -112,17 +110,21 @@ geta0CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
 #' @export
 #' @references \insertRef{united1983manual}{DemoTools}
 #' @examples
-#' m0 <- seq(.001,.2,by=.001)
+#' m0 <- seq(.001, .2, by = .001) 
 #' \dontrun{
 #' plot(m0, sapply(m0, geta1_4CD, Sex = "m", region = "e"), ylab = "4a1", 
 #' 		type = 'l', ylim = c(1,2), lty = 2, col = "blue")
 #' lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "w"), col = "blue")
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "n"), col = "blue", lty = "8383",lwd=2)
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "s"), col = "blue", lty = "6464",lwd=2)
+#' lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "n"), col = "blue", 
+#' lty = "8383",lwd=2)
+#' lines(m0,sapply(m0, geta1_4CD, Sex = "m", region = "s"), col = "blue", 
+#' lty = "6464",lwd=2)
 #' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "e"), lty = 2, col = "red")
 #' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "w"), col = "red")
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "n"), col = "red", lty = "8383",lwd=2)
-#' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "s"), col = "red", lty = "6464",lwd=2)
+#' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "n"), col = "red", 
+#' lty = "8383",lwd=2)
+#' lines(m0,sapply(m0, geta1_4CD, Sex = "f", region = "s"), col = "red", 
+#' lty = "6464",lwd=2)
 #' 
 #' text(.05, geta1_4CD(.05,Sex = "m", region = "e"),"males E",font=2,pos=4)
 #' text(.05, geta1_4CD(.05,Sex = "m", region = "w"),"males W",font=2,pos=4)
@@ -133,10 +135,7 @@ geta0CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
 #' text(0, geta1_4CD(.01,Sex = "f", region = "w"),"females W",font=2,pos=4)
 #' text(0, geta1_4CD(.01,Sex = "f", region = "s"),"females S",font=2,pos=4)
 #' text(0, geta1_4CD(.01,Sex = "f", region = "n"),"females N",font=2,pos=4)
-#' 
 #' }
-# Markus: see if the model lifetables in refs/UN_1982... follow this rule of thumb for age 1-4.
-# You may need to try giving q0 as IMR, or else M0 as M0 to the function, not sure.
 geta1_4CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
 	# sex can be "m", "f", or "b"
 	# region can be "n","e","s","w",or
@@ -167,12 +166,9 @@ geta1_4CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
 
 #' PAS a(x) rule of thumb
 #' 
-#' @description ax is calculated following the Coale-Demeny rules for ages 0 and 1-4, and assumes interval midpoints in higher ages. 
-#' This is just a rule of thumb. This procedure is as found in the PAS spreadsheet \code{LTPOPDTH.XLS}.
+#' @description ax is calculated following the Coale-Demeny rules for ages 0 and 1-4, and assumes interval midpoints in higher ages.  This is just a rule of thumb. This procedure is as found in the PAS spreadsheet \code{LTPOPDTH.XLS}.
 #' 
-#' @details If sex is given as both, \code{"b"}, then female 
-#' values are taken for a0 and 4a1, per the PAS spreadsheet. If IMR is not given, the M0 is used in its 
-#' stead for ages < 5. This function is not vectorized. ax closeout assumes constant mortality hazard in the open age group.
+#' @details If sex is given as both, \code{"b"}, then female  values are taken for a0 and 4a1, per the PAS spreadsheet. If IMR is not given, the M0 is used in its  stead for ages < 5. This function is not vectorized. ax closeout assumes constant mortality hazard in the open age group.
 #' 
 #' @param nMx numeric. Event exposure mortality rates
 #' @param AgeInt integer vector of age interval widths.
@@ -184,8 +180,6 @@ geta1_4CD <- function(M0, IMR = NA, Sex = "M", region = "W"){
 #' @return nAx average contribution to exposure of those dying in the interval.
 #' @export
 #' @references \insertRef{united1983manual}{DemoTools}
-# Markus: see if the model lifetables in refs/UN_1982... follow this rule of thumb for age 0.
-# You may need to try giving q0 as IMR, or else M0 as M0 to the function, not sure.
 axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "M", region = "W", OAG = TRUE){
 	# sex can be "m", "f", or "b"
 	# region can be "n","e","s","w",or
@@ -230,7 +224,6 @@ axPAS <- function(nMx, AgeInt, IMR = NA, Sex = "M", region = "W", OAG = TRUE){
 #' \insertRef{un1982model}{DemoTools}
 #' \insertRef{arriaga1994population}{DemoTools}
 #' \insertRef{mortpak1988}{DemoTools}
-
 ax.greville.mortpak <- function(
 		nMx, 
 		nqx, 

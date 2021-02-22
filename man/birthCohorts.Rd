@@ -29,7 +29,7 @@ are assumed to happen uniformly over the cohorts' intervals. The final age group
 size as all the other age groups. If \code{cohortSize} does not divide evenly into the largest age in the data,
 any additional (higher) ages needed are set as zero. For example, if cohortSize is 7 and the largest age is 90,
 then age 91 (necessary for the matrix sum) is set as zero. Dates can be given in three ways 1) a \code{Date} class object,
- 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, 
+2) an unambiguous character string in the format \code{"YYYY-MM-DD"},
 or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
 }
 \examples{
@@ -43,12 +43,12 @@ birthCohorts(Males, Age, CensusDate)
 birthCohorts(Females, Age, CensusDate)
 birthCohorts(Females, Age, CensusDate, cohortSize = 10)
 \dontrun{
-plot(birthCohorts(Males, Age, CensusDate), col = "red", 
+plot(birthCohorts(Males, Age, CensusDate), col = "red",
   xlab = "Birth cohorts", ylab = "Births", fill =T,pch=2)
 points(birthCohorts(Females, Age, CensusDate), col = "blue", pch=3)
-legend("topleft", 
-	pch = 2:3, 
-	col = c("red","blue"), 
+legend("topleft",
+	pch = 2:3,
+	col = c("red","blue"),
 	legend = c("Males","Females"))
 }
 }
