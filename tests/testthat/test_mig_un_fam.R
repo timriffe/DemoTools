@@ -219,7 +219,7 @@ Female = c(
   rename(Type=2, Age=1) %>% 
   as.data.table() %>% 
   data.table::melt(id.vars = c("Age","Type"),
-                   measure.vars = c("Male", "Female"),
+                   measure.vars = c("Female","Male"),
                    variable.name = "Sex",
                    value.name = "Prop") %>% 
   .[, Prop := Prop / 1e5] %>% 
@@ -234,31 +234,17 @@ test_that("mig fam works", {
   
   expect_equal(
     mig_un_fam(NM = 1000,  family = "Family", Single = FALSE)$net_migr$nm,
-    UN_fam %>% 
-      dplyr::filter(Type == "Family Immigration") %>% 
-      dplyr::arrange(desc(Sex)) %>% # sex is factor
-      dplyr::pull(Prop) * 1000,
+    setDT(UN_fam)[Type == "Family Immigration", .(Prop)][[1]] * 1000,
     tolerance = tolerance_admited  * 1000)
   
   expect_equal(
     mig_un_fam(NM = -1,  family = "Female Labor", Single = FALSE)$net_migr$nm,
-    UN_fam %>% 
-      dplyr::filter(Type == "Female Labor Emigration") %>% 
-      dplyr::arrange(desc(Sex)) %>% dplyr::pull(Prop),
+    setDT(UN_fam)[Type == "Female Labor Emigration", .(Prop)][[1]],
     tolerance = tolerance_admited)
-  
+ 
   expect_equal(
     mig_un_fam(NM = -100000,  family = "Male Labor", Single = FALSE)$net_migr$nm,
-    UN_fam %>% 
-      subset(Type == "Male Labor Emigration") %>% 
-      as.data.table() %>% 
-      dcast(Age~Sex, value.var = "Prop") %>% 
-      as.matrix() %>% 
-      '['(,2:3) %>% 
-      c() %>% 
-      '*'(1e5),
-      # dplyr::arrange(desc(Sex)) %>% 
-      # dplyr::pull(Prop) * 100000,
+    setDT(UN_fam)[Type == "Male Labor Emigration", .(Prop)][[1]] * 100000,
     tolerance = tolerance_admited * 100000)
   
 })
