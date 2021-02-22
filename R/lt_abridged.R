@@ -248,7 +248,11 @@ lt_abridged <- function(Deaths = NULL,
                       OAG = OAG,
                       mod = mod,
                       IMR = IMR,
-                      SRB = SRB)
+                      SRB = SRB,
+                      extrapLaw = extrapLaw,
+                      extrapFrom = extrapFrom,
+                      extrapFit = extrapFit
+                      )
   } else {
     nAx          <- lt_id_morq_a(
                       nMx = nMx,
@@ -261,7 +265,10 @@ lt_abridged <- function(Deaths = NULL,
                       OAG = OAG,
                       mod = mod,
                       IMR = IMR,
-                      SRB = SRB)
+                      SRB = SRB,
+                      extrapLaw = extrapLaw,
+                      extrapFrom = extrapFrom,
+                      extrapFit = extrapFit)
   }
   # TR, these nAx ought to turn out to be the same...
 
