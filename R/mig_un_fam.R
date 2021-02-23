@@ -32,19 +32,12 @@ mig_un_fam <- function(NM, family, Single = TRUE){
   # TR added for global binding warnings
   sex             <- NULL
   age             <- NULL
-  # mig_un_params   <- NULL
-  # mig_un_families <- NULL
   .               <- NULL
+  
   mig_un_families <- DemoTools::mig_un_families
   mig_un_params   <- DemoTools::mig_un_params
 
   mig_sign        <- ifelse(NM < 0, "Emigration", "Inmigration")
-  
-  # TR: package data is immediately available, no
-  # need to explicitly load
-  # load data
-  #data("mig_un_params", envir = environment())
-  #data("mig_un_families", envir = environment())
   
   # get asked 
   ind         <- mig_un_params$family == family & 
@@ -63,18 +56,12 @@ mig_un_fam <- function(NM, family, Single = TRUE){
   
   # single age
   if(!Single){
+    nm              <- NULL
     this_family$age <- trunc(this_family$age/5)*5
-    # added @importFrom stats aggregate for this,
-    # but maybe there's a better way?
-    this_family     <- aggregate(as.formula('nm~family+age+sex'),
-                                 data=this_family,
-                                 FUN=sum)
-  }
-  this_family <-
-    this_family %>% 
-    as.data.table() %>% 
-    .[order(sex,age)] %>% 
-    as.data.frame()
+    this_family     <- setDT(this_family)[order(sex,age), .(nm=sum(nm)), 
+                                          by=.(family, age, sex)] %>% as.data.frame()
+    }
+
   # out
   list(net_migr = this_family,
        params_RC = this_params)
