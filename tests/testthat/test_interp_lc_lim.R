@@ -425,7 +425,7 @@ test_that("mess and warns works", {
   # tell me you´ll fit with gompertz in case max(Age) is <90
   expect_output(interp_lc_lim(input = input %>% dplyr::filter(Age < 85),
                                dates_out = seq(1953,2018,5)),
-                 regexp = "A Gompertz function was fitted for older ages for sex ")
+                 regexp = "A Makeham function was fitted for older ages for sex ")
   # tell me you´ll fit with kannisto in case max(Age) is >=90
   expect_output(interp_lc_lim(input = input, dates_out = seq(1953,2018,5)),
                 regexp = "A Kannisto function was fitted for older ages for sex ")

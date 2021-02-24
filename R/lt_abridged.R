@@ -197,7 +197,7 @@ lt_abridged <- function(Deaths = NULL,
                                                        "quadratic"
     ))
   } else {
-      extrapLaw <- ifelse(max(Age)>=90, "kannisto","gompertz")
+      extrapLaw <- ifelse(max(Age)>=90, "kannisto","makeham")
   }
 
   region   <- match.arg(region, choices = c("w","n","s","e"))
