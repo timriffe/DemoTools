@@ -249,35 +249,15 @@ interp_coh <- function(
     f2         <- 1
   }
 
-  # fetch WPP births if not provided by user
-  if (is.null(births)) {
-
-    # load WPP births
-    requireNamespace("DemoToolsData", quietly = TRUE)
-    WPP2019_births <- DemoToolsData::WPP2019_births
-
-    # format filtering criteria -- country and years
-    cntr_iso3 <- countrycode::countrycode(
-                                country,
-                                origin = "country.name",
-                                destination  = "iso3c")
-
-    # filter out country and years
-    ind       <- WPP2019_births$ISO3 == cntr_iso3 & WPP2019_births$Year %in% yrs_births
-    b_filt    <- WPP2019_births[ind, ]
-    bt        <- b_filt$TBirths
-    SRB       <- b_filt$SRB
-
-    # extract births depending on sex
-    if (sex == "both")  births  <- bt
-    if (sex == "male")   births  <- bt * SRB / ( 1 + SRB)
-    if (sex == "female") births  <- bt / (SRB + 1)
-
-    if (verbose){
-      cat("Births fetched from WPP for:", paste(country, sex), "population, years", paste(yrs_births, collapse = ", "), "\n")
-    }
-
-  }
+  # Download wpp births if needed
+  births <-
+    fetch_wpp_births(
+      births = births,
+      yrs_births = yrs_births,
+      country = country,
+      sex = sex,
+      verbose = verbose
+    )
 
   # check length of births, also filter using provided dates if necessary
   if (!is.null(years_births)){
@@ -1109,3 +1089,36 @@ transform_pxt <- function(lxMat,
   pxt
 }
 
+fetch_wpp_births <- function(births, yrs_births, country, sex, verbose) {
+
+  # fetch WPP births if not provided by user
+  if (is.null(births)) {
+
+    # load WPP births
+    requireNamespace("DemoToolsData", quietly = TRUE)
+    WPP2019_births <- DemoToolsData::WPP2019_births
+
+    # format filtering criteria -- country and years
+    cntr_iso3 <- countrycode::countrycode(
+                                country,
+                                origin = "country.name",
+                                destination  = "iso3c")
+
+    # filter out country and years
+    ind       <- WPP2019_births$ISO3 == cntr_iso3 & WPP2019_births$Year %in% yrs_births
+    b_filt    <- WPP2019_births[ind, ]
+    bt        <- b_filt$TBirths
+    SRB       <- b_filt$SRB
+
+    # extract births depending on sex
+    if (sex == "both")  births  <- bt
+    if (sex == "male")   births  <- bt * SRB / ( 1 + SRB)
+    if (sex == "female") births  <- bt / (SRB + 1)
+
+    if (verbose){
+      cat("Births fetched from WPP for:", paste(country, sex), "population, years", paste(yrs_births, collapse = ", "), "\n")
+    }
+  }
+
+  births
+}
