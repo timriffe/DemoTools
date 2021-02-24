@@ -477,7 +477,6 @@ interp_coh <- function(
   # This should just be one value per cohort.
 
   # determine uniform error discounts:
-
   resid_discounts <-
     stats::approx(
              x = c(date1, date2),
@@ -493,14 +492,20 @@ interp_coh <- function(
     merge(resid, by = "cohort", all = TRUE) %>%
     merge(resid_discounts, by = "year", all = TRUE)
 
+  # for the residual discount, account for boundaries
   pop_jan1[, `:=`(
     resid = ifelse(is.na(resid), 0, resid),
     discount = ifelse(year == max(year), 1, discount)
   )]
 
+  # add "cumulative" residual to the RUP (pop_jan1_pre)
   pop_jan1[, `:=`(pop_jan1 = pop_jan1_pre + resid * discount)]
   pop_jan1 <- pop_jan1[!is.na(cohort)]
 
+  # TR: to get residualmigbeta prelim result, one takes the cumulative
+  # resid (resid * discount), then decumulates it (within cohorts!),
+  # then sum over age. boo ya Lexis
+  
   PopAP <-
     pop_jan1 %>%
     .[, list(age, year, pop_jan1)] %>%
