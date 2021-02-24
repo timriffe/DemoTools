@@ -169,6 +169,7 @@ interp_coh <- function(
                                               date1,
                                               date2,
                                               incbounds = FALSE)
+
     dates_out_for_real <- dates_out[dates_out_keep]
 
     # warn about any dates lost due to extrap request:
@@ -183,25 +184,7 @@ interp_coh <- function(
   # If dates_out not given, then we resolve using the midyear argument.
   # If FALSE (default) we return intermediate Jan 1, not including c1 and c2
   # If TRUE we return intermediate July 1 (.5) dates, not including c1 and c2
-  if (is.null(dates_out)){
-    if (! midyear){
-      # jan 1 dates
-      left_date  <- floor(date1) + 1
-      right_date <- ceiling(date2) - 1
-      dates_out  <- left_date:right_date
-    }
-    if (midyear){
-      left_date  <- floor(date1) + .5
-      right_date <- ceiling(date2) - .5
-      dates_out  <- left_date:right_date
-      dates_out_lgl  <- data.table::between(dates_out,
-                                            date1,
-                                            date2,
-                                            incbounds = FALSE)
-      dates_out <- dates_out[dates_out_lgl]
-    }
-  }
-
+  dates_out <- transform_datesout(dates_out, date1, date2, midyear)
 
   DD <- date2 - date1
   if (DD >= 15 & verbose){
@@ -264,144 +247,19 @@ interp_coh <- function(
   # better match the country names. As of now, just Russia won't work
   # [ISSUE #166]
 
-  # Since we're using data.table, we need to create these empty
-  # variables to avoid having R CMD checks with no visible binding
-  # for global variable.
-
-  age      <- NULL
-  year     <- NULL
-  px       <- NULL
-  lower    <- NULL
-  upper    <- NULL
-  triangle <- NULL
-  adj      <- NULL
-  value    <- NULL
-  pop      <- NULL
-  coh_p    <- NULL
-  coh_lx   <- NULL
-  pop_c2_obs <- NULL
-  x        <- NULL
-  y        <- NULL
-  discount <- NULL
-  .N       <- NULL
-  .        <- NULL
-
-  px_triangles <-
-    pxt %>%
-    data.table::as.data.table(keep.rownames = "age") %>%
-    data.table::melt(
-                  id.vars = "age",
-                  variable.name = "year",
-                  value.name = "px",
-                  variable.factor = FALSE
-                )
-
-  # No need for assignment: data.table assigns without creating a copy
-  px_triangles[, `:=`(age = as.numeric(age),
-                      year = as.numeric(year),
-                      lower = magrittr::raise_to_power(px, 0.5),
-                      upper = magrittr::raise_to_power(px, 1 - 0.5))]
-
-  px_triangles <-
-    px_triangles[, list(age, year, lower, upper)] %>%
-    data.table::melt(
-                  id.vars = c("age", "year"),
-                  measure.vars = c("lower", "upper"),
-                  variable.name = "triangle",
-                  value.name = "value",
-                  variable.factor = FALSE
-                )
-
-  px_triangles[, `:=`(adj = ifelse(triangle == "upper", 1, 0))]
-  px_triangles[, `:=`(cohort = magrittr::subtract(year, age) %>% magrittr::subtract(adj) %>% floor())]
-
-  # cohort changes over the whole period
-  # px_cum1 <- px_triangles[, list(n_triangles = .N, coh_p = prod(value)),
-  #                          keyby = list(cohort)]
-
-  # adjust the census population vectors
-  c1c <- shift_census_ages_to_cohorts(c1, age1, date1, censusYearOpt = "frac")
-  c2c <- shift_census_ages_to_cohorts(c2, age2, date2, censusYearOpt = "frac")
-
-  # correction for the first year age 0 -- only take first for the remaining of
-  # the year
-  births[1] <- births[1] * (1 - f1)
-
-  # correction for the last year age 0
-  n_yrs         <- length(births)
-  births[n_yrs] <- births[n_yrs] * f2
-
-  cohort_dt <-
-    data.table::data.table(
-                  cohort = yrs_births,
-                  pop = births
-                )
-
-  input <-
-    data.table::data.table(cohort = c1c$birth_year, pop = c1c$cohort_size) %>%
-    .[order(cohort)] %>%
-    rbind(cohort_dt) %>%
-    .[, list(pop = sum(pop)), keyby = list(cohort)]
-
-  # population c2 observed
-  pop_c2 <- data.frame(
-    cohort = c2c$birth_year,
-    pop_c2_obs = c2c$cohort_size
+  pop_jan1 <- reshape_pxt(
+    pxt = pxt,
+    births = births,
+    c1 = c1,
+    c2 = c2,
+    age1 = age1,
+    age2 = age2,
+    date1 = date1,
+    date2 = date2,
+    f1 = f1,
+    f2 = f2,
+    yrs_births = yrs_births
   )
-
-
-  pop_jan1_pre <-
-    px_triangles %>%
-    .[, list(n_triangles = .N, coh_p = prod(value)), keyby = list(year, cohort)] %>%
-    .[order(cohort, year)]
-
-  pop_jan1_pre[, `:=`(coh_lx = cumprod(coh_p)), keyby = list(cohort)]
-
-  pop_jan1_pre <- pop_jan1_pre[input, on = "cohort"]
-
-  pop_jan1_pre[, `:=`(
-    pop_jan1_pre = pop * coh_lx,
-    age = floor(year) - cohort,
-    year = floor(year) + 1
-  )]
-
-  pop_jan1_pre[, `:=`(year = ifelse(year == max(year), year + f2 - 1, year))]
-
-  # calculate the discrepancy (migration) -- to be disrtibuted uniformly in
-  # cohorts
-  resid <-
-    pop_jan1_pre %>%
-    .[year == max(year)] %>%
-    .[pop_c2, on = "cohort"]
-
-  resid[, `:=`(resid = pop_c2_obs - pop_jan1_pre)]
-  # Only used in the process for diagnostics
-  # resid[, `:=`(rel_resid = resid / pop_c2_obs)]
-  resid <- resid[, list(cohort, resid)]
-
-  # This should just be one value per cohort.
-
-  # determine uniform error discounts:
-  resid_discounts <-
-    stats::approx(
-             x = c(date1, date2),
-             y = c(0, 1),
-             xout = yrs_births
-           ) %>%
-    data.table::as.data.table() %>%
-    .[, list(year = x, discount = y)]
-
-  # output
-  pop_jan1 <-
-    pop_jan1_pre %>%
-    merge(resid, by = "cohort", all = TRUE) %>%
-    merge(resid_discounts, by = "year", all = TRUE)
-
-  # for the residual discount, account for boundaries
-  pop_jan1[, `:=`(
-    resid = ifelse(is.na(resid), 0, resid),
-    discount = ifelse(year == max(year), 1, discount)
-  )]
 
   # add "cumulative" residual to the RUP (pop_jan1_pre)
   pop_jan1[, `:=`(pop_jan1 = pop_jan1_pre + resid * discount)]
@@ -1135,4 +993,187 @@ check_args <- function(lxMat, births, country, age1, age2, c1, c2, verbose) {
   if (any(c2 < 0)) stop("No negative values allowed in `c2`")
   if (any(lxMat < 0)) stop("No negative values allowed in `lxMat`")
 
+}
+
+# If dates_out not given, then we resolve using the midyear argument.
+# If FALSE (default) we return intermediate Jan 1, not including c1 and c2
+# If TRUE we return intermediate July 1 (.5) dates, not including c1 and c2
+transform_datesout <- function(dates_out, date1, date2, midyear) {
+
+  if (is.null(dates_out)){
+    if (! midyear){
+      # jan 1 dates
+      left_date  <- floor(date1) + 1
+      right_date <- ceiling(date2) - 1
+      dates_out  <- left_date:right_date
+    }
+    if (midyear){
+      left_date  <- floor(date1) + .5
+      right_date <- ceiling(date2) - .5
+      dates_out  <- left_date:right_date
+      dates_out_lgl  <- data.table::between(dates_out,
+                                            date1,
+                                            date2,
+                                            incbounds = FALSE)
+      dates_out <- dates_out[dates_out_lgl]
+    }
+  }
+
+  dates_out
+}
+
+reshape_pxt <- function(
+                        pxt,
+                        births,
+                        c1,
+                        c2,
+                        age1,
+                        age2,
+                        date1,
+                        date2,
+                        f1,
+                        f2,
+                        yrs_births
+                        ) {
+
+  # Since we're using data.table, we need to create these empty
+  # variables to avoid having R CMD checks with no visible binding
+  # for global variable.
+
+  age      <- NULL
+  year     <- NULL
+  px       <- NULL
+  lower    <- NULL
+  upper    <- NULL
+  triangle <- NULL
+  adj      <- NULL
+  value    <- NULL
+  pop      <- NULL
+  coh_p    <- NULL
+  coh_lx   <- NULL
+  pop_c2_obs <- NULL
+  x        <- NULL
+  y        <- NULL
+  discount <- NULL
+  .N       <- NULL
+  .        <- NULL
+
+  px_triangles <-
+    pxt %>%
+    data.table::as.data.table(keep.rownames = "age") %>%
+    data.table::melt(
+                  id.vars = "age",
+                  variable.name = "year",
+                  value.name = "px",
+                  variable.factor = FALSE
+                )
+
+  # No need for assignment: data.table assigns without creating a copy
+  px_triangles[, `:=`(age = as.numeric(age),
+                      year = as.numeric(year),
+                      lower = magrittr::raise_to_power(px, 0.5),
+                      upper = magrittr::raise_to_power(px, 1 - 0.5))]
+
+  px_triangles <-
+    px_triangles[, list(age, year, lower, upper)] %>%
+    data.table::melt(
+                  id.vars = c("age", "year"),
+                  measure.vars = c("lower", "upper"),
+                  variable.name = "triangle",
+                  value.name = "value",
+                  variable.factor = FALSE
+                )
+
+  px_triangles[, `:=`(adj = ifelse(triangle == "upper", 1, 0))]
+  px_triangles[, `:=`(cohort = magrittr::subtract(year, age) %>% magrittr::subtract(adj) %>% floor())]
+
+  # cohort changes over the whole period
+  # px_cum1 <- px_triangles[, list(n_triangles = .N, coh_p = prod(value)),
+  #                          keyby = list(cohort)]
+
+  # adjust the census population vectors
+  c1c <- shift_census_ages_to_cohorts(c1, age1, date1, censusYearOpt = "frac")
+  c2c <- shift_census_ages_to_cohorts(c2, age2, date2, censusYearOpt = "frac")
+
+  # correction for the first year age 0 -- only take first for the remaining of
+  # the year
+  births[1] <- births[1] * (1 - f1)
+
+  # correction for the last year age 0
+  n_yrs         <- length(births)
+  births[n_yrs] <- births[n_yrs] * f2
+
+  cohort_dt <-
+    data.table::data.table(
+                  cohort = yrs_births,
+                  pop = births
+                )
+
+  input <-
+    data.table::data.table(cohort = c1c$birth_year, pop = c1c$cohort_size) %>%
+    .[order(cohort)] %>%
+    rbind(cohort_dt) %>%
+    .[, list(pop = sum(pop)), keyby = list(cohort)]
+
+  # population c2 observed
+  pop_c2 <- data.frame(
+    cohort = c2c$birth_year,
+    pop_c2_obs = c2c$cohort_size
+  )
+
+  pop_jan1_pre <-
+    px_triangles %>%
+    .[, list(n_triangles = .N, coh_p = prod(value)), keyby = list(year, cohort)] %>%
+    .[order(cohort, year)]
+
+  pop_jan1_pre[, `:=`(coh_lx = cumprod(coh_p)), keyby = list(cohort)]
+
+  pop_jan1_pre <- pop_jan1_pre[input, on = "cohort"]
+
+  pop_jan1_pre[, `:=`(
+    pop_jan1_pre = pop * coh_lx,
+    age = floor(year) - cohort,
+    year = floor(year) + 1
+  )]
+
+  pop_jan1_pre[, `:=`(year = ifelse(year == max(year), year + f2 - 1, year))]
+
+  # calculate the discrepancy (migration) -- to be disrtibuted uniformly in
+  # cohorts
+  resid <-
+    pop_jan1_pre %>%
+    .[year == max(year)] %>%
+    .[pop_c2, on = "cohort"]
+
+  resid[, `:=`(resid = pop_c2_obs - pop_jan1_pre)]
+  # Only used in the process for diagnostics
+  # resid[, `:=`(rel_resid = resid / pop_c2_obs)]
+  resid <- resid[, list(cohort, resid)]
+
+  # This should just be one value per cohort.
+
+  # determine uniform error discounts:
+  resid_discounts <-
+    stats::approx(
+             x = c(date1, date2),
+             y = c(0, 1),
+             xout = yrs_births
+           ) %>%
+    data.table::as.data.table() %>%
+    .[, list(year = x, discount = y)]
+
+  # output
+  pop_jan1 <-
+    pop_jan1_pre %>%
+    merge(resid, by = "cohort", all = TRUE) %>%
+    merge(resid_discounts, by = "year", all = TRUE)
+
+  # for the residual discount, account for boundaries
+  pop_jan1[, `:=`(
+    resid = ifelse(is.na(resid), 0, resid),
+    discount = ifelse(year == max(year), 1, discount)
+  )]
+
+
+  pop_jan1
 }
