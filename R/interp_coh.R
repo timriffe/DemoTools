@@ -133,23 +133,16 @@ interp_coh <- function(
                        ...
                        ) {
 
-  stopifnot(length(age1) == length(c1))
-  stopifnot(length(age2) == length(c2))
-
-  stopifnot(is_single(age1))
-  stopifnot(is_single(age2))
-
-  if (length(age1) != length(age2) & verbose){
-    cat("\nFYI: age ranges are different for c1 and c2\nWe'll still get intercensal estimates,\nbut returned data will be chopped off after age", max(age1), "\n")
-  }
-
-  # If lxMat or births are missing -- message requiring country and sex
-  if (is.null(lxMat) & is.null(country)) {
-    stop("lxMat not specified, please specify country and sex\n")
-  }
-  if (is.null(births) & is.null(country)) {
-    stop("births not specified, please specify country and sex\n")
-  }
+  check_args(
+    lxMat = lxMat,
+    births = births,
+    country = country,
+    age1 = age1,
+    age2 = age2,
+    c1 = c1,
+    c2 = c2,
+    verbose = verbose
+  )
 
   # convert the dates into decimal numbers
   date1 <- dec.date(date1)
@@ -157,10 +150,6 @@ interp_coh <- function(
 
   if (is.na(date1) | is.na(date2)){
     stop("\nCensus dates didn't parse\n")
-  }
-
-  if (!is.null(lxMat) && ncol(lxMat) == 1) {
-    stop("lxMat should have at least two or more dates as columns. lxMat contains only one column") #nolintr
   }
 
   # TR: resolve dates_out
@@ -190,10 +179,6 @@ interp_coh <- function(
       stop("\nuh oh! This method is strictly for cohort component interpolation\nYour requested dates_out didn't have anything between date1 and date2\n")
     }
   }
-
-  if (any(c1 < 0)) stop("No negative values allowed in `c1`")
-  if (any(c2 < 0)) stop("No negative values allowed in `c2`")
-  if (any(lxMat < 0)) stop("No negative values allowed in `lxMat`")
 
   # If dates_out not given, then we resolve using the midyear argument.
   # If FALSE (default) we return intermediate Jan 1, not including c1 and c2
@@ -1121,4 +1106,33 @@ fetch_wpp_births <- function(births, yrs_births, country, sex, verbose) {
   }
 
   births
+}
+
+check_args <- function(lxMat, births, country, age1, age2, c1, c2, verbose) {
+  stopifnot(length(age1) == length(c1))
+  stopifnot(length(age2) == length(c2))
+  stopifnot(is_single(age1))
+  stopifnot(is_single(age2))
+
+  if (length(age1) != length(age2) & verbose){
+    cat("\nFYI: age ranges are different for c1 and c2\nWe'll still get intercensal estimates,\nbut returned data will be chopped off after age", max(age1), "\n")
+  }
+
+
+  # If lxMat or births are missing -- message requiring country and sex
+  if (is.null(lxMat) & is.null(country)) {
+    stop("lxMat not specified, please specify country and sex\n")
+  }
+  if (is.null(births) & is.null(country)) {
+    stop("births not specified, please specify country and sex\n")
+  }
+
+  if (!is.null(lxMat) && ncol(lxMat) == 1) {
+    stop("lxMat should have at least two or more dates as columns. lxMat contains only one column") #nolintr
+  }
+
+  if (any(c1 < 0)) stop("No negative values allowed in `c1`")
+  if (any(c2 < 0)) stop("No negative values allowed in `c2`")
+  if (any(lxMat < 0)) stop("No negative values allowed in `lxMat`")
+
 }
