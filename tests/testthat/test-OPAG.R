@@ -52,9 +52,7 @@ OAnow <- max(Age)
 StPop <- pop_swe50_110
 StAge <- c(50:110)
 OAnew <- max(StAge)
-nLx <- 
-r <- 0.005
-AgeInt <- c()
+
 
 # Insert data to be compared
 
@@ -108,20 +106,28 @@ test_that("OPAG_simple's output has a proper length", {
   )}
 )
 
+## Stationary population ---------------------------------------
+## Data
+
+Lx <- downloadnLx(NULL, "Sweden", "female", 2000)
+r <- 0.01
+age_Lx <- names2age(Lx)
 
 
 test_that("OPAG_nLx_warp_r works", {
-  expect_equal(
-    OPAG_nLx_warp_r(
-      nLx = nLx,
-      Age = Age,
-      r = r,
-      AgeInt = NULL,
-      continuous = TRUE,
-      method = "uniform"
-    ),
-    0.444659710063221, # think about the type of data would return and make equal
-    tolerance = 1e-12
+  res_stationary <- OPAG_nLx_warp_r(
+    nLx = Lx,
+    Age = age_Lx,
+    r = r,
+    continuous = TRUE,
+    method = "uniform"
+  )
+  c_Lx <- as.vector(Lx/sum(Lx))
+  c_Lx <- as.vector(t(c_Lx))
+  names(c_Lx) <- names(res_stationary)
+  expect_equal(res_stationary/sum(res_stationary),
+    c_Lx, # think about the type of data would return and make equal
+    tolerance = 0.0001
   )}
 )
 
