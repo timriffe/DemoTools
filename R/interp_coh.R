@@ -22,25 +22,25 @@
 #' shift_census_ages_to_cohorts(pop, age, d3)
 #' shift_census_ages_to_cohorts(pop, age, 2020.5)
 
-shift_census_ages_to_cohorts <- function(pop, 
-                                   age, 
-                                   date, 
-                                   censusYearOpt = "frac", 
+shift_census_ages_to_cohorts <- function(pop,
+                                   age,
+                                   date,
+                                   censusYearOpt = "frac",
                                    OAG = TRUE){
 
-  
+
   stopifnot(is_single(age))
-  
+
   date       <- dec.date(date)
   yr         <- floor(date)
   f1         <- date - yr
-  
+
   if (OAG){
     N   <- length(pop)
     pop <- pop[-N]
     age <- age[-N]
   }
-  
+
   if (is.na(censusYearOpt)){
     censusYearOpt <- "NA"
   }
@@ -54,7 +54,7 @@ shift_census_ages_to_cohorts <- function(pop,
   cohorts    <- yr - age - 1 + shift
 
   age_out    <- round(f1) + age
-  
+
   if (censusYearOpt == "drop"){
     pop_out <- pop_out[-1]
     age_out <- age_out[-1]
@@ -68,11 +68,11 @@ shift_census_ages_to_cohorts <- function(pop,
   if (censusYearOpt == "NA"){
     pop_out[1] <- NA_real_
   }
-  
-  list(cohort_size = pop_out, 
-       birth_year = cohorts, 
+
+  list(cohort_size = pop_out,
+       birth_year = cohorts,
        age = age_out,
-       date = date, 
+       date = date,
        f1 = f1)
 }
 
@@ -175,7 +175,6 @@ interp_coh <- function(
       stop("\nno valid dates to interpolate to\n")
     }
 
-
     # if we still have valid dates, then check we're not extrapolating
     dates_out_keep     <- data.table::between(dates_out,
                                               date1,
@@ -228,80 +227,21 @@ interp_coh <- function(
   f1    <- date1 %>% magrittr::subtract(date1 %>% floor)
   f2    <- date2 %>% magrittr::subtract(date2 %>% floor)
 
-  # get the lexis surface of survival probabilities
-  if (is.null(lxMat)){
-    if (verbose) cat(paste0("\nlxMat not provided. Downloading lxMat for ", country, ", gender: ", "`", sex, "`, for years between ", round(date1, 1), " and ", round(date2, 1), "\n"))
-
-    pxt <- suppressMessages(
-      interp_coh_download_mortality(country, sex, date1, date2, OAnew = max(age1) + 1)
-    )
-  } else {
-
-    if (is.null(dates_lx)){
-      # if lx dates not given we assume dates evenly distributed from date1 to date2?
-      dates_lx <- seq(date1,date2,length.out = ncol(lxMat))
-      if (verbose) {
-        cat("lxMat specified, but not dates_lx\nAssuming:",paste(dates_lx,collapse=", "),"\n")
-      }
-    }
-
-    available_dates <- data.table::between(dates_lx, date1, date2)
-    if (!all(available_dates)) stop("All `dates_lx` must be within the range of `date1` and `date2`")
-
-    # if the shortest distance from dates_lx to date1 or date2 is greater than 7
-    # warn
-    dates_df <- expand.grid(dates_lx = dates_lx, dates = c(date1, date2))
-    dates_df$diff <- with(dates_df, abs(dates_lx - dates))
-    if (min(dates_df$diff) > 7 && verbose) {
-      d_lx <- dates_df$dates_lx[which.min(dates_df$dif)]
-      date_compare <- dates_df$dates[which.min(dates_df$dif)]
-      cat(
-        "The shortest distance from `dates_lx` (",
-        d_lx,
-        ") to `date1/date2`(",
-        date_compare,
-        ") is greater than 7 years. Be wary."
-      )
-    }
-
-    ic_period <- date2 - date1
-    lx_mm <- range(dates_lx)
-    overlap <- min(c(lx_mm[2], date2)) - c(max(lx_mm[1], date1))
-    extrap_low <- lx_mm[1] - min(lx_mm[1],date1)
-    extrap_high <- max(lx_mm[2],date2) - lx_mm[2]
-    t1 <- overlap / ic_period < .25
-    t2 <- extrap_low > 6
-    t3 <- extrap_high > 6
-    if (any(c(t1, t2, t3))) cat("\nRange between `date1` and `date2` must overlap with `lx_dates` for at least 25% of the range or 6 years.\n")
-
-    if (is.null(age_lx)){
-      if (nrow(lxMat)  < 26){
-
-        N      <- nrow(lxMat)
-        age_lx <- c(0,1,seq(5,5*(N-2),by=5))
-      } else {
-        age_lx <- 1:nrow(lxMat) - 1
-      }
-      if (verbose) {
-        cat("lxMat specified, but Age_lx missing\nAssuming:",paste(age_lx,collapse=", "),"\n")
-      }
-    }
-
-    # ensure lx fills timepoints.
-    # would like to pass ... here for the lifetable part
-    pxt <- interp_coh_lxMat_pxt(
-      lxMat = lxMat,
-      dates_lx = dates_lx,
-      age_lx = age_lx,
-      date1 = date1,
-      date2 = date2,
-      OAnew = max(age1) + 1,
-      control = list(deg = 3, lambda = 100),
-      ...)
-  }
+  # And download if needed
+  pxt <- transform_pxt(
+    lxMat = lxMat,
+    country = country,
+    sex = sex,
+    date1 = date1,
+    date2 = date2,
+    dates = dates_lx,
+    verbose = verbose,
+    age = age_lx,
+    age1 = age1,
+    ... = ...
+  )
 
   yrs_births   <- seq(floor(date1), floor(date2), 1)
-
   # TR: if right-side is jan 1 then we can cut it off of pxt.
   if (f2 == 0){
     pxt        <- pxt[, -ncol(pxt)]
@@ -505,7 +445,7 @@ interp_coh <- function(
   # TR: to get residualmigbeta prelim result, one takes the cumulative
   # resid (resid * discount), then decumulates it (within cohorts!),
   # then sum over age. boo ya Lexis
-  
+
   PopAP <-
     pop_jan1 %>%
     .[, list(age, year, pop_jan1)] %>%
@@ -521,17 +461,13 @@ interp_coh <- function(
     cat("\n",sum(ind),"NA detected in output.\nThese have been imputed with 0s.\nThis could happen in the highest ages,\nand you may consider extending the open ages of the census inputs?\n")
     matinterp[ind] <- 0
   }
-  
+
   # Handle negatives (small pops, or large negative residuals relative to pop size)
-  ind <- matinterp < 0 
+  ind <- matinterp < 0
   if (any(ind) & verbose){
     cat("\n",sum(ind),"negatives detected in output.\nThese have been imputed with 0s.\n")
     matinterp[ind] <- 0
   }
-  
-  
-  
-
 
   yrsIn     <- as.numeric(colnames(matinterp))
   if (all(yrsIn > date1)){
@@ -1085,3 +1021,91 @@ interp_coh_lxMat_pxt <- function(lxMat,
 
   PX
 }
+
+
+transform_pxt <- function(lxMat,
+                          country,
+                          sex,
+                          date1,
+                          date2,
+                          dates_lx,
+                          verbose,
+                          age_lx,
+                          age1,
+                          ...) {
+
+  # get the lexis surface of survival probabilities
+  if (is.null(lxMat)){
+    if (verbose) cat(paste0("\nlxMat not provided. Downloading lxMat for ", country, ", gender: ", "`", sex, "`, for years between ", round(date1, 1), " and ", round(date2, 1), "\n"))
+
+    pxt <- suppressMessages(
+      interp_coh_download_mortality(country, sex, date1, date2, OAnew = max(age1) + 1)
+    )
+  } else {
+
+    if (is.null(dates_lx)){
+      # if lx dates not given we assume dates evenly distributed from date1 to date2?
+      dates_lx <- seq(date1,date2,length.out = ncol(lxMat))
+      if (verbose) {
+        cat("lxMat specified, but not dates_lx\nAssuming:",paste(dates_lx,collapse=", "),"\n")
+      }
+    }
+
+    available_dates <- data.table::between(dates_lx, date1, date2)
+    if (!all(available_dates)) stop("All `dates_lx` must be within the range of `date1` and `date2`")
+
+    # if the shortest distance from dates_lx to date1 or date2 is greater than 7
+    # warn
+    dates_df <- expand.grid(dates_lx = dates_lx, dates = c(date1, date2))
+    dates_df$diff <- with(dates_df, abs(dates_lx - dates))
+    if (min(dates_df$diff) > 7 && verbose) {
+      d_lx <- dates_df$dates_lx[which.min(dates_df$dif)]
+      date_compare <- dates_df$dates[which.min(dates_df$dif)]
+      cat(
+        "The shortest distance from `dates_lx` (",
+        d_lx,
+        ") to `date1/date2`(",
+        date_compare,
+        ") is greater than 7 years. Be wary."
+      )
+    }
+
+    ic_period <- date2 - date1
+    lx_mm <- range(dates_lx)
+    overlap <- min(c(lx_mm[2], date2)) - c(max(lx_mm[1], date1))
+    extrap_low <- lx_mm[1] - min(lx_mm[1],date1)
+    extrap_high <- max(lx_mm[2],date2) - lx_mm[2]
+    t1 <- overlap / ic_period < .25
+    t2 <- extrap_low > 6
+    t3 <- extrap_high > 6
+    if (any(c(t1, t2, t3))) cat("\nRange between `date1` and `date2` must overlap with `lx_dates` for at least 25% of the range or 6 years.\n")
+
+    if (is.null(age_lx)){
+      if (nrow(lxMat)  < 26){
+
+        N      <- nrow(lxMat)
+        age_lx <- c(0,1,seq(5,5*(N-2),by=5))
+      } else {
+        age_lx <- 1:nrow(lxMat) - 1
+      }
+      if (verbose) {
+        cat("lxMat specified, but Age_lx missing\nAssuming:",paste(age_lx,collapse=", "),"\n")
+      }
+    }
+
+    # ensure lx fills timepoints.
+    # would like to pass ... here for the lifetable part
+    pxt <- interp_coh_lxMat_pxt(
+      lxMat = lxMat,
+      dates_lx = dates_lx,
+      age_lx = age_lx,
+      date1 = date1,
+      date2 = date2,
+      OAnew = max(age1) + 1,
+      control = list(deg = 3, lambda = 100),
+      ...)
+  }
+
+  pxt
+}
+
