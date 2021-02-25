@@ -23,10 +23,10 @@
 #' shift_census_ages_to_cohorts(pop, age, 2020.5)
 
 shift_census_ages_to_cohorts <- function(pop,
-                                   age,
-                                   date,
-                                   censusYearOpt = "frac",
-                                   OAG = TRUE){
+                                         age,
+                                         date,
+                                         censusYearOpt = "frac",
+                                         OAG = TRUE){
 
 
   stopifnot(is_single(age))
@@ -133,133 +133,39 @@ interp_coh <- function(
                        ...
                        ) {
 
-  check_args(
-    lxMat = lxMat,
-    births = births,
-    country = country,
-    age1 = age1,
-    age2 = age2,
-    c1 = c1,
-    c2 = c2,
-    verbose = verbose
-  )
-
   # convert the dates into decimal numbers
   date1 <- dec.date(date1)
   date2 <- dec.date(date2)
 
-  if (is.na(date1) | is.na(date2)){
-    stop("\nCensus dates didn't parse\n")
-  }
-
-  # TR: resolve dates_out
-  # if some dates were given, let's coerce to numeric and ensure valid
-  if (!is.null(dates_out)){
-    dates_out          <- sapply(dates_out, dec.date)
-    if (any(is.na(dates_out))){
-      cat("\nSome dates_out didn't parse, FYI, you should have a look\n")
-      dates_out          <- dates_out[!is.na(dates_out)]
-    }
-    if (length(dates_out) == 0){
-      stop("\nno valid dates to interpolate to\n")
-    }
-
-    # if we still have valid dates, then check we're not extrapolating
-    dates_out_keep     <- data.table::between(dates_out,
-                                              date1,
-                                              date2,
-                                              incbounds = FALSE)
-
-    dates_out_for_real <- dates_out[dates_out_keep]
-
-    # warn about any dates lost due to extrap request:
-    if (length(dates_out_for_real) != length(dates_out) & verbose){
-      cat("\nFollowing dates requested, but not returned\nbecause they'd require extrapolation:\n",paste(dates_out[!dates_out_keep],collapse = ", "),"\n")
-    }
-    if (length(dates_out) == 0){
-      stop("\nuh oh! This method is strictly for cohort component interpolation\nYour requested dates_out didn't have anything between date1 and date2\n")
-    }
-  }
-
-  # If dates_out not given, then we resolve using the midyear argument.
-  # If FALSE (default) we return intermediate Jan 1, not including c1 and c2
-  # If TRUE we return intermediate July 1 (.5) dates, not including c1 and c2
-  dates_out <- transform_datesout(dates_out, date1, date2, midyear)
-
-  DD <- date2 - date1
-  if (DD >= 15 & verbose){
-    cat("\nFYI, there are",DD,"years between c1 and c2\nBe wary.\n")
-  }
-
-  # let's store the proportions separately
-  f1    <- date1 %>% magrittr::subtract(date1 %>% floor)
-  f2    <- date2 %>% magrittr::subtract(date2 %>% floor)
-
-  # And download if needed
-  pxt <- transform_pxt(
-    lxMat = lxMat,
-    country = country,
-    sex = sex,
+  res_list <- prelim_interp_coh(
+    c1 = c1,
+    c2 = c2,
     date1 = date1,
     date2 = date2,
-    dates = dates_lx,
-    verbose = verbose,
-    age = age_lx,
     age1 = age1,
+    age2 = age2,
+    dates_out = dates_out,
+    lxMat = lxMat,
+    age_lx = age_lx,
+    dates_lx = dates_lx,
+    births = births,
+    years_births = years_births,
+    country = country,
+    sex = sex,
+    midyear = midyear,
+    verbose = verbose,
     ... = ...
   )
 
-  yrs_births   <- seq(floor(date1), floor(date2), 1)
-  # TR: if right-side is jan 1 then we can cut it off of pxt.
-  if (f2 == 0){
-    pxt        <- pxt[, -ncol(pxt)]
-    yrs_births <- yrs_births[-length(yrs_births)]
-    f2         <- 1
-  }
+  pop_jan1 <- res_list$pop_jan1
+  dates_out <- res_list$dates_out
 
-  # Download wpp births if needed
-  births <-
-    fetch_wpp_births(
-      births = births,
-      yrs_births = yrs_births,
-      country = country,
-      sex = sex,
-      verbose = verbose
-    )
-
-  # check length of births, also filter using provided dates if necessary
-  if (!is.null(years_births)){
-    stopifnot(length(births) == length(years_births))
-
-    years_births <- floor(years_births)
-    yrs_keep     <- data.table::between(years_births,
-                                        min(yrs_births),
-                                        max(yrs_births),
-                                        incbounds = TRUE)
-
-    births       <- births[yrs_keep]
-  }
-
-  # now that births should be available we can do this check.
-  stopifnot(length(births) == length(yrs_births))
-
-  # a note for future: interp_coh_download_mortality should use {countrycode} to
-  # better match the country names. As of now, just Russia won't work
-  # [ISSUE #166]
-
-  pop_jan1 <- reshape_pxt(
-    pxt = pxt,
-    births = births,
-    c1 = c1,
-    c2 = c2,
-    age1 = age1,
-    age2 = age2,
-    date1 = date1,
-    date2 = date2,
-    f1 = f1,
-    f2 = f2,
-    yrs_births = yrs_births
-  )
+  . <- NULL
+  age <- NULL
+  discount <- NULL
+  pop_jan1_pre <- NULL
+  resid <- NULL
+  year <- NULL
 
   # add "cumulative" residual to the RUP (pop_jan1_pre)
   pop_jan1[, `:=`(pop_jan1 = pop_jan1_pre + resid * discount)]
@@ -274,6 +180,7 @@ interp_coh <- function(
     .[, list(age, year, pop_jan1)] %>%
     data.table::dcast(age ~ year, value.var = "pop_jan1") %>%
     .[order(age)]
+
 
   matinterp <- PopAP[age <= max(age1), -1] %>% as.matrix()
   rownames(matinterp) <- age1
@@ -297,10 +204,12 @@ interp_coh <- function(
     matinterp <- cbind(c1, matinterp)
     yrsIn     <- c(date1, yrsIn)
   }
+
   if (all(yrsIn < date2)){
     matinterp <- cbind(matinterp, c2[1:length(c2)])
     yrsIn     <- c(yrsIn, date2)
   }
+
   colnames(matinterp) <- yrsIn
   # now we either return Jan1 dates or July 1 dates.
 
@@ -1176,4 +1085,153 @@ reshape_pxt <- function(
 
 
   pop_jan1
+}
+
+prelim_interp_coh <- function(
+                              c1,
+                              c2,
+                              date1,
+                              date2,
+                              age1,
+                              age2,
+                              dates_out,
+                              lxMat,
+                              age_lx,
+                              dates_lx,
+                              births,
+                              years_births,
+                              country,
+                              sex,
+                              midyear,
+                              verbose,
+                              ...
+                              ) {
+  check_args(
+    lxMat = lxMat,
+    births = births,
+    country = country,
+    age1 = age1,
+    age2 = age2,
+    c1 = c1,
+    c2 = c2,
+    verbose = verbose
+  )
+
+  if (is.na(date1) | is.na(date2)){
+    stop("\nCensus dates didn't parse\n")
+  }
+
+  # TR: resolve dates_out
+  # if some dates were given, let's coerce to numeric and ensure valid
+  if (!is.null(dates_out)){
+    dates_out          <- sapply(dates_out, dec.date)
+    if (any(is.na(dates_out))){
+      cat("\nSome dates_out didn't parse, FYI, you should have a look\n")
+      dates_out          <- dates_out[!is.na(dates_out)]
+    }
+    if (length(dates_out) == 0){
+      stop("\nno valid dates to interpolate to\n")
+    }
+
+    # if we still have valid dates, then check we're not extrapolating
+    dates_out_keep     <- data.table::between(dates_out,
+                                              date1,
+                                              date2,
+                                              incbounds = FALSE)
+
+    dates_out_for_real <- dates_out[dates_out_keep]
+
+    # warn about any dates lost due to extrap request:
+    if (length(dates_out_for_real) != length(dates_out) & verbose){
+      cat("\nFollowing dates requested, but not returned\nbecause they'd require extrapolation:\n",paste(dates_out[!dates_out_keep],collapse = ", "),"\n")
+    }
+    if (length(dates_out) == 0){
+      stop("\nuh oh! This method is strictly for cohort component interpolation\nYour requested dates_out didn't have anything between date1 and date2\n")
+    }
+  }
+
+  # If dates_out not given, then we resolve using the midyear argument.
+  # If FALSE (default) we return intermediate Jan 1, not including c1 and c2
+  # If TRUE we return intermediate July 1 (.5) dates, not including c1 and c2
+  dates_out <- transform_datesout(dates_out, date1, date2, midyear)
+
+  DD <- date2 - date1
+  if (DD >= 15 & verbose){
+    cat("\nFYI, there are",DD,"years between c1 and c2\nBe wary.\n")
+  }
+
+  # let's store the proportions separately
+  f1    <- date1 %>% magrittr::subtract(date1 %>% floor)
+  f2    <- date2 %>% magrittr::subtract(date2 %>% floor)
+
+  # And download if needed
+  pxt <- transform_pxt(
+    lxMat = lxMat,
+    country = country,
+    sex = sex,
+    date1 = date1,
+    date2 = date2,
+    dates_lx = dates_lx,
+    verbose = verbose,
+    age_lx = age_lx,
+    age1 = age1,
+    ... = ...
+  )
+
+  yrs_births   <- seq(floor(date1), floor(date2), 1)
+  # TR: if right-side is jan 1 then we can cut it off of pxt.
+  if (f2 == 0){
+    pxt        <- pxt[, -ncol(pxt)]
+    yrs_births <- yrs_births[-length(yrs_births)]
+    f2         <- 1
+  }
+
+  # Download wpp births if needed
+  births <-
+    fetch_wpp_births(
+      births = births,
+      yrs_births = yrs_births,
+      country = country,
+      sex = sex,
+      verbose = verbose
+    )
+
+  # check length of births, also filter using provided dates if necessary
+  if (!is.null(years_births)){
+    stopifnot(length(births) == length(years_births))
+
+    years_births <- floor(years_births)
+    yrs_keep     <- data.table::between(years_births,
+                                        min(yrs_births),
+                                        max(yrs_births),
+                                        incbounds = TRUE)
+
+    births       <- births[yrs_keep]
+  }
+
+  # now that births should be available we can do this check.
+  stopifnot(length(births) == length(yrs_births))
+
+  # a note for future: interp_coh_download_mortality should use {countrycode} to
+  # better match the country names. As of now, just Russia won't work
+  # [ISSUE #166]
+
+  pop_jan1 <- reshape_pxt(
+    pxt = pxt,
+    births = births,
+    c1 = c1,
+    c2 = c2,
+    age1 = age1,
+    age2 = age2,
+    date1 = date1,
+    date2 = date2,
+    f1 = f1,
+    f2 = f2,
+    yrs_births = yrs_births
+  )
+
+  list(
+    pop_jan1 = pop_jan1,
+    dates_out = dates_out
+  )
 }
