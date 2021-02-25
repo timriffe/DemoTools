@@ -137,7 +137,7 @@ interp_coh <- function(
   date1 <- dec.date(date1)
   date2 <- dec.date(date2)
 
-  res_list <- prelim_interp_coh(
+  res_list <- rup(
     c1 = c1,
     c2 = c2,
     date1 = date1,
@@ -1087,25 +1087,25 @@ reshape_pxt <- function(
   pop_jan1
 }
 
-prelim_interp_coh <- function(
-                              c1,
-                              c2,
-                              date1,
-                              date2,
-                              age1,
-                              age2,
-                              dates_out,
-                              lxMat,
-                              age_lx,
-                              dates_lx,
-                              births,
-                              years_births,
-                              country,
-                              sex,
-                              midyear,
-                              verbose,
-                              ...
-                              ) {
+rup <- function(
+               c1,
+               c2,
+               date1,
+               date2,
+               age1,
+               age2,
+               dates_out,
+               lxMat,
+               age_lx,
+               dates_lx,
+               births,
+               years_births,
+               country,
+               sex,
+               midyear,
+               verbose,
+               ...
+               ) {
   check_args(
     lxMat = lxMat,
     births = births,
