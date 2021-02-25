@@ -179,26 +179,42 @@ lt_abridged <- function(Deaths = NULL,
                   SRB = 1.05,
                   OAG = TRUE,
                   OAnew = max(Age),
-                  extrapLaw = "kannisto",
+                  extrapLaw = NULL,
                   extrapFrom = max(Age),
-                  extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
+                  extrapFit = NULL,
                   ...) {
   axmethod <- match.arg(axmethod, choices = c("pas","un"))
   Sex      <- match.arg(Sex, choices = c("m","f","b"))
   a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
-  extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
-                                                     "kannisto_makeham",
-                                                     "makeham",
-                                                     "gompertz",
-                                                     "ggompertz",
-                                                     "beard",
-                                                     "beard_makeham",
-                                                     "quadratic"
-  ))
+  if (!is.null(extrapLaw)){
+    extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
+                                                       "kannisto_makeham",
+                                                       "makeham",
+                                                       "gompertz",
+                                                       "ggompertz",
+                                                       "beard",
+                                                       "beard_makeham",
+                                                       "quadratic"
+    ))
+  } else {
+      extrapLaw <- ifelse(max(Age)>=90, "kannisto","gompertz")
+  }
+
   region   <- match.arg(region, choices = c("w","n","s","e"))
   # ages must be abridged.
   stopifnot(is_abridged(Age))
 
+  if (is.null(extrapFit)){
+    maxAclosed <- ifelse(OAG, Age[which.max(Age)-1],max(Age))
+    if (maxAclosed < 85){
+      extrapFit  <- Age[Age >= (maxAclosed - 20) & Age <= maxAclosed]
+    } else {
+      extrapFit  <- Age[Age >= 60 & Age <= maxAclosed]
+    }
+  } else {
+    stopifnot(all(extrapFit %in% Age))
+  }
+  #cat("\nextrapFit:",paste(extrapFit,collapse = ", "),"\n")
   # now overwriting raw nMx is allowed by lowering this
   # arbitrary lower bound to accept the fitted model. Really
   # this functionality is intended for extrapolation and not
