@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.20</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
       <h1 data-toc-skip>Migration models with DemoTools</h1>
                         <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
-            <h4 class="date">2021-01-29</h4>
+            <h4 class="date">2021-02-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/migration_with_demotools.Rmd"><code>vignettes/migration_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>migration_with_demotools.Rmd</code></div>
@@ -247,164 +247,12 @@ m(x)= a_1 \exp{[ \alpha_1 x ]} + a_2 \exp{[ -\alpha_2 (x - \mu_2) - \exp{ [ -\la
   chains <span class="op">=</span> <span class="fl">4</span>,
   iter <span class="op">=</span> <span class="fl">2000</span>,
   control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>adapt_delta <span class="op">=</span> <span class="fl">0.8</span>, max_treedepth <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
-<span class="op">)</span>
-<span class="co">#&gt; Running /usr/lib/R/bin/R CMD SHLIB foo.c</span>
-<span class="co">#&gt; gcc -std=gnu99 -I"/usr/share/R/include" -DNDEBUG   -I"/home/tim/R/x86_64-pc-linux-gnu-library/4.0/Rcpp/include/"  -I"/home/tim/R/x86_64-pc-linux-gnu-library/4.0/RcppEigen/include/"  -I"/home/tim/R/x86_64-pc-linux-gnu-library/4.0/RcppEigen/include/unsupported"  -I"/home/tim/R/x86_64-pc-linux-gnu-library/4.0/BH/include" -I"/home/tim/R/x86_64-pc-linux-gnu-library/4.0/StanHeaders/include/src/"  -I"/home/tim/R/x86_64-pc-linux-gnu-library/4.0/StanHeaders/include/"  -I"/home/tim/R/x86_64-pc-linux-gnu-library/4.0/RcppParallel/include/"  -I"/home/tim/R/x86_64-pc-linux-gnu-library/4.0/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include '/home/tim/R/x86_64-pc-linux-gnu-library/4.0/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-7BvS0x/r-base-4.0.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c foo.c -o foo.o</span>
-<span class="co">#&gt; In file included from /home/tim/R/x86_64-pc-linux-gnu-library/4.0/RcppEigen/include/Eigen/Core:88:0,</span>
-<span class="co">#&gt;                  from /home/tim/R/x86_64-pc-linux-gnu-library/4.0/RcppEigen/include/Eigen/Dense:1,</span>
-<span class="co">#&gt;                  from /home/tim/R/x86_64-pc-linux-gnu-library/4.0/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,</span>
-<span class="co">#&gt;                  from &lt;command-line&gt;:0:</span>
-<span class="co">#&gt; /home/tim/R/x86_64-pc-linux-gnu-library/4.0/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name ‘namespace’</span>
-<span class="co">#&gt;  namespace Eigen {</span>
-<span class="co">#&gt;  ^~~~~~~~~</span>
-<span class="co">#&gt; /home/tim/R/x86_64-pc-linux-gnu-library/4.0/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:17: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘{’ token</span>
-<span class="co">#&gt;  namespace Eigen {</span>
-<span class="co">#&gt;                  ^</span>
-<span class="co">#&gt; In file included from /home/tim/R/x86_64-pc-linux-gnu-library/4.0/RcppEigen/include/Eigen/Dense:1:0,</span>
-<span class="co">#&gt;                  from /home/tim/R/x86_64-pc-linux-gnu-library/4.0/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13,</span>
-<span class="co">#&gt;                  from &lt;command-line&gt;:0:</span>
-<span class="co">#&gt; /home/tim/R/x86_64-pc-linux-gnu-library/4.0/RcppEigen/include/Eigen/Core:96:10: fatal error: complex: No such file or directory</span>
-<span class="co">#&gt;  #include &lt;complex&gt;</span>
-<span class="co">#&gt;           ^~~~~~~~~</span>
-<span class="co">#&gt; compilation terminated.</span>
-<span class="co">#&gt; /usr/lib/R/etc/Makeconf:172: recipe for target 'foo.o' failed</span>
-<span class="co">#&gt; make: *** [foo.o] Error 1</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; SAMPLING FOR MODEL '28c89f5948288d3bb37fc72d345573dc' NOW (CHAIN 1).</span>
-<span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1: Gradient evaluation took 9.1e-05 seconds</span>
-<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.91 seconds.</span>
-<span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span>
-<span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
-<span class="co">#&gt; Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
-<span class="co">#&gt; Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
-<span class="co">#&gt; Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
-<span class="co">#&gt; Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
-<span class="co">#&gt; Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
-<span class="co">#&gt; Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
-<span class="co">#&gt; Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
-<span class="co">#&gt; Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
-<span class="co">#&gt; Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
-<span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
-<span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
-<span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 2.67245 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                2.37084 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                5.04329 seconds (Total)</span>
-<span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; SAMPLING FOR MODEL '28c89f5948288d3bb37fc72d345573dc' NOW (CHAIN 2).</span>
-<span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2: Gradient evaluation took 7.3e-05 seconds</span>
-<span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.73 seconds.</span>
-<span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span>
-<span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
-<span class="co">#&gt; Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
-<span class="co">#&gt; Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
-<span class="co">#&gt; Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
-<span class="co">#&gt; Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
-<span class="co">#&gt; Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
-<span class="co">#&gt; Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
-<span class="co">#&gt; Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
-<span class="co">#&gt; Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
-<span class="co">#&gt; Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
-<span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
-<span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
-<span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 3.03896 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                2.07874 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                5.1177 seconds (Total)</span>
-<span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; SAMPLING FOR MODEL '28c89f5948288d3bb37fc72d345573dc' NOW (CHAIN 3).</span>
-<span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3: Gradient evaluation took 9.5e-05 seconds</span>
-<span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.95 seconds.</span>
-<span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span>
-<span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
-<span class="co">#&gt; Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
-<span class="co">#&gt; Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
-<span class="co">#&gt; Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
-<span class="co">#&gt; Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
-<span class="co">#&gt; Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
-<span class="co">#&gt; Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
-<span class="co">#&gt; Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
-<span class="co">#&gt; Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
-<span class="co">#&gt; Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
-<span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
-<span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
-<span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 2.73808 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                2.42665 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                5.16473 seconds (Total)</span>
-<span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; SAMPLING FOR MODEL '28c89f5948288d3bb37fc72d345573dc' NOW (CHAIN 4).</span>
-<span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4: Gradient evaluation took 5e-05 seconds</span>
-<span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.5 seconds.</span>
-<span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span>
-<span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)</span>
-<span class="co">#&gt; Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)</span>
-<span class="co">#&gt; Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)</span>
-<span class="co">#&gt; Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)</span>
-<span class="co">#&gt; Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)</span>
-<span class="co">#&gt; Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)</span>
-<span class="co">#&gt; Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)</span>
-<span class="co">#&gt; Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)</span>
-<span class="co">#&gt; Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)</span>
-<span class="co">#&gt; Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)</span>
-<span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
-<span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
-<span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 2.68839 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                2.0946 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                4.78299 seconds (Total)</span>
-<span class="co">#&gt; Chain 4:</span></code></pre></div>
+<span class="op">)</span></code></pre></div>
 <p>The <code>mig_estimate_rc</code> function also allows for addition arguments that are related to the Stan model. In the example above, the values listed for <code>chains</code>, <code>iter</code>, <code>adapt_delta</code> and <code>max_treedepth</code> are the default values, so need have not been specified. However, depending on the context, it may make sense to increase the value of each of these components to ensure convergence. More details about these arguments can be found in the <code>R</code> help files for <code><a href="https://mc-stan.org/rstan/reference/stan.html">rstan::stan</a></code>, and also by referring to the <a href="https://mc-stan.org/users/documentation/">Stan documentation</a>.</p>
 <p>The resulting <code>rc_res</code> object is shown below. The <code>pars_df</code> shows the median estimate and lower and upper bound of a 95% credible interval for the Rogers-Castro parameters. In this example, the working age peak was estimated to be at 25.3 years (95% CI: [23.5, 27.2]).</p>
 <p>The <code>fit_df</code> object in <code>rc_res</code> shows the data and estimated median <span class="math inline">\(m(x)\)</span> values at each age <span class="math inline">\(x\)</span>, along with the lower and upper bound of the 95% credible interval of the fits, and the squared difference between data and the median estimate.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rc_res</span>
-<span class="co">#&gt; $pars_df</span>
-<span class="co">#&gt; # A tibble: 11 x 4</span>
-<span class="co">#&gt;    variable   median    lower    upper</span>
-<span class="co">#&gt;  * &lt;chr&gt;       &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 variable  0.00417  0.00222  0.00624</span>
-<span class="co">#&gt;  2 variable  0.0598   0.0527   0.0658 </span>
-<span class="co">#&gt;  3 variable  0.0220   0.0178   0.0265 </span>
-<span class="co">#&gt;  4 variable  0.308    0.114    1.09   </span>
-<span class="co">#&gt;  5 variable  0.181    0.156    0.204  </span>
-<span class="co">#&gt;  6 variable  0.169    0.135    0.208  </span>
-<span class="co">#&gt;  7 variable  0.0193   0.0177   0.0202 </span>
-<span class="co">#&gt;  8 variable  0.130    0.119    0.145  </span>
-<span class="co">#&gt;  9 variable  0.110    0.0936   0.129  </span>
-<span class="co">#&gt; 10 variable 25.4     23.6     27.1    </span>
-<span class="co">#&gt; 11 variable 65.1     63.1     67.0    </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $fit_df</span>
-<span class="co">#&gt; # A tibble: 81 x 6</span>
-<span class="co">#&gt;      age   data median  lower  upper       diff_sq</span>
-<span class="co">#&gt;    &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;         &lt;dbl&gt;</span>
-<span class="co">#&gt;  1     0 0.0234 0.0234 0.0217 0.0252 0.00000000428</span>
-<span class="co">#&gt;  2     1 0.0220 0.0222 0.0210 0.0233 0.0000000624 </span>
-<span class="co">#&gt;  3     2 0.0212 0.0214 0.0203 0.0223 0.0000000479 </span>
-<span class="co">#&gt;  4     3 0.0218 0.0209 0.0199 0.0217 0.000000972  </span>
-<span class="co">#&gt;  5     4 0.0210 0.0205 0.0197 0.0213 0.000000235  </span>
-<span class="co">#&gt;  6     5 0.0208 0.0202 0.0195 0.0209 0.000000323  </span>
-<span class="co">#&gt;  7     6 0.0198 0.0200 0.0193 0.0207 0.0000000352 </span>
-<span class="co">#&gt;  8     7 0.0207 0.0199 0.0192 0.0205 0.000000622  </span>
-<span class="co">#&gt;  9     8 0.0182 0.0198 0.0191 0.0205 0.00000274   </span>
-<span class="co">#&gt; 10     9 0.0186 0.0199 0.0192 0.0205 0.00000149   </span>
-<span class="co">#&gt; # … with 71 more rows</span></code></pre></div>
+<code class="sourceCode R"><span class="va">rc_res</span></code></pre></div>
 <p>We can plot the observed data and estimated fit using the <code>fit_df</code> object:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rc_res</span><span class="op">[[</span><span class="st">"fit_df"</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span>
@@ -414,7 +262,6 @@ m(x)= a_1 \exp{[ \alpha_1 x ]} + a_2 \exp{[ -\alpha_2 (x - \mu_2) - \exp{ [ -\la
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">lower</span>, ymax <span class="op">=</span> <span class="va">upper</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">""</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>data <span class="op">=</span> <span class="st">"red"</span>, fit <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"migration rate"</span><span class="op">)</span></code></pre></div>
-<p><img src="migration_with_demotools_files/figure-html/unnamed-chunk-7-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div id="comments-about-warnings" class="section level4">
 <h4 class="hasAnchor">

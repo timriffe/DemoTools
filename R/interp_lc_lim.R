@@ -420,7 +420,7 @@ interp_lc_lim_estimate <- function(M, dates_in, dates_out, SVD = F){
 # smooth rule previous to solve ambiguous
 #' Smooth and apply lt_ambiguous
 #' @description Considering different mortality input for each sex/year data, 
-#' smooth olders with gompertz or kannisto in case no law was specified, 
+#' smooth olders with makeham or kannisto in case no law was specified, 
 #' and return a data.frame with standard LT. 
 #' @details Gompertz is chosen if last age is less than 90. Else Kannisto. 
 #' @param input data.frame. with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)  
@@ -445,8 +445,8 @@ lt_smooth_ambiguous <- function(input, ...){
     this_extrapFrom <- max(Ageext)
     this_OAnew = 100
     if(this_extrapFrom < 90){
-      this_extrapLaw  <- "gompertz"
-      if (ExtraArgs$verbose) cat(paste0("A Gompertz function was fitted for older ages for sex ",
+      this_extrapLaw  <- "makeham"
+      if (ExtraArgs$verbose) cat(paste0("A Makeham function was fitted for older ages for sex ",
                                   this_sex, " and date ",this_date,".\n"))
       # TR: changed this. 30 could be sort of low in some situations.
       this_extrapFit = Ageext[Ageext >= (this_extrapFrom - 30) & ifelse(ExtraArgs$OAG, Ageext < max(Ageext), TRUE)]

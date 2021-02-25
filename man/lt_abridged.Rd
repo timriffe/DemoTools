@@ -22,9 +22,9 @@ lt_abridged(
   SRB = 1.05,
   OAG = TRUE,
   OAnew = max(Age),
-  extrapLaw = "kannisto",
+  extrapLaw = NULL,
   extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
+  extrapFit = NULL,
   ...
 )
 }
