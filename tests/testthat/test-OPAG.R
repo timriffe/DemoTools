@@ -106,6 +106,31 @@ test_that("OPAG_simple's output has a proper length", {
   )}
 )
 
+## testing warnings
+# -[ ] check for console output when informative warnings should be generated
+
+test_that("OAnew > max(Age_nLx) error", {
+  expect_error(OPAG_simple(
+    Pop = Pop,
+    Age = Age,
+    OAnow = max(Age),
+    StPop = StPop,
+    StAge = StAge,
+    OAnew = max(StAge) + 5
+  ), "OAnew %in% StAge is not TRUE")
+})
+
+test_that("length(Pop) == length(Age) error", {
+  expect_error(OPAG_simple(
+    Pop = pop_swe,
+    Age = Age,
+    OAnow = max(Age),
+    StPop = StPop,
+    StAge = StAge,
+    OAnew = max(StAge)
+  ), "length(Pop) == length(Age) is not TRUE")
+})
+
 ## Stationary population ---------------------------------------
 ## Data
 
