@@ -134,40 +134,91 @@ test_that("length(Pop) == length(Age) error", {
 ## Stationary population ---------------------------------------
 ## Data
 
-Lx <- downloadnLx(NULL, "Sweden", "female", 2000)
-r <- 0.01
-age_Lx <- names2age(Lx)
+Lx <- c(0.997206968803419, 3.98651416246245, 4.98081195476269, 
+                  4.97832219202643, 4.97409262747162, 4.96800317067612, 4.96130094726659, 
+                  4.95324568198643, 4.9414967090444, 4.92251152310738, 4.89050587164337, 
+                  4.83787412607811, 4.75471527967275, 4.62736885461426, 4.43325496677287, 
+                  4.13111130068528, 3.65288437783847, 2.9050982849507, 1.88475330956745, 
+                  0.865610023545313, 0.237771057845129, 0.0331623958830273)
 
+r <-0
+age_Lx     <- c(0,1,seq(5,100,by=5))
+names(Lx)  <- age_Lx
 
 test_that("OPAG_nLx_warp_r works", {
   res_stationary <- OPAG_nLx_warp_r(
-    nLx = Lx,
+    nLx = c(Lx),
     Age = age_Lx,
     r = r,
     continuous = TRUE,
     method = "uniform"
   )
-  c_Lx <- as.vector(Lx/sum(Lx))
-  c_Lx <- as.vector(t(c_Lx))
-  names(c_Lx) <- names(res_stationary)
-  expect_equal(res_stationary/sum(res_stationary),
-    c_Lx, # think about the type of data would return and make equal
-    tolerance = 0.0001
-  )}
+  c_St <- res_stationary/sum(res_stationary)
+  c_Lx <- c(Lx/sum(Lx))
+
+  res <- (c_St - c_Lx) %>% abs() %>% max()
+  expect_true(res < 0.0001)
+  }
 )
 
 
-test_that("OPAG_fit_stable_standard works", {
-  expect_equal(
-    OPAG_fit_stable_standard(Pop_fit,
-                             Age_fit,
-                             AgeInt_fit,
-                             nLx,
-                             Age_nLx,
-                             AgeInt_nLx,          
-                             method = "uniform",
-                             continuous = TRUE), 
-               value,
-               tolerance = 0,0001)
-})
-  
+# Pop_fit was generated this way
+# Pop_fit <- OPAG_nLx_warp_r(
+#   nLx = c(Lx),
+#   Age = age_Lx,
+#   r = 0.01,
+#   continuous = TRUE,
+#   method = "uniform"
+# )
+
+
+
+
+# test_that("OPAG_fit_stable_standard works", {
+#     # OPAG_nLx_warp_r(
+#     #   nLx = c(Lx),
+#     #   Age = age_Lx,
+#     #   r = 0.01,
+#     #   continuous = TRUE,
+#     #   method = "uniform"
+#     # )
+#     
+#   PopCheckStable <- c(0.0178828625366182,  0.0697292229670445, 
+#                       0.0832903513014252,  0.0791886290502868, 0.075262556870,
+#                       0.0715043132981018,  0.0679252465454812, 0.064507587072,
+#                       0.0612159669721477,  0.0580067082482588, 0.054818928190,
+#                       0.0515841876671949,  0.0482249540993725, 0.044644370355,
+#                       0.0406855853175052,  0.0360636791712615, 0.03033362662,
+#                       0.0229474544613544,  0.0141616376235189, 0.0061868062463,
+#                       0.00161654762698326, 0.000218777749686752)
+#   names(PopCheckStable) <- age_Lx
+#   Pop_in                <- PopCheckStable[1:18] 
+#   Pop_in[18]            <- sum(PopCheckStable[18:22])
+#   Pop_in                <- Pop_in * 5e5
+#   Age_Pop_in            <- names2age(Pop_in)
+#   
+#   AgeInt_in <- inferAgeIntAbr(Age_Pop_in, OAG = TRUE, OAvalue = 1)
+#   AgeInt_nLx <- inferAgeIntAbr(age_Lx, OAG = TRUE, OAvalue = 1)
+#   
+#   
+#   Pop_fit <- OPAG(Pop_in,
+#                   Age_Pop = Age_Pop_in,
+#                   AgeInt_Pop = AgeInt_in,
+#                   nLx = nLx,
+#                   Age_nLx = age_Lx,
+#                   AgeInt_nLx = AgeInt_nLx,
+#                   Age_fit =  c(50,60,70),
+#                   AgeInt_fit = c(10,10,10),
+#                   Redistribute_from = 80,
+#                   continuous = TRUE,
+#                   method = "uniform")
+#   PopSt_Out <- rescale_vector(Pop_fit$Pop_out)
+#   expect_equal(
+#     PopSt_Out, 
+#     PopCheckStable,
+#                tolerance = 0.0001)
+# })
+
+
+
+
