@@ -40,7 +40,7 @@
 #' @param OAnew integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.
 #' @param OAG logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include
-#'   \code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.
+#'   \code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"} if the highest age is at least 90, otherwise `"makeham"`. See details.
 #' @inheritParams lt_a_closeout
 #' @export
 #' @return Lifetable in data.frame with columns
@@ -187,6 +187,7 @@ lt_abridged <- function(Deaths = NULL,
   Sex      <- match.arg(Sex, choices = c("m","f","b"))
   a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
   if (!is.null(extrapLaw)){
+    extrapLaw      <- tolower(extrapLaw)
     extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
                                                        "kannisto_makeham",
                                                        "makeham",
@@ -197,7 +198,7 @@ lt_abridged <- function(Deaths = NULL,
                                                        "quadratic"
     ))
   } else {
-      extrapLaw <- ifelse(max(Age)>=90, "kannisto","gompertz")
+      extrapLaw <- ifelse(max(Age)>=90, "kannisto","makeham")
   }
 
   region   <- match.arg(region, choices = c("w","n","s","e"))

@@ -13,9 +13,9 @@ lt_smooth_ambiguous(input, ...)
 }
 \description{
 Considering different mortality input for each sex/year data,
-smooth olders with gompertz or kannisto in case no law was specified,
+smooth olders with makeham or kannisto in case no law was specified,
 and return a data.frame with standard LT.
 }
 \details{
-Gompertz is chosen if last age is less than 90. Else Kannisto.
+Makeham is chosen if last age is less than 90. Else Kannisto.
 }

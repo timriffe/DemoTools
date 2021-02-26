@@ -32,24 +32,41 @@ lt_single_qx <- function(nqx,
                          SRB = 1.05,
                          OAG = TRUE,
                          OAnew = max(Age),
-                         extrapLaw = "kannisto",
+                         extrapLaw = NULL,
                          extrapFrom = max(Age),
-                         extrapFit = Age[Age >= 60],
+                         extrapFit = NULL,
                          ...) {
   
   stopifnot(extrapFrom <= max(Age))
   Sex      <- match.arg(Sex, choices = c("m","f","b"))
   a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
-  extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
-                                                     "kannisto_makeham",
-                                                     "makeham",
-                                                     "gompertz",
-                                                     "ggompertz",
-                                                     "beard",
-                                                     "beard_makeham",
-                                                     "quadratic"
-  ))
+  if (!is.null(extrapLaw)){
+    extrapLaw      <- tolower(extrapLaw)
+    extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
+                                                       "kannisto_makeham",
+                                                       "makeham",
+                                                       "gompertz",
+                                                       "ggompertz",
+                                                       "beard",
+                                                       "beard_makeham",
+                                                       "quadratic"
+    ))
+  } else {
+    extrapLaw <- ifelse(max(Age)>=90, "kannisto","makeham")
+  }
+  
   region   <- match.arg(region, choices = c("w","n","s","e"))
+  
+  if (is.null(extrapFit)){
+    maxAclosed <- ifelse(OAG, Age[which.max(Age)-1],max(Age))
+    if (maxAclosed < 85){
+      extrapFit  <- Age[Age >= (maxAclosed - 20) & Age <= maxAclosed]
+    } else {
+      extrapFit  <- Age[Age >= 60 & Age <= maxAclosed]
+    }
+  } else {
+    stopifnot(all(extrapFit %in% Age))
+  }
   
   # Remove open age group 1qx=1 if it is included in the input vector
 
