@@ -4,7 +4,7 @@
 # 2) also qx in range 0-1
 # IK: done
 ###############################################################################
-context("test-ltpopdth")
+context("test-lt_abridged")
 
 
 # testing function --------------------------------------------------------

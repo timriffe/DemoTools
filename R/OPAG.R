@@ -439,6 +439,15 @@ OPAG <- function(Pop,
                  method = "uniform",
                  continuous = TRUE){
 
+  # ensure OAnew is possible
+  stopifnot(OAnew <= max(Age_nLx))
+  
+  method <- match.arg(method, choices = c("uniform","pclm","mono"))
+  
+  # what if one age vec is single and the other isn't? we should warn, but continue.
+  # is_single(Age_Pop)
+  # is_abridged(Age_Pop)
+  
   # setup, prelims:
   # 0) if Age_fit isn't given assume last two 10-year age groups.
   if (is.null(Age_fit)){
