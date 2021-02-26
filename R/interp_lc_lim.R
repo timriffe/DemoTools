@@ -422,7 +422,7 @@ interp_lc_lim_estimate <- function(M, dates_in, dates_out, SVD = F){
 #' @description Considering different mortality input for each sex/year data, 
 #' smooth olders with makeham or kannisto in case no law was specified, 
 #' and return a data.frame with standard LT. 
-#' @details Gompertz is chosen if last age is less than 90. Else Kannisto. 
+#' @details Makeham is chosen if last age is less than 90. Else Kannisto. 
 #' @param input data.frame. with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)  
 #' @param ... Other arguments to be passed on to the \code{\link[DemoTools]{lt_abridged}} function.
 #' @export
