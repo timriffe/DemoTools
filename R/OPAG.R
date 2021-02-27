@@ -274,7 +274,7 @@ OPAG_r_min <- function(r,
 
 
 #' creates stable standard based on optimizing the growth rate
-#' @description The stationary standard, `nLx` is transformed into a stable standard by optimizing a growth rate, `r` such that the stable standard matches observed population counts in selected age groups. Usually the ages used for fitting are wide age groups in older ages preceding the open age group. The standard output by this function is used by `OPAG` to creat the standard used to redistribute counts over older age groups up to a specified open age group, such as 100.
+#' @description The stationary standard, `nLx` is transformed into a stable standard by optimizing a growth rate, `r` such that the stable standard matches observed population counts in selected age groups. Usually the ages used for fitting are wide age groups in older ages preceding the open age group. The standard output by this function is used by `OPAG` to create the standard used to redistribute counts over older age groups up to a specified open age group, such as 100.
 #' @details The arguments `method` and `continous` don't have much leverage on the result. In short, the stable population transformation is done by ungrouping `nLx` to single ages (if it isn't already), and `method` controls which graduation method is used for this, where `"uniform"`, `"mono"`, `"pclm"` are the reasonable choices at this writing. In single ages, the difference between using a geometric `r` versus continuous `r` are quite small for this task.
 #'
 #' @inheritParams OPAG_r_min
@@ -439,6 +439,15 @@ OPAG <- function(Pop,
                  method = "uniform",
                  continuous = TRUE){
 
+  # ensure OAnew is possible
+  stopifnot(OAnew <= max(Age_nLx))
+  
+  method <- match.arg(method, choices = c("uniform","pclm","mono"))
+  
+  # what if one age vec is single and the other isn't? we should warn, but continue.
+  # is_single(Age_Pop)
+  # is_abridged(Age_Pop)
+  
   # setup, prelims:
   # 0) if Age_fit isn't given assume last two 10-year age groups.
   if (is.null(Age_fit)){

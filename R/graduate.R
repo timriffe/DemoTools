@@ -932,10 +932,10 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
 #'				 "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60",
 #'				 "65", "70", "75", "80", "85", "90", "95", "100"))
 #'
-#' # overwrite open age group with a single age estimate for that age
-#' # (doesn't extrapolate)
-#' graduate_mono(Value)
-#' # or respect open age group
+#' # if the last age group is closed, then it's best to use AgeInt, otherwise,
+#' # one is assumed from the age siphoned from the names attribute of Value.
+#' graduate_mono(Value, OAG = FALSE)
+#' # or leave open age group in tact
 #' graduate_mono(Value, OAG = TRUE)
 #'
 #' # Also accepts single ages:
