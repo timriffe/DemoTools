@@ -37,13 +37,16 @@ graduate_mono(Value, OAG = FALSE)
 # or leave open age group in tact
 graduate_mono(Value, OAG = TRUE)
 
-# Also accepts single ages:
-Value                <- structure(pop1m_ind, .Names = 0:100)
+data(pop1m_ind)
+Value5                <- groupAges(pop1m_ind,Age=0:100,N=5) 
 
-		\dontrun{
-	ages                <- seq(0,100,5)
- plot(graduate_mono(Value),xlab = 'Age', ylab = 'Counts', type = 'l',main = 'Ungrouped counts')
-		}
+Value1 <- graduate_mono(Value = Value5, Age = names2age(Value5), OAG =TRUE)
+
+\dontrun{
+ 
+ plot(seq(0,100,5),Value5 / 5, xlab = 'Age', ylab = 'Counts', type = 's')
+ lines(0:100,Value1)
+}
 }
 \references{
 \insertRef{fritsch1980monotone}{DemoTools}
