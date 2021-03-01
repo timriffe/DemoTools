@@ -4,7 +4,7 @@
 \alias{graduate_beers}
 \title{The ordinary modified Beers splitting methods}
 \usage{
-graduate_beers(Value, Age, AgeInt, OAG = TRUE, method = "mod", johnson = FALSE)
+graduate_beers(Value, Age, AgeInt, OAG = TRUE, method = "ord", johnson = FALSE)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}
@@ -17,7 +17,7 @@ graduate_beers(Value, Age, AgeInt, OAG = TRUE, method = "mod", johnson = FALSE)
 
 \item{method}{character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}.}
 
-\item{johnson}{logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default \code{FALSE}.}
+\item{johnson}{logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default \code{FALSE.}}
 }
 \value{
 A numeric vector of single age data.
@@ -28,7 +28,9 @@ This method offers both ordinary and modified Beers splitting, with an optional 
 \details{
 Ages should refer to lower age bounds. \code{Value} must be labelled with ages unless \code{Age} is given separately. There must be at least six 5-year age groups (including the open group, 5 otherwise). If you want the \code{johnson} adjustment then \code{Value} must contain a single-year estimate of the population count in age 0. That means \code{Value} must come either as standard abridged or single age data.
 
-If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend to single ages covering the entire 5-year age group.
+\code{method} option \code{"ord"} conserves sums in 5-year age groups, whereas \code{"mod"} does some smoothing between 5-year age groups too, and is not constrained.
+
+If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG = FALSE}, then results extend to single ages covering the entire 5-year age group.
 }
 \examples{
 p5 <- pop5_mat

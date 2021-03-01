@@ -685,14 +685,16 @@ graduate_beers_expand <- function(Value,
 
 #' The ordinary modified Beers splitting methods
 #'
-#' @description This method offers both ordinary and modified Beers splitting, with an optional \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} adjustment \code{johnson} for ages under 10.
+#' @description This method offers both ordinary and modified Beers splitting, with an optional \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} adjustment `johnson` for ages under 10.
 #'
 #' @inheritParams graduate
-#' @param method character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}.
-#' @param johnson  logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default \code{FALSE}.
-#' @details Ages should refer to lower age bounds. \code{Value} must be labelled with ages unless \code{Age} is given separately. There must be at least six 5-year age groups (including the open group, 5 otherwise). If you want the \code{johnson} adjustment then \code{Value} must contain a single-year estimate of the population count in age 0. That means \code{Value} must come either as standard abridged or single age data.
+#' @param method character. Valid values are `"mod"` or `"ord"`. Default `"mod"`.
+#' @param johnson  logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default `FALSE.`
+#' @details Ages should refer to lower age bounds. `Value` must be labelled with ages unless `Age` is given separately. There must be at least six 5-year age groups (including the open group, 5 otherwise). If you want the `johnson` adjustment then `Value` must contain a single-year estimate of the population count in age 0. That means `Value` must come either as standard abridged or single age data.
+#' 
+#' `method` option `"ord"` conserves sums in 5-year age groups, whereas `"mod"` does some smoothing between 5-year age groups too, and is not constrained.
 #'
-#' If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend to single ages covering the entire 5-year age group.
+#' If the highest age does not end in a 0 or 5, and `OAG == TRUE`, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and `OAG = FALSE`, then results extend to single ages covering the entire 5-year age group.
 #'
 #' @return A numeric vector of single age data.
 #' @references
@@ -753,11 +755,20 @@ graduate_beers <- function(Value,
                            Age,
                            AgeInt,
                            OAG = TRUE,
-                           method = "mod",
+                           method = "ord",
                            johnson = FALSE) {
 
-  if (missing(AgeInt)){
-    AgeInt <- age2int(Age, OAG = OAG, OAvalue = 1)
+  
+  
+  if (missing(Age) & missing(AgeInt)) {
+    Age                 <- names2age(Value)
+  }
+  if (missing(AgeInt)) {
+    # give 1 to final interval to preserve
+    AgeInt              <- age2int(Age, OAG = OAG, OAvalue = 1)
+  }
+  if (missing(Age)) {
+    Age                 <- int2age(AgeInt)
   }
 
   punif1       <- graduate_uniform(
