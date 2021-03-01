@@ -22,8 +22,8 @@
 #' graduate_uniform(MalePop, Age = Ages)
 graduate_uniform <-
   function(Value,
-           AgeInt,
            Age,
+           AgeInt,
            OAG = TRUE,
            OAvalue = 1) {
 
@@ -89,6 +89,7 @@ graduate_uniform <-
 
 graduate_sprague <- function(Value,
                              Age,
+                             AgeInt,
                              OAG = TRUE) {
 
   if (missing(Age) & missing(AgeInt)) {
@@ -421,6 +422,7 @@ graduate_grabill_expand <- function(Value, Age, OAG = TRUE) {
 graduate_grabill <- function(
   Value,
   Age,
+  AgeInt,
   OAG = TRUE) {
 
   if (missing(Age) & missing(AgeInt)) {
@@ -712,7 +714,7 @@ graduate_beers_expand <- function(Value,
 #' @description This method offers both ordinary and modified Beers splitting, with an optional \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} adjustment `johnson` for ages under 10.
 #'
 #' @inheritParams graduate
-#' @param method character. Valid values are `"mod"` or `"ord"`. Default `"mod"`.
+#' @param method character. Valid values are `"ord"` or `"mod"`. Default `"ord"`.
 #' @param johnson  logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default `FALSE.`
 #' @details Ages should refer to lower age bounds. `Value` must be labelled with ages unless `Age` is given separately. There must be at least six 5-year age groups (including the open group, 5 otherwise). If you want the `johnson` adjustment then `Value` must contain a single-year estimate of the population count in age 0. That means `Value` must come either as standard abridged or single age data.
 #' 
@@ -996,8 +998,8 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
 
 graduate_mono   <- function(
   Value,
-  AgeInt,
   Age,
+  AgeInt,
   OAG = TRUE) {
 
   if (missing(Age) & missing(AgeInt)) {

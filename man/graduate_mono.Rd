@@ -4,14 +4,14 @@
 \alias{graduate_mono}
 \title{Graduate age groups using a monotonic spline.}
 \usage{
-graduate_mono(Value, AgeInt, Age, OAG = TRUE)
+graduate_mono(Value, Age, AgeInt, OAG = TRUE)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}
 
-\item{AgeInt}{integer vector, age interval widths}
-
 \item{Age}{integer vector, lower bounds of age groups}
+
+\item{AgeInt}{integer vector, age interval widths}
 
 \item{OAG}{logical, default = \code{TRUE} is the final age group open?}
 }

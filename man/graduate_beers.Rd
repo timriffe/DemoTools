@@ -15,7 +15,7 @@ graduate_beers(Value, Age, AgeInt, OAG = TRUE, method = "ord", johnson = FALSE)
 
 \item{OAG}{logical, default = \code{TRUE} is the final age group open?}
 
-\item{method}{character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}.}
+\item{method}{character. Valid values are \code{"ord"} or \code{"mod"}. Default \code{"ord"}.}
 
 \item{johnson}{logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default \code{FALSE.}}
 }
