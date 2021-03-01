@@ -91,10 +91,22 @@ graduate_sprague <- function(Value,
                              Age,
                              OAG = TRUE) {
 
+  if (missing(Age) & missing(AgeInt)) {
+    Age                 <- names2age(Value)
+  }
+  if (missing(AgeInt)) {
+    # give 1 to final interval to preserve
+    AgeInt              <- age2int(Age, OAG = OAG, OAvalue = 1)
+  }
+  if (missing(Age)) {
+    Age                 <- int2age(AgeInt)
+  }
+  
   punif1       <- graduate_uniform(
-    Value = Value,
-    Age = Age,
-    OAG = OAG)
+                    Value = Value,
+                    AgeInt = AgeInt,
+                    Age = Age,
+                    OAG = OAG)
   # this is innocuous if ages are already grouped
   a1           <- as.integer(names(punif1))
   pop5         <- groupAges(
@@ -411,8 +423,20 @@ graduate_grabill <- function(
   Age,
   OAG = TRUE) {
 
+  if (missing(Age) & missing(AgeInt)) {
+    Age                 <- names2age(Value)
+  }
+  if (missing(AgeInt)) {
+    # give 1 to final interval to preserve
+    AgeInt              <- age2int(Age, OAG = OAG, OAvalue = 1)
+  }
+  if (missing(Age)) {
+    Age                 <- int2age(AgeInt)
+  }
+  
   punif1       <- graduate_uniform(
     Value = Value,
+    AgeInt = AgeInt,
     Age = Age,
     OAG = OAG)
   # this is innocuous if ages are already grouped
@@ -758,8 +782,6 @@ graduate_beers <- function(Value,
                            method = "ord",
                            johnson = FALSE) {
 
-  
-  
   if (missing(Age) & missing(AgeInt)) {
     Age                 <- names2age(Value)
   }
@@ -904,6 +926,18 @@ graduate_beers_johnson <- function(Age0, pop5, pop1) {
 #' }
 
 graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
+  
+  if (missing(Age) & missing(AgeInt)) {
+    Age                 <- names2age(Value)
+  }
+  if (missing(AgeInt)) {
+    # give 1 to final interval to preserve
+    AgeInt              <- age2int(Age, OAG = OAG, OAvalue = 1)
+  }
+  if (missing(Age)) {
+    Age                 <- int2age(AgeInt)
+  }
+  
   nlast    <- OAnew - max(Age) + 1
   a1       <- min(Age):OAnew
   DOTS     <- list(...)
