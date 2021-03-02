@@ -927,7 +927,7 @@ graduate_beers_johnson <- function(Age0, pop5, pop1) {
 #'   lines(0:85, mx, col = "red")
 #' }
 
-graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
+graduate_pclm <- function(Value, Age, AgeInt, OAnew = max(Age), OAG = TRUE, ...) {
   
   if (missing(Age) & missing(AgeInt)) {
     Age                 <- names2age(Value)
