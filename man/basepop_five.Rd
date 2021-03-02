@@ -5,7 +5,7 @@
 \title{BPA and BPE methods for adjusting age groups under 10}
 \usage{
 basepop_five(
-  country = NULL,
+  location = NULL,
   refDate,
   Age = NULL,
   Females_five,
@@ -23,9 +23,7 @@ basepop_five(
 )
 }
 \arguments{
-\item{country}{The country name or location code from which to download the n
-Lx and asfr data. See \code{fertestr::locs_avail()} for all country
-names/codes.}
+\item{location}{UN Pop Division \code{LocName} or \code{LocID}}
 
 \item{refDate}{The reference year for which the reported population pertain
 (these are the population counts in \code{Females_five} and
@@ -53,7 +51,7 @@ with ages in the rows and time in columns. The earlier date should be at least
 7.5 years before the reference date of the "reported" population. The later
 date should be no earlier than one-half year before the reference date of
 the "reported" population. If not provided, it's automatically downloaded if
-\code{country}, \code{refDate} and the equivalent population counts
+\code{location}, \code{refDate} and the equivalent population counts
 \verb{*_five} are provided.}
 
 \item{nLxMale}{A numeric matrix. The male nLx function of two abridged life tables
@@ -129,7 +127,7 @@ If \code{SmoothedFemales} is left empty, both \code{basepop_*} functions will
 adjust using the BPE method.
 
 For \code{basepop_five}, adjusting the female population counts is the
-default. For this, only the \code{country}, \code{refDate} and
+default. For this, only the \code{location}, \code{refDate} and
 \code{Females_five} are needed. All other arguments are downloaded
 or set to sensible defaults. For adjusting the male population
 counts, the user needs to specify the \code{Males_five} population
@@ -254,14 +252,14 @@ underenumeration of persons in certain ages, nor by age misreporting.
 
 # Grab population counts for females
 refDate <- 1986
-country <- "Brazil"
-pop_female_single <- fertestr::FetchPopWpp2019(country,
+location <- "Brazil"
+pop_female_single <- fertestr::FetchPopWpp2019(location,
                                                refDate,
                                                ages = 0:100,
                                                sex = "female")
 pop_female_counts <- single2abridged(setNames(pop_female_single$pop,
                                               pop_female_single$ages))
-pop_male_single   <- fertestr::FetchPopWpp2019(country,
+pop_male_single   <- fertestr::FetchPopWpp2019(location,
                                                refDate,
                                                ages = 0:100,
                                                sex = "male")
@@ -270,7 +268,7 @@ pop_male_counts   <- single2abridged(setNames(pop_male_single$pop,
 Age <- names2age(pop_male_counts)
 # Automatically downloads the nLx, ASFR, and SRB data
 bpe <- basepop_five(
-  country = country,
+  location = location,
   refDate = refDate,
   Females_five = pop_female_counts,
   Males_five = pop_male_counts,
@@ -292,7 +290,7 @@ pop_male_counts[1:3]
 #
 # # Automatically downloads the nLx and ASFR data
 # bpe_female <- basepop_single(
-#   country = country,
+#   location = location,
 #   refDate = refDate,
 #   Females_single = pop_female_single
 # )
@@ -319,7 +317,7 @@ smoothed_males <- c(smoothed_males[1:2], smoothed_males[-1])
 
 # Automatically downloads the nLx, ASFR, and SRB data
 bpa <- basepop_five(
-  country = country,
+  location = location,
   refDate = refDate,
   Females_five = smoothed_females,
   Males_five = smoothed_males,

@@ -4,10 +4,17 @@
 \alias{lt_ambiguous}
 \title{calculate an abidged or single age lifetable from abridged or sinlge age data}
 \usage{
-lt_ambiguous(x = NULL, type = "m", Age = NULL, Sex = NULL, Single = FALSE, ...)
+lt_ambiguous(
+  nMx_or_nqx_or_lx = NULL,
+  type = "m",
+  Age = NULL,
+  Sex = NULL,
+  Single = FALSE,
+  ...
+)
 }
 \arguments{
-\item{x}{numeric vector of either \code{nMx}, \code{nqx}, or \code{lx}}
+\item{nMx_or_nqx_or_lx}{numeric vector of either \code{nMx}, \code{nqx}, or \code{lx}}
 
 \item{type}{character, which variable is \code{x}?, either \code{"m"}, \code{"q"}, or \code{"l"}. Default \code{"m"}}
 

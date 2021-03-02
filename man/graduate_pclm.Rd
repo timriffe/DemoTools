@@ -4,14 +4,18 @@
 \alias{graduate_pclm}
 \title{wrapper for \code{ungroup::pclm} method of splitting binned counts}
 \usage{
-graduate_pclm(Value, Age, OAnew = max(Age), ...)
+graduate_pclm(Value, Age, AgeInt, OAnew = max(Age), OAG = TRUE, ...)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}
 
 \item{Age}{integer vector, lower bounds of age groups}
 
+\item{AgeInt}{integer vector, age interval widths}
+
 \item{OAnew}{integer, optional new open age, higher than \code{max(Age)}. See details.}
+
+\item{OAG}{logical, default = \code{TRUE} is the final age group open?}
 
 \item{...}{further arguments passed to \code{ungroup::pclm()}}
 }

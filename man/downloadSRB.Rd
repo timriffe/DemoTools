@@ -4,12 +4,12 @@
 \alias{downloadSRB}
 \title{Extract SRB estimates from WPP2019}
 \usage{
-downloadSRB(SRB, country, DatesOut, verbose = TRUE)
+downloadSRB(SRB, location, DatesOut, verbose = TRUE)
 }
 \arguments{
 \item{SRB}{sex ratio at birth. Either \code{NULL}, a scalar to assume constant, or a vector of length 3, assumed.}
 
-\item{country}{character country name available UN Pop Div \code{LocName} set}
+\item{location}{UN Pop Div \code{LocName} or \code{LocID}}
 
 \item{DatesOut}{numeric vector of three decimal dates produced by \code{basepop_ive()}}
 

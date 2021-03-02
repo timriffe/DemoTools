@@ -4,12 +4,12 @@
 \alias{downloadnLx}
 \title{Extract Lx estimates from WPP2019}
 \usage{
-downloadnLx(nLx, country, gender, nLxDatesIn)
+downloadnLx(nLx, location, gender, nLxDatesIn)
 }
 \arguments{
 \item{nLx}{either \code{NULL} or a numeric vector of lifetable exposure. If it's the second then we just pass it back.}
 
-\item{country}{character country name available UN Pop Div \code{LocName} set}
+\item{location}{UN Pop Div \code{LocName} or \code{LocID}}
 
 \item{gender}{\code{"male"}, \code{"female"}, or \code{"both"}}
 
