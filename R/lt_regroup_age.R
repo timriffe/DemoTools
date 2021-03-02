@@ -31,7 +31,8 @@
 lt_single2abridged <- function(lx,
                                nLx,
                                ex,
-                               Age = 1:length(lx) - 1) {
+                               Age = 1:length(lx) - 1,
+                               ...) {
   
   stopifnot(is_single(Age))
   NN <- length(lx)
@@ -203,11 +204,11 @@ lt_abridged2single <- function(
   
   # TR: removed ... because in practice we were passing in a large
   # set of ... indirectly that aren't recognized in pclm
-  M <- pclm(x      = lt_abr$Age[ind],
+  M <- suppressWarnings(pclm(x      = lt_abr$Age[ind],
             y      = ndx[ind],
             nlast  = 5,
             offset = nLx[ind],
-            ...)
+            ...))
   
   # splice original 1M0 with fitted 1Mx and momega from extended abridged LT
   M <- c(lt_abr$nMx[1], M$fitted)
@@ -282,7 +283,7 @@ lt_ambiguous <- function(nMx_or_nqx_or_lx = NULL,
     # If we have nMx
     if (type == "m" & Single){
       
-      args_could_have <- formals(lt_abridged2single)
+      # args_could_have <- formals(lt_abridged2single)
       
       out <- lt_abridged2single(nMx = xx, Age = Age, Sex = Sex, ...)
     }

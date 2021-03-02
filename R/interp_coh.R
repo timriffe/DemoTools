@@ -621,48 +621,6 @@ lt_a2s_chunk <- function(chunk, OAnew, ...){
                      ...)
 }
 
-interp_coh_download_mortality <- function(location, sex, date1, date2, OAnew = 100){
-
-  . <- NULL
-
-  date1      <- dec.date(date1)
-  date2      <- dec.date(date2)
-
-  year1      <- floor(date1) + 1
-  year2      <- floor(date2)
-
-  year_seq   <- year1:year2
-
-  dates_out  <- c(dec.date(date1), year_seq)
-
-
-  PX <- suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,
-                                locations = location,
-                                sex = sex)) %>%
-    lapply(function(X){
-      X[,c("year","x","mx")]
-    }) %>%
-    lapply(lt_a2s_chunk, OAnew = OAnew) %>%
-    lapply(function(X){
-      1 - X$nqx
-    }) %>%
-    do.call("cbind",.)
-
-
-  dimnames(PX)   <- list(0:OAnew, dates_out)
-
-  PX[PX > 1]     <- 1
-  # discount first and last periods.
-
-  f1             <- diff(dates_out)[1]
-  f2             <- date2 - floor(date2)
-
-  # assume linear px change within age class
-  PX[, 1]        <- PX[, 1] ^f1
-  PX[,ncol(PX)]  <- PX[, ncol(PX)] ^f2
-
-  PX
-}
 
 # lxMat <-suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,
 #                              locations = location,
@@ -766,10 +724,14 @@ transform_pxt <- function(lxMat,
 
   # get the lexis surface of survival probabilities
   if (is.null(lxMat)){
-    if (verbose) cat(paste0("\nlxMat not provided. Downloading lxMat for ", location, ", gender: ", "`", sex, "`, for years between ", round(date1, 1), " and ", round(date2, 1), "\n"))
-
-    pxt <- suppressMessages(
-      interp_coh_download_mortality(location, sex, date1, date2, OAnew = max(age1) + 1)
+    
+      pxt <- suppressMessages(
+      interp_coh_download_mortality(location = location, 
+                                    sex = sex, 
+                                    date1 = date1, 
+                                    date2 = date2, 
+                                    OAnew = max(age1) + 1, 
+                                    verbose = verbose)
     )
   } else {
 
@@ -839,45 +801,6 @@ transform_pxt <- function(lxMat,
   pxt
 }
 
-fetch_wpp_births <- function(births, yrs_births, location, sex, verbose) {
-
-  # fetch WPP births if not provided by user
-  if (is.null(births)) {
-
-    # load WPP births
-    requireNamespace("DemoToolsData", quietly = TRUE)
-    WPP2019_births <- DemoToolsData::WPP2019_births
-
-    
-    if ( !is_LocID( location_code ) ){
-      location <- fertestr::get_location_code( location )
-    } else {
-      location <- as.integer(location)
-    }
-    # format filtering criteria -- country and years
-    # cntr_iso3 <- countrycode::countrycode(
-    #   location,
-    #                             origin = "country.name",
-    #                             destination  = "iso3c")
-
-    # filter out location and years
-    ind       <- WPP2019_births$LocID == location & WPP2019_births$Year %in% yrs_births
-    b_filt    <- WPP2019_births[ind, ]
-    bt        <- b_filt$TBirths
-    SRB       <- b_filt$SRB
-
-    # extract births depending on sex
-    if (sex == "both")  births  <- bt
-    if (sex == "male")   births  <- bt * SRB / ( 1 + SRB)
-    if (sex == "female") births  <- bt / (SRB + 1)
-
-    if (verbose){
-      cat("Births fetched from WPP for:", paste(location, sex), "population, years", paste(yrs_births, collapse = ", "), "\n")
-    }
-  }
-
-  births
-}
 
 check_args <- function(lxMat, births, location, age1, age2, c1, c2, verbose) {
   stopifnot(length(age1) == length(c1))

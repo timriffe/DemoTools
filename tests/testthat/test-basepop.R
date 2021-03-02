@@ -810,11 +810,15 @@ test_that("downloadSRB works as expected", {
   srb_checker(downloadSRB(SRB = NULL, location = "Spain", DatesOut = 1955:1957))
 
   # Assumes SRB
-  expect_output(
-    downloadSRB(SRB = NULL, location = "Whatever", DatesOut = 1955:1957),
-    regexp = c("Whatever not available in WPP LocName list\nAssuming SRB to be 1.047"),
-    fixed = TRUE
-  )
+ outp <- capture_output_lines(
+   downloadSRB(SRB = NULL, 
+               location = "Whatever", 
+               DatesOut = 1955:1957)
+   )
+ 
+ expect_true(all(
+   c("Whatever not available in DemoToolsData::WPP2019_births",
+     "Assuming SRB to be 1.047 ") %in% outp) )
 
   # Should fail because of number of years
   expect_error(
@@ -835,3 +839,4 @@ test_that("downloadSRB works as expected", {
     ordered_name = TRUE
   )
 })
+

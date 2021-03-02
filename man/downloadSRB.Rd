@@ -13,7 +13,7 @@ downloadSRB(SRB, location, DatesOut, verbose = TRUE)
 
 \item{DatesOut}{numeric vector of three decimal dates produced by \code{basepop_ive()}}
 
-\item{verbose}{Whether to print messages. Default set to TRUE.}
+\item{verbose}{logical, shall we send optional messages to the console?}
 }
 \value{
 numeric vector with three SRB estimates

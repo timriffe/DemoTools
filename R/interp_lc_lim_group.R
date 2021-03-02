@@ -156,14 +156,50 @@ interp_lc_lim_group <- function(input = NULL,
   . <- NULL
   for(i in groups){
     input_id <- as.data.frame(input[input$id == i,])
+      # inputdt <- split(input_id, list(input_id$Date)) %>% 
+      # lapply(
+      #   function(X) do.call(lt_smooth_ambiguous,
+      #                       c(list(input=X), ExtraArgs))) %>% 
+      # do.call("rbind", .)%>% 
+      # as.data.table()%>% 
+      # data.table::dcast(Age ~ Date, value.var = "nMx") %>% 
+      # .[order(Age)]
+      # 
+      # 
+      input_id <- as.data.frame(input[input$id == i,])
       inputdt <- split(input_id, list(input_id$Date)) %>% 
-      lapply(
-        function(X) do.call(lt_smooth_ambiguous,
-                            c(list(input=X), ExtraArgs))) %>% 
-      do.call("rbind", .)%>% 
-      as.data.table()%>% 
-      data.table::dcast(Age ~ Date, value.var = "nMx") %>% 
-      .[order(Age)]
+        lapply(., function(X) {
+          Age <- X$Age
+          Sex_i <- unique(X$Sex)
+          
+          
+          types     <- c("nMx","nqx","lx")
+          this_type <- types[types %in% colnames(X)]
+          if (length(this_type) > 1){
+            ind <- X[,this_type] %>% 
+              as.matrix() %>% 
+              is.na() %>% 
+              colSums() %>% 
+              which.min()
+            this_type <- this_type[ind]
+          }
+      
+          LT <- lt_ambiguous(nMx_or_nqx_or_lx = X[[this_type]],
+                             type = this_type,
+                             Age = Age, 
+                             Sex = Sex_i,
+                             Single = Single,
+                             ...)
+         
+          LT$Date <- unique(X$Date)
+          LT
+        }) %>% 
+        do.call("rbind", .)%>% 
+        as.data.table()%>% 
+        data.table::dcast(Age ~ Date, value.var = "nMx") %>% 
+        .[order(Age)]
+      
+      
     Age  <- inputdt[["Age"]]
     nMx[[i]] <- inputdt[, -1] %>% as.matrix()
     rownames(nMx[[i]]) <- Age
@@ -244,16 +280,16 @@ interp_lc_lim_group <- function(input = NULL,
     colnames(nMx_hat[[i]]) <- dates_out
     Sex_i = unique(input$Sex[input$id == i])
     out <-
-      lapply(colnames(nMx_hat[[i]]), function(x,MX,Age) {
-        mx <- MX[, x]
-        LT <- lt_ambiguous(x = mx,
+      lapply(colnames(nMx_hat[[i]]), function(xx,MX,Age) {
+        mx <- MX[, xx]
+        LT <- lt_ambiguous(nMx_or_nqx_or_lx = mx,
                            type = "m",
                            Age = Age, 
                            Sex = Sex_i,
                            Single = Single,
                            ...)
         LT$Sex  <- Sex_i
-        LT$Date <- as.numeric(x)
+        LT$Date <- as.numeric(xx)
         LT
       }, MX = nMx_hat[[i]], Age = Age) %>% 
       rbindlist()

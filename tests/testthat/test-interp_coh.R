@@ -84,19 +84,19 @@ test_that("interp_coh works well with age1", {
 test_that("Births are pulled from post-processed WPP2019", {
   # 2) births pulled from post-processing of WPP2019;
   #    mortality from WPP2019 (graduated as needed)
-
-  expect_output(
-    interp_coh(
-      location = "Russian Federation",
-      sex = "male",
-      c1 = pop1m_rus2002,
-      c2 = pop1m_rus2010,
-      date1 = "2002-10-16",
-      date2 = "2010-10-25",
-      age1 = 0:100
-    ),
-    regexp = "Births fetched from WPP for: Russian Federation male population, years 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 " #nolintr
-  )
+outp <- capture_output_lines(interp_coh(
+  location = "Russian Federation",
+  sex = "male",
+  c1 = pop1m_rus2002,
+  c2 = pop1m_rus2010,
+  date1 = "2002-10-16",
+  date2 = "2010-10-25",
+  age1 = 0:100
+))
+  expect_true(
+   "births not provided. Downloading births for Russian Federation (LocID = 643), gender: `male`, years: 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010" ==
+     as.character(outp[4]))
+  
 })
 
 test_that("interp_coh works well with different time points", {
@@ -292,7 +292,7 @@ test_that("interp_coh fails when lxmat is not correct", {
 
   ## 3.2) lxMat give, but the date range in it doesn't overlap
   ## with the date range of date1 to date2 (i.e. 100% extrapolation implied)
-  expect_output(
+  outp <- capture_output_lines(
     interp_coh(
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -307,9 +307,10 @@ test_that("interp_coh fails when lxmat is not correct", {
                  760831L, 828772L, 880543L, 905380L,
                  919639L, 719511L, 760934L, 772973L,
                  749554L, 760831L, 828772L),
-      years_births = 2000:2014),
-    regexp = "Range between `date1` and `date2` must overlap with `lx_dates` for at least 25% of the range or 6 years." #nolintr
-  )
+      years_births = 2000:2014))
+  
+expect_true(any(outp == "Range between `date1` and `date2` must overlap with `lx_dates` for at least 25% of the range or 6 years." #nolintr
+  ))
 
   # Full error when dates_lx are now within the date1 and date2 threshold.
   expect_error(
@@ -497,7 +498,7 @@ test_that("c1, c2 and lxmat should not have negatives", {
 test_that("interp_coh shows appropriate warnings when verbose = TRUE", {
 
   # 1) age1 and age2 not same range
-  expect_output(
+  outp <- capture_output_lines(
     interp_coh(
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010[-length(pop1m_rus2010)],
@@ -509,13 +510,13 @@ test_that("interp_coh shows appropriate warnings when verbose = TRUE", {
       age_lx = age_lx,
       births = c(719511L, 760934L, 772973L, 749554L,
                  760831L, 828772L, 880543L, 905380L, 919639L),
-      years_births = 2002:2010),
-    regexp = "\nFYI: age ranges are different for c1 and c2\nWe'll still get intercensal estimates,\nbut returned data will be chopped off after age 100 ",
-    fixed = TRUE
+      years_births = 2002:2010))
+  expect_true(
+    all(c("FYI: age ranges are different for c1 and c2", "We'll still get intercensal estimates,","but returned data will be chopped off after age 100 ") %in% outp)
   )
 
   # 2) date2 - date1 > 15
-  expect_output(
+  outp <- capture_output_lines(
     interp_coh(
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -533,13 +534,14 @@ test_that("interp_coh shows appropriate warnings when verbose = TRUE", {
                  749554L),
       years_births = 2002:2017,
       verbose = TRUE
-    ),
-    regexp = "FYI, there are 15.02466 years between c1 and c2\nBe wary.",
-    fixed = TRUE
-  )
+    ))
+    
+     expect_true(all(c("FYI, there are 15.02466 years between c1 and c2","Be wary.") %in% outp))
+ 
+  
 
   # 3) if the shortest distance from dates_lx to date1 or date2 is greater than 7
-  expect_output(
+outp <- capture_output_lines(
     interp_coh(
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -554,10 +556,12 @@ test_that("interp_coh shows appropriate warnings when verbose = TRUE", {
                  749554L, 760831L, 828772L),
       years_births = 2000:2017,
       verbose = TRUE
-    ),
-    regexp = "The shortest distance from `dates_lx` ( 2008 ) to `date1/date2`( 2000.79 ) is greater than 7 years. Be wary.",
-    fixed = TRUE
-  )
+    ))
+    
+
+expect_true(any(outp == "The shortest distance from `dates_lx` ( 2008 ) to `date1/date2`( 2000.79 ) is greater than 7 years. Be wary."))
+  
+  
 
   # 4) any negatives detected in output (to be imputed with 0s)
   # TODO: I couldn't come up with an example where the resulting
@@ -594,7 +598,7 @@ test_that("interp_coh shows appropriate warnings when verbose = TRUE", {
 test_that("interp_coh throws download messages when verbose = TRUE", {
 
   # 1) lx is downloaded
-  expect_output(
+  outp <- capture_output_lines(
     interp_coh(
       location = "Russian Federation",
       sex = "both",
@@ -607,12 +611,13 @@ test_that("interp_coh throws download messages when verbose = TRUE", {
                  828772L, 880543L, 905380L, 919639L),
       years_births = 2002:2010,
       verbose = TRUE
-    ),
-    regexp = "lxMat not provided. Downloading lxMat for Russian Federation, gender: `both`, for years between 2002.8 and 2010.8"
-  )
+    ))
+  
+    expect_true(any(outp == "lxMat not provided. Downloading lxMat for Russian Federation (LocID = 643), gender: `both`, for years between 2002.8 and 2010.8"
+  ))
 
   # 2) births are downloaded
-  expect_output(
+    outp <- capture_output_lines(
     interp_coh(
       location = "Russian Federation",
       sex = "both",
@@ -624,12 +629,12 @@ test_that("interp_coh throws download messages when verbose = TRUE", {
       date2 = "2010-10-25",
       age_lx = age_lx,
       verbose = TRUE
-    ),
-    regexp = "Births fetched from WPP for: Russian Federation both population, years 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010"
-  )
+    ))
+    expect_true(any(outp == "births not provided. Downloading births for Russian Federation (LocID = 643), gender: `both`, years: 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010"
+  ))
 
   # 3) dates_lx or years_births are being assumed anything
-  expect_output(
+  outp <- capture_output_lines(
     interp_coh(
       location = "Russian Federation",
       sex = "both",
@@ -643,8 +648,9 @@ test_that("interp_coh throws download messages when verbose = TRUE", {
                  828772L, 880543L, 905380L, 919639L),
       years_births = 2002:2010,
       verbose = TRUE
-    ),
-    regexp = "lxMat specified, but not dates_lx\nAssuming: 2002.78904109589, 2006.80136986301, 2010.81369863014",
-    fixed = TRUE
-  )
+    ))
+  expect_true(all(
+    c("lxMat specified, but not dates_lx",
+    "Assuming: 2002.78904109589, 2006.80136986301, 2010.81369863014 ") %in% outp))
+  
 })

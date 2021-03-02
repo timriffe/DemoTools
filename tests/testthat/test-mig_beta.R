@@ -12,7 +12,7 @@ test_that("mig_beta works without midyear", {
 
   res <-
     mig_beta(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "male",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -29,7 +29,7 @@ test_that("mig_beta works with midyear", {
 
   res <-
     mig_beta(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "male",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -47,7 +47,7 @@ test_that("mig_beta works with midyear", {
 test_that("mig_beta works well with age1", {
 
  res1 <- mig_beta(
-    country = "Russian Federation",
+    location = "Russian Federation",
     sex = "male",
     c1 = pop1m_rus2002,
     c2 = pop1m_rus2010,
@@ -60,7 +60,7 @@ test_that("mig_beta works well with age1", {
 
   # Same, but age args totally inferred.
   res2 <- mig_beta(
-    country = "Russian Federation",
+    location = "Russian Federation",
     sex = "male",
     c1 = pop1m_rus2002,
     c2 = pop1m_rus2010,
@@ -77,18 +77,19 @@ test_that("Births are pulled from post-processed WPP2019", {
   # 2) births pulled from post-processing of WPP2019;
   #    mortality from WPP2019 (graduated as needed)
 
-  expect_output(
+  outp <- capture_output_lines(
     mig_beta(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "male",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
       date1 = "2002-10-16",
       date2 = "2010-10-25",
       age1 = 0:100
-    ),
-    regexp = "Births fetched from WPP for: Russian Federation male population, years 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 " #nolintr
-  )
+    ))
+    
+  expect_true(any(outp == "births not provided. Downloading births for Russian Federation (LocID = 643), gender: `male`, years: 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010" #nolintr
+  ))
 })
 
 test_that("mig_beta works well with different time points", {
@@ -164,7 +165,7 @@ test_that("mig_beta errors if not given correctly", {
   # 1) births given (no years_birth), but not right length
   expect_error(
     mig_beta(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "male",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -179,7 +180,7 @@ test_that("mig_beta errors if not given correctly", {
   # 2) births given, correct length, but not right years
   expect_error(
     mig_beta(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "male",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -341,7 +342,7 @@ test_that("Ages must be single in mig_beta", {
 
 test_that("mig_beta fails if arguments not supplied to download data ", {
 
-  # 5) no births given, and no country/sex given
+  # 5) no births given, and no location/sex given
   expect_error(
     mig_beta(
       c1 = pop1m_rus2002,
@@ -352,11 +353,11 @@ test_that("mig_beta fails if arguments not supplied to download data ", {
       dates_lx = c(mortdate1,mortdate2,mortdate3),
       age_lx = age_lx,
       years_births = 2002:2010),
-    regexp = "births not specified, please specify country and sex",
+    regexp = "births not specified, please specify location and sex",
     fixed = TRUE
   )
 
-  # 6) no lxMat given, and no country/sex given
+  # 6) no lxMat given, and no location/sex given
   expect_error(
     mig_beta(
       c1 = pop1m_rus2002,
@@ -368,7 +369,7 @@ test_that("mig_beta fails if arguments not supplied to download data ", {
       births = c(719511L, 760934L, 772973L, 749554L,
                  760831L, 828772L, 880543L, 905380L, 919639L),
       years_births = 2002:2010),
-    regexp = "lxMat not specified, please specify country and sex",
+    regexp = "lxMat not specified, please specify location and sex",
     fixed = TRUE
   )
 })
@@ -537,9 +538,9 @@ test_that("mig_beta shows appropriate warnings when verbose = TRUE", {
 test_that("mig_beta throws download messages when verbose = TRUE", {
 
   # 1) lx is downloaded
-  expect_output(
+  outp <- capture_output_lines(
     mig_beta(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "both",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -550,14 +551,13 @@ test_that("mig_beta throws download messages when verbose = TRUE", {
                  828772L, 880543L, 905380L, 919639L),
       years_births = 2002:2010,
       verbose = TRUE
-    ),
-    regexp = "lxMat not provided. Downloading lxMat for Russian Federation, gender: `both`, for years between 2002.8 and 2010.8"
-  )
+    ))
+    expect_true(any(outp == "lxMat not provided. Downloading lxMat for Russian Federation (LocID = 643), gender: `both`, for years between 2002.8 and 2010.8"))
 
   # 2) births are downloaded
-  expect_output(
+  outp <- capture_output_lines(
     mig_beta(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "both",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -567,14 +567,13 @@ test_that("mig_beta throws download messages when verbose = TRUE", {
       date2 = "2010-10-25",
       age_lx = age_lx,
       verbose = TRUE
-    ),
-    regexp = "Births fetched from WPP for: Russian Federation both population, years 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010"
-  )
+    ))
+  expect_true(any(outp == "births not provided. Downloading births for Russian Federation (LocID = 643), gender: `both`, years: 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010"))
 
   # 3) dates_lx or years_births are being assumed anything
   expect_output(
     mig_beta(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "both",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,

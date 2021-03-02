@@ -35,12 +35,11 @@ Suggests:
     ggplot2
 RdMacros: Rdpack
 Imports:
-    countrycode,
     data.table (>= 1.13.6),
     demogR,
     DemoToolsData,
     dplyr,
-    fertestr,
+    fertestr (>= 0.0.5),
     lubridate,
     magrittr,
     MortalityLaws (>= 1.7.0),
