@@ -13,7 +13,7 @@ test_that("interp_coh works without midyear", {
 
   res <-
     interp_coh(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "male",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -31,7 +31,7 @@ test_that("interp_coh works with midyear", {
 
   res <-
     interp_coh(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "male",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -55,7 +55,7 @@ test_that("interp_coh works well with age1", {
   # 1) births given as vector
   #    mortality pulled from WPP2019  (graduated as needed)
   res1 <- interp_coh(
-    country = "Russian Federation",
+    location = "Russian Federation",
     sex = "male",
     c1 = pop1m_rus2002,
     c2 = pop1m_rus2010,
@@ -68,7 +68,7 @@ test_that("interp_coh works well with age1", {
 
   # Same, but age args totally inferred.
   res2 <- interp_coh(
-    country = "Russian Federation",
+    location = "Russian Federation",
     sex = "male",
     c1 = pop1m_rus2002,
     c2 = pop1m_rus2010,
@@ -87,7 +87,7 @@ test_that("Births are pulled from post-processed WPP2019", {
 
   expect_output(
     interp_coh(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "male",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -221,7 +221,7 @@ test_that("interp_coh errors if not given correctly", {
   # 1) births given (no years_birth), but not right length
   expect_error(
     interp_coh(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "male",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -236,7 +236,7 @@ test_that("interp_coh errors if not given correctly", {
   # 2) births given, correct length, but not right years
   expect_error(
     interp_coh(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "male",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -398,7 +398,7 @@ test_that("Ages must be single in interp_coh", {
 
 test_that("interp_coh fails if arguments not supplied to download data ", {
 
-  # 5) no births given, and no country/sex given
+  # 5) no births given, and no location/sex given
   expect_error(
     interp_coh(
       c1 = pop1m_rus2002,
@@ -409,11 +409,11 @@ test_that("interp_coh fails if arguments not supplied to download data ", {
       dates_lx = c(mortdate1,mortdate2,mortdate3),
       age_lx = age_lx,
       years_births = 2002:2010),
-    regexp = "births not specified, please specify country and sex",
+    regexp = "births not specified, please specify location and sex",
     fixed = TRUE
   )
 
-  # 6) no lxMat given, and no country/sex given
+  # 6) no lxMat given, and no location/sex given
   expect_error(
     interp_coh(
       c1 = pop1m_rus2002,
@@ -425,7 +425,7 @@ test_that("interp_coh fails if arguments not supplied to download data ", {
       births = c(719511L, 760934L, 772973L, 749554L,
                  760831L, 828772L, 880543L, 905380L, 919639L),
       years_births = 2002:2010),
-    regexp = "lxMat not specified, please specify country and sex",
+    regexp = "lxMat not specified, please specify location and sex",
     fixed = TRUE
   )
 })
@@ -596,7 +596,7 @@ test_that("interp_coh throws download messages when verbose = TRUE", {
   # 1) lx is downloaded
   expect_output(
     interp_coh(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "both",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -614,7 +614,7 @@ test_that("interp_coh throws download messages when verbose = TRUE", {
   # 2) births are downloaded
   expect_output(
     interp_coh(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "both",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
@@ -631,7 +631,7 @@ test_that("interp_coh throws download messages when verbose = TRUE", {
   # 3) dates_lx or years_births are being assumed anything
   expect_output(
     interp_coh(
-      country = "Russian Federation",
+      location = "Russian Federation",
       sex = "both",
       c1 = pop1m_rus2002,
       c2 = pop1m_rus2010,
