@@ -11,12 +11,13 @@ context("test-lt_abridged")
 
 lt_test_all_positive_plus_qx_lt_1 <- function(LT) {
     # check positive values
+  
     expect_equal(
         LT %>% 
           # TR: open age AgeInt is NA, not handled well with logicals
-            select(-c(Age,AgeInt)) %>% 
+            '['(,c("nMx", "nAx", "nqx", "lx", "ndx", "nLx", "Sx", "Tx", "ex" )) %>% 
           # TR: rm is_weakly_less_than() since final 0 is valid sometimes.
-            is_less_than(0) %>% #
+            '<'(0) %>% #
             sum(),
         0
     )
@@ -24,8 +25,8 @@ lt_test_all_positive_plus_qx_lt_1 <- function(LT) {
     # check qx less than 1
     expect_equal(
         LT %>% 
-            select(nqx) %>% 
-            is_greater_than(1) %>% 
+          '['("nqx") %>% 
+            '>'(1) %>% 
             sum(),
         0
     )
@@ -228,3 +229,4 @@ test_that("lt_abridged works on Mortpak example (United Nations 1988, p. 82)", {
     MP_UNLT80 %>% lt_test_all_positive_plus_qx_lt_1()
     MP_UNLT60 %>% lt_test_all_positive_plus_qx_lt_1()
 })
+
