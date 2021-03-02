@@ -11,7 +11,7 @@
 #' adjust using the BPE method.
 #'
 #' For \code{basepop_five}, adjusting the female population counts is the
-#' default. For this, only the \code{country}, \code{refDate} and
+#' default. For this, only the \code{location}, \code{refDate} and
 #' \code{Females_five} are needed. All other arguments are downloaded
 #' or set to sensible defaults. For adjusting the male population
 #' counts, the user needs to specify the \code{Males_five} population
@@ -148,10 +148,7 @@
 # #' `basepop_single` is used, the return value is a numeric vector with
 # #' **single year age groups** where the counts between 0 and 10 are adjusted.
 #'
-#' @param country The country name or location code from which to download the n
-#' Lx and asfr data. See `fertestr::locs_avail()` for all country
-#' names/codes.
-#'
+#' @param location UN Pop Division `LocName` or `LocID`
 #' @param refDate The reference year for which the reported population pertain
 #' (these are the population counts in `Females_five` and
 #' \code{Males_five}). Can either be a decimal date, a `Date` class.
@@ -173,7 +170,7 @@
 #' 7.5 years before the reference date of the "reported" population. The later
 #' date should be no earlier than one-half year before the reference date of
 #' the "reported" population. If not provided, it's automatically downloaded if
-#' `country`, `refDate` and the equivalent population counts
+#' `location`, `refDate` and the equivalent population counts
 #' `*_five` are provided.
 #'
 #' @param nLxDatesIn A vector of numeric years (for example, 1986). The dates
@@ -235,14 +232,14 @@
 #'
 #' # Grab population counts for females
 #' refDate <- 1986
-#' country <- "Brazil"
-#' pop_female_single <- fertestr::FetchPopWpp2019(country,
+#' location <- "Brazil"
+#' pop_female_single <- fertestr::FetchPopWpp2019(location,
 #'                                                refDate,
 #'                                                ages = 0:100,
 #'                                                sex = "female")
 #' pop_female_counts <- single2abridged(setNames(pop_female_single$pop,
 #'                                               pop_female_single$ages))
-#' pop_male_single   <- fertestr::FetchPopWpp2019(country,
+#' pop_male_single   <- fertestr::FetchPopWpp2019(location,
 #'                                                refDate,
 #'                                                ages = 0:100,
 #'                                                sex = "male")
@@ -251,7 +248,7 @@
 #' Age <- names2age(pop_male_counts)
 #' # Automatically downloads the nLx, ASFR, and SRB data
 #' bpe <- basepop_five(
-#'   country = country,
+#'   location = location,
 #'   refDate = refDate,
 #'   Females_five = pop_female_counts,
 #'   Males_five = pop_male_counts,
@@ -273,7 +270,7 @@
 #' #
 #' # # Automatically downloads the nLx and ASFR data
 #' # bpe_female <- basepop_single(
-#' #   country = country,
+#' #   location = location,
 #' #   refDate = refDate,
 #' #   Females_single = pop_female_single
 #' # )
@@ -300,7 +297,7 @@
 #'
 #' # Automatically downloads the nLx, ASFR, and SRB data
 #' bpa <- basepop_five(
-#'   country = country,
+#'   location = location,
 #'   refDate = refDate,
 #'   Females_five = smoothed_females,
 #'   Males_five = smoothed_males,
@@ -536,7 +533,7 @@
 #' \insertRef{arriaga1994population}{DemoTools}
 #' \insertRef{PAS}{DemoTools}
 #'
-basepop_five <- function(country = NULL,
+basepop_five <- function(location = NULL,
                          refDate,
                          Age = NULL,
                          Females_five,
@@ -601,7 +598,7 @@ basepop_five <- function(country = NULL,
   nLxFemale <-
     downloadnLx(
       nLx = nLxFemale,
-      country = country,
+      location = location,
       gender = "female",
       nLxDatesIn = nLxDatesIn
     )
@@ -609,7 +606,7 @@ basepop_five <- function(country = NULL,
   nLxMale <-
     downloadnLx(
       nLx = nLxMale,
-      country = country,
+      location = location,
       gender = "male",
       nLxDatesIn = nLxDatesIn
     )
@@ -626,7 +623,7 @@ basepop_five <- function(country = NULL,
   AsfrMat <-
     downloadAsfr(
       Asfrmat = AsfrMat,
-      country = country,
+      location = location,
       AsfrDatesIn = AsfrDatesIn
     )
 
@@ -634,7 +631,7 @@ basepop_five <- function(country = NULL,
   SRBDatesIn <- if (!is.null(SRBDatesIn)) SRBDatesIn else DatesOut
 
   SRB <- downloadSRB(SRB,
-                     country,
+                     location,
                      DatesOut = SRBDatesIn,
                      verbose = verbose)
 
@@ -766,7 +763,7 @@ basepop_five <- function(country = NULL,
 # #'
 # #' @export
 # #'
-# basepop_single <- function(country = NULL,
+# basepop_single <- function(location = NULL,
 #                            refDate,
 #                            Females_single,
 #                            nLxFemale = NULL,
@@ -805,7 +802,7 @@ basepop_five <- function(country = NULL,
 #
 #   res <-
 #     basepop_five(
-#       country = country,
+#       location = location,
 #       refDate = refDate,
 #       Females_five = Females_abridged,
 #       nLxFemale = nLxFemale,
