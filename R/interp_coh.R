@@ -91,19 +91,18 @@ shift_census_ages_to_cohorts <- function(pop,
 #' @param dates_lx date, character, or numeric vector of the column time points for `lxMat`. If these are calendar-year estimates, then you can choose mid-year time points
 #' @param births integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years. The first and last years should include all births in the given year; don't discount them in advance.
 #' @param years_births numeric vector of calendar years of births.
-#' @param country text string. The country of the census
+#' @param location UN Pop Division `LocName` or `LocID`
 #' @param sex character string, either `"male"`, `"female"`, or `"both"`
 #' @param midyear logical. `FALSE` means all Jan 1 dates between `date1` and `date2` are returned. `TRUE` means all July 1 intercensal dates are returned.
 #' @param verbose logical. Shall we send informative messages to the console?
 #' @param ... optional arguments passed to
 #' @export
-#' @importFrom countrycode countrycode
 #' @importFrom data.table := as.data.table melt data.table dcast between
 #' @examples
 #'
 #' \dontrun{
 #' interp_coh(
-#' country = "Russian Federation",
+#' location = "Russian Federation",
 #' sex = "male",
 #' c1 = pop1m_rus2002,
 #' c2 = pop1m_rus2010,
@@ -126,7 +125,7 @@ interp_coh <- function(
                        dates_lx = NULL,
                        births = NULL,
                        years_births = NULL,
-                       country = NULL,
+                       location = NULL,
                        sex = "both",
                        midyear = FALSE,
                        verbose = TRUE,
@@ -150,7 +149,7 @@ interp_coh <- function(
     dates_lx = dates_lx,
     births = births,
     years_births = years_births,
-    country = country,
+    location = location,
     sex = sex,
     midyear = midyear,
     verbose = verbose,
@@ -411,7 +410,6 @@ interp_coh <- function(
 #   library(magrittr)
 #   library(tidyverse)
 # pxt <- suppressMessages(interp_coh_download_mortality("Russian Federation","male","2002-10-16","2010-10-25"))
-# # a note for future: interp_coh_download_mortality should use {countrycode} to better match the country names. As of now, just Russia won't work
 #
 # # convert the AP output to CP
 # px_triangles <- pxt %>%
@@ -608,7 +606,7 @@ interp_coh <- function(
 # interp_coh()
 
 # goal will be to fill a mortality surface between two censuses.
-# args should be date1, date2, country.
+# args should be date1, date2, location
 
 # A few temporary functions internal to interp_coh(). These can be replaced as better
 # or more efficient options become available.
@@ -623,7 +621,7 @@ lt_a2s_chunk <- function(chunk, OAnew, ...){
                      ...)
 }
 
-interp_coh_download_mortality <- function(country, sex, date1, date2, OAnew = 100){
+interp_coh_download_mortality <- function(location, sex, date1, date2, OAnew = 100){
 
   . <- NULL
 
@@ -639,7 +637,7 @@ interp_coh_download_mortality <- function(country, sex, date1, date2, OAnew = 10
 
 
   PX <- suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,
-                                locations = country,
+                                locations = location,
                                 sex = sex)) %>%
     lapply(function(X){
       X[,c("year","x","mx")]
@@ -667,7 +665,7 @@ interp_coh_download_mortality <- function(country, sex, date1, date2, OAnew = 10
 }
 
 # lxMat <-suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,
-#                              locations = country,
+#                              locations = location,
 #                              sex = sex) %>%
 #                         lapply("[[","lx") %>%
 #                         dplyr::bind_cols() %>%
@@ -756,7 +754,7 @@ interp_coh_lxMat_pxt <- function(lxMat,
 
 
 transform_pxt <- function(lxMat,
-                          country,
+                          location,
                           sex,
                           date1,
                           date2,
@@ -768,10 +766,10 @@ transform_pxt <- function(lxMat,
 
   # get the lexis surface of survival probabilities
   if (is.null(lxMat)){
-    if (verbose) cat(paste0("\nlxMat not provided. Downloading lxMat for ", country, ", gender: ", "`", sex, "`, for years between ", round(date1, 1), " and ", round(date2, 1), "\n"))
+    if (verbose) cat(paste0("\nlxMat not provided. Downloading lxMat for ", location, ", gender: ", "`", sex, "`, for years between ", round(date1, 1), " and ", round(date2, 1), "\n"))
 
     pxt <- suppressMessages(
-      interp_coh_download_mortality(country, sex, date1, date2, OAnew = max(age1) + 1)
+      interp_coh_download_mortality(location, sex, date1, date2, OAnew = max(age1) + 1)
     )
   } else {
 
@@ -841,7 +839,7 @@ transform_pxt <- function(lxMat,
   pxt
 }
 
-fetch_wpp_births <- function(births, yrs_births, country, sex, verbose) {
+fetch_wpp_births <- function(births, yrs_births, location, sex, verbose) {
 
   # fetch WPP births if not provided by user
   if (is.null(births)) {
@@ -850,14 +848,20 @@ fetch_wpp_births <- function(births, yrs_births, country, sex, verbose) {
     requireNamespace("DemoToolsData", quietly = TRUE)
     WPP2019_births <- DemoToolsData::WPP2019_births
 
+    
+    if ( !is_LocID( location_code ) ){
+      location <- fertestr::get_location_code( location )
+    } else {
+      location <- as.integer(location)
+    }
     # format filtering criteria -- country and years
-    cntr_iso3 <- countrycode::countrycode(
-                                country,
-                                origin = "country.name",
-                                destination  = "iso3c")
+    # cntr_iso3 <- countrycode::countrycode(
+    #   location,
+    #                             origin = "country.name",
+    #                             destination  = "iso3c")
 
-    # filter out country and years
-    ind       <- WPP2019_births$ISO3 == cntr_iso3 & WPP2019_births$Year %in% yrs_births
+    # filter out location and years
+    ind       <- WPP2019_births$LocID == location & WPP2019_births$Year %in% yrs_births
     b_filt    <- WPP2019_births[ind, ]
     bt        <- b_filt$TBirths
     SRB       <- b_filt$SRB
@@ -868,14 +872,14 @@ fetch_wpp_births <- function(births, yrs_births, country, sex, verbose) {
     if (sex == "female") births  <- bt / (SRB + 1)
 
     if (verbose){
-      cat("Births fetched from WPP for:", paste(country, sex), "population, years", paste(yrs_births, collapse = ", "), "\n")
+      cat("Births fetched from WPP for:", paste(location, sex), "population, years", paste(yrs_births, collapse = ", "), "\n")
     }
   }
 
   births
 }
 
-check_args <- function(lxMat, births, country, age1, age2, c1, c2, verbose) {
+check_args <- function(lxMat, births, location, age1, age2, c1, c2, verbose) {
   stopifnot(length(age1) == length(c1))
   stopifnot(length(age2) == length(c2))
   stopifnot(is_single(age1))
@@ -886,12 +890,12 @@ check_args <- function(lxMat, births, country, age1, age2, c1, c2, verbose) {
   }
 
 
-  # If lxMat or births are missing -- message requiring country and sex
-  if (is.null(lxMat) & is.null(country)) {
-    stop("lxMat not specified, please specify country and sex\n")
+  # If lxMat or births are missing -- message requiring location and sex
+  if (is.null(lxMat) & is.null(location)) {
+    stop("lxMat not specified, please specify location and sex\n")
   }
-  if (is.null(births) & is.null(country)) {
-    stop("births not specified, please specify country and sex\n")
+  if (is.null(births) & is.null(location)) {
+    stop("births not specified, please specify location and sex\n")
   }
 
   if (!is.null(lxMat) && ncol(lxMat) == 1) {
@@ -1100,7 +1104,7 @@ rup <- function(
                dates_lx,
                births,
                years_births,
-               country,
+               location,
                sex,
                midyear,
                verbose,
@@ -1109,7 +1113,7 @@ rup <- function(
   check_args(
     lxMat = lxMat,
     births = births,
-    country = country,
+    location = location,
     age1 = age1,
     age2 = age2,
     c1 = c1,
@@ -1167,7 +1171,7 @@ rup <- function(
   # And download if needed
   pxt <- transform_pxt(
     lxMat = lxMat,
-    country = country,
+    location = location,
     sex = sex,
     date1 = date1,
     date2 = date2,
@@ -1191,7 +1195,7 @@ rup <- function(
     fetch_wpp_births(
       births = births,
       yrs_births = yrs_births,
-      country = country,
+      location = location,
       sex = sex,
       verbose = verbose
     )
@@ -1211,10 +1215,6 @@ rup <- function(
 
   # now that births should be available we can do this check.
   stopifnot(length(births) == length(yrs_births))
-
-  # a note for future: interp_coh_download_mortality should use {countrycode} to
-  # better match the country names. As of now, just Russia won't work
-  # [ISSUE #166]
 
   pop_jan1 <- reshape_pxt(
     pxt = pxt,
