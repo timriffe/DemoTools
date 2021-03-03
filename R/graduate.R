@@ -965,7 +965,7 @@ graduate_pclm <- function(Value, Age, AgeInt, OAnew = max(Age), OAG = TRUE, ...)
 #' Graduate age groups using a monotonic spline.
 #' @description Take the cumulative sum of \code{Value} and then run a monotonic spline through it. The first differences split back single-age estimates of \code{Value}. Optionally keep the open age group untouched.
 #'
-#' @details The \code{"monoH.FC"} method of \code{stats::splinefun()} is used to fit the spline because 1) it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages.
+#' @details The \code{"hyman"} method of \code{stats::splinefun()} is used to fit the spline because 1) it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages.
 #' @inheritParams graduate
 #' @return Numeric. vector of single smoothed age counts.
 #' @importFrom stats splinefun
@@ -1033,7 +1033,8 @@ graduate_mono   <- function(
   AgePred               <- c(min(Age), cumsum(AgeInt))
   y                     <- c(0, cumsum(Value))
   AgeS                  <- min(Age):sum(AgeInt)
-  y1                    <- splinefun(y ~ AgePred, method = "monoH.FC")(AgeS)
+  # TR: changed from monoH.FC to hyman 3.3.2021
+  y1                    <- splinefun(y ~ AgePred, method = "hyman")(AgeS)
   out                   <- diff(y1)
   names(out)            <- AgeS[-length(AgeS)]
 
@@ -1060,7 +1061,7 @@ graduate_mono   <- function(
 #' @return numeric matrix of age by year estimates of single-age counts.
 #'
 #' @details The \code{pivotAge} must be at least 10 years below the maximum age detected from
-#' \code{rownames(popmat)}, but not lower than 75. In the exact \code{pivotAge}, we may either take the Sprague estimates or the spline estimates, depending on which is larger, then the single-age estimates for this 5-year age group are rescaled to sum to the original total in \code{Value}. Higher ages are taken from the spline-based age splits. The spline results are derive from the \code{"monoH.FC"} method of \code{splinefun()} on the cumulative sum of the original age grouped data. One could use this function to perform the same closeout to Grabill estimates, if these are given via the \code{pops} argument. See examples. Note that the Grabill split method mixed with this closeout will not necessarily preserve the annual totals, and this function performs to rescaling. The open age group is preserved (and must be included in \code{Value}).
+#' \code{rownames(popmat)}, but not lower than 75. In the exact \code{pivotAge}, we may either take the Sprague estimates or the spline estimates, depending on which is larger, then the single-age estimates for this 5-year age group are rescaled to sum to the original total in \code{Value}. Higher ages are taken from the spline-based age splits. The spline results are derive from the \code{"hyman"} method of \code{splinefun()} on the cumulative sum of the original age grouped data. One could use this function to perform the same closeout to Grabill estimates, if these are given via the \code{pops} argument. See examples. Note that the Grabill split method mixed with this closeout will not necessarily preserve the annual totals, and this function performs to rescaling. The open age group is preserved (and must be included in \code{Value}).
 #'
 #' @export
 #'
