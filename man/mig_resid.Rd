@@ -32,8 +32,13 @@ mig_resid_stock(
   sr_f_mat,
   asfr_mat,
   srb_vec,
-  ages,
-  ages_fertility
+  ages = NULL,
+  ages_asfr = NULL,
+  years_pop = NULL,
+  years_sr = NULL,
+  years_asfr = NULL,
+  years_srb = NULL,
+  verbose = TRUE
 )
 
 mig_resid_cohort(
@@ -43,8 +48,13 @@ mig_resid_cohort(
   sr_f_mat,
   asfr_mat,
   srb_vec,
-  ages,
-  ages_fertility
+  ages = NULL,
+  ages_asfr = NULL,
+  years_pop = NULL,
+  years_sr = NULL,
+  years_asfr = NULL,
+  years_srb = NULL,
+  verbose = TRUE
 )
 
 mig_resid_time(
@@ -54,8 +64,13 @@ mig_resid_time(
   sr_f_mat,
   asfr_mat,
   srb_vec,
-  ages,
-  ages_fertility
+  ages = NULL,
+  ages_asfr = NULL,
+  years_pop = NULL,
+  years_sr = NULL,
+  years_asfr = NULL,
+  years_srb = NULL,
+  verbose = TRUE
 )
 }
 \arguments{

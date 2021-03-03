@@ -16,7 +16,7 @@ lt_single_mx(
   SRB = 1.05,
   OAG = TRUE,
   OAnew = max(Age),
-  extrapLaw = MULL,
+  extrapLaw = NULL,
   extrapFrom = max(Age),
   extrapFit = NULL,
   ...

@@ -22,8 +22,8 @@
 #' graduate_uniform(MalePop, Age = Ages)
 graduate_uniform <-
   function(Value,
-           AgeInt,
            Age,
+           AgeInt,
            OAG = TRUE,
            OAvalue = 1) {
 
@@ -89,12 +89,25 @@ graduate_uniform <-
 
 graduate_sprague <- function(Value,
                              Age,
+                             AgeInt,
                              OAG = TRUE) {
 
+  if (missing(Age) & missing(AgeInt)) {
+    Age                 <- names2age(Value)
+  }
+  if (missing(AgeInt)) {
+    # give 1 to final interval to preserve
+    AgeInt              <- age2int(Age, OAG = OAG, OAvalue = 1)
+  }
+  if (missing(Age)) {
+    Age                 <- int2age(AgeInt)
+  }
+  
   punif1       <- graduate_uniform(
-    Value = Value,
-    Age = Age,
-    OAG = OAG)
+                    Value = Value,
+                    AgeInt = AgeInt,
+                    Age = Age,
+                    OAG = OAG)
   # this is innocuous if ages are already grouped
   a1           <- as.integer(names(punif1))
   pop5         <- groupAges(
@@ -409,10 +422,23 @@ graduate_grabill_expand <- function(Value, Age, OAG = TRUE) {
 graduate_grabill <- function(
   Value,
   Age,
+  AgeInt,
   OAG = TRUE) {
 
+  if (missing(Age) & missing(AgeInt)) {
+    Age                 <- names2age(Value)
+  }
+  if (missing(AgeInt)) {
+    # give 1 to final interval to preserve
+    AgeInt              <- age2int(Age, OAG = OAG, OAvalue = 1)
+  }
+  if (missing(Age)) {
+    Age                 <- int2age(AgeInt)
+  }
+  
   punif1       <- graduate_uniform(
     Value = Value,
+    AgeInt = AgeInt,
     Age = Age,
     OAG = OAG)
   # this is innocuous if ages are already grouped
@@ -685,14 +711,16 @@ graduate_beers_expand <- function(Value,
 
 #' The ordinary modified Beers splitting methods
 #'
-#' @description This method offers both ordinary and modified Beers splitting, with an optional \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} adjustment \code{johnson} for ages under 10.
+#' @description This method offers both ordinary and modified Beers splitting, with an optional \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} adjustment `johnson` for ages under 10.
 #'
 #' @inheritParams graduate
-#' @param method character. Valid values are \code{"mod"} or \code{"ord"}. Default \code{"mod"}.
-#' @param johnson  logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default \code{FALSE}.
-#' @details Ages should refer to lower age bounds. \code{Value} must be labelled with ages unless \code{Age} is given separately. There must be at least six 5-year age groups (including the open group, 5 otherwise). If you want the \code{johnson} adjustment then \code{Value} must contain a single-year estimate of the population count in age 0. That means \code{Value} must come either as standard abridged or single age data.
+#' @param method character. Valid values are `"ord"` or `"mod"`. Default `"ord"`.
+#' @param johnson  logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default `FALSE.`
+#' @details Ages should refer to lower age bounds. `Value` must be labelled with ages unless `Age` is given separately. There must be at least six 5-year age groups (including the open group, 5 otherwise). If you want the `johnson` adjustment then `Value` must contain a single-year estimate of the population count in age 0. That means `Value` must come either as standard abridged or single age data.
+#' 
+#' `method` option `"ord"` conserves sums in 5-year age groups, whereas `"mod"` does some smoothing between 5-year age groups too, and is not constrained.
 #'
-#' If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend to single ages covering the entire 5-year age group.
+#' If the highest age does not end in a 0 or 5, and `OAG == TRUE`, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and `OAG = FALSE`, then results extend to single ages covering the entire 5-year age group.
 #'
 #' @return A numeric vector of single age data.
 #' @references
@@ -753,11 +781,18 @@ graduate_beers <- function(Value,
                            Age,
                            AgeInt,
                            OAG = TRUE,
-                           method = "mod",
+                           method = "ord",
                            johnson = FALSE) {
 
-  if (missing(AgeInt)){
-    AgeInt <- age2int(Age, OAG = OAG, OAvalue = 1)
+  if (missing(Age) & missing(AgeInt)) {
+    Age                 <- names2age(Value)
+  }
+  if (missing(AgeInt)) {
+    # give 1 to final interval to preserve
+    AgeInt              <- age2int(Age, OAG = OAG, OAvalue = 1)
+  }
+  if (missing(Age)) {
+    Age                 <- int2age(AgeInt)
   }
 
   punif1       <- graduate_uniform(
@@ -892,7 +927,19 @@ graduate_beers_johnson <- function(Age0, pop5, pop1) {
 #'   lines(0:85, mx, col = "red")
 #' }
 
-graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
+graduate_pclm <- function(Value, Age, AgeInt, OAnew = max(Age), OAG = TRUE, ...) {
+  
+  if (missing(Age) & missing(AgeInt)) {
+    Age                 <- names2age(Value)
+  }
+  if (missing(AgeInt)) {
+    # give 1 to final interval to preserve
+    AgeInt              <- age2int(Age, OAG = OAG, OAvalue = 1)
+  }
+  if (missing(Age)) {
+    Age                 <- int2age(AgeInt)
+  }
+  
   nlast    <- OAnew - max(Age) + 1
   a1       <- min(Age):OAnew
   DOTS     <- list(...)
@@ -918,7 +965,7 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
 #' Graduate age groups using a monotonic spline.
 #' @description Take the cumulative sum of \code{Value} and then run a monotonic spline through it. The first differences split back single-age estimates of \code{Value}. Optionally keep the open age group untouched.
 #'
-#' @details The \code{"monoH.FC"} method of \code{stats::splinefun()} is used to fit the spline because 1) it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages.
+#' @details The \code{"hyman"} method of \code{stats::splinefun()} is used to fit the spline because 1) it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages.
 #' @inheritParams graduate
 #' @return Numeric. vector of single smoothed age counts.
 #' @importFrom stats splinefun
@@ -932,24 +979,27 @@ graduate_pclm <- function(Value, Age, OAnew = max(Age), ...) {
 #'				 "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60",
 #'				 "65", "70", "75", "80", "85", "90", "95", "100"))
 #'
-#' # overwrite open age group with a single age estimate for that age
-#' # (doesn't extrapolate)
-#' graduate_mono(Value)
-#' # or respect open age group
+#' # if the last age group is closed, then it's best to use AgeInt, otherwise,
+#' # one is assumed from the age siphoned from the names attribute of Value.
+#' graduate_mono(Value, OAG = FALSE)
+#' # or leave open age group in tact
 #' graduate_mono(Value, OAG = TRUE)
 #'
-#' # Also accepts single ages:
-#' Value                <- structure(pop1m_ind, .Names = 0:100)
-#'
-#' 		\dontrun{
-#' 	ages                <- seq(0,100,5)
-#'  plot(graduate_mono(Value),xlab = 'Age', ylab = 'Counts', type = 'l',main = 'Ungrouped counts')
-#' 		}
+#' data(pop1m_ind)
+#' Value5                <- groupAges(pop1m_ind,Age=0:100,N=5) 
+#' 
+#' Value1 <- graduate_mono(Value = Value5, Age = names2age(Value5), OAG =TRUE)
+#' 
+#' \dontrun{
+#'  
+#'  plot(seq(0,100,5),Value5 / 5, xlab = 'Age', ylab = 'Counts', type = 's')
+#'  lines(0:100,Value1)
+#' }
 
 graduate_mono   <- function(
   Value,
-  AgeInt,
   Age,
+  AgeInt,
   OAG = TRUE) {
 
   if (missing(Age) & missing(AgeInt)) {
@@ -983,7 +1033,8 @@ graduate_mono   <- function(
   AgePred               <- c(min(Age), cumsum(AgeInt))
   y                     <- c(0, cumsum(Value))
   AgeS                  <- min(Age):sum(AgeInt)
-  y1                    <- splinefun(y ~ AgePred, method = "monoH.FC")(AgeS)
+  # TR: changed from monoH.FC to hyman 3.3.2021
+  y1                    <- splinefun(y ~ AgePred, method = "hyman")(AgeS)
   out                   <- diff(y1)
   names(out)            <- AgeS[-length(AgeS)]
 
@@ -1010,7 +1061,7 @@ graduate_mono   <- function(
 #' @return numeric matrix of age by year estimates of single-age counts.
 #'
 #' @details The \code{pivotAge} must be at least 10 years below the maximum age detected from
-#' \code{rownames(popmat)}, but not lower than 75. In the exact \code{pivotAge}, we may either take the Sprague estimates or the spline estimates, depending on which is larger, then the single-age estimates for this 5-year age group are rescaled to sum to the original total in \code{Value}. Higher ages are taken from the spline-based age splits. The spline results are derive from the \code{"monoH.FC"} method of \code{splinefun()} on the cumulative sum of the original age grouped data. One could use this function to perform the same closeout to Grabill estimates, if these are given via the \code{pops} argument. See examples. Note that the Grabill split method mixed with this closeout will not necessarily preserve the annual totals, and this function performs to rescaling. The open age group is preserved (and must be included in \code{Value}).
+#' \code{rownames(popmat)}, but not lower than 75. In the exact \code{pivotAge}, we may either take the Sprague estimates or the spline estimates, depending on which is larger, then the single-age estimates for this 5-year age group are rescaled to sum to the original total in \code{Value}. Higher ages are taken from the spline-based age splits. The spline results are derive from the \code{"hyman"} method of \code{splinefun()} on the cumulative sum of the original age grouped data. One could use this function to perform the same closeout to Grabill estimates, if these are given via the \code{pops} argument. See examples. Note that the Grabill split method mixed with this closeout will not necessarily preserve the annual totals, and this function performs to rescaling. The open age group is preserved (and must be included in \code{Value}).
 #'
 #' @export
 #'

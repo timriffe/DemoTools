@@ -21,7 +21,7 @@
 #' @param dates_lx date, character, or numeric vector of the column time points for `lxMat`. If these are calendar-year estimates, then you can choose mid-year time points
 #' @param births integer vector. Raw birth counts for the corresponding (sub)-population, one value per each year of the intercensal period including both census years. The first and last years should include all births in the given year; don't discount them in advance.
 #' @param years_births numeric vector of calendar years of births.
-#' @param country text string. The country of the census
+#' @param location country name or LocID
 #' @param sex character string, either `"male"`, `"female"`, or `"both"`
 #' @param midyear logical. `FALSE` means all Jan 1 dates between `date1` and `date2` are returned. `TRUE` means all July 1 intercensal dates are returned.
 #' @param verbose logical. Shall we send informative messages to the console?
@@ -37,7 +37,7 @@
 #'
 #' \dontrun{
 #'   mig_beta(
-#'   country = "Russian Federation",
+#'   location = "Russian Federation",
 #'   sex = "male",
 #'   c1 = pop1m_rus2002,
 #'   c2 = pop1m_rus2010,
@@ -60,7 +60,7 @@ mig_beta <- function(
                      dates_lx = NULL,
                      births = NULL,
                      years_births = NULL,
-                     country = NULL,
+                     location = NULL,
                      sex = "both",
                      midyear = FALSE,
                      verbose = TRUE,
@@ -84,7 +84,7 @@ mig_beta <- function(
     dates_lx = dates_lx,
     births = births,
     years_births = years_births,
-    country = country,
+    location = location,
     sex = sex,
     midyear = midyear,
     verbose = verbose,

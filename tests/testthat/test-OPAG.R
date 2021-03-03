@@ -3,11 +3,19 @@
 # -[ x] check sums match between input and output
 # -[ x] check output of proper length
 # -[ ] check for console output when informative warnings should be generated
-# -[ ] expect error if OAnew > max(Age_nLx)
+#    - [ ] if age intervals are different, we should send a consote message using cat("\n")
+#        - [ ] 1) the function should work fine still.
+#        - [ ] 2) capture console output and make sure as expected. (examples in test-basepop)
+#        - [ ] 3) if estimated r is on the boundary (-.05, .05) we should warn to console.
+# -[x] expect error if OAnew > max(Age_nLx)
 # -[ ] expect errors in other reasonable situations
-# -[ ] canonical test: if the census is actually a stationary population, identical to nLx itself, then we hope to return something proportional to it.
-# -[ ] canonical test: if input census is an exact stable pop (use auxiliary function OPAG_nLx_warp_r)
+#      if OA is 80+ and standard starts at age 40, it should still work!
+#      if OAnew > min(Age_nLx) that's an error.
+#      
+# -[x] canonical test: if the census is actually a stationary population, identical to nLx itself, then we hope to return something proportional to it.
 
+# -[ ] canonical test: if input census is an exact stable pop (use auxiliary function OPAG_nLx_warp_r)
+#       forget this one for time being
 ###############################################################################
 
 
@@ -39,9 +47,9 @@ pop_swe <-  c(88367.00, 89890.00, 91008.00, 95773.00, 103678.00,
 2.00)
 
 
-pop_swe50_110 <- pop_swe[51:111]
-pop_85 <- c(pop_swe[1:85], sum(pop_swe[86:111]))
-pop_check <- pop_swe
+pop_swe50_110   <- pop_swe[51:111]
+pop_85          <- c(pop_swe[1:85], sum(pop_swe[86:111]))
+pop_check       <- pop_swe
 names_pop_check <- as.character(c(0:110))
 names(pop_check)<- names_pop_check
 
@@ -219,6 +227,27 @@ test_that("OPAG_nLx_warp_r works", {
 #                tolerance = 0.0001)
 # })
 
+test_that("OAnew checks enforced", {
+# India Males, 1991
+Pop            <- smooth_age_5(pop1m_ind,
+                               Age = 0:100,
+                               method = "Arriaga")
+Age_Pop        <- names2age(Pop)
+AgeInt_Pop     <- age2int(Age_Pop, OAvalue = 1)
 
+nLx            <- downloadnLx(NULL, "India","male",1991)
+Age_nLx        <- names2age(nLx)
+AgeInt_nLx     <- age2int(Age_nLx, OAvalue = 1)
 
+expect_error(Pop_fit <- OPAG(Pop,
+                Age_Pop = Age_Pop,
+                AgeInt_Pop = AgeInt_Pop,
+                nLx = nLx,
+                Age_nLx = Age_nLx,
+                AgeInt_nLx,
+                Age_fit =  c(60,70),
+                AgeInt_fit = c(10,10),
+                Redistribute_from = 80,
+                OAnew = 120))
+})
 

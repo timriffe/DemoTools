@@ -1,8 +1,8 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.13.25
-Date: 2021-02-26
+Version: 01.13.32
+Date: 2021-03-03
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
           email = "tim.riffe@gmail.com", comment = c(ORCID = "0000-0002-2673-4622")),
@@ -35,12 +35,11 @@ Suggests:
     ggplot2
 RdMacros: Rdpack
 Imports:
-    countrycode,
     data.table (>= 1.13.6),
     demogR,
     DemoToolsData,
     dplyr,
-    fertestr,
+    fertestr (>= 0.0.5),
     lubridate,
     magrittr,
     MortalityLaws (>= 1.7.0),

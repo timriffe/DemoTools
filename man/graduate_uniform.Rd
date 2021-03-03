@@ -4,14 +4,14 @@
 \alias{graduate_uniform}
 \title{Convert arbitrary age groupings into single years of age.}
 \usage{
-graduate_uniform(Value, AgeInt, Age, OAG = TRUE, OAvalue = 1)
+graduate_uniform(Value, Age, AgeInt, OAG = TRUE, OAvalue = 1)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}
 
-\item{AgeInt}{integer vector, age interval widths}
-
 \item{Age}{integer vector, lower bounds of age groups}
+
+\item{AgeInt}{integer vector, age interval widths}
 
 \item{OAG}{logical, default = \code{TRUE} is the final age group open?}
 

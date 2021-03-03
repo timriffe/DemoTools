@@ -382,11 +382,11 @@ smoothed_females <- smooth_age_5(Value = pop_female_counts,
 
 
 refDate <- 1986
-country <- "Spain"
-res <- fertestr::FetchPopWpp2019(country, refDate, ages = 0:100, sex = "female")
+location <- "Spain"
+res <- fertestr::FetchPopWpp2019(location, refDate, ages = 0:100, sex = "female")
 pop_female_counts <- single2abridged(setNames(res$pop, res$ages))
 
-res <- fertestr::FetchPopWpp2019(country, refDate, ages = 0:100, sex = "male")
+res <- fertestr::FetchPopWpp2019(location, refDate, ages = 0:100, sex = "male")
 pop_male_counts <- single2abridged(setNames(res$pop, res$ages))
 
 # Download asfr matrix to test that it can download the nLx only
@@ -395,7 +395,7 @@ invisible(
     nLxFemale <-
       downloadnLx(
         NULL,
-        country,
+        location,
         gender = "female",
         c(1978, 1985.5)
       )
@@ -403,7 +403,7 @@ invisible(
 )
 
 # Download asfr matrix to test that it can download the nLx only
-invisible(capture.output(AsfrMat <- downloadAsfr(NULL, country, c(1978, 1985.5))))
+invisible(capture.output(AsfrMat <- downloadAsfr(NULL, location, c(1978, 1985.5))))
 
 test_that("basepop_five can download data for nLx", {
 
@@ -411,7 +411,7 @@ test_that("basepop_five can download data for nLx", {
   output <-
     capture.output(
       basepop_five(
-        country = country,
+        location = location,
         refDate = refDate,
         Females_five = pop_female_counts,
         Males_five = pop_male_counts,
@@ -433,7 +433,7 @@ test_that("basepop_five can download data for asfr", {
   output <-
     capture.output(
       basepop_five(
-        country = country,
+        location = location,
         refDate = refDate,
         nLxFemale = nLxFemale,
         nLxMale = nLxMale,
@@ -454,7 +454,7 @@ test_that("basepop_five can download data for asfr", {
   # output <-
   #   capture.output(
   #     basepop_five(
-  #       country = country,
+  #       location = location,
   #       refDate = refDate,
   #       nLxFemale = nLxFemale,
   #       Females_five = pop_female_counts,
@@ -471,7 +471,7 @@ test_that("basepop_five infers radix if not provided", {
   output <-
     capture.output(
       basepop_five(
-        country = country,
+        location = location,
         refDate = refDate,
         nLxFemale = nLxFemale,
         nLxMale = nLxMale,
@@ -483,7 +483,7 @@ test_that("basepop_five infers radix if not provided", {
   expect_true(sum(grepl("^Setting radix", output)) == 1)
 })
 
-test_that("basepop raises error when downloads needed but no country is specified", {
+test_that("basepop raises error when downloads needed but no location is specified", {
 
   expect_error(
     basepop_five(
@@ -492,7 +492,7 @@ test_that("basepop raises error when downloads needed but no country is specifie
       Males_five = pop_male_counts,
       verbose = FALSE
     ),
-    "You need to provide a country to download the data for nLx"
+    "You need to provide a location to download the data for nLx"
   )
 
 
@@ -505,7 +505,7 @@ test_that("basepop raises error when downloads needed but no country is specifie
       radix = 1,
       verbose = FALSE
     ),
-    "You need to provide a country to download the data for nLx"
+    "You need to provide a location to download the data for nLx"
   )
 
   expect_error(
@@ -518,7 +518,7 @@ test_that("basepop raises error when downloads needed but no country is specifie
       radix = 1,
       verbose = FALSE
     ),
-    "You need to provide a country to download the data for Asfrmat"
+    "You need to provide a location to download the data for Asfrmat"
   )
 
   # If provided all correct arguments, it download the data
@@ -526,7 +526,7 @@ test_that("basepop raises error when downloads needed but no country is specifie
   expect_success({
     res <-
       basepop_five(
-        country = "Spain",
+        location = "Spain",
         refDate = refDate,
         AsfrMat = AsfrMat,
         Females_five = pop_female_counts,
@@ -545,7 +545,7 @@ test_that("basepop_five can download from dates provided", {
   output <-
     capture.output(
       basepop_five(
-        country = country,
+        location = location,
         refDate = refDate,
         nLxDatesIn = c(1978, 1986.5),
         AsfrDatesIn = c(1978, 1985.5),
@@ -561,7 +561,7 @@ test_that("basepop_five can download from dates provided", {
   output <-
     capture.output(
       basepop_five(
-        country = country,
+        location = location,
         refDate = refDate,
         nLxDatesIn = c(1978, 1986.5),
         Females_five = pop_female_counts,
@@ -575,7 +575,7 @@ test_that("basepop_five can download from dates provided", {
   output <-
     capture.output(
       basepop_five(
-        country = country,
+        location = location,
         refDate = refDate,
         Females_five = pop_female_counts,
         Males_five = pop_male_counts
@@ -593,7 +593,7 @@ test_that("basepop works with up to year 1955", {
   # the nLx and Asfr data. So the minimum year will be 1955.
   res <-
     basepop_five(
-      country = "Spain",
+      location = "Spain",
       refDate= 1962.5,
       Males_five = smoothed_males,
       Females_five = smoothed_females,
@@ -620,7 +620,7 @@ test_that("basepop works well with SRBDatesIn", {
   expect_success({
     res <-
       basepop_five(
-        country = "Spain",
+        location = "Spain",
         refDate= 1962.5,
         Males_five = smoothed_males,
         Females_five = smoothed_females,
@@ -637,7 +637,7 @@ test_that("basepop works well with SRBDatesIn", {
   expect_success({
     res <-
       basepop_five(
-        country = "Spain",
+        location = "Spain",
         refDate= 1962.5,
         Males_five = smoothed_males,
         Females_five = smoothed_females,
@@ -659,7 +659,7 @@ test_that("basepop caps nLxDatesIn to 1955 when provided a date below that", {
   expect_output(
     tmp <-
       basepop_five(
-        country = "Spain",
+        location = "Spain",
         refDate = 1960,
         Males_five = smoothed_males,
         Females_five = smoothed_females,
@@ -677,7 +677,7 @@ test_that("basepop caps nLxDatesIn to 1955 when provided a date below that", {
   expect_output(
     tmp <-
       basepop_five(
-        country = "Spain",
+        location = "Spain",
         refDate = 1960,
         Males_five = smoothed_males,
         Females_five = smoothed_females,
@@ -807,31 +807,36 @@ test_that("downloadSRB works as expected", {
   )
 
   # Should return three SRBs
-  srb_checker(downloadSRB(SRB = NULL, country = "Spain", DatesOut = 1955:1957))
+  srb_checker(downloadSRB(SRB = NULL, location = "Spain", DatesOut = 1955:1957))
 
   # Assumes SRB
-  expect_output(
-    downloadSRB(SRB = NULL, country = "Whatever", DatesOut = 1955:1957),
-    regexp = c("Whatever not available in WPP LocName list\nAssuming SRB to be 1.047"),
-    fixed = TRUE
-  )
+ outp <- capture_output_lines(
+   downloadSRB(SRB = NULL, 
+               location = "Whatever", 
+               DatesOut = 1955:1957)
+   )
+ 
+ expect_true(all(
+   c("Whatever not available in DemoToolsData::WPP2019_births",
+     "Assuming SRB to be 1.047 ") %in% outp) )
 
   # Should fail because of number of years
   expect_error(
-    downloadSRB(SRB = NULL, country = "Whatever", DatesOut = 1955:1958),
+    downloadSRB(SRB = NULL, location = "Whatever", DatesOut = 1955:1958),
     regexp = "SRB can only accept three dates at maximum",
     fixed = TRUE
   )
 
   # Should impute the first two years with the last
   srb_checker(
-    downloadSRB(SRB = NULL, country = "Germany", DatesOut = 1948:1950),
+    downloadSRB(SRB = NULL, location = "Germany", DatesOut = 1948:1950),
     ordered_name = TRUE
   )
 
   # Should impute all values
   srb_checker(
-    downloadSRB(SRB = NULL, country = "Germany", DatesOut = 1947:1949),
+    downloadSRB(SRB = NULL, location = "Germany", DatesOut = 1947:1949),
     ordered_name = TRUE
   )
 })
+

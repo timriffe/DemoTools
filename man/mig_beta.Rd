@@ -18,7 +18,7 @@ mig_beta(
   dates_lx = NULL,
   births = NULL,
   years_births = NULL,
-  country = NULL,
+  location = NULL,
   sex = "both",
   midyear = FALSE,
   verbose = TRUE,
@@ -50,7 +50,7 @@ mig_beta(
 
 \item{years_births}{numeric vector of calendar years of births.}
 
-\item{country}{text string. The country of the census}
+\item{location}{country name or LocID}
 
 \item{sex}{character string, either \code{"male"}, \code{"female"}, or \code{"both"}}
 
@@ -76,7 +76,7 @@ intercensal period to have a total migration during the entire period.
 
 \dontrun{
   mig_beta(
-  country = "Russian Federation",
+  location = "Russian Federation",
   sex = "male",
   c1 = pop1m_rus2002,
   c2 = pop1m_rus2010,

@@ -26,7 +26,7 @@
 #'        nm2$net_migr$nm[nm2$net_migr$sex=="Female"], col=2)
 #' }
 
-
+# TR: add OAnew = 100
 mig_un_fam <- function(NM, family, Single = TRUE){
   
   # TR added for global binding warnings
@@ -43,6 +43,10 @@ mig_un_fam <- function(NM, family, Single = TRUE){
   ind         <- mig_un_params$family == family & 
                  mig_un_params$mig_sign == mig_sign
   this_params <- mig_un_params[ind,   c("family","sex","param","median")]
+  
+  # TR: not priority, but it is also the case that we can do all this with only params
+  # see commented-out code below for how to estimate 'family' from params. 
+  
   ind         <- mig_un_families$family == family & 
                  mig_un_families$mig_sign == mig_sign
   this_family <- mig_un_families[ind,  c("family","sex","age","prop")]
@@ -54,6 +58,7 @@ mig_un_fam <- function(NM, family, Single = TRUE){
   this_family$nm   <- this_family$prop * NM 
   this_family$prop <- NULL 
   
+  # TR: use groupOAG() to assert OAnew on this_family$nm
   # single age
   if(!Single){
     nm              <- NULL

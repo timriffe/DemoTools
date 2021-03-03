@@ -10,6 +10,7 @@
 #' @param lx numeric. Vector of lifetable survivorship at single ages.
 #' @param nLx numeric. Vector of lifetable exposure at single ages.
 #' @param ex numeric. Vector of Age-specific remaining life expectancy at single ages.
+#' @param ... optional args, not currently used.
 #' @return Abridged lifetable in data.frame with columns
 #' \itemize{
 #'   \item{Age}{integer. Lower bound of abridged age class},
@@ -30,7 +31,8 @@
 lt_single2abridged <- function(lx,
                                nLx,
                                ex,
-                               Age = 1:length(lx) - 1) {
+                               Age = 1:length(lx) - 1,
+                               ...) {
   
   stopifnot(is_single(Age))
   NN <- length(lx)
@@ -139,14 +141,39 @@ lt_abridged2single <- function(
   SRB = 1.05,
   OAG = TRUE,
   OAnew = max(Age),
-  extrapLaw = "kannisto",
+  extrapLaw = NULL,
   extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60 & Age < max(Age)],
+  extrapFit = NULL,
   ...) {
   
   stopifnot(is_abridged(Age))
   NN <- length(Age)
   #stopifnot(length(nMx) == NN)
+  
+  if (!is.null(extrapLaw)){
+    extrapLaw      <- tolower(extrapLaw)
+    extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
+                                                       "kannisto_makeham",
+                                                       "makeham",
+                                                       "gompertz",
+                                                       "ggompertz",
+                                                       "beard",
+                                                       "beard_makeham",
+                                                       "quadratic"
+    ))
+  } else {
+    extrapLaw <- ifelse(max(Age)>=90, "kannisto","makeham")
+  }
+  if (is.null(extrapFit)){
+    maxAclosed <- ifelse(OAG, Age[which.max(Age)-1],max(Age))
+    if (maxAclosed < 85){
+      extrapFit  <- Age[Age >= (maxAclosed - 20) & Age <= maxAclosed]
+    } else {
+      extrapFit  <- Age[Age >= 60 & Age <= maxAclosed]
+    }
+  } else {
+    stopifnot(all(extrapFit %in% Age))
+  }
   
   # first extend the abridged life table to OAG = 130 with a big radix so that we don't lose info later when rounding ndx and nLx to integers
   lt_abr <- lt_abridged(Deaths = Deaths, 
@@ -174,11 +201,14 @@ lt_abridged2single <- function(
   ndx <- round(lt_abr$ndx)
   nLx <- round(lt_abr$nLx)
   ind <- lt_abr$Age >= 1 & lt_abr$Age <= 125 & ndx>0 & nLx>0
-  M <- pclm(x      = lt_abr$Age[ind],
+  
+  # TR: removed ... because in practice we were passing in a large
+  # set of ... indirectly that aren't recognized in pclm
+  M <- suppressWarnings(pclm(x      = lt_abr$Age[ind],
             y      = ndx[ind],
             nlast  = 5,
             offset = nLx[ind],
-            ...)
+            ...))
   
   # splice original 1M0 with fitted 1Mx and momega from extended abridged LT
   M <- c(lt_abr$nMx[1], M$fitted)
@@ -215,7 +245,7 @@ lt_abridged2single <- function(
 #' calculate an abidged or single age lifetable from abridged or sinlge age data
 #' @description This is a wrapper around the other lifetable utilities. We start with either `nMx`, `nqx`, or `lx` in single or abridged ages, and returns a full lifetable in either single or abridged ages. All optional arguments of `lt_abridged()` or `lt_single*()` can be passed in, for instance the `nax` assumptions or the extrapolation arguments.
 #' 
-#' @param x numeric vector of either `nMx`, `nqx`, or `lx`
+#' @param nMx_or_nqx_or_lx numeric vector of either `nMx`, `nqx`, or `lx`
 #' @param type character, which variable is `x`?, either `"m"`, `"q"`, or `"l"`. Default `"m"`
 #' @param Age integer vector of the lower age bounds of `x`
 #' @param Sex character, `"m"`, `"f"`, or `"b"`.
@@ -223,13 +253,16 @@ lt_abridged2single <- function(
 #' @param ... optional arguments passed to `lt_abridged()` or `lt_single*()` 
 #' @export
 
-lt_ambiguous <- function(x = NULL, 
+lt_ambiguous <- function(nMx_or_nqx_or_lx = NULL, 
                          type = "m",
                          Age = NULL, 
                          Sex = NULL, 
                          Single = FALSE,
                          ...){
   
+  #extras <- list(...)
+  
+  xx <- nMx_or_nqx_or_lx
   # TR: adds flexibility when specifying type to reduce user errors
   type                  <- tolower(type)
   possible_types        <- c("m","m","m","q","q","q","l","l")
@@ -238,7 +271,7 @@ lt_ambiguous <- function(x = NULL,
   type                  <- possible_types[type]
   
   if (type == "l"){
-    x = lt_id_l_q(x)
+    xx = lt_id_l_q(xx)
     type = "q"
   }
   
@@ -249,33 +282,36 @@ lt_ambiguous <- function(x = NULL,
     
     # If we have nMx
     if (type == "m" & Single){
-      out <- lt_abridged2single(nMx = x, Age = Age, Sex = Sex, ...)
+      
+      # args_could_have <- formals(lt_abridged2single)
+      
+      out <- lt_abridged2single(nMx = xx, Age = Age, Sex = Sex, ...)
     }
     if (type == "m" & !Single){
-      out <- lt_abridged(nMx = x, Age = Age, Sex = Sex, ...)  
+      out <- lt_abridged(nMx = xx, Age = Age, Sex = Sex, ...)  
     }
     # If we have nMx
     if (type == "q" & Single){
-      out <- lt_abridged2single(nqx = x, Age = Age, Sex = Sex,  ...)
+      out <- lt_abridged2single(nqx = xx, Age = Age, Sex = Sex,  ...)
     }
     if (type == "q" & !Single){
-      out <- lt_abridged(nqx = x, Age = Age, Sex = Sex,  ...)  
+      out <- lt_abridged(nqx = xx, Age = Age, Sex = Sex,  ...)  
     }
   }
   
   if (is_single(Age)){
     if (type == "m" & Single){
-      out <- lt_single_mx(nMx = x, Age = Age, Sex = Sex,  ...)
+      out <- lt_single_mx(nMx = xx, Age = Age, Sex = Sex,  ...)
     }
     if (type == "m" & !Single){
-      out <- lt_single_mx(nMx = x, Age = Age, Sex = Sex,  ...)
+      out <- lt_single_mx(nMx = xx, Age = Age, Sex = Sex,  ...)
       out <- lt_single2abridged(lx = out$lx,nLx = out$nLx, ex = out$ex) 
     }
     if (type == "q" & Single){
-      out <- lt_single_qx(nqx = x, Age = Age, Sex = Sex,  ...)
+      out <- lt_single_qx(nqx = xx, Age = Age, Sex = Sex,  ...)
     }
     if (type == "q" & !Single){
-      out <- lt_single_qx(qx = x, Age = Age, Sex = Sex,  ...)
+      out <- lt_single_qx(qx = xx, Age = Age, Sex = Sex,  ...)
       out <- lt_single2abridged(lx = out$lx,nLx = out$nLx, ex = out$ex) 
     }
   }

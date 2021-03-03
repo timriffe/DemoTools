@@ -4,12 +4,14 @@
 \alias{graduate_sprague}
 \title{The basic Sprague age-splitting method.}
 \usage{
-graduate_sprague(Value, Age, OAG = TRUE)
+graduate_sprague(Value, Age, AgeInt, OAG = TRUE)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}
 
 \item{Age}{integer vector, lower bounds of age groups}
+
+\item{AgeInt}{integer vector, age interval widths}
 
 \item{OAG}{logical, default = \code{TRUE} is the final age group open?}
 }

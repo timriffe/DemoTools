@@ -174,13 +174,44 @@ interp_lc_lim <- function(input = NULL,
   # and maybe this function shouldn't be anonymous, but rather called inside
   # inputdt[, new_function(.SD,...),by=list(Sex,Date)] # or similar.
   . <- NULL
-  inputdt <- split(input, list(input$Sex, input$Date)) %>% 
-              lapply(
-                function(X) do.call(lt_smooth_ambiguous,
-                                    c(list(input=X), ExtraArgs))) %>% 
-              do.call("rbind", .)%>% 
-              as.data.table() 
+  # inputdt <- split(input, list(input$Sex, input$Date)) %>% 
+  #             lapply(
+  #               function(X) do.call(lt_smooth_ambiguous,
+  #                                   c(list(input=X), ExtraArgs))) %>% 
+  #             do.call("rbind", .)%>% 
+  #             as.data.table() 
 
+  inputdt <- split(input, list(input$Sex, input$Date)) %>% 
+    lapply( function(X) {
+     
+      Age   <- X$Age
+      Sex_i <- unique(X$Sex)
+      
+      types     <- c("nMx","nqx","lx")
+      this_type <- types[types %in% colnames(X)]
+      if (length(this_type) > 1){
+       ind <- X[,this_type] %>% 
+         as.matrix() %>% 
+         is.na() %>% 
+         colSums() %>% 
+         which.min()
+       this_type <- this_type[ind]
+      }
+ 
+      LT <- lt_ambiguous(nMx_or_nqx_or_lx = X[[this_type]],
+                        type = this_type,
+                         Age = Age, 
+                         Sex = Sex_i,
+                         Single = Single,
+                         ...)
+      LT$Sex  <- Sex_i
+      LT$Date <- unique(X$Date)
+      LT
+    }) %>% 
+    do.call("rbind", .)%>% 
+    as.data.table() 
+  
+  
   # avoids 'no visible binding' warning
   Sex <- NULL
   
@@ -304,32 +335,33 @@ interp_lc_lim <- function(input = NULL,
   . = NULL
   
   Males_out <-
-    lapply(colnames(nMxm_hat), function(x,MX,Age) {
+    lapply(colnames(nMxm_hat), function(xx,MX,Age) {
 
-      mx <- MX[, x]
-      LT <- lt_ambiguous(x = mx,
-                            type = "m",
-                            Age = Age, 
-                            Sex = "m",
-                            Single = Single,
-                            ...)
+      mx <- MX[, xx]
+      LT <- lt_ambiguous(nMx_or_nqx_or_lx = mx,
+                         type = "m",
+                         Age = Age, 
+                         Sex = "m",
+                         Single = Single,
+                         ...)
       LT$Sex  <- "m"
-      LT$Date <- as.numeric(x)
+      LT$Date <- as.numeric(xx)
       LT
       
     }, MX = nMxm_hat, Age = Age) %>% 
     do.call("rbind", .)
   
   Females_out <-
-    lapply(colnames(nMxf_hat), function(x,MX,Age) {
-      mx <- MX[, x]
-      LT <- lt_ambiguous(x = mx, 
-                            Age = Age, 
-                            Sex = "f",
-                            Single = Single,
-                            ...)
+    lapply(colnames(nMxf_hat), function(xx,MX,Age) {
+      mx <- MX[, xx]
+      LT <- lt_ambiguous(nMx_or_nqx_or_lx = mx, 
+                         type = "m",
+                         Age = Age, 
+                         Sex = "f",
+                         Single = Single,
+                         ...)
       LT$Sex  <- "f"
-      LT$Date <- as.numeric(x)
+      LT$Date <- as.numeric(xx)
       LT
     }, MX = nMxf_hat, Age = Age) %>% 
     do.call("rbind", .)
@@ -366,7 +398,7 @@ interp_lc_lim_kt_min <- function(k,
                           e0_target,
                           ...){
   Mx_hat <- as.numeric(interp_lc_lim_abk_m(k, ax, bx))
-  e0 <- lt_ambiguous(x = Mx_hat, 
+  e0 <- lt_ambiguous(nMx_or_nqx_or_lx = Mx_hat, 
                         Age = age, 
                         Sex = sex,
                          ...)$ex[1]
@@ -459,7 +491,7 @@ lt_smooth_ambiguous <- function(input, ...){
     # TR: other args not passed in are scoped one level up
     thisExtraArgs <- ExtraArgs[!names(ExtraArgs) %in% 
                                  c("extrapLaw","extrapFit","extrapFrom","OAnew","Single")]
-    out <- lt_ambiguous(x = X[[this_type]], 
+    out <- lt_ambiguous(nMx_or_nqx_or_lx = X[[this_type]], 
                         Age = X[["Age"]], 
                         type = this_type,
                         Sex = this_sex,
@@ -469,7 +501,7 @@ lt_smooth_ambiguous <- function(input, ...){
                         OAnew = this_OAnew,
                         ...)
   }else{
-    out <- lt_ambiguous(x = X[[this_type]], 
+    out <- lt_ambiguous(nMx_or_nqx_or_lx = X[[this_type]], 
                         Age = X[["Age"]], 
                         type = this_type,
                         Sex = this_sex,
