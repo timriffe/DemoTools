@@ -37,7 +37,7 @@ RdMacros: Rdpack
 Imports:
     data.table (>= 1.13.6),
     demogR,
-    DemoToolsData,
+    DemoToolsData (>= 0.1.1),
     dplyr,
     fertestr (>= 0.0.5),
     lubridate,
