@@ -1,7 +1,7 @@
 context("test-mig_un_fam")
 
 # get data spreadsheet----------------------------------------------------------------
-UN_fam <- 
+UN_fam <-
   data.frame(
   Age = rep(seq(0,80,5),6),
   Type = c(rep("Family Immigration",17),
@@ -215,36 +215,61 @@ Female = c(
   -250.3,
   -158.9,
   -100.9)
-) %>% 
-  rename(Type=2, Age=1) %>% 
-  as.data.table() %>% 
+) %>%
+  rename(Type=2, Age=1) %>%
+  as.data.table() %>%
   data.table::melt(id.vars = c("Age","Type"),
                    measure.vars = c("Female","Male"),
                    variable.name = "Sex",
-                   value.name = "Prop") %>% 
-  .[, Prop := Prop / 1e5] %>% 
-  as.data.frame()
-    
+                   value.name = "Prop") %>%
+  .[, Prop := Prop / 1e5]
 
 
 # test --------------------------------------------------------------------
 
 tolerance_admited <- .005
 test_that("mig fam works", {
-  
+  UN_fam <- UN_fam[Age < 80, ]
+  res1 <- mig_un_fam(NM = 1000,  family = "Family", Single = FALSE)$net_migr
+  res1 <- res1[res1$age < 80, ]
+
   expect_equal(
-    mig_un_fam(NM = 1000,  family = "Family", Single = FALSE)$net_migr$nm,
-    setDT(UN_fam)[Type == "Family Immigration", .(Prop)][[1]] * 1000,
-    tolerance = tolerance_admited  * 1000)
-  
+    res1$nm / 1000,
+    setDT(UN_fam)[Type == "Family Immigration", .(Prop)][[1]],
+    tolerance = tolerance_admited  * 1000
+  )
+
+  res2 <- mig_un_fam(NM = -1,  family = "Female Labor", Single = FALSE)$net_migr
+  res2 <- res2[res2$age < 80, ]
+
   expect_equal(
-    mig_un_fam(NM = -1,  family = "Female Labor", Single = FALSE)$net_migr$nm,
+    res2$nm,
     setDT(UN_fam)[Type == "Female Labor Emigration", .(Prop)][[1]],
-    tolerance = tolerance_admited)
- 
+    tolerance = tolerance_admited
+  )
+
+  res3 <- mig_un_fam(NM = -100000,  family = "Male Labor", Single = FALSE)$net_migr
+  res3 <- res3[res3$age < 80, ]
+
   expect_equal(
-    mig_un_fam(NM = -100000,  family = "Male Labor", Single = FALSE)$net_migr$nm,
+    res3$nm,
     setDT(UN_fam)[Type == "Male Labor Emigration", .(Prop)][[1]] * 100000,
-    tolerance = tolerance_admited * 100000)
-  
+    tolerance = tolerance_admited * 100000
+  )
+
+})
+
+test_that("mig_fam works with OAnew", {
+
+  # Run mig_un_fam with all single ages
+  unconstrained <- mig_un_fam(NM = 1000,  family = "Family", OAnew = 120)$net_migr
+  # Run with open age group at 100
+  constrained <- mig_un_fam(NM = 1000,  family = "Family", OAnew = 100)$net_migr
+
+  # Make sure both calculates sum up to the same when comparing
+  # all values above 99
+  total_above_100 <- round(sum(unconstrained[age > 99, nm]), 4)
+  summed_above_100 <- round(sum(constrained[age == 100, nm]), 4)
+  expect_true(total_above_100 == summed_above_100)
+
 })
