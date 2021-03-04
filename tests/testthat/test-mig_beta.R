@@ -590,3 +590,61 @@ test_that("mig_beta throws download messages when verbose = TRUE", {
     fixed = TRUE
   )
 })
+
+
+
+test_that("mig_beta throws download messages when verbose = TRUE and LocID used", {
+  
+  # 1) lx is downloaded
+  outp <- capture_output_lines(
+    mig_beta(
+      location = 643,
+      sex = "both",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L, 760831L,
+                 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010,
+      verbose = TRUE
+    ))
+  expect_true(any(outp == "lxMat not provided. Downloading lxMat for Russian Federation (LocID = 643), gender: `both`, for years between 2002.8 and 2010.8"))
+  
+  # 2) births are downloaded
+  outp <- capture_output_lines(
+    mig_beta(
+      location = 643,
+      sex = "both",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      lxMat = lxmat,
+      dates_lx = c(mortdate1,mortdate2,mortdate3),
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age_lx = age_lx,
+      verbose = TRUE
+    ))
+  expect_true(any(outp == "births not provided. Downloading births for Russian Federation (LocID = 643), gender: `both`, years: 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010"))
+  
+  # 3) dates_lx or years_births are being assumed anything
+  expect_output(
+    mig_beta(
+      location = 643,
+      sex = "both",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      lxMat = lxmat,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age_lx = age_lx,
+      births = c(719511L, 760934L, 772973L, 749554L, 760831L,
+                 828772L, 880543L, 905380L, 919639L),
+      years_births = 2002:2010,
+      verbose = TRUE
+    ),
+    regexp = "lxMat specified, but not dates_lx\nAssuming: 2002.78904109589, 2006.80136986301, 2010.81369863014",
+    fixed = TRUE
+  )
+})
