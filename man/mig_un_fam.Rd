@@ -4,7 +4,7 @@
 \alias{mig_un_fam}
 \title{Net migration by age for an UN family}
 \usage{
-mig_un_fam(NM, family, Single = TRUE)
+mig_un_fam(NM, family, Single = TRUE, OAnew = 100)
 }
 \arguments{
 \item{NM}{numeric. Total net migration to distribuite between ages and sex.}
@@ -13,6 +13,10 @@ mig_un_fam(NM, family, Single = TRUE)
 
 \item{Single}{logical. Results by simple age. Default \code{FALSE}.
 Typically from pre-working age and working age parts of in Roger-Castro formula.}
+
+\item{OAnew}{The age from which to group all ages into an open ended age group.
+By default it is set to 100, so it groups all ages up to 120, which is the
+maximum age.}
 }
 \value{
 List with
@@ -27,8 +31,8 @@ calculate the net migration age schedule based on the Rogers and Castro formula 
 }
 \examples{
 # 10000 net migrants, comparing two possible families
-nm1 <- mig_un_fam(NM = 10000, family = "Male Labor")
-nm2 <- mig_un_fam(NM = 10000, family = "Family")
+nm1 <- mig_un_fam(NM = 10000, family = "Male Labor", OAnew = 100)
+nm2 <- mig_un_fam(NM = 10000, family = "Family", OAnew = 100)
 # See the female profile in for these models:
 \dontrun{
 plot(nm1$net_migr$age[nm1$net_migr$sex=="Female"],
