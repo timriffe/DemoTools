@@ -64,7 +64,7 @@ jobs:
       - name: macOS dependencies
         if: runner.os == 'macOS'
         run: |
-          brew install [--cask] xquartz
+          brew install xquartz
 
       # Adds manual deps to rgl in first line
       - name: Linux dependencies
