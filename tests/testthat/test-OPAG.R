@@ -3,7 +3,7 @@
 # -[ x] check sums match between input and output
 # -[ x] check output of proper length
 # -[ ] check for console output when informative warnings should be generated
-#    - [ ] if age intervals are different, we should send a consote message using cat("\n")
+#    - [ ] if age intervals are different, we should send a console message using cat("\n")
 #        - [ ] 1) the function should work fine still.
 #        - [ ] 2) capture console output and make sure as expected. (examples in test-basepop)
 #        - [ ] 3) if estimated r is on the boundary (-.05, .05) we should warn to console.
