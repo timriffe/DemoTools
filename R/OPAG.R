@@ -445,10 +445,9 @@ OPAG <- function(Pop,
   method <- match.arg(method, choices = c("uniform","pclm","mono"))
   
   #TB: checking if pop and nLx have different intervals and warning users - still working on it
-  if(is_single(Age_Pop) != is_single(Age_nLx)){
-    cat("Warning Message: Age intervals of Age_Pop and Age_nLx are different!", "\n")
+  if(min(diff(Age_Pop)) != min(diff(Age_nLx))){
+    cat("Age_Pop and Age_nLx age intervals are different!", "\n")
   }
-  
   # what if one age vec is single and the other isn't? we should warn, but continue.
   # is_single(Age_Pop)
   # is_abridged(Age_Pop)
