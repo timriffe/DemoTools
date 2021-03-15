@@ -10,7 +10,7 @@
 # -[x] expect error if OAnew > max(Age_nLx)
 # -[ ] expect errors in other reasonable situations
 #      - [ x] if OA is 80+ and standard starts at age 40, it should still work!
-#      - [ x] if OAnew > max(Age_nLx) that's an error.
+#      - [ x] if OAnew > min(Age_nLx) that's an error.
 #      
 # -[x] canonical test: if the census is actually a stationary population, identical to nLx itself, then we hope to return something proportional to it.
 
@@ -125,7 +125,7 @@ test_that("OAnew > max(Age_nLx) error", {
     StPop = StPop,
     StAge = StAge,
     OAnew = max(StAge) + 5
-  ), "OAnew %in% StAge is not TRUE")
+  ))
 })
 
 test_that("length(Pop) == length(Age) error", {
@@ -136,7 +136,7 @@ test_that("length(Pop) == length(Age) error", {
     StPop = StPop,
     StAge = StAge,
     OAnew = max(StAge)
-  ), "length(Pop) == length(Age) is not TRUE")
+  ))
 })
 
 ## Stationary population ---------------------------------------
@@ -290,7 +290,7 @@ test_that("Check if r returned is between -0.5 and 0.5", {
 })
 
 
-test_that("Check if OAnew > max(Age_nLx)", {
+test_that("Check if OAnew < min(Age_nLx)", {
   
   expect_error(
     OPAG(Pop,
@@ -302,7 +302,7 @@ test_that("Check if OAnew > max(Age_nLx)", {
          Age_fit =  c(60,70),
          AgeInt_fit = c(10,10),
          Redistribute_from = 80,
-         OAnew = max(Age_nLx) + 10)
+         OAnew = min(Age_nLx[4:9]))
   )
 
 })
