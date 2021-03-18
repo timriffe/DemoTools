@@ -3,14 +3,14 @@
 # -[ x] check sums match between input and output
 # -[ x] check output of proper length
 # -[ ] check for console output when informative warnings should be generated
-#    - [ ] if age intervals are different, we should send a consote message using cat("\n")
-#        - [ ] 1) the function should work fine still.
+#    - [ x] if age intervals are different, we should send a console message using cat("\n")
+#        - [ x] 1) the function should work fine still.
 #        - [ ] 2) capture console output and make sure as expected. (examples in test-basepop)
-#        - [ ] 3) if estimated r is on the boundary (-.05, .05) we should warn to console.
+#        - [ x] 3) if estimated r is on the boundary (-.05, .05) we should warn to console.
 # -[x] expect error if OAnew > max(Age_nLx)
 # -[ ] expect errors in other reasonable situations
-#      if OA is 80+ and standard starts at age 40, it should still work!
-#      if OAnew > min(Age_nLx) that's an error.
+#      - [ x] if OA is 80+ and standard starts at age 40, it should still work!
+#      - [ x] if OAnew > min(Age_nLx) that's an error.
 #      
 # -[x] canonical test: if the census is actually a stationary population, identical to nLx itself, then we hope to return something proportional to it.
 
@@ -113,6 +113,31 @@ test_that("OPAG_simple's output has a proper length", {
                tolerance = 0.00001
   )}
 )
+
+## testing warnings
+# -[ ] check for console output when informative warnings should be generated
+
+test_that("OAnew > max(Age_nLx) error", {
+  expect_error(OPAG_simple(
+    Pop = Pop,
+    Age = Age,
+    OAnow = max(Age),
+    StPop = StPop,
+    StAge = StAge,
+    OAnew = max(StAge) + 5
+  ))
+})
+
+test_that("length(Pop) == length(Age) error", {
+  expect_error(OPAG_simple(
+    Pop = pop_swe,
+    Age = Age,
+    OAnow = max(Age),
+    StPop = StPop,
+    StAge = StAge,
+    OAnew = max(StAge)
+  ))
+})
 
 ## Stationary population ---------------------------------------
 ## Data
@@ -226,3 +251,113 @@ expect_error(Pop_fit <- OPAG(Pop,
                 OAnew = 120))
 })
 
+## Checking warnings
+test_that("Age intervals of standard population and population still works even if they are different", {
+  
+  output <-
+    OPAG(Pop,
+         Age_Pop = Age_Pop,
+         AgeInt_Pop = AgeInt_Pop,
+         nLx = nLx,
+         Age_nLx = Age_nLx,
+         AgeInt_nLx,
+         Age_fit =  c(60,70),
+         AgeInt_fit = c(10,10),
+         Redistribute_from = 80,
+         OAnew = max(Age_nLx))
+    
+  
+  expect_message(output, "Age_Pop and Age_nLx age intervals are different!")
+})
+
+
+test_that("Check if r returned is between -0.5 and 0.5", {
+  
+  output <-
+    OPAG(Pop,
+         Age_Pop = Age_Pop,
+         AgeInt_Pop = AgeInt_Pop,
+         nLx = nLx,
+         Age_nLx = Age_nLx,
+         AgeInt_nLx,
+         Age_fit =  c(60,70),
+         AgeInt_fit = c(10,10),
+         Redistribute_from = 80,
+         OAnew = max(Age_nLx))
+  
+  
+  expect_true(output$r_opt$minimum >= -0.5 & output$r_opt$minimum <= 0.5)
+})
+
+
+test_that("Check if OAnew < min(Age_nLx)", {
+  
+  expect_error(
+    OPAG(Pop,
+         Age_Pop = Age_Pop,
+         AgeInt_Pop = AgeInt_Pop,
+         nLx = nLx,
+         Age_nLx = Age_nLx,
+         AgeInt_nLx,
+         Age_fit =  c(60,70),
+         AgeInt_fit = c(10,10),
+         Redistribute_from = 80,
+         OAnew = min(Age_nLx[4:9]))
+  )
+
+})
+# test_that("basepop raises error when downloads needed but no location is specified", {
+#   
+#   expect_error(
+#     basepop_five(
+#       refDate = refDate,
+#       Females_five = pop_female_counts,
+#       Males_five = pop_male_counts,
+#       verbose = FALSE
+#     ),
+#     "You need to provide a location to download the data for nLx"
+#   )
+#   
+#   
+#   expect_error(
+#     basepop_five(
+#       refDate = refDate,
+#       AsfrMat = AsfrMat,
+#       Females_five = pop_female_counts,
+#       Males_five = pop_male_counts,
+#       radix = 1,
+#       verbose = FALSE
+#     ),
+#     "You need to provide a location to download the data for nLx"
+#   )
+#   
+#   expect_error(
+#     basepop_five(
+#       refDate = refDate,
+#       nLxFemale = nLxFemale,
+#       nLxMale = nLxMale,
+#       Females_five = pop_female_counts,
+#       Males_five = pop_male_counts,
+#       radix = 1,
+#       verbose = FALSE
+#     ),
+#     "You need to provide a location to download the data for Asfrmat"
+#   )
+#   # If provided all correct arguments, it download the data
+#   # successfully
+#   expect_success({
+#     res <-
+#       basepop_five(
+#         location = "Spain",
+#         refDate = refDate,
+#         AsfrMat = AsfrMat,
+#         Females_five = pop_female_counts,
+#         Males_five = pop_male_counts,
+#         radix = 1,
+#         verbose = FALSE
+#       )
+#     
+#     expect_type(res$Females_adjusted, "double")
+#   })
+#   
+# })
