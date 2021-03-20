@@ -442,13 +442,12 @@ OPAG <- function(Pop,
   # ensure OAnew is possible
   stopifnot(OAnew <= max(Age_nLx))
   
-  # TB: if OAnew < min(Age_nLx) that's an error.
-  stop(OAnew <= min(Age_nLx))
+  # TB: if OAnew < min(Age_nLx) that's an error
   
   method <- match.arg(method, choices = c("uniform","pclm","mono"))
   
   #TB: checking if pop and nLx have different intervals and warning users - still working on it
-  if(min(diff(Age_Pop)) != min(diff(Age_nLx))){
+  if(!identical(as.integer(unique(diff(Age_Pop))), as.integer(unique(diff(Age_nLx))))){ # put a different
     cat("\nAge_Pop and Age_nLx age intervals are different!\n")
   }
   # what if one age vec is single and the other isn't? we should warn, but continue.

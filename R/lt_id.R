@@ -187,7 +187,7 @@ lt_id_lda_L <- function(lx, ndx, nax, AgeInt) {
   nLx                 <- rep(0, N)
   nLx[1:(N - 1)]      <-
     AgeInt[1:(N - 1)] * lx[2:N] + nax[1:(N - 1)] * ndx[1:(N - 1)]
-  nLx[N]		        <- lx[N] * nax[N]
+  nLx[N]		        <- lx[N] * nax[N] #open interval
   nLx
 }
 

@@ -2,15 +2,15 @@
 # -[x ] check for success in a few different input scenarios
 # -[ x] check sums match between input and output
 # -[ x] check output of proper length
-# -[ ] check for console output when informative warnings should be generated
+# -[x ] check for console output when informative warnings should be generated
 #    - [ x] if age intervals are different, we should send a console message using cat("\n")
 #        - [ x] 1) the function should work fine still.
-#        - [ ] 2) capture console output and make sure as expected. (examples in test-basepop)
+#        - [x ] 2) capture console output and make sure as expected. (examples in test-basepop)
 #        - [ x] 3) if estimated r is on the boundary (-.05, .05) we should warn to console.
 # -[x] expect error if OAnew > max(Age_nLx)
 # -[ ] expect errors in other reasonable situations
 #      - [ x] if OA is 80+ and standard starts at age 40, it should still work!
-#      - [ x] if OAnew > min(Age_nLx) that's an error.
+#      - [ x] if OAnew > max(Age_nLx) that's an error.
 #      
 # -[x] canonical test: if the census is actually a stationary population, identical to nLx itself, then we hope to return something proportional to it.
 
@@ -254,20 +254,19 @@ expect_error(Pop_fit <- OPAG(Pop,
 ## Checking warnings
 test_that("Age intervals of standard population and population still works even if they are different", {
   
-  output <-
-    OPAG(Pop,
-         Age_Pop = Age_Pop,
-         AgeInt_Pop = AgeInt_Pop,
-         nLx = nLx,
-         Age_nLx = Age_nLx,
-         AgeInt_nLx,
-         Age_fit =  c(60,70),
-         AgeInt_fit = c(10,10),
-         Redistribute_from = 80,
-         OAnew = max(Age_nLx))
+
     
   
-  expect_message(output, "Age_Pop and Age_nLx age intervals are different!")
+  expect_output(OPAG(Pop,
+                                     Age_Pop = Age_Pop,
+                                     AgeInt_Pop = AgeInt_Pop,
+                                     nLx = nLx,
+                                     Age_nLx = Age_nLx,
+                                     AgeInt_nLx,
+                                     Age_fit =  c(60,70),
+                                     AgeInt_fit = c(10,10),
+                                     Redistribute_from = 80,
+                                     OAnew = max(Age_nLx)), regexp = "\nAge_Pop and Age_nLx age intervals are different!")
 })
 
 
@@ -290,22 +289,7 @@ test_that("Check if r returned is between -0.5 and 0.5", {
 })
 
 
-test_that("Check if OAnew < min(Age_nLx)", {
-  
-  expect_error(
-    OPAG(Pop,
-         Age_Pop = Age_Pop,
-         AgeInt_Pop = AgeInt_Pop,
-         nLx = nLx,
-         Age_nLx = Age_nLx,
-         AgeInt_nLx,
-         Age_fit =  c(60,70),
-         AgeInt_fit = c(10,10),
-         Redistribute_from = 80,
-         OAnew = min(Age_nLx[4:9]))
-  )
 
-})
 # test_that("basepop raises error when downloads needed but no location is specified", {
 #   
 #   expect_error(
