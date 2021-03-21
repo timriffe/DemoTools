@@ -230,7 +230,7 @@ lt_abridged <- function(Deaths = NULL,
   qxflag   <- !is.null(nqx)
   # 1) if lx given but not qx:
   if ((!qxflag) & (!is.null(lx))) {
-    nqx          <- lt_id_l_d(lx) / lx
+    nqx          <- lt_id_l_d(lx) / lx # Calculating dx/lx
     nqx[1]       <- ifelse(imr_flag, IMR, nqx[1])
     qxflag       <- TRUE
   }
