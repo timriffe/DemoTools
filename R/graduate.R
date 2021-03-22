@@ -891,6 +891,8 @@ graduate_beers_johnson <- function(Age0, pop5, pop1) {
 #'
 #' @description This is exactly the function \code{pclm()} from the \code{ungroup} package, except with arguments using standard \code{DemoTools} argument names.
 #' @details The PCLM method can also be used to graduate rates using an offset if both numerators and denominators are available. In this case \code{Value} is the event count and \code{offset} is person years of exposure. The denominator must match the length of \code{Value} or else the length of the final single age result \code{length(min(Age):OAnew)}.  This method can be used to redistribute counts in the open age group if \code{OAnew} gives sufficient space. Likewise, it can give a rate extrapolation beyond the open age.
+#' 
+#' If there are 0s in `Value`, these are replaced with a small value prior to fitting. If negatives result from the pclm fit, we retry after multiplying `Value` by 10, 100, or 1000, as sometimes a temporary rescale for fitting can help performance.
 #'
 #' @inheritParams graduate
 #' @param ... further arguments passed to \code{ungroup::pclm()}
@@ -948,6 +950,7 @@ graduate_pclm <- function(Value, Age, AgeInt, OAnew = max(Age), OAG = TRUE, ...)
   a1       <- min(Age):OAnew
   DOTS     <- list(...)
   if ("offset" %in% names(DOTS)) {
+    
     # offset could be one or another thing..
     lo     <- length(DOTS$offset)
     o1     <- length(a1) == lo
@@ -966,7 +969,26 @@ graduate_pclm <- function(Value, Age, AgeInt, OAnew = max(Age), OAG = TRUE, ...)
   }
   
   A        <- pclm(x = Age, y = Value, nlast = nlast, ...)
-  B        <- A$fitted
+  fac <- 1
+  for (i in 1:3){
+    if (any(A$fitted < 0)){
+      # let's assume it's a scale issue
+      fac      <- 10^i
+      A        <- pclm(x = Age, y = Value * fac, nlast = nlast, ...)
+    } else {
+      break
+    }
+  }
+  if (any(A$fitted < 0)){
+    # TR: just let the error propagate instead of interpreting it?
+    cat("\nCareful, results of PCLM produced some negatives. 
+        \nWe tried rescaling inputs by as much as",fac,"\nbut alas it wasn't enough.\n")
+  }
+  if (fac > 1){
+    cat("\nPossible small counts issue with these data and the PCLM method\nIt seems to have worked without producing negatives when fitting Value is scaled by",fac,"\nCouldn't hurt to eyeball results!\n")
+  }
+
+  B        <- A$fitted / fac
   a1.fitted <- A$bin.definition$output$breaks["left", ]
   names(B) <- a1.fitted
   # in case OAnew is lower than max(Age)
