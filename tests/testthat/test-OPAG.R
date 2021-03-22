@@ -227,7 +227,6 @@ test_that("OPAG_nLx_warp_r works", {
 #                tolerance = 0.0001)
 # })
 
-test_that("OAnew checks enforced", {
 # India Males, 1991
 Pop            <- smooth_age_5(pop1m_ind,
                                Age = 0:100,
@@ -238,6 +237,8 @@ AgeInt_Pop     <- age2int(Age_Pop, OAvalue = 1)
 nLx            <- downloadnLx(NULL, "India","male",1991)
 Age_nLx        <- names2age(nLx)
 AgeInt_nLx     <- age2int(Age_nLx, OAvalue = 1)
+
+test_that("OAnew checks enforced", {
 
 expect_error(Pop_fit <- OPAG(Pop,
                 Age_Pop = Age_Pop,
