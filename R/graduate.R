@@ -940,7 +940,11 @@ graduate_pclm <- function(Value, Age, AgeInt, OAnew = max(Age), OAG = TRUE, ...)
     Age                 <- int2age(AgeInt)
   }
   
-  nlast    <- OAnew - max(Age) + 1
+  if (OAnew > max(Age)){
+    nlast    <- OAnew - max(Age) + 1
+  } else {
+    nlast    <- 1
+  }
   a1       <- min(Age):OAnew
   DOTS     <- list(...)
   if ("offset" %in% names(DOTS)) {
@@ -951,10 +955,23 @@ graduate_pclm <- function(Value, Age, AgeInt, OAnew = max(Age), OAG = TRUE, ...)
     stopifnot(o1 | o5)
   }
 
+  # TR 22 March 2021
+  # 0s cause breakage
+  # check for 0s
+  ind0 <- Value == 0
+  have0s <- any(ind0)
+  if (have0s){
+    cat("\n0s detected in Value, replacing with .01\n")
+    Value[ind0] <- .01
+  }
+  
   A        <- pclm(x = Age, y = Value, nlast = nlast, ...)
   B        <- A$fitted
-  names(B) <- min(Age):OAnew
-  B
+  a1.fitted <- A$bin.definition$output$breaks["left", ]
+  names(B) <- a1.fitted
+  # in case OAnew is lower than max(Age)
+  C        <- groupOAG(Value = B, Age = a1.fitted, OAnew = OAnew)
+  C
 }
 
 

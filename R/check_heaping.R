@@ -206,7 +206,7 @@ check_heaping_myers <- function(Value,
 #' @param OAG logical. Is the highest age group open?
 #'
 #' @details `ageMax` is an inclusive upper bound, treated as interval. If you want ages
-#' 23 to 77, then give `ageMin = 23` and `ageMax = 77`, not 80. The `ageMin` is respected strictly, whereas `ageMax` could be higher than the actual maximum age used. You can see the age ranges actually used by specifying `details = TRUE`.
+#' 23 to 77, then give `ageMin = 23` and `ageMax = 77`. The `ageMin` is respected strictly, whereas `ageMax` is calculated flexibly- if you specify something too high then it is reduced and we warn accordingly, and if it's missing then we pick something reasonable. You can see the age ranges actually used by specifying `details = TRUE`. 
 #' @return The value of the index.
 #' @references
 #' \insertRef{PAS}{DemoTools}
@@ -234,7 +234,7 @@ check_heaping_bachi <- function(
   Value,
   Age,
   ageMin = 23,
-  ageMax = 77,
+  ageMax = NULL,
   method = "orig",
   details = FALSE,
   OAG = TRUE
@@ -250,13 +250,20 @@ check_heaping_bachi <- function(
   
   # ensure ageMax in range
   ageMaxin <- ageMax
-  maxA <- max(Age)
+  maxA     <- max(Age)
 
-  if (ageMax > maxA){
-    ageMax <- ageMin + 4 + 10 *floor((maxA - ageMin - 4)/10)
-  } 
-  if (ageMax < ageMaxin){
-    cat("\nageMax lowered to", ageMax, "\n")    
+  if (is.null(ageMaxin)){
+    ageMax <- ageMin + 4 + 10 * min(floor((maxA - ageMin - 4)/10), 5)
+  } else {
+    if ( ageMaxin > maxA){
+      ageMax <- ageMin + 4 + 10 *floor((maxA - ageMin - 4)/10)
+    }
+  }
+
+  if(!is.null(ageMaxin)){
+    if (ageMax < ageMaxin){
+      cat("\nageMax lowered to", ageMax, "\n")    
+    }
   }
   
   Diff          <- ageMax - ageMin 
@@ -330,6 +337,7 @@ check_heaping_bachi <- function(
                   pctdev = (fractions - .1) * 100,
                   ageMin = ageMin,
                   ageMax = ageMax,
+                  ageMax_given = ageMaxin,
                   max_age_used = max_age_used,
                   decades = decades)
     }

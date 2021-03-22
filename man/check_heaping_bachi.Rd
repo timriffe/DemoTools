@@ -8,7 +8,7 @@ check_heaping_bachi(
   Value,
   Age,
   ageMin = 23,
-  ageMax = 77,
+  ageMax = NULL,
   method = "orig",
   details = FALSE,
   OAG = TRUE
@@ -37,7 +37,7 @@ Bachi's index involves applying the Whipple method repeatedly to determine the e
 }
 \details{
 \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
-23 to 77, then give \code{ageMin = 23} and \code{ageMax = 77}, not 80. The \code{ageMin} is respected strictly, whereas \code{ageMax} could be higher than the actual maximum age used. You can see the age ranges actually used by specifying \code{details = TRUE}.
+23 to 77, then give \code{ageMin = 23} and \code{ageMax = 77}. The \code{ageMin} is respected strictly, whereas \code{ageMax} is calculated flexibly- if you specify something too high then it is reduced and we warn accordingly, and if it's missing then we pick something reasonable. You can see the age ranges actually used by specifying \code{details = TRUE}.
 }
 \examples{
  check_heaping_bachi(pop1m_pasex, Age = 0:99, 
