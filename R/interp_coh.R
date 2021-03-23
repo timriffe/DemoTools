@@ -1108,7 +1108,7 @@ rup <- function(
   yrs_births   <- seq(floor(date1), floor(date2), 1)
   # TR: if right-side is jan 1 then we can cut it off of pxt.
   if (f2 == 0){
-    pxt        <- pxt[, -ncol(pxt)]
+    pxt        <- pxt[, -ncol(pxt), drop = FALSE]
     yrs_births <- yrs_births[-length(yrs_births)]
     f2         <- 1
   }
