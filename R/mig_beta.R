@@ -120,3 +120,59 @@ mig_beta <- function(
   mig <- stats::setNames(rowSums(mat_resid, na.rm = TRUE), mat_resid$age)
   mig
 }
+
+
+
+
+
+mig_beta_cwr <- function(mig, 
+                         c1_females, 
+                         c2_females, 
+                         date1, 
+                         date2, 
+                         maternal_window = 30, 
+                         maternal_min = 15){
+  age <- names2age(mig)
+  
+  # conservative guess at how many child ages to cover:
+  n_cohs <- as.integer(ceiling(date2) - floor(date1))
+  
+  mig_out <- mig
+  for (i in 1:n_cohs){
+    # index maternal ages
+    a_min      <- i + maternal_min
+    a_max      <- min(i + maternal_min + maternal_window, 49)
+    mat_ind    <- a_min:a_max
+    cwr_i      <- (c1_females[i] / sum(c1_females[mat_ind]) + c2_females[i] / sum(c2_females[mat_ind])) / 2
+    # proportional to maternal neg mig.
+    mig_out[i] <- cwr_i * sum(mig[mat_ind])
+  }
+  
+  mig_out
+}
+
+
+# TR: prep for constant child. Need denom for rates though,
+# but ideally without re-calculating an intermediate object
+# that was already needed. Maybe be we can get exposures
+# from RUP. Hmm.
+# mig_beta_constant_child <- function(mig, 
+#                                     c1,
+#                                     c2,
+#                                     date1, 
+#                                     date2, 
+#                                     maternal_window = 30, 
+#                                     maternal_min = 15){
+#   age <- names2age(mig)
+#   
+#   # conservative guess at how many child ages to cover:
+#   n_cohs  <- as.integer(ceiling(date2) - floor(date1))
+#   
+#   mig_out <- mig
+#   
+#   
+#   
+#   mig_out
+# }
+# 
+
