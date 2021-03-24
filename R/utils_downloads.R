@@ -58,7 +58,25 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn) {
   }
 }
 
-downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn) {
+#' Extract ASFR estimates from WPP2019
+#' @description We use the `FetchFertilityWpp2019` function of the `fertestr` to extract `asfr` from `wpp2019`, interpolated to an exact date.
+#' @param location UN Pop Div `LocName` or `LocID`
+#' @param AsfrDatesIn numeric vector of decimal dates.
+#' @param extrap_50s logical, shall we extrapolate between 1950 and 1955?
+#'
+#' @return numeric matrix interpolated asfr
+#' @export
+#' @examples
+#' # Kenya example
+#' kenya_noext <- downloadAsfr(Asfrmat = NULL, location = "Kenya", AsfrDatesIn = 1950:2050)
+#' kenya_ext <- downloadAsfr(Asfrmat = NULL, location = "Kenya", AsfrDatesIn = 1950:2050, T)
+#' \dontrun{
+#' plot(1950:2050, colSums(kenya_noext) * 5, t="l", main="TFR Kenya")
+#' lines(1950:2050, colSums(kenya_ext) * 5, col=2)
+#' legend("topright",c("NoExtr","Extr"),lty=1,col = 1:2)
+#' }
+
+downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn, extrap_50s = FALSE) {
   requireNamespace("fertestr", quietly = TRUE)
   verbose <- getOption("basepop_verbose", TRUE)
   
@@ -72,7 +90,7 @@ downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn) {
   ind_invalidyear <- which(AsfrDatesIn < 1955)
   if (length(ind_invalidyear) != 0) {
     invalid_yrs <- paste0(AsfrDatesIn[ind_invalidyear], collapse = ", ")
-    cat("AsfrDate(s)", invalid_yrs, "is/are below 1955. Capping at 1955\n")
+    if(!extrap_50s) cat("AsfrDate(s)", invalid_yrs, "is/are below 1955. Capping at 1955\n")
     AsfrDatesIn[ind_invalidyear] <- 1955
   }
   
@@ -92,6 +110,21 @@ downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn) {
   
   Asfrmat           <- do.call(cbind, tmp)
   colnames(Asfrmat) <- AsfrDatesIn
+  
+  # IW: add extrap option extrap_50s
+  # IW: maybe no need to call fertestr::FetchFertilityWpp2019 and then fix first interval.
+    # just load all WPP2019_asfr, select location, interpolate with interp(...,extrap=TRUE), 
+    # and return only requested years. What do you think?
+  if(extrap_50s){
+    minor_years <- sort(unique(AsfrDatesIn))[1:2]
+    if(sum(1955:1960 %in% minor_years)==1) stop("Need two points at least between 1955 and 1960 in AsfrDatesIn to extrapolate.")
+    Asfrmat_1950   <- interp(Asfrmat[,as.character(minor_years)],
+                            minor_years,
+                            as.numeric(1950:1955), extrap = TRUE)  
+    Asfrmat <- cbind(Asfrmat_1950, 
+                     Asfrmat[,as.numeric(colnames(Asfrmat))>1955])
+  }
+  
   Asfrmat
 }
 
@@ -104,7 +137,8 @@ downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn) {
 #'
 #' @return numeric vector with three SRB estimates
 #' @export
-#'
+
+
 downloadSRB <- function(SRB, location, DatesOut, verbose = TRUE){
   
   
