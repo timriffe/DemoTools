@@ -2,9 +2,12 @@
 % Please edit documentation in R/MAV.R
 \name{mav}
 \alias{mav}
+\alias{mav_tails}
 \title{Calculate the moving average (mav) over 3 or 5 years.}
 \usage{
 mav(Value, Age, n = 3, OAG = TRUE)
+
+mav_tails(Value, Age, n = 3, OAG = TRUE)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in single age groups.}
@@ -16,13 +19,22 @@ mav(Value, Age, n = 3, OAG = TRUE)
 \item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
 }
 \value{
-Vector with the smoothed demographic counts.
+Vector with the smoothed demographic counts. For \code{mav} both
+tails should be missing while for \code{mav_tails} all values should be
+non-NA.
 }
 \description{
 This arithmetic smoothing technique aims to eliminate irregularities of the population pyramid by averaging values in a moving window of user-defined width.
 }
 \details{
+\code{mav}:
+
 The moving window is applied symmetrically. Data endpoints are imputed with \code{NA}s in output: the is nothing under 0 or over the highest closed age group to average with. The open age group is imputed with \code{NA} prior to calculations, since it cannot be averaged into the next lowest group. For example, for \code{n=3}, age 0 will be \code{NA}, as will the open age group and next lowest age. Age intervals are assumed uniform. This function could be used with either single or 5-year age groups.
+
+\code{mav_tails}:
+
+It returns the same result as \code{mav} except for both tails where
+\code{mav_tails} does a cascading smooth for both tails.
 
 Ages may be single or grouped, but all age intervals are assumed equal.
 }
