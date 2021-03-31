@@ -8,24 +8,23 @@
 #' @description  This arithmetic smoothing technique aims to eliminate irregularities of the population pyramid by averaging values in a moving window of user-defined width.
 #' @details
 #'
-#' \code{mav}:
-#'
 #' The moving window is applied symmetrically. Data endpoints are imputed with \code{NA}s in output: the is nothing under 0 or over the highest closed age group to average with. The open age group is imputed with \code{NA} prior to calculations, since it cannot be averaged into the next lowest group. For example, for \code{n=3}, age 0 will be \code{NA}, as will the open age group and next lowest age. Age intervals are assumed uniform. This function could be used with either single or 5-year age groups.
 #'
-#' \code{mav_tails}:
 #'
-#' It returns the same result as \code{mav} except for both tails where
-#' \code{mav_tails} does a cascading smooth for both tails.
+#' If \code{tails} is set to \code{TRUE}, it returns the same result as
+#' \code{mav} except for both tails where a cascading smoothing is applied.
 
 #' @param Value numeric. A vector of demographic counts in single age groups.
 #' @param n integer. A single number, (often 3 or 5), indicating the number of years taken to smooth the population distribution by single ages.
 #' @param Age integer. A vector of ages corresponding to the lower integer bound of the counts.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}.
+#' @param tails logical. If set to TRUE, a smoothing is applied on both tails
+#' such that all values are non-NA. If FALSE (default), tails are set to NA
+#' due to the lag of moving averages.
+#'
 #' @details Ages may be single or grouped, but all age intervals are assumed equal.
 
-#' @return Vector with the smoothed demographic counts. For \code{mav} both
-#' tails should be missing while for \code{mav_tails} all values should be
-#' non-NA.
+#' @return Vector with the smoothed demographic counts.
 #'
 #' @export
 #' @author Juan Galeano
@@ -43,7 +42,8 @@
 #'		323263,9535,13906,9063,8294,90459,9817,6376,8884,3773,160609)
 #'Age  <- 0:70
 #'# final age group assumed open
-#'mav(Pop, n = 3, Age = Age)
+#' mav(Pop, n = 3, Age = Age)
+#'
 #'\dontrun{
 #'	nwindows <- sapply(seq(3, 11, by = 2),mav, Value = Pop, Age = Age)
 #'	cols     <- gray(seq(.8, 0, length = 5))
@@ -57,23 +57,11 @@
 #'			lwd = lwds,
 #'			legend = paste0("n=",seq(3,11,by=2)))
 #'}
-mav <- function(Value, Age, n = 3, OAG = TRUE) {
-  In <- Value
-  if (missing(Age)) {
-    Age <- as.integer(names(Value))
-  }
-  if (OAG) {
-    Value[length(Value)] <- NA
-  }
-  # TR: not sure why n needs to be hard coded
-  Out <- ma(Value, n)
-
-  structure(Out, names = Age)
-}
-
-#' @rdname mav
-#' @export
-mav_tails <- function(Value, Age, n = 3, OAG = TRUE) {
+#'
+#' # For cascading smoothing on the tails:
+#' mav(Pop, Age, tails = TRUE)
+#'
+mav <- function(Value, Age, n = 3, OAG = TRUE, tails = FALSE) {
   In <- Value
   if (missing(Age)) {
     Age <- as.integer(names(Value))
@@ -82,35 +70,18 @@ mav_tails <- function(Value, Age, n = 3, OAG = TRUE) {
     OrigOAGpop <- Value[length(Value)]
     Value[length(Value)] <- NA
   }
+
   # TR: not sure why n needs to be hard coded
   Out <- ma(Value, n)
+  Out <- if (tails) mav_tails(Value, Age, Out, n, OAG) else Out
 
-  # substitute lower level smoothing at extremes
-  Out <- fillmav(Value, Out, Age, n, OAG)
-  if (OAG) {
-    Out[length(Value)] <- OrigOAGpop
-  }
+  if (tails && OAG) Out[length(Value)] <- OrigOAGpop
 
   structure(Out, names = Age)
 }
 
-maNew <- function(x, n = 5) {
-  # This is PJ's fix from issue #127
-  if (n %% 2 == 1) {   # odd as before
-    out <- as.vector(stats::filter(x, rep(1 / n, n), sides = 2))
-  } else { # even...
-    temp <- as.vector(stats::filter(x, rep(1 / (2 * n), n), sides = 1))
-    out  <- shift.vector(temp,
-                         shift = -n / 2 + 1,
-                         fill = NA) +
-      shift.vector(temp,
-                   shift = -n / 2, fill = NA)
-  }
-
-  out
-}
-
-fillmav <- function(Value, MavOut, Age, n, OAG=TRUE) {
+# Not exported since it can be called with tails = FALSE on mav.
+mav_tails <- function(Value, Age, MavOut, n = 3, OAG=TRUE) {
   NewMavOut <- MavOut
 
   #Last should point to last age group to use
@@ -127,9 +98,9 @@ fillmav <- function(Value, MavOut, Age, n, OAG=TRUE) {
 
   if (n >= 2)   {
     for(i in 2:(as.integer(n/2))) {
-        NewMavOut[i] <- maNew(Value[1:(MavLev[i]+1)], MavLev[i])[i]
+        NewMavOut[i] <- ma(Value[1:(MavLev[i]+1)], MavLev[i])[i]
         # subscripts right and select just the correct age
-        NewMavOut[Last - i + 1] <- maNew(Value[(Last - MavLev[i] ):Last], MavLev[i])[ i ]
+        NewMavOut[Last - i + 1] <- ma(Value[(Last - MavLev[i] ):Last], MavLev[i])[ i ]
 
     }
  }
