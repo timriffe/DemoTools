@@ -457,7 +457,7 @@ smooth_age_5_zigzag <- function(Value,
 #'
 #' @details If tails is set to \code{FALSE}, this function calls \code{mav()}, which itself relies on the more general \code{ma()}. We lose the lowest and highest ages with this method, unless \code{n=1}, in which case data is returned in the original 5-year age groups. The total population count is not constrained to sum to the orignal total.
 #'
-#' If tail is \code{TRUE}, the same results are expected but the tails are
+#' If tails is \code{TRUE}, the same results are expected but the tails are
 #' filled in using a cascading method.
 #'
 #' @examples
