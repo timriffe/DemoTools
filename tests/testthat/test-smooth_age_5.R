@@ -87,7 +87,7 @@ test_that("smooth_age_5_mav works", {
 
   Mtest <- c(
     NA, 505239, 382964, 300570, 274160, 263151, 239782, 202228,
-    162308, 128489, 92946, 73183, 51717, 41880, 26119, NA, NA
+    162308, 128489, 92946, 73183, 51717, 41880, 26119, NA, 34729
   )
 
   Mmales <- smooth_age_5_mav(pop5m_pasex, Ages, OAG = TRUE, tail = FALSE)
