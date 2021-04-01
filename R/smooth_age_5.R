@@ -63,11 +63,11 @@ smooth_age_5_cf <- function(Value,
   out        <- Value5 * NA
   # cut back down (depending) and name
   interleaf  <- c(rbind(vodds, vevens))
-  
+
   if (start_on == 5){
     interleaf <- interleaf[-1]
   }
-  
+
   n          <- min(c(length(interleaf), N))
   out[1:n]   <- interleaf[1:n]
 
@@ -133,21 +133,21 @@ smooth_age_5_kkn <- function(Value,
   vodds      <- Value10 / 2 + (v10R - v10L) / 16
   # constrained in 10-year age groups
   vevens     <- Value10 - vodds
-  
+
   # if (start_on == 5){
   #   # this is the KNN operation
   #   vevens      <- Value10 / 2 + (v10R - v10L) / 16
   #   # constrained in 10-year age groups
   #   vodds     <- Value10 - vevens
   # }
-  # 
+  #
   # stagger odd even 5s
   interleaf  <- c(rbind(vodds, vevens))
- 
+
   if (start_on == 5){
     interleaf <- interleaf[-1]
   }
-  
+
   # produce results vector
   out        <- Value5 * NA
   n          <- min(c(length(interleaf), N))
@@ -442,14 +442,24 @@ smooth_age_5_zigzag <- function(Value,
 }
 
 #' Smooth in 5-year age groups using a moving average
+#'
 #' @description Smooth data in 5-year age groups.
 #' @details This function calls \code{smooth_age_5_zigzag_inner()}, but prepares data in a way consistent with other methods called by \code{smooth_age_5()}. It is probably preferable to call \code{zigzag()} from the top level, or else call this method from \code{agesmth()} for more control over tail imputations.
+#'
 #' @param Value numeric vector of (presumably) counts in 5-year age groups.
 #' @param Age integer vector of age group lower bounds.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}.
 #' @param n integer. The width of the moving average. Default 3 intervals (x-5 to x+9).
+#' @param tails loglcal. If tails is \code{FALSE}, both tails are left untouched.
+#' Otherwise, the tails are filled out using a cascade method.
+#'
 #' @return numeric vector of smoothed counts in 5-year age groups.
-#' @details This function calls \code{mav()}, which itself relies on the more general \code{ma()}. We lose the lowest and highest ages with this method, unless \code{n=1}, in which case data is returned in the original 5-year age groups. The total population count is not constrained to sum to the orignal total.
+#'
+#' @details If tails is set to \code{FALSE}, this function calls \code{mav()}, which itself relies on the more general \code{ma()}. We lose the lowest and highest ages with this method, unless \code{n=1}, in which case data is returned in the original 5-year age groups. The total population count is not constrained to sum to the orignal total.
+#'
+#' If tails is \code{TRUE}, the same results are expected but the tails are
+#' filled in using a cascading method.
+#'
 #' @examples
 #' Age <- c(0,1,seq(5,90,by=5))
 #' # defaults
@@ -466,11 +476,11 @@ smooth_age_5_zigzag <- function(Value,
 #' legend("topright", col = cols, lty = 1, lwd = lwds, legend = paste("n =",1:5))
 #' }
 #' @export
-
 smooth_age_5_mav <- function(Value,
                      Age,
                      OAG = TRUE,
-                     n = 3) {
+                     n = 3,
+                     tails = FALSE) {
 
   Value <- groupAges(Value, Age = Age, N = 5)
   Age   <- as.integer(names(Value))
@@ -479,7 +489,8 @@ smooth_age_5_mav <- function(Value,
     Value = Value,
     Age = Age,
     OAG = OAG,
-    n = n
+    n = n,
+    tails = tails
   )
 
   Smoothed
@@ -615,10 +626,10 @@ smooth_age_5_feeney          <- function(Value,
 #' Smooth populations in 5-year age groups using various methods
 #'
 #' @description Smooth population counts in 5-year age groups using the Carrier-Farrag,
-#' Karup-King-Newton, Arriaga, United Nations, Stong, or Zigzag methods. Allows for imputation
+#' Karup-King-Newton, Arriaga, United Nations, Strong, MAV or Zigzag methods. Allows for imputation
 #' of values in the youngest and oldest age groups for the Carrier-Farrag, Karup-King-Newton,
 #' and United Nations methods.
-
+#'
 #' @details The Carrier-Farrag, Karup-King-Newton (KKN), and Arriaga methods do not modify the totals
 #' in each 10-year age group, whereas the United Nations, Strong, Zigzag, and moving average (MAV) methods do. The age intervals
 #' of input data could be any integer structure (single, abridged, 5-year, other), but
@@ -627,8 +638,8 @@ smooth_age_5_feeney          <- function(Value,
 #'
 #' The Carrier-Farrag, Karup-King-Newton, and United Nations methods do not produce estimates
 #' for the first and final 10-year age groups. By default, these are imputed with the original 5-year age group totals, but
-#' you can also specify to impute with \code{NA}, or the results of the Arriaga or
-#' Strong methods. If the terminal digit of the open age group is 5, then the terminal 10-year
+#' you can also specify to impute with \code{NA}, or the results of the Arriaga,
+#' Strong and Cascade methods. If the terminal digit of the open age group is 5, then the terminal 10-year
 #' age group shifts down, so imputations may affect more ages in this case. Imputation can follow
 #' different methods for young and old ages.
 #'
@@ -640,7 +651,7 @@ smooth_age_5_feeney          <- function(Value,
 #'
 #' @param Value numeric vector of counts in single, abridged, or 5-year age groups.
 #' @param Age integer vector of ages corresponding to the lower integer bound of the counts.
-#' @param method character string. Options include \code{"Carrier-Farrag"},\code{"Arriaga"},\code{"KKN"},\code{"United Nations"}, \code{"Strong"}, and \code{"Zigzag"}. See details. Default \code{"Carrier-Farrag"}.
+#' @param method character string. Options include \code{"Carrier-Farrag"},\code{"Arriaga"},\code{"KKN"},\code{"United Nations"}, \code{"Strong"}, \code{MAV} and \code{"Zigzag"}. See details. Default \code{"Carrier-Farrag"}.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}.
 #' @param ageMin integer. The lowest age included included in intermediate adjustment. Default 10. Only relevant for Strong method.
 #' @param ageMax integer. The highest age class included in intermediate adjustment. Default 65. Only relevant for Strong method.
@@ -756,7 +767,7 @@ smooth_age_5 <- function(Value,
                     ageMin = 10,
                     ageMax = 65,
                     n = 3,
-                    young.tail = c("Original", "Arriaga", "Strong", NA),
+                    young.tail = c("Original", "Arriaga", "Strong", "Cascade", NA),
                     old.tail = young.tail) {
 
   method <- match.arg(method, c("Carrier-Farrag",
@@ -766,8 +777,10 @@ smooth_age_5 <- function(Value,
                                 "Strong",
                                 "Zigzag",
                                 "MAV"))
-  young.tail <- match.arg(young.tail, c("Original", "Arriaga", "Strong", NA))
-  old.tail   <- match.arg(old.tail, c("Original", "Arriaga", "Strong", NA))
+
+  tail_methods <- c("Original", "Arriaga", "Strong", "Cascade", NA)
+  young.tail <- match.arg(young.tail, tail_methods)
+  old.tail   <- match.arg(old.tail, tail_methods)
 
   method     <- simplify.text(method)
   young.tail <- simplify.text(young.tail)
@@ -858,6 +871,8 @@ smooth_age_5 <- function(Value,
     original         <- groupAges(Value, Age = Age, N = 5)
     arriaga          <- smooth_age_5_arriaga(Value, Age = Age, OAG = OAG)
     strong           <- smooth_age_5_strong(Value, Age = Age, OAG = OAG)
+    mav_tails        <- smooth_age_5_mav(Value, Age = Age, OAG = OAG, tails = TRUE)
+
     # are the final entries NAs?
     if (nrle$values[length(nrle$values)] == 1 & !is.na(old.tail)) {
       nrle$values[1] <- 0
@@ -877,7 +892,10 @@ smooth_age_5 <- function(Value,
         stopifnot(length(strong) == length(out))
         out[old.ind] <- strong[old.ind]
       }
-
+      if (old.tail == "cascade") {
+        stopifnot(length(mav_tails) == length(out))
+        out[old.ind] <- mav_tails[old.ind]
+      }
     }
     nrle             <- rle(as.integer(nas))
     # take care of young tail
@@ -900,6 +918,11 @@ smooth_age_5 <- function(Value,
         stopifnot(length(strong) == length(out))
         out[young.ind] <- strong[young.ind]
       }
+      if (young.tail == "cascade") {
+        stopifnot(length(mav_tails) == length(out))
+        out[young.ind] <- mav_tails[young.ind]
+      }
+
     }
   } # end tail operations
 

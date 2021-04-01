@@ -4,7 +4,7 @@
 \alias{mav}
 \title{Calculate the moving average (mav) over 3 or 5 years.}
 \usage{
-mav(Value, Age, n = 3, OAG = TRUE)
+mav(Value, Age, n = 3, OAG = TRUE, tails = FALSE)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in single age groups.}
@@ -14,6 +14,10 @@ mav(Value, Age, n = 3, OAG = TRUE)
 \item{n}{integer. A single number, (often 3 or 5), indicating the number of years taken to smooth the population distribution by single ages.}
 
 \item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
+
+\item{tails}{logical. If set to TRUE, a smoothing is applied on both tails
+such that all values are non-NA. If FALSE (default), tails are set to NA
+due to the lag of moving averages.}
 }
 \value{
 Vector with the smoothed demographic counts.
@@ -23,6 +27,9 @@ This arithmetic smoothing technique aims to eliminate irregularities of the popu
 }
 \details{
 The moving window is applied symmetrically. Data endpoints are imputed with \code{NA}s in output: the is nothing under 0 or over the highest closed age group to average with. The open age group is imputed with \code{NA} prior to calculations, since it cannot be averaged into the next lowest group. For example, for \code{n=3}, age 0 will be \code{NA}, as will the open age group and next lowest age. Age intervals are assumed uniform. This function could be used with either single or 5-year age groups.
+
+If \code{tails} is set to \code{TRUE}, it returns the same result as
+\code{mav} except for both tails where a cascading smoothing is applied.
 
 Ages may be single or grouped, but all age intervals are assumed equal.
 }
@@ -37,6 +44,7 @@ Pop  <-c(303583,390782,523903,458546,517996,400630,485606,325423,471481,189710,
 Age  <- 0:70
 # final age group assumed open
 mav(Pop, n = 3, Age = Age)
+
 \dontrun{
 nwindows <- sapply(seq(3, 11, by = 2),mav, Value = Pop, Age = Age)
 cols     <- gray(seq(.8, 0, length = 5))
@@ -50,6 +58,10 @@ legend("topright",
 		lwd = lwds,
 		legend = paste0("n=",seq(3,11,by=2)))
 }
+
+# For cascading smoothing on the tails:
+mav(Pop, Age, tails = TRUE)
+
 }
 \references{
 \insertRef{GDA1981IREDA}{DemoTools}
