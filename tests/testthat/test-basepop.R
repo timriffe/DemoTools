@@ -652,46 +652,46 @@ test_that("basepop works well with SRBDatesIn", {
 
 })
 
-
-test_that("basepop caps nLxDatesIn to 1955 when provided a date below that", {
-
-  tmp_nlx <- c(1954, 1960)
-  expect_output(
-    tmp <-
-      basepop_five(
-        location = "Spain",
-        refDate = 1960,
-        Males_five = smoothed_males,
-        Females_five = smoothed_females,
-        SRB = sex_ratio,
-        nLxDatesIn = tmp_nlx,
-        AsfrDatesIn = c(1955, 1960),
-        method = "linear",
-        radix = 100000
-      ),
-    regexp = "nLxDate\\(s\\) 1954 is/are below 1955\\. Capping at 1955",
-    all = FALSE
-  )
-
-  tmp_asfr <- c(1954, 1960)
-  expect_output(
-    tmp <-
-      basepop_five(
-        location = "Spain",
-        refDate = 1960,
-        Males_five = smoothed_males,
-        Females_five = smoothed_females,
-        SRB = sex_ratio,
-        nLxDatesIn = c(1955, 1960),
-        AsfrDatesIn = tmp_asfr,
-        method = "linear",
-        radix = 100000
-      ),
-    regexp = "AsfrDate\\(s\\) 1954 is/are below 1955\\. Capping at 1955",
-    all = FALSE
-  )
-
-})
+# IW: no need capping at 1955
+# test_that("basepop caps nLxDatesIn to 1955 when provided a date below that", {
+# 
+#   tmp_nlx <- c(1954, 1960)
+#   expect_output(
+#     tmp <-
+#       basepop_five(
+#         location = "Spain",
+#         refDate = 1960,
+#         Males_five = smoothed_males,
+#         Females_five = smoothed_females,
+#         SRB = sex_ratio,
+#         nLxDatesIn = tmp_nlx,
+#         AsfrDatesIn = c(1955, 1960),
+#         method = "linear",
+#         radix = 100000
+#       ),
+#     regexp = "nLxDate\\(s\\) 1954 is/are below 1955\\. Capping at 1955",
+#     all = FALSE
+#   )
+# 
+#   tmp_asfr <- c(1954, 1960)
+#   expect_output(
+#     tmp <-
+#       basepop_five(
+#         location = "Spain",
+#         refDate = 1960,
+#         Males_five = smoothed_males,
+#         Females_five = smoothed_females,
+#         SRB = sex_ratio,
+#         nLxDatesIn = c(1955, 1960),
+#         AsfrDatesIn = tmp_asfr,
+#         method = "linear",
+#         radix = 100000
+#       ),
+#     regexp = "AsfrDate\\(s\\) 1954 is/are below 1955\\. Capping at 1955",
+#     all = FALSE
+#   )
+# 
+# })
 
 test_that("basepop fails when it implies an extrapolation of > 5 years", {
 
