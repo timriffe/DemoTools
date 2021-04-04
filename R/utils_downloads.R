@@ -13,6 +13,8 @@
 #'
 #' @return numeric matrix of `nLx` with `length(nLxDatesIn)` and abrdiged ages in rows.
 #' @export
+#' @importFrom stats setNames
+#' @importFrom stats reshape
 #' @examples
 #' # life expectancy calculated from Lx downloaded from WPP19. Using names or codes.
 #' Lxs_name <- downloadnLx(nLx=NULL, location = "Argentina",
@@ -35,8 +37,6 @@
 #' }
 downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
   
-  requireNamespace("fertestr", quietly = TRUE)
-  requireNamespace("magrittr", quietly = TRUE)
   verbose <- getOption("basepop_verbose", TRUE)
   
   if (!is.null(nLx)) {
@@ -81,7 +81,7 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
     # filter and matrix shape
     lt_ctry <- lt_wpp19[lt_wpp19$LocID %in% location_code &
                           lt_wpp19$Sex %in% sex_code,] %>% as.data.frame() %>% 
-                reshape(data = ., 
+                stats::reshape(data = ., 
                         direction = "wide", idvar = c("LocID","AgeStart","Sex"), 
                         timevar = "Year", v.names = "mx", drop = c("AgeSpan","lx"))
 
@@ -92,13 +92,13 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
                         seq(1953,2023,5), as.numeric(nLxDatesIn), 
                         extrap = TRUE, method = method) %>% 
                         as.data.frame() %>% 
-                   setNames(as.character(nLxDatesIn))
+                   stats::setNames(as.character(nLxDatesIn))
                  ) %>% 
           split(., list(lt_ctry$LocID, lt_ctry$Sex)) %>% 
           lapply(function(X){
             Age <- X[["AgeStart"]]
             apply(X[,-c(1:3)] %>% 
-                    as.data.frame()%>% setNames(as.character(nLxDatesIn)), 2,
+                    as.data.frame()%>% stats::setNames(as.character(nLxDatesIn)), 2,
                     function(S){
                         MortalityLaws::LifeTable(x = Age,
                                                  mx = S,
@@ -125,6 +125,8 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
 #'
 #' @return numeric matrix interpolated asfr
 #' @export
+#' @importFrom fertestr get_location_code
+#' @importFrom stats setNames
 #' @examples
 #' # Total fertility ratio calculated from ASFRx downloaded from WPP19. 
 #' # See `downloadnLx` for analogous examples on multiple countries or using codes instead of names. 
@@ -133,7 +135,7 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
 #' plot(1950:2025, as.numeric(colSums(ASFR_Arg))*5, xlab = "Year", ylab="TFR", ylim=c(1.5,4), t="l")
 #' }
 downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn, method="linear") {
-  requireNamespace("fertestr", quietly = TRUE)
+  #requireNamespace("fertestr", quietly = TRUE)
   verbose <- getOption("basepop_verbose", TRUE)
   
   if (!is.null(Asfrmat)) {
@@ -163,7 +165,7 @@ downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn, method="linear")
   # spread format
   asfr_ctry     <- asfr_wpp19[asfr_wpp19$LocID %in% location_code,] %>% 
                       as.data.frame() %>% 
-                      reshape(direction = "wide", idvar = c("LocID","AgeStart"), 
+                      stats::reshape(direction = "wide", idvar = c("LocID","AgeStart"), 
                               timevar = "Year", v.names = "ASFR")
   
   # interp/extrap
@@ -171,7 +173,7 @@ downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn, method="linear")
                 as.numeric(AsfrDatesIn), 
                 extrap = TRUE, method = method) %>% 
                 as.data.frame() %>% 
-                setNames(as.character(AsfrDatesIn)) %>% 
+                stats::setNames(as.character(AsfrDatesIn)) %>% 
                 as.matrix()
   
   # combination as rowname
