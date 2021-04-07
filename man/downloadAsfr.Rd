@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_downloads.R
 \name{downloadAsfr}
 \alias{downloadAsfr}
-\title{Extract ASFR estimates from WPP2019. Mainly a util function for other ones.}
+\title{Extract ASFR estimates from WPP2019. Mainly an util function for other ones.}
 \usage{
 downloadAsfr(Asfrmat, location = NULL, AsfrDatesIn, method = "linear")
 }
