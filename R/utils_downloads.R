@@ -2,7 +2,7 @@
 # These utils might be used by basepop, interp_coh, OPAG, mig_resid*,
 # and potentially others.
 
-#' Extract Lx estimates from WPP2019
+#' Extract Lx estimates from WPP2019. Mainly an util function for other ones.
 #' @description We extract `Lx` from `wpp2019`, interpolated to exact dates. Different methods availables. 
 #' A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
 #' @param nLx numeric. either `NULL` or a numeric vector of lifetable exposure. If it's the second then we just pass it back.
@@ -15,6 +15,7 @@
 #' @export
 #' @importFrom stats setNames
 #' @importFrom stats reshape
+#' @importFrom fertestr is_LocID
 #' @examples
 #' # life expectancy calculated from Lx downloaded from WPP19. Using names or codes.
 #' Lxs_name <- downloadnLx(nLx=NULL, location = "Argentina",
@@ -55,8 +56,8 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
     if (is.null(location)){
       stop("You need to provide a location to download the data for nLx")
     } 
-    if (!any(is_LocID(location))) {
-      location_code <- get_location_code(location)
+    if (!any(fertestr::is_LocID(location))) {
+      location_code <- fertestr::get_location_code(location)
     }else {
       location_code <- as.integer(location)
     }
@@ -100,10 +101,14 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
             apply(X[,-c(1:3)] %>% 
                     as.data.frame()%>% stats::setNames(as.character(nLxDatesIn)), 2,
                     function(S){
-                        MortalityLaws::LifeTable(x = Age,
-                                                 mx = S,
-                                                 lx0 = 1,
-                                                 sex = Sex_mortlaws)$lt$Lx
+                        # MortalityLaws::LifeTable(x = Age,
+                        #                          mx = S,
+                        #                          lx0 = 1,
+                        #                          sex = Sex_mortlaws)$lt$Lx
+                        DemoTools::lt_abridged(nMx=S,
+                                               Age = Age,
+                                               radix = 1,
+                                               Sex=sex_code)$nLx
                   })
           }) %>% 
           do.call("rbind", .)
@@ -115,7 +120,7 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
   }
 }
 
-#' Extract ASFR estimates from WPP2019
+#' Extract ASFR estimates from WPP2019. Mainly an util function for other ones.
 #' @description We extract `ASFRx` from `wpp2019`, interpolated to exact dates. Different methods availables.
 #' A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
 #' @param Asfrmat numeric.
@@ -126,6 +131,7 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
 #' @return numeric matrix interpolated asfr
 #' @export
 #' @importFrom fertestr get_location_code
+#' @importFrom fertestr is_LocID
 #' @importFrom stats setNames
 #' @examples
 #' # Total fertility ratio calculated from ASFRx downloaded from WPP19. 
@@ -135,7 +141,7 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
 #' plot(1950:2025, as.numeric(colSums(ASFR_Arg))*5, xlab = "Year", ylab="TFR", ylim=c(1.5,4), t="l")
 #' }
 downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn, method="linear") {
-  #requireNamespace("fertestr", quietly = TRUE)
+
   verbose <- getOption("basepop_verbose", TRUE)
   
   if (!is.null(Asfrmat)) {
@@ -147,8 +153,8 @@ downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn, method="linear")
   if (is.null(location)){
     stop("You need to provide a location to download the data for Asfrmat")
   } 
-  if (!any(is_LocID(location))) {
-    location_code <- get_location_code(location)
+  if (!any(fertestr::is_LocID(location))) {
+    location_code <- fertestr::get_location_code(location)
   }else {
     location_code <- as.integer(location)
   }
@@ -188,9 +194,9 @@ downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn, method="linear")
 #' @param location UN Pop Div `LocName` or `LocID`
 #' @param DatesOut numeric vector of three decimal dates produced by `basepop_ive()`
 #' @param verbose logical, shall we send optional messages to the console?
-#'
 #' @return numeric vector with three SRB estimates
 #' @export
+#' @importFrom stats setNames
 
 
 downloadSRB <- function(SRB, location, DatesOut, verbose = TRUE){
@@ -334,7 +340,7 @@ interp_coh_download_mortality <- function(location, sex, date1, date2, OAnew = 1
 
 loc_message <- function(location){
   cds     <- DemoToolsData::WPP_codes
-  if (is_LocID(location)){
+  if (fertestr::is_LocID(location)){
     LocName   <- get_LocName(location)
     LocID     <- location
   } else {
@@ -346,7 +352,7 @@ loc_message <- function(location){
 }
 
 get_LocID <- function(location){
-  if (is_LocID(location)){
+  if (fertestr::is_LocID(location)){
     return(location)
   } else {
     cds     <- DemoToolsData::WPP_codes
@@ -359,7 +365,7 @@ get_LocID <- function(location){
   }
 }
 get_LocName <- function(location){
-  if (is_LocID(location)){
+  if (fertestr::is_LocID(location)){
     cds         <- DemoToolsData::WPP_codes
     ind         <- cds$LocID == location
     if (!any(ind)){
@@ -373,7 +379,7 @@ get_LocName <- function(location){
 }
 
 is_Loc_available <- function(location){
-  isID   <- is_LocID(location)
+  isID   <- fertestr::is_LocID(location)
   cds <- DemoToolsData::WPP_codes
   if (isID){
     out <- location %in% cds$LocID
