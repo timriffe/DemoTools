@@ -2,20 +2,44 @@
 # These utils might be used by basepop, interp_coh, OPAG, mig_resid*,
 # and potentially others.
 
-#' Extract Lx estimates from WPP2019
-#' @description We use the `FetchLifeTableWpp2019` function of the `fertestr` to extract `Lx` from `wpp2019`, interpolated to an exact date.
-#' @param nLx either `NULL` or a numeric vector of lifetable exposure. If it's the second then we just pass it back.
-#' @param location UN Pop Div `LocName` or `LocID`
-#' @param gender `"male"`, `"female"`, or `"both"`
-#' @param nLxDatesIn numeric vector of three decimal dates produced by (or passed through) `basepop_five()`
+#' Extract Lx estimates from WPP2019. Mainly an util function for other ones.
+#' @description We extract `Lx` from `wpp2019`, interpolated to exact dates. Different methods availables. 
+#' A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
+#' @param nLx numeric. either `NULL` or a numeric vector of lifetable exposure. If it's the second then we just pass it back.
+#' @param location vector. UN Pop Div `LocName` or `LocID`
+#' @param gender character. `"male"`, `"female"`, or `"both"`
+#' @param nLxDatesIn numeric. Vector of three decimal dates produced by (or passed through) `basepop_five()`
+#' @param method character. Could be `"linear"`, `"exponential"`, or `"power"`
 #'
 #' @return numeric matrix of `nLx` with `length(nLxDatesIn)` and abrdiged ages in rows.
 #' @export
-#'
-downloadnLx <- function(nLx, location, gender, nLxDatesIn) {
-  requireNamespace("fertestr", quietly = TRUE)
-  requireNamespace("magrittr", quietly = TRUE)
+#' @importFrom stats setNames
+#' @importFrom stats reshape
+#' @importFrom fertestr is_LocID
+#' @examples
+#' # life expectancy calculated from Lx downloaded from WPP19. Using names or codes.
+#' Lxs_name <- downloadnLx(nLx=NULL, location = "Argentina",
+#'                         gender = "both", nLxDatesIn = 1950:2030)
+#' Lxs_code <- downloadnLx(nLx=NULL, location = "32",
+#'                         gender = "both", nLxDatesIn = 1950:2030)
+#' \dontrun{
+#' plot(1950:2030, as.numeric(colSums(Lxs_name)), xlab = "Year", ylab="e0")
+#' lines(1950:2030, as.numeric(colSums(Lxs_code)))
+#' }
+#' # life expectancy for different countries
+#' Lxs_countries <- downloadnLx(nLx=NULL, location = c("Argentina","Brazil","Uruguay"),
+#' gender = "both", nLxDatesIn = 1950:2025)
+#' \dontrun{
+#' plot(1950:2025, as.numeric(colSums(Lxs_countries[1:22,])), 
+#'      t="l", xlab = "Year", ylab="e0", ylim = c(40,80))
+#' lines(1950:2025, as.numeric(colSums(Lxs_countries[23:44,])), col=2)
+#' lines(1950:2025, as.numeric(colSums(Lxs_countries[45:64,])), col=3)
+#' legend("bottomright",c("Argentina","Brazil","Uruguay"),lty=1,col=1:3)
+#' }
+downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
+  
   verbose <- getOption("basepop_verbose", TRUE)
+  
   if (!is.null(nLx)) {
     # TR: ensure colnames passed
     nLx <- as.matrix(nLx)
@@ -28,38 +52,96 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn) {
   
   if (is.null(nLx)){
     
-    if (is.null(location)) stop("You need to provide a location to download the data for nLx")
-    
+    # stop/warnings
+    if (is.null(location)){
+      stop("You need to provide a location to download the data for nLx")
+    } 
+    if (!any(fertestr::is_LocID(location))) {
+      location_code <- fertestr::get_location_code(location)
+    }else {
+      location_code <- as.integer(location)
+    }
+      
     if (verbose) {
       cat(paste0("Downloading nLx data for ", location, ", years ", paste(nLxDatesIn,collapse=", "), ", gender ", gender), sep = "\n")
     }
-    
-    . <- NULL
-    
-    ind_invalidyear <- which(nLxDatesIn < 1955)
-    if (length(ind_invalidyear) != 0) {
-      invalid_yrs <- paste0(nLxDatesIn[ind_invalidyear], collapse = ", ")
-      cat("nLxDate(s)", invalid_yrs, "is/are below 1955. Capping at 1955\n")
-      nLxDatesIn[ind_invalidyear] <- 1955
+    if(any(nLxDatesIn<1950,nLxDatesIn>2025)){
+      cat("Careful, extrapolating beyond range 1950-2025")
     }
     
-    nLx <-
-      lapply(nLxDatesIn, function(x) {
-        fertestr::FetchLifeTableWpp2019(location, x, gender)$Lx
-      }) %>%
-      do.call("cbind", .) %>%
-      as.matrix()
+    # handle sex
+    sex_code <- ifelse(tolower(gender) == "both", "b", 
+                       ifelse(tolower(gender) == "female", "f", 
+                              ifelse(tolower(gender) == "male", "m", NA)))
+    Sex_mortlaws <- ifelse(sex_code == "b", "total", tolower(gender))
+    stopifnot(`Invalid sex name, please set it to 'both', 'male' or 'female'` = !is.na(sex_code))
     
-    colnames(nLx) <- nLxDatesIn
-    n             <- nrow(nLx)
-    Age           <- c(0,1,seq(5,(n-2)*5,by=5))
-    rownames(nLx) <- Age
-    return(nLx)
+    # initial data
+    lt_wpp19 <-DemoToolsData::WPP2019_lt
+    
+    # filter and matrix shape
+    lt_ctry <- lt_wpp19[lt_wpp19$LocID %in% location_code &
+                          lt_wpp19$Sex %in% sex_code,] %>% as.data.frame() %>% 
+                stats::reshape(data = ., 
+                        direction = "wide", idvar = c("LocID","AgeStart","Sex"), 
+                        timevar = "Year", v.names = "mx", drop = c("AgeSpan","lx"))
+
+    # intert/extrap rates and built life tables for each combination location/Sex/Year 
+    .<-NULL
+    out <- cbind(lt_ctry[,c(1:3)],
+                 interp(lt_ctry[,-c(1:3)], 
+                        seq(1953,2023,5), as.numeric(nLxDatesIn), 
+                        extrap = TRUE, method = method) %>% 
+                        as.data.frame() %>% 
+                   stats::setNames(as.character(nLxDatesIn))
+                 ) %>% 
+          split(., list(lt_ctry$LocID, lt_ctry$Sex)) %>% 
+          lapply(function(X){
+            Age <- X[["AgeStart"]]
+            apply(X[,-c(1:3)] %>% 
+                    as.data.frame()%>% stats::setNames(as.character(nLxDatesIn)), 2,
+                    function(S){
+                        # MortalityLaws::LifeTable(x = Age,
+                        #                          mx = S,
+                        #                          lx0 = 1,
+                        #                          sex = Sex_mortlaws)$lt$Lx
+                        DemoTools::lt_abridged(nMx=S,
+                                               Age = Age,
+                                               radix = 1,
+                                               Sex=sex_code)$nLx
+                  })
+          }) %>% 
+          do.call("rbind", .)
+    
+    # combination as rowname
+    rownames(out) <- lt_ctry$AgeStart
+    
+    return(out)
   }
 }
 
-downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn) {
-  requireNamespace("fertestr", quietly = TRUE)
+#' Extract ASFR estimates from WPP2019. Mainly an util function for other ones.
+#' @description We extract `ASFRx` from `wpp2019`, interpolated to exact dates. Different methods availables.
+#' A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
+#' @param Asfrmat numeric.
+#' @param location vector. UN Pop Div `LocName` or `LocID`
+#' @param AsfrDatesIn numeric. Vector of decimal dates.
+#' @param method character. Could be `"linear"`, `"exponential"`, or `"power"`
+#'
+#' @return numeric matrix interpolated asfr
+#' @export
+#' @importFrom fertestr get_location_code
+#' @importFrom fertestr is_LocID
+#' @importFrom stats setNames
+#' @examples
+#' # Total fertility ratio calculated from ASFRx downloaded from WPP19. 
+#' # See `downloadnLx` for analogous examples on multiple countries or using codes instead of names. 
+#' ASFR_Arg <- downloadAsfr(Asfrmat = NULL, location = "Argentina", AsfrDatesIn = 1950:2025)
+#' \dontrun{
+#' plot(1950:2025, as.numeric(colSums(ASFR_Arg))*5, xlab = "Year", ylab="TFR", ylim=c(1.5,4), t="l")
+#' }
+downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn, method="linear") {
+
   verbose <- getOption("basepop_verbose", TRUE)
   
   if (!is.null(Asfrmat)) {
@@ -67,32 +149,43 @@ downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn) {
     return(Asfrmat)
   }
   
-  if (is.null(location)) stop("You need to provide a location to download the data for Asfrmat")
-  
-  ind_invalidyear <- which(AsfrDatesIn < 1955)
-  if (length(ind_invalidyear) != 0) {
-    invalid_yrs <- paste0(AsfrDatesIn[ind_invalidyear], collapse = ", ")
-    cat("AsfrDate(s)", invalid_yrs, "is/are below 1955. Capping at 1955\n")
-    AsfrDatesIn[ind_invalidyear] <- 1955
+  # stop/warnings
+  if (is.null(location)){
+    stop("You need to provide a location to download the data for Asfrmat")
+  } 
+  if (!any(fertestr::is_LocID(location))) {
+    location_code <- fertestr::get_location_code(location)
+  }else {
+    location_code <- as.integer(location)
   }
-  
   if (verbose) {
-    cat(paste0("Downloading Asfr data for ", 
-               loc_message(location), 
-               ", years ", 
-               paste0(AsfrDatesIn),collapse=", "), sep = "\n")
+    cat(paste0("Downloading ASFR data for ", location, ", years ", paste(AsfrDatesIn,collapse=", ")), sep = "\n")
+  }
+  if(any(AsfrDatesIn<1950,AsfrDatesIn>2025)){
+    cat("Careful, extrapolating beyond range 1950-2025")
   }
   
-  tmp <-
-    lapply(AsfrDatesIn, function(x) {
-      res        <- fertestr::FetchFertilityWpp2019(location, x)["asfr"]
-      names(res) <- NULL
-      as.matrix(res)[2:nrow(res), , drop = FALSE]
-    })
+  # initial data
+  asfr_wpp19    <-DemoToolsData::WPP2019_asfr
   
-  Asfrmat           <- do.call(cbind, tmp)
-  colnames(Asfrmat) <- AsfrDatesIn
-  Asfrmat
+  # spread format
+  asfr_ctry     <- asfr_wpp19[asfr_wpp19$LocID %in% location_code,] %>% 
+                      as.data.frame() %>% 
+                      stats::reshape(direction = "wide", idvar = c("LocID","AgeStart"), 
+                              timevar = "Year", v.names = "ASFR")
+  
+  # interp/extrap
+  out <- interp(asfr_ctry[,-c(1:3)], seq(1953,2023,5),
+                as.numeric(AsfrDatesIn), 
+                extrap = TRUE, method = method) %>% 
+                as.data.frame() %>% 
+                stats::setNames(as.character(AsfrDatesIn)) %>% 
+                as.matrix()
+  
+  # combination as rowname
+  rownames(out) <- asfr_ctry$AgeStart
+  
+  return(out)
 }
 
 #' Extract SRB estimates from WPP2019
@@ -101,10 +194,11 @@ downloadAsfr <- function(Asfrmat, location = NULL, AsfrDatesIn) {
 #' @param location UN Pop Div `LocName` or `LocID`
 #' @param DatesOut numeric vector of three decimal dates produced by `basepop_ive()`
 #' @param verbose logical, shall we send optional messages to the console?
-#'
 #' @return numeric vector with three SRB estimates
 #' @export
-#'
+#' @importFrom stats setNames
+
+
 downloadSRB <- function(SRB, location, DatesOut, verbose = TRUE){
   
   
@@ -246,7 +340,7 @@ interp_coh_download_mortality <- function(location, sex, date1, date2, OAnew = 1
 
 loc_message <- function(location){
   cds     <- DemoToolsData::WPP_codes
-  if (is_LocID(location)){
+  if (fertestr::is_LocID(location)){
     LocName   <- get_LocName(location)
     LocID     <- location
   } else {
@@ -258,7 +352,7 @@ loc_message <- function(location){
 }
 
 get_LocID <- function(location){
-  if (is_LocID(location)){
+  if (fertestr::is_LocID(location)){
     return(location)
   } else {
     cds     <- DemoToolsData::WPP_codes
@@ -271,7 +365,7 @@ get_LocID <- function(location){
   }
 }
 get_LocName <- function(location){
-  if (is_LocID(location)){
+  if (fertestr::is_LocID(location)){
     cds         <- DemoToolsData::WPP_codes
     ind         <- cds$LocID == location
     if (!any(ind)){
@@ -285,7 +379,7 @@ get_LocName <- function(location){
 }
 
 is_Loc_available <- function(location){
-  isID   <- is_LocID(location)
+  isID   <- fertestr::is_LocID(location)
   cds <- DemoToolsData::WPP_codes
   if (isID){
     out <- location %in% cds$LocID

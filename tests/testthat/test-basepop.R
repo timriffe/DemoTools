@@ -652,46 +652,46 @@ test_that("basepop works well with SRBDatesIn", {
 
 })
 
-
-test_that("basepop caps nLxDatesIn to 1955 when provided a date below that", {
-
-  tmp_nlx <- c(1954, 1960)
-  expect_output(
-    tmp <-
-      basepop_five(
-        location = "Spain",
-        refDate = 1960,
-        Males_five = smoothed_males,
-        Females_five = smoothed_females,
-        SRB = sex_ratio,
-        nLxDatesIn = tmp_nlx,
-        AsfrDatesIn = c(1955, 1960),
-        method = "linear",
-        radix = 100000
-      ),
-    regexp = "nLxDate\\(s\\) 1954 is/are below 1955\\. Capping at 1955",
-    all = FALSE
-  )
-
-  tmp_asfr <- c(1954, 1960)
-  expect_output(
-    tmp <-
-      basepop_five(
-        location = "Spain",
-        refDate = 1960,
-        Males_five = smoothed_males,
-        Females_five = smoothed_females,
-        SRB = sex_ratio,
-        nLxDatesIn = c(1955, 1960),
-        AsfrDatesIn = tmp_asfr,
-        method = "linear",
-        radix = 100000
-      ),
-    regexp = "AsfrDate\\(s\\) 1954 is/are below 1955\\. Capping at 1955",
-    all = FALSE
-  )
-
-})
+# IW: no need capping at 1955
+# test_that("basepop caps nLxDatesIn to 1955 when provided a date below that", {
+# 
+#   tmp_nlx <- c(1954, 1960)
+#   expect_output(
+#     tmp <-
+#       basepop_five(
+#         location = "Spain",
+#         refDate = 1960,
+#         Males_five = smoothed_males,
+#         Females_five = smoothed_females,
+#         SRB = sex_ratio,
+#         nLxDatesIn = tmp_nlx,
+#         AsfrDatesIn = c(1955, 1960),
+#         method = "linear",
+#         radix = 100000
+#       ),
+#     regexp = "nLxDate\\(s\\) 1954 is/are below 1955\\. Capping at 1955",
+#     all = FALSE
+#   )
+# 
+#   tmp_asfr <- c(1954, 1960)
+#   expect_output(
+#     tmp <-
+#       basepop_five(
+#         location = "Spain",
+#         refDate = 1960,
+#         Males_five = smoothed_males,
+#         Females_five = smoothed_females,
+#         SRB = sex_ratio,
+#         nLxDatesIn = c(1955, 1960),
+#         AsfrDatesIn = tmp_asfr,
+#         method = "linear",
+#         radix = 100000
+#       ),
+#     regexp = "AsfrDate\\(s\\) 1954 is/are below 1955\\. Capping at 1955",
+#     all = FALSE
+#   )
+# 
+# })
 
 test_that("basepop fails when it implies an extrapolation of > 5 years", {
 
@@ -840,3 +840,34 @@ test_that("downloadSRB works as expected", {
   )
 })
 
+# Interpolation between pivot wpp years, also into the period 1950-1955
+tfr_pj <- data.frame(
+           year = c(1950.0,1950.5,1951.5,1952.5,1953.0,
+                    1953.5,1954.5,1955.0,1955.5,
+                    1956.5,1957.5,1958.0,1958.5,
+                    1959.5,1960.0,1960.5,1961.5,
+                    1962.5,1963.0,1963.5,1964.5,
+                    1965.0,1965.5,1966.5,1967.5,
+                    1968.0,1968.5,1969.5,1970.0,
+                    1970.5,1971.5,1972.5,1973.0),
+           tfr = c(7.2986,7.3290,7.3898,7.4506,7.4810,7.5114,7.5722,7.6026,7.6330,
+                   7.6938,7.7546,7.7850,7.8130,7.8690,7.8970,7.9250,7.9810,8.0370,
+                   8.0650,8.0695,8.0785,8.0830,8.0875,8.0965,8.1055,8.1100,8.0980,
+                   8.0740,8.0620,8.0500,8.0260,8.0020,7.9900))
+
+test_that("Replicate Peter Johnson´s excel for extrapolatebeyond 1955",{
+  expect_equal(tfr_pj$tfr,
+               downloadAsfr(Asfrmat = NULL, location = "Kenya", 
+                            AsfrDatesIn = tfr_pj$year) %>% colSums() %>% 
+                            as.numeric() * 5
+               )
+})
+
+test_that("Receive a message if asked dates are not in 1950-2025 interval",{
+  expect_output(downloadAsfr(Asfrmat = NULL, location = "Kenya", 
+                             AsfrDatesIn = 1900),
+                regexp = "Careful, extrapolating beyond range 1950-2025")
+  expect_output(downloadnLx(nLx = NULL, location = "Kenya", 
+                            nLxDatesIn = 1900, gender="both"),
+                regexp = "Careful, extrapolating beyond range 1950-2025")
+})

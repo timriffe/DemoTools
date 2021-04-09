@@ -2,22 +2,46 @@
 % Please edit documentation in R/utils_downloads.R
 \name{downloadnLx}
 \alias{downloadnLx}
-\title{Extract Lx estimates from WPP2019}
+\title{Extract Lx estimates from WPP2019. Mainly an util function for other ones.}
 \usage{
-downloadnLx(nLx, location, gender, nLxDatesIn)
+downloadnLx(nLx, location, gender, nLxDatesIn, method = "linear")
 }
 \arguments{
-\item{nLx}{either \code{NULL} or a numeric vector of lifetable exposure. If it's the second then we just pass it back.}
+\item{nLx}{numeric. either \code{NULL} or a numeric vector of lifetable exposure. If it's the second then we just pass it back.}
 
-\item{location}{UN Pop Div \code{LocName} or \code{LocID}}
+\item{location}{vector. UN Pop Div \code{LocName} or \code{LocID}}
 
-\item{gender}{\code{"male"}, \code{"female"}, or \code{"both"}}
+\item{gender}{character. \code{"male"}, \code{"female"}, or \code{"both"}}
 
-\item{nLxDatesIn}{numeric vector of three decimal dates produced by (or passed through) \code{basepop_five()}}
+\item{nLxDatesIn}{numeric. Vector of three decimal dates produced by (or passed through) \code{basepop_five()}}
+
+\item{method}{character. Could be \code{"linear"}, \code{"exponential"}, or \code{"power"}}
 }
 \value{
 numeric matrix of \code{nLx} with \code{length(nLxDatesIn)} and abrdiged ages in rows.
 }
 \description{
-We use the \code{FetchLifeTableWpp2019} function of the \code{fertestr} to extract \code{Lx} from \code{wpp2019}, interpolated to an exact date.
+We extract \code{Lx} from \code{wpp2019}, interpolated to exact dates. Different methods availables.
+A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
+}
+\examples{
+# life expectancy calculated from Lx downloaded from WPP19. Using names or codes.
+Lxs_name <- downloadnLx(nLx=NULL, location = "Argentina",
+                        gender = "both", nLxDatesIn = 1950:2030)
+Lxs_code <- downloadnLx(nLx=NULL, location = "32",
+                        gender = "both", nLxDatesIn = 1950:2030)
+\dontrun{
+plot(1950:2030, as.numeric(colSums(Lxs_name)), xlab = "Year", ylab="e0")
+lines(1950:2030, as.numeric(colSums(Lxs_code)))
+}
+# life expectancy for different countries
+Lxs_countries <- downloadnLx(nLx=NULL, location = c("Argentina","Brazil","Uruguay"),
+gender = "both", nLxDatesIn = 1950:2025)
+\dontrun{
+plot(1950:2025, as.numeric(colSums(Lxs_countries[1:22,])), 
+     t="l", xlab = "Year", ylab="e0", ylim = c(40,80))
+lines(1950:2025, as.numeric(colSums(Lxs_countries[23:44,])), col=2)
+lines(1950:2025, as.numeric(colSums(Lxs_countries[45:64,])), col=3)
+legend("bottomright",c("Argentina","Brazil","Uruguay"),lty=1,col=1:3)
+}
 }
