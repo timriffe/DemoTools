@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils_downloads.R
 \name{downloadnLx}
 \alias{downloadnLx}
-\title{Extract Lx estimates from WPP2019}
+\title{Extract Lx estimates from WPP2019. Mainly an util function for other ones.}
 \usage{
 downloadnLx(nLx, location, gender, nLxDatesIn, method = "linear")
 }
