@@ -81,7 +81,7 @@ Sprague estimated single-age population counts for the first and final ten ages.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
       </span>
     </div>
 
@@ -164,7 +164,7 @@ Sprague estimated single-age population counts for the first and final ten ages.
 Sprague estimated single-age population counts for the first and final ten ages. Open age groups are preserved, as are annual totals.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>graduate_grabill</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>graduate_grabill</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, <span class='va'>AgeInt</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,6 +176,10 @@ Sprague estimated single-age population counts for the first and final ten ages.
     <tr>
       <th>Age</th>
       <td><p>integer vector, lower bounds of age groups</p></td>
+    </tr>
+    <tr>
+      <th>AgeInt</th>
+      <td><p>integer vector, age interval widths</p></td>
     </tr>
     <tr>
       <th>OAG</th>

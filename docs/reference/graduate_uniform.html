@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
       </span>
     </div>
 
@@ -162,7 +162,7 @@
     <p>Uniformly splits aggregate counts in age groups into single year age groups.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>graduate_uniform</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>AgeInt</span>, <span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, OAvalue <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>graduate_uniform</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, <span class='va'>AgeInt</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, OAvalue <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,12 +172,12 @@
       <td><p>numeric vector, presumably counts in grouped ages</p></td>
     </tr>
     <tr>
-      <th>AgeInt</th>
-      <td><p>integer vector, age interval widths</p></td>
-    </tr>
-    <tr>
       <th>Age</th>
       <td><p>integer vector, lower bounds of age groups</p></td>
+    </tr>
+    <tr>
+      <th>AgeInt</th>
+      <td><p>integer vector, age interval widths</p></td>
     </tr>
     <tr>
       <th>OAG</th>
