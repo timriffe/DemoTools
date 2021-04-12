@@ -60,7 +60,7 @@ interp_coh(
 \item{...}{optional arguments passed to}
 }
 \description{
-Cohorts between two censuses are interpolated flexibly using linear, exponential, or power rules. The lower and upper intercensal triangles are filled using within-age interpolation. This function is experimental and still in development.
+Cohorts between two censuses are interpolated using a cohort component approach.
 }
 \examples{
 

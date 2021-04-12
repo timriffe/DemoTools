@@ -77,7 +77,7 @@ shift_census_ages_to_cohorts <- function(pop,
 }
 
 #' component-free intercensal cohort interpolation
-#' @description Cohorts between two censuses are interpolated flexibly using linear, exponential, or power rules. The lower and upper intercensal triangles are filled using within-age interpolation. This function is experimental and still in development.
+#' @description Cohorts between two censuses are interpolated using a cohort component approach.
 #' @seealso interp
 #' @param c1 numeric vector. The first (left) census in single age groups
 #' @param c2 numeric vector. The second (right) census in single age groups
