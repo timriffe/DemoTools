@@ -371,7 +371,7 @@ mig_resid_stock <- function(pop_m_mat,
     is.numeric(ages_asfr)
   )
 
-# <<<<<<< HEAD
+
 #   # Check in dimensions are ok - still working on this
 #   if(ncol(asfr_mat) == ncol(pop_f_mat) -1 & nrow(sr_f_mat) == nrow(pop_f_mat) -1){
 #     print("matrix dimensions are correct")
@@ -389,22 +389,23 @@ mig_resid_stock <- function(pop_m_mat,
 #     asfr_mat
 #     sr_f_mat
 #   }
-# =======
-# >>>>>>> 362ae9857574b05c519c8de40548461d6b9070dd
+
 
   # Migration net of only survivors
-  net_mig_m <- migresid_net_surv(pop_m_mat, sr_m_mat)
-  net_mig_f <- migresid_net_surv(pop_f_mat, sr_f_mat)
+  net_mig_m <- migresid_net_surv(pop_mat = pop_m_mat, 
+                                 sr_mat = sr_m_mat)
+  net_mig_f <- migresid_net_surv(pop_mat = pop_f_mat, 
+                                 sr_mat = sr_f_mat)
 
  # fertility_index <- which(ages %in% ages_asfr)
 
   # Returns all births for all years
   age_interval <- unique(diff(ages))
   all_births <- migresid_births(
-    pop_f_mat,
-    asfr_mat,
+    pop_f_mat = pop_f_mat,
+    asfr_mat = asfr_mat,
    # fertility_index,
-    age_interval
+   age_interval = age_interval
   )
 
   # With all_births already calculated, separate between
@@ -414,17 +415,17 @@ mig_resid_stock <- function(pop_m_mat,
   births_f <- all_births * (1 / (1 + srb_vec[byrs]))
 
   net_mig_m <- migresid_net_surv_first_ageg(
-    net_mig_m,
-    pop_m_mat,
-    births_m,
-    sr_m_mat
+    net_mig = net_mig_m,
+    pop_mat = pop_m_mat,
+    births = births_m,
+    sr_mat = sr_m_mat
   )
 
   net_mig_f <- migresid_net_surv_first_ageg(
-    net_mig_f,
-    pop_f_mat,
-    births_f,
-    sr_f_mat
+    net_mig = net_mig_f,
+    pop_mat = pop_f_mat,
+    births = births_f,
+    sr_mat = sr_f_mat
   )
 
   # First year is empty, so we exclude
