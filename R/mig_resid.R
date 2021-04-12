@@ -491,12 +491,12 @@ mig_resid_cohort <- function(pop_m_mat,
 
   # Adjust last age group in the bounds
   mig_bounds <- migresid_bounds_last_ageg(
-    net_mig_m,
-    net_mig_f,
-    mig_upper_m,
-    mig_lower_m,
-    mig_upper_f,
-    mig_lower_f
+    net_mig_m = net_mig_m,
+    net_mig_f = net_mig_f,
+    mig_upper_m = mig_upper_m,
+    mig_lower_m = mig_lower_m,
+    mig_upper_f = mig_upper_f,
+    mig_lower_f = mig_lower_f
   )
 
   mig_upper_m <- mig_bounds$mig_upper_m
@@ -540,13 +540,6 @@ mig_resid_time <- function(pop_m_mat,
   sr_f_mat  <- args_list$sr_f_mat
   asfr_mat  <- args_list$asfr_mat
   srb_vec   <- args_list$srb_vec
-
-  # TR: add chunk (maybe a new function?) that
-  # checks dimensions; names dimensions if necessary (and warns if so)
-  # and trims dimensions if necessary (warning user if needed).
-  # warning does mean warning() it just means cat("\nwatch out!\n")
-  # Not important, but theese could be silenced using a new 'verbose' arg
-
 
   # Estimate stock method
   mig_res <-
@@ -605,7 +598,9 @@ migresid_net_surv <- function(pop_mat, sr_mat) {
   # is treated by migresid_net_surv_first_ageg.
   res[nrow(res), ] <- NA
   res              <- rbind(matrix(NA, nrow = 1, ncol = ncol(res)), res)
-  res              <- migresid_net_surv_last_ageg(res, pop_mat, sr_mat)
+  res              <- migresid_net_surv_last_ageg(net_mig = res, 
+                                                  pop_mat = pop_mat, 
+                                                  sr_mat = sr_mat)
   rownames(res)    <- rownames(pop_mat)
   colnames(res)    <- colnames(pop_mat)[-p]
   res
