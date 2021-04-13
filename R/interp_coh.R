@@ -76,7 +76,7 @@ shift_census_ages_to_cohorts <- function(pop,
        f1 = f1)
 }
 
-#' component-free intercensal cohort interpolation
+#' Cohort component intercensal interpolation
 #' @description Cohorts between two censuses are interpolated using a cohort component approach.
 #' @seealso interp
 #' @param c1 numeric vector. The first (left) census in single age groups
@@ -96,6 +96,7 @@ shift_census_ages_to_cohorts <- function(pop,
 #' @param midyear logical. `FALSE` means all Jan 1 dates between `date1` and `date2` are returned. `TRUE` means all July 1 intercensal dates are returned.
 #' @param verbose logical. Shall we send informative messages to the console?
 #' @param ... optional arguments passed to
+#' @details The basic approach is to i) align the censuses to single-year cohorts by blending adjacent ages assuming that the birthdays in each age group are uniformly distributed through the year ii) decrement the first census forward within cohorts using period-cohort survival probabilities calculated from (supplied or downloaded) `l(x)` values, iii) redistribute the residual at the time of the second census uniformly over time within cohorts. These steps are always done on Jan 1 reference dates. If `midyear = TRUE`, then we do within-age band arithmetic interpolation to July 1 reference dates.
 #' @export
 #' @importFrom data.table := as.data.table melt data.table dcast between
 #' @examples

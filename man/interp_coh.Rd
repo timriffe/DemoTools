@@ -2,7 +2,7 @@
 % Please edit documentation in R/interp_coh.R
 \name{interp_coh}
 \alias{interp_coh}
-\title{component-free intercensal cohort interpolation}
+\title{Cohort component intercensal interpolation}
 \usage{
 interp_coh(
   c1,
@@ -61,6 +61,9 @@ interp_coh(
 }
 \description{
 Cohorts between two censuses are interpolated using a cohort component approach.
+}
+\details{
+The basic approach is to i) align the censuses to single-year cohorts by blending adjacent ages assuming that the birthdays in each age group are uniformly distributed through the year ii) decrement the first census forward within cohorts using period-cohort survival probabilities calculated from (supplied or downloaded) \code{l(x)} values, iii) redistribute the residual at the time of the second census uniformly over time within cohorts. These steps are always done on Jan 1 reference dates. If \code{midyear = TRUE}, then we do within-age band arithmetic interpolation to July 1 reference dates.
 }
 \examples{
 
