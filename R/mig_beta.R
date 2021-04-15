@@ -151,6 +151,25 @@ mig_beta_cwr <- function(mig,
   mig_out
 }
 
+# rough stb at constant child adjustment
+mig_beta_constant_child <- function(mig, c1, c2, ageMax = 14){
+  age <- names2age(mig)
+  
+  denom <- (c1 + c2) / 2
+  
+  ind <- age <= ageMax
+  mig_rate_const <- sum(mig[ind]) / sum(denom[ind])
+  
+  mig[ind] <- denom[ind] * mig_rate_const
+  
+  mig
+}
+
+
+# One more function for optional old age smoothing
+
+
+
 
 # TR: prep for constant child. Need denom for rates though,
 # but ideally without re-calculating an intermediate object
