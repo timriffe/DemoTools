@@ -8,8 +8,7 @@
 #' the cohort parallelogram assuming uniform distribution assuming it is all
 #' migration. It finalizes by summing the estimate by age groups across the entire
 #' intercensal period to have a total migration during the entire period.
-#' Alternatively, a child adjustemt can be made using either a child-woman ratio
-#' or a child constant ratio.
+#' Alternatively, a child adjustment and an old age adjustment can be applied.
 #'
 #' @param c1 numeric vector. The first (left) census in single age groups
 #' @param c2 numeric vector. The second (right) census in single age groups
@@ -29,10 +28,20 @@
 #' @param verbose logical. Shall we send informative messages to the console?
 #' @param child_adjust The method with which to adjust the youngest age groups.
 #' If \code{"none"}, no adjustment is applied (default). If
-#' child-woman ratio (\code{"cwr""}) is chosen, the first cohorts reflecting the
+#' child-woman ratio (\code{"cwr"}) is chosen, the first cohorts reflecting the
 #' difference between \code{date2 - date1} are adjusted (plus age 0). If
 #' child constant ratio (\code{"constant"}) is chosen, the first 15 age groups
 #' are adjusted.
+#'
+#' @param oldage_adjust The type of adjustment to apply to ages at and above
+#' \code{oldage_min}. \code{'beers'} applies a beers graduation method
+#' while \code{'mav'} applies a moving average with cascading on the tails.
+#' For more information see \code{?mav} and \code{?graduation_beers}.
+#'
+#' @param oldage_min The minimum age from which to apply \code{oldage_adjust}.
+#' By default, set to 65, so any adjustment from \code{oldage_adjust} will be
+#' applied for 65+.
+#'
 #' @param ... optional arguments passed to \code{lt_single_qx}
 #' @export
 #'
@@ -53,8 +62,7 @@
 #'   date1 = "2002-10-16",
 #'   date2 = "2010-10-25",
 #'   age1 = 0:100,
-#'   births = c(719511L, 760934L, 772973L, 749554L, 760831L, 828772L, 880543L, 905380L, 919639L),
-#'   child_adjust
+#'   births = c(719511L, 760934L, 772973L, 749554L, 760831L, 828772L, 880543L, 905380L, 919639L)
 #' )
 #' }
 mig_beta <- function(
@@ -69,15 +77,17 @@ mig_beta <- function(
                      age_lx = NULL,
                      dates_lx = NULL,
                      births = NULL,
-
                      years_births = NULL,
                      location = NULL,
                      sex = "both",
                      midyear = FALSE,
                      verbose = TRUE,
                      child_adjust = c("none", "cwr", "constant"),
+                     oldage_adjust = c("none", "beers", "mav"),
+                     oldage_min = 65,
                      ...) {
   child_adjust <- match.arg(child_adjust)
+  oldage_adjust <- match.arg(oldage_adjust)
 
   # convert the dates into decimal numbers
   date1 <- dec.date(date1)
@@ -132,6 +142,7 @@ mig_beta <- function(
   # Sum over all ages to get a total decum_resid over all years for each age.
   mig <- stats::setNames(rowSums(mat_resid, na.rm = TRUE), mat_resid$age)
 
+
   # Child adjustment
   mig <-
     switch(
@@ -141,9 +152,23 @@ mig_beta <- function(
       "constant" = mig_beta_constant_child(mig, c1, c2)
     )
 
-  mig
-}
+  # Old age adjustment
+  mig_oldage <-
+    switch(
+      oldage_adjust,
+      "none" = mig,
+      "beers" = graduate_beers(mig, as.integer(names(mig)), AgeInt = 1),
+      "mav" = mav(mig, names(mig), tails = TRUE)
+    )
 
+  # Only apply the old age adjustment on ages above oldage_min
+  ages_oldages <- as.integer(names(mig_oldage))
+  mig[ages_oldages >= oldage_min] <- mig_oldage[ages_oldages >= oldage_min]
+
+  # Only keep ages 0-100 because otherwise beers (oldage_adjust) only returns
+  # ages until 100 making the return object inconsistent
+  mig[1:101]
+}
 
 
 mig_beta_cwr <- function(mig,
