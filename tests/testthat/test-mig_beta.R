@@ -648,3 +648,68 @@ test_that("mig_beta throws download messages when verbose = TRUE and LocID used"
     fixed = TRUE
   )
 })
+
+
+test_that("mig_beta applies child_adjustment correctly", {
+  res_none <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      child_adjust = "none"
+    )
+
+
+  res_cwr <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      child_adjust = "cwr"
+    )
+
+
+  res_constant <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      child_adjust = "constant"
+    )
+
+  # Check we don't mess up the format of migs (length, type, etc..)
+  for (i in list(res_none, res_cwr, res_constant)) check_form(i)
+
+  # Since cwr and constant can change, we only test that they adjust a certain
+  # number of ages rather than test the exact equality of results.
+
+  # CWR:
+  # Why 8? Because date1 and date2 differ by 8 years, so only the first 8
+  # cohorts are adjusted (+ age 0, making it 9).
+  # Test that the first 9 are adjusted:
+  expect_true(all((res_none - res_cwr)[1:9] != 0))
+
+
+  # Constant:
+  # Why 15? Because it's a fixed argument in mig_adjust_constant set to 14
+  # plug age 0, making it 15.
+  # Testhat that the first 15 are adjusted.
+  expect_true(all((res_none - res_constant)[1:15] != 0))
+
+
+})
