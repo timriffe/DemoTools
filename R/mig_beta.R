@@ -8,6 +8,7 @@
 #' the cohort parallelogram assuming uniform distribution assuming it is all
 #' migration. It finalizes by summing the estimate by age groups across the entire
 #' intercensal period to have a total migration during the entire period.
+#' Alternatively, a child adjustment and an old age adjustment can be applied.
 #'
 #' @param c1 numeric vector. The first (left) census in single age groups
 #' @param c2 numeric vector. The second (right) census in single age groups
@@ -25,6 +26,22 @@
 #' @param sex character string, either `"male"`, `"female"`, or `"both"`
 #' @param midyear logical. `FALSE` means all Jan 1 dates between `date1` and `date2` are returned. `TRUE` means all July 1 intercensal dates are returned.
 #' @param verbose logical. Shall we send informative messages to the console?
+#' @param child_adjust The method with which to adjust the youngest age groups.
+#' If \code{"none"}, no adjustment is applied (default). If
+#' child-woman ratio (\code{"cwr"}) is chosen, the first cohorts reflecting the
+#' difference between \code{date2 - date1} are adjusted (plus age 0). If
+#' child constant ratio (\code{"constant"}) is chosen, the first 15 age groups
+#' are adjusted.
+#'
+#' @param oldage_adjust The type of adjustment to apply to ages at and above
+#' \code{oldage_min}. \code{'beers'} applies a beers graduation method
+#' while \code{'mav'} applies a moving average with cascading on the tails.
+#' For more information see \code{?mav} and \code{?graduation_beers}.
+#'
+#' @param oldage_min The minimum age from which to apply \code{oldage_adjust}.
+#' By default, set to 65, so any adjustment from \code{oldage_adjust} will be
+#' applied for 65+.
+#'
 #' @param ... optional arguments passed to \code{lt_single_qx}
 #' @export
 #'
@@ -36,7 +53,8 @@
 #' @examples
 #'
 #' \dontrun{
-#'   mig_beta(
+#'
+#' mig_beta(
 #'   location = "Russian Federation",
 #'   sex = "male",
 #'   c1 = pop1m_rus2002,
@@ -64,8 +82,12 @@ mig_beta <- function(
                      sex = "both",
                      midyear = FALSE,
                      verbose = TRUE,
-                     ...
-                     ) {
+                     child_adjust = c("none", "cwr", "constant"),
+                     oldage_adjust = c("none", "beers", "mav"),
+                     oldage_min = 65,
+                     ...) {
+  child_adjust <- match.arg(child_adjust)
+  oldage_adjust <- match.arg(oldage_adjust)
 
   # convert the dates into decimal numbers
   date1 <- dec.date(date1)
@@ -112,86 +134,79 @@ mig_beta <- function(
   # and the decum_resid on the values.
   mat_resid <-
     data.table::dcast(
-                  pop_jan1[, list(year, age, decum_resid)],
-                  age ~ year,
-                  value.var = "decum_resid"
-                )
+      pop_jan1[, list(year, age, decum_resid)],
+      age ~ year,
+      value.var = "decum_resid"
+    )
+
   # Sum over all ages to get a total decum_resid over all years for each age.
   mig <- stats::setNames(rowSums(mat_resid, na.rm = TRUE), mat_resid$age)
-  mig
+
+
+  # Child adjustment
+  mig <-
+    switch(
+      child_adjust,
+      "none" = mig,
+      "cwr" = mig_beta_cwr(mig, c1, c2, date1, date2),
+      "constant" = mig_beta_constant_child(mig, c1, c2)
+    )
+
+  # Old age adjustment
+  mig_oldage <-
+    switch(
+      oldage_adjust,
+      "none" = mig,
+      "beers" = graduate_beers(mig, as.integer(names(mig)), AgeInt = 1),
+      "mav" = mav(mig, names(mig), tails = TRUE)
+    )
+
+  # Only apply the old age adjustment on ages above oldage_min
+  ages_oldages <- as.integer(names(mig_oldage))
+  mig[ages_oldages >= oldage_min] <- mig_oldage[ages_oldages >= oldage_min]
+
+  # Only keep ages 0-100 because otherwise beers (oldage_adjust) only returns
+  # ages until 100 making the return object inconsistent
+  mig[1:101]
 }
 
 
-
-
-
-mig_beta_cwr <- function(mig, 
-                         c1_females, 
-                         c2_females, 
-                         date1, 
-                         date2, 
-                         maternal_window = 30, 
-                         maternal_min = 15){
+mig_beta_cwr <- function(mig,
+                         c1_females,
+                         c2_females,
+                         date1,
+                         date2,
+                         maternal_window = 30,
+                         maternal_min = 15) {
   age <- names2age(mig)
-  
+
   # conservative guess at how many child ages to cover:
   n_cohs <- as.integer(ceiling(date2) - floor(date1))
-  
+
   mig_out <- mig
-  for (i in 1:n_cohs){
+  for (i in 1:n_cohs) {
     # index maternal ages
-    a_min      <- i + maternal_min
-    a_max      <- min(i + maternal_min + maternal_window, 49)
-    mat_ind    <- a_min:a_max
-    cwr_i      <- (c1_females[i] / sum(c1_females[mat_ind]) + c2_females[i] / sum(c2_females[mat_ind])) / 2
+    a_min <- i + maternal_min
+    a_max <- min(i + maternal_min + maternal_window, 49)
+    mat_ind <- a_min:a_max
+    cwr_i <- (c1_females[i] / sum(c1_females[mat_ind]) + c2_females[i] / sum(c2_females[mat_ind])) / 2
     # proportional to maternal neg mig.
     mig_out[i] <- cwr_i * sum(mig[mat_ind])
   }
-  
+
   mig_out
 }
 
 # rough stb at constant child adjustment
-mig_beta_constant_child <- function(mig, c1, c2, ageMax = 14){
+mig_beta_constant_child <- function(mig, c1, c2, ageMax = 14) {
   age <- names2age(mig)
-  
+
   denom <- (c1 + c2) / 2
-  
+
   ind <- age <= ageMax
   mig_rate_const <- sum(mig[ind]) / sum(denom[ind])
-  
+
   mig[ind] <- denom[ind] * mig_rate_const
-  
+
   mig
 }
-
-
-# One more function for optional old age smoothing
-
-
-
-
-# TR: prep for constant child. Need denom for rates though,
-# but ideally without re-calculating an intermediate object
-# that was already needed. Maybe be we can get exposures
-# from RUP. Hmm.
-# mig_beta_constant_child <- function(mig, 
-#                                     c1,
-#                                     c2,
-#                                     date1, 
-#                                     date2, 
-#                                     maternal_window = 30, 
-#                                     maternal_min = 15){
-#   age <- names2age(mig)
-#   
-#   # conservative guess at how many child ages to cover:
-#   n_cohs  <- as.integer(ceiling(date2) - floor(date1))
-#   
-#   mig_out <- mig
-#   
-#   
-#   
-#   mig_out
-# }
-# 
-

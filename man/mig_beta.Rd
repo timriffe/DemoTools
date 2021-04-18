@@ -22,6 +22,9 @@ mig_beta(
   sex = "both",
   midyear = FALSE,
   verbose = TRUE,
+  child_adjust = c("none", "cwr", "constant"),
+  oldage_adjust = c("none", "beers", "mav"),
+  oldage_min = 65,
   ...
 )
 }
@@ -58,6 +61,22 @@ mig_beta(
 
 \item{verbose}{logical. Shall we send informative messages to the console?}
 
+\item{child_adjust}{The method with which to adjust the youngest age groups.
+If \code{"none"}, no adjustment is applied (default). If
+child-woman ratio (\code{"cwr"}) is chosen, the first cohorts reflecting the
+difference between \code{date2 - date1} are adjusted (plus age 0). If
+child constant ratio (\code{"constant"}) is chosen, the first 15 age groups
+are adjusted.}
+
+\item{oldage_adjust}{The type of adjustment to apply to ages at and above
+\code{oldage_min}. \code{'beers'} applies a beers graduation method
+while \code{'mav'} applies a moving average with cascading on the tails.
+For more information see \code{?mav} and \code{?graduation_beers}.}
+
+\item{oldage_min}{The minimum age from which to apply \code{oldage_adjust}.
+By default, set to 65, so any adjustment from \code{oldage_adjust} will be
+applied for 65+.}
+
 \item{...}{optional arguments passed to \code{lt_single_qx}}
 }
 \value{
@@ -71,11 +90,13 @@ Census - Estimate by age from projection. It then distributes the NCE over
 the cohort parallelogram assuming uniform distribution assuming it is all
 migration. It finalizes by summing the estimate by age groups across the entire
 intercensal period to have a total migration during the entire period.
+Alternatively, a child adjustment and an old age adjustment can be applied.
 }
 \examples{
 
 \dontrun{
-  mig_beta(
+
+mig_beta(
   location = "Russian Federation",
   sex = "male",
   c1 = pop1m_rus2002,

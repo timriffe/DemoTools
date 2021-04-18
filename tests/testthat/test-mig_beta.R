@@ -1,6 +1,6 @@
 check_form <- function(x) {
   expect_is(x, "numeric")
-  expect_true(length(x) == 103)
+  expect_true(length(x) == 101)
   expect_true(all(!is.na(x)))
   expect_named(x)
 }
@@ -87,13 +87,13 @@ test_that("Births are pulled from post-processed WPP2019", {
       date2 = "2010-10-25",
       age1 = 0:100
     ))
-    
+
   expect_true(any(outp == "births not provided. Downloading births for Russian Federation (LocID = 643), gender: `male`, years: 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010" #nolintr
   ))
 })
 
 test_that("mig_beta works well with different time points", {
-  # 3) mortality (abridged, 2 and 3 time points) and fertility given: 
+  # 3) mortality (abridged, 2 and 3 time points) and fertility given:
   mortdate1 <- 2003
   mortdate2 <- 2006
   mortdate3 <- 2010
@@ -138,7 +138,7 @@ test_that("mig_beta works well with different time points", {
    lxMat = lxmat3,
    dates_lx = c(mortdate1,mortdate2,mortdate3),
    age_lx = age_lx,
-   births = c(719511L, 760934L, 772973L, 749554L, 
+   births = c(719511L, 760934L, 772973L, 749554L,
               760831L, 828772L, 880543L, 905380L, 919639L),
    years_births = 2002:2010)
 
@@ -153,7 +153,7 @@ test_that("mig_beta works well with different time points", {
    lxMat = lxmat3,
    dates_lx = c(mortdate1,mortdate2,mortdate3),
    age_lx = age_lx,
-   births = c(719511L, 760934L, 772973L, 749554L, 
+   births = c(719511L, 760934L, 772973L, 749554L,
               760831L, 828772L, 880543L, 905380L, 919639L,1e6),
    years_births = 2002:2011)
 
@@ -228,7 +228,7 @@ test_that("mig_beta fails when lxmat is not correct", {
       lxMat = lxmat[, 1, drop = FALSE],
       dates_lx = c(mortdate1,mortdate2,mortdate3),
       age_lx = age_lx,
-      births = c(719511L, 760934L, 772973L, 749554L, 
+      births = c(719511L, 760934L, 772973L, 749554L,
                  760831L, 828772L, 880543L, 905380L, 919639L),
       years_births = 2002:2010),
     regexp = "lxMat should have at least two or more dates as columns. lxMat contains only one column" #nolintr
@@ -594,7 +594,7 @@ test_that("mig_beta throws download messages when verbose = TRUE", {
 
 
 test_that("mig_beta throws download messages when verbose = TRUE and LocID used", {
-  
+
   # 1) lx is downloaded
   outp <- capture_output_lines(
     mig_beta(
@@ -611,7 +611,7 @@ test_that("mig_beta throws download messages when verbose = TRUE and LocID used"
       verbose = TRUE
     ))
   expect_true(any(outp == "lxMat not provided. Downloading lxMat for Russian Federation (LocID = 643), gender: `both`, for years between 2002.8 and 2010.8"))
-  
+
   # 2) births are downloaded
   outp <- capture_output_lines(
     mig_beta(
@@ -627,7 +627,7 @@ test_that("mig_beta throws download messages when verbose = TRUE and LocID used"
       verbose = TRUE
     ))
   expect_true(any(outp == "births not provided. Downloading births for Russian Federation (LocID = 643), gender: `both`, years: 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010"))
-  
+
   # 3) dates_lx or years_births are being assumed anything
   expect_output(
     mig_beta(
@@ -647,4 +647,170 @@ test_that("mig_beta throws download messages when verbose = TRUE and LocID used"
     regexp = "lxMat specified, but not dates_lx\nAssuming: 2002.78904109589, 2006.80136986301, 2010.81369863014",
     fixed = TRUE
   )
+})
+
+
+test_that("mig_beta applies child_adjustment correctly", {
+  res_none <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      child_adjust = "none"
+    )
+
+
+  res_cwr <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      child_adjust = "cwr"
+    )
+
+
+  res_constant <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      child_adjust = "constant"
+    )
+
+  # Check we don't mess up the format of migs (length, type, etc..)
+  for (i in list(res_none, res_cwr, res_constant)) check_form(i)
+
+  # Since cwr and constant can change, we only test that they adjust a certain
+  # number of ages rather than test the exact equality of results.
+
+  # CWR:
+  # Why 8? Because date1 and date2 differ by 8 years, so only the first 8
+  # cohorts are adjusted (+ age 0, making it 9).
+  # Test that the first 9 are adjusted:
+  expect_true(all((res_none - res_cwr)[1:9] != 0))
+
+
+  # Constant:
+  # Why 15? Because it's a fixed argument in mig_adjust_constant set to 14
+  # plug age 0, making it 15.
+  # Testhat that the first 15 are adjusted.
+  expect_true(all((res_none - res_constant)[1:15] != 0))
+
+
+})
+
+
+
+test_that("mig_beta applies oldage_adjustment correctly", {
+  res_none <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      olage_adjust = "none"
+    )
+
+  res_beers <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      oldage_adjust = "beers"
+    )
+
+
+  res_mav <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      oldage_adjust = "mav"
+    )
+
+  # Check we don't mess up the format of migs (length, type, etc..)
+  for (i in list(res_none, res_beers, res_mav)) check_form(i)
+
+  # beers:
+  # expect that the 65+ are different because they're adjusted
+  # Why 66? Because first age is 0 and total length is 101
+  expect_true(all((res_none - res_beers)[66:length(res_beers)] != 0))
+
+
+  # mav:
+  # expect that the 65+ are different because they're adjusted
+  # Why 66? Because first age is 0 and total length is 101
+  expect_true(all((res_none - res_mav)[66:length(res_mav)] != 0))
+
+
+  # Test that oldage_min controls the age from which to adjust
+  # old ages
+  res_beers <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      oldage_adjust = "beers",
+      oldage_min = 70
+    )
+
+
+  res_mav <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      oldage_adjust = "mav",
+      oldage_min = 70
+    )
+
+  # beers:
+  # expect that the 65+ are different because they're adjusted
+  # Why 71? Because first age is 0 and total length is 101
+  expect_true(all((res_none - res_beers)[71:length(res_beers)] != 0))
+
+
+  # mav:
+  # expect that the 65+ are different because they're adjusted
+  # Why 71? Because first age is 0 and total length is 101
+  expect_true(all((res_none - res_mav)[71:length(res_mav)] != 0))
 })
