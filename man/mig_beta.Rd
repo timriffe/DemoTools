@@ -23,6 +23,7 @@ mig_beta(
   midyear = FALSE,
   verbose = TRUE,
   child_adjust = c("none", "cwr", "constant"),
+  childage_max = NULL,
   oldage_adjust = c("none", "beers", "mav"),
   oldage_min = 65,
   ...
@@ -67,6 +68,12 @@ child-woman ratio (\code{"cwr"}) is chosen, the first cohorts reflecting the
 difference between \code{date2 - date1} are adjusted (plus age 0). If
 child constant ratio (\code{"constant"}) is chosen, the first 15 age groups
 are adjusted.}
+
+\item{childage_max}{The maximum age from which to apply \code{child_adjust}.
+By default, set to \code{NULL}, which gets translated into all the cohorts
+between \code{date2} and \code{date1}. If \code{date2} is 2010 and
+\code{date1} is 2002, the first 8 cohorts are adjusted. Otherwise, the user
+can supply an integer.}
 
 \item{oldage_adjust}{The type of adjustment to apply to ages at and above
 \code{oldage_min}. \code{'beers'} applies a beers graduation method
