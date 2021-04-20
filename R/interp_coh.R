@@ -168,7 +168,7 @@ interp_coh <- function(
   year <- NULL
 
   # add "cumulative" residual to the RUP (pop_jan1_pre)
-  pop_jan1[, `:=`(pop_jan1 = pop_jan1_pre + resid * discount)]
+  pop_jan1[, `:=`(pop_jan1 = pop_jan1 + resid * discount)]
   pop_jan1 <- pop_jan1[!is.na(cohort)]
 
   # TR: to get residualmigbeta prelim result, one takes the cumulative
@@ -968,13 +968,12 @@ reshape_pxt <- function(
   pop_jan1_pre <- pop_jan1_pre[input, on = "cohort"]
 
   pop_jan1_pre[, `:=`(
-    pop_jan1_pre = pop * coh_lx,
+    pop_jan1 = pop * coh_lx,
     age = floor(year) - cohort,
     year = floor(year) + 1
   )]
 
   pop_jan1_pre[, `:=`(year = ifelse(year == max(year), year + f2 - 1, year))]
-
   # calculate the discrepancy (migration) -- to be disrtibuted uniformly in
   # cohorts
   resid <-
@@ -982,7 +981,7 @@ reshape_pxt <- function(
     .[year == max(year)] %>%
     .[pop_c2, on = "cohort"]
 
-  resid[, `:=`(resid = pop_c2_obs - pop_jan1_pre)]
+  resid[, `:=`(resid = pop_c2_obs - pop_jan1)]
   # Only used in the process for diagnostics
   # resid[, `:=`(rel_resid = resid / pop_c2_obs)]
   resid <- resid[, list(cohort, resid)]
@@ -1034,6 +1033,7 @@ rup <- function(
                verbose,
                ...
                ) {
+
   check_args(
     lxMat = lxMat,
     births = births,
