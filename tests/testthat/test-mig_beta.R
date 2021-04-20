@@ -678,6 +678,19 @@ test_that("mig_beta applies child_adjustment correctly", {
       child_adjust = "cwr"
     )
 
+  res_cwr_high <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      child_adjust = "cwr",
+      cwr_factor = 0.9
+    )
 
   res_constant <-
     mig_beta(
@@ -708,6 +721,11 @@ test_that("mig_beta applies child_adjustment correctly", {
   # Constant:
   # Testhat that the first 9 are adjusted.
   expect_true(all((res_none - res_constant)[1:9] != 0))
+
+
+  # Test that CWR with high cwr_factor returns higher younger ages than with 0.3,
+  # the default:
+  expect_true(all(res_cwr_high[1:9] > res_cwr[1:9]))
 
 })
 

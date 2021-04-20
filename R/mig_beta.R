@@ -40,6 +40,10 @@
 #' \code{date1} is 2002, the first 8 cohorts are adjusted. Otherwise, the user
 #' can supply an integer.
 #'
+#' @param cwr_factor A numeric between 0 and 1 to which adjust the CWR method
+#' for the young ages from \code{child_adjust}. \strong{This is only used
+#' when \code{child_adjust} is \code{"cwr"}}.
+#'
 #' @param oldage_adjust The type of adjustment to apply to ages at and above
 #' \code{oldage_min}. \code{'beers'} applies a beers graduation method
 #' while \code{'mav'} applies a moving average with cascading on the tails.

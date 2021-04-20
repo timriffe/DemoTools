@@ -24,6 +24,7 @@ mig_beta(
   verbose = TRUE,
   child_adjust = c("none", "cwr", "constant"),
   childage_max = NULL,
+  cwr_factor = 0.3,
   oldage_adjust = c("none", "beers", "mav"),
   oldage_min = 65,
   ...
@@ -74,6 +75,10 @@ By default, set to \code{NULL}, which gets translated into all the cohorts
 between \code{date2} and \code{date1}. If \code{date2} is 2010 and
 \code{date1} is 2002, the first 8 cohorts are adjusted. Otherwise, the user
 can supply an integer.}
+
+\item{cwr_factor}{A numeric between 0 and 1 to which adjust the CWR method
+for the young ages from \code{child_adjust}. \strong{This is only used
+when \code{child_adjust} is \code{"cwr"}}.}
 
 \item{oldage_adjust}{The type of adjustment to apply to ages at and above
 \code{oldage_min}. \code{'beers'} applies a beers graduation method
