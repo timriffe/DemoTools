@@ -91,6 +91,7 @@ mig_beta <- function(
                      verbose = TRUE,
                      child_adjust = c("none", "cwr", "constant"),
                      childage_max = NULL,
+                     cwr_factor = 0.3,
                      oldage_adjust = c("none", "beers", "mav"),
                      oldage_min = 65,
                      ...) {
@@ -155,13 +156,12 @@ mig_beta <- function(
   # Sum over all ages to get a total decum_resid over all years for each age.
   mig <- stats::setNames(rowSums(mat_resid, na.rm = TRUE), mat_resid$age)
 
-
   # Child adjustment
   mig <-
     switch(
       child_adjust,
       "none" = mig,
-      "cwr" = mig_beta_cwr(mig, c1, c2, date1, date2, n_cohs = childage_max),
+      "cwr" = mig_beta_cwr(mig, c1, c2, date1, date2, n_cohs = childage_max, cwr_factor = cwr_factor),
       "constant" = mig_beta_constant_child(mig, c1, c2, ageMax = childage_max)
     )
 
@@ -189,7 +189,9 @@ mig_beta_cwr <- function(mig,
                          date2,
                          maternal_window = 30,
                          maternal_min = 15,
-                         n_cohs = NULL) {
+                         n_cohs = NULL,
+                         cwr_factor = 0.3) {
+
   age <- names2age(mig)
 
   # conservative guess at how many child ages to cover:
@@ -203,7 +205,7 @@ mig_beta_cwr <- function(mig,
     mat_ind <- a_min:a_max
     cwr_i <- (c1_females[i] / sum(c1_females[mat_ind]) + c2_females[i] / sum(c2_females[mat_ind])) / 2
     # proportional to maternal neg mig.
-    mig_out[i] <- cwr_i * sum(mig[mat_ind])
+    mig_out[i] <- cwr_factor * cwr_i * sum(mig[mat_ind])
   }
 
   mig_out
