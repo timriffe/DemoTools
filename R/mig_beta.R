@@ -26,12 +26,23 @@
 #' @param sex character string, either `"male"`, `"female"`, or `"both"`
 #' @param midyear logical. `FALSE` means all Jan 1 dates between `date1` and `date2` are returned. `TRUE` means all July 1 intercensal dates are returned.
 #' @param verbose logical. Shall we send informative messages to the console?
+#'
 #' @param child_adjust The method with which to adjust the youngest age groups.
 #' If \code{"none"}, no adjustment is applied (default). If
 #' child-woman ratio (\code{"cwr"}) is chosen, the first cohorts reflecting the
 #' difference between \code{date2 - date1} are adjusted (plus age 0). If
 #' child constant ratio (\code{"constant"}) is chosen, the first 15 age groups
 #' are adjusted.
+#'
+#' @param childage_max The maximum age from which to apply \code{child_adjust}.
+#' By default, set to \code{NULL}, which gets translated into all the cohorts
+#' between \code{date2} and \code{date1}. If \code{date2} is 2010 and
+#' \code{date1} is 2002, the first 8 cohorts are adjusted. Otherwise, the user
+#' can supply an integer.
+#'
+#' @param cwr_factor A numeric between 0 and 1 to which adjust the CWR method
+#' for the young ages from \code{child_adjust}. \strong{This is only used
+#' when \code{child_adjust} is \code{"cwr"}}.
 #'
 #' @param oldage_adjust The type of adjustment to apply to ages at and above
 #' \code{oldage_min}. \code{'beers'} applies a beers graduation method
@@ -83,6 +94,8 @@ mig_beta <- function(
                      midyear = FALSE,
                      verbose = TRUE,
                      child_adjust = c("none", "cwr", "constant"),
+                     childage_max = NULL,
+                     cwr_factor = 0.3,
                      oldage_adjust = c("none", "beers", "mav"),
                      oldage_min = 65,
                      ...) {
@@ -92,6 +105,11 @@ mig_beta <- function(
   # convert the dates into decimal numbers
   date1 <- dec.date(date1)
   date2 <- dec.date(date2)
+
+  # If null, assume, the cohorts between censuses date2 and dates2
+  if (is.null(childage_max)) {
+    childage_max <- as.integer(ceiling(date2) - floor(date1))
+  }
 
   res_list <- rup(
     c1 = c1,
@@ -142,14 +160,13 @@ mig_beta <- function(
   # Sum over all ages to get a total decum_resid over all years for each age.
   mig <- stats::setNames(rowSums(mat_resid, na.rm = TRUE), mat_resid$age)
 
-
   # Child adjustment
   mig <-
     switch(
       child_adjust,
       "none" = mig,
-      "cwr" = mig_beta_cwr(mig, c1, c2, date1, date2),
-      "constant" = mig_beta_constant_child(mig, c1, c2)
+      "cwr" = mig_beta_cwr(mig, c1, c2, date1, date2, n_cohs = childage_max, cwr_factor = cwr_factor),
+      "constant" = mig_beta_constant_child(mig, c1, c2, ageMax = childage_max)
     )
 
   # Old age adjustment
@@ -165,9 +182,7 @@ mig_beta <- function(
   ages_oldages <- as.integer(names(mig_oldage))
   mig[ages_oldages >= oldage_min] <- mig_oldage[ages_oldages >= oldage_min]
 
-  # Only keep ages 0-100 because otherwise beers (oldage_adjust) only returns
-  # ages until 100 making the return object inconsistent
-  mig[1:101]
+  mig
 }
 
 
@@ -177,11 +192,14 @@ mig_beta_cwr <- function(mig,
                          date1,
                          date2,
                          maternal_window = 30,
-                         maternal_min = 15) {
+                         maternal_min = 15,
+                         n_cohs = NULL,
+                         cwr_factor = 0.3) {
+
   age <- names2age(mig)
 
   # conservative guess at how many child ages to cover:
-  n_cohs <- as.integer(ceiling(date2) - floor(date1))
+  if (is.null(n_cohs)) n_cohs <- as.integer(ceiling(date2) - floor(date1))
 
   mig_out <- mig
   for (i in 1:n_cohs) {
@@ -191,7 +209,7 @@ mig_beta_cwr <- function(mig,
     mat_ind <- a_min:a_max
     cwr_i <- (c1_females[i] / sum(c1_females[mat_ind]) + c2_females[i] / sum(c2_females[mat_ind])) / 2
     # proportional to maternal neg mig.
-    mig_out[i] <- cwr_i * sum(mig[mat_ind])
+    mig_out[i] <- cwr_factor * cwr_i * sum(mig[mat_ind])
   }
 
   mig_out

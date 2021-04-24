@@ -1,6 +1,6 @@
 check_form <- function(x) {
   expect_is(x, "numeric")
-  expect_true(length(x) == 101)
+  expect_true(length(x) == 103)
   expect_true(all(!is.na(x)))
   expect_named(x)
 }
@@ -678,6 +678,19 @@ test_that("mig_beta applies child_adjustment correctly", {
       child_adjust = "cwr"
     )
 
+  res_cwr_high <-
+    mig_beta(
+      location = "Russian Federation",
+      sex = "male",
+      c1 = pop1m_rus2002,
+      c2 = pop1m_rus2010,
+      date1 = "2002-10-16",
+      date2 = "2010-10-25",
+      age1 = 0:100,
+      births = births,
+      child_adjust = "cwr",
+      cwr_factor = 0.9
+    )
 
   res_constant <-
     mig_beta(
@@ -699,18 +712,20 @@ test_that("mig_beta applies child_adjustment correctly", {
   # number of ages rather than test the exact equality of results.
 
   # CWR:
-  # Why 8? Because date1 and date2 differ by 8 years, so only the first 8
-  # cohorts are adjusted (+ age 0, making it 9).
+  # Why 9? Because date1 and date2 differ by 9 years, so only the first 9
+  # cohorts are adjusted.
   # Test that the first 9 are adjusted:
   expect_true(all((res_none - res_cwr)[1:9] != 0))
 
 
   # Constant:
-  # Why 15? Because it's a fixed argument in mig_adjust_constant set to 14
-  # plug age 0, making it 15.
-  # Testhat that the first 15 are adjusted.
-  expect_true(all((res_none - res_constant)[1:15] != 0))
+  # Testhat that the first 9 are adjusted.
+  expect_true(all((res_none - res_constant)[1:9] != 0))
 
+
+  # Test that CWR with high cwr_factor returns higher younger ages than with 0.3,
+  # the default:
+  expect_true(all(res_cwr_high[1:9] > res_cwr[1:9]))
 
 })
 
@@ -727,7 +742,7 @@ test_that("mig_beta applies oldage_adjustment correctly", {
       date2 = "2010-10-25",
       age1 = 0:100,
       births = births,
-      olage_adjust = "none"
+      oldage_adjust = "none"
     )
 
   res_beers <-
@@ -763,13 +778,13 @@ test_that("mig_beta applies oldage_adjustment correctly", {
   # beers:
   # expect that the 65+ are different because they're adjusted
   # Why 66? Because first age is 0 and total length is 101
-  expect_true(all((res_none - res_beers)[66:length(res_beers)] != 0))
+  expect_true(all((res_none - res_beers)[66:(length(res_beers) - 2)] != 0))
 
 
   # mav:
   # expect that the 65+ are different because they're adjusted
   # Why 66? Because first age is 0 and total length is 101
-  expect_true(all((res_none - res_mav)[66:length(res_mav)] != 0))
+  expect_true(all((res_none - res_mav)[66:(length(res_mav) - 2)] != 0))
 
 
   # Test that oldage_min controls the age from which to adjust
@@ -806,11 +821,11 @@ test_that("mig_beta applies oldage_adjustment correctly", {
   # beers:
   # expect that the 65+ are different because they're adjusted
   # Why 71? Because first age is 0 and total length is 101
-  expect_true(all((res_none - res_beers)[71:length(res_beers)] != 0))
+  expect_true(all((res_none - res_beers)[71:(length(res_beers) - 2)] != 0))
 
 
   # mav:
   # expect that the 65+ are different because they're adjusted
   # Why 71? Because first age is 0 and total length is 101
-  expect_true(all((res_none - res_mav)[71:length(res_mav)] != 0))
+  expect_true(all((res_none - res_mav)[71:(length(res_mav) - 2)] != 0))
 })

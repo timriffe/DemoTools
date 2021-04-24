@@ -31,6 +31,7 @@ Suggests:
     testthat (>= 2.1.0),
     knitr,
     rmarkdown,
+    markdown,
     DT,
     ggplot2
 RdMacros: Rdpack
