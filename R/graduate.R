@@ -11,7 +11,7 @@
 #'
 #' @return Numeric vector of counts for single year age groups.
 #'
-#' @details Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If \code{AgeInt} is given, its final value is used as the interval for the final age group. If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, *or* give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}.
+#' @details Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If \code{AgeInt} is given, its final value is used as the interval for the final age group. If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, *or* give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}.  `Age` be any age range, it does not need to start at 0.
 #'
 #' @export
 #' @examples
@@ -203,6 +203,8 @@ graduate_sprague_expand    <- function(
 
   # get the split coefficients
   # block for ages 0-9
+  
+  # TR: 5-5-2021, this assumes ages start at 0...
   g1g2                           <- matrix(
     c( 0.3616, -0.2768, 0.1488, -0.0336,
        0.0000, 0.2640, -0.0960, 0.0400,
@@ -893,6 +895,8 @@ graduate_beers_johnson <- function(Age0, pop5, pop1) {
 #' @details The PCLM method can also be used to graduate rates using an offset if both numerators and denominators are available. In this case \code{Value} is the event count and \code{offset} is person years of exposure. The denominator must match the length of \code{Value} or else the length of the final single age result \code{length(min(Age):OAnew)}.  This method can be used to redistribute counts in the open age group if \code{OAnew} gives sufficient space. Likewise, it can give a rate extrapolation beyond the open age.
 #' 
 #' If there are 0s in `Value`, these are replaced with a small value prior to fitting. If negatives result from the pclm fit, we retry after multiplying `Value` by 10, 100, or 1000, as sometimes a temporary rescale for fitting can help performance.
+#' 
+#' `Age` be any age range, it does not need to start at 0.
 #'
 #' @inheritParams graduate
 #' @param ... further arguments passed to \code{ungroup::pclm()}
@@ -1004,7 +1008,7 @@ graduate_pclm <- function(Value, Age, AgeInt, OAnew = max(Age), OAG = TRUE, ...)
 #' Graduate age groups using a monotonic spline.
 #' @description Take the cumulative sum of \code{Value} and then run a monotonic spline through it. The first differences split back single-age estimates of \code{Value}. Optionally keep the open age group untouched.
 #'
-#' @details The \code{"hyman"} method of \code{stats::splinefun()} is used to fit the spline because 1) it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages.
+#' @details The \code{"hyman"} method of \code{stats::splinefun()} is used to fit the spline because 1) it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages. `Age` be any age range, it does not need to start at 0.
 #' @inheritParams graduate
 #' @return Numeric. vector of single smoothed age counts.
 #' @importFrom stats splinefun
@@ -1069,9 +1073,9 @@ graduate_mono   <- function(
   # if the final age is Open, then we should remove it and then
   # stick it back on
 
-  AgePred               <- c(min(Age), cumsum(AgeInt))
+  AgePred               <- c(min(Age), cumsum(AgeInt) + min(Age))
   y                     <- c(0, cumsum(Value))
-  AgeS                  <- min(Age):sum(AgeInt)
+  AgeS                  <- min(Age):(sum(AgeInt)+ min(Age))
   # TR: changed from monoH.FC to hyman 3.3.2021
   y1                    <- splinefun(y ~ AgePred, method = "hyman")(AgeS)
   out                   <- diff(y1)
