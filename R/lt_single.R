@@ -97,14 +97,15 @@ lt_single_mx <- function(nMx,
 
   # get ax:
   nAx           <- rep(.5, N)
-  nAx[1]        <- lt_rule_1a0(
-                     rule = a0rule,
-                     M0 = nMx[1],
-                     IMR = IMR,
-                     Sex = Sex,
-                     region = region,
-                     SRB = SRB)
-
+  if (Age[1] == 0){
+    nAx[1]        <- lt_rule_1a0(
+                       rule = a0rule,
+                       M0 = nMx[1],
+                       IMR = IMR,
+                       Sex = Sex,
+                       region = region,
+                       SRB = SRB)
+  }
   # get qx (if pathological qx > 1, ax replaced, assumed constant hazard)
   qx            <- lt_id_ma_q(
                      nMx = nMx,
