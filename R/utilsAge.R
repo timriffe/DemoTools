@@ -324,6 +324,7 @@ groupOAG <- function(Value, Age, OAnew) {
   N        <- length(Value[Age <= OAnew])
   Value[N] <- sum(Value[Age >= OAnew])
   Value    <- Value[1:N]
+  names(Value) <- Age[1:N]
   Value
 }
 

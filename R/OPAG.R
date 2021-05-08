@@ -262,12 +262,13 @@ OPAG_r_min <- function(r,
 
   # 4) group w1Lx to same as Pop_fit
   ageN    <- rep(Age_fit, times = AgeInt_fit)
+  ageN    <- ageN[1:length(w1Lx)]
   stand   <- groupAges(w1Lx, Age = a1match, AgeN = ageN)
 
   # 5) rescale standard and Pop_fit to sum to 1
   stand   <- rescale_vector(stand, scale = 1)
   Pop_fit <- rescale_vector(Pop_fit, scale = 1)
-
+F
   # 6) return the residual
   sum(abs(stand - Pop_fit))
 }
@@ -454,13 +455,37 @@ OPAG <- function(Pop,
   # is_single(Age_Pop)
   # is_abridged(Age_Pop)
   
+  if (any(is.infinite(AgeInt_Pop))){
+    ind <- is.infinite(AgeInt_Pop)
+    # absurdly large
+    AgeInt_Pop[ind] <- 50
+  }
+  if (any(is.infinite(AgeInt_nLx))){
+    ind <- is.infinite(Age_nLx)
+    # absurdly large
+    Age_nLx[ind] <- 50
+  }
+  
+  
+  
   # setup, prelims:
   # 0) if Age_fit isn't given assume last two 10-year age groups.
+  
   if (is.null(Age_fit)){
     OA         <- max(Age_Pop)
     Age_fit    <- OA - c(20,10)
     AgeInt_fit <- c(10,10)
     stopifnot(Age_fit %in% Age_Pop)
+  }
+  if (is.null(AgeInt_fit)){
+    ind <- Age_Pop %in% Age_fit
+    AgeInt_fit <- AgeInt_Pop[ind]
+  }
+  if (any(!Age_fit %in% Age_Pop)){
+    ind <- Age_fit %in% Age_Pop
+    Age_fit <- Age_fit[ind]
+    AgeInt_fit <- AgeInt_fit[ind]
+    stopifnot(length(Age_fit) > 1)
   }
 
   # 1) get Pop_fit
@@ -500,6 +525,7 @@ OPAG <- function(Pop,
   Age_grafted <- c(Age_Pop[Age_Pop < Redistribute_from],
                    Age_nLx[Age_nLx >= Redistribute_from])
 
+  names(Pop_grafted) <- Age_grafted
   # 7) potentially group down OAG
   Pop_out <- groupOAG(Value = Pop_grafted,
                       Age = Age_grafted,

@@ -1424,7 +1424,7 @@ graduate <- function(Value,
   }
 
   n  <- length(out)
-  a1 <- min(Age):(n - 1)
+  a1 <- min(Age):(min(Age) + n - 1)
 
   # detect negatives. Have default option to replace.
   # Favor quick over perfect, since this only can arise
