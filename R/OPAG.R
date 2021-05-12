@@ -10,6 +10,10 @@
 # [ ] test OPAG_simple() with non-single ages groups, update documentation if necessary.
 # [ ] harmonize args betwenn OPAG_simple and OPAG family.
 
+# [ ] make AgeInt not required
+# [ ] document Age_fit better
+# [ ] change open age formula in warp function
+
 # Author: tim
 ###############################################################################
 # distribute population in open age group over higher ages.
