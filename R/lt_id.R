@@ -277,7 +277,7 @@ lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
 #' @param nLx numeric vector of lifetable exposure.
 #' @param N integer, the age width for survivor ratios, either 5 or 1. Default 5.
 #' @export
-lt_id_Ll_S      <- function(nLx, lx, AgeInt, N = c(5, 1)) {
+lt_id_Ll_S      <- function(nLx, lx, Age, AgeInt, N = c(5, 1)) {
   n               <- length(nLx)
   stopifnot(length(lx) == n)
   # either we're in 1 or 5 year age groups
@@ -289,7 +289,9 @@ lt_id_Ll_S      <- function(nLx, lx, AgeInt, N = c(5, 1)) {
     # double check because assuming abridged nLx is given...
     stopifnot(length(AgeInt) == n)
     ageintcompare <- inferAgeIntAbr(vec = nLx)
-    stopifnot(all(ageintcompare[-n] == AgeInt[-n]))
+    if (Age[1] == 0){
+      stopifnot(all(ageintcompare[-n] == AgeInt[-n]))
+    }
     # birth until 0-4
     Sx[1]         <- (nLx[1] + nLx[2]) / ((AgeInt[1] + AgeInt[2]) * lx[1])
     # second age group is survival age 0-4 to age 5-9
