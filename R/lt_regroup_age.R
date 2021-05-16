@@ -53,7 +53,7 @@ lt_single2abridged <- function(lx,
   nAx[N] <- ex[N]
   nMx    <- ndx/nLx
   Tx     <- lt_id_L_T(nLx)
-  Sx     <- lt_id_Ll_S(nLx, lx, AgeInt, N = 5)
+  Sx     <- lt_id_Ll_S(nLx, lx, Age, AgeInt, N = 5)
   
   out <- data.frame(
     Age = Age5,

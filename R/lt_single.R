@@ -147,7 +147,7 @@ lt_single_mx <- function(nMx,
   AgeInt[N]     <- NA
 
   # Survival ratios computed only after  nLx is closed out
-  Sx            <- lt_id_Ll_S(nLx, lx, AgeInt = AgeInt, N = 1)
+  Sx            <- lt_id_Ll_S(nLx, lx, Age, AgeInt = AgeInt, N = 1)
 
   if (OAG) {
     if (OAnew == OA) {

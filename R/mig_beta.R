@@ -1,3 +1,8 @@
+# [ ] Jan 1 thing not ideal. 
+# [ ] C2 and last year can produce big negative in age 0.
+#     maybe cut it off and not return estimate for partial year
+# [ ] use Lx ratios to project
+
 #' Estimate intercensal migration by comparing census population, by age and
 #' sex, to the results of a RUP projection.
 #'
