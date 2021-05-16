@@ -268,7 +268,7 @@ OPAG_r_min <- function(r,
   # 5) rescale standard and Pop_fit to sum to 1
   stand   <- rescale_vector(stand, scale = 1)
   Pop_fit <- rescale_vector(Pop_fit, scale = 1)
-F
+
   # 6) return the residual
   sum(abs(stand - Pop_fit))
 }
