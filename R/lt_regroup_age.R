@@ -218,9 +218,9 @@ lt_abridged2single <- function(
   
   # redefine Age and extrapFit for single year ages and new maxage
   a1        <- 1:length(M) - 1
-  extrapFit  <- a1[a1 >= min(extrapFit, (max(Age)-20)) & a1 <= max(Age)] 
+  extrapFit  <- a1[a1 >= min(extrapFit, (max(a1)-20)) & a1 <= max(Age)] 
   # always refit from 110 even if extrapFrom > 110
-  extrapFrom <- min(max(Age), 110)
+  extrapFrom <- min(max(a1), 110)
   
   # compute life table columns from single year mx
   LT <- lt_single_mx(nMx = M, 
