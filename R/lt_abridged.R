@@ -318,27 +318,30 @@ lt_abridged <- function(Deaths = NULL,
     momega       <- nMx[length(nMx)]
   }
   # --------------------------------
-  # begin extrapolation:
-  # TR: 13 Oct 2018. always extrapolate to 130 no matter what,
-  # then truncate to OAnew in all cases. This will ensure more robust closeouts
-  # and an e(x) that doesn't depend on OAnew. 130 is used similarly by HMD.
-  x_extr         <- seq(extrapFrom, 130, by = 5)
-
-  Mxnew          <- lt_rule_m_extrapolate(
-                      x = Age,
-                      mx = nMx,
-                      x_fit = extrapFit,
-                      x_extr = x_extr,
-                      law = extrapLaw,
-                      ...)
-
-  nMxext         <- Mxnew$values
-  Age2           <- names2age(nMxext)
-
-  keepi          <- Age2 < extrapFrom
-  nMxext[keepi]  <- nMx[Age < extrapFrom]
-  nMx            <- nMxext
-  Age            <- Age2
+  
+  if (max(Age) < 130){
+    # begin extrapolation:
+    # TR: 13 Oct 2018. always extrapolate to 130 no matter what,
+    # then truncate to OAnew in all cases. This will ensure more robust closeouts
+    # and an e(x) that doesn't depend on OAnew. 130 is used similarly by HMD.
+    x_extr         <- seq(extrapFrom, 130, by = 5)
+  
+    Mxnew          <- lt_rule_m_extrapolate(
+                        x = Age,
+                        mx = nMx,
+                        x_fit = extrapFit,
+                        x_extr = x_extr,
+                        law = extrapLaw,
+                        ...)
+  
+    nMxext         <- Mxnew$values
+    Age2           <- names2age(nMxext)
+  
+    keepi          <- Age2 < extrapFrom
+    nMxext[keepi]  <- nMx[Age < extrapFrom]
+    nMx            <- nMxext
+    Age            <- Age2
+  }
   AgeInt         <- age2int(
                       Age,
                       OAG = TRUE,
