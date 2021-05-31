@@ -39,6 +39,14 @@ versionIncrement(
 		maxdigits = c(2,2,3),# maybe 4 required?
 		README = TRUE)       # update README dev version badge
 
+# add line to immediately commit and tag.
+library(magrittr)
+library(git2r)
+D <- readLines("DESCRIPTION") 
+vs <- D[grepl(D,pattern = "Version: ")]  %>%  gsub(pattern = "Version: ", replacement = "")  %>% 
+  paste0("v",.)
+commit(message = vs)
+tag()
 # run this to get access to already-written functions
 shhh(load_all())
 
