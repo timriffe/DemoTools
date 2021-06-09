@@ -28,3 +28,5 @@ Spreadsheets
 rcppExports.cpp
 stanExports_*
 ^data-raw$
+version_lookup.R
+version_lookup.csv

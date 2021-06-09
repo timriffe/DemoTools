@@ -18,6 +18,8 @@ shhh <- function(expr){
 
 library(devtools)
 library(TimUtils)
+library(magrittr)
+library(git2r)
 #install.packages("backports")
 #install.packages("roxygen2")
 #install_github("hadley/devtools")
@@ -40,13 +42,17 @@ versionIncrement(
 		README = TRUE)       # update README dev version badge
 
 # add line to immediately commit and tag.
-library(magrittr)
-library(git2r)
-D <- readLines("DESCRIPTION") 
-vs <- D[grepl(D,pattern = "Version: ")]  %>%  gsub(pattern = "Version: ", replacement = "")  %>% 
-  paste0("v",.)
-commit(message = vs)
-tag()
+
+# D <- readLines("DESCRIPTION") 
+# vs <- D[grepl(D,pattern = "Version: ")]  %>%  gsub(pattern = "Version: ", replacement = "")  %>% 
+#   paste0("v",.)
+# commit(message = vs,all=TRUE)
+# tag(name =vs,message = vs)
+# push(refspec = vs)
+
+# https://raw.githubusercontent.com/timriffe/DemoTools/59a0f4e50b7696c185a3c9d4e582426f88aac84f/DESCRIPTION
+
+
 # run this to get access to already-written functions
 shhh(load_all())
 
