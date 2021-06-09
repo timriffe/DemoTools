@@ -67,9 +67,9 @@ install_DemoTools_version <- function(version = NULL, date = NULL, hash = NULL){
     out <- 1
   }
   
+  # try date
   if (is.null(out)){
     if (!is.null(date)){
-
         dateL <- 
           versions %>% 
           mutate(dist = abs(date - date)) %>% 
@@ -86,10 +86,12 @@ install_DemoTools_version <- function(version = NULL, date = NULL, hash = NULL){
           cat("date not in the (incomplete) set returned by get_DemoTools_versions()
               using the closest date in that subset instead:", dateL,"\n")
         }
-    }
+      }
+  }
+  
+  # try version
     if (is.null(out)){
       if (!is.null(version)){
-        
         hash <- 
           versions %>% 
           dplyr::filter(version == version) %>% 
@@ -103,7 +105,8 @@ install_DemoTools_version <- function(version = NULL, date = NULL, hash = NULL){
               in the lookup table.\n")
         }
       }
-    
+    }
+  # catch-all
     if (is.null(out)){
       cat("Looks like no installation attempted. For the most recent version try:
           remotes::install_github('timriffe/DemoTools')
@@ -111,11 +114,11 @@ install_DemoTools_version <- function(version = NULL, date = NULL, hash = NULL){
           out from the lookup table.")
     }
     
-  }
-  
-  
   
 }
+  
+  
+
 
 
 
