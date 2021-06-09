@@ -1,40 +1,40 @@
 
 if (system("whoami",intern=TRUE) == "tim"){
-library(gitsum)
-library(tidyverse)
-library(readr)
-library(lubridate)
-
-get_versions <- function(hash){
-  D <- readLines(paste0("https://raw.githubusercontent.com/timriffe/DemoTools/",hash,"/DESCRIPTION") )
-  D[grepl(D,pattern = "Version: ")]  %>%  
-    gsub(pattern = "Version: ", replacement = "") 
-}
-
-
-DESC_changes <- 
-  parse_log_detailed() %>% 
-  unnest_log() %>% 
-  dplyr::filter(changed_file == "DESCRIPTION") %>% 
-  group_by(lubridate::as_date(date)) %>% 
-  slice(n()) %>% 
-  ungroup() %>% 
-  mutate(date = as_date(date))
-    #date = paste(year(date),month(date),day(date),sep="-"))
-# DESC_changes %>% 
-#   mutate(get_versions(hash))
-vers <- list()
-for (i in 1:nrow(DESC_changes)){
-  vers[[i]] <- try(get_versions(DESC_changes$hash[i]))
-}
-DESC_changes$version <- unlist(vers)
-
-version_lookup <- 
-  DESC_changes %>% 
-  select(date,version, hash)
-
-write_csv(version_lookup,"version_lookup.csv")
-
+  library(gitsum)
+  library(tidyverse)
+  library(readr)
+  library(lubridate)
+  
+  get_versions <- function(hash){
+    D <- readLines(paste0("https://raw.githubusercontent.com/timriffe/DemoTools/",hash,"  /DESCRIPTION") )
+    D[grepl(D,pattern = "Version: ")]  %>%  
+      gsub(pattern = "Version: ", replacement = "") 
+  }
+  
+  
+  DESC_changes <- 
+    parse_log_detailed() %>% 
+    unnest_log() %>% 
+    dplyr::filter(changed_file == "DESCRIPTION") %>% 
+    group_by(lubridate::as_date(date)) %>% 
+    slice(n()) %>% 
+    ungroup() %>% 
+    mutate(date = as_date(date))
+      #date = paste(year(date),month(date),day(date),sep="-"))
+  # DESC_changes %>% 
+  #   mutate(get_versions(hash))
+  vers <- list()
+  for (i in 1:nrow(DESC_changes)){
+    vers[[i]] <- try(get_versions(DESC_changes$hash[i]))
+  }
+  DESC_changes$version <- unlist(vers)
+  
+  version_lookup <- 
+    DESC_changes %>% 
+    select(date,version, hash)
+  
+  write_csv(version_lookup,"version_lookup.csv")
+  
 }
 
 get_DemoTools_versions <- function(){
@@ -90,46 +90,31 @@ install_DemoTools_version <- function(version = NULL, date = NULL, hash = NULL){
   }
   
   # try version
-    if (is.null(out)){
-      if (!is.null(version)){
-        hash <- 
-          versions %>% 
-          dplyr::filter(version == version) %>% 
-          dplyr::pull(hash)
-        if (length(hash) == 1){
-          remotes::install_github("timriffe/DemoTools", ref = hash)  
-          out <- 1
-        } else {
-          cat("version not in the set returned by get_DemoTools_versions()
-              we didn't try approximating. Have a look at the version snapshots available
-              in the lookup table.\n")
-        }
+  if (is.null(out)){
+    if (!is.null(version)){
+      hash <- 
+        versions %>% 
+        dplyr::filter(version == version) %>% 
+        dplyr::pull(hash)
+      if (length(hash) == 1){
+        remotes::install_github("timriffe/DemoTools", ref = hash)  
+        out <- 1
+      } else {
+        cat("version not in the set returned by get_DemoTools_versions()
+            we didn't try approximating. Have a look at the version snapshots available
+            in the lookup table.\n")
       }
     }
+  }
   # catch-all
-    if (is.null(out)){
-      cat("Looks like no installation attempted. For the most recent version try:
-          remotes::install_github('timriffe/DemoTools')
-          otherwise easiest thing to roll back is to pick something 
-          out from the lookup table.")
-    }
+  if (is.null(out)){
+    cat("Looks like no installation attempted. For the most recent version try:
+        remotes::install_github('timriffe/DemoTools')
+        otherwise easiest thing to roll back is to pick something 
+        out from the lookup table.")
+  }
     
   
 }
   
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
