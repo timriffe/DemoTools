@@ -22,9 +22,9 @@ lt_abridged(
   SRB = 1.05,
   OAG = TRUE,
   OAnew = max(Age),
-  extrapLaw = "kannisto",
+  extrapLaw = NULL,
   extrapFrom = max(Age),
-  extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
+  extrapFit = NULL,
   ...
 )
 }
@@ -64,7 +64,7 @@ lt_abridged(
 \item{OAnew}{integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.}
 
 \item{extrapLaw}{character. If extrapolating, which parametric mortality law should be invoked? Options include
-\code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.}
+\code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"} if the highest age is at least 90, otherwise \code{"makeham"}. See details.}
 
 \item{extrapFrom}{integer. Age from which to impute extrapolated mortality.}
 

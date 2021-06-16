@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
       <h1 data-toc-skip>Age-heaping indices with DemoTools</h1>
                         <h4 class="author">Jose Manuel Aburto, Ilya Kashnitsky, Marius Pascariu, Tim Riffe</h4>
             
-            <h4 class="date">2020-12-22</h4>
+            <h4 class="date">2021-04-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/Age-heaping_quality_with_Demotools.Rmd"><code>vignettes/Age-heaping_quality_with_Demotools.Rmd</code></a></small>
       <div class="hidden name"><code>Age-heaping_quality_with_Demotools.Rmd</code></div>
@@ -135,7 +135,7 @@
 <span class="co"># 'pop1m_ind' available as package data</span>
 <span class="va">Age</span>   <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">pop1m_ind</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>
  
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">Age</span>, <span class="va">pop1m_ind</span>, type <span class="op">=</span> <span class="st">'o'</span><span class="op">)</span>  </code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Age</span>, <span class="va">pop1m_ind</span>, type <span class="op">=</span> <span class="st">'o'</span><span class="op">)</span>  </code></pre></div>
 <p><img src="Age-heaping_quality_with_Demotools_files/figure-html/unnamed-chunk-1-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>The figure above has some clear age irregularities. For example, there is a consistent clustering around ages ending in zero and five. In principle, a post-enumeration survey or a sample interview should give more information on the reasons why these irregularities appear in the data <span class="citation">(Siegel Jacob and Swanson David 2004)</span>. However, not every country has the resources to conduct a survey or post-enumeration process. Therefore, various arithmetic techniques have been developed for measuring heaping on individual ages, terminal digits, and age ranges. These estimate the degree of bias, but they do not correct it <span class="citation">(Booth and Gerland 2015)</span>. The simplest way to analyze age-heaping is by assuming that the true numbers are <em>rectangularly</em> distributed over some age range that includes centered the age in question <span class="citation">(Siegel Jacob and Swanson David 2004)</span>.</p>
 <p>Several indices of age-heaping exist. <code>DemoTools</code> implements Whipple <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>, Myers, Bachi <span class="citation">(Bachi 1951)</span>, Coale-Li <span class="citation">(Coale and Li 1991)</span>, Noumbissi <span class="citation">(Noumbissi 1992)</span>, Spoorenberg <span class="citation">(Spoorenberg and Dutreuilh 2007)</span>, Jdanov <span class="citation">(Jdanov 2008)</span>, and Kannisto <span class="citation">(Kannisto 1999)</span> age-heaping indices. Although the literal interpretation of these indices may vary, they tend to covary strongly when applied to the same data and age-ranges, so for making quick judgements of the degree of heaping over a large collection of data it may not be necessary to apply more than one or two. We also offer two new measures designed to test for irregularities in data in 5-year age bins.</p>
@@ -242,7 +242,7 @@ WI = \frac{D_{95}+D{100}+D{105}}{\sum_{i = 93}^{107}D_i}
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">P5</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/groupAges.html">groupAges</a></span><span class="op">(</span><span class="va">pop1m_ind</span>, N <span class="op">=</span> <span class="fl">5</span>, <span class="fl">0</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span>
 <span class="va">A5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">A5</span>,<span class="va">P5</span>,type<span class="op">=</span><span class="st">'o'</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">A5</span>,<span class="va">P5</span>,type<span class="op">=</span><span class="st">'o'</span><span class="op">)</span></code></pre></div>
 <p><img src="Age-heaping_quality_with_Demotools_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;"> We can test for this kind of distortion using <code><a href="../reference/check_heaping_sawtooth.html">check_heaping_sawtooth()</a></code> like so:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/check_heaping_sawtooth.html">check_heaping_sawtooth</a></span><span class="op">(</span><span class="va">pop1m_ind</span>, Age <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">100</span>, ageMin <span class="op">=</span> <span class="fl">40</span>, ageMax <span class="op">=</span> <span class="fl">80</span><span class="op">)</span>
@@ -312,7 +312,7 @@ R_{0-5} = \frac{(R_{40}+R_{50}+R_{60}+R_{70})}{R_{45}+R_{55}+R_{65}+R_{75}}
 
 
       <footer><div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
       <h1 data-toc-skip>Smoothing with DemoTools</h1>
                         <h4 class="author">Jose Manuel Aburto, Ilya Kashnitsky, Marius Pascariu, Tim Riffe</h4>
             
-            <h4 class="date">2020-12-22</h4>
+            <h4 class="date">2021-04-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/smoothing_with_demotools.Rmd"><code>vignettes/smoothing_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>smoothing_with_demotools.Rmd</code></div>
@@ -134,23 +134,26 @@
 <span class="co"># 'pop1m_ind' available as package data</span>
 <span class="va">Value</span> <span class="op">&lt;-</span> <span class="va">pop1m_ind</span>
 <span class="va">Age</span>   <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-  
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="va">Age</span>, <span class="va">Value</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">'l'</span>,
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Age</span>, <span class="va">Value</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">'l'</span>,
      ylab <span class="op">=</span> <span class="st">'Proportion of population'</span>,
      xlab <span class="op">=</span> <span class="st">'Single age'</span>,
-     main <span class="op">=</span> <span class="st">'Unsmoothed population'</span><span class="op">)</span> </code></pre></div>
+     main <span class="op">=</span> <span class="st">'Unsmoothed population'</span><span class="op">)</span></code></pre></div>
 <p><img src="smoothing_with_demotools_files/figure-html/unnamed-chunk-1-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
 <div id="carrier-farrag" class="section level3">
 <h3 class="hasAnchor">
 <a href="#carrier-farrag" class="anchor"></a>Carrier-Farrag</h3>
 <p>This method considers the ratio, <span class="math inline">\(K\)</span>, of the population in one quinary age-group to the next one <span class="citation">(Carrier and Farrag 1959)</span>. If <span class="math inline">\(v_0\)</span> is a denary age-group, and <span class="math inline">\(v_{-2}\)</span> and <span class="math inline">\(v_2\)</span> are the preceding and succeeding age-groups, respectively, and if <span class="math inline">\(K^4 = v_{-2}/v_2\)</span>. Then, the older quinary group <span class="math inline">\(v_1\)</span> can be estimated by <span class="math inline">\(v_0/(1+K)\)</span>. This equation connects the population in two ten-year age groups separated by an interval of ten years. Therefore the value <span class="math inline">\(K\)</span> can be seen as the middle point between the two ten-year age groups. To run this method in <code>DemoTools</code> the function <code>afesmth</code> is used with the option ‘Carrier-Farrag’. The figure below shows the smoothed population by five-year age groups.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span>Value <span class="op">=</span> <span class="va">Value</span>, 
-    Age <span class="op">=</span> <span class="va">Age</span>, 
-    method <span class="op">=</span> <span class="st">"Carrier-Farrag"</span>, 
-    OAG <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<code class="sourceCode R">
+<span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span>
+  Value <span class="op">=</span> <span class="va">Value</span>,
+  Age <span class="op">=</span> <span class="va">Age</span>,
+  method <span class="op">=</span> <span class="st">"Carrier-Farrag"</span>,
+  OAG <span class="op">=</span> <span class="cn">TRUE</span>
+<span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">cf</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span>, type<span class="op">=</span> <span class="st">'l'</span>,
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">cf</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span>, type<span class="op">=</span> <span class="st">'l'</span>,
      ylab <span class="op">=</span> <span class="st">'Proportion of population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age-group'</span>,main <span class="op">=</span> <span class="st">'Smoothed population with Carrier-Farrag'</span>,xaxt<span class="op">=</span><span class="st">'n'</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="st">'-'</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">104</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>, at <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -177,12 +180,15 @@ _{5}P_{x} = \frac{ -_{10}P_{x-20}+ 5 _{10}P_{x-10}+ 8 _{10}P_{x}}{24}.
 \end{equation*}\]</span></p>
 <p>To perform this model the option ‘Arriaga’ must be chosen in the ‘agesmth’ function.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span>Value <span class="op">=</span> <span class="va">Value</span>, 
-    Age <span class="op">=</span> <span class="va">Age</span>, 
-    method <span class="op">=</span> <span class="st">"Arriaga"</span>, 
-    OAG <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<code class="sourceCode R">
+<span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span>
+  Value <span class="op">=</span> <span class="va">Value</span>,
+  Age <span class="op">=</span> <span class="va">Age</span>,
+  method <span class="op">=</span> <span class="st">"Arriaga"</span>,
+  OAG <span class="op">=</span> <span class="cn">TRUE</span>
+<span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">cf</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span>, type<span class="op">=</span> <span class="st">'l'</span>,
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">cf</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span>, type<span class="op">=</span> <span class="st">'l'</span>,
      ylab <span class="op">=</span> <span class="st">'Proportion of population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age-group'</span>,main <span class="op">=</span> <span class="st">'Smoothed population with Arriaga'</span>,xaxt<span class="op">=</span><span class="st">'n'</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="st">'-'</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">104</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>, at <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -199,16 +205,22 @@ _{5}P_{x+5} = _{10}P_{x} - _{5}P_{x}.
 \end{equation*}\]</span></p>
 <p>To implement this smoothing process select the <code>KKN</code> inthe <code>agesmth</code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span>Value <span class="op">=</span> <span class="va">Value</span>, 
-    Age <span class="op">=</span> <span class="va">Age</span>, 
-    method <span class="op">=</span> <span class="st">"KKN"</span>, 
-    OAG <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># TODO smooth_age_5 is throwing an internal error</span>
+<span class="co"># Error in tapply(Value, AgeN, sum) : arguments must have same length</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">cf</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span>, type<span class="op">=</span> <span class="st">'l'</span>,
+<span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span>
+  Value <span class="op">=</span> <span class="va">Value</span>,
+  Age <span class="op">=</span> <span class="va">Age</span>,
+  method <span class="op">=</span> <span class="st">"KKN"</span>,
+  OAG <span class="op">=</span> <span class="cn">TRUE</span>
+<span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">cf</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span>, type<span class="op">=</span> <span class="st">'l'</span>,
      ylab <span class="op">=</span> <span class="st">'Proportion of population'</span>,
-     xlab <span class="op">=</span> <span class="st">'Age-group'</span>,main <span class="op">=</span> <span class="st">'Smoothed population with Karup-King-Newton '</span>,xaxt<span class="op">=</span><span class="st">'n'</span><span class="op">)</span>
+     xlab <span class="op">=</span> <span class="st">'Age-group'</span>,main <span class="op">=</span> <span class="st">'Smoothed population with Karup-King-Newton '</span>,
+     xaxt<span class="op">=</span><span class="st">'n'</span><span class="op">)</span>
+
 <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="st">'-'</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">104</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>, at <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="smoothing_with_demotools_files/figure-html/unnamed-chunk-4-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
 </div>
 <div id="united-nations" class="section level3">
 <h3 class="hasAnchor">
@@ -218,8 +230,9 @@ _5\hat{P}_x = \frac{- _5P_{x-10} + 4\, _5P_{x-5} + 10\, _5P_{x} +4\, _5P_{x+5} -
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(_5\hat{P}_x\)</span> represents the smoothed population between ages <span class="math inline">\(x\)</span> and <span class="math inline">\(x+4\)</span>. This method can be applied in <code>DemoTools</code> using the <code>"United Nations</code> method of <code><a href="../reference/smooth_age_5.html">smooth_age_5()</a></code> as follows</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"> <span class="va">un_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span>Value <span class="op">=</span> <span class="va">Value</span>,Age <span class="op">=</span> <span class="va">Age</span>,method<span class="op">=</span><span class="st">"United Nations"</span>,OAG <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">un_result</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">un_result</span>,na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, type<span class="op">=</span> <span class="st">'l'</span>,
+<code class="sourceCode R">
+<span class="va">un_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span>Value <span class="op">=</span> <span class="va">Value</span>,Age <span class="op">=</span> <span class="va">Age</span>,method<span class="op">=</span><span class="st">"United Nations"</span>,OAG <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">un_result</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">un_result</span>,na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, type<span class="op">=</span> <span class="st">'l'</span>,
     ylab <span class="op">=</span> <span class="st">'Proportion of population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age-group'</span>,main <span class="op">=</span> <span class="st">'Smoothed population with UN Method'</span>,xaxt<span class="op">=</span><span class="st">'n'</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="st">'-'</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">104</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>, at <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -234,8 +247,9 @@ _{10}\hat{P}_x = \frac{_{10}P_{x-10} + 2\, _10P_{x} + _{10}P_{x+10}}{4}
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(_{10}\hat{P}_x\)</span> represents the smoothed poopulation ages <span class="math inline">\(x\)</span> to <span class="math inline">\(x+9\)</span>. It is implemented in <code>DemoTools</code> as follows</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"> <span class="va">strong_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span>Value <span class="op">=</span> <span class="va">Value</span>,Age <span class="op">=</span> <span class="va">Age</span>,method<span class="op">=</span><span class="st">"Strong"</span>,OAG <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">strong_result</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">strong_result</span>,na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, type<span class="op">=</span> <span class="st">'l'</span>,
+<code class="sourceCode R">
+<span class="va">strong_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span>Value <span class="op">=</span> <span class="va">Value</span>,Age <span class="op">=</span> <span class="va">Age</span>,method<span class="op">=</span><span class="st">"Strong"</span>,OAG <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">strong_result</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">strong_result</span>,na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, type<span class="op">=</span> <span class="st">'l'</span>,
     ylab <span class="op">=</span> <span class="st">'Proportion of population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age-group'</span>,main <span class="op">=</span> <span class="st">'Smoothed population with Strong formula'</span>,xaxt<span class="op">=</span><span class="st">'n'</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="st">'-'</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">104</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>, at <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -246,8 +260,9 @@ _{10}\hat{P}_x = \frac{_{10}P_{x-10} + 2\, _10P_{x} + _{10}P_{x+10}}{4}
 <a href="#zigzag" class="anchor"></a>Zigzag</h3>
 <p>The implementatios of this methods assumes that persons incorrectly reported in peak age groups are evenly divided between the two adjacent age groups <span class="citation">(Feeney 2013)</span>. It relies in minimizing a measure of “roughness”: consider the difference <span class="math inline">\(R[i]\)</span> between the number of persons in the <span class="math inline">\(i\)</span>-th age group and the average of the numbers in adjacent age groups, <span class="math inline">\(R[i] = N[i] - (N[i -1] + N[i + 1])/2\)</span>. If the distribution displays zigzag, the <span class="math inline">\(R[i]\)</span> will relatively large. If the distribution is smooth, they will be relatively small. This suggests taking the sum of squares of these differences as the measure of roughness <span class="citation">(Feeney 2013)</span>. It can be implemented in <code>DemoTools</code> as follows</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"> <span class="va">zz_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"Zigzag"</span>,OAG <span class="op">=</span> <span class="cn">TRUE</span>, ageMin <span class="op">=</span> <span class="fl">0</span>, ageMax <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">zz_result</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">zz_result</span>,na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, type<span class="op">=</span> <span class="st">'l'</span>,
+<code class="sourceCode R">
+<span class="va">zz_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"Zigzag"</span>,OAG <span class="op">=</span> <span class="cn">TRUE</span>, ageMin <span class="op">=</span> <span class="fl">0</span>, ageMax <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="va">zz_result</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">zz_result</span>,na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>, type<span class="op">=</span> <span class="st">'l'</span>,
     ylab <span class="op">=</span> <span class="st">'Proportion of population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age-group'</span>,main <span class="op">=</span> <span class="st">'Smoothed population with Zig Zag formula'</span>,xaxt<span class="op">=</span><span class="st">'n'</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>,<span class="st">'-'</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">104</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>, at <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -258,8 +273,9 @@ _{10}\hat{P}_x = \frac{_{10}P_{x-10} + 2\, _10P_{x} + _{10}P_{x+10}}{4}
 <a href="#polynomial" class="anchor"></a>Polynomial</h3>
 <p>A more general way is to smooth trhough linear models. Polynomial fitting is used to mooth data over age or time fitting linear models. It can be tweaked by changing the degree and by either log or power transforming and can be used on any age groups, including irregularly spaced, single age, or 5-year age groups. It can be implemented in <code>DemoTools</code> with the function <code>agesmth1</code> and the option <code>poly</code> as follows</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"> <span class="va">poly_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/agesmth1.html">agesmth1</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method<span class="op">=</span><span class="st">"poly"</span>, OAG <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>,<span class="va">poly_result</span>, type<span class="op">=</span> <span class="st">'l'</span>,
+<code class="sourceCode R">
+<span class="va">poly_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/agesmth1.html">agesmth1</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method<span class="op">=</span><span class="st">"poly"</span>, OAG <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>,<span class="va">poly_result</span>, type<span class="op">=</span> <span class="st">'l'</span>,
     ylab <span class="op">=</span> <span class="st">'Proportion of population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age-group'</span>,main <span class="op">=</span> <span class="st">'Smoothed population with Poly formula'</span>,xaxt<span class="op">=</span><span class="st">'n'</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>,<span class="va">Value</span><span class="op">)</span>
@@ -271,13 +287,19 @@ _{10}\hat{P}_x = \frac{_{10}P_{x-10} + 2\, _10P_{x} + _{10}P_{x+10}}{4}
 <a href="#loess" class="anchor"></a>LOESS</h3>
 <p>LOESS (locally weighted smoothing) helps to smooth data over age, preserving the open age group if necessary. It is a popular tool to create a smooth line through a timeplot or scatter plot. It can be tweaked by changing the degree and by either log or power transforming and can be used on any age groups, including irregularly spaced, single age, or 5-year age groups.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"> <span class="va">loess_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/agesmth1.html">agesmth1</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method<span class="op">=</span><span class="st">"loess"</span>, OAG <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>,<span class="va">loess_result</span>, type<span class="op">=</span> <span class="st">'l'</span>,
+<code class="sourceCode R">
+<span class="va">loess_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/agesmth1.html">agesmth1</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method<span class="op">=</span><span class="st">"loess"</span>, OAG <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>,<span class="va">loess_result</span>, type<span class="op">=</span> <span class="st">'l'</span>,
     ylab <span class="op">=</span> <span class="st">'Proportion of population'</span>,
      xlab <span class="op">=</span> <span class="st">'Age-group'</span>,main <span class="op">=</span> <span class="st">'Smoothed population with LOESS formula'</span>,xaxt<span class="op">=</span><span class="st">'n'</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">100</span>,<span class="va">Value</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span><span class="op">(</span><span class="fl">1</span>, labels <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span>, at <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="smoothing_with_demotools_files/figure-html/unnamed-chunk-9-1.png" width="\textwidth" style="display: block; margin: auto;"> ##References</p>
+<p><img src="smoothing_with_demotools_files/figure-html/unnamed-chunk-9-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
+</div>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
 <div id="refs" class="references">
 <div id="ref-arriaga1994population">
 <p>Arriaga, Eduardo E, Peter D Johnson, and Ellen Jamison. 1994. <em>Population Analysis with Microcomputers</em>. Vol. 1. Bureau of the Census.</p>
@@ -302,7 +324,6 @@ _{10}\hat{P}_x = \frac{_{10}P_{x-10} + 2\, _10P_{x} + _{10}P_{x+10}}{4}
 </div>
 </div>
 </div>
-</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -316,7 +337,7 @@ _{10}\hat{P}_x = \frac{_{10}P_{x-10} + 2\, _10P_{x} + _{10}P_{x+10}}{4}
 
 
       <footer><div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">

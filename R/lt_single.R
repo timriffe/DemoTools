@@ -30,25 +30,42 @@ lt_single_mx <- function(nMx,
                         SRB = 1.05,
                         OAG = TRUE,
                         OAnew = max(Age),
-                        extrapLaw = "kannisto",
+                        extrapLaw = NULL,
                         extrapFrom = max(Age),
-                        extrapFit = Age[Age >= 60],
+                        extrapFit = NULL,
                         ...) {
 
   stopifnot(extrapFrom <= max(Age))
   Sex      <- match.arg(Sex, choices = c("m","f","b"))
   a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
-  extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
-                                                     "kannisto_makeham",
-                                                     "makeham",
-                                                     "gompertz",
-                                                     "ggompertz",
-                                                     "beard",
-                                                     "beard_makeham",
-                                                     "quadratic"
-  ))
+  if (!is.null(extrapLaw)){
+    extrapLaw      <- tolower(extrapLaw)
+    extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
+                                                       "kannisto_makeham",
+                                                       "makeham",
+                                                       "gompertz",
+                                                       "ggompertz",
+                                                       "beard",
+                                                       "beard_makeham",
+                                                       "quadratic"
+    ))
+  } else {
+    extrapLaw <- ifelse(max(Age)>=90, "kannisto","makeham")
+  }
+  
   region   <- match.arg(region, choices = c("w","n","s","e"))
-
+  
+  if (is.null(extrapFit)){
+    maxAclosed <- ifelse(OAG, Age[which.max(Age)-1],max(Age))
+    if (maxAclosed < 85){
+      extrapFit  <- Age[Age >= (maxAclosed - 20) & Age <= maxAclosed]
+    } else {
+      extrapFit  <- Age[Age >= 60 & Age <= maxAclosed]
+    }
+  } else {
+    stopifnot(all(extrapFit %in% Age))
+  }
+  
   # setup Open Age handling
   OA            <- max(Age)
   # TR: save for later, in case OAG preserved
@@ -57,37 +74,40 @@ lt_single_mx <- function(nMx,
   }
   # --------------------------
   # Now all vectors may end up being longer
-  x_extr <- seq(extrapFrom, 130, by = 1)
-  Mxnew  <- lt_rule_m_extrapolate(
-              x = Age,
-              mx = nMx,
-              x_fit = extrapFit,
-              x_extr = x_extr,
-              law = extrapLaw,
-              ...)
-
-  nMxext        <- Mxnew$values
-  Age2          <- names2age(nMxext)
-
-  keepi         <- Age2 < extrapFrom
-  nMxext[keepi] <- nMx[Age < extrapFrom]
-
-  # overwrite some variables:
-  nMx           <- nMxext
-  Age           <- Age2
+  if (max(Age) < 130){
+    x_extr <- seq(extrapFrom, 130, by = 1)
+    Mxnew  <- lt_rule_m_extrapolate(
+                x = Age,
+                mx = nMx,
+                x_fit = extrapFit,
+                x_extr = x_extr,
+                law = extrapLaw,
+                ...)
+  
+    nMxext        <- Mxnew$values
+    Age2          <- names2age(nMxext)
+  
+    keepi         <- Age2 < extrapFrom
+    nMxext[keepi] <- nMx[Age < extrapFrom]
+  
+    # overwrite some variables:
+    nMx           <- nMxext
+    Age           <- Age2
+  }
   N             <- length(Age)
   AgeInt        <- rep(1, N)
 
   # get ax:
   nAx           <- rep(.5, N)
-  nAx[1]        <- lt_rule_1a0(
-                     rule = a0rule,
-                     M0 = nMx[1],
-                     IMR = IMR,
-                     Sex = Sex,
-                     region = region,
-                     SRB = SRB)
-
+  if (Age[1] == 0){
+    nAx[1]        <- lt_rule_1a0(
+                       rule = a0rule,
+                       M0 = nMx[1],
+                       IMR = IMR,
+                       Sex = Sex,
+                       region = region,
+                       SRB = SRB)
+  }
   # get qx (if pathological qx > 1, ax replaced, assumed constant hazard)
   qx            <- lt_id_ma_q(
                      nMx = nMx,
@@ -129,7 +149,7 @@ lt_single_mx <- function(nMx,
   AgeInt[N]     <- NA
 
   # Survival ratios computed only after  nLx is closed out
-  Sx            <- lt_id_Ll_S(nLx, lx, AgeInt = AgeInt, N = 1)
+  Sx            <- lt_id_Ll_S(nLx, lx, Age, AgeInt = AgeInt, N = 1)
 
   if (OAG) {
     if (OAnew == OA) {

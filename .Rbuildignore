@@ -27,3 +27,4 @@ Spreadsheets
 ^tic\.R$
 rcppExports.cpp
 stanExports_*
+^data-raw$

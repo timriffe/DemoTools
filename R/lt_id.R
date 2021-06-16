@@ -115,6 +115,60 @@ lt_id_l_d <- function(lx) {
   diff(-c(lx, 0))
 }
 
+#' @title Derive lifetable death probabilities from survivorship.
+#' @description This lifetable identity is the same no matter what kind of lifetable is required.
+#'  You can find it in any demography textbook.
+#' @details The vector returned is the same length as \code{lx} and it sums to the lifetable radix.
+#' If the radix is one then this is the discrete deaths distribution.
+#'
+#' @param lx numeric.  Vector of age-specific lifetable survivorship.
+#' @references
+#' \insertRef{preston2000demography}{DemoTools}
+#' @return ndx vector of lifetable deaths.
+#' @export
+lt_id_l_q <- function(lx) {
+  dx <- lt_id_l_d(lx)
+  dx / lx
+}
+
+#' @title Derive survivorship from lifetable deaths
+#' @description This lifetable identity is the same no matter what kind of lifetable is required. You can find it in any demography textbook.
+#' @details The vector returned is the same length as \code{dx} and it sums to the lifetable radix. If the radix is one then this is the discrete deaths distribution.
+#'
+#' @param ndx numeric.  Vector of age-specific lifetable deaths.
+#' @param radix numeric. 
+#' @references
+#' \insertRef{preston2000demography}{DemoTools}
+#' @return lx vector of lifetable survivorship
+#' @export
+lt_id_d_l <- function(ndx, radix = sum(ndx)) {
+  ndx  <- ndx / sum(ndx)
+  N   <- length(ndx)
+  CDF <- cumsum(ndx)
+  radix * c(1,1 - CDF[-N])
+}
+
+
+
+#' @title Derive death probabilities from lifetable deaths
+#' @description This lifetable identity is the same no matter what kind of lifetable is required.  You can find it in any demography textbook.
+#' @details The vector returned is the same length as \code{dx}.
+#'
+#' @param ndx numeric.  Vector of age-specific lifetable survivorship.
+#' @references
+#' \insertRef{preston2000demography}{DemoTools}
+#' @return nqx vector of lifetable death probabilities.
+#' @export
+lt_id_d_q <- function(ndx) {
+  rad <- sum(ndx)
+  ndx <- ndx / rad
+  N   <- length(ndx)
+  CDF <- cumsum(ndx)
+  lx  <- c(sum(ndx),1 - CDF[-N])
+  ndx / lx
+}
+
+
 #' @title Derive lifetable exposure from lx, ndx and nax.
 #' @description This is a common approximation of lifetable exposure:
 #' All persons surviving to the end of the interval time the interval width, plus all those that died
@@ -133,7 +187,7 @@ lt_id_lda_L <- function(lx, ndx, nax, AgeInt) {
   nLx                 <- rep(0, N)
   nLx[1:(N - 1)]      <-
     AgeInt[1:(N - 1)] * lx[2:N] + nax[1:(N - 1)] * ndx[1:(N - 1)]
-  nLx[N]		        <- lx[N] * nax[N]
+  nLx[N]		        <- lx[N] * nax[N] #open interval
   nLx
 }
 
@@ -223,7 +277,7 @@ lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
 #' @param nLx numeric vector of lifetable exposure.
 #' @param N integer, the age width for survivor ratios, either 5 or 1. Default 5.
 #' @export
-lt_id_Ll_S      <- function(nLx, lx, AgeInt, N = c(5, 1)) {
+lt_id_Ll_S      <- function(nLx, lx, Age, AgeInt, N = c(5, 1)) {
   n               <- length(nLx)
   stopifnot(length(lx) == n)
   # either we're in 1 or 5 year age groups
@@ -235,7 +289,9 @@ lt_id_Ll_S      <- function(nLx, lx, AgeInt, N = c(5, 1)) {
     # double check because assuming abridged nLx is given...
     stopifnot(length(AgeInt) == n)
     ageintcompare <- inferAgeIntAbr(vec = nLx)
-    stopifnot(all(ageintcompare[-n] == AgeInt[-n]))
+    if (Age[1] == 0){
+      stopifnot(all(ageintcompare[-n] == AgeInt[-n]))
+    }
     # birth until 0-4
     Sx[1]         <- (nLx[1] + nLx[2]) / ((AgeInt[1] + AgeInt[2]) * lx[1])
     # second age group is survival age 0-4 to age 5-9

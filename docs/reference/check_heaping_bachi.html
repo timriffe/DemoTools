@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.10.01</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
       </span>
     </div>
 
@@ -166,9 +166,10 @@
   <span class='va'>Value</span>,
   <span class='va'>Age</span>,
   ageMin <span class='op'>=</span> <span class='fl'>23</span>,
-  ageMax <span class='op'>=</span> <span class='fl'>77</span>,
+  ageMax <span class='op'>=</span> <span class='cn'>NULL</span>,
   method <span class='op'>=</span> <span class='st'>"orig"</span>,
-  details <span class='op'>=</span> <span class='cn'>FALSE</span>
+  details <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  OAG <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -198,6 +199,10 @@
       <th>details</th>
       <td><p>logical. Should a list of output be given</p></td>
     </tr>
+    <tr>
+      <th>OAG</th>
+      <td><p>logical. Is the highest age group open?</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -206,7 +211,7 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>ageMax</code> is an inclusive upper bound, treated as interval. If you want ages
-23 to 77, then give <code>ageMin = 23</code> and <code>ageMax = 77</code>, not 80. The <code>ageMin</code> is respected strictly, whereas <code>ageMax</code> could be higher than the actual maximum age used. You can see the age ranges actually used by specifying <code>details = TRUE</code>.</p>
+23 to 77, then give <code>ageMin = 23</code> and <code>ageMax = 77</code>. The <code>ageMin</code> is respected strictly, whereas <code>ageMax</code> is calculated flexibly- if you specify something too high then it is reduced and we warn accordingly, and if it's missing then we pick something reasonable. You can see the age ranges actually used by specifying <code>details = TRUE</code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>United States Census Bureau (2017).
@@ -222,17 +227,22 @@ Shryock HS, Siegel JS, Larmon EA (1973).
 US Bureau of the Census.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
- <span class='fu'>check_heaping_bachi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, ageMin <span class='op'>=</span> <span class='fl'>23</span>, ageMax <span class='op'>=</span> <span class='fl'>77</span>, method <span class='op'>=</span> <span class='st'>"orig"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 28.93849</div><div class='input'> <span class='fu'>check_heaping_bachi</span><span class='op'>(</span><span class='va'>pop1m_ind</span>, <span class='va'>Age</span>, ageMin <span class='op'>=</span> <span class='fl'>23</span>, ageMax <span class='op'>=</span> <span class='fl'>77</span>, method <span class='op'>=</span> <span class='st'>"orig"</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'> <span class='fu'>check_heaping_bachi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>, 
+ ageMin <span class='op'>=</span> <span class='fl'>23</span>, ageMax <span class='op'>=</span> <span class='fl'>77</span>, method <span class='op'>=</span> <span class='st'>"orig"</span>, OAG <span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 28.93849</div><div class='input'> <span class='fu'>check_heaping_bachi</span><span class='op'>(</span><span class='va'>pop1m_ind</span>, Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, 
+ ageMin <span class='op'>=</span> <span class='fl'>23</span>, ageMax <span class='op'>=</span> <span class='fl'>77</span>, method <span class='op'>=</span> <span class='st'>"orig"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 41.2661</div><div class='input'> <span class='co'># default simpler</span>
- <span class='fu'>check_heaping_bachi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, ageMin <span class='op'>=</span> <span class='fl'>23</span>, ageMax <span class='op'>=</span> <span class='fl'>77</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span><span class='op'>)</span>
+ <span class='fu'>check_heaping_bachi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>, 
+ ageMin <span class='op'>=</span> <span class='fl'>23</span>, ageMax <span class='op'>=</span> <span class='fl'>77</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 28.96891</div><div class='input'><span class='co'># linear population, should give 0 for pasex</span>
- <span class='fu'>check_heaping_bachi</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>100000</span>,<span class='fl'>1000</span>,by<span class='op'>=</span><span class='op'>-</span><span class='fl'>1000</span><span class='op'>)</span>,<span class='va'>Age</span>, ageMin <span class='op'>=</span> <span class='fl'>23</span>, ageMax <span class='op'>=</span> <span class='fl'>77</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span><span class='op'>)</span>
+ <span class='fu'>check_heaping_bachi</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>100000</span>,<span class='fl'>1000</span>,by<span class='op'>=</span><span class='op'>-</span><span class='fl'>1000</span><span class='op'>)</span>,Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>, 
+ ageMin <span class='op'>=</span> <span class='fl'>23</span>, ageMax <span class='op'>=</span> <span class='fl'>77</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='co'># fully concentrated, should give 90 </span>
  <span class='va'>pop_concetrated</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>100</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>9</span><span class='op'>)</span><span class='op'>)</span>,<span class='fl'>10</span><span class='op'>)</span>
- <span class='fu'>check_heaping_bachi</span><span class='op'>(</span><span class='va'>pop_concetrated</span>,<span class='va'>Age</span>, ageMin <span class='op'>=</span> <span class='fl'>23</span>, ageMax <span class='op'>=</span> <span class='fl'>77</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 90</div><div class='input'> <span class='fu'>check_heaping_bachi</span><span class='op'>(</span><span class='va'>pop_concetrated</span>,<span class='va'>Age</span>, ageMin <span class='op'>=</span> <span class='fl'>23</span>, ageMax <span class='op'>=</span> <span class='fl'>77</span>, method <span class='op'>=</span> <span class='st'>"orig"</span><span class='op'>)</span>
+ <span class='fu'>check_heaping_bachi</span><span class='op'>(</span><span class='va'>pop_concetrated</span>, Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>, 
+ ageMin <span class='op'>=</span> <span class='fl'>23</span>, ageMax <span class='op'>=</span> <span class='fl'>77</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 90</div><div class='input'> <span class='fu'>check_heaping_bachi</span><span class='op'>(</span><span class='va'>pop_concetrated</span>, Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>, 
+ ageMin <span class='op'>=</span> <span class='fl'>23</span>, ageMax <span class='op'>=</span> <span class='fl'>77</span>, method <span class='op'>=</span> <span class='st'>"orig"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 90</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -245,7 +255,7 @@ US Bureau of the Census.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">

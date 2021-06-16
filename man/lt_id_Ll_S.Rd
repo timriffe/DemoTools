@@ -4,12 +4,14 @@
 \alias{lt_id_Ll_S}
 \title{Calculate survivor ratios}
 \usage{
-lt_id_Ll_S(nLx, lx, AgeInt, N = c(5, 1))
+lt_id_Ll_S(nLx, lx, Age, AgeInt, N = c(5, 1))
 }
 \arguments{
 \item{nLx}{numeric vector of lifetable exposure.}
 
 \item{lx}{numeric. Vector of lifetable survivorship at abridged ages.}
+
+\item{Age}{integer. A vector of ages of the lower integer bound of the age classes.}
 
 \item{AgeInt}{integer. Vector of age class widths. Default \code{inferAgeIntAbr(Age = Age)}.}
 

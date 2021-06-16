@@ -89,6 +89,7 @@ interpolatePop <-
 #' @param datesOut vector of dates. The desired dates to interpolate to. See details for ways to express it.
 #' @param method string. The method to use for the interpolation, either \code{"linear"}, \code{"exponential"}, or \code{"power"}. Default \code{"linear"}.
 #' @param power numeric power to interpolate by, if \code{method = "power"}. Default 2.
+#' @param extrap logical. In case \code{datesOut} is out of range of datesIn, do extrapolation using slope in extreme pairwise. Deafult \code{FALSE}.
 #' @param ... arguments passed to \code{stats::approx}. For example, \code{rule}, which controls extrapolation behavior.
 #' @details The age group structure of the output is the same as that of the input. Ideally, \code{datesOut} should be within the range of \code{datesIn}. If not, the left-side and right-side output are held constant outside the range if \code{rule = 2} is passed in, otherwise \code{NA} is returned (see examples). Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
 #'
@@ -196,30 +197,51 @@ interp <- function(popmat,
                    datesOut,
                    method = c("linear", "exponential", "power"),
                    power = 2,
+                   extrap = FALSE,
                    ...) {
   # ... args passed to stats::approx . Can give control over extrap assumptions
+  # IW: extrap=T for extrapolate following each slope in extreme pairwise. 
+      # If not is explicit extrap=T, returns NA at those points
+  
   # a basic check
   stopifnot(ncol(popmat) == length(datesIn))
   
   # no sense documenting this wrapper ...
-  .approxwrap <- function(x, y, xout, ...) {
-    stats::approx(x = x,
-                  y = y,
-                  xout = xout,
-                  ...)$y
+  .approxwrap <- function(x, y, xout, extrap, ...) {
+    
+    # interp
+    yout = stats::approx(x = x,
+                         y = y,
+                         xout = xout,
+                         ...)$y
+    
+    if (extrap){
+      # extrap (each side)
+      rg <- range(x)
+      xext <- xout < rg[1]
+      if(any(xext))
+        yout[xext] <- (y[2]-y[1])/(x[2]-x[1])*(xout[xext]-x[1])+y[1]
+      xext <- xout > rg[2]
+      n <- length(y)
+      if(any(xext))
+        yout[xext] <- (y[n]-y[n-1])/(x[n]-x[n-1])*(xout[xext]-x[n-1])+y[n-1]
+    }
+    
+    return(yout)
   }
+  
   
   # -----------------------
   # clean method declaration
   # match.arg does partial matching and it's safer:
   # match.arg("lin", c("linear", "exponential", "power"))
-  method <- tolower(match.arg(method))
+  method <- tolower(match.arg(method, 
+                              choices = c("linear", "exponential", "power")))
   # -----------------------
   
   # coerce dates to decimal if necessary
-  datesIn  <- sapply(datesIn, dec.date)
-  datesOut <- sapply(datesOut, dec.date)
-  
+  datesIn  <-  dec.date(datesIn)
+  datesOut <-  dec.date(datesOut)
   
   # carry out transform 1
   if (method == "exponential") {
@@ -241,6 +263,7 @@ interp <- function(popmat,
                .approxwrap,
                x = datesIn,
                xout = datesOut,
+               extrap = extrap,
                ...)
   dims            <- dim(int)
   if (!is.null(dims)) {
@@ -259,5 +282,11 @@ interp <- function(popmat,
     int           <- int ^ power
   }
   
+  # IW: no negatives when extrapolate. Thinking in pop and lt expressions
+  if(all(!is.na(int)) & any(int<0)){
+    cat("Negative values were turned 0. No accepted in population counts, fertility rates or life table functions.\n")
+    int[int<0] <- 0  
+  }
+
   int
 }

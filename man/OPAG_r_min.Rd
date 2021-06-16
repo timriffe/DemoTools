@@ -55,14 +55,14 @@ nLx        <- downloadnLx(NULL, "Spain","female",1971)
 Age_nLx    <- names2age(nLx)
 r          <- .01
 
-OPAG_r_min(r, 
-           Pop_fit, 
-           Age_fit, 
+OPAG_r_min(r,
+           Pop_fit,
+           Age_fit,
            AgeInt_fit,
-           nLx, 
+           nLx,
            Age_nLx)
 
-(r_opt <- optimize(OPAG_r_min, 
+(r_opt <- optimize(OPAG_r_min,
          Pop_fit = Pop_fit,
          Age_fit = Age_fit,
          AgeInt_fit = AgeInt_fit,

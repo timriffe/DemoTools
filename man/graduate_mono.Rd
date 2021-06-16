@@ -4,14 +4,14 @@
 \alias{graduate_mono}
 \title{Graduate age groups using a monotonic spline.}
 \usage{
-graduate_mono(Value, AgeInt, Age, OAG = TRUE)
+graduate_mono(Value, Age, AgeInt, OAG = TRUE)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}
 
-\item{AgeInt}{integer vector, age interval widths}
-
 \item{Age}{integer vector, lower bounds of age groups}
+
+\item{AgeInt}{integer vector, age interval widths}
 
 \item{OAG}{logical, default = \code{TRUE} is the final age group open?}
 }
@@ -22,7 +22,7 @@ Numeric. vector of single smoothed age counts.
 Take the cumulative sum of \code{Value} and then run a monotonic spline through it. The first differences split back single-age estimates of \code{Value}. Optionally keep the open age group untouched.
 }
 \details{
-The \code{"monoH.FC"} method of \code{stats::splinefun()} is used to fit the spline because 1) it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages.
+The \code{"hyman"} method of \code{stats::splinefun()} is used to fit the spline because 1) it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages. \code{Age} be any age range, it does not need to start at 0.
 }
 \examples{
 Value                <- structure(c(88623, 90842, 93439, 96325, 99281, 102051, 104351,
@@ -31,19 +31,22 @@ Value                <- structure(c(88623, 90842, 93439, 96325, 99281, 102051, 1
 			 "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60",
 			 "65", "70", "75", "80", "85", "90", "95", "100"))
 
-# overwrite open age group with a single age estimate for that age
-# (doesn't extrapolate)
-graduate_mono(Value)
-# or respect open age group
+# if the last age group is closed, then it's best to use AgeInt, otherwise,
+# one is assumed from the age siphoned from the names attribute of Value.
+graduate_mono(Value, OAG = FALSE)
+# or leave open age group in tact
 graduate_mono(Value, OAG = TRUE)
 
-# Also accepts single ages:
-Value                <- structure(pop1m_ind, .Names = 0:100)
+data(pop1m_ind)
+Value5                <- groupAges(pop1m_ind,Age=0:100,N=5) 
 
-		\dontrun{
-	ages                <- seq(0,100,5)
- plot(graduate_mono(Value),xlab = 'Age', ylab = 'Counts', type = 'l',main = 'Ungrouped counts')
-		}
+Value1 <- graduate_mono(Value = Value5, Age = names2age(Value5), OAG =TRUE)
+
+\dontrun{
+ 
+ plot(seq(0,100,5),Value5 / 5, xlab = 'Age', ylab = 'Counts', type = 's')
+ lines(0:100,Value1)
+}
 }
 \references{
 \insertRef{fritsch1980monotone}{DemoTools}
