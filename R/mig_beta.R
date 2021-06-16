@@ -160,7 +160,7 @@ mig_beta <- function(
       pop_jan1[, list(year, age, decum_resid)],
       age ~ year,
       value.var = "decum_resid"
-    )
+    )[,-1]
 
   # Sum over all ages to get a total decum_resid over all years for each age.
   mig <- stats::setNames(rowSums(mat_resid, na.rm = TRUE), mat_resid$age)
