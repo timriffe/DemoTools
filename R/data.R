@@ -21,9 +21,9 @@
 
 
 
-#' Indian male population 1991
+#' Indian male population 1971
 #'
-#' Indian male population 1991
+#' Indian male population 1971
 #' @docType data
 #' @format
 #'   A numeric vector of length 101

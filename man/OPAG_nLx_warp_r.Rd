@@ -4,27 +4,14 @@
 \alias{OPAG_nLx_warp_r}
 \title{Warps a given stationary population into a stable population}
 \usage{
-OPAG_nLx_warp_r(
-  nLx,
-  Age,
-  r,
-  AgeInt = NULL,
-  continuous = TRUE,
-  method = "uniform"
-)
+OPAG_nLx_warp_r(Lx1, Age_Lx1, r)
 }
 \arguments{
-\item{nLx}{numeric vector of stationary population age structure in arbitrary integer age groups}
+\item{Lx1}{numeric vector of stationary population age structure in arbitrary integer age groups}
 
-\item{Age}{interger vector of lower bounds of age groups of \code{nLx}}
+\item{Age_Lx1}{interger vector of lower bounds of age groups of \code{nLx}}
 
 \item{r}{stable growth rate}
-
-\item{AgeInt}{optional integer vector of widths of age groups, inferred if not given.}
-
-\item{continuous}{logical. If \code{TRUE} we use the growth adjustment. \code{e^(-age*r)}. If \code{FALSE} we assume \code{r} is geometric growth, and we use \code{(1+r)^age} for the growth adjustment.}
-
-\item{method}{character, graduation method used for intermediate graduation. Default \code{"uniform"}. Other reasonable choices include \code{"mono"} or \code{"pclm"}.}
 }
 \value{
 numeric vector of the transformed \code{nLx}. Note, this vector sums to \code{1}.
@@ -34,7 +21,7 @@ We take \code{nLx} as indicative of a stationary population age structure,
 then subject the population structure to long-term growth by a constant rate, \code{r}.
 }
 \details{
-\code{nLx} could be any population structure of any scale, as long as you're comfortable
+\code{Lx1} could be any population structure of any scale, as long as you're comfortable
 assuming it's stationary and can be warped into stable. For the oldest ages, this is probably
 quite often an acceptable and useful approximation. The transformation is applied at the single-age scale, even if the input \code{nLx} is in wider (e.g. abridged) age groups. When needed, we reduce to single ages using (default) \code{graduate_uniform()}, then apply the transformation, then group back. This is innocuous if \code{nLx} is given in single ages. You may want to change \code{method} to \code{"mono"} or \code{"pclm"}.
 }

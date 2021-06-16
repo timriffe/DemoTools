@@ -4,16 +4,7 @@
 \alias{OPAG_fit_stable_standard}
 \title{creates stable standard based on optimizing the growth rate}
 \usage{
-OPAG_fit_stable_standard(
-  Pop_fit,
-  Age_fit,
-  AgeInt_fit,
-  nLx,
-  Age_nLx,
-  AgeInt_nLx,
-  method = "uniform",
-  continuous = TRUE
-)
+OPAG_fit_stable_standard(Pop_fit, Age_fit, AgeInt_fit, Lx1, Age_Lx1)
 }
 \arguments{
 \item{Pop_fit}{numeric vector of at least two population counts to use for fitting}
@@ -22,15 +13,9 @@ OPAG_fit_stable_standard(
 
 \item{AgeInt_fit}{integer vector of widths of age groups of \code{Pop_fit}}
 
-\item{nLx}{numeric vector of stable population standard}
+\item{Lx1}{numeric vector of stable population standard by single ages}
 
-\item{Age_nLx}{integer vector of lower bounds for age groups of \code{nLx}}
-
-\item{AgeInt_nLx}{optional integer vector of widths of age groups of \code{nLx}, inferred if not given.}
-
-\item{method}{character. Graduation method, default \code{"uniform"}. \code{"mono"} or \code{"pclm"} would also be good choices.}
-
-\item{continuous}{logical. If \code{TRUE} we use the growth adjustment. \code{e^(-age*r)}. If \code{FALSE} we assume \code{r} is geometric growth, and we use \code{(1+r)^age} for the growth adjustment.}
+\item{Age_Lx1}{integer vector of lower bounds for age groups of \code{Lx1}}
 }
 \value{
 list constaining
@@ -44,47 +29,44 @@ redistribution in \code{OPAG()}
 The stationary standard, \code{nLx} is transformed into a stable standard by optimizing a growth rate, \code{r} such that the stable standard matches observed population counts in selected age groups. Usually the ages used for fitting are wide age groups in older ages preceding the open age group. The standard output by this function is used by \code{OPAG} to create the standard used to redistribute counts over older age groups up to a specified open age group, such as 100.
 }
 \details{
-The arguments \code{method} and \code{continous} don't have much leverage on the result. In short, the stable population transformation is done by ungrouping \code{nLx} to single ages (if it isn't already), and \code{method} controls which graduation method is used for this, where \code{"uniform"}, \code{"mono"}, \code{"pclm"} are the reasonable choices at this writing. In single ages, the difference between using a geometric \code{r} versus continuous \code{r} are quite small for this task.
+The argument \code{method} don't have much leverage on the result. In short, the stable population transformation is done by ungrouping \code{nLx} to single ages (if it isn't already), and \code{method} controls which graduation method is used for this, where \code{"uniform"}, \code{"mono"}, \code{"pclm"} are the reasonable choices at this writing.
 }
 \examples{
 Pop_fit    <- c(85000,37000)
 Age_fit    <- c(70,80)
-AgeInt_fit <- c(10,10)
 nLx        <- downloadnLx(NULL, "Spain","female",1971)
 Age_nLx    <- names2age(nLx)
-
-# India Males, 1991
+Lx1 <- graduate(nLx,Age=Age_nLx,method = "mono")
+Age_Lx1 <- 0:100
+# India Males, 1971
 Pop        <- smooth_age_5(pop1m_ind,
                            Age = 0:100,
                            method = "Arriaga")
 Pop80      <- groupOAG(Pop, names2age(Pop), 80)
 Age        <- names2age(Pop80)
-AgeInt     <- age2int(Age, OAvalue = 1)
 
-nLx        <- downloadnLx(NULL, "India","male",1991)
+nLx        <- downloadnLx(NULL, "India","male",1971)
 Age_nLx    <- names2age(nLx)
-AgeInt_nLx <- age2int(Age_nLx,OAvalue = 1)
+
 
 Pop_fit    <- groupAges(Pop80, Age, N = 10)[c("60","70")]
 Age_fit    <- c(60,70)
 AgeInt_fit <- c(10,10)
 
 Standard <- OPAG_fit_stable_standard(
-             Pop_fit,
-             Age_fit,
-             AgeInt_fit,
-             nLx = nLx,
-             Age_nLx = Age_nLx,
-             AgeInt_nLx = AgeInt_nLx,
-             method = "uniform",
-             continuous = TRUE)
+  Pop_fit = Pop_fit,
+  Age_fit = Age_fit,
+  AgeInt_fit = AgeInt_fit,
+  Lx1=Lx1,
+  Age_Lx1 = Age_Lx1
+)
 
 # A visual comparison:
 nL60 <- rescale_vector(nLx[Age_nLx >= 60])
-St60p <- rescale_vector( Standard$Standard[Age_nLx >= 60] )
+St60p <- rescale_vector( Standard$Standard[c(0:100) >= 60] )
 ages_plot <- seq(60,100,by=5)
 \dontrun{
-plot(ages_plot,nL60, type = 'l')
-lines(ages_plot, St60p, col = "blue")
+  plot(ages_plot,nL60, type = 'l')
+  lines(60:100, St60p, col = "blue")
 }
 }

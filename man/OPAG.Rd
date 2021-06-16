@@ -7,16 +7,13 @@
 OPAG(
   Pop,
   Age_Pop,
-  AgeInt_Pop,
   nLx,
   Age_nLx,
-  AgeInt_nLx = NULL,
   Age_fit = NULL,
   AgeInt_fit = NULL,
   Redistribute_from = max(Age_Pop),
   OAnew = max(Age_nLx),
-  method = "uniform",
-  continuous = TRUE
+  method = "mono"
 )
 }
 \arguments{
@@ -24,13 +21,9 @@ OPAG(
 
 \item{Age_Pop}{integer vector of the lower bounds of the population age groups}
 
-\item{AgeInt_Pop}{integer vector of the population age group interval widths, using \code{Inf} for the open age group.}
+\item{nLx}{numeric vector of stationary population age structure in arbitrary integer age groups}
 
-\item{nLx}{numeric vector of stable population standard}
-
-\item{Age_nLx}{integer vector of lower bounds for age groups of \code{nLx}}
-
-\item{AgeInt_nLx}{optional integer vector of widths of age groups of \code{nLx}, inferred if not given.}
+\item{Age_nLx}{interger vector of lower bounds of age groups of \code{nLx}}
 
 \item{Age_fit}{integer vector of lower bounds for age groups of \code{Pop_fit}}
 
@@ -40,9 +33,7 @@ OPAG(
 
 \item{OAnew}{integer. Desired open age group in the output (must being element of \code{Age_nLx})}
 
-\item{method}{character. Graduation method, default \code{"uniform"}. \code{"mono"} or \code{"pclm"} would also be good choices.}
-
-\item{continuous}{logical. If \code{TRUE} we use the growth adjustment. \code{e^(-age*r)}. If \code{FALSE} we assume \code{r} is geometric growth, and we use \code{(1+r)^age} for the growth adjustment.}
+\item{method}{character, graduation method used for intermediate graduation. Default \code{"mono"}. Other reasonable choices include \code{"pclm"} or \code{"uniform"}.}
 }
 \description{
 This can be used as an external check of population counts
@@ -58,12 +49,6 @@ constant growth, \code{r}.
 It may be helpful to try more than one fitting possibility,
 and more than one \code{Redistribute_from} cut point, as results may vary.
 
-The argument \code{"method"} refers to which graduation method (see \code{?graduate})
-is only relevant if input data are in grouped ages. This is innocuous if
-ages are single to begin with. The choice of whether to assume
-\code{continuous = TRUE} constant growth versus geometric (\code{FALSE}) growth
-has little leverage.
-
 \code{Redistribute_from} can be lower than your current open age group,
 and \code{OAnew} can be higher, as long as it is within the range of \code{Age_nLx}.
 If \code{Age_nLx} doesn't go high enough for your needs, you can extrapolate
@@ -72,23 +57,21 @@ can use \code{lt_abridged()}, specifying a higher open age, and then
 extracting \code{nLx} again from it.
 }
 \examples{
-# India Males, 1991
+# India Males, 1971
 Pop            <- smooth_age_5(pop1m_ind,
                          Age = 0:100,
                          method = "Arriaga")
 Age_Pop        <- names2age(Pop)
 AgeInt_Pop     <- age2int(Age_Pop, OAvalue = 1)
 
-nLx            <- downloadnLx(NULL, "India","male",1991)
+nLx            <- downloadnLx(NULL, "India","male",1971)
 Age_nLx        <- names2age(nLx)
 AgeInt_nLx     <- age2int(Age_nLx, OAvalue = 1)
 
 Pop_fit <- OPAG(Pop,
     Age_Pop = Age_Pop,
-    AgeInt_Pop = AgeInt_Pop,
     nLx = nLx,
     Age_nLx = Age_nLx,
-    AgeInt_nLx,
     Age_fit =  c(60,70),
     AgeInt_fit = c(10,10),
     Redistribute_from = 80)
