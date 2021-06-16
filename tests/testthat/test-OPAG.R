@@ -153,21 +153,22 @@ r <-0
 age_Lx     <- c(0,1,seq(5,100,by=5))
 names(Lx)  <- age_Lx
 
-test_that("OPAG_nLx_warp_r works", {
-  res_stationary <- OPAG_nLx_warp_r(
-    nLx = c(Lx),
-    Age = age_Lx,
-    r = r,
-    continuous = TRUE,
-    method = "uniform"
-  )
-  c_St <- res_stationary/sum(res_stationary)
-  c_Lx <- c(Lx/sum(Lx))
-
-  res <- (c_St - c_Lx) %>% abs() %>% max()
-  expect_true(res < 0.0001)
-  }
-)
+# TR: this test on hold: now OPAG_nLx_warp_r uses single age only
+# test_that("OPAG_nLx_warp_r works", {
+#   res_stationary <- OPAG_nLx_warp_r(
+#     nLx = c(Lx),
+#     Age = age_Lx,
+#     r = r,
+#     continuous = TRUE,
+#     method = "uniform"
+#   )
+#   c_St <- res_stationary/sum(res_stationary)
+#   c_Lx <- c(Lx/sum(Lx))
+# 
+#   res <- (c_St - c_Lx) %>% abs() %>% max()
+#   expect_true(res < 0.0001)
+#   }
+# )
 
 
 # Pop_fit was generated this way
@@ -259,15 +260,16 @@ test_that("Age intervals of standard population and population still works even 
     
   
   expect_output(OPAG(Pop,
-                                     Age_Pop = Age_Pop,
-                                     AgeInt_Pop = AgeInt_Pop,
-                                     nLx = nLx,
-                                     Age_nLx = Age_nLx,
-                                     AgeInt_nLx,
-                                     Age_fit =  c(60,70),
-                                     AgeInt_fit = c(10,10),
-                                     Redistribute_from = 80,
-                                     OAnew = max(Age_nLx)), regexp = "\nAge_Pop and Age_nLx age intervals are different!")
+                Age_Pop = Age_Pop,
+                #AgeInt_Pop = AgeInt_Pop,
+                nLx = nLx,
+                Age_nLx = Age_nLx,
+                # AgeInt_nLx,
+                Age_fit =  c(60,70),
+                AgeInt_fit = c(10,10),
+                Redistribute_from = 80,
+                OAnew = max(Age_nLx),
+                method = "mono"), regexp = "\nAge_Pop and Age_nLx age intervals are different!")
 })
 
 
@@ -276,10 +278,10 @@ test_that("Check if r returned is between -0.5 and 0.5", {
   output <-
     OPAG(Pop,
          Age_Pop = Age_Pop,
-         AgeInt_Pop = AgeInt_Pop,
+         # AgeInt_Pop = AgeInt_Pop,
          nLx = nLx,
          Age_nLx = Age_nLx,
-         AgeInt_nLx,
+         # AgeInt_nLx,
          Age_fit =  c(60,70),
          AgeInt_fit = c(10,10),
          Redistribute_from = 80,

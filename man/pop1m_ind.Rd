@@ -3,7 +3,7 @@
 \docType{data}
 \name{pop1m_ind}
 \alias{pop1m_ind}
-\title{Indian male population 1991}
+\title{Indian male population 1971}
 \format{
 A numeric vector of length 101
 }
@@ -16,6 +16,6 @@ Part II-C(ii), New Delhi
 pop1m_ind
 }
 \description{
-Indian male population 1991
+Indian male population 1971
 }
 \keyword{datasets}

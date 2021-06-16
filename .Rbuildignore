@@ -28,3 +28,4 @@ Spreadsheets
 rcppExports.cpp
 stanExports_*
 ^data-raw$
+.gitsum

@@ -130,7 +130,6 @@ OPAG_simple    <-
 #' @param Lx1 numeric vector of stationary population age structure in arbitrary integer age groups
 #' @param Age_Lx1 interger vector of lower bounds of age groups of `nLx`
 #' @param r stable growth rate
-#' @param method character, graduation method used for intermediate graduation. Default `"uniform"`. Other reasonable choices include `"mono"` or `"pclm"`.
 #' @return numeric vector of the transformed `nLx`. Note, this vector sums to `1`.
 #' @export
 #' @examples
@@ -151,7 +150,6 @@ OPAG_nLx_warp_r <- function(Lx1,
 ){
   a1   <- Age_Lx1
   w1Lx  <- exp(-r * (a1 + .5)) * Lx1
-  # still need to fix open-ended age group value *********
   nAges <- length(Age_Lx1)
   
   if (r == 0 ) {
@@ -159,6 +157,7 @@ OPAG_nLx_warp_r <- function(Lx1,
   } else {
     Tlast <- Lx1[nAges]
     Tprev <- Tlast + Lx1[nAges-1]
+    # PJ's closeout
     abar <- -((log(Lx1[nAges-1])-r*a1[nAges-1])-log(Tprev*exp(r)-Tlast)) / r
     w1Lx[nAges]  <- exp(-r * abar) * Tlast
   }
@@ -188,34 +187,27 @@ OPAG_nLx_warp_r <- function(Lx1,
 #' Age_fit    <- c(70,80)
 #' AgeInt_fit <- c(10,10)
 #' nLx        <- downloadnLx(NULL, "Spain","female",1971)
-#' Age_nLx    <- names2age(nLx)
+#' # graduate(nLx, Age_nLx, method = method, constrain = TRUE)
+#' Ageab    <- names2age(nLx)
+#' Lx1 <- graduate(c(nLx), Ageab, method = "mono", constrain = TRUE)
+#' Age_Lx1 <- 0:100
 #' r          <- .01
 #'
 #' OPAG_r_min(r,
-#'            Pop_fit,
-#'            Age_fit,
-#'            AgeInt_fit,
-#'            nLx,
-#'            Age_nLx)
+#'            Pop_fit = Pop_fit,
+#'            Age_fit = Age_fit,
+#'            AgeInt_fit = AgeInt_fit,
+#'            Lx1 = Lx1,
+#'            Age_Lx1 = Age_Lx1)
 #'
 #' (r_opt <- optimize(OPAG_r_min,
 #'          Pop_fit = Pop_fit,
 #'          Age_fit = Age_fit,
 #'          AgeInt_fit = AgeInt_fit,
-#'          nLx = nLx,
-#'          Age_nLx = Age_nLx,
+#'          Lx1 = Lx1,
+#'          Age_Lx1 = Age_Lx1,
 #'          interval = c(-0.05,.05))$min)
 #'
-#' ai  <- age2int(Age_nLx)
-#'
-#' # Note the whole age range is being scaled to 1 here, but in practice
-#' # you'd only be doing this in the highest ages. If only two fitting
-#' # ages are given, then we can get an r that matches them perfectly,
-#' # at least within reasonable bounds.
-#' \dontrun{
-#' plot(Age, nLx / sum(nLx) / ai, type = 's')
-#' lines(Age,OPAG_nLx_warp_r(Lx,Age,r=r_opt)/ai,type='s',col = "red")
-#' }
 
 OPAG_r_min <- function(r,
                        Age_fit,
@@ -226,7 +218,7 @@ OPAG_r_min <- function(r,
 ){
   AgeInt_nLx   <- age2int(Age_Lx1, OAvalue = 1)
   
-  # This is the standard we want to match to Pop,
+  # 1) This is the standard we want to match to Pop,
   # which has presumably been cut down / grouped to the
   # ages we want to calibrate to.
   w1Lx    <- OPAG_nLx_warp_r(
@@ -235,7 +227,7 @@ OPAG_r_min <- function(r,
     r = r
   )
   
-  # now need to get it to the same age groups as Pop
+  # 2) now need to get it to the same age groups as Pop
   # so that we can get a residual
   
   w1Lx_fit <- rep(NA, length(Age_fit))
@@ -245,11 +237,11 @@ OPAG_r_min <- function(r,
     w1Lx_fit[i] <- sum(w1Lx[ind])
   }
   
-  # 5) rescale standard and Pop_fit to sum to 1  
+  # 3) rescale standard and Pop_fit to sum to 1  
   stand   <- rescale_vector(w1Lx_fit, scale = 1)
   Pop_fit <- rescale_vector(Pop_fit, scale = 1)
   
-  # 6) return the residual
+  # 4) return the residual
   sum(abs(stand - Pop_fit))
 }
 
@@ -273,38 +265,38 @@ OPAG_r_min <- function(r,
 #' Age_fit    <- c(70,80)
 #' nLx        <- downloadnLx(NULL, "Spain","female",1971)
 #' Age_nLx    <- names2age(nLx)
-#'
+#' Lx1 <- graduate(nLx,Age=Age_nLx,method = "mono")
+#' Age_Lx1 <- 0:100
 #' # India Males, 1971
 #' Pop        <- smooth_age_5(pop1m_ind,
 #'                            Age = 0:100,
 #'                            method = "Arriaga")
 #' Pop80      <- groupOAG(Pop, names2age(Pop), 80)
 #' Age        <- names2age(Pop80)
-#'
+#' 
 #' nLx        <- downloadnLx(NULL, "India","male",1971)
 #' Age_nLx    <- names2age(nLx)
-
-# graduate to get Lx1
-#'
+#' 
+#' 
 #' Pop_fit    <- groupAges(Pop80, Age, N = 10)[c("60","70")]
 #' Age_fit    <- c(60,70)
 #' AgeInt_fit <- c(10,10)
-#'
+#' 
 #' Standard <- OPAG_fit_stable_standard(
-#'              Pop_fit,
-#'              Age_fit,
-#'              AgeInt_fit,
-#'              Lx1=Lx1,
-#'              Age_Lx1 = Age_Lx1
-#'              )
-#'
+#'   Pop_fit = Pop_fit,
+#'   Age_fit = Age_fit,
+#'   AgeInt_fit = AgeInt_fit,
+#'   Lx1=Lx1,
+#'   Age_Lx1 = Age_Lx1
+#' )
+#' 
 #' # A visual comparison:
 #' nL60 <- rescale_vector(nLx[Age_nLx >= 60])
-#' St60p <- rescale_vector( Standard$Standard[Age_nLx >= 60] )
+#' St60p <- rescale_vector( Standard$Standard[c(0:100) >= 60] )
 #' ages_plot <- seq(60,100,by=5)
 #' \dontrun{
-#' plot(ages_plot,nL60, type = 'l')
-#' lines(ages_plot, St60p, col = "blue")
+#'   plot(ages_plot,nL60, type = 'l')
+#'   lines(60:100, St60p, col = "blue")
 #' }
 
 OPAG_fit_stable_standard <- function(Pop_fit,
@@ -358,10 +350,13 @@ OPAG_fit_stable_standard <- function(Pop_fit,
 #' @inheritParams OPAG_r_min
 #' @param Pop numeric vector of population counts
 #' @param Age_Pop integer vector of the lower bounds of the population age groups
-#' @param AgeInt_Pop integer vector of the population age group interval widths, using `Inf` for the open age group.
+#' @param nLx numeric vector of stationary population age structure in arbitrary integer age groups
+#' @param Age_nLx interger vector of lower bounds of age groups of `nLx`
 #' @param Redistribute_from integer lower age bound that forms the cutoff, above which we redistribute counts using the stable standard.
 #' @param OAnew integer. Desired open age group in the output (must being element of `Age_nLx`)
+#' @param method character, graduation method used for intermediate graduation. Default `"mono"`. Other reasonable choices include `"pclm"` or `"uniform"`.
 #' @export
+#' @importFrom utils tail
 #' @examples
 #' # India Males, 1971
 #' Pop            <- smooth_age_5(pop1m_ind,
@@ -376,10 +371,8 @@ OPAG_fit_stable_standard <- function(Pop_fit,
 #'
 #' Pop_fit <- OPAG(Pop,
 #'     Age_Pop = Age_Pop,
-#'     AgeInt_Pop = AgeInt_Pop,
 #'     nLx = nLx,
 #'     Age_nLx = Age_nLx,
-#'     AgeInt_nLx,
 #'     Age_fit =  c(60,70),
 #'     AgeInt_fit = c(10,10),
 #'     Redistribute_from = 80)
@@ -396,14 +389,14 @@ OPAG_fit_stable_standard <- function(Pop_fit,
 #'}
 
 OPAG <- function(Pop,
-                    Age_Pop,
-                    nLx,
-                    Age_nLx,
-                    Age_fit = NULL,
-                    AgeInt_fit = NULL,
-                    Redistribute_from = max(Age_Pop),
-                    OAnew = max(Age_nLx),
-                    method = "mono"
+                 Age_Pop,
+                 nLx, 
+                 Age_nLx, 
+                 Age_fit = NULL,
+                 AgeInt_fit = NULL,
+                 Redistribute_from = max(Age_Pop),
+                 OAnew = max(Age_nLx),
+                 method = "mono" 
 ){
   
   # ensure OAnew is possible
@@ -418,8 +411,9 @@ OPAG <- function(Pop,
     cat("\nAge_Pop and Age_nLx age intervals are different!\n")
   }
   
+  # PJ adds this. Note final age group not assigned a width
   AgeInt_Pop <- diff(Age_Pop)
-  AgeInt_nLx <- diff(Age_Pop)
+  # AgeInt_nLx <- diff(Age_Pop)
   
   # setup, prelims:
   # 0) if Age_fit isn't given assume last two 10-year age groups.
@@ -479,6 +473,7 @@ OPAG <- function(Pop,
   Pop_redistributed <- StPop_sel * OAG_total
   
   # 5a) regroup into original pop age grouping
+  # TR: possibly not the bes tuse of AgeInt_Pop..
   if (tail(AgeInt_Pop, n=2)[-1] == 5) {
     Pop_redistributed <- groupAges(Pop_redistributed, N = 5)
   }
