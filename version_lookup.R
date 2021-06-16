@@ -6,7 +6,7 @@ if (system("whoami",intern=TRUE) == "tim"){
   library(lubridate)
   
   get_versions <- function(hash){
-    D <- readLines(paste0("https://raw.githubusercontent.com/timriffe/DemoTools/",hash,"  /DESCRIPTION") )
+    D <- readLines(paste0("https://raw.githubusercontent.com/timriffe/DemoTools/",hash,"/DESCRIPTION") )
     D[grepl(D,pattern = "Version: ")]  %>%  
       gsub(pattern = "Version: ", replacement = "") 
   }
@@ -25,18 +25,19 @@ if (system("whoami",intern=TRUE) == "tim"){
     #   mutate(get_versions(hash))
     vers <- list()
     for (i in 1:nrow(DESC_changes)){
+      # Sys.sleep(1)
       vers[[i]] <- try(get_versions(DESC_changes$hash[i]))
     }
     closeAllConnections()
     errors <- lapply(vers,class) %>% unlist() 
     errors <- errors == "try-error"
     vers[errors]<-NA
-    DESC_changes$version <- vers
+    DESC_changes <- cbind(DESC_changes,version=tibble(version=unlist(vers)))
     
     version_lookup <- 
       DESC_changes %>% 
       filter(!is.na(version)) %>% 
-      select(date,version, hash)
+      select(date,version, hash) 
     
     write_csv(version_lookup,"version_lookup.csv")
   
