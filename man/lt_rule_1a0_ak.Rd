@@ -7,11 +7,11 @@
 lt_rule_1a0_ak(M0 = NULL, q0 = NULL, Sex)
 }
 \arguments{
-\item{M0}{a value or vector of values of m0, the death probability in the first year of life.}
+\item{M0}{a value or vector of values of `1m0``, the death risk in the first year of life.}
 
-\item{q0}{a value or vector of values of m0, the death risk in the first year of life.}
+\item{q0}{a value or vector of values of `1q0``, the death probability in the first year of life, sometimes approximated with IMR.}
 
-\item{Sex}{either "m" or "f"}
+\item{Sex}{either \code{"m"} or \code{"f"}}
 }
 \value{
 a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of values.

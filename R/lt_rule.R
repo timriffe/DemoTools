@@ -328,9 +328,9 @@ lt_rule_ak_m0_a0 <- function(M0, Sex ){
 #'
 #' @description This function wraps the two approximations for a0 based on either q0 (IMR) or m0.
 #'
-#' @param M0 a value or vector of values of m0, the death probability in the first year of life.
-#' @param q0 a value or vector of values of m0, the death risk in the first year of life.
-#' @param Sex either "m" or "f"
+#' @param M0 a value or vector of values of `1m0``, the death risk in the first year of life.
+#' @param q0 a value or vector of values of `1q0``, the death probability in the first year of life, sometimes approximated with IMR.
+#' @param Sex either `"m"` or `"f"`
 #' 
 #' @return a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of values.
 #' 
@@ -343,7 +343,7 @@ lt_rule_1a0_ak <- function(M0 = NULL, q0 = NULL, Sex){
     a0 <- lt_rule_ak_q0_a0(q0,Sex)
   } 
   if (is.null(q0) & !is.null(M0)){
-    a0 <- lt_rule_ak_q0_a0(M0,Sex)
+    a0 <- lt_rule_ak_m0_a0(M0,Sex)
   }
   a0
 }

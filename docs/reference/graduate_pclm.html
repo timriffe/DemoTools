@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
       </span>
     </div>
 
@@ -162,7 +162,7 @@
     <p>This is exactly the function <code>pclm()</code> from the <code>ungroup</code> package, except with arguments using standard <code>DemoTools</code> argument names.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>graduate_pclm</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, OAnew <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>graduate_pclm</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, <span class='va'>AgeInt</span>, OAnew <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,8 +176,16 @@
       <td><p>integer vector, lower bounds of age groups</p></td>
     </tr>
     <tr>
+      <th>AgeInt</th>
+      <td><p>integer vector, age interval widths</p></td>
+    </tr>
+    <tr>
       <th>OAnew</th>
       <td><p>integer, optional new open age, higher than <code><a href='https://rdrr.io/r/base/Extremes.html'>max(Age)</a></code>. See details.</p></td>
+    </tr>
+    <tr>
+      <th>OAG</th>
+      <td><p>logical, default = <code>TRUE</code> is the final age group open?</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -188,6 +196,7 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The PCLM method can also be used to graduate rates using an offset if both numerators and denominators are available. In this case <code>Value</code> is the event count and <code>offset</code> is person years of exposure. The denominator must match the length of <code>Value</code> or else the length of the final single age result <code><a href='https://rdrr.io/r/base/length.html'>length(min(Age):OAnew)</a></code>.  This method can be used to redistribute counts in the open age group if <code>OAnew</code> gives sufficient space. Likewise, it can give a rate extrapolation beyond the open age.</p>
+<p>If there are 0s in <code>Value</code>, these are replaced with a small value prior to fitting. If negatives result from the pclm fit, we retry after multiplying <code>Value</code> by 10, 100, or 1000, as sometimes a temporary rescale for fitting can help performance.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Pascariu MD, Dańko MJ, Schöley J, Rizzi S (2018).
@@ -205,7 +214,8 @@ Rizzi S, Gampe J, Eilers PH (2015).
     <pre class="examples"><div class='input'><span class='va'>a5</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>
 <span class='va'>p5</span>  <span class='op'>&lt;-</span> <span class='va'>pop5_mat</span><span class='op'>[</span>, <span class='fl'>1</span><span class='op'>]</span>
 <span class='va'>p1</span>  <span class='op'>&lt;-</span> <span class='fu'>graduate_pclm</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>p5</span>, Age <span class='op'>=</span> <span class='va'>a5</span><span class='op'>)</span>
-<span class='va'>p1s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>p5</span>, Age <span class='op'>=</span> <span class='va'>a5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt; 0s detected in Value, replacing with .01</div><div class='input'><span class='va'>p1s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>p5</span>, Age <span class='op'>=</span> <span class='va'>a5</span><span class='op'>)</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>a5</span>, <span class='va'>p5</span><span class='op'>/</span><span class='fl'>5</span>, type <span class='op'>=</span> <span class='st'>"s"</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>,<span class='fl'>60</span><span class='op'>)</span>,ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2000</span>,<span class='fl'>4000</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>p1</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>

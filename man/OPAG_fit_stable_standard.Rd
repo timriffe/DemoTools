@@ -41,7 +41,7 @@ redistribution in \code{OPAG()}
 }
 }
 \description{
-The stationary standard, \code{nLx} is transformed into a stable standard by optimizing a growth rate, \code{r} such that the stable standard matches observed population counts in selected age groups. Usually the ages used for fitting are wide age groups in older ages preceding the open age group. The standard output by this function is used by \code{OPAG} to creat the standard used to redistribute counts over older age groups up to a specified open age group, such as 100.
+The stationary standard, \code{nLx} is transformed into a stable standard by optimizing a growth rate, \code{r} such that the stable standard matches observed population counts in selected age groups. Usually the ages used for fitting are wide age groups in older ages preceding the open age group. The standard output by this function is used by \code{OPAG} to create the standard used to redistribute counts over older age groups up to a specified open age group, such as 100.
 }
 \details{
 The arguments \code{method} and \code{continous} don't have much leverage on the result. In short, the stable population transformation is done by ungrouping \code{nLx} to single ages (if it isn't already), and \code{method} controls which graduation method is used for this, where \code{"uniform"}, \code{"mono"}, \code{"pclm"} are the reasonable choices at this writing. In single ages, the difference between using a geometric \code{r} versus continuous \code{r} are quite small for this task.

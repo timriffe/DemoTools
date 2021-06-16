@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
       </span>
     </div>
 
@@ -167,7 +167,7 @@
   <span class='va'>AgeInt1</span>,
   <span class='va'>Value2</span>,
   <span class='va'>AgeInt2</span>,
-  splitfun <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>graduate_uniform</span>, <span class='va'>graduate_mono</span><span class='op'>)</span>,
+  splitfun <span class='op'>=</span> <span class='va'>graduate_uniform</span>,
   recursive <span class='op'>=</span> <span class='cn'>FALSE</span>,
   tol <span class='op'>=</span> <span class='fl'>0.001</span>
 <span class='op'>)</span></pre>
@@ -193,7 +193,7 @@
     </tr>
     <tr>
       <th>splitfun</th>
-      <td><p>function to use for splitting <code>pop1</code>. Presently on <code><a href='graduate_uniform.html'>graduate_uniform()</a></code> works.</p></td>
+      <td><p>function to use for splitting <code>Value1</code>. Reasonable (and tested) choices are either <code>graduate_uniform</code> or <code>graduate_mono</code>.</p></td>
     </tr>
     <tr>
       <th>recursive</th>
@@ -201,7 +201,7 @@
     </tr>
     <tr>
       <th>tol</th>
-      <td><p>numeric. Default 1e-3. The numerical tolerance for the residual. Used to detect stability if <code>recursive = TRUE</code>.</p></td>
+      <td><p>numeric. Default <code>1e-3</code>. The numerical tolerance for the residual. Used to detect stability if <code>recursive = TRUE</code>.</p></td>
     </tr>
     </table>
 

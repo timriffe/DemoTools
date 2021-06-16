@@ -1,5 +1,5 @@
 # Author: IK
-# Date: 2018-10-12
+# Date: 2018-10-12 UPD: 2021-01-13
 ################################################################################
 
 
@@ -30,7 +30,7 @@ pop1m_ind <- c(
     329149, 48004, 28574, 9200, 7003, 75195, 13140, 5889, 18915, 21221, 72373
 )
 
-devtools::use_data(pop1m_ind, overwrite = T)
+usethis::use_data(pop1m_ind, overwrite = T)
 
 
 
@@ -52,7 +52,7 @@ pop5_mat <- structure(
     .Dimnames = list(seq(0, 100, by = 5), 1950:1954)
 )
 
-devtools::use_data(pop5_mat, overwrite = T)
+usethis::use_data(pop5_mat, overwrite = T)
 
 
 # Male population by 5 year age groups from PASEX AGESMTH
@@ -61,7 +61,7 @@ pop5m_pasex <- c(
   165937, 122756, 96775, 59307, 63467, 32377, 29796, 16183, 34729
 )
 
-devtools::use_data(pop5m_pasex, overwrite = T)
+usethis::use_data(pop5m_pasex, overwrite = T)
 
 
 # Male single year age group population from PASEX SINGAGE
@@ -80,7 +80,7 @@ pop1m_pasex <- c(
   4137, 133, 169, 157, 89, 2068, 68, 81, 66, 57
 )
 
-devtools::use_data(pop1m_pasex, overwrite = T)
+usethis::use_data(pop1m_pasex, overwrite = T)
 
 
 # Feeney zigzag -- deaths in South Africa 1997
@@ -89,7 +89,7 @@ dth5_zigzag <- c(
   12473, 11513, 12899, 11413, 12710, 11516, 11408, 6733, 4031, 2069
 )
 
-devtools::use_data(dth5_zigzag, overwrite = T)
+usethis::use_data(dth5_zigzag, overwrite = T)
 
 
 # Abridged populations from PAS AGEINT
@@ -98,11 +98,22 @@ popA_earlier <- c(
   223014, 172260, 149338, 127242, 105715, 79614, 53660, 31021, 34596
 )
 
-devtools::use_data(popA_earlier, overwrite = T)
+usethis::use_data(popA_earlier, overwrite = T)
 
 popA_later <- c(
   201916, 932550, 1248268, 1119118, 893472, 741306, 603724, 498818, 494946, 
   446028, 344520, 298676, 254484, 211430, 159228, 107320, 62042, 69192
 )
 
-devtools::use_data(popA_later, overwrite = T)
+usethis::use_data(popA_later, overwrite = T)
+
+
+# Male population by 1 year age groups from Russian census help on 2002-10-16
+# Source: http://www.demoscope.ru/weekly/ssp/rus2002_01.php
+pop1m_rus2002 <- c(682698L, 641551L, 644671L, 644652L, 662998L, 659306L, 678341L, 717053L, 740366L, 753300L, 875113L, 963123L, 1081671L, 1145059L, 1247787L, 1314341L, 1291147L, 1266227L, 1306873L, 1325599L, 1234028L, 1162951L, 1170248L, 1115312L, 1100598L, 1088833L, 1092321L, 1070733L, 1045802L, 1016461L, 1061391L, 994896L, 1007712L, 933628L, 916902L, 929632L, 957895L, 981477L, 1039571L, 1116279L, 1195521L, 1210704L, 1278766L, 1216728L, 1182385L, 1167289L, 1123058L, 1117150L, 1087663L, 998307L, 1035886L, 951627L, 960428L, 963751L, 730354L, 798841L, 604983L, 382611L, 298788L, 280702L, 493677L, 625270L, 694930L, 741777L, 695339L, 693911L, 559111L, 467811L, 358252L, 364999L, 427681L, 405822L, 435844L, 385155L, 379150L, 317841L, 258185L, 193023L, 154406L, 112987L, 89944L, 73858L, 63570L, 54955L, 47194L, 30300L, 28748L, 29419L, 26635L, 20166L, 16673L, 10857L, 8189L, 4839L, 3333L, 2287L, 1458L, 984L, 644L, 488L, 967L)
+usethis::use_data(pop1m_rus2002, overwrite = T)
+
+# Male population by 1 year age groups from Russian census help on 2010-10-25
+# Source: http://www.demoscope.ru/weekly/ssp/rus_age1_10.php
+pop1m_rus2010 <- c(842354L, 859562L, 849138L, 788376L, 744105L, 750282L, 748514L, 746626L, 709493L, 675127L, 683827L, 656887L, 678395L, 669374L, 696685L, 743449L, 774172L, 800765L, 923952L, 1035555L, 1167860L, 1187193L, 1252421L, 1300116L, 1262584L, 1247974L, 1230926L, 1249086L, 1156502L, 1125283L, 1182017L, 1088248L, 1073221L, 1038733L, 1051852L, 1046293L, 1008882L, 983045L, 985075L, 949072L, 980924L, 881915L, 866214L, 859808L, 885432L, 926771L, 951739L, 1015812L, 1051749L, 1093184L, 1155128L, 1076307L, 1043777L, 1005283L, 967830L, 964217L, 919814L, 837341L, 841362L, 789019L, 787516L, 775999L, 585545L, 624976L, 471186L, 295668L, 222526L, 205594L, 336318L, 431670L, 471562L, 485883L, 446533L, 438107L, 337694L, 273086L, 198303L, 190828L, 210878L, 195219L, 200564L, 162820L, 151191L, 120794L, 93394L, 66247L, 48072L, 32932L, 23840L, 18087L, 13839L, 10228L, 7790L, 4327L, 3544L, 3137L, 2380L, 1666L, 1137L, 687L, 1379L)
+usethis::use_data(pop1m_rus2010, overwrite = T)

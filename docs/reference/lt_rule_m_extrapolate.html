@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.11.03</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
       </span>
     </div>
 
@@ -167,9 +167,8 @@
   <span class='va'>x</span>,
   x_fit <span class='op'>=</span> <span class='va'>x</span>,
   <span class='va'>x_extr</span>,
-  law <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"kannisto"</span>, <span class='st'>"kannisto_makeham"</span>, <span class='st'>"makeham"</span>, <span class='st'>"gompertz"</span>, <span class='st'>"ggompertz"</span>, <span class='st'>"beard"</span>,
-    <span class='st'>"beard_makeham"</span>, <span class='st'>"quadratic"</span><span class='op'>)</span>,
-  opt.method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"LF2"</span>, <span class='st'>"LF1"</span>, <span class='st'>"LF3"</span>, <span class='st'>"LF4"</span>, <span class='st'>"LF5"</span>, <span class='st'>"LF6"</span>, <span class='st'>"poissonL"</span>, <span class='st'>"binomialL"</span><span class='op'>)</span>,
+  law <span class='op'>=</span> <span class='st'>"kannisto"</span>,
+  opt.method <span class='op'>=</span> <span class='st'>"LF2"</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -210,11 +209,7 @@ The following options are available:</p><ul>
     </tr>
     <tr>
       <th>opt.method</th>
-      <td><p>How would you like to find the parameters? Specify the
-function to be optimize. Available options: the Poisson likelihood function
-<code>poissonL</code>; the Binomial likelihood function -<code>binomialL</code>; and
-6 other loss functions. For more details, check the <code><a href='https://rdrr.io/pkg/MortalityLaws/man/availableLF.html'>availableLF</a></code>
-function.</p></td>
+      <td><p>character. Default <code>"LF2"</code>, see <code><a href='https://rdrr.io/pkg/MortalityLaws/man/MortalityLaw.html'>MortalityLaws::MortalityLaw</a></code> for a description of choices.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -339,6 +334,14 @@ function.</p></td>
 <span class='va'>F1</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx_matrix</span>, x <span class='op'>=</span> <span class='va'>x1</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"kannisto"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='input'><span class='va'>F1</span>
 </div><div class='output co'>#&gt; $input
+#&gt; $input$opt.choices
+#&gt; [1] "poissonL"  "LF2"       "LF1"       "LF3"       "LF4"       "LF5"      
+#&gt; [7] "LF6"       "binomialL"
+#&gt; 
+#&gt; $input$all_the_laws_we_care_about
+#&gt; [1] "kannisto"         "kannisto_makeham" "makeham"          "gompertz"        
+#&gt; [5] "ggompertz"        "beard"            "beard_makeham"    "quadratic"       
+#&gt; 
 #&gt; $input$mx
 #&gt;      year
 #&gt; age    year1    year2   year3
@@ -396,8 +399,7 @@ function.</p></td>
 #&gt; [1] "kannisto"
 #&gt; 
 #&gt; $input$opt.method
-#&gt; [1] "LF2"       "LF1"       "LF3"       "LF4"       "LF5"       "LF6"      
-#&gt; [7] "poissonL"  "binomialL"
+#&gt; [1] "LF2"
 #&gt; 
 #&gt; 
 #&gt; $call

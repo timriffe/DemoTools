@@ -55,14 +55,16 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+          # For the later part of v1, this serves to invalidate the cache whenever is needed.
+          # See https://stackoverflow.com/questions/63521430/clear-cache-in-github-actions
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}-v1
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-v1
 
       # To install rgl in macOS it needs xquartz
       - name: macOS dependencies
         if: runner.os == 'macOS'
         run: |
-          brew cask install xquartz
+          brew install xquartz
 
       # Adds manual deps to rgl in first line
       - name: Linux dependencies
@@ -86,6 +88,7 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          install.packages("rgl")
         shell: Rscript {0}
 
         # Why a separate check for macOS/Linux? Because rgl needs to export DISPLAY

@@ -40,7 +40,7 @@
 #' @param OAnew integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.
 #' @param OAG logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include
-#'   \code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"}. See details.
+#'   \code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"} if the highest age is at least 90, otherwise `"makeham"`. See details.
 #' @inheritParams lt_a_closeout
 #' @export
 #' @return Lifetable in data.frame with columns
@@ -179,26 +179,43 @@ lt_abridged <- function(Deaths = NULL,
                   SRB = 1.05,
                   OAG = TRUE,
                   OAnew = max(Age),
-                  extrapLaw = "kannisto",
+                  extrapLaw = NULL,
                   extrapFrom = max(Age),
-                  extrapFit = Age[Age >= 60 & ifelse(OAG, Age < max(Age), TRUE)],
+                  extrapFit = NULL,
                   ...) {
   axmethod <- match.arg(axmethod, choices = c("pas","un"))
   Sex      <- match.arg(Sex, choices = c("m","f","b"))
   a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
-  extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
-                                                     "kannisto_makeham",
-                                                     "makeham",
-                                                     "gompertz",
-                                                     "ggompertz",
-                                                     "beard",
-                                                     "beard_makeham",
-                                                     "quadratic"
-  ))
+  if (!is.null(extrapLaw)){
+    extrapLaw      <- tolower(extrapLaw)
+    extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
+                                                       "kannisto_makeham",
+                                                       "makeham",
+                                                       "gompertz",
+                                                       "ggompertz",
+                                                       "beard",
+                                                       "beard_makeham",
+                                                       "quadratic"
+    ))
+  } else {
+      extrapLaw <- ifelse(max(Age)>=90, "kannisto","makeham")
+  }
+
   region   <- match.arg(region, choices = c("w","n","s","e"))
   # ages must be abridged.
   stopifnot(is_abridged(Age))
 
+  if (is.null(extrapFit)){
+    maxAclosed <- ifelse(OAG, Age[which.max(Age)-1],max(Age))
+    if (maxAclosed < 85){
+      extrapFit  <- Age[Age >= (maxAclosed - 20) & Age <= maxAclosed]
+    } else {
+      extrapFit  <- Age[Age >= 60 & Age <= maxAclosed]
+    }
+  } else {
+    stopifnot(all(extrapFit %in% Age))
+  }
+  #cat("\nextrapFit:",paste(extrapFit,collapse = ", "),"\n")
   # now overwriting raw nMx is allowed by lowering this
   # arbitrary lower bound to accept the fitted model. Really
   # this functionality is intended for extrapolation and not
@@ -213,7 +230,7 @@ lt_abridged <- function(Deaths = NULL,
   qxflag   <- !is.null(nqx)
   # 1) if lx given but not qx:
   if ((!qxflag) & (!is.null(lx))) {
-    nqx          <- lt_id_l_d(lx) / lx
+    nqx          <- lt_id_l_d(lx) / lx # Calculating dx/lx
     nqx[1]       <- ifelse(imr_flag, IMR, nqx[1])
     qxflag       <- TRUE
   }
@@ -248,7 +265,11 @@ lt_abridged <- function(Deaths = NULL,
                       OAG = OAG,
                       mod = mod,
                       IMR = IMR,
-                      SRB = SRB)
+                      SRB = SRB,
+                      extrapLaw = extrapLaw,
+                      extrapFrom = extrapFrom,
+                      extrapFit = extrapFit
+                      )
   } else {
     nAx          <- lt_id_morq_a(
                       nMx = nMx,
@@ -261,7 +282,10 @@ lt_abridged <- function(Deaths = NULL,
                       OAG = OAG,
                       mod = mod,
                       IMR = IMR,
-                      SRB = SRB)
+                      SRB = SRB,
+                      extrapLaw = extrapLaw,
+                      extrapFrom = extrapFrom,
+                      extrapFit = extrapFit)
   }
   # TR, these nAx ought to turn out to be the same...
 
@@ -294,27 +318,30 @@ lt_abridged <- function(Deaths = NULL,
     momega       <- nMx[length(nMx)]
   }
   # --------------------------------
-  # begin extrapolation:
-  # TR: 13 Oct 2018. always extrapolate to 130 no matter what,
-  # then truncate to OAnew in all cases. This will ensure more robust closeouts
-  # and an e(x) that doesn't depend on OAnew. 130 is used similarly by HMD.
-  x_extr         <- seq(extrapFrom, 130, by = 5)
-
-  Mxnew          <- lt_rule_m_extrapolate(
-                      x = Age,
-                      mx = nMx,
-                      x_fit = extrapFit,
-                      x_extr = x_extr,
-                      law = extrapLaw,
-                      ...)
-
-  nMxext         <- Mxnew$values
-  Age2           <- names2age(nMxext)
-
-  keepi          <- Age2 < extrapFrom
-  nMxext[keepi]  <- nMx[Age < extrapFrom]
-  nMx            <- nMxext
-  Age            <- Age2
+  
+  if (max(Age) < 130){
+    # begin extrapolation:
+    # TR: 13 Oct 2018. always extrapolate to 130 no matter what,
+    # then truncate to OAnew in all cases. This will ensure more robust closeouts
+    # and an e(x) that doesn't depend on OAnew. 130 is used similarly by HMD.
+    x_extr         <- seq(extrapFrom, 130, by = 5)
+  
+    Mxnew          <- lt_rule_m_extrapolate(
+                        x = Age,
+                        mx = nMx,
+                        x_fit = extrapFit,
+                        x_extr = x_extr,
+                        law = extrapLaw,
+                        ...)
+  
+    nMxext         <- Mxnew$values
+    Age2           <- names2age(nMxext)
+  
+    keepi          <- Age2 < extrapFrom
+    nMxext[keepi]  <- nMx[Age < extrapFrom]
+    nMx            <- nMxext
+    Age            <- Age2
+  }
   AgeInt         <- age2int(
                       Age,
                       OAG = TRUE,
@@ -392,7 +419,7 @@ lt_abridged <- function(Deaths = NULL,
     nMx[N]   <-  lx[N] / Tx[N]
   }
 
-  Sx <- lt_id_Ll_S(nLx, lx, AgeInt, N = 5)
+  Sx <- lt_id_Ll_S(nLx, lx, Age, AgeInt, N = 5)
   # output is an unrounded, unsmoothed lifetable
   out <- data.frame(
     Age = Age,

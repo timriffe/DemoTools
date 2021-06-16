@@ -8,9 +8,10 @@ check_heaping_bachi(
   Value,
   Age,
   ageMin = 23,
-  ageMax = 77,
+  ageMax = NULL,
   method = "orig",
-  details = FALSE
+  details = FALSE,
+  OAG = TRUE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ check_heaping_bachi(
 \item{method}{either \code{"orig"} or \code{"pasex"}}
 
 \item{details}{logical. Should a list of output be given}
+
+\item{OAG}{logical. Is the highest age group open?}
 }
 \value{
 The value of the index.
@@ -34,20 +37,25 @@ Bachi's index involves applying the Whipple method repeatedly to determine the e
 }
 \details{
 \code{ageMax} is an inclusive upper bound, treated as interval. If you want ages
-23 to 77, then give \code{ageMin = 23} and \code{ageMax = 77}, not 80. The \code{ageMin} is respected strictly, whereas \code{ageMax} could be higher than the actual maximum age used. You can see the age ranges actually used by specifying \code{details = TRUE}.
+23 to 77, then give \code{ageMin = 23} and \code{ageMax = 77}. The \code{ageMin} is respected strictly, whereas \code{ageMax} is calculated flexibly- if you specify something too high then it is reduced and we warn accordingly, and if it's missing then we pick something reasonable. You can see the age ranges actually used by specifying \code{details = TRUE}.
 }
 \examples{
- Age <- 0:99
- check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "orig")
- check_heaping_bachi(pop1m_ind, Age, ageMin = 23, ageMax = 77, method = "orig")
+ check_heaping_bachi(pop1m_pasex, Age = 0:99, 
+ ageMin = 23, ageMax = 77, method = "orig", OAG =FALSE)
+ check_heaping_bachi(pop1m_ind, Age = 0:100, 
+ ageMin = 23, ageMax = 77, method = "orig")
  # default simpler
- check_heaping_bachi(pop1m_pasex, Age, ageMin = 23, ageMax = 77, method = "pasex")
+ check_heaping_bachi(pop1m_pasex, Age = 0:99, 
+ ageMin = 23, ageMax = 77, method = "pasex", OAG = FALSE)
 # linear population, should give 0 for pasex
- check_heaping_bachi(seq(100000,1000,by=-1000),Age, ageMin = 23, ageMax = 77, method = "pasex")
+ check_heaping_bachi(seq(100000,1000,by=-1000),Age = 0:99, 
+ ageMin = 23, ageMax = 77, method = "pasex", OAG = FALSE)
 # fully concentrated, should give 90 
  pop_concetrated <- rep(c(100,rep(0,9)),10)
- check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "pasex")
- check_heaping_bachi(pop_concetrated,Age, ageMin = 23, ageMax = 77, method = "orig")
+ check_heaping_bachi(pop_concetrated, Age = 0:99, 
+ ageMin = 23, ageMax = 77, method = "pasex")
+ check_heaping_bachi(pop_concetrated, Age = 0:99, 
+ ageMin = 23, ageMax = 77, method = "orig")
 }
 \references{
 \insertRef{PAS}{DemoTools}

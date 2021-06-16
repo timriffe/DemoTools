@@ -4,14 +4,18 @@
 \alias{graduate_pclm}
 \title{wrapper for \code{ungroup::pclm} method of splitting binned counts}
 \usage{
-graduate_pclm(Value, Age, OAnew = max(Age), ...)
+graduate_pclm(Value, Age, AgeInt, OAnew = max(Age), OAG = TRUE, ...)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}
 
 \item{Age}{integer vector, lower bounds of age groups}
 
+\item{AgeInt}{integer vector, age interval widths}
+
 \item{OAnew}{integer, optional new open age, higher than \code{max(Age)}. See details.}
+
+\item{OAG}{logical, default = \code{TRUE} is the final age group open?}
 
 \item{...}{further arguments passed to \code{ungroup::pclm()}}
 }
@@ -20,6 +24,10 @@ This is exactly the function \code{pclm()} from the \code{ungroup} package, exce
 }
 \details{
 The PCLM method can also be used to graduate rates using an offset if both numerators and denominators are available. In this case \code{Value} is the event count and \code{offset} is person years of exposure. The denominator must match the length of \code{Value} or else the length of the final single age result \code{length(min(Age):OAnew)}.  This method can be used to redistribute counts in the open age group if \code{OAnew} gives sufficient space. Likewise, it can give a rate extrapolation beyond the open age.
+
+If there are 0s in \code{Value}, these are replaced with a small value prior to fitting. If negatives result from the pclm fit, we retry after multiplying \code{Value} by 10, 100, or 1000, as sometimes a temporary rescale for fitting can help performance.
+
+\code{Age} be any age range, it does not need to start at 0.
 }
 \examples{
 a5  <- seq(0,100,by=5)

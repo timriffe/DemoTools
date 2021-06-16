@@ -34,6 +34,7 @@ Given a set of ages and observed age-specific migration rates, estimate the para
 Choose between a 7,9,11 or 13 parameter model.
 }
 \examples{
+\dontrun{
 # define ages and migration rates
 ages <- 0:75
 mig_rate <- c(0.1014,0.0984,0.0839,0.0759,0.0679,0.0616,
@@ -48,12 +49,12 @@ mig_rate <- c(0.1014,0.0984,0.0839,0.0759,0.0679,0.0616,
 0.0093,0.0083,0.0078,0.0067,0.0069,0.0054)
 # fit the model
 
-res <- mig_estimate_rc(ages, mig_rate, 
-pre_working_age = TRUE, 
-working_age = TRUE, 
-retirement = FALSE, 
+res <- mig_estimate_rc(ages, mig_rate,
+pre_working_age = TRUE,
+working_age = TRUE,
+retirement = FALSE,
 post_retirement = FALSE)
-\dontrun{
+
 # plot the results and data
 plot(ages, mig_rate, ylab = "migration rate", xlab = "age")
 lines(ages, res[["fit_df"]]$median, col = "red")

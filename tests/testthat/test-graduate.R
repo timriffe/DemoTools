@@ -54,5 +54,36 @@ test_that("beers works", {
   )
 })
 
+test_that("age ranges flexible for uniform, mono, and pclm", {
+  Pop5    <- c(88962, 73756, 51990, 55395, 48562)
+  Age5    <- seq(0,20,5)
+  Age5alt <- seq(45,65,5)
+  
+  m0      <- graduate_mono( Pop5, Age5 )
+  m45     <- graduate_mono( Pop5, Age5alt ) 
+  p0      <- graduate_pclm( Pop5, Age5 )
+  p45     <- graduate_pclm( Pop5, Age5alt ) 
+  u0      <- graduate_uniform( Pop5, Age5 )
+  u45     <- graduate_uniform( Pop5, Age5alt ) 
+  
+  expect_true(all(abs(m0 - m45) < 1e-9))
+  expect_true(all(abs(p0 - p45) < 1e-4))
+  expect_true(all(abs(u0 - u45) < 1e-9))
+  
+  ma0     <- names2age(m0)
+  ma45    <- names2age(m45)
+  pa0     <- names2age(p0)
+  pa45    <- names2age(p45)
+  ua0     <- names2age(u0)
+  ua45    <- names2age(u45)
+  
+  expect_equal(ma0, 0:20, tolerance = 0)
+  expect_equal(pa0, 0:20, tolerance = 0)
+  expect_equal(ua0, 0:20, tolerance = 0)
+  expect_equal(ma45, 45:65, tolerance = 0)
+  expect_equal(pa45, 45:65, tolerance = 0)
+  expect_equal(ua45, 45:65, tolerance = 0)
+  
+})
 
 

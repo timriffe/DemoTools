@@ -838,8 +838,12 @@ lt_a_un <- function(nMx,
   } else {
     axi[N] <- 1 / nMx[N]
   }
-
-
+  # patch
+  ind <- is.nan(axi) | axi < 0
+  if (any(ind)){
+    axi[ind] <- AgeInt[ind] / 2
+  }
+  
   # if mx, qx, or both are given, then by now we have ax
   axi
 }
@@ -996,6 +1000,7 @@ lt_id_morq_a <- function(nMx,
                      OAG = TRUE,
                      SRB = SRB)
     }
+    
   }
   if (axmethod == "un") {
     # UN method just CD west for now, so no region arg
@@ -1033,8 +1038,9 @@ lt_id_morq_a <- function(nMx,
                      extrapFit = extrapFit,
                      ...)
     }
-
   }
+  
+ 
   
   # TR: shall we do ak patch just here at the end?
   # the alternative would be to mesh it in everywhere a0 happens.

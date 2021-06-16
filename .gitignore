@@ -21,3 +21,5 @@ Spreadsheets
 *.so
 docs/
 .gitsum
+.RData
+

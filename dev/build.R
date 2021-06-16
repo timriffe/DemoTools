@@ -1,6 +1,14 @@
 
 # Author: tim
 ###############################################################################
+# old:
+#  rstan (>= 2.18.1),
+# new:
+#  rstan (>= 2.26.1),
+# Tried adding this to Remotes:
+# list in DESCRIPTION:
+# github::hsbadr/rstan/StanHeaders@develop,
+# github::hsbadr/rstan/rstan/rstan@develop
 
 shhh <- function(expr){
 	capture.output(x <- suppressPackageStartupMessages(
@@ -17,7 +25,8 @@ library(TimUtils)
 
 # do this whenever new functions are added to /R, or whenever roxygen is updated
 devtools::document()
-  # do this whenever the vignette text is updated
+
+# do this whenever the vignette text is updated
 devtools::build_vignettes()
 
 # devtools::install_github("r-lib/pkgdown")
@@ -30,6 +39,14 @@ versionIncrement(
 		maxdigits = c(2,2,3),# maybe 4 required?
 		README = TRUE)       # update README dev version badge
 
+# add line to immediately commit and tag.
+library(magrittr)
+library(git2r)
+D <- readLines("DESCRIPTION") 
+vs <- D[grepl(D,pattern = "Version: ")]  %>%  gsub(pattern = "Version: ", replacement = "")  %>% 
+  paste0("v",.)
+commit(message = vs)
+tag()
 # run this to get access to already-written functions
 shhh(load_all())
 
