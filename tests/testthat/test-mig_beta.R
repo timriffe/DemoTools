@@ -778,13 +778,13 @@ test_that("mig_beta applies oldage_adjustment correctly", {
   # beers:
   # expect that the 65+ are different because they're adjusted
   # Why 66? Because first age is 0 and total length is 101
-  expect_true(all((res_none - res_beers)[66:(length(res_beers) - 2)] != 0))
+  expect_true(all((res_none - res_beers)[66:100] != 0))
 
 
   # mav:
   # expect that the 65+ are different because they're adjusted
   # Why 66? Because first age is 0 and total length is 101
-  expect_true(all((res_none - res_mav)[66:(length(res_mav) - 2)] != 0))
+  expect_true(all((res_none - res_mav)[66:100] != 0))
 
 
   # Test that oldage_min controls the age from which to adjust
@@ -821,11 +821,11 @@ test_that("mig_beta applies oldage_adjustment correctly", {
   # beers:
   # expect that the 65+ are different because they're adjusted
   # Why 71? Because first age is 0 and total length is 101
-  expect_true(all((res_none - res_beers)[71:(length(res_beers) - 2)] != 0))
+  expect_true(all((res_none - res_beers)[71:100] != 0))
 
 
   # mav:
   # expect that the 65+ are different because they're adjusted
   # Why 71? Because first age is 0 and total length is 101
-  expect_true(all((res_none - res_mav)[71:(length(res_mav) - 2)] != 0))
+  expect_true(all((res_none - res_mav)[71:100] != 0))
 })
