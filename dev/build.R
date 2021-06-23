@@ -61,6 +61,9 @@ shhh(load_all())
 Sys.setenv('_R_CHECK_SYSTEM_CLOCK_' = 0)
 devtools::check(force_suggests = TRUE)
 
+
+source("version_lookup.R")
+update_lookup()
   #build(pkg = "/home/tim/git/DemoTools", path = "/home/tim/Desktop")
 #?devtools::build
 #devtools::use_testthat("/home/tim/git/DemoTools")

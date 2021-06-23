@@ -316,7 +316,8 @@ interp_coh_download_mortality <- function(location, sex, date1, date2, OAnew = 1
     }) %>%
     lapply(lt_a2s_chunk, OAnew = OAnew) %>%
     lapply(function(X){
-      1 - X$nqx
+      #1 - X$nqx
+      lt_id_Ll_S(X$nLx, X$lx, X$Age, X$AgeInt, N = 1)
     }) %>%
     do.call("cbind",.)
   
