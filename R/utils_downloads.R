@@ -305,7 +305,7 @@ interp_coh_download_mortality <- function(location, sex, date1, date2, OAnew = 1
   
   dates_out  <- c(dec.date(date1), year_seq)
   if (verbose){
-    cat(paste0("\nlxMat not provided. Downloading lxMat for ", loc_message(location), ", gender: ", "`", sex, "`, for years between ", round(date1, 1), " and ", round(date2, 1), "\n"))
+    cat(paste0("\nlxMat not provided. Downloading mxMat for ", loc_message(location), ", gender: ", "`", sex, "`, for years between ", round(date1, 1), " and ", round(date2, 1), "\n"))
   } 
   
   PX <- suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,

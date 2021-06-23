@@ -145,7 +145,7 @@ interp_coh <- function(
     age1 = age1,
     age2 = age2,
     dates_out = dates_out,
-    lxMat = lxMat,
+    lxMat = lxMat,       # swap to mxMat
     age_lx = age_lx,
     dates_lx = dates_lx,
     births = births,
@@ -630,9 +630,10 @@ lt_a2s_chunk <- function(chunk, OAnew, ...){
 #                         dplyr::bind_cols() %>%
 #                         as.matrix())
 
-interp_coh_lxMat_pxt <- function(lxMat,
-                                 dates_lx,
-                                 age_lx,
+# ZZZ modify this to work from nMx
+interp_coh_mxMat_pxt <- function(mxMat,
+                                 dates_mx,
+                                 age_mx,
                                  date1,
                                  date2,
                                  OAnew, ...){
@@ -653,57 +654,59 @@ interp_coh_lxMat_pxt <- function(lxMat,
   # get ndx andnLx from lt_abridged()
 
   a1  <- 0:OAnew
-  qx1 <- matrix(ncol = ncol(lxMat),
+  px1 <- matrix(ncol = ncol(lxMat),
                 nrow = length(a1),
                 dimnames = list(a1,
-                                dates_lx))
-  for (i in 1:ncol(lxMat)){
+                                dates_mx))
+  for (i in 1:ncol(mxMat)){
 
-    if (is_abridged(age_lx)){
+    if (is_abridged(age_mx)){
       # LTA     <- lt_abridged(Age = age_lx,
       #                        lx = lxMat[, i],
       #                        OAnew = OAnew,
       #                        radix = 1e6,
       #                        ...)
-      LT1     <- lt_abridged2single(lx = lxMat[, i],
-                                    Age = age_lx,
+      LT1     <- lt_abridged2single(nMx = mxMat[, i],
+                                    Age = age_mx,
                                     OAnew = OAnew,
                                     ...)
-      qx1[, i] <- LT1$nqx
+      px1[, i] <- LT1$Sx
     } else {
-      qx             <- lt_id_l_q(lxMat[, i])
-
-      LT1 <- lt_single_qx(nqx = qx,
-                          Age=1:length(qx)-1,
+      
+      LT1 <- lt_single_mx(nMx = mxMat[,i],
+                          Age = 1:nrow(mxMat)-1,
                           OAnew = OAnew,
                           ...)
 
 
-      qx1[, i] <- LT1$nqx
+      px1[, i] <- LT1$Sx
     }
 
   }
 
   # We do linear interpolation of the logit-transformed qx.
-  logit_qx  <- log(qx1 / (1 - qx1))
+  logit_px  <- log(px1 / (1 - px1))
 
-  logit_qx_interp     <-
+  # TR: FLAG interp() could happen on mx in a more natural way.
+  # this is legacy due to previous approach
+  logit_px_interp     <-
     interp(
-      popmat = logit_qx,
-      datesIn = dates_lx,
+      popmat = logit_px,
+      datesIn = dates_mx,
       datesOut = dates_out,
       rule = 2)
   # transform back
-  QX            <- exp(logit_qx_interp) / (1 + exp(logit_qx_interp))
+  PX            <- exp(logit_px_interp) / (1 + exp(logit_px_interp))
 
-  QX[nrow(QX), ]  <- 1
+  #QX[nrow(QX), ]  <- 0
 
 
   f1            <- diff(dates_out)[1]
   f2            <- date2 - floor(date2)
 
-  # assume linear px change within age class
-  PX            <- 1 - QX
+  # TR: FLAG left and right border adjustments.
+  # These need review.
+  # PX            <- 1 - QX
   PX[,1]        <- PX[, 1] ^f1
   PX[,ncol(PX)] <- PX[, ncol(PX)] ^f2
 
@@ -711,15 +714,15 @@ interp_coh_lxMat_pxt <- function(lxMat,
   PX
 }
 
-
-transform_pxt <- function(lxMat,
+# ZZZ modify this to work from mx
+transform_pxt <- function(mxMat,
                           location,
                           sex,
                           date1,
                           date2,
-                          dates_lx,
+                          dates_mx,
                           verbose,
-                          age_lx,
+                          age_mx,
                           age1,
                           ...) {
 
@@ -736,62 +739,62 @@ transform_pxt <- function(lxMat,
     )
   } else {
 
-    if (is.null(dates_lx)){
+    if (is.null(dates_mx)){
       # if lx dates not given we assume dates evenly distributed from date1 to date2?
-      dates_lx <- seq(date1,date2,length.out = ncol(lxMat))
+      dates_mx <- seq(date1,date2,length.out = ncol(mxMat))
       if (verbose) {
-        cat("lxMat specified, but not dates_lx\nAssuming:",paste(dates_lx,collapse=", "),"\n")
+        cat("mxMat specified, but not dates_mx\nAssuming:",paste(dates_mx,collapse=", "),"\n")
       }
     }
 
-    available_dates <- data.table::between(dates_lx, date1, date2)
-    if (!all(available_dates)) stop("All `dates_lx` must be within the range of `date1` and `date2`")
+    available_dates <- data.table::between(dates_mx, date1, date2)
+    if (!all(available_dates)) stop("All `dates_mx` must be within the range of `date1` and `date2`")
 
-    # if the shortest distance from dates_lx to date1 or date2 is greater than 7
+    # if the shortest distance from dates_mx to date1 or date2 is greater than 7
     # warn
-    dates_df <- expand.grid(dates_lx = dates_lx, dates = c(date1, date2))
-    dates_df$diff <- with(dates_df, abs(dates_lx - dates))
+    dates_df <- expand.grid(dates_mx = dates_mx, dates = c(date1, date2))
+    dates_df$diff <- with(dates_df, abs(dates_mx - dates))
     if (min(dates_df$diff) > 7 && verbose) {
-      d_lx <- dates_df$dates_lx[which.min(dates_df$dif)]
+      d_mx <- dates_df$dates_mx[which.min(dates_df$dif)]
       date_compare <- dates_df$dates[which.min(dates_df$dif)]
       cat(
-        "The shortest distance from `dates_lx` (",
-        d_lx,
+        "The shortest distance from `dates_mx` (",
+        d_mx,
         ") to `date1/date2`(",
         date_compare,
         ") is greater than 7 years. Be wary."
       )
     }
 
-    ic_period <- date2 - date1
-    lx_mm <- range(dates_lx)
-    overlap <- min(c(lx_mm[2], date2)) - c(max(lx_mm[1], date1))
-    extrap_low <- lx_mm[1] - min(lx_mm[1],date1)
-    extrap_high <- max(lx_mm[2],date2) - lx_mm[2]
-    t1 <- overlap / ic_period < .25
-    t2 <- extrap_low > 6
-    t3 <- extrap_high > 6
-    if (any(c(t1, t2, t3))) cat("\nRange between `date1` and `date2` must overlap with `lx_dates` for at least 25% of the range or 6 years.\n")
+    ic_period   <- date2 - date1
+    mx_mm       <- range(dates_mx)
+    overlap     <- min(c(mx_mm[2], date2)) - c(max(mx_mm[1], date1))
+    extrap_low  <- mx_mm[1] - min(mx_mm[1],date1)
+    extrap_high <- max(mx_mm[2],date2) - mx_mm[2]
+    t1          <- overlap / ic_period < .25
+    t2          <- extrap_low > 6
+    t3          <- extrap_high > 6
+    if (any(c(t1, t2, t3))) cat("\nRange between `date1` and `date2` must overlap with `mx_dates` for at least 25% of the range or 6 years.\n")
 
-    if (is.null(age_lx)){
-      if (nrow(lxMat)  < 26){
+    if (is.null(age_mx)){
+      if (nrow(mxMat)  < 26){
 
-        N      <- nrow(lxMat)
-        age_lx <- c(0,1,seq(5,5*(N-2),by=5))
+        N      <- nrow(mxMat)
+        age_mx <- c(0,1,seq(5,5*(N-2),by=5))
       } else {
-        age_lx <- 1:nrow(lxMat) - 1
+        age_mx <- 1:nrow(mxMat) - 1
       }
       if (verbose) {
-        cat("lxMat specified, but Age_lx missing\nAssuming:",paste(age_lx,collapse=", "),"\n")
+        cat("mxMat specified, but Age_mx missing\nAssuming:",paste(age_mx,collapse=", "),"\n")
       }
     }
 
-    # ensure lx fills timepoints.
+    # ensure mx fills timepoints.
     # would like to pass ... here for the lifetable part
-    pxt <- interp_coh_lxMat_pxt(
-      lxMat = lxMat,
-      dates_lx = dates_lx,
-      age_lx = age_lx,
+    pxt <- interp_coh_mxMat_pxt(
+      mxMat = mxMat,
+      dates_mx = dates_mx,
+      age_mx = age_mx,
       date1 = date1,
       date2 = date2,
       OAnew = max(age1) + 1,
@@ -803,7 +806,7 @@ transform_pxt <- function(lxMat,
 }
 
 
-check_args <- function(lxMat, births, location, age1, age2, c1, c2, verbose) {
+check_args <- function(mxMat, births, location, age1, age2, c1, c2, verbose) {
   stopifnot(length(age1) == length(c1))
   stopifnot(length(age2) == length(c2))
   stopifnot(is_single(age1))
@@ -815,20 +818,20 @@ check_args <- function(lxMat, births, location, age1, age2, c1, c2, verbose) {
 
 
   # If lxMat or births are missing -- message requiring location and sex
-  if (is.null(lxMat) & is.null(location)) {
-    stop("lxMat not specified, please specify location and sex\n")
+  if (is.null(mxMat) & is.null(location)) {
+    stop("mxMat not specified, please specify location and sex\n")
   }
   if (is.null(births) & is.null(location)) {
     stop("births not specified, please specify location and sex\n")
   }
 
-  if (!is.null(lxMat) && ncol(lxMat) == 1) {
-    stop("lxMat should have at least two or more dates as columns. lxMat contains only one column") #nolintr
+  if (!is.null(mxMat) && ncol(mxMat) == 1) {
+    stop("mxMat should have at least two or more dates as columns. mxMat contains only one column") #nolintr
   }
 
   if (any(c1 < 0)) stop("No negative values allowed in `c1`")
   if (any(c2 < 0)) stop("No negative values allowed in `c2`")
-  if (any(lxMat < 0)) stop("No negative values allowed in `lxMat`")
+  if (any(mxMat < 0)) stop("No negative values allowed in `mxMat`")
 
 }
 
@@ -840,14 +843,14 @@ transform_datesout <- function(dates_out, date1, date2, midyear) {
   if (is.null(dates_out)){
     if (! midyear){
       # jan 1 dates
-      left_date  <- floor(date1) + 1
-      right_date <- ceiling(date2) - 1
-      dates_out  <- left_date:right_date
+      left_date      <- floor(date1) + 1
+      right_date     <- ceiling(date2) - 1
+      dates_out      <- left_date:right_date
     }
     if (midyear){
-      left_date  <- floor(date1) + .5
-      right_date <- ceiling(date2) - .5
-      dates_out  <- left_date:right_date
+      left_date      <- floor(date1) + .5
+      right_date     <- ceiling(date2) - .5
+      dates_out      <- left_date:right_date
       dates_out_lgl  <- data.table::between(dates_out,
                                             date1,
                                             date2,
@@ -859,6 +862,7 @@ transform_datesout <- function(dates_out, date1, date2, midyear) {
   dates_out
 }
 
+# ZZZ flag this for review
 reshape_pxt <- function(
                         pxt,
                         births,
