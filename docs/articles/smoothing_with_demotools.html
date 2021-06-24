@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
       </span>
     </div>
 
@@ -108,13 +108,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="smoothing_with_demotools_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Smoothing with DemoTools</h1>
                         <h4 class="author">Jose Manuel Aburto, Ilya Kashnitsky, Marius Pascariu, Tim Riffe</h4>
             
-            <h4 class="date">2021-04-09</h4>
+            <h4 class="date">2021-06-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/smoothing_with_demotools.Rmd"><code>vignettes/smoothing_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>smoothing_with_demotools.Rmd</code></div>
@@ -143,7 +143,7 @@
 <div id="carrier-farrag" class="section level3">
 <h3 class="hasAnchor">
 <a href="#carrier-farrag" class="anchor"></a>Carrier-Farrag</h3>
-<p>This method considers the ratio, <span class="math inline">\(K\)</span>, of the population in one quinary age-group to the next one <span class="citation">(Carrier and Farrag 1959)</span>. If <span class="math inline">\(v_0\)</span> is a denary age-group, and <span class="math inline">\(v_{-2}\)</span> and <span class="math inline">\(v_2\)</span> are the preceding and succeeding age-groups, respectively, and if <span class="math inline">\(K^4 = v_{-2}/v_2\)</span>. Then, the older quinary group <span class="math inline">\(v_1\)</span> can be estimated by <span class="math inline">\(v_0/(1+K)\)</span>. This equation connects the population in two ten-year age groups separated by an interval of ten years. Therefore the value <span class="math inline">\(K\)</span> can be seen as the middle point between the two ten-year age groups. To run this method in <code>DemoTools</code> the function <code>afesmth</code> is used with the option ‘Carrier-Farrag’. The figure below shows the smoothed population by five-year age groups.</p>
+<p>This method considers the ratio, <span class="math inline">\(K\)</span>, of the population in one quinary age-group to the next one <span class="citation">(Carrier and Farrag 1959)</span>. If <span class="math inline">\(v_0\)</span> is a denary age-group, and <span class="math inline">\(v_{-2}\)</span> and <span class="math inline">\(v_2\)</span> are the preceding and succeeding age-groups, respectively, and if <span class="math inline">\(K^4 = v_{-2}/v_2\)</span>. Then, the older quinary group <span class="math inline">\(v_1\)</span> can be estimated by <span class="math inline">\(v_0/(1+K)\)</span>. This equation connects the population in two ten-year age groups separated by an interval of ten years. Therefore the value <span class="math inline">\(K\)</span> can be seen as the middle point between the two ten-year age groups. To run this method in <code>DemoTools</code> the function <code>afesmth</code> is used with the option ‘Carrier-Farrag.’ The figure below shows the smoothed population by five-year age groups.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/smooth_age_5.html">smooth_age_5</a></span><span class="op">(</span>
@@ -300,27 +300,27 @@ _{10}\hat{P}_x = \frac{_{10}P_{x-10} + 2\, _10P_{x} + _{10}P_{x+10}}{4}
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
-<div id="refs" class="references">
-<div id="ref-arriaga1994population">
-<p>Arriaga, Eduardo E, Peter D Johnson, and Ellen Jamison. 1994. <em>Population Analysis with Microcomputers</em>. Vol. 1. Bureau of the Census.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-arriaga1994population" class="csl-entry">
+Arriaga, Eduardo E, Peter D Johnson, and Ellen Jamison. 1994. <em>Population Analysis with Microcomputers</em>. Vol. 1. Bureau of the Census.
 </div>
-<div id="ref-arriaga1968new">
-<p>Arriaga, Eduardo E, and others. 1968. “New Life Tables for Latin American Populations in the Nineteenth and Twentieth Centuries.” <em>New Life Tables for Latin American Populations in the Nineteenth and Twentieth Centuries.</em>, no. 3. University of California, 2234 Piedmont Avenue, California 94720, USA.</p>
+<div id="ref-arriaga1968new" class="csl-entry">
+Arriaga, Eduardo E, and others. 1968. <span>“New Life Tables for Latin American Populations in the Nineteenth and Twentieth Centuries.”</span> <em>New Life Tables for Latin American Populations in the Nineteenth and Twentieth Centuries.</em>, no. 3.
 </div>
-<div id="ref-carrier1959reduction">
-<p>Carrier, Norman H, and AM Farrag. 1959. “The Reduction of Errors in Census Populations for Statistically Underdeveloped Countries.” <em>Population Studies</em> 12 (3). Taylor &amp; Francis: 240–85.</p>
+<div id="ref-carrier1959reduction" class="csl-entry">
+Carrier, Norman H, and AM Farrag. 1959. <span>“The Reduction of Errors in Census Populations for Statistically Underdeveloped Countries.”</span> <em>Population Studies</em> 12 (3): 240–85.
 </div>
-<div id="ref-feeney2013">
-<p>Feeney, G. 2013. “Removing "Zigzag" from Age Data.” <em>White-Papers</em> 1 (1).</p>
+<div id="ref-feeney2013" class="csl-entry">
+Feeney, G. 2013. <span>“Removing "Zigzag" from Age Data.”</span> <em>White-Papers</em> 1 (1).
 </div>
-<div id="ref-siegel2004methods">
-<p>Siegel Jacob, S, and A Swanson David, eds. 2004. <em>The Methods and Materials of Demography</em>. 2nd ed. San Diego, USA: Elsevier Academic Press, California, USA.</p>
+<div id="ref-siegel2004methods" class="csl-entry">
+Siegel Jacob, S, and A Swanson David, eds. 2004. <em>The Methods and Materials of Demography</em>. 2nd ed. San Diego, USA: Elsevier Academic Press, California, USA.
 </div>
-<div id="ref-spencer1987improvements">
-<p>Spencer, G. 1987. “Improvements in the Quality of Census Age Statistics for the Elderly” 1: 3–1.</p>
+<div id="ref-spencer1987improvements" class="csl-entry">
+Spencer, G. 1987. <span>“Improvements in the Quality of Census Age Statistics for the Elderly”</span> 1: 3–1.
 </div>
-<div id="ref-united1955manual">
-<p>United Nations. 1955. <em>Manual Ii: Methods of Appraisal of Quality of Basic Data for Population Estimates</em>. 23. New York: United Nations Department of International Economic; Social Affairs.</p>
+<div id="ref-united1955manual" class="csl-entry">
+United Nations. 1955. <em>Manual II: Methods of Appraisal of Quality of Basic Data for Population Estimates</em>. 23. New York: United Nations Department of International Economic; Social Affairs.
 </div>
 </div>
 </div>

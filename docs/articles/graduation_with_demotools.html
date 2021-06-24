@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
       </span>
     </div>
 
@@ -108,13 +108,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="graduation_with_demotools_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Graduation with DemoTools</h1>
                         <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
-            <h4 class="date">2021-04-09</h4>
+            <h4 class="date">2021-06-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/graduation_with_demotools.Rmd"><code>vignettes/graduation_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>graduation_with_demotools.Rmd</code></div>
@@ -338,12 +338,10 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
                     splitfun <span class="op">=</span> <span class="va">graduate_uniform</span>, 
                  recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">pop1resc</span>
-<span class="co">#&gt;          0          1          6          8         10         14         18 </span>
-<span class="co">#&gt;   8.453942 269.977069 139.427557 104.693482 247.733148 253.655700 142.416051 </span>
-<span class="co">#&gt;         19         21         24         28         31         34         37 </span>
-<span class="co">#&gt;  81.049696 226.922450 232.099197 144.869189 197.291577  62.315228 176.488376 </span>
-<span class="co">#&gt;         40 </span>
-<span class="co">#&gt; 128.821850</span></code></pre></div>
+<span class="co">#&gt;         0         1         6         8        10        14        18        19 </span>
+<span class="co">#&gt;  49.53522 419.10430  57.86575 103.05091 194.64558  47.79760  22.53797  69.01772 </span>
+<span class="co">#&gt;        21        24        28        31        34        37        40 </span>
+<span class="co">#&gt; 100.99520 269.97365 170.98107 174.42573  98.23378 106.39809 286.52704</span></code></pre></div>
 </div>
 </div>
 <div id="graduation-as-a-light-smoother" class="section level2">
@@ -354,33 +352,33 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
-<div id="refs" class="references">
-<div id="ref-beers1945six">
-<p>Beers, Henry S. 1945. “Six-Term Formulas for Routine Actuarial Interpolation.” <em>The Record of the American Institute of Actuaries</em> 34 (69): 59–60.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-beers1945six" class="csl-entry">
+Beers, Henry S. 1945. <span>“Six-Term Formulas for Routine Actuarial Interpolation.”</span> <em>The Record of the American Institute of Actuaries</em> 34 (69): 59–60.
 </div>
-<div id="ref-beers1945modified">
-<p>Beers, HS. 1945. “Modified-Interpolation Formulas That Minimize Fourth Differences.” <em>Record of the American Institute of Actuaries</em> 34 (69): 14–20.</p>
+<div id="ref-beers1945modified" class="csl-entry">
+Beers, HS. 1945. <span>“Modified-Interpolation Formulas That Minimize Fourth Differences.”</span> <em>Record of the American Institute of Actuaries</em> 34 (69): 14–20.
 </div>
-<div id="ref-brass1960graduation">
-<p>Brass, William. 1960. “The Graduation of Fertility Distributions by Polynomial Functions.” <em>Population Studies</em> 14 (2). Taylor &amp; Francis: 148–62.</p>
+<div id="ref-brass1960graduation" class="csl-entry">
+Brass, William. 1960. <span>“The Graduation of Fertility Distributions by Polynomial Functions.”</span> <em>Population Studies</em> 14 (2): 148–62.
 </div>
-<div id="ref-fritsch1980monotone">
-<p>Fritsch, Frederick N, and Ralph E Carlson. 1980. “Monotone Piecewise Cubic Interpolation.” <em>SIAM Journal on Numerical Analysis</em> 17 (2). SIAM: 238–46.</p>
+<div id="ref-fritsch1980monotone" class="csl-entry">
+Fritsch, Frederick N, and Ralph E Carlson. 1980. <span>“Monotone Piecewise Cubic Interpolation.”</span> <em>SIAM Journal on Numerical Analysis</em> 17 (2): 238–46.
 </div>
-<div id="ref-hyman1983accurate">
-<p>Hyman, James M. 1983. “Accurate Monotonicity Preserving Cubic Interpolation.” <em>SIAM Journal on Scientific and Statistical Computing</em> 4 (4). SIAM: 645–54.</p>
+<div id="ref-hyman1983accurate" class="csl-entry">
+Hyman, James M. 1983. <span>“Accurate Monotonicity Preserving Cubic Interpolation.”</span> <em>SIAM Journal on Scientific and Statistical Computing</em> 4 (4): 645–54.
 </div>
-<div id="ref-pascariu2018ungroup">
-<p>Pascariu, Marius D, Maciej J Dańko, Jonas Schöley, and Silvia Rizzi. 2018. “Ungroup: An R Package for Efficient Estimation of Smooth Distributions from Coarsely Binned Data.” <em>Age</em> 10: 0.</p>
+<div id="ref-pascariu2018ungroup" class="csl-entry">
+Pascariu, Marius D, Maciej J Dańko, Jonas Schöley, and Silvia Rizzi. 2018. <span>“Ungroup: An r Package for Efficient Estimation of Smooth Distributions from Coarsely Binned Data.”</span> <em>Age</em> 10: 0.
 </div>
-<div id="ref-rizzi2015efficient">
-<p>Rizzi, Silvia, Jutta Gampe, and Paul HC Eilers. 2015. “Efficient Estimation of Smooth Distributions from Coarsely Grouped Data.” <em>American Journal of Epidemiology</em> 182 (2). Oxford University Press: 138–47.</p>
+<div id="ref-rizzi2015efficient" class="csl-entry">
+Rizzi, Silvia, Jutta Gampe, and Paul HC Eilers. 2015. <span>“Efficient Estimation of Smooth Distributions from Coarsely Grouped Data.”</span> <em>American Journal of Epidemiology</em> 182 (2): 138–47.
 </div>
-<div id="ref-siegel2004methods">
-<p>Siegel Jacob, S, and A Swanson David, eds. 2004. <em>The Methods and Materials of Demography</em>. 2nd ed. San Diego, USA: Elsevier Academic Press, California, USA.</p>
+<div id="ref-siegel2004methods" class="csl-entry">
+Siegel Jacob, S, and A Swanson David, eds. 2004. <em>The Methods and Materials of Demography</em>. 2nd ed. San Diego, USA: Elsevier Academic Press, California, USA.
 </div>
-<div id="ref-sprague1880explanation">
-<p>Sprague, Thomas Bond. 1880. “Explanation of a New Formula for Interpolation.” <em>Journal of the Institute of Actuaries</em> 22 (4). Cambridge University Press: 270–85.</p>
+<div id="ref-sprague1880explanation" class="csl-entry">
+Sprague, Thomas Bond. 1880. <span>“Explanation of a New Formula for Interpolation.”</span> <em>Journal of the Institute of Actuaries</em> 22 (4): 270–85.
 </div>
 </div>
 </div>

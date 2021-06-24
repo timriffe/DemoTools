@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
       </span>
     </div>
 
@@ -194,7 +194,7 @@
     <p>Numeric vector of counts for single year age groups.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If <code>AgeInt</code> is given, its final value is used as the interval for the final age group. If <code>AgeInt</code> is missing, then <code>Age</code> must be given, and the open age group is by default preserved <code>OAvalue</code> rather than split. To instead split the final age group into, e.g., a 5-year age class, either give <code>AgeInt</code>, <em>or</em> give <code>Age</code>, <code>OAG = TRUE</code>, and <code>OAvalue = 5</code>.</p>
+    <p>Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If <code>AgeInt</code> is given, its final value is used as the interval for the final age group. If <code>AgeInt</code> is missing, then <code>Age</code> must be given, and the open age group is by default preserved <code>OAvalue</code> rather than split. To instead split the final age group into, e.g., a 5-year age class, either give <code>AgeInt</code>, <em>or</em> give <code>Age</code>, <code>OAG = TRUE</code>, and <code>OAvalue = 5</code>.  <code>Age</code> be any age range, it does not need to start at 0.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>MalePop</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>9544406</span>,<span class='fl'>7471790</span>,<span class='fl'>11590109</span>,<span class='fl'>11881844</span>,<span class='fl'>11872503</span>,<span class='fl'>12968350</span>,

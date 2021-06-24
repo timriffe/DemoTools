@@ -22,3 +22,5 @@ Spreadsheets
 docs/
 .gitsum
 .RData
+/doc/
+/Meta/

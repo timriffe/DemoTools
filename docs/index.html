@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
       </span>
     </div>
 
@@ -115,19 +115,19 @@
 <div id="demotools" class="section level1">
 
 <p><a href="https://github.com/timriffe/DemoTools/actions"><img src="https://github.com/timriffe/DemoTools/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://codecov.io/gh/timriffe/DemoTools"><img src="https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg" alt="codecov"></a></p>
-<p><a href="https://github.com/timriffe/DemoTools"><img src="https://img.shields.io/badge/devel%20version-01.13.40-yellow.svg"></a> <a href="https://github.com/timriffe/DemoTools/issues"><img src="https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg" alt="issues"></a> <a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></p>
+<p><a href="https://github.com/timriffe/DemoTools"><img src="https://img.shields.io/badge/devel%20version-01.13.59-yellow.svg"></a> <a href="https://github.com/timriffe/DemoTools/issues"><img src="https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg" alt="issues"></a> <a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="lifecycle"></a></p>
 </div>
 <div id="tools-for-aggregate-demographic-analysis" class="section level1">
 <h1 class="hasAnchor">
 <a href="#tools-for-aggregate-demographic-analysis" class="anchor"></a>Tools for aggregate demographic analysis</h1>
-<p>Date: 2021-04-01</p>
+<p>Date: 2021-06-23</p>
 <p><code>DemoTools</code> is an R package that contains simple functions often used in demographic analysis. It is in active development.</p>
 <p>This project is commissioned by the <a href="http://www.un.org/en/development/desa/population/">UN Population Division</a> and financed by the <a href="https://www.gatesfoundation.org/">Bill and Melinda Gates Foundation</a> as part of the <a href="http://www.un.org/en/development/desa/population/projects/making-family-planning-count/index.shtml">Making Family Planning Count</a> project. Work is also done in collaboration with Sean Fennell, <a href="https://github.com/jmaburto">José Manuel Aburto</a>, <a href="https://ikashnitsky.github.io/">Ilya Kashnitsky</a>, <a href="https://github.com/mpascariu">Marius Pascariu</a>, <a href="https://github.com/cimentadaj">Jorge Cimentada</a>, <a href="https://www.monicaalexander.com/">Monica Alexander</a>, and with minor contributions from <a href="https://github.com/timriffe/DemoTools/graphs/contributors">several more</a> (thank you!). This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 IGO (<a href="https://creativecommons.org/licenses/by-sa/3.0/igo/">CC BY-SA 3.0 IGO</a>).</p>
 <p>The idea behind <code>DemoTools</code> is to provide a common set of functions that can be easily used by analysts and scientists working on demographic analysis and modelling.</p>
 <p>If you detect a bug or have a suggestion please notify us using the <a href="https://github.com/timriffe/DemoTools/issues">Issues</a> tab on github. Even better if you fix it and make a pull request! See <a href="https://github.com/timriffe/DemoTools/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a> for more tips on reporting bugs or offering patches.</p>
-<div id="getting-started-and-installation" class="section level2">
+<div id="-getting-started-and-installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#getting-started-and-installation" class="anchor"></a><i class="fa fa-cog" aria-hidden="true"></i> Getting Started and installation</h2>
+<a href="#-getting-started-and-installation" class="anchor"></a><i class="fa fa-cog" aria-hidden="true"></i> Getting Started and installation</h2>
 <p>If you are getting started with <code>DemoTools</code> we recommend taking a look at the tutorial articles and the examples in the package documentation.</p>
 <p>You can load the <code>DemoTools</code> package in R like so:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -138,9 +138,9 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rstan"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"https://mc-stan.org/r-packages/"</span>, <span class="fu"><a href="https://rdrr.io/r/base/options.html">getOption</a></span><span class="op">(</span><span class="st">"repos"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"timriffe/DemoTools"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="citation" class="section level2">
+<div id="-citation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a><i class="fa fa-pencil" aria-hidden="true"></i> Citation</h2>
+<a href="#-citation" class="anchor"></a><i class="fa fa-pencil" aria-hidden="true"></i> Citation</h2>
 <p>To cite <code>DemoTools</code> in publications, please use:</p>
 <p>Riffe T, Aburto JM, Alexander M,Fennell S, Kashnitsky I, Pascariu M and Gerland P. (2019) DemoTools: An R package of tools for aggregate demographic analysis URL: <a href="https://github.com/timriffe/DemoTools/" class="uri">https://github.com/timriffe/DemoTools/</a>.</p>
 <p>A BibTeX entry for LaTeX users is:</p>
@@ -152,9 +152,9 @@
 }
 </code></pre>
 </div>
-<div id="about-top-icons" class="section level2">
+<div id="-about-top-icons" class="section level2">
 <h2 class="hasAnchor">
-<a href="#about-top-icons" class="anchor"></a><i class="fa fa-arrow-alt-circle-up" aria-hidden="true"></i> About top icons</h2>
+<a href="#-about-top-icons" class="anchor"></a><i class="fa fa-arrow-alt-circle-up" aria-hidden="true"></i> About top icons</h2>
 <p>If either of the first two icons at the top of this README are red, then the installation might not be working. You can assume we’re fixing it. If they’re green, then it should work.</p>
 <p>Every time this repository is updated the entire code base is rebuilt on a server somewhere, and undergoes a series of checks. This happens on a Linux machine and on a Windows machine. Any warnings or errors in these builds will yield a red fail tag, and successes are green passes. Code coverage indicates what percentage of lines of code undergo formal unit testing of some kind.</p>
 </div>

@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
       </span>
     </div>
 
@@ -197,6 +197,7 @@
 
     <p>The PCLM method can also be used to graduate rates using an offset if both numerators and denominators are available. In this case <code>Value</code> is the event count and <code>offset</code> is person years of exposure. The denominator must match the length of <code>Value</code> or else the length of the final single age result <code><a href='https://rdrr.io/r/base/length.html'>length(min(Age):OAnew)</a></code>.  This method can be used to redistribute counts in the open age group if <code>OAnew</code> gives sufficient space. Likewise, it can give a rate extrapolation beyond the open age.</p>
 <p>If there are 0s in <code>Value</code>, these are replaced with a small value prior to fitting. If negatives result from the pclm fit, we retry after multiplying <code>Value</code> by 10, 100, or 1000, as sometimes a temporary rescale for fitting can help performance.</p>
+<p><code>Age</code> be any age range, it does not need to start at 0.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Pascariu MD, Dańko MJ, Schöley J, Rizzi S (2018).
