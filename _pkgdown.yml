@@ -10,8 +10,8 @@ home:
   title: DemoTools
   description: Do you love demography and data? If so, you might enjoy using this package.
   links:
-  - text: UN Deparment of Economic and Social Affairs Population
-    href: https://www.un.org/en/development/desa/population/index.asp
+  - text: United Nations Population Division
+    href: https://www.un.org/development/desa/pd/
   - text: Browse source code
     href: https://github.com/timriffe/DemoTools/    
   
