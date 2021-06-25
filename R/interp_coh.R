@@ -713,7 +713,7 @@ interp_coh_lxMat_pxt <- function(lxMat,
   PX
 }
 
-### ZZZ FLAG for redux or deprecation
+### ZZZ FLAG for redux and/or deprecation / name change
 transform_pxt <- function(lxMat,
                           location,
                           sex,
@@ -728,6 +728,7 @@ transform_pxt <- function(lxMat,
   # get the lexis surface of survival probabilities
   if (is.null(lxMat)){
     
+    # ZZZ Note this already returns Sx. that was an easy fix.
     pxt <- suppressMessages(
       interp_coh_download_mortality(location = location, 
                                     sex = sex, 
@@ -738,6 +739,7 @@ transform_pxt <- function(lxMat,
     )
   } else {
     
+    ### FLAG This all needs to change.
     if (is.null(dates_lx)){
       # if lx dates not given we assume dates evenly distributed from date1 to date2?
       dates_lx <- seq(date1,date2,length.out = ncol(lxMat))
