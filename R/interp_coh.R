@@ -630,6 +630,8 @@ lt_a2s_chunk <- function(chunk, OAnew, ...){
 #                         dplyr::bind_cols() %>%
 #                         as.matrix())
 
+# ZZZ FLAG for possible depreation
+
 interp_coh_lxMat_pxt <- function(lxMat,
                                  dates_lx,
                                  age_lx,
@@ -711,7 +713,7 @@ interp_coh_lxMat_pxt <- function(lxMat,
   PX
 }
 
-
+### ZZZ FLAG for redux or deprecation
 transform_pxt <- function(lxMat,
                           location,
                           sex,
@@ -859,6 +861,7 @@ transform_datesout <- function(dates_out, date1, date2, midyear) {
   dates_out
 }
 
+### ZZZ FLAG for redux or deprecation
 reshape_pxt <- function(
   pxt,
   births,
@@ -1014,6 +1017,10 @@ reshape_pxt <- function(
   pop_jan1
 }
 
+### ZZZ FLAG for redux
+### after the under-the hood changes are redone to back out Sx,
+### the top level args could expand it optionally let the user
+### also provide nLxMat 
 rup <- function(
   c1,
   c2,
@@ -1093,6 +1100,7 @@ rup <- function(
   f2    <- date2 %>% magrittr::subtract(date2 %>% floor)
   
   # And download if needed
+  # ZZZ FLAG: this step may
   pxt <- transform_pxt(
     lxMat = lxMat,
     location = location,
@@ -1140,6 +1148,9 @@ rup <- function(
   # now that births should be available we can do this check.
   stopifnot(length(births) == length(yrs_births))
   
+  
+  # ZZZ FLAG this may or may not stay same. pxt could just be different values,
+  # and perhaps this would work. However, edge conditions need exa
   pop_jan1 <- reshape_pxt(
     pxt = pxt,
     births = births,
