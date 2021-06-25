@@ -8,7 +8,7 @@
 A vector of length 36
 }
 \source{
-Migration residual PAS spreadhseet
+Migration residual PAS spreadsheet
 }
 \usage{
 ages_asfr_single

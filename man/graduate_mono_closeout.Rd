@@ -55,7 +55,7 @@ grabill.closed.out   <- graduate_mono_closeout(Value = popvec, Age = a5, pops = 
 # one may wish to instead rescale results colSums() of
 # popg at age pivotAge and higher.
 sum(grabill.closed.out) - sum(popvec)
-# also works on an age-labelled vector of data
+# also works on an age-labeled vector of data
 closed.vec           <- graduate_mono_closeout(popvec, Age = a5, OAG = TRUE)
 # let's compare this one with sprague()
 simple.vec           <- graduate_sprague(popvec, Age = a5, OAG = TRUE)

@@ -55,6 +55,8 @@ a wrapper to ageRatioScore() and sexRatioScore()." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -66,9 +68,15 @@ a wrapper to ageRatioScore() and sexRatioScore()." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -82,7 +90,7 @@ a wrapper to ageRatioScore() and sexRatioScore()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
       </span>
     </div>
 
@@ -90,7 +98,7 @@ a wrapper to ageRatioScore() and sexRatioScore()." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -131,13 +139,13 @@ a wrapper to ageRatioScore() and sexRatioScore()." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -166,7 +174,7 @@ ratio index plus the age ratio index for males and females. This function is the
 a wrapper to <code><a href='ageRatioScore.html'>ageRatioScore()</a></code> and <code><a href='sexRatioScore.html'>sexRatioScore()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ageSexAccuracy</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>ageSexAccuracy</span><span class='op'>(</span>
   <span class='va'>Males</span>,
   <span class='va'>Females</span>,
   <span class='va'>Age</span>,
@@ -175,7 +183,7 @@ a wrapper to <code><a href='ageRatioScore.html'>ageRatioScore()</a></code> and <
   method <span class='op'>=</span> <span class='st'>"UN"</span>,
   adjust <span class='op'>=</span> <span class='cn'>TRUE</span>,
   OAG <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -198,7 +206,7 @@ a wrapper to <code><a href='ageRatioScore.html'>ageRatioScore()</a></code> and <
     </tr>
     <tr>
       <th>ageMax</th>
-      <td><p>integer. The upper age bound used for calculations. Default <code><a href='https://rdrr.io/r/base/Extremes.html'>max(Age)</a></code>.</p></td>
+      <td><p>integer. The upper age bound used for calculations. Default <code>max(Age)</code>.</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -236,22 +244,28 @@ In <em>United Nations proceedings of the World Population Conference 1954 (Rome)
 
 United States Census Bureau (2017).
 &#8220;Population Analysis System (PAS) Software.&#8221;
-<a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
+https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>Males</span>   <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4677000</span>,<span class='fl'>4135000</span>,<span class='fl'>3825000</span>,<span class='fl'>3647000</span>,<span class='fl'>3247000</span>,<span class='fl'>2802000</span>,<span class='fl'>2409000</span>,<span class='fl'>2212000</span>,
-    <span class='fl'>1786000</span>,<span class='fl'>1505000</span>,<span class='fl'>1390000</span>,<span class='fl'>984000</span>,<span class='fl'>745000</span>,<span class='fl'>537000</span>,<span class='fl'>346000</span>,<span class='fl'>335000</span><span class='op'>)</span>
-<span class='va'>Females</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4544000</span>,<span class='fl'>4042000</span>,<span class='fl'>3735000</span>,<span class='fl'>3647000</span>,<span class='fl'>3309000</span>,<span class='fl'>2793000</span>,<span class='fl'>2353000</span>,<span class='fl'>2112000</span>,
-    <span class='fl'>1691000</span>,<span class='fl'>1409000</span>,<span class='fl'>1241000</span>,<span class='fl'>887000</span>,<span class='fl'>697000</span>,<span class='fl'>525000</span>,<span class='fl'>348000</span>,<span class='fl'>366000</span><span class='op'>)</span>
-<span class='va'>Age</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>75</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-<span class='fu'>ageSexAccuracy</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span><span class='op'>)</span>    <span class='co'># 14.3, matches PAS</span>
-</div><div class='output co'>#&gt; [1] 14.30763</div><div class='input'><span class='fu'>ageSexAccuracy</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, ageMax <span class='op'>=</span> <span class='fl'>75</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 14.30763</div><div class='input'><span class='fu'>ageSexAccuracy</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, ageMax <span class='op'>=</span> <span class='fl'>75</span>, adjust <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 14.30763</div><div class='input'><span class='fu'>ageSexAccuracy</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"Zelnick"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 11.78753</div><div class='input'><span class='fu'>ageSexAccuracy</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"Ramachandran"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 10.52855</div><div class='input'><span class='co'># Das Gupta not a comparable magnitude, FYI.</span>
-<span class='fu'>ageSexAccuracy</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"Das Gupta"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 3.271301</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>Males</span>   <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4677000</span>,<span class='fl'>4135000</span>,<span class='fl'>3825000</span>,<span class='fl'>3647000</span>,<span class='fl'>3247000</span>,<span class='fl'>2802000</span>,<span class='fl'>2409000</span>,<span class='fl'>2212000</span>,</span>
+<span class='r-in'>    <span class='fl'>1786000</span>,<span class='fl'>1505000</span>,<span class='fl'>1390000</span>,<span class='fl'>984000</span>,<span class='fl'>745000</span>,<span class='fl'>537000</span>,<span class='fl'>346000</span>,<span class='fl'>335000</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Females</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4544000</span>,<span class='fl'>4042000</span>,<span class='fl'>3735000</span>,<span class='fl'>3647000</span>,<span class='fl'>3309000</span>,<span class='fl'>2793000</span>,<span class='fl'>2353000</span>,<span class='fl'>2112000</span>,</span>
+<span class='r-in'>    <span class='fl'>1691000</span>,<span class='fl'>1409000</span>,<span class='fl'>1241000</span>,<span class='fl'>887000</span>,<span class='fl'>697000</span>,<span class='fl'>525000</span>,<span class='fl'>348000</span>,<span class='fl'>366000</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>75</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>ageSexAccuracy</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span><span class='op'>)</span>    <span class='co'># 14.3, matches PAS</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 14.30763</span>
+<span class='r-in'><span class='fu'>ageSexAccuracy</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, ageMax <span class='op'>=</span> <span class='fl'>75</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 14.30763</span>
+<span class='r-in'><span class='fu'>ageSexAccuracy</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, ageMax <span class='op'>=</span> <span class='fl'>75</span>, adjust <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 14.30763</span>
+<span class='r-in'><span class='fu'>ageSexAccuracy</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"Zelnick"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 11.78753</span>
+<span class='r-in'><span class='fu'>ageSexAccuracy</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"Ramachandran"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 10.52855</span>
+<span class='r-in'><span class='co'># Das Gupta not a comparable magnitude, FYI.</span></span>
+<span class='r-in'><span class='fu'>ageSexAccuracy</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"Das Gupta"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 3.271301</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -263,11 +277,11 @@ United States Census Bureau (2017).
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -275,6 +289,8 @@ United States Census Bureau (2017).
 
   
 
+
+  
 
   </body>
 </html>

@@ -20,7 +20,7 @@
 #'  is aligned with the other columns in all 5-year age groups, but note the
 #'  first two values have a slightly different age-interval interpretation:
 #'  In Age 0, the interpretation is survival from birth until interval 0-4.
-#'  In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align.
+#'  In Age 1, it is survival from 0-4 into 5-9. Thereafter the age groups align.
 #'  This column is required for population projections.
 #'
 #' @param Deaths numeric. Vector of death counts in abridged age classes.

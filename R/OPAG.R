@@ -24,7 +24,7 @@
 # here in the future, as well as other options. The main missing piece
 # is a good collection of model lifetables.
 
-#' redistripute an open age group count over higher ages proportional to an arbitrary standard
+#' redistribute an open age group count over higher ages proportional to an arbitrary standard
 #' @description This method could be useful whenever a reasonable standard is available. At present the standard must be supplied by the user.
 #' @details In this implementation both the original population counts and the standard must be in single ages.
 #' @param Pop numeric vector of population counts
@@ -128,7 +128,7 @@ OPAG_simple    <-
 #' quite often an acceptable and useful approximation. The transformation is applied at the single-age scale, even if the input `nLx` is in wider (e.g. abridged) age groups. When needed, we reduce to single ages using (default) `graduate_uniform()`, then apply the transformation, then group back. This is innocuous if `nLx` is given in single ages. You may want to change `method` to `"mono"` or `"pclm"`.
 #'
 #' @param Lx1 numeric vector of stationary population age structure in arbitrary integer age groups
-#' @param Age_Lx1 interger vector of lower bounds of age groups of `nLx`
+#' @param Age_Lx1 integer vector of lower bounds of age groups of `nLx`
 #' @param r stable growth rate
 #' @return numeric vector of the transformed `nLx`. Note, this vector sums to `1`.
 #' @export
@@ -343,7 +343,7 @@ OPAG_fit_stable_standard <- function(Pop_fit,
 #' `Redistribute_from` can be lower than your current open age group,
 #' and `OAnew` can be higher, as long as it is within the range of `Age_nLx`.
 #' If `Age_nLx` doesn't go high enough for your needs, you can extrapolate
-#' it ahead of time. For this, you'd want the `nMx` the underly it, and you
+#' it ahead of time. For this, you'd want the `nMx` the underlie it, and you
 #' can use `lt_abridged()`, specifying a higher open age, and then
 #' extracting `nLx` again from it.
 #'
@@ -351,7 +351,7 @@ OPAG_fit_stable_standard <- function(Pop_fit,
 #' @param Pop numeric vector of population counts
 #' @param Age_Pop integer vector of the lower bounds of the population age groups
 #' @param nLx numeric vector of stationary population age structure in arbitrary integer age groups
-#' @param Age_nLx interger vector of lower bounds of age groups of `nLx`
+#' @param Age_nLx integer vector of lower bounds of age groups of `nLx`
 #' @param Redistribute_from integer lower age bound that forms the cutoff, above which we redistribute counts using the stable standard.
 #' @param OAnew integer. Desired open age group in the output (must being element of `Age_nLx`)
 #' @param method character, graduation method used for intermediate graduation. Default `"mono"`. Other reasonable choices include `"pclm"` or `"uniform"`.

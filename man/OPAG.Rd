@@ -23,7 +23,7 @@ OPAG(
 
 \item{nLx}{numeric vector of stationary population age structure in arbitrary integer age groups}
 
-\item{Age_nLx}{interger vector of lower bounds of age groups of \code{nLx}}
+\item{Age_nLx}{integer vector of lower bounds of age groups of \code{nLx}}
 
 \item{Age_fit}{integer vector of lower bounds for age groups of \code{Pop_fit}}
 
@@ -52,7 +52,7 @@ and more than one \code{Redistribute_from} cut point, as results may vary.
 \code{Redistribute_from} can be lower than your current open age group,
 and \code{OAnew} can be higher, as long as it is within the range of \code{Age_nLx}.
 If \code{Age_nLx} doesn't go high enough for your needs, you can extrapolate
-it ahead of time. For this, you'd want the \code{nMx} the underly it, and you
+it ahead of time. For this, you'd want the \code{nMx} the underlie it, and you
 can use \code{lt_abridged()}, specifying a higher open age, and then
 extracting \code{nLx} again from it.
 }

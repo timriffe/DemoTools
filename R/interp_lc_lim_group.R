@@ -9,11 +9,11 @@
 # text/messages/warnings. Specially the case when no `id` is given
 
 #' 
-#' @description Given a data frame with groups (country, region, sex), dates, sex and mortality data by age (rates, conditionated probabilities of death 
+#' @description Given a data frame with groups (country, region, sex), dates, sex and mortality data by age (rates, conditioned probabilities of death 
 #' or survival function), this function interpolate/extrapolate life tables 
 #' using the method for limited data suggested by  Li et. al (2004) (at least three observed years). 
 #'
-#' @details Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN. 
+#' @details Based on spreadsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN. 
 #' Useful for abridged or single ages, and allows output in both formats also.
 #' One option is the use of non-divergent method for sex coherency (Li & Lee, 2005).
 #' The other is the possibility of fitting `"k"` to replicate `"e_0"` at some given dates.
@@ -23,9 +23,9 @@
 #' @note Draft Version
 #'
 #' @param input data.frame. Columns: id, Date, Sex, Age, nMx (opt), nqx (opt), lx (opt). 
-#' The first column (id) cn be a numeric index or charcter vector identifying each group.  
+#' The first column (id) can be a numeric index or character vector identifying each group.  
 #' @param dates_out numeric. Vector of decimal years to interpolate or extrapolate.
-#' @param Single logical. Wheter or not the lifetable output is by single ages.
+#' @param Single logical. Whether or not the lifetable output is by single ages.
 #' @param input_e0 data.frame with cols: id, Date, Sex and `"e_0"`. This should be fitted when apply method.
 #' @param prev_divergence logical. Whether or not prevent divergence and sex crossover between groups. Default `FALSE.`
 #' @param weights list. For `prev_divergence` option. A double for each element of a list with names as `id` columns. Should sum up to 1. Default: same weight for each group.

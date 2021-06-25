@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -80,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
       </span>
     </div>
 
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +170,7 @@
     <p>This age heaping index is used for particular old ages, such as 90, 95, 100, 105, and so forth.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, Agei <span class='op'>=</span> <span class='fl'>90</span>, pow <span class='op'>=</span> <span class='st'>"exp"</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, Agei <span class='op'>=</span> <span class='fl'>90</span>, pow <span class='op'>=</span> <span class='st'>"exp"</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,7 +198,7 @@
     <p>The value of the index.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The index looks down two ages and up two ages, so the data must accommodate that range. The denominator is a mean of the counts in the sourrounding 5 single ages. The kind of mean can be controlled with the <code>pow</code> argument. By default, this takes the antilog of the arithmetic mean of the natural log of the five denominator counts. That will fail if one of the counts is equal to 0. In such cases, another power, such as 2 or 10 or 100 may be used, which is more robust to 0s. The higher the power, the closer the result will resemble the default output. If <code>pow=="exp"</code> but a 0 is detected among the denominator ages, then <code>pow</code> is assigned a value of 1000. <code>pow=1</code> would imply an arithmetic mean in the denominator.</p>
+    <p>The index looks down two ages and up two ages, so the data must accommodate that range. The denominator is a mean of the counts in the surrounding 5 single ages. The kind of mean can be controlled with the <code>pow</code> argument. By default, this takes the antilog of the arithmetic mean of the natural log of the five denominator counts. That will fail if one of the counts is equal to 0. In such cases, another power, such as 2 or 10 or 100 may be used, which is more robust to 0s. The higher the power, the closer the result will resemble the default output. If <code>pow=="exp"</code> but a 0 is detected among the denominator ages, then <code>pow</code> is assigned a value of 1000. <code>pow=1</code> would imply an arithmetic mean in the denominator.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Kannisto V (1999).
@@ -198,14 +206,20 @@
 <em>Validation of Exceptional Longevity'', Odense Monographs on Population Aging</em>, <b>6</b>, 235--249.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
-<span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>90</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 10.61044</div><div class='input'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 11.89005</div><div class='input'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span>, pow <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'># geometric mean in denom</span>
-</div><div class='output co'>#&gt; [1] 7.20897</div><div class='input'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span>, pow <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span> <span class='co'># similar, but robust to 0s</span>
-</div><div class='output co'>#&gt; [1] 11.88047</div><div class='input'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span>, pow <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='co'># arithmetic mean in denom</span>
-</div><div class='output co'>#&gt; [1] 4.198132</div><div class='input'><span class='va'>pop1m_pasex</span><span class='op'>[</span><span class='va'>Age</span><span class='op'>==</span><span class='fl'>95</span><span class='op'>]</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span><span class='op'>[</span><span class='va'>Age</span> <span class='op'>&gt;=</span> <span class='fl'>93</span> <span class='op'>&amp;</span> <span class='va'>Age</span> <span class='op'>&lt;=</span> <span class='fl'>97</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 4.198132</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span></span>
+<span class='r-in'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>90</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 10.61044</span>
+<span class='r-in'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 11.89005</span>
+<span class='r-in'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span>, pow <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'># geometric mean in denom</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 7.20897</span>
+<span class='r-in'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span>, pow <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span> <span class='co'># similar, but robust to 0s</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 11.88047</span>
+<span class='r-in'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span>, pow <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='co'># arithmetic mean in denom</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 4.198132</span>
+<span class='r-in'><span class='va'>pop1m_pasex</span><span class='op'>[</span><span class='va'>Age</span><span class='op'>==</span><span class='fl'>95</span><span class='op'>]</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span><span class='op'>[</span><span class='va'>Age</span> <span class='op'>&gt;=</span> <span class='fl'>93</span> <span class='op'>&amp;</span> <span class='va'>Age</span> <span class='op'>&lt;=</span> <span class='fl'>97</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 4.198132</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -217,11 +231,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -229,6 +243,8 @@
 
   
 
+
+  
 
   </body>
 </html>

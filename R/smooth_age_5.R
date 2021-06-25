@@ -450,12 +450,12 @@ smooth_age_5_zigzag <- function(Value,
 #' @param Age integer vector of age group lower bounds.
 #' @param OAG logical. Whether or not the top age group is open. Default \code{TRUE}.
 #' @param n integer. The width of the moving average. Default 3 intervals (x-5 to x+9).
-#' @param tails loglcal. If tails is \code{FALSE}, both tails are left untouched.
+#' @param tails logical. If tails is \code{FALSE}, both tails are left untouched.
 #' Otherwise, the tails are filled out using a cascade method.
 #'
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #'
-#' @details If tails is set to \code{FALSE}, this function calls \code{mav()}, which itself relies on the more general \code{ma()}. We lose the lowest and highest ages with this method, unless \code{n=1}, in which case data is returned in the original 5-year age groups. The total population count is not constrained to sum to the orignal total.
+#' @details If tails is set to \code{FALSE}, this function calls \code{mav()}, which itself relies on the more general \code{ma()}. We lose the lowest and highest ages with this method, unless \code{n=1}, in which case data is returned in the original 5-year age groups. The total population count is not constrained to sum to the original total.
 #'
 #' If tails is \code{TRUE}, the same results are expected but the tails are
 #' filled in using a cascading method.

@@ -242,7 +242,7 @@ lt_abridged2single <- function(
   
 }
 
-#' calculate an abidged or single age lifetable from abridged or sinlge age data
+#' calculate an abridged or single age lifetable from abridged or single age data
 #' @description This is a wrapper around the other lifetable utilities. We start with either `nMx`, `nqx`, or `lx` in single or abridged ages, and returns a full lifetable in either single or abridged ages. All optional arguments of `lt_abridged()` or `lt_single*()` can be passed in, for instance the `nax` assumptions or the extrapolation arguments.
 #' 
 #' @param nMx_or_nqx_or_lx numeric vector of either `nMx`, `nqx`, or `lx`

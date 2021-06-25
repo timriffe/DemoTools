@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -80,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
       </span>
     </div>
 
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +170,7 @@
     <p>This method is used to interpolate counts based on the Sprague formula. It is based on the first stage of the Sprague R script prepared by Thomas Buettner and Patrick Gerland, itself based on the description in Siegel and Swanson, 2004, p. 727.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>graduate_sprague</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, <span class='va'>AgeInt</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>graduate_sprague</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, <span class='va'>AgeInt</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,7 +198,7 @@
     <p>Numeric vector of counts split into single ages.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as or coercible to a single-column matrix. This method may produce negative values, most likely in the youngest or oldest ages. This case is dealt with in the <code><a href='graduate.html'>graduate()</a></code> wrapper function but not in this function.</p>
+    <p>Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). Dimension labeling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as or coercible to a single-column matrix. This method may produce negative values, most likely in the youngest or oldest ages. This case is dealt with in the <code><a href='graduate.html'>graduate()</a></code> wrapper function but not in this function.</p>
 <p>If the highest age does not end in a 0 or 5, and <code>OAG == TRUE</code>, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and <code>OAG == FALSE</code>, then results extend to single ages covering the entire 5-year age group.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -207,36 +215,40 @@ Siegel Jacob S, Swanson David A (eds.) (2004).
 Elsevier Academic Press, California, USA, San Diego, USA.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>)</span> <span class='co'># this is the entire matrix</span>
-</div><div class='output co'>#&gt;     1950  1951  1952  1953  1954
-#&gt; 0  54170 57424 60272 62727 64816
-#&gt; 5  44775 44475 44780 45681 47137
-#&gt; 10 42142 41752 41804 42101 42508
-#&gt; 15 38464 39628 40229 40474 40532
-#&gt; 20 34406 34757 35155 35599 36083
-#&gt; 25 30386 30605 30978 31439 31940</div><div class='input'><span class='va'>a5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>)</span><span class='op'>)</span>
-<span class='co'># the last value is an open age group, preserve as such:</span>
-<span class='va'>p1</span>   <span class='op'>&lt;-</span> <span class='fu'>graduate_sprague</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>p1</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>p1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         0         1         2         3         4         5 
-#&gt; 12172.491 11380.448 10717.448 10171.000  9728.613  9377.795 </div><div class='output co'>#&gt;     95     96     97     98     99    100 
-#&gt; 5.8576 4.5040 3.4240 2.3200 0.8944 0.0000 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>p1</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
-<span class='co'># another case, starting with single ages</span>
-<span class='va'>Age</span>   <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>
-<span class='co'># notice how this particular case produces a negative value in the last age</span>
-<span class='co'># before OAG:</span>
-<span class='va'>pops</span>  <span class='op'>&lt;-</span> <span class='fu'>graduate_sprague</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>pop1m_ind</span>, Age <span class='op'>=</span> <span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='co'># the graduate() wrapper deals with this automatically.</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>, <span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>/</span><span class='fl'>5</span>, type <span class='op'>=</span> <span class='st'>'s'</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>,
-    <span class='va'>p1</span>,
-    lty <span class='op'>=</span> <span class='fl'>1</span>,
-    col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
-
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>)</span> <span class='co'># this is the entire matrix</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     1950  1951  1952  1953  1954</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0  54170 57424 60272 62727 64816</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  44775 44475 44780 45681 47137</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 42142 41752 41804 42101 42508</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 38464 39628 40229 40474 40532</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20 34406 34757 35155 35599 36083</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25 30386 30605 30978 31439 31940</span>
+<span class='r-in'><span class='va'>a5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># the last value is an open age group, preserve as such:</span></span>
+<span class='r-in'><span class='va'>p1</span>   <span class='op'>&lt;-</span> <span class='fu'>graduate_sprague</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>p1</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>p1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         0         1         2         3         4         5 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12172.491 11380.448 10717.448 10171.000  9728.613  9377.795 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     95     96     97     98     99    100 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5.8576 4.5040 3.4240 2.3200 0.8944 0.0000 </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>p1</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># another case, starting with single ages</span></span>
+<span class='r-in'><span class='va'>Age</span>   <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span></span>
+<span class='r-in'><span class='co'># notice how this particular case produces a negative value in the last age</span></span>
+<span class='r-in'><span class='co'># before OAG:</span></span>
+<span class='r-in'><span class='va'>pops</span>  <span class='op'>&lt;-</span> <span class='fu'>graduate_sprague</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>pop1m_ind</span>, Age <span class='op'>=</span> <span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># the graduate() wrapper deals with this automatically.</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>, <span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>/</span><span class='fl'>5</span>, type <span class='op'>=</span> <span class='st'>'s'</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>,</span>
+<span class='r-in'>    <span class='va'>p1</span>,</span>
+<span class='r-in'>    lty <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>    col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -248,11 +260,11 @@ Elsevier Academic Press, California, USA, San Diego, USA.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -260,6 +272,8 @@ Elsevier Academic Press, California, USA, San Diego, USA.</p>
 
   
 
+
+  
 
   </body>
 </html>

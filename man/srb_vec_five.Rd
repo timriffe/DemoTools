@@ -8,7 +8,7 @@
 A vector of length 20
 }
 \source{
-Migration residual PAS spreadhseet
+Migration residual PAS spreadsheet
 }
 \usage{
 srb_vec_five

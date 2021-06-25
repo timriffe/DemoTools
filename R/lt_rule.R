@@ -282,7 +282,7 @@ lt_rule_4m0_m0 <- function(M04, D04, P04, Sex = c("m", "f")) {
 
 #' @title estimates a0 using the Andreev-Kingkade rule of thumb starting with IMR
 #'
-#' @description \code{AKq02a0} Andreev Kingkade a0 method. This version has a 3-part segemented linear model, based on cutpoints in q0. Code ported from HMDLifeTables.
+#' @description \code{AKq02a0} Andreev Kingkade a0 method. This version has a 3-part segmented linear model, based on cut points in q0. Code ported from HMDLifeTables.
 #'
 #' @param q0 a value or vector of values of q0, the death probability in the first year of life.
 #' @param Sex either "m" or "f"
@@ -351,7 +351,7 @@ lt_rule_1a0_ak <- function(M0 = NULL, q0 = NULL, Sex){
 
 #' @title calculate a0 in different ways
 #'
-#' @description This function wraps the Coale-Demeny and Andreev-Kingkade approximations for a0, which can come from M0, qo, or IMR.
+#' @description This function wraps the Coale-Demeny and Andreev-Kingkade approximations for `a0`, which can come from `M0`, `q0`, or `IMR.`
 #' @details If sex is given as both, \code{"b"}, then we calculate the male and female results separately, then weight them together using SRB. This is bad in theory, but the leverage is trivial, and it's better than using male or female coefs for the total population.
 #'
 #' @inheritParams  lt_rule_1a0_cd

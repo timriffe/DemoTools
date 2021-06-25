@@ -54,6 +54,8 @@ Choose between a 7,9,11 or 13 parameter model." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -65,9 +67,15 @@ Choose between a 7,9,11 or 13 parameter model." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -81,7 +89,7 @@ Choose between a 7,9,11 or 13 parameter model." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
       </span>
     </div>
 
@@ -89,7 +97,7 @@ Choose between a 7,9,11 or 13 parameter model." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -130,13 +138,13 @@ Choose between a 7,9,11 or 13 parameter model." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -164,7 +172,7 @@ Choose between a 7,9,11 or 13 parameter model." />
 Choose between a 7,9,11 or 13 parameter model.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mig_estimate_rc</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>mig_estimate_rc</span><span class='op'>(</span>
   <span class='va'>ages</span>,
   <span class='va'>mx</span>,
   <span class='va'>pre_working_age</span>,
@@ -172,7 +180,7 @@ Choose between a 7,9,11 or 13 parameter model.</p>
   <span class='va'>retirement</span>,
   <span class='va'>post_retirement</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,33 +217,33 @@ Choose between a 7,9,11 or 13 parameter model.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># define ages and migration rates</span>
-<span class='va'>ages</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>75</span>
-<span class='va'>mig_rate</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.1014</span>,<span class='fl'>0.0984</span>,<span class='fl'>0.0839</span>,<span class='fl'>0.0759</span>,<span class='fl'>0.0679</span>,<span class='fl'>0.0616</span>,
-<span class='fl'>0.055</span>,<span class='fl'>0.0518</span>,<span class='fl'>0.0438</span>,<span class='fl'>0.0399</span>,<span class='fl'>0.0363</span>,<span class='fl'>0.0342</span>,<span class='fl'>0.0307</span>,<span class='fl'>0.0289</span>,
-<span class='fl'>0.0267</span>,<span class='fl'>0.0237</span>,<span class='fl'>0.0283</span>,<span class='fl'>0.0294</span>,<span class='fl'>0.0392</span>,<span class='fl'>0.0547</span>,<span class='fl'>0.068</span>,<span class='fl'>0.0933</span>,
-<span class='fl'>0.1187</span>,<span class='fl'>0.1282</span>,<span class='fl'>0.1303</span>,<span class='fl'>0.1293</span>,<span class='fl'>0.1247</span>,<span class='fl'>0.1163</span>,<span class='fl'>0.1059</span>,<span class='fl'>0.0976</span>,
-<span class='fl'>0.09</span>,<span class='fl'>0.0817</span>,<span class='fl'>0.0749</span>,<span class='fl'>0.0683</span>,<span class='fl'>0.0626</span>,<span class='fl'>0.058</span>,<span class='fl'>0.0536</span>,<span class='fl'>0.0493</span>,
-<span class='fl'>0.0459</span>,<span class='fl'>0.0418</span>,<span class='fl'>0.0393</span>,<span class='fl'>0.0358</span>,<span class='fl'>0.0343</span>,<span class='fl'>0.0322</span>,<span class='fl'>0.0298</span>,<span class='fl'>0.0281</span>,
-<span class='fl'>0.0266</span>,<span class='fl'>0.0248</span>,<span class='fl'>0.0235</span>,<span class='fl'>0.0222</span>,<span class='fl'>0.0208</span>,<span class='fl'>0.0191</span>,<span class='fl'>0.0178</span>,<span class='fl'>0.0171</span>,
-<span class='fl'>0.0157</span>,<span class='fl'>0.0149</span>,<span class='fl'>0.0139</span>,<span class='fl'>0.0132</span>,<span class='fl'>0.012</span>,<span class='fl'>0.0112</span>,<span class='fl'>0.0116</span>,<span class='fl'>0.0106</span>,
-<span class='fl'>0.0102</span>,<span class='fl'>0.0109</span>,<span class='fl'>0.0107</span>,<span class='fl'>0.0143</span>,<span class='fl'>0.0135</span>,<span class='fl'>0.0134</span>,<span class='fl'>0.0116</span>,<span class='fl'>0.0099</span>,
-<span class='fl'>0.0093</span>,<span class='fl'>0.0083</span>,<span class='fl'>0.0078</span>,<span class='fl'>0.0067</span>,<span class='fl'>0.0069</span>,<span class='fl'>0.0054</span><span class='op'>)</span>
-<span class='co'># fit the model</span>
-
-<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>mig_estimate_rc</span><span class='op'>(</span><span class='va'>ages</span>, <span class='va'>mig_rate</span>,
-pre_working_age <span class='op'>=</span> <span class='cn'>TRUE</span>,
-working_age <span class='op'>=</span> <span class='cn'>TRUE</span>,
-retirement <span class='op'>=</span> <span class='cn'>FALSE</span>,
-post_retirement <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='co'># plot the results and data</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>ages</span>, <span class='va'>mig_rate</span>, ylab <span class='op'>=</span> <span class='st'>"migration rate"</span>, xlab <span class='op'>=</span> <span class='st'>"age"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>ages</span>, <span class='va'>res</span><span class='op'>[[</span><span class='st'>"fit_df"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>median</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>, legend<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data"</span>, <span class='st'>"fit"</span><span class='op'>)</span>, col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"black"</span>, <span class='st'>"red"</span><span class='op'>)</span>, lty<span class='op'>=</span><span class='fl'>1</span>, pch <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># define ages and migration rates</span></span>
+<span class='r-in'><span class='va'>ages</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>75</span></span>
+<span class='r-in'><span class='va'>mig_rate</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.1014</span>,<span class='fl'>0.0984</span>,<span class='fl'>0.0839</span>,<span class='fl'>0.0759</span>,<span class='fl'>0.0679</span>,<span class='fl'>0.0616</span>,</span>
+<span class='r-in'><span class='fl'>0.055</span>,<span class='fl'>0.0518</span>,<span class='fl'>0.0438</span>,<span class='fl'>0.0399</span>,<span class='fl'>0.0363</span>,<span class='fl'>0.0342</span>,<span class='fl'>0.0307</span>,<span class='fl'>0.0289</span>,</span>
+<span class='r-in'><span class='fl'>0.0267</span>,<span class='fl'>0.0237</span>,<span class='fl'>0.0283</span>,<span class='fl'>0.0294</span>,<span class='fl'>0.0392</span>,<span class='fl'>0.0547</span>,<span class='fl'>0.068</span>,<span class='fl'>0.0933</span>,</span>
+<span class='r-in'><span class='fl'>0.1187</span>,<span class='fl'>0.1282</span>,<span class='fl'>0.1303</span>,<span class='fl'>0.1293</span>,<span class='fl'>0.1247</span>,<span class='fl'>0.1163</span>,<span class='fl'>0.1059</span>,<span class='fl'>0.0976</span>,</span>
+<span class='r-in'><span class='fl'>0.09</span>,<span class='fl'>0.0817</span>,<span class='fl'>0.0749</span>,<span class='fl'>0.0683</span>,<span class='fl'>0.0626</span>,<span class='fl'>0.058</span>,<span class='fl'>0.0536</span>,<span class='fl'>0.0493</span>,</span>
+<span class='r-in'><span class='fl'>0.0459</span>,<span class='fl'>0.0418</span>,<span class='fl'>0.0393</span>,<span class='fl'>0.0358</span>,<span class='fl'>0.0343</span>,<span class='fl'>0.0322</span>,<span class='fl'>0.0298</span>,<span class='fl'>0.0281</span>,</span>
+<span class='r-in'><span class='fl'>0.0266</span>,<span class='fl'>0.0248</span>,<span class='fl'>0.0235</span>,<span class='fl'>0.0222</span>,<span class='fl'>0.0208</span>,<span class='fl'>0.0191</span>,<span class='fl'>0.0178</span>,<span class='fl'>0.0171</span>,</span>
+<span class='r-in'><span class='fl'>0.0157</span>,<span class='fl'>0.0149</span>,<span class='fl'>0.0139</span>,<span class='fl'>0.0132</span>,<span class='fl'>0.012</span>,<span class='fl'>0.0112</span>,<span class='fl'>0.0116</span>,<span class='fl'>0.0106</span>,</span>
+<span class='r-in'><span class='fl'>0.0102</span>,<span class='fl'>0.0109</span>,<span class='fl'>0.0107</span>,<span class='fl'>0.0143</span>,<span class='fl'>0.0135</span>,<span class='fl'>0.0134</span>,<span class='fl'>0.0116</span>,<span class='fl'>0.0099</span>,</span>
+<span class='r-in'><span class='fl'>0.0093</span>,<span class='fl'>0.0083</span>,<span class='fl'>0.0078</span>,<span class='fl'>0.0067</span>,<span class='fl'>0.0069</span>,<span class='fl'>0.0054</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># fit the model</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>mig_estimate_rc</span><span class='op'>(</span><span class='va'>ages</span>, <span class='va'>mig_rate</span>,</span>
+<span class='r-in'>pre_working_age <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>working_age <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>retirement <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
+<span class='r-in'>post_retirement <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># plot the results and data</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>ages</span>, <span class='va'>mig_rate</span>, ylab <span class='op'>=</span> <span class='st'>"migration rate"</span>, xlab <span class='op'>=</span> <span class='st'>"age"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>ages</span>, <span class='va'>res</span><span class='op'>[[</span><span class='st'>"fit_df"</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>median</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>, legend<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"data"</span>, <span class='st'>"fit"</span><span class='op'>)</span>, col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"black"</span>, <span class='st'>"red"</span><span class='op'>)</span>, lty<span class='op'>=</span><span class='fl'>1</span>, pch <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -247,11 +255,11 @@ post_retirement <span class='op'>=</span> <span class='cn'>FALSE</span><span cla
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -259,6 +267,8 @@ post_retirement <span class='op'>=</span> <span class='cn'>FALSE</span><span cla
 
   
 
+
+  
 
   </body>
 </html>

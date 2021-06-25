@@ -13,7 +13,7 @@ lt_smooth_ambiguous(input, ...)
 }
 \description{
 Considering different mortality input for each sex/year data,
-smooth olders with makeham or kannisto in case no law was specified,
+smooth older ages with makeham or kannisto in case no law was specified,
 and return a data.frame with standard LT.
 }
 \details{

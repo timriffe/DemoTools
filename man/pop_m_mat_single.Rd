@@ -8,7 +8,7 @@
 A matrix of dimensions 101 x 21
 }
 \source{
-Migration residual PAS spreadhseet
+Migration residual PAS spreadsheet
 }
 \usage{
 pop_m_mat_single

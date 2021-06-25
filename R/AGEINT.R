@@ -89,7 +89,7 @@ interpolatePop <-
 #' @param datesOut vector of dates. The desired dates to interpolate to. See details for ways to express it.
 #' @param method string. The method to use for the interpolation, either \code{"linear"}, \code{"exponential"}, or \code{"power"}. Default \code{"linear"}.
 #' @param power numeric power to interpolate by, if \code{method = "power"}. Default 2.
-#' @param extrap logical. In case \code{datesOut} is out of range of datesIn, do extrapolation using slope in extreme pairwise. Deafult \code{FALSE}.
+#' @param extrap logical. In case \code{datesOut} is out of range of `datesIn`, do extrapolation using slope in extreme pairwise. Default \code{FALSE}.
 #' @param ... arguments passed to \code{stats::approx}. For example, \code{rule}, which controls extrapolation behavior.
 #' @details The age group structure of the output is the same as that of the input. Ideally, \code{datesOut} should be within the range of \code{datesIn}. If not, the left-side and right-side output are held constant outside the range if \code{rule = 2} is passed in, otherwise \code{NA} is returned (see examples). Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
 #'

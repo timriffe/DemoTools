@@ -54,6 +54,8 @@ to calculate a composite index of the quality of the age and sex structure for a
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -65,9 +67,15 @@ to calculate a composite index of the quality of the age and sex structure for a
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -81,7 +89,7 @@ to calculate a composite index of the quality of the age and sex structure for a
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
       </span>
     </div>
 
@@ -89,7 +97,7 @@ to calculate a composite index of the quality of the age and sex structure for a
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -130,13 +138,13 @@ to calculate a composite index of the quality of the age and sex structure for a
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -164,14 +172,14 @@ to calculate a composite index of the quality of the age and sex structure for a
 to calculate a composite index of the quality of the age and sex structure for a given population.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ageSexAccuracyDasGupta</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>ageSexAccuracyDasGupta</span><span class='op'>(</span>
   <span class='va'>Males</span>,
   <span class='va'>Females</span>,
   <span class='va'>Age</span>,
   ageMin <span class='op'>=</span> <span class='fl'>0</span>,
   ageMax <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>,
   OAG <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,7 +202,7 @@ to calculate a composite index of the quality of the age and sex structure for a
     </tr>
     <tr>
       <th>ageMax</th>
-      <td><p>integer. The upper age bound used for calculations. Default <code><a href='https://rdrr.io/r/base/Extremes.html'>max(Age)</a></code>.</p></td>
+      <td><p>integer. The upper age bound used for calculations. Default <code>max(Age)</code>.</p></td>
     </tr>
     <tr>
       <th>OAG</th>
@@ -214,16 +222,18 @@ If <code>ageMax == max(Age)</code> and <code>OAG</code> is <code>TRUE</code>, th
 In <em>United Nations proceedings of the World Population Conference 1954 (Rome)</em>, volume IV, 63--74.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># data from table for South West Africa (1946) given in reference</span>
-<span class='va'>Males</span>   <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2365</span>, <span class='fl'>2320</span>, <span class='fl'>1859</span>, <span class='fl'>1554</span>, <span class='fl'>1758</span>, <span class='fl'>1534</span>, <span class='fl'>1404</span>, <span class='fl'>1324</span>,
-              <span class='fl'>1118</span>, <span class='fl'>872</span>, <span class='fl'>795</span>, <span class='fl'>745</span>, <span class='fl'>743</span>, <span class='fl'>574</span><span class='op'>)</span>
-<span class='va'>Females</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2244</span>, <span class='fl'>2248</span>, <span class='fl'>1773</span>, <span class='fl'>1594</span>, <span class='fl'>1616</span>, <span class='fl'>1510</span>, <span class='fl'>1478</span>, <span class='fl'>1320</span>,
-              <span class='fl'>1085</span>, <span class='fl'>858</span>, <span class='fl'>768</span>, <span class='fl'>726</span>, <span class='fl'>533</span>, <span class='fl'>282</span><span class='op'>)</span>
-<span class='va'>Age</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>65</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-<span class='fu'>ageSexAccuracyDasGupta</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 5.68162</div><div class='input'><span class='co'># this method is not on the same scale as the others, so don't directly compare.</span>
-<span class='fu'><a href='ageSexAccuracy.html'>ageSexAccuracy</a></span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"das gupta"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 5.68162</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># data from table for South West Africa (1946) given in reference</span></span>
+<span class='r-in'><span class='va'>Males</span>   <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2365</span>, <span class='fl'>2320</span>, <span class='fl'>1859</span>, <span class='fl'>1554</span>, <span class='fl'>1758</span>, <span class='fl'>1534</span>, <span class='fl'>1404</span>, <span class='fl'>1324</span>,</span>
+<span class='r-in'>              <span class='fl'>1118</span>, <span class='fl'>872</span>, <span class='fl'>795</span>, <span class='fl'>745</span>, <span class='fl'>743</span>, <span class='fl'>574</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Females</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2244</span>, <span class='fl'>2248</span>, <span class='fl'>1773</span>, <span class='fl'>1594</span>, <span class='fl'>1616</span>, <span class='fl'>1510</span>, <span class='fl'>1478</span>, <span class='fl'>1320</span>,</span>
+<span class='r-in'>              <span class='fl'>1085</span>, <span class='fl'>858</span>, <span class='fl'>768</span>, <span class='fl'>726</span>, <span class='fl'>533</span>, <span class='fl'>282</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>65</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>ageSexAccuracyDasGupta</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 5.68162</span>
+<span class='r-in'><span class='co'># this method is not on the same scale as the others, so don't directly compare.</span></span>
+<span class='r-in'><span class='fu'><a href='ageSexAccuracy.html'>ageSexAccuracy</a></span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Females</span>, <span class='va'>Age</span>, method <span class='op'>=</span> <span class='st'>"das gupta"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 5.68162</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -235,11 +245,11 @@ In <em>United Nations proceedings of the World Population Conference 1954 (Rome)
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -247,6 +257,8 @@ In <em>United Nations proceedings of the World Population Conference 1954 (Rome)
 
   
 
+
+  
 
   </body>
 </html>

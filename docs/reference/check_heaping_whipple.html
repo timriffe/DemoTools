@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -80,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.40</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
       </span>
     </div>
 
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +170,7 @@
     <p>Implementation following the PASEX spreadsheet SINGAGE, with some extra options for more digit checking. Whipple's index is a summary measure of age heaping on ages ending usually in the digits 0 or 5 used to determine variability in the quality of age reporting between regions or countries and its evolution over time. It assumes a linear distribution of ages in each five-year age range. Digits refer to terminal age digits. For example, 9, 19, 29, etc are all of digit 9.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, ageMin <span class='op'>=</span> <span class='fl'>25</span>, ageMax <span class='op'>=</span> <span class='fl'>65</span>, digit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, ageMin <span class='op'>=</span> <span class='fl'>25</span>, ageMax <span class='op'>=</span> <span class='fl'>65</span>, digit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,7 +193,7 @@
     </tr>
     <tr>
       <th>digit</th>
-      <td><p>integer. Any digit between 0 and 9. Default <code><a href='https://rdrr.io/r/base/c.html'>c(0,5)</a></code>. Otherwise it needs to be a single digit.</p></td>
+      <td><p>integer. Any digit between 0 and 9. Default <code>c(0,5)</code>. Otherwise it needs to be a single digit.</p></td>
     </tr>
     </table>
 
@@ -203,20 +211,24 @@ GDA, Paris, France.
 
 United States Census Bureau (2017).
 &#8220;Population Analysis System (PAS) Software.&#8221;
-<a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
+https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
-<span class='co'># 2.34,replicates SINGAGE males</span>
- <span class='op'>(</span><span class='va'>w05</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2.33873</div><div class='input'>
- <span class='co'># implements formula from Roger et al. (1981, p. 148)</span>
- <span class='op'>(</span><span class='va'>w0</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2.601614</div><div class='input'> <span class='op'>(</span><span class='va'>w5</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1.786339</div><div class='input'>
- <span class='co'># Whipple types</span>
- <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.5561028</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'> <span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span></span>
+<span class='r-in'><span class='co'># 2.34,replicates SINGAGE males</span></span>
+<span class='r-in'> <span class='op'>(</span><span class='va'>w05</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2.33873</span>
+<span class='r-in'></span>
+<span class='r-in'> <span class='co'># implements formula from Roger et al. (1981, p. 148)</span></span>
+<span class='r-in'> <span class='op'>(</span><span class='va'>w0</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2.601614</span>
+<span class='r-in'> <span class='op'>(</span><span class='va'>w5</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1.786339</span>
+<span class='r-in'></span>
+<span class='r-in'> <span class='co'># Whipple types</span></span>
+<span class='r-in'> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.5561028</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -228,11 +240,11 @@ United States Census Bureau (2017).
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -240,6 +252,8 @@ United States Census Bureau (2017).
 
   
 
+
+  
 
   </body>
 </html>
