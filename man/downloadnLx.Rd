@@ -18,10 +18,10 @@ downloadnLx(nLx, location, gender, nLxDatesIn, method = "linear")
 \item{method}{character. Could be \code{"linear"}, \code{"exponential"}, or \code{"power"}}
 }
 \value{
-numeric matrix of \code{nLx} with \code{length(nLxDatesIn)} and abrdiged ages in rows.
+numeric matrix of \code{nLx} with \code{length(nLxDatesIn)} and abridged ages in rows.
 }
 \description{
-We extract \code{Lx} from \code{wpp2019}, interpolated to exact dates. Different methods availables.
+We extract \code{Lx} from \code{wpp2019}, interpolated to exact dates. Different methods available.
 A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
 }
 \examples{

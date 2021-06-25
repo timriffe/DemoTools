@@ -206,6 +206,6 @@ rc_res[["fit_df"]] %>%
 
 #### Comments about warnings
 
-When running `mc_estimate_rc` it is common to see warnings from Stan, particularly when the retirement and post-retirement families are included in the model. Warnings about divergent transitions, low ESS and maximum treedepth can often be eliminated by changing the Stan settings to have a larger `adapt_delta`, `iter` and `maximum_treedepth`, respectively. If warnings persist it is not the end of the world; the results are probably still fine. The warnings are largely a consequence of the complexity of the function being fitted and the strong correlations that exist between estimates of different parameters. Work is still on going investigating different prior set-ups to improve the efficiency of fit.
+When running `mc_estimate_rc` it is common to see warnings from Stan, particularly when the retirement and post-retirement families are included in the model. Warnings about divergent transitions, low ESS and maximum tree depth can often be eliminated by changing the Stan settings to have a larger `adapt_delta`, `iter` and `maximum_treedepth`, respectively. If warnings persist it is not the end of the world; the results are probably still fine. The warnings are largely a consequence of the complexity of the function being fitted and the strong correlations that exist between estimates of different parameters. Work is still on going investigating different prior set-ups to improve the efficiency of fit.
 
 ## References

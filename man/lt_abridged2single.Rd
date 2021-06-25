@@ -54,7 +54,7 @@ lt_abridged2single(
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
 
-\item{SRB}{the sex ratio at birth (boys / girls), detault 1.05}
+\item{SRB}{the sex ratio at birth (boys / girls), default 1.05}
 
 \item{OAG}{logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.}
 
@@ -67,7 +67,7 @@ lt_abridged2single(
 
 \item{extrapFit}{integer vector. Ages to include in model fitting. Defaults to all ages \code{>          =60}.}
 
-\item{...}{optional arguments passed to \code{pclm()}. For example, if you pass an expicit \code{lambda} parameter via the \code{control} argument, you can speed up estimation}
+\item{...}{optional arguments passed to \code{pclm()}. For example, if you pass an explicit \code{lambda} parameter via the \code{control} argument, you can speed up estimation}
 }
 \value{
 Single-year lifetable in data.frame with columns

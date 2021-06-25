@@ -1,7 +1,7 @@
 #' Net migration by age for an UN family
 #' @description Given a total net migration,
 #' calculate the net migration age schedule based on the Rogers and Castro formula for UN families.
-#' @param NM numeric. Total net migration to distribuite between ages and sex.
+#' @param NM numeric. Total net migration to distribute between ages and sex.
 #' @param family character. Could be "Family", "Female Labor", "Male Labor".
 #' @param Single logical. Results by simple age. Default `FALSE`.
 #' Typically from pre-working age and working age parts of in Roger-Castro formula.

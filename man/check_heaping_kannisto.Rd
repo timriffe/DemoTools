@@ -22,7 +22,7 @@ The value of the index.
 This age heaping index is used for particular old ages, such as 90, 95, 100, 105, and so forth.
 }
 \details{
-The index looks down two ages and up two ages, so the data must accommodate that range. The denominator is a mean of the counts in the sourrounding 5 single ages. The kind of mean can be controlled with the \code{pow} argument. By default, this takes the antilog of the arithmetic mean of the natural log of the five denominator counts. That will fail if one of the counts is equal to 0. In such cases, another power, such as 2 or 10 or 100 may be used, which is more robust to 0s. The higher the power, the closer the result will resemble the default output. If \code{pow=="exp"} but a 0 is detected among the denominator ages, then \code{pow} is assigned a value of 1000. \code{pow=1} would imply an arithmetic mean in the denominator.
+The index looks down two ages and up two ages, so the data must accommodate that range. The denominator is a mean of the counts in the surrounding 5 single ages. The kind of mean can be controlled with the \code{pow} argument. By default, this takes the antilog of the arithmetic mean of the natural log of the five denominator counts. That will fail if one of the counts is equal to 0. In such cases, another power, such as 2 or 10 or 100 may be used, which is more robust to 0s. The higher the power, the closer the result will resemble the default output. If \code{pow=="exp"} but a 0 is detected among the denominator ages, then \code{pow} is assigned a value of 1000. \code{pow=1} would imply an arithmetic mean in the denominator.
 }
 \examples{
 Age <- 0:99

@@ -70,7 +70,7 @@ for case 7 and 8 (e0 and 45q15 or 35q15 are known);}
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
 
-\item{SRB}{the sex ratio at birth (boys / girls), detault 1.05}
+\item{SRB}{the sex ratio at birth (boys / girls), default 1.05}
 }
 \value{
 The output is of class \code{lt_model_lq} with the components:
@@ -79,7 +79,7 @@ The output is of class \code{lt_model_lq} with the components:
 and \code{e0}.}
 }
 \description{
-Construct model life tables based on the Log-Quadratic (wilmoth) estimates
+Construct model life tables based on the Log-Quadratic (Wilmoth) estimates
 with various choices of 2 input parameters:
 \code{q0_5, q0_1, q15_45, q15_35} and \code{e0}. There are 8 possible
 combinations (see examples below).
@@ -90,7 +90,7 @@ of dying \code{nqx} is written \code{qx_n}, where \code{x} and \code{n} are
 integers. For example \code{45q15} is represented as \code{q45_15}.
 }
 \note{
-This function is ported from \code{MortalityEstimate::wilmothLT} experimental package by Marius Pascariu. The package is no longe maintained. The latest version can be found here: \url{https://github.com/mpascariu/MortalityEstimate}
+This function is ported from \code{MortalityEstimate::wilmothLT} experimental package by Marius Pascariu. The package is no longer maintained. The latest version can be found here: \url{https://github.com/mpascariu/MortalityEstimate}
 }
 \examples{
 

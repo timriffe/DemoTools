@@ -3,7 +3,7 @@
 # and potentially others.
 
 #' Extract Lx estimates from WPP2019. Mainly an util function for other ones.
-#' @description We extract `Lx` from `wpp2019`, interpolated to exact dates. Different methods availables. 
+#' @description We extract `Lx` from `wpp2019`, interpolated to exact dates. Different methods available. 
 #' A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
 #' @param nLx numeric. either `NULL` or a numeric vector of lifetable exposure. If it's the second then we just pass it back.
 #' @param location vector. UN Pop Div `LocName` or `LocID`
@@ -11,7 +11,7 @@
 #' @param nLxDatesIn numeric. Vector of three decimal dates produced by (or passed through) `basepop_five()`
 #' @param method character. Could be `"linear"`, `"exponential"`, or `"power"`
 #'
-#' @return numeric matrix of `nLx` with `length(nLxDatesIn)` and abrdiged ages in rows.
+#' @return numeric matrix of `nLx` with `length(nLxDatesIn)` and abridged ages in rows.
 #' @export
 #' @importFrom stats setNames
 #' @importFrom stats reshape
@@ -121,7 +121,7 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
 }
 
 #' Extract ASFR estimates from WPP2019. Mainly an util function for other ones.
-#' @description We extract `ASFRx` from `wpp2019`, interpolated to exact dates. Different methods availables.
+#' @description We extract `ASFRx` from `wpp2019`, interpolated to exact dates. Different methods available.
 #' A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
 #' @param Asfrmat numeric.
 #' @param location vector. UN Pop Div `LocName` or `LocID`
@@ -305,7 +305,7 @@ interp_coh_download_mortality <- function(location, sex, date1, date2, OAnew = 1
   
   dates_out  <- c(dec.date(date1), year_seq)
   if (verbose){
-    cat(paste0("\nlxMat not provided. Downloading lxMat for ", loc_message(location), ", gender: ", "`", sex, "`, for years between ", round(date1, 1), " and ", round(date2, 1), "\n"))
+    cat(paste0("\nlxMat not provided. Downloading mxMat for ", loc_message(location), ", gender: ", "`", sex, "`, for years between ", round(date1, 1), " and ", round(date2, 1), "\n"))
   } 
   
   PX <- suppressMessages(lapply(dates_out,fertestr::FetchLifeTableWpp2019,

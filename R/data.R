@@ -200,7 +200,7 @@
 #'   A data frame with:
 #'   \describe{
 #'     \item{Date}{Reference time for the rates estimate.}
-#'     \item{Age}{Inferior age for abridged groups. Carefull: last age 100 is not an OAG}
+#'     \item{Age}{Inferior age for abridged groups. Careful: last age 100 is not an OAG}
 #'     \item{Sex}{Male \code{m} and female \code{m}.}
 #'     \item{nMx}{Mortality rates.}
 #'     }
@@ -230,7 +230,7 @@
 #'   A matrix of dimensions 21 x 21
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "pop_m_mat_five"
 
 #' Population matrix for females five year age groups between 1950 and 2050
@@ -242,7 +242,7 @@
 #'   A matrix of dimensions 21 x 21
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "pop_f_mat_five"
 
 #' Survival rates matrix for males five year age groups between 1950 and 2045
@@ -254,7 +254,7 @@
 #'   A matrix of dimensions 21 x 20
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "sr_m_mat_five"
 
 #' Survival rates matrix for females five year age groups between 1950 and 2045
@@ -266,7 +266,7 @@
 #'   A matrix of dimensions 21 x 20
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "sr_f_mat_five"
 
 #' Age-specific fertility rates for age groups 15 to 45 between 1950 and 2045
@@ -278,7 +278,7 @@
 #'   A matrix of dimensions 7 x 20
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "asfr_mat_five"
 
 #' Sex ratio at birth between 1950 and 2045
@@ -289,7 +289,7 @@
 #'   A vector of length 20
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "srb_vec_five"
 
 #' Ages between 0 and 100 abridged in five year age groups
@@ -301,7 +301,7 @@
 #'   A vector of length 21
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "ages_five"
 
 #' Ages between 15 and 45 in five year age groups
@@ -313,7 +313,7 @@
 #'   A vector of length 7
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "ages_asfr_five"
 
 #' Population matrix for males single ages between 1999 and 2019
@@ -325,7 +325,7 @@
 #'   A matrix of dimensions 101 x 21
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "pop_m_mat_single"
 
 #' Population matrix for females single ages between 1999 and 2019
@@ -337,7 +337,7 @@
 #'   A matrix of dimensions 101 x 21
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "pop_f_mat_single"
 
 #' Survival rates matrix for males single ages between 1999 and 2019
@@ -350,7 +350,7 @@
 #'   A matrix of dimensions 101 x 20
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "sr_m_mat_single"
 
 #' Survival rates matrix for females single ages between 1999 and 2019
@@ -363,7 +363,7 @@
 #'   A matrix of dimensions 101 x 20
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "sr_f_mat_single"
 
 #' Age-specific fertility rates for single ages 15 to 49 between 1999 and 2018
@@ -376,7 +376,7 @@
 #'   A matrix of dimensions 35 x 20
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "asfr_mat_single"
 
 #' Sex ratio at birth between 1999 and 2019
@@ -388,7 +388,7 @@
 #'   A vector of length 20
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "srb_vec_single"
 
 #' Single ages between 0 and 100
@@ -399,7 +399,7 @@
 #'   A vector of length 101
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "ages_single"
 
 #' Single ages between 15 and 49
@@ -410,7 +410,7 @@
 #'   A vector of length 36
 #'
 #' @source
-#'   Migration residual PAS spreadhseet
+#'   Migration residual PAS spreadsheet
 "ages_asfr_single"
 
 #' Parameters for considered migration profiles

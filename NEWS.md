@@ -8,7 +8,7 @@
  
  - new function mig_calculate_rc() added
  - several function names harmonized, see ?DemoTools-renamed
- - graduate_sprage() and other graduation functions no longer support matrix inputs
+ - graduate_sprague() and other graduation functions no longer support matrix inputs
  
 
    

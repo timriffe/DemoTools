@@ -193,7 +193,7 @@
     </tr>
     <tr>
       <th>tails</th>
-      <td><p>loglcal. If tails is <code>FALSE</code>, both tails are left untouched.
+      <td><p>logical. If tails is <code>FALSE</code>, both tails are left untouched.
 Otherwise, the tails are filled out using a cascade method.</p></td>
     </tr>
     </table>
@@ -204,7 +204,7 @@ Otherwise, the tails are filled out using a cascade method.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function calls <code><a href='smooth_age_5_zigzag_inner.html'>smooth_age_5_zigzag_inner()</a></code>, but prepares data in a way consistent with other methods called by <code><a href='smooth_age_5.html'>smooth_age_5()</a></code>. It is probably preferable to call <code>zigzag()</code> from the top level, or else call this method from <code>agesmth()</code> for more control over tail imputations.</p>
-<p>If tails is set to <code>FALSE</code>, this function calls <code><a href='mav.html'>mav()</a></code>, which itself relies on the more general <code><a href='ma.html'>ma()</a></code>. We lose the lowest and highest ages with this method, unless <code>n=1</code>, in which case data is returned in the original 5-year age groups. The total population count is not constrained to sum to the orignal total.</p>
+<p>If tails is set to <code>FALSE</code>, this function calls <code><a href='mav.html'>mav()</a></code>, which itself relies on the more general <code><a href='ma.html'>ma()</a></code>. We lose the lowest and highest ages with this method, unless <code>n=1</code>, in which case data is returned in the original 5-year age groups. The total population count is not constrained to sum to the original total.</p>
 <p>If tails is <code>TRUE</code>, the same results are expected but the tails are
 filled in using a cascading method.</p>
 

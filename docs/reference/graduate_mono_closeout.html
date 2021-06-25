@@ -273,7 +273,7 @@ element of <code>Value</code> as the open age group?</p></td>
 <span class='r-in'><span class='co'># popg at age pivotAge and higher.</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>grabill.closed.out</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>popvec</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [1] -22.01899</span>
-<span class='r-in'><span class='co'># also works on an age-labelled vector of data</span></span>
+<span class='r-in'><span class='co'># also works on an age-labeled vector of data</span></span>
 <span class='r-in'><span class='va'>closed.vec</span>           <span class='op'>&lt;-</span> <span class='fu'>graduate_mono_closeout</span><span class='op'>(</span><span class='va'>popvec</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-in'><span class='co'># let's compare this one with sprague()</span></span>
 <span class='r-in'><span class='va'>simple.vec</span>           <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span><span class='va'>popvec</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>

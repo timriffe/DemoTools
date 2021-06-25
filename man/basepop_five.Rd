@@ -111,8 +111,8 @@ should be aware of.}
 \item \code{nLxm} numeric matrix of male \code{nLx}, abridged ages in rows and (potentially interpolated) time in columns. Potentially downloaded.
 \item \code{Asfr} numeric matrix of age specific fertility in 5-year age groups ages 15-19 until 45-49 in rows, and (potentially interpolated) time in columns. Potentially downloaded.
 \item \code{Exposure_female} numeric matrix of approximated age-specific exposure in 5-year age groups ages 15-19 until 45-49 in rows, and (potentially interpolated) time in columns.
-\item \code{Bt} births at three time points prior to census corrsponding to the midpoints of the cohorts entering ages 0, 1-4, and 5-9.
-\item \code{SRB} sex ratio at birth at three time points prior to census corrsponding to the midpoints of the cohorts entering ages 0, 1-4, and 5-9. Potentially downloaded.
+\item \code{Bt} births at three time points prior to census corresponding to the midpoints of the cohorts entering ages 0, 1-4, and 5-9.
+\item \code{SRB} sex ratio at birth at three time points prior to census corresponding to the midpoints of the cohorts entering ages 0, 1-4, and 5-9. Potentially downloaded.
 \item \code{Age} age groups of the input population counts.
 }
 }

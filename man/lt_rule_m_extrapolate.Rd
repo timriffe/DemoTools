@@ -45,7 +45,7 @@ The following options are available: \itemize{
 \value{
 An object of class \code{lt_rule_m_extrapolate} with the following components:
 \item{input}{List with arguments provided in input. Saved for convenience.}
-\item{call}{An unevaluated function call, that is, an unevaluated expressionwhich consists of the named function applied to the given arguments.}
+\item{call}{An unevaluated function call, that is, an unevaluated expression that consists of the named function applied to the given arguments.}
 \item{fitted.model}{An object of class \code{\link[MortalityLaws]{MortalityLaw}}. Here one can find fitted values, residuals, goodness of fit measures etc.}
 \item{values}{A vector or matrix containing the complete mortality data, that is the modified input data following the extrapolation procedure.}
 }

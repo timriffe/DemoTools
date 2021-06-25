@@ -42,7 +42,7 @@ constrained to the original total in all cases.
 LOESS (locally weighted smoothing) helps to smooth data over age, preserving the open age group if necessary.
 It is a popular tool to create a smooth line through a timeplot or scatter plot.
 Loess smoothness may be tweaked by specifying an optional \code{"span"} argument.
-Polynomial  fitting is used to mooth data over age or time fitting linear models.
+Polynomial  fitting is used to smooth data over age or time fitting linear models.
 It can be tweaked by changing the degree and by either log or power transforming.
 The open age group can be kept as-is if desired by specifying \code{OAG = TRUE}.
 May be used on any age groups, including irregularly spaced, single age, or 5-year age groups.

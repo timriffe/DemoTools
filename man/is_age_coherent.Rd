@@ -20,7 +20,7 @@ logical. \code{TRUE} if the arguments are considered consistent.
 A few checks are carried out to test if \code{Age} is internally consistent, that \code{OAG} is consistent with \code{AgeInt}, and that \code{Age} and \code{AgeInt} are consistent with one another. For \code{Age} to be internally consistent, we cannot have redundant values, and values must be sequential.
 }
 \details{
-If \code{OAG} is \code{TRUE} then \code{AgeInt} must be coded as \code{NA}. If \code{Age} is not sorted then we sort both \code{Age} and \code{AgeInt}, assuming that they are in matched order. This isn't incoherence per se, but a message is returned to the console.
+If \code{OAG} is \code{TRUE} then \code{AgeInt} must be coded as \code{NA}. If \code{Age} is not sorted then we sort both \code{Age} and \code{AgeInt}, assuming that they are in matched order. This isn't incoherence in itself, but a message is returned to the console.
 }
 \examples{
 Age    <- 0:99

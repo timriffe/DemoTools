@@ -9,7 +9,7 @@ OPAG_nLx_warp_r(Lx1, Age_Lx1, r)
 \arguments{
 \item{Lx1}{numeric vector of stationary population age structure in arbitrary integer age groups}
 
-\item{Age_Lx1}{interger vector of lower bounds of age groups of \code{nLx}}
+\item{Age_Lx1}{integer vector of lower bounds of age groups of \code{nLx}}
 
 \item{r}{stable growth rate}
 }

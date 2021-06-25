@@ -141,8 +141,8 @@
 #'  * `nLxm` numeric matrix of male `nLx`, abridged ages in rows and (potentially interpolated) time in columns. Potentially downloaded.
 #'  * `Asfr` numeric matrix of age specific fertility in 5-year age groups ages 15-19 until 45-49 in rows, and (potentially interpolated) time in columns. Potentially downloaded.
 #'  * `Exposure_female` numeric matrix of approximated age-specific exposure in 5-year age groups ages 15-19 until 45-49 in rows, and (potentially interpolated) time in columns.
-#'  * `Bt` births at three time points prior to census corrsponding to the midpoints of the cohorts entering ages 0, 1-4, and 5-9.
-#'  * `SRB` sex ratio at birth at three time points prior to census corrsponding to the midpoints of the cohorts entering ages 0, 1-4, and 5-9. Potentially downloaded.
+#'  * `Bt` births at three time points prior to census corresponding to the midpoints of the cohorts entering ages 0, 1-4, and 5-9.
+#'  * `SRB` sex ratio at birth at three time points prior to census corresponding to the midpoints of the cohorts entering ages 0, 1-4, and 5-9. Potentially downloaded.
 #'  * `Age` age groups of the input population counts.
 #'
 # #' `basepop_single` is used, the return value is a numeric vector with

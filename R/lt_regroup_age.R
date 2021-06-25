@@ -80,7 +80,7 @@ lt_single2abridged <- function(lx,
 #' @description Computes single year of age life table by graduating the mortality schedule of an abridged life table, using the `ungroup::pclm()` to ungroup binned count data. Returns complete single-age lifetable.
 #' @details Similar to `lt_abridged()` details, forthcoming. 
 #' @inheritParams lt_abridged
-#' @param ... optional arguments passed to `pclm()`. For example, if you pass an expicit `lambda` parameter via the `control` argument, you can speed up estimation
+#' @param ... optional arguments passed to `pclm()`. For example, if you pass an explicit `lambda` parameter via the `control` argument, you can speed up estimation
 #' @return Single-year lifetable in data.frame with columns
 #' \itemize{
 #'   \item{Age}{integer. Lower bound of single year age class},
@@ -242,7 +242,7 @@ lt_abridged2single <- function(
   
 }
 
-#' calculate an abidged or single age lifetable from abridged or sinlge age data
+#' calculate an abridged or single age lifetable from abridged or single age data
 #' @description This is a wrapper around the other lifetable utilities. We start with either `nMx`, `nqx`, or `lx` in single or abridged ages, and returns a full lifetable in either single or abridged ages. All optional arguments of `lt_abridged()` or `lt_single*()` can be passed in, for instance the `nax` assumptions or the extrapolation arguments.
 #' 
 #' @param nMx_or_nqx_or_lx numeric vector of either `nMx`, `nqx`, or `lx`

@@ -8,7 +8,7 @@
 A matrix of dimensions 7 x 20
 }
 \source{
-Migration residual PAS spreadhseet
+Migration residual PAS spreadsheet
 }
 \usage{
 asfr_mat_five
