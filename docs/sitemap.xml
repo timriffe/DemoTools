@@ -1,555 +1,789 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://timriffe.github.io/DemoTools//index.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/404.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/ADM.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/AGEN.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/CONTRIBUTING.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/DemoTools-package.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/ID.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/articles/Age-heaping_quality_with_Demotools.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/IRD.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/articles/case_study_1.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/OPAG.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/articles/graduation_with_demotools.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/OPAG_fit_stable_standard.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/OPAG_nLx_warp_r.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/articles/lifetables_with_demotools.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/OPAG_r_min.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/articles/migration_with_demotools.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/OPAG_simple.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/articles/smoothing_with_demotools.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/RDM.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/authors.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/age2ageN.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/index.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/age2int.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/news/index.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/ageRatioScore.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/ADM.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/ageSexAccuracy.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/AGEN.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/ageSexAccuracyDasGupta.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/Bachi.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/age_abridge_force.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/CoaleLi.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/ages_asfr_five.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/DemoTools-package.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/ages_asfr_single.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/DemoTools-renamed.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/ages_five.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/ID.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/ages_single.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/IRD.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/agesmth1.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/Jdanov.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/asfr_mat_five.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/KannistoHeap.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/asfr_mat_single.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/LTabr.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/avg_adj.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/Lx2Tx.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/basepop_five.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/Lxlx2Sx.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/birthCohorts.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/M04_2_D0.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/calcAgeAbr.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/M04_2_M0.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/calcAgeN.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/Myers.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_bachi.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/Noumbissi.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_coale_li.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/OPAG.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_jdanov.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/OPAG_fit_stable_standard.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_kannisto.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/OPAG_nLx_warp_r.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_myers.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/OPAG_r_min.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_noumbissi.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/OPAG_simple.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_roughness.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/RDM.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_sawtooth.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/Spoorenberg.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_spoorenberg.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/T9R5L.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/check_heaping_whipple.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/Whipple.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/dec.date.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/adjustAge.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/downloadAsfr.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/age2ageN.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/downloadSRB.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/age2int.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/downloadnLx.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/ageRatioScore.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/dth5_zigzag.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/ageSexAccuracy.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/e0_swe.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/ageSexAccuracyDasGupta.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/fetch_wpp_births.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/age_abridge_force.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/find_my_case.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/ages_asfr_five.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/fitted_logquad_b.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/ages_asfr_single.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/fitted_logquad_f.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/ages_five.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/fitted_logquad_m.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/ages_single.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/getModelLifeTable.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/agesmth.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/graduate.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/agesmth1.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/graduate_beers.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/aomegaMortalityLaws.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/graduate_beers_expand.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/arriaga_smth.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/graduate_beers_johnson.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/asfr_mat_five.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/graduate_grabill.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/asfr_mat_single.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/graduate_grabill_expand.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/avg_adj.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/graduate_mono.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/ax.greville.mortpak.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/graduate_mono_closeout.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/axPAS.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/graduate_pclm.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/axUN.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/graduate_sprague.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/basepop.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/graduate_sprague_expand.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/basepop_five.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/graduate_uniform.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/beers.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/groupAges.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/beersExpand.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/groupOAG.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/birthCohorts.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/heapify.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/calcAgeAbr.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/inferAgeIntAbr.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/calcAgeN.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/int2age.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/carrier_farrag_smth.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/int2ageN.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/census_cohort_adjust.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/interp.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/check_heaping_bachi.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/interp_coh.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/check_heaping_coale_li.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/interp_lc_lim.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/check_heaping_jdanov.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/interp_lc_lim_abk_m.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/check_heaping_kannisto.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/interp_lc_lim_estimate.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/check_heaping_myers.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/interp_lc_lim_group.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/check_heaping_noumbissi.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/interp_lc_lim_kt_min.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/check_heaping_roughness.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/interpolatePop.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/check_heaping_sawtooth.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/is_abridged.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/check_heaping_spoorenberg.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/is_age_coherent.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/check_heaping_whipple.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/is_age_redundant.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/coef.extra_mortality.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/is_age_sequential.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/dec.date.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/is_single.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/downloadAsfr.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/loess_smth1.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/downloadSRB.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_a_closeout.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/downloadnLx.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_a_pas.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/dth5_zigzag.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_a_un.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/e0_swe.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_abridged.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/extra_mortality.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_abridged2single.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/fetch_wpp_births.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_ambiguous.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/find.my.case.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_L_T.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/find_my_case.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_Ll_S.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/fitted_logquad_b.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_d_l.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/fitted_logquad_f.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_d_q.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/fitted_logquad_m.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_l_d.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/five_year_roughness.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_l_q.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/getModelLifeTable.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_lda_L.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/geta0CD.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_ma_q.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/geta1_4CD.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_morq_a.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/grabill.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_morq_a_greville.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/grabillExpand.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_q_l.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/graduate.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_qa_m.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/graduate_beers.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_id_qm_a.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/graduate_beers_expand.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_model_lq.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/graduate_beers_johnson.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_1a0.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/graduate_grabill.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_1a0_ak.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/graduate_grabill_expand.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_1a0_cd.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/graduate_mono.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_4a1_cd.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/graduate_mono_closeout.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_4m0_D0.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/graduate_pclm.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_4m0_m0.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/graduate_sprague.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_ak_m0_a0.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/graduate_sprague_expand.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_ak_q0_a0.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/graduate_uniform.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_rule_m_extrapolate.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/groupAges.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_single2abridged.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/groupOAG.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_single_mx.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/heapify.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_single_qx.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lt_smooth_ambiguous.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/inferAgeIntAbr.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/lthat.logquad.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/int2age.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mA_swe.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/int2ageN.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/ma.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/interp.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mav.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/interp_coh.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/maxA2abridged.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/interp_coh_bare.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mig_beta.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/interp_lc_lim.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mig_calculate_rc.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/interp_lc_lim_abk_m.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mig_estimate_rc.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/interp_lc_lim_estimate.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mig_resid.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/interp_lc_lim_group.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mig_un_fam.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/interp_lc_lim_kt_min.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mig_un_families.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/interpolatePop.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/mig_un_params.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/is_LeapYear.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/names2age.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/is_abridged.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/pipe.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/is_age_coherent.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/poly_smth1.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/is_age_redundant.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/pop1m_ind.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/is_age_sequential.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/pop1m_pasex.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/is_single.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/pop1m_rus2002.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/johnsonAdjust.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/pop1m_rus2010.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/kkn_smth.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/pop5_mat.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/loess_smth1.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/pop5m_pasex.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_a_closeout.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/popA_earlier.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_a_pas.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/popA_later.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_a_un.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/pop_f_mat_five.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_abridged.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/pop_f_mat_single.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_abridged2single.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/pop_m_mat_five.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_ambiguous.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/pop_m_mat_single.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_ax_closeout.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/ratx.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_L_T.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/rescaleAgeGroups.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_Ll_S.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/rescale_vector.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_d_l.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/rlog.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_d_q.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/sexRatioScore.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_l_d.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/shift.vector.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_l_q.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/shift_census_ages_to_cohorts.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_lda_L.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/simplify.text.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_m_q.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/single2abridged.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_ma_q.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_ma_q_robust.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_arriaga.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_morq_a.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_cf.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_morq_a_greville.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_feeney.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_q_l.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_kkn.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_qa_m.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_mav.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_id_qm_a.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_strong.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_model_lq.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_un.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_1a0.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_zigzag.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_1a0_ak.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_zigzag_inner.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_1a0_cd.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_zigzag_min.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_4a1_cd.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/smooth_age_5_zigzag_p.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_4m0_D0.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/spencer.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_4m0_m0.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/splitOscillate.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_ak.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/sr_f_mat_five.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_ak_m0_a0.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/sr_f_mat_single.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_ak_q0_a0.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/sr_m_mat_five.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_m_extrapolate.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/sr_m_mat_single.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_single2abridged.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/srb_vec_five.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_single_mx.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/srb_vec_single.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_single_qx.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/surv10.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_single_simple.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/surv5.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_smooth_ambiguous.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/survN.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lthat.logquad.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/survRatioError.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lx2dx.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//reference/zelnik.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/lxdxax2Lx.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//articles/Age-heaping_quality_with_Demotools.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/mA_swe.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//articles/case_study_1.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/ma.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//articles/graduation_with_demotools.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/mav.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//articles/lifetables_with_demotools.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/mav_smth.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//articles/migration_with_demotools.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/maxA2abridged.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools//articles/smoothing_with_demotools.html</loc>
+    <loc>https://timriffe.github.io/DemoTools/reference/mig_beta.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/mig_calculate_rc.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/mig_estimate_rc.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/mig_resid.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/mig_resid_stock.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/mig_un_fam.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/mig_un_families.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/mig_un_params.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/monoCloseout.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/mx2qx.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/mxax2qx.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/mxax2qx_Backstop.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/mxorqx2ax.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/names2age.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/poly_smth1.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/pop1m_ind.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/pop1m_pasex.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/pop1m_rus2002.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/pop1m_rus2010.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/pop5_mat.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/pop5m_pasex.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/popA_earlier.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/popA_later.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/pop_f_mat_five.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/pop_f_mat_single.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/pop_m_mat_five.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/pop_m_mat_single.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/print.extra_mortality.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/qx2lx.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/qxax2mx.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/qxmx2ax.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/ratx.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/rescale.vector.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/rescaleAgeGroups.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/rescale_vector.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/rlog.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/sexRatioScore.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/shift.vector.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/shift_census_ages_to_cohorts.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/simplify.text.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/single2abridged.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/smooth_age_5.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/smooth_age_5_arriaga.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/smooth_age_5_cf.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/smooth_age_5_feeney.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/smooth_age_5_kkn.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/smooth_age_5_mav.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/smooth_age_5_strong.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/smooth_age_5_un.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/smooth_age_5_zigzag.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/smooth_age_5_zigzag_inner.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/smooth_age_5_zigzag_min.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/smooth_age_5_zigzag_p.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/spencer.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/splitMono.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/splitOscillate.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/splitUniform.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/sprague.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/spragueExpand.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/sr_f_mat_five.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/sr_f_mat_single.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/sr_m_mat_five.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/sr_m_mat_single.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/srb_vec_five.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/srb_vec_single.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/strong_smth.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/surv10.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/surv5.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/survN.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/survRatioError.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/united_nations_smth.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/ypart.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/zelnik.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/zero_pref_sawtooth.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/zigzag.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/zigzag_min.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/zigzag_p.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/zigzag_smth.html</loc>
   </url>
 </urlset>

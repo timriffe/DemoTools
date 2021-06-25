@@ -52,6 +52,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -63,9 +65,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-title-body">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -87,7 +95,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -128,13 +136,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -158,29 +166,29 @@
 
 <div id="contributing-to-demotools" class="section level2">
 <h2 class="hasAnchor">
-<a href="#contributing-to-demotools" class="anchor"></a>Contributing to DemoTools</h2>
+<a href="#contributing-to-demotools" class="anchor" aria-hidden="true"></a>Contributing to DemoTools</h2>
 <p>The goal of this guide is to help you contribute to <code>DemoTools</code> as quickly and as easily possible. The guide is divided into two main pieces:</p>
-<ol>
-<li>Filing a bug report or feature request in an <a href="https://github.com/timriffe/DemoTools/issues">issue</a>.</li>
+<ol style="list-style-type: decimal">
+<li>Filing a bug report or feature request in an <a href="https://github.com/timriffe/DemoTools/issues" class="external-link">issue</a>.</li>
 <li>Suggesting a change via a pull request.</li>
 </ol>
 </div>
 <div id="issues" class="section level2">
 <h2 class="hasAnchor">
-<a href="#issues" class="anchor"></a>Issues</h2>
+<a href="#issues" class="anchor" aria-hidden="true"></a>Issues</h2>
 <p>Before you file an issue:</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li><p>Check that you’re using the latest version of <code>DemoTools</code>. It’s quite possible that the problem you’re experiencing has already been fixed.</p></li>
 <li><p>Check that the issue belongs in <code>DemoTools</code>. Some functionality lives in separate packages.</p></li>
 <li><p>Spend a few minutes looking at the existing issues. It’s possible that your issue has already been filed. But it’s almost always better to open a new issue instead of commenting on an existing issue. The only exception is that you are confident that your issue is identical to an existing problem, and your contribution will help us better understand the general case. It’s generally a bad idea to comment on a closed issue or a commit. Those comments don’t show up in the issue tracker and are easily misplaced.</p></li>
 </ol>
 <p>When filing an issue, the most important thing is to include a minimal reproducible example so that we can quickly verify the problem, and then figure out how to fix it. There are three things you need to include to make your example reproducible: required packages, data, code.</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li><p><strong>Packages</strong> should be loaded at the top of the script, so it’s easy to see which ones the example needs.</p></li>
 <li>
-<p>The easiest way to include <strong>data</strong> is to use <code><a href="https://rdrr.io/r/base/dput.html">dput()</a></code> to generate the R code to recreate it. For example, to recreate the <code>mtcars</code> dataset in R, I’d perform the following steps:</p>
-<ol>
-<li>Run <code><a href="https://rdrr.io/r/base/dput.html">dput(mtcars)</a></code> in R</li>
+<p>The easiest way to include <strong>data</strong> is to use <code><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput()</a></code> to generate the R code to recreate it. For example, to recreate the <code>mtcars</code> dataset in R, I’d perform the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>Run <code>dput(mtcars)</code> in R</li>
 <li>Copy the output</li>
 <li>In my reproducible script, type <code>mtcars &lt;-</code> then paste.</li>
 </ol>
@@ -196,23 +204,23 @@ The shorter your code is, the easier it is to understand.</p></li>
 </ul>
 <p>Learn a little [markdown][markdown] so you can correctly format your issue. The most important thing is to surround your code with <code>``` R</code> and <code>```</code> so it’s syntax highlighted (which makes it easier to read).</p>
 </li>
-<li><p>Check that you’ve actually made a reproducible example by using the <a href="https://github.com/jennybc/reprex">reprex package</a>.</p></li>
+<li><p>Check that you’ve actually made a reproducible example by using the <a href="https://github.com/jennybc/reprex" class="external-link">reprex package</a>.</p></li>
 </ol>
 </div>
 <div id="pull-requests" class="section level2">
 <h2 class="hasAnchor">
-<a href="#pull-requests" class="anchor"></a>Pull requests</h2>
+<a href="#pull-requests" class="anchor" aria-hidden="true"></a>Pull requests</h2>
 <ul>
 <li><p>If you have something to contribute, please <em>fork</em> the repository, make the change in your fork, and then make a pull request.</p></li>
-<li><p>Your pull request will be easiest for us to read if you use a common style: <a href="http://r-pkgs.had.co.nz/r.html#style" class="uri">http://r-pkgs.had.co.nz/r.html#style</a>. Please pay particular attention to whitespace.</p></li>
+<li><p>Your pull request will be easiest for us to read if you use a common style: <a href="http://r-pkgs.had.co.nz/r.html#style" class="external-link uri">http://r-pkgs.had.co.nz/r.html#style</a>. Please pay particular attention to whitespace.</p></li>
 <li><p>You should always add a bullet point to <code>NEWS.md</code> motivating the change. It should look like “This is what changed (@yourusername, #issuenumber)”. Please don’t add headings like “bug fix” or “new features” - these are added during the release process.</p></li>
 <li><p>If you can, also write a test.</p></li>
-<li><p>If you’re adding new parameters or a new function, you’ll also need to document them with <a href="http://r-pkgs.had.co.nz/man.html">roxygen2</a>. Make sure to re-run <code><a href="https://devtools.r-lib.org//reference/document.html">devtools::document()</a></code> on the code before submitting.</p></li>
-<li><p>Also run <code><a href="https://devtools.r-lib.org//reference/check.html">devtools::check()</a></code> to make sure your function doesn’t imply downstream errors or warnings. More such checking will be taken care of by us.</p></li>
-<li><p>Here are tips for syncing your fork with the main repository <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork">syncing</a></p></li>
+<li><p>If you’re adding new parameters or a new function, you’ll also need to document them with <a href="http://r-pkgs.had.co.nz/man.html" class="external-link">roxygen2</a>. Make sure to re-run <code><a href="https://devtools.r-lib.org//reference/document.html" class="external-link">devtools::document()</a></code> on the code before submitting.</p></li>
+<li><p>Also run <code><a href="https://devtools.r-lib.org//reference/check.html" class="external-link">devtools::check()</a></code> to make sure your function doesn’t imply downstream errors or warnings. More such checking will be taken care of by us.</p></li>
+<li><p>Here are tips for syncing your fork with the main repository <a href="https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork" class="external-link">syncing</a></p></li>
 </ul>
 <p>A pull request is a process, and unless you’re a practiced contributor it’s unlikely that your pull request will be accepted as is. Typically the process looks like this:</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li><p>You submit the pull request.</p></li>
 <li><p>We review at a high-level and determine if this is something that we want to include in the package. If not, we’ll close the pull request and suggest an alternative home for your code.</p></li>
 <li><p>We’ll take a closer look at the code and give you feedback.</p></li>
@@ -237,11 +245,11 @@ The shorter your code is, the easier it is to understand.</p></li>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -249,6 +257,8 @@ The shorter your code is, the easier it is to understand.</p></li>
 
   
 
+
+  
 
   </body>
 </html>

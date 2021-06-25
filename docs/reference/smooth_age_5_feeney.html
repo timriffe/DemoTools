@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +170,7 @@
     <p>Fenney's technique for correcting age distributions for heaping on multiples of five.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>smooth_age_5_feeney</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, maxit <span class='op'>=</span> <span class='fl'>200</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>smooth_age_5_feeney</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, maxit <span class='op'>=</span> <span class='fl'>200</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -198,37 +206,37 @@
 <em>Asian and Pacific Census Forum</em>, <b>5</b>(3), 12--15.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># data from feeney1979, Table 1, page 12: Population of Indonesia, 22 provinces,</span>
-<span class='co'># by single year of age: Census of 24 September 1971.</span>
- <span class='va'>Pop</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2337</span>,<span class='fl'>3873</span>,<span class='fl'>3882</span>,<span class='fl'>3952</span>,<span class='fl'>4056</span>,<span class='fl'>3685</span>,<span class='fl'>3687</span>,<span class='fl'>3683</span>,<span class='fl'>3611</span>,<span class='fl'>3175</span>,
-         <span class='fl'>3457</span>,<span class='fl'>2379</span>,<span class='fl'>3023</span>,<span class='fl'>2375</span>,<span class='fl'>2316</span>,<span class='fl'>2586</span>,<span class='fl'>2014</span>,<span class='fl'>2123</span>,<span class='fl'>2584</span>,<span class='fl'>1475</span>,
-         <span class='fl'>3006</span>,<span class='fl'>1299</span>,<span class='fl'>1236</span>,<span class='fl'>1052</span>,<span class='fl'>992</span>,<span class='fl'>3550</span>,<span class='fl'>1334</span>,<span class='fl'>1314</span>,<span class='fl'>1337</span>,<span class='fl'>942</span>,
-         <span class='fl'>3951</span>,<span class='fl'>1128</span>,<span class='fl'>1108</span>,<span class='fl'>727</span>,<span class='fl'>610</span>,<span class='fl'>3919</span>,<span class='fl'>1221</span>,<span class='fl'>868</span>,<span class='fl'>979</span>,<span class='fl'>637</span>,
-         <span class='fl'>3409</span>,<span class='fl'>887</span>,<span class='fl'>687</span>,<span class='fl'>533</span>,<span class='fl'>313</span>,<span class='fl'>2488</span>,<span class='fl'>677</span>,<span class='fl'>426</span>,<span class='fl'>524</span>,<span class='fl'>333</span>,
-         <span class='fl'>2259</span>,<span class='fl'>551</span>,<span class='fl'>363</span>,<span class='fl'>290</span>,<span class='fl'>226</span>,<span class='fl'>1153</span>,<span class='fl'>379</span>,<span class='fl'>217</span>,<span class='fl'>223</span>,<span class='fl'>152</span>,
-         <span class='fl'>1500</span>,<span class='fl'>319</span>,<span class='fl'>175</span>,<span class='fl'>143</span>,<span class='fl'>89</span>,<span class='fl'>670</span>,<span class='fl'>149</span>,<span class='fl'>96</span>,<span class='fl'>97</span>,<span class='fl'>69</span>,
-         <span class='fl'>696</span>,<span class='fl'>170</span>,<span class='fl'>60</span>,<span class='fl'>38</span>,<span class='fl'>23</span>,<span class='fl'>745</span><span class='op'>)</span>
- <span class='va'>Ages</span>       <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>75</span><span class='op'>)</span>
- <span class='va'>result</span>     <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5_feeney</span><span class='op'>(</span><span class='va'>Pop</span>, <span class='va'>Ages</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
- <span class='va'>A5</span>         <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span>
- <span class='va'>V5</span>         <span class='op'>&lt;-</span> <span class='fu'><a href='groupAges.html'>groupAges</a></span><span class='op'>(</span><span class='va'>Pop</span>,<span class='va'>Ages</span><span class='op'>)</span>
- <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Ages</span>, <span class='va'>Pop</span>, type<span class='op'>=</span> <span class='st'>'l'</span><span class='op'>)</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/segments.html'>segments</a></span><span class='op'>(</span><span class='va'>A5</span>,
-    <span class='va'>result</span><span class='op'>/</span><span class='fl'>5</span>,
-    <span class='va'>A5</span><span class='op'>+</span><span class='fl'>5</span>,
-   <span class='va'>result</span><span class='op'>/</span><span class='fl'>5</span>,
-     col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/segments.html'>segments</a></span><span class='op'>(</span><span class='va'>A5</span>,
-   <span class='va'>V5</span><span class='op'>/</span><span class='fl'>5</span>,
-   <span class='va'>A5</span><span class='op'>+</span><span class='fl'>5</span>,
-   <span class='va'>V5</span><span class='op'>/</span><span class='fl'>5</span>,
-   col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"black"</span>,<span class='st'>"blue"</span>,<span class='st'>"red"</span><span class='op'>)</span>,
-   lty<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>,
-   legend<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"recorded 1"</span>,<span class='st'>"recorded 5"</span>,<span class='st'>"corrected 5"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># data from feeney1979, Table 1, page 12: Population of Indonesia, 22 provinces,</span></span>
+<span class='r-in'><span class='co'># by single year of age: Census of 24 September 1971.</span></span>
+<span class='r-in'> <span class='va'>Pop</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2337</span>,<span class='fl'>3873</span>,<span class='fl'>3882</span>,<span class='fl'>3952</span>,<span class='fl'>4056</span>,<span class='fl'>3685</span>,<span class='fl'>3687</span>,<span class='fl'>3683</span>,<span class='fl'>3611</span>,<span class='fl'>3175</span>,</span>
+<span class='r-in'>         <span class='fl'>3457</span>,<span class='fl'>2379</span>,<span class='fl'>3023</span>,<span class='fl'>2375</span>,<span class='fl'>2316</span>,<span class='fl'>2586</span>,<span class='fl'>2014</span>,<span class='fl'>2123</span>,<span class='fl'>2584</span>,<span class='fl'>1475</span>,</span>
+<span class='r-in'>         <span class='fl'>3006</span>,<span class='fl'>1299</span>,<span class='fl'>1236</span>,<span class='fl'>1052</span>,<span class='fl'>992</span>,<span class='fl'>3550</span>,<span class='fl'>1334</span>,<span class='fl'>1314</span>,<span class='fl'>1337</span>,<span class='fl'>942</span>,</span>
+<span class='r-in'>         <span class='fl'>3951</span>,<span class='fl'>1128</span>,<span class='fl'>1108</span>,<span class='fl'>727</span>,<span class='fl'>610</span>,<span class='fl'>3919</span>,<span class='fl'>1221</span>,<span class='fl'>868</span>,<span class='fl'>979</span>,<span class='fl'>637</span>,</span>
+<span class='r-in'>         <span class='fl'>3409</span>,<span class='fl'>887</span>,<span class='fl'>687</span>,<span class='fl'>533</span>,<span class='fl'>313</span>,<span class='fl'>2488</span>,<span class='fl'>677</span>,<span class='fl'>426</span>,<span class='fl'>524</span>,<span class='fl'>333</span>,</span>
+<span class='r-in'>         <span class='fl'>2259</span>,<span class='fl'>551</span>,<span class='fl'>363</span>,<span class='fl'>290</span>,<span class='fl'>226</span>,<span class='fl'>1153</span>,<span class='fl'>379</span>,<span class='fl'>217</span>,<span class='fl'>223</span>,<span class='fl'>152</span>,</span>
+<span class='r-in'>         <span class='fl'>1500</span>,<span class='fl'>319</span>,<span class='fl'>175</span>,<span class='fl'>143</span>,<span class='fl'>89</span>,<span class='fl'>670</span>,<span class='fl'>149</span>,<span class='fl'>96</span>,<span class='fl'>97</span>,<span class='fl'>69</span>,</span>
+<span class='r-in'>         <span class='fl'>696</span>,<span class='fl'>170</span>,<span class='fl'>60</span>,<span class='fl'>38</span>,<span class='fl'>23</span>,<span class='fl'>745</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='va'>Ages</span>       <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>75</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='va'>result</span>     <span class='op'>&lt;-</span> <span class='fu'>smooth_age_5_feeney</span><span class='op'>(</span><span class='va'>Pop</span>, <span class='va'>Ages</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='va'>A5</span>         <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='va'>V5</span>         <span class='op'>&lt;-</span> <span class='fu'><a href='groupAges.html'>groupAges</a></span><span class='op'>(</span><span class='va'>Pop</span>,<span class='va'>Ages</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Ages</span>, <span class='va'>Pop</span>, type<span class='op'>=</span> <span class='st'>'l'</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/segments.html'>segments</a></span><span class='op'>(</span><span class='va'>A5</span>,</span>
+<span class='r-in'>    <span class='va'>result</span><span class='op'>/</span><span class='fl'>5</span>,</span>
+<span class='r-in'>    <span class='va'>A5</span><span class='op'>+</span><span class='fl'>5</span>,</span>
+<span class='r-in'>   <span class='va'>result</span><span class='op'>/</span><span class='fl'>5</span>,</span>
+<span class='r-in'>     col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/segments.html'>segments</a></span><span class='op'>(</span><span class='va'>A5</span>,</span>
+<span class='r-in'>   <span class='va'>V5</span><span class='op'>/</span><span class='fl'>5</span>,</span>
+<span class='r-in'>   <span class='va'>A5</span><span class='op'>+</span><span class='fl'>5</span>,</span>
+<span class='r-in'>   <span class='va'>V5</span><span class='op'>/</span><span class='fl'>5</span>,</span>
+<span class='r-in'>   col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"black"</span>,<span class='st'>"blue"</span>,<span class='st'>"red"</span><span class='op'>)</span>,</span>
+<span class='r-in'>   lty<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>,</span>
+<span class='r-in'>   legend<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"recorded 1"</span>,<span class='st'>"recorded 5"</span>,<span class='st'>"corrected 5"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -240,11 +248,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -252,6 +260,8 @@
 
   
 
+
+  
 
   </body>
 </html>

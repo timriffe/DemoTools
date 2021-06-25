@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +170,7 @@
     <p>This can be used, for example to take survival ratios.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ratx</span><span class='op'>(</span><span class='va'>fx</span>, k <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>ratx</span><span class='op'>(</span><span class='va'>fx</span>, k <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -183,13 +191,16 @@
 shorter than the given vector <code>fx</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>fx</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>
-<span class='fu'>ratx</span><span class='op'>(</span><span class='va'>fx</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2.000000 1.500000 1.333333 1.250000 1.200000 1.166667 1.142857 1.125000
-#&gt; [9] 1.111111</div><div class='input'><span class='fu'>ratx</span><span class='op'>(</span><span class='va'>fx</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.5000000 0.6666667 0.7500000 0.8000000 0.8333333 0.8571429 0.8750000
-#&gt; [8] 0.8888889 0.9000000</div><div class='input'><span class='fu'>ratx</span><span class='op'>(</span><span class='va'>fx</span>,<span class='fl'>0</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>fx</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span></span>
+<span class='r-in'><span class='fu'>ratx</span><span class='op'>(</span><span class='va'>fx</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2.000000 1.500000 1.333333 1.250000 1.200000 1.166667 1.142857 1.125000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [9] 1.111111</span>
+<span class='r-in'><span class='fu'>ratx</span><span class='op'>(</span><span class='va'>fx</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.5000000 0.6666667 0.7500000 0.8000000 0.8333333 0.8571429 0.8750000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [8] 0.8888889 0.9000000</span>
+<span class='r-in'><span class='fu'>ratx</span><span class='op'>(</span><span class='va'>fx</span>,<span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -201,11 +212,11 @@ shorter than the given vector <code>fx</code>.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -213,6 +224,8 @@ shorter than the given vector <code>fx</code>.</p>
 
   
 
+
+  
 
   </body>
 </html>

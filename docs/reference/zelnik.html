@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +170,7 @@
     <p>Zelnik's method is used to adjust distributions by year of age for digit preference.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>zelnik</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>p</span>, <span class='va'>Age</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>zelnik</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>p</span>, <span class='va'>Age</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,69 +205,69 @@ Note results do not sum to the total from the same age-range of <code>Value</cod
 <em>Asian and Pacific Population Forum</em>, <b>1</b>(2), 11--22.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># data from gray1987missingages, Table 2, page 21: Aplication of Q1 and</span>
-<span class='co'># Q2 linear operators, Bangladesh Census, 1 March 1974-Males.</span>
-<span class='va'>Pop</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>941307</span>,<span class='fl'>1041335</span>,<span class='fl'>1237034</span>,<span class='fl'>1411359</span>,<span class='fl'>1383853</span>,<span class='fl'>1541942</span>,<span class='fl'>1321576</span>,<span class='fl'>1285877</span>,<span class='fl'>1563448</span>,<span class='fl'>886705</span>,
-      <span class='fl'>1623998</span>,<span class='fl'>562924</span>,<span class='fl'>1485173</span>,<span class='fl'>543216</span>,<span class='fl'>771219</span>,<span class='fl'>903496</span>,<span class='fl'>686431</span>,<span class='fl'>370007</span>,<span class='fl'>942999</span>,<span class='fl'>250820</span>,
-      <span class='fl'>1023667</span>,<span class='fl'>200131</span>,<span class='fl'>688640</span>,<span class='fl'>222011</span>,<span class='fl'>281738</span>,<span class='fl'>1239965</span>,<span class='fl'>288363</span>,<span class='fl'>263326</span>,<span class='fl'>483143</span>,<span class='fl'>78635</span>,
-      <span class='fl'>1349886</span>,<span class='fl'>68438</span>,<span class='fl'>415127</span>,<span class='fl'>101596</span>,<span class='fl'>100758</span>,<span class='fl'>1392434</span>,<span class='fl'>178633</span>,<span class='fl'>126351</span>,<span class='fl'>286520</span>,<span class='fl'>50836</span>,
-      <span class='fl'>1331036</span>,<span class='fl'>48995</span>,<span class='fl'>251153</span>,<span class='fl'>58393</span>,<span class='fl'>54995</span>,<span class='fl'>1033812</span>,<span class='fl'>68792</span>,<span class='fl'>72766</span>,<span class='fl'>175943</span>,<span class='fl'>28254</span>,
-      <span class='fl'>1038747</span>,<span class='fl'>32894</span>,<span class='fl'>136179</span>,<span class='fl'>37667</span>,<span class='fl'>38230</span>,<span class='fl'>596049</span>,<span class='fl'>52602</span>,<span class='fl'>36493</span>,<span class='fl'>74106</span>,<span class='fl'>16759</span>,
-      <span class='fl'>790643</span>,<span class='fl'>20596</span>,<span class='fl'>70109</span>,<span class='fl'>18044</span>,<span class='fl'>19891</span>,<span class='fl'>357491</span>,<span class='fl'>15253</span>,<span class='fl'>17489</span>,<span class='fl'>31057</span>,<span class='fl'>8481</span>,
-      <span class='fl'>429816</span>,<span class='fl'>7951</span>,<span class='fl'>35583</span>,<span class='fl'>8612</span>,<span class='fl'>6589</span>,<span class='fl'>454645</span><span class='op'>)</span>
-<span class='va'>Age</span>  <span class='op'>&lt;-</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>75</span>
-<span class='va'>z1</span> <span class='op'>&lt;-</span> <span class='fu'>zelnik</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='fl'>1</span>,<span class='va'>Age</span><span class='op'>)</span>
-<span class='va'>z2</span> <span class='op'>&lt;-</span> <span class='fu'>zelnik</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='fl'>2</span>,<span class='va'>Age</span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>Pop</span>,type<span class='op'>=</span><span class='st'>'l'</span>,col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>.4</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>z1</span><span class='op'>)</span><span class='op'>)</span>,<span class='va'>z1</span>,col <span class='op'>=</span> <span class='st'>"blue"</span>,lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>z2</span><span class='op'>)</span><span class='op'>)</span>,<span class='va'>z2</span>,col <span class='op'>=</span> <span class='st'>"red"</span>,lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='co'># \dontshow{</span>
-<span class='co'># here some units tests:</span>
-<span class='co'># a function required to make original table work</span>
-<span class='va'>perturb</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>pert</span> <span class='op'>=</span> <span class='fl'>0</span>, <span class='va'>pos</span> <span class='op'>=</span> <span class='fl'>45</span><span class='op'>)</span><span class='op'>{</span>
-  <span class='va'>x</span><span class='op'>[</span><span class='va'>pos</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>x</span><span class='op'>[</span><span class='va'>pos</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>pert</span>
-  <span class='va'>x</span>
-<span class='op'>}</span>
- <span class='va'>p1_answer</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>10</span><span class='op'>)</span>,<span class='fl'>1151172</span>,<span class='fl'>1077888</span>,<span class='fl'>982103</span>,<span class='fl'>891354</span>,
-     <span class='fl'>828173</span>,<span class='fl'>762583</span>,<span class='fl'>718528</span>,<span class='fl'>649206</span>,<span class='fl'>579004</span>,<span class='fl'>535521</span>,<span class='fl'>552769</span>,<span class='fl'>572789</span>,
-     <span class='fl'>543715</span>,<span class='fl'>504766</span>,<span class='fl'>456185</span>,<span class='fl'>484627</span>,<span class='fl'>516545</span>,<span class='fl'>487585</span>,<span class='fl'>458525</span>,<span class='fl'>437117</span>,
-     <span class='fl'>442480</span>,<span class='fl'>456052</span>,<span class='fl'>440706</span>,<span class='fl'>415651</span>,<span class='fl'>400515</span>,<span class='fl'>403565</span>,<span class='fl'>409668</span>,<span class='fl'>402329</span>,
-     <span class='fl'>391982</span>,<span class='fl'>392801</span>,<span class='fl'>362520</span>,<span class='fl'>327180</span>,<span class='fl'>322889</span>,<span class='fl'>318215</span>,<span class='fl'>316334</span>,<span class='fl'>296278</span>,
-     <span class='fl'>276958</span>,<span class='fl'>275057</span>,<span class='fl'>272350</span>,<span class='fl'>279354</span>,<span class='fl'>244466</span>,<span class='fl'>209374</span>,<span class='fl'>214178</span>,<span class='fl'>210162</span>,
-     <span class='fl'>208499</span>,<span class='fl'>191717</span>,<span class='fl'>173916</span>,<span class='fl'>173882</span>,<span class='fl'>172936</span>,<span class='fl'>176417</span>,<span class='fl'>158124</span>,<span class='fl'>138487</span>,
-     <span class='fl'>141009</span>,<span class='fl'>142779</span>,<span class='fl'>145479</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>11</span><span class='op'>)</span><span class='op'>)</span>
-
- <span class='va'>p2_answer</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>15</span><span class='op'>)</span>,<span class='fl'>769826</span>,<span class='fl'>711733</span>,<span class='fl'>663995</span>,<span class='fl'>623069</span>,
-     <span class='fl'>584797</span>,<span class='fl'>552352</span>,<span class='fl'>530538</span>,<span class='fl'>515578</span>,<span class='fl'>505073</span>,<span class='fl'>497808</span>,<span class='fl'>489977</span>,<span class='fl'>479740</span>,
-     <span class='fl'>469326</span>,<span class='fl'>460446</span>,<span class='fl'>454699</span>,<span class='fl'>449240</span>,<span class='fl'>439744</span>,<span class='fl'>429856</span>,<span class='fl'>422980</span>,<span class='fl'>419200</span>,
-     <span class='fl'>414487</span>,<span class='fl'>403537</span>,<span class='fl'>389871</span>,<span class='fl'>378716</span>,<span class='fl'>370274</span>,<span class='fl'>361289</span>,<span class='fl'>348796</span>,<span class='fl'>334849</span>,
-     <span class='fl'>321901</span>,<span class='fl'>310028</span>,<span class='fl'>298308</span>,<span class='fl'>286242</span>,<span class='fl'>274796</span>,<span class='fl'>263983</span>,<span class='fl'>253143</span>,<span class='fl'>242464</span>,
-     <span class='fl'>232007</span>,<span class='fl'>221636</span>,<span class='fl'>211372</span>,<span class='fl'>200807</span>,<span class='fl'>191057</span>,<span class='fl'>183573</span>,<span class='fl'>176971</span>,<span class='fl'>170539</span>,<span class='fl'>164776</span>,
-      <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>16</span><span class='op'>)</span><span class='op'>)</span>
- <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-   <span class='co'># using census as given in table. Symmetry makes TR suspect this</span>
-   <span class='co'># is due to a single value. Trial and error ensued.</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'>zelnik</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='fl'>1</span>,<span class='va'>Age</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>p1_answer</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>32</span>,<span class='fl'>54</span><span class='op'>)</span>,type<span class='op'>=</span><span class='st'>'l'</span><span class='op'>)</span>
-     <span class='co'># change value of age 44 by removing 40 individuals. Suspected</span>
-   <span class='co'># error in original table (or in value used by original authors to carry out calcs)</span>
-   <span class='co'># 54995 now is 54955, and we get a match.</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'>zelnik</span><span class='op'>(</span><span class='fu'>perturb</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='op'>-</span><span class='fl'>40</span>,<span class='fl'>45</span><span class='op'>)</span>,<span class='fl'>1</span>,<span class='va'>Age</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>p1_answer</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
-
- <span class='co'># that the same adjustment works for p2 makes me suspect that the error</span>
- <span class='co'># is indeed in the value given for the census count at age 44.</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'>zelnik</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='fl'>2</span>,<span class='va'>Age</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>p2_answer</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>30</span>,<span class='fl'>55</span><span class='op'>)</span>,type<span class='op'>=</span><span class='st'>'l'</span><span class='op'>)</span>
- <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'>zelnik</span><span class='op'>(</span><span class='fu'>perturb</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='op'>-</span><span class='fl'>40</span>, <span class='fl'>45</span><span class='op'>)</span>, <span class='fl'>2</span>, <span class='va'>Age</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>p2_answer</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
- <span class='op'>}</span>
- <span class='co'># we use this for the de facto unit test:</span>
-
-<span class='va'>d1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'>zelnik</span><span class='op'>(</span><span class='fu'>perturb</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='op'>-</span><span class='fl'>40</span>,<span class='fl'>45</span><span class='op'>)</span>,<span class='fl'>1</span>,<span class='va'>Age</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>p1_answer</span>
-<span class='va'>d2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'>zelnik</span><span class='op'>(</span><span class='fu'>perturb</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='op'>-</span><span class='fl'>40</span>,<span class='fl'>45</span><span class='op'>)</span>,<span class='fl'>2</span>,<span class='va'>Age</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>p2_answer</span>
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='va'>d1</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>d1</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='va'>d2</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>d2</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
-<span class='co'># }</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># data from gray1987missingages, Table 2, page 21: Aplication of Q1 and</span></span>
+<span class='r-in'><span class='co'># Q2 linear operators, Bangladesh Census, 1 March 1974-Males.</span></span>
+<span class='r-in'><span class='va'>Pop</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>941307</span>,<span class='fl'>1041335</span>,<span class='fl'>1237034</span>,<span class='fl'>1411359</span>,<span class='fl'>1383853</span>,<span class='fl'>1541942</span>,<span class='fl'>1321576</span>,<span class='fl'>1285877</span>,<span class='fl'>1563448</span>,<span class='fl'>886705</span>,</span>
+<span class='r-in'>      <span class='fl'>1623998</span>,<span class='fl'>562924</span>,<span class='fl'>1485173</span>,<span class='fl'>543216</span>,<span class='fl'>771219</span>,<span class='fl'>903496</span>,<span class='fl'>686431</span>,<span class='fl'>370007</span>,<span class='fl'>942999</span>,<span class='fl'>250820</span>,</span>
+<span class='r-in'>      <span class='fl'>1023667</span>,<span class='fl'>200131</span>,<span class='fl'>688640</span>,<span class='fl'>222011</span>,<span class='fl'>281738</span>,<span class='fl'>1239965</span>,<span class='fl'>288363</span>,<span class='fl'>263326</span>,<span class='fl'>483143</span>,<span class='fl'>78635</span>,</span>
+<span class='r-in'>      <span class='fl'>1349886</span>,<span class='fl'>68438</span>,<span class='fl'>415127</span>,<span class='fl'>101596</span>,<span class='fl'>100758</span>,<span class='fl'>1392434</span>,<span class='fl'>178633</span>,<span class='fl'>126351</span>,<span class='fl'>286520</span>,<span class='fl'>50836</span>,</span>
+<span class='r-in'>      <span class='fl'>1331036</span>,<span class='fl'>48995</span>,<span class='fl'>251153</span>,<span class='fl'>58393</span>,<span class='fl'>54995</span>,<span class='fl'>1033812</span>,<span class='fl'>68792</span>,<span class='fl'>72766</span>,<span class='fl'>175943</span>,<span class='fl'>28254</span>,</span>
+<span class='r-in'>      <span class='fl'>1038747</span>,<span class='fl'>32894</span>,<span class='fl'>136179</span>,<span class='fl'>37667</span>,<span class='fl'>38230</span>,<span class='fl'>596049</span>,<span class='fl'>52602</span>,<span class='fl'>36493</span>,<span class='fl'>74106</span>,<span class='fl'>16759</span>,</span>
+<span class='r-in'>      <span class='fl'>790643</span>,<span class='fl'>20596</span>,<span class='fl'>70109</span>,<span class='fl'>18044</span>,<span class='fl'>19891</span>,<span class='fl'>357491</span>,<span class='fl'>15253</span>,<span class='fl'>17489</span>,<span class='fl'>31057</span>,<span class='fl'>8481</span>,</span>
+<span class='r-in'>      <span class='fl'>429816</span>,<span class='fl'>7951</span>,<span class='fl'>35583</span>,<span class='fl'>8612</span>,<span class='fl'>6589</span>,<span class='fl'>454645</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age</span>  <span class='op'>&lt;-</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>75</span></span>
+<span class='r-in'><span class='va'>z1</span> <span class='op'>&lt;-</span> <span class='fu'>zelnik</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='fl'>1</span>,<span class='va'>Age</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>z2</span> <span class='op'>&lt;-</span> <span class='fu'>zelnik</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='fl'>2</span>,<span class='va'>Age</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>Pop</span>,type<span class='op'>=</span><span class='st'>'l'</span>,col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>.4</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>z1</span><span class='op'>)</span><span class='op'>)</span>,<span class='va'>z1</span>,col <span class='op'>=</span> <span class='st'>"blue"</span>,lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>z2</span><span class='op'>)</span><span class='op'>)</span>,<span class='va'>z2</span>,col <span class='op'>=</span> <span class='st'>"red"</span>,lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='co'># \dontshow{</span></span>
+<span class='r-in'><span class='co'># here some units tests:</span></span>
+<span class='r-in'><span class='co'># a function required to make original table work</span></span>
+<span class='r-in'><span class='va'>perturb</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>pert</span> <span class='op'>=</span> <span class='fl'>0</span>, <span class='va'>pos</span> <span class='op'>=</span> <span class='fl'>45</span><span class='op'>)</span><span class='op'>{</span></span>
+<span class='r-in'>  <span class='va'>x</span><span class='op'>[</span><span class='va'>pos</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>x</span><span class='op'>[</span><span class='va'>pos</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>pert</span></span>
+<span class='r-in'>  <span class='va'>x</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'> <span class='va'>p1_answer</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>10</span><span class='op'>)</span>,<span class='fl'>1151172</span>,<span class='fl'>1077888</span>,<span class='fl'>982103</span>,<span class='fl'>891354</span>,</span>
+<span class='r-in'>     <span class='fl'>828173</span>,<span class='fl'>762583</span>,<span class='fl'>718528</span>,<span class='fl'>649206</span>,<span class='fl'>579004</span>,<span class='fl'>535521</span>,<span class='fl'>552769</span>,<span class='fl'>572789</span>,</span>
+<span class='r-in'>     <span class='fl'>543715</span>,<span class='fl'>504766</span>,<span class='fl'>456185</span>,<span class='fl'>484627</span>,<span class='fl'>516545</span>,<span class='fl'>487585</span>,<span class='fl'>458525</span>,<span class='fl'>437117</span>,</span>
+<span class='r-in'>     <span class='fl'>442480</span>,<span class='fl'>456052</span>,<span class='fl'>440706</span>,<span class='fl'>415651</span>,<span class='fl'>400515</span>,<span class='fl'>403565</span>,<span class='fl'>409668</span>,<span class='fl'>402329</span>,</span>
+<span class='r-in'>     <span class='fl'>391982</span>,<span class='fl'>392801</span>,<span class='fl'>362520</span>,<span class='fl'>327180</span>,<span class='fl'>322889</span>,<span class='fl'>318215</span>,<span class='fl'>316334</span>,<span class='fl'>296278</span>,</span>
+<span class='r-in'>     <span class='fl'>276958</span>,<span class='fl'>275057</span>,<span class='fl'>272350</span>,<span class='fl'>279354</span>,<span class='fl'>244466</span>,<span class='fl'>209374</span>,<span class='fl'>214178</span>,<span class='fl'>210162</span>,</span>
+<span class='r-in'>     <span class='fl'>208499</span>,<span class='fl'>191717</span>,<span class='fl'>173916</span>,<span class='fl'>173882</span>,<span class='fl'>172936</span>,<span class='fl'>176417</span>,<span class='fl'>158124</span>,<span class='fl'>138487</span>,</span>
+<span class='r-in'>     <span class='fl'>141009</span>,<span class='fl'>142779</span>,<span class='fl'>145479</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>11</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'> <span class='va'>p2_answer</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>15</span><span class='op'>)</span>,<span class='fl'>769826</span>,<span class='fl'>711733</span>,<span class='fl'>663995</span>,<span class='fl'>623069</span>,</span>
+<span class='r-in'>     <span class='fl'>584797</span>,<span class='fl'>552352</span>,<span class='fl'>530538</span>,<span class='fl'>515578</span>,<span class='fl'>505073</span>,<span class='fl'>497808</span>,<span class='fl'>489977</span>,<span class='fl'>479740</span>,</span>
+<span class='r-in'>     <span class='fl'>469326</span>,<span class='fl'>460446</span>,<span class='fl'>454699</span>,<span class='fl'>449240</span>,<span class='fl'>439744</span>,<span class='fl'>429856</span>,<span class='fl'>422980</span>,<span class='fl'>419200</span>,</span>
+<span class='r-in'>     <span class='fl'>414487</span>,<span class='fl'>403537</span>,<span class='fl'>389871</span>,<span class='fl'>378716</span>,<span class='fl'>370274</span>,<span class='fl'>361289</span>,<span class='fl'>348796</span>,<span class='fl'>334849</span>,</span>
+<span class='r-in'>     <span class='fl'>321901</span>,<span class='fl'>310028</span>,<span class='fl'>298308</span>,<span class='fl'>286242</span>,<span class='fl'>274796</span>,<span class='fl'>263983</span>,<span class='fl'>253143</span>,<span class='fl'>242464</span>,</span>
+<span class='r-in'>     <span class='fl'>232007</span>,<span class='fl'>221636</span>,<span class='fl'>211372</span>,<span class='fl'>200807</span>,<span class='fl'>191057</span>,<span class='fl'>183573</span>,<span class='fl'>176971</span>,<span class='fl'>170539</span>,<span class='fl'>164776</span>,</span>
+<span class='r-in'>      <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>16</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>   <span class='co'># using census as given in table. Symmetry makes TR suspect this</span></span>
+<span class='r-in'>   <span class='co'># is due to a single value. Trial and error ensued.</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'>zelnik</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='fl'>1</span>,<span class='va'>Age</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>p1_answer</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>32</span>,<span class='fl'>54</span><span class='op'>)</span>,type<span class='op'>=</span><span class='st'>'l'</span><span class='op'>)</span></span>
+<span class='r-in'>     <span class='co'># change value of age 44 by removing 40 individuals. Suspected</span></span>
+<span class='r-in'>   <span class='co'># error in original table (or in value used by original authors to carry out calcs)</span></span>
+<span class='r-in'>   <span class='co'># 54995 now is 54955, and we get a match.</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'>zelnik</span><span class='op'>(</span><span class='fu'>perturb</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='op'>-</span><span class='fl'>40</span>,<span class='fl'>45</span><span class='op'>)</span>,<span class='fl'>1</span>,<span class='va'>Age</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>p1_answer</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'> <span class='co'># that the same adjustment works for p2 makes me suspect that the error</span></span>
+<span class='r-in'> <span class='co'># is indeed in the value given for the census count at age 44.</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'>zelnik</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='fl'>2</span>,<span class='va'>Age</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>p2_answer</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>30</span>,<span class='fl'>55</span><span class='op'>)</span>,type<span class='op'>=</span><span class='st'>'l'</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'>zelnik</span><span class='op'>(</span><span class='fu'>perturb</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='op'>-</span><span class='fl'>40</span>, <span class='fl'>45</span><span class='op'>)</span>, <span class='fl'>2</span>, <span class='va'>Age</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>p2_answer</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span></span>
+<span class='r-in'> <span class='op'>}</span></span>
+<span class='r-in'> <span class='co'># we use this for the de facto unit test:</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>d1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'>zelnik</span><span class='op'>(</span><span class='fu'>perturb</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='op'>-</span><span class='fl'>40</span>,<span class='fl'>45</span><span class='op'>)</span>,<span class='fl'>1</span>,<span class='va'>Age</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>p1_answer</span></span>
+<span class='r-in'><span class='va'>d2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'>zelnik</span><span class='op'>(</span><span class='fu'>perturb</span><span class='op'>(</span><span class='va'>Pop</span>,<span class='op'>-</span><span class='fl'>40</span>,<span class='fl'>45</span><span class='op'>)</span>,<span class='fl'>2</span>,<span class='va'>Age</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>p2_answer</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='va'>d1</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>d1</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='va'>d2</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>d2</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># }</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -271,11 +279,11 @@ Note results do not sum to the total from the same age-range of <code>Value</cod
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -283,6 +291,8 @@ Note results do not sum to the total from the same age-range of <code>Value</cod
 
   
 
+
+  
 
   </body>
 </html>

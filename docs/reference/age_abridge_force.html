@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +170,7 @@
     <p>This is a robustness utility, in place to avoid annoying hang-ups in <code>LTAbr()</code>. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling <code><a href='lt_abridged.html'>lt_abridged()</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>age_abridge_force</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>AgeInt</span>, <span class='va'>Age</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>age_abridge_force</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>AgeInt</span>, <span class='va'>Age</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,19 +197,21 @@
     <div class='dont-index'><p>graduate_mono_closeout, lt_abridged</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>V1</span>        <span class='op'>&lt;-</span> <span class='va'>pop1m_ind</span>
-<span class='va'>Age</span>       <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>100</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>AgeInt</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>19</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>)</span>
-<span class='va'>Value</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span><span class='op'>(</span><span class='va'>V1</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='va'>Age</span>,times<span class='op'>=</span><span class='va'>AgeInt</span><span class='op'>)</span>, <span class='va'>sum</span><span class='op'>)</span>
-
-<span class='fu'><a href='is_abridged.html'>is_abridged</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>age_abridge_force</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>AgeInt</span>, <span class='va'>Age</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        0        1        5       10       15       20       25       30 
-#&gt;  9350830 43009822 57419164 51947630 42231074 37514223 34546587 29917765 
-#&gt;       35       40       45       50       55       60       65       70 
-#&gt; 27558300 22842245 18954561 16904890 10941747 11907237  6493630  5535950 
-#&gt;       75       80       85       90       95      100 
-#&gt;  2102284  2094961   601000   421930   134360    72373 </div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>V1</span>        <span class='op'>&lt;-</span> <span class='va'>pop1m_ind</span></span>
+<span class='r-in'><span class='va'>Age</span>       <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>100</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>AgeInt</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>19</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Value</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span><span class='op'>(</span><span class='va'>V1</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='va'>Age</span>,times<span class='op'>=</span><span class='va'>AgeInt</span><span class='op'>)</span>, <span class='va'>sum</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='is_abridged.html'>is_abridged</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
+<span class='r-in'><span class='fu'>age_abridge_force</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>AgeInt</span>, <span class='va'>Age</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        0        1        5       10       15       20       25       30 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  9350830 43009822 57419164 51947630 42231074 37514223 34546587 29917765 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       35       40       45       50       55       60       65       70 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27558300 22842245 18954561 16904890 10941747 11907237  6493630  5535950 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       75       80       85       90       95      100 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  2102284  2094961   601000   421930   134360    72373 </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -213,11 +223,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -225,6 +235,8 @@
 
   
 
+
+  
 
   </body>
 </html>

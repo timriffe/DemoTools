@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +170,7 @@
     <p>The interpolation is done by age using a linear, exponential, or power function. This comes from the PAS spreadsheet called <code>AGEINT</code>. Be aware that this is not cohort-component interpolation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>interp</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>interp</span><span class='op'>(</span>
   <span class='va'>popmat</span>,
   <span class='va'>datesIn</span>,
   <span class='va'>datesOut</span>,
@@ -170,7 +178,7 @@
   power <span class='op'>=</span> <span class='fl'>2</span>,
   extrap <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -211,7 +219,7 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The age group structure of the output is the same as that of the input. Ideally, <code>datesOut</code> should be within the range of <code>datesIn</code>. If not, the left-side and right-side output are held constant outside the range if <code>rule = 2</code> is passed in, otherwise <code>NA</code> is returned (see examples). Dates can be given in three ways 1) a <code>Date</code> class object, 2) an unambiguous character string in the format <code>"YYYY-MM-DD"</code>, or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.</p>
-<p>For methods <code>"exponential"</code> and <code>"power"</code>, calculations are carried out using linear interpolation through <code><a href='https://rdrr.io/r/base/Log.html'>log(popmat)</a></code>, or <code>popmat^(1/power)</code> respectively, then back-transformed. If the data contain 0s, <code>method = "exponential"</code> will fail, but <code>"power"</code> would still generally work.</p>
+<p>For methods <code>"exponential"</code> and <code>"power"</code>, calculations are carried out using linear interpolation through <code>log(popmat)</code>, or <code>popmat^(1/power)</code> respectively, then back-transformed. If the data contain 0s, <code>method = "exponential"</code> will fail, but <code>"power"</code> would still generally work.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>United States Census Bureau (2017).
@@ -222,200 +230,209 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
     <p>Tim Riffe</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Example of interpolating over time series of age-structured</span>
-<span class='co'># data. NOTE: age classes must conform. They don't have to be</span>
-<span class='co'># uniform, just the same in each year.</span>
-<span class='va'>popmat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2111460L</span>, <span class='fl'>1971927L</span>, <span class='fl'>1651421L</span>, <span class='fl'>1114149L</span>, <span class='fl'>921120L</span>,
-<span class='fl'>859806L</span>, <span class='fl'>806857L</span>, <span class='fl'>847447L</span>, <span class='fl'>660666L</span>, <span class='fl'>567163L</span>, <span class='fl'>493799L</span>, <span class='fl'>322936L</span>,
-<span class='fl'>320796L</span>, <span class='fl'>163876L</span>, <span class='fl'>133531L</span>, <span class='fl'>120866L</span>, <span class='fl'>2548265L</span>, <span class='fl'>2421813L</span>, <span class='fl'>2581979L</span>,
-<span class='fl'>2141854L</span>, <span class='fl'>1522279L</span>, <span class='fl'>1321665L</span>, <span class='fl'>1036480L</span>, <span class='fl'>1024782L</span>, <span class='fl'>935787L</span>, <span class='fl'>789521L</span>,
-<span class='fl'>719185L</span>, <span class='fl'>481997L</span>, <span class='fl'>479943L</span>, <span class='fl'>268777L</span>, <span class='fl'>202422L</span>, <span class='fl'>167962L</span>, <span class='fl'>3753848L</span>,
-<span class='fl'>3270658L</span>, <span class='fl'>2930638L</span>, <span class='fl'>2692898L</span>, <span class='fl'>2222672L</span>, <span class='fl'>1788443L</span>, <span class='fl'>1514610L</span>, <span class='fl'>1491751L</span>,
-<span class='fl'>1054937L</span>, <span class='fl'>972484L</span>, <span class='fl'>796138L</span>, <span class='fl'>673137L</span>, <span class='fl'>554010L</span>, <span class='fl'>352264L</span>, <span class='fl'>293308L</span>,
-<span class='fl'>195307L</span>, <span class='fl'>3511776L</span>, <span class='fl'>3939121L</span>, <span class='fl'>4076601L</span>, <span class='fl'>3602857L</span>, <span class='fl'>2642620L</span>, <span class='fl'>2105063L</span>,
-<span class='fl'>1993212L</span>, <span class='fl'>1914367L</span>, <span class='fl'>1616449L</span>, <span class='fl'>1408498L</span>, <span class='fl'>994936L</span>, <span class='fl'>776537L</span>, <span class='fl'>706189L</span>,
-<span class='fl'>507085L</span>, <span class='fl'>315767L</span>, <span class='fl'>240302L</span>, <span class='fl'>3956664L</span>, <span class='fl'>3936424L</span>, <span class='fl'>3995805L</span>, <span class='fl'>4371774L</span>,
-<span class='fl'>4012982L</span>, <span class='fl'>3144046L</span>, <span class='fl'>2406725L</span>, <span class='fl'>2301514L</span>, <span class='fl'>2061252L</span>, <span class='fl'>1871502L</span>, <span class='fl'>1538713L</span>,
-<span class='fl'>1210822L</span>, <span class='fl'>896041L</span>, <span class='fl'>638954L</span>, <span class='fl'>401297L</span>, <span class='fl'>375648L</span><span class='op'>)</span>, .Dim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>16L</span>,
-<span class='fl'>5L</span><span class='op'>)</span>, .Dimnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"0"</span>, <span class='st'>"5"</span>, <span class='st'>"10"</span>, <span class='st'>"15"</span>, <span class='st'>"20"</span>, <span class='st'>"25"</span>, <span class='st'>"30"</span>,
-<span class='st'>"35"</span>, <span class='st'>"40"</span>, <span class='st'>"45"</span>, <span class='st'>"50"</span>, <span class='st'>"55"</span>, <span class='st'>"60"</span>, <span class='st'>"65"</span>, <span class='st'>"70"</span>, <span class='st'>"75"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1960"</span>,
-<span class='st'>"1976"</span>, <span class='st'>"1986"</span>, <span class='st'>"1996"</span>, <span class='st'>"2006"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># We have irregularly spaced census inputs.</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/matplot.html'>matplot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>75</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>,<span class='va'>popmat</span>,type<span class='op'>=</span><span class='st'>'l'</span>,col<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>20</span>,<span class='va'>popmat</span><span class='op'>[</span><span class='st'>"20"</span>,<span class='op'>]</span>,<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>popmat</span><span class='op'>)</span>,col<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='co'># census dates as decimal: no need for year rounding.</span>
-<span class='co'># could also specify as "YYYY-MM-DD"</span>
-<span class='co'># (rounded to 2 digits here- not necessary)</span>
-<span class='va'>datesIn</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1960.73</span>, <span class='fl'>1976.90</span>, <span class='fl'>1986.89</span>, <span class='fl'>1996.89</span>, <span class='fl'>2006.89</span><span class='op'>)</span>
-<span class='co'># could ask for single years or anything</span>
-<span class='va'>datesOut</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1960</span>, <span class='fl'>2005</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-
-<span class='co'># NOTE: rule is an argument to approx(), which does the work.</span>
-<span class='co'># if not passed in, 1960 is returned as NAs (outside the range</span>
-<span class='co'># of dates given). In this case, rule = 2 assumes constant</span>
-<span class='co'># equal to nearest neighbor, meaning 1960 data will be returned</span>
-<span class='co'># as equal to 1960.73 input data. So, function should only be</span>
-<span class='co'># allowed to extrapolate for short distances.</span>
-<span class='fu'>interp</span><span class='op'>(</span><span class='va'>popmat</span>, <span class='va'>datesIn</span>, <span class='va'>datesOut</span>, <span class='st'>"linear"</span>, rule <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       1960      1965      1970      1975      1980      1985      1990
-#&gt; 0  2111460 2226806.8 2361873.3 2496939.7 2922369.8 3525764.7 3678563.6
-#&gt; 5  1971927 2090728.1 2229839.4 2368950.7 2685218.4 3110065.7 3478550.0
-#&gt; 10 1651421 1897152.8 2184894.9 2472637.0 2690171.5 2864675.5 3287032.5
-#&gt; 15 1114149 1385534.3 1703315.7 2021097.1 2312848.6 2588646.4 2975895.2
-#&gt; 20  921120 1079867.6 1265754.8 1451641.9 1739618.2 2090165.2 2353275.8
-#&gt; 25  859806  981768.8 1124582.3 1267395.9 1466511.0 1700133.6 1886911.8
-#&gt; 30  806857  867493.4  938496.2 1009498.9 1184848.7 1424153.0 1663455.2
-#&gt; 35  847447  894275.7  949110.3 1003944.9 1169687.3 1403405.5 1623184.6
-#&gt; 40  660666  733317.0  818388.4  903459.9  972760.5 1032395.1 1229567.2
-#&gt; 45  567163  625880.9  694637.3  763393.6  846296.3  937869.4 1108084.4
-#&gt; 50  493799  553316.5  623009.2  692701.8  743064.3  781579.3  857964.2
-#&gt; 55  322936  364939.1  414123.1  463307.1  541309.7  636975.4  705294.4
-#&gt; 60  320796  362821.8  412032.4  461243.0  502926.8  539997.3  601337.7
-#&gt; 65  163876  191577.1  224014.1  256451.0  294683.9  336469.2  400413.3
-#&gt; 70  133531  151723.0  173025.1  194327.2  230624.9  276113.4  300292.7
-#&gt; 75  120866  133302.6  147865.4  162428.1  176447.4  190133.6  209300.4
-#&gt;         1995      2000      2005
-#&gt; 0  3557527.6 3650136.2 3872580.2
-#&gt; 5  3812781.5 3938282.2 3936933.7
-#&gt; 10 3860014.0 4051473.4 4011075.4
-#&gt; 15 3430874.7 3841990.2 4226448.7
-#&gt; 20 2563249.8 3068802.6 3753983.6
-#&gt; 25 2045221.8 2428186.7 2947678.2
-#&gt; 30 1902756.2 2121814.5 2328571.0
-#&gt; 35 1834492.6 2034769.7 2228343.2
-#&gt; 40 1510323.2 1754782.7 1977184.2
-#&gt; 45 1326091.4 1552492.2 1783994.2
-#&gt; 50  957363.2 1164050.6 1435939.1
-#&gt; 55  756994.4  911599.6 1128742.1
-#&gt; 60  677427.2  765233.0  860159.0
-#&gt; 65  477823.8  548096.3  614030.8
-#&gt; 70  311522.2  342366.8  385131.8
-#&gt; 75  231797.9  282394.6  350067.6</div><div class='input'><span class='fu'>interp</span><span class='op'>(</span><span class='va'>popmat</span>, <span class='va'>datesIn</span>, <span class='va'>datesOut</span>, <span class='st'>"exponential"</span>, rule <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       1960      1965      1970      1975      1980      1985      1990
-#&gt; 0  2111460 2218948.4 2351788.2 2492580.6 2873748.4 3488582.4 3676827.6
-#&gt; 5  1971927 2081895.6 2218483.9 2364033.5 2658486.2 3089918.2 3465395.4
-#&gt; 10 1651421 1858284.9 2133680.0 2449888.1 2685484.9 2861244.6 3247429.1
-#&gt; 15 1114149 1324031.9 1620570.6 1983524.0 2299556.2 2578747.5 2948076.4
-#&gt; 20  921120 1051793.1 1228553.8 1435020.1 1711998.6 2069075.1 2345578.3
-#&gt; 25  859806  963180.6 1100131.4 1256554.7 1451716.5 1688979.6 1881441.8
-#&gt; 30  806857  862021.1  931428.3 1006423.9 1165954.0 1409723.1 1649637.0
-#&gt; 35  847447  891052.4  944972.8 1002156.1 1151415.8 1389460.6 1612080.1
-#&gt; 40  660666  724282.4  806602.6  898279.2  971244.4 1031286.5 1204663.8
-#&gt; 45  567163  618932.0  685588.4  759423.3  842272.5  934883.1 1091224.7
-#&gt; 50  493799  545343.6  612578.8  688103.5  742232.8  780973.1  853287.3
-#&gt; 55  322936  358959.5  406281.0  459840.8  534635.4  631916.7  703726.2
-#&gt; 60  320796  356804.8  404139.3  457753.3  501800.0  539170.1  597445.2
-#&gt; 65  163876  186748.7  217621.0  253596.8  292311.7  334690.2  394523.0
-#&gt; 70  133531  149036.6  169496.4  192764.9  227111.0  273433.6  300116.1
-#&gt; 75  120866  131838.3  145958.8  161591.8  176010.5  189812.4  208314.8
-#&gt;         1995      2000      2005
-#&gt; 0  3556299.5 3644494.9 3868463.7
-#&gt; 5  3803075.0 3938282.0 3936933.6
-#&gt; 10 3830078.7 4051299.9 4010951.7
-#&gt; 15 3409983.7 3826258.8 4214826.3
-#&gt; 20 2557582.2 3009263.5 3708313.7
-#&gt; 25 2041201.1 2384782.1 2914476.7
-#&gt; 30 1892407.8 2113566.9 2322482.6
-#&gt; 35 1826211.4 2027223.3 2222776.6
-#&gt; 40 1491192.1 1743387.8 1968695.4
-#&gt; 45 1313261.1 1538665.5 1773622.8
-#&gt; 50  953890.8 1139428.0 1416994.3
-#&gt; 55  755845.6  891578.7 1113316.8
-#&gt; 60  674527.6  760467.2  856611.6
-#&gt; 65  473345.9  544881.0  611640.3
-#&gt; 70  311394.3  340205.7  383522.8
-#&gt; 75  231068.1  276120.6  345231.6</div><div class='input'><span class='fu'>interp</span><span class='op'>(</span><span class='va'>popmat</span>, <span class='va'>datesIn</span>, <span class='va'>datesOut</span>, <span class='st'>"power"</span>, rule <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       1960      1965      1970      1975      1980      1985      1990
-#&gt; 0  2111460 2222819.3 2356853.9 2494812.1 2897460.8 3507911.3 3677699.3
-#&gt; 5  1971927 2086240.2 2224190.1 2366556.1 2671597.3 3100302.9 3471895.4
-#&gt; 10 1651421 1877031.0 2159565.8 2461900.3 2687809.4 2862982.5 3266817.3
-#&gt; 15 1114149 1353188.2 1662598.7 2003837.7 2306105.9 2583813.6 2961729.8
-#&gt; 20  921120 1065271.5 1247381.3 1443853.7 1725476.3 2080029.1 2349385.0
-#&gt; 25  859806  972158.3 1112484.7 1262267.9 1458971.7 1694729.9 1884148.7
-#&gt; 30  806857  864703.1  934983.8 1008010.1 1175173.7 1417218.4 1656426.2
-#&gt; 35  847447  892639.9  947051.2 1003072.0 1160333.6 1396701.3 1617544.8
-#&gt; 40  660666  728675.3  812545.5  900983.1  971996.7 1031847.6 1216779.0
-#&gt; 45  567163  622315.6  690149.3  761491.2  844257.8  936408.3 1099456.9
-#&gt; 50  493799  549211.4  617841.7  690511.4  742645.9  781279.4  855592.8
-#&gt; 55  322936  361854.5  410240.3  461661.2  537901.8  634532.7  704503.2
-#&gt; 60  320796  359717.4  408124.6  459586.5  502358.3  539589.9  599361.6
-#&gt; 65  163876  189068.3  220855.9  255112.3  293477.4  335604.4  397400.3
-#&gt; 70  133531  150335.6  171278.6  193586.9  228826.6  274824.4  300204.0
-#&gt; 75  120866  132551.4  146919.7  162027.3  176226.9  189975.5  208801.2
-#&gt;         1995      2000      2005
-#&gt; 0  3556909.3 3647294.3 3870547.3
-#&gt; 5  3808021.3 3938282.1 3936933.7
-#&gt; 10 3845553.6 4051386.8 4011013.5
-#&gt; 15 3420741.8 3834028.4 4220753.4
-#&gt; 20 2560466.6 3038245.6 3732125.4
-#&gt; 25 2043245.3 2405933.2 2931759.7
-#&gt; 30 1897728.2 2117641.6 2325586.0
-#&gt; 35 1830458.3 2030952.6 2225612.8
-#&gt; 40 1501175.5 1748997.7 1973046.1
-#&gt; 45 1319919.9 1545454.6 1778960.1
-#&gt; 50  955666.9 1151399.4 1426889.4
-#&gt; 55  756428.5  901307.6 1121380.0
-#&gt; 60  676013.6  762814.2  858428.8
-#&gt; 65  475668.5  546465.2  612864.0
-#&gt; 70  311458.8  341269.9  384347.2
-#&gt; 75  231440.8  279168.8  347760.1</div><div class='input'>
-<span class='co'># ----------------------------------------------------------</span>
-<span class='co'># standard example data, taken from AGEINT PAS spreadsheet.</span>
-
- <span class='co'># YYYY-MM-DD dates as character</span>
- <span class='va'>d1</span>              <span class='op'>&lt;-</span> <span class='st'>"1980-04-07"</span>
- <span class='va'>d2</span>              <span class='op'>&lt;-</span> <span class='st'>"1990-10-06"</span>
- <span class='va'>dout</span>            <span class='op'>&lt;-</span> <span class='st'>"1985-07-01"</span>
-
- <span class='op'>(</span><span class='va'>p_lin</span> <span class='op'>&lt;-</span> <span class='fu'>interp</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>popA_earlier</span>,<span class='va'>popA_later</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>d1</span>,<span class='va'>d2</span><span class='op'>)</span>,<span class='va'>dout</span>,method <span class='op'>=</span> <span class='st'>"linear"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 151269.21 698637.56 935163.70 838408.52 669361.53 555363.48 452291.31
-#&gt;  [8] 373698.99 370798.20 334150.36 258103.71 223758.80 190651.53 158396.80
-#&gt; [15] 119288.68  80400.82  46479.94  51836.50</div><div class='input'> <span class='op'>(</span><span class='va'>p_exp</span> <span class='op'>&lt;-</span> <span class='fu'>interp</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>popA_earlier</span>,<span class='va'>popA_later</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>d1</span>,<span class='va'>d2</span><span class='op'>)</span>,<span class='va'>dout</span>,method <span class='op'>=</span> <span class='st'>"exponential"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 142611.79 658653.23 881642.53 790424.84 631052.72 523578.99 426405.83
-#&gt;  [8] 352311.49 349576.73 315026.30 243331.95 210952.67 179740.18 149331.46
-#&gt; [15] 112461.57  75799.33  43819.81  48869.80</div><div class='input'> <span class='op'>(</span><span class='va'>p_pow</span> <span class='op'>&lt;-</span> <span class='fu'>interp</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>popA_earlier</span>,<span class='va'>popA_later</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>d1</span>,<span class='va'>d2</span><span class='op'>)</span>,<span class='va'>dout</span>,method <span class='op'>=</span> <span class='st'>"power"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 146938.84 678637.75 908392.88 814407.50 650199.80 539465.16 439343.62
-#&gt;  [8] 363001.15 360183.41 324584.67 250715.00 217353.29 185193.77 153862.40
-#&gt; [15] 115873.82  78099.19  45149.37  50352.58</div><div class='input'>
- <span class='co'># \dontshow{</span>
- <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='dec.date.html'>dec.date</a></span><span class='op'>(</span><span class='va'>d1</span><span class='op'>)</span>,digits<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1980.26502732240442</div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='dec.date.html'>dec.date</a></span><span class='op'>(</span><span class='va'>d2</span><span class='op'>)</span>,digits<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1990.7616438356165</div><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='dec.date.html'>dec.date</a></span><span class='op'>(</span><span class='va'>dout</span><span class='op'>)</span>,digits<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1985.49589041095896</div><div class='input'> <span class='co'># these were set to different dates: recreate above dates...</span>
-<span class='va'>expcheck</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>142611.789832724</span>, <span class='fl'>658653.225145641</span>, <span class='fl'>881642.532889494</span>, <span class='fl'>790424.835149364</span>, 
-<span class='fl'>631052.720366013</span>, <span class='fl'>523578.990638372</span>, <span class='fl'>426405.833143345</span>, <span class='fl'>352311.49478387</span>, 
-<span class='fl'>349576.729583329</span>, <span class='fl'>315026.304975883</span>, <span class='fl'>243331.949093535</span>, <span class='fl'>210952.668139616</span>, 
-<span class='fl'>179740.182668986</span>, <span class='fl'>149331.458251614</span>, <span class='fl'>112461.568530899</span>, <span class='fl'>75799.3288538202</span>, 
-<span class='fl'>43819.8095485345</span>, <span class='fl'>48869.8021063505</span><span class='op'>)</span>
-
-<span class='va'>lincheck</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>151269.209810283</span>, <span class='fl'>698637.560216026</span>, <span class='fl'>935163.70169507</span>, <span class='fl'>838408.524061807</span>, 
-<span class='fl'>669361.533645738</span>, <span class='fl'>555363.482079782</span>, <span class='fl'>452291.311354737</span>, <span class='fl'>373698.987198367</span>, 
-<span class='fl'>370798.204791894</span>, <span class='fl'>334150.355163834</span>, <span class='fl'>258103.707303228</span>, <span class='fl'>223758.803211712</span>, 
-<span class='fl'>190651.52632461</span>, <span class='fl'>158396.803770816</span>, <span class='fl'>119288.683114125</span>, <span class='fl'>80400.8181463556</span>, 
-<span class='fl'>46479.9437144632</span>, <span class='fl'>51836.5021355072</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>expcheck</span> <span class='op'>-</span> <span class='va'>p_exp</span><span class='op'>)</span><span class='op'>&lt;</span><span class='fl'>1e-6</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>lincheck</span> <span class='op'>-</span> <span class='va'>p_lin</span><span class='op'>)</span><span class='op'>&lt;</span><span class='fl'>1e-6</span><span class='op'>)</span><span class='op'>)</span>
-<span class='co'># do controlled spreadsheet test, passing in decimal dates, etc</span>
-<span class='co'># }</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>80</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>popA_later</span>, type <span class='op'>=</span> <span class='st'>'l'</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, main <span class='op'>=</span> <span class='st'>"Interpolation options"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>popA_earlier</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, lty <span class='op'>=</span> <span class='st'>"8282"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>p_lin</span>,col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>p_pow</span>,col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>.4</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>p_exp</span>,col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>30</span>, <span class='va'>popA_earlier</span><span class='op'>[</span><span class='fl'>8</span><span class='op'>]</span>, <span class='va'>d1</span>, pos <span class='op'>=</span> <span class='fl'>1</span>, cex <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='va'>popA_later</span><span class='op'>[</span><span class='fl'>6</span><span class='op'>]</span>, <span class='va'>d2</span>, pos <span class='op'>=</span> <span class='fl'>4</span>, cex <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>, lty <span class='op'>=</span> <span class='fl'>1</span>, col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"blue"</span>, <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>.4</span><span class='op'>)</span>, <span class='st'>"red"</span><span class='op'>)</span>,
-    legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"linear"</span>, <span class='st'>"power 2"</span>, <span class='st'>"exponential"</span><span class='op'>)</span>,
-    title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"Interpolated 1985-07-01"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># Example of interpolating over time series of age-structured</span></span>
+<span class='r-in'><span class='co'># data. NOTE: age classes must conform. They don't have to be</span></span>
+<span class='r-in'><span class='co'># uniform, just the same in each year.</span></span>
+<span class='r-in'><span class='va'>popmat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2111460L</span>, <span class='fl'>1971927L</span>, <span class='fl'>1651421L</span>, <span class='fl'>1114149L</span>, <span class='fl'>921120L</span>,</span>
+<span class='r-in'><span class='fl'>859806L</span>, <span class='fl'>806857L</span>, <span class='fl'>847447L</span>, <span class='fl'>660666L</span>, <span class='fl'>567163L</span>, <span class='fl'>493799L</span>, <span class='fl'>322936L</span>,</span>
+<span class='r-in'><span class='fl'>320796L</span>, <span class='fl'>163876L</span>, <span class='fl'>133531L</span>, <span class='fl'>120866L</span>, <span class='fl'>2548265L</span>, <span class='fl'>2421813L</span>, <span class='fl'>2581979L</span>,</span>
+<span class='r-in'><span class='fl'>2141854L</span>, <span class='fl'>1522279L</span>, <span class='fl'>1321665L</span>, <span class='fl'>1036480L</span>, <span class='fl'>1024782L</span>, <span class='fl'>935787L</span>, <span class='fl'>789521L</span>,</span>
+<span class='r-in'><span class='fl'>719185L</span>, <span class='fl'>481997L</span>, <span class='fl'>479943L</span>, <span class='fl'>268777L</span>, <span class='fl'>202422L</span>, <span class='fl'>167962L</span>, <span class='fl'>3753848L</span>,</span>
+<span class='r-in'><span class='fl'>3270658L</span>, <span class='fl'>2930638L</span>, <span class='fl'>2692898L</span>, <span class='fl'>2222672L</span>, <span class='fl'>1788443L</span>, <span class='fl'>1514610L</span>, <span class='fl'>1491751L</span>,</span>
+<span class='r-in'><span class='fl'>1054937L</span>, <span class='fl'>972484L</span>, <span class='fl'>796138L</span>, <span class='fl'>673137L</span>, <span class='fl'>554010L</span>, <span class='fl'>352264L</span>, <span class='fl'>293308L</span>,</span>
+<span class='r-in'><span class='fl'>195307L</span>, <span class='fl'>3511776L</span>, <span class='fl'>3939121L</span>, <span class='fl'>4076601L</span>, <span class='fl'>3602857L</span>, <span class='fl'>2642620L</span>, <span class='fl'>2105063L</span>,</span>
+<span class='r-in'><span class='fl'>1993212L</span>, <span class='fl'>1914367L</span>, <span class='fl'>1616449L</span>, <span class='fl'>1408498L</span>, <span class='fl'>994936L</span>, <span class='fl'>776537L</span>, <span class='fl'>706189L</span>,</span>
+<span class='r-in'><span class='fl'>507085L</span>, <span class='fl'>315767L</span>, <span class='fl'>240302L</span>, <span class='fl'>3956664L</span>, <span class='fl'>3936424L</span>, <span class='fl'>3995805L</span>, <span class='fl'>4371774L</span>,</span>
+<span class='r-in'><span class='fl'>4012982L</span>, <span class='fl'>3144046L</span>, <span class='fl'>2406725L</span>, <span class='fl'>2301514L</span>, <span class='fl'>2061252L</span>, <span class='fl'>1871502L</span>, <span class='fl'>1538713L</span>,</span>
+<span class='r-in'><span class='fl'>1210822L</span>, <span class='fl'>896041L</span>, <span class='fl'>638954L</span>, <span class='fl'>401297L</span>, <span class='fl'>375648L</span><span class='op'>)</span>, .Dim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>16L</span>,</span>
+<span class='r-in'><span class='fl'>5L</span><span class='op'>)</span>, .Dimnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"0"</span>, <span class='st'>"5"</span>, <span class='st'>"10"</span>, <span class='st'>"15"</span>, <span class='st'>"20"</span>, <span class='st'>"25"</span>, <span class='st'>"30"</span>,</span>
+<span class='r-in'><span class='st'>"35"</span>, <span class='st'>"40"</span>, <span class='st'>"45"</span>, <span class='st'>"50"</span>, <span class='st'>"55"</span>, <span class='st'>"60"</span>, <span class='st'>"65"</span>, <span class='st'>"70"</span>, <span class='st'>"75"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1960"</span>,</span>
+<span class='r-in'><span class='st'>"1976"</span>, <span class='st'>"1986"</span>, <span class='st'>"1996"</span>, <span class='st'>"2006"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># We have irregularly spaced census inputs.</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/matplot.html'>matplot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>75</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>,<span class='va'>popmat</span>,type<span class='op'>=</span><span class='st'>'l'</span>,col<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>20</span>,<span class='va'>popmat</span><span class='op'>[</span><span class='st'>"20"</span>,<span class='op'>]</span>,<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>popmat</span><span class='op'>)</span>,col<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='co'># census dates as decimal: no need for year rounding.</span></span>
+<span class='r-in'><span class='co'># could also specify as "YYYY-MM-DD"</span></span>
+<span class='r-in'><span class='co'># (rounded to 2 digits here- not necessary)</span></span>
+<span class='r-in'><span class='va'>datesIn</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1960.73</span>, <span class='fl'>1976.90</span>, <span class='fl'>1986.89</span>, <span class='fl'>1996.89</span>, <span class='fl'>2006.89</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># could ask for single years or anything</span></span>
+<span class='r-in'><span class='va'>datesOut</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1960</span>, <span class='fl'>2005</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># NOTE: rule is an argument to approx(), which does the work.</span></span>
+<span class='r-in'><span class='co'># if not passed in, 1960 is returned as NAs (outside the range</span></span>
+<span class='r-in'><span class='co'># of dates given). In this case, rule = 2 assumes constant</span></span>
+<span class='r-in'><span class='co'># equal to nearest neighbor, meaning 1960 data will be returned</span></span>
+<span class='r-in'><span class='co'># as equal to 1960.73 input data. So, function should only be</span></span>
+<span class='r-in'><span class='co'># allowed to extrapolate for short distances.</span></span>
+<span class='r-in'><span class='fu'>interp</span><span class='op'>(</span><span class='va'>popmat</span>, <span class='va'>datesIn</span>, <span class='va'>datesOut</span>, <span class='st'>"linear"</span>, rule <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       1960      1965      1970      1975      1980      1985      1990</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0  2111460 2226806.8 2361873.3 2496939.7 2922369.8 3525764.7 3678563.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  1971927 2090728.1 2229839.4 2368950.7 2685218.4 3110065.7 3478550.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 1651421 1897152.8 2184894.9 2472637.0 2690171.5 2864675.5 3287032.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 1114149 1385534.3 1703315.7 2021097.1 2312848.6 2588646.4 2975895.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  921120 1079867.6 1265754.8 1451641.9 1739618.2 2090165.2 2353275.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  859806  981768.8 1124582.3 1267395.9 1466511.0 1700133.6 1886911.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  806857  867493.4  938496.2 1009498.9 1184848.7 1424153.0 1663455.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  847447  894275.7  949110.3 1003944.9 1169687.3 1403405.5 1623184.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  660666  733317.0  818388.4  903459.9  972760.5 1032395.1 1229567.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  567163  625880.9  694637.3  763393.6  846296.3  937869.4 1108084.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  493799  553316.5  623009.2  692701.8  743064.3  781579.3  857964.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  322936  364939.1  414123.1  463307.1  541309.7  636975.4  705294.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  320796  362821.8  412032.4  461243.0  502926.8  539997.3  601337.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  163876  191577.1  224014.1  256451.0  294683.9  336469.2  400413.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  133531  151723.0  173025.1  194327.2  230624.9  276113.4  300292.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  120866  133302.6  147865.4  162428.1  176447.4  190133.6  209300.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         1995      2000      2005</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0  3557527.6 3650136.2 3872580.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  3812781.5 3938282.2 3936933.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 3860014.0 4051473.4 4011075.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 3430874.7 3841990.2 4226448.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20 2563249.8 3068802.6 3753983.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25 2045221.8 2428186.7 2947678.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30 1902756.2 2121814.5 2328571.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35 1834492.6 2034769.7 2228343.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40 1510323.2 1754782.7 1977184.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45 1326091.4 1552492.2 1783994.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  957363.2 1164050.6 1435939.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  756994.4  911599.6 1128742.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  677427.2  765233.0  860159.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  477823.8  548096.3  614030.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  311522.2  342366.8  385131.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  231797.9  282394.6  350067.6</span>
+<span class='r-in'><span class='fu'>interp</span><span class='op'>(</span><span class='va'>popmat</span>, <span class='va'>datesIn</span>, <span class='va'>datesOut</span>, <span class='st'>"exponential"</span>, rule <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       1960      1965      1970      1975      1980      1985      1990</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0  2111460 2218948.4 2351788.2 2492580.6 2873748.4 3488582.4 3676827.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  1971927 2081895.6 2218483.9 2364033.5 2658486.2 3089918.2 3465395.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 1651421 1858284.9 2133680.0 2449888.1 2685484.9 2861244.6 3247429.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 1114149 1324031.9 1620570.6 1983524.0 2299556.2 2578747.5 2948076.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  921120 1051793.1 1228553.8 1435020.1 1711998.6 2069075.1 2345578.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  859806  963180.6 1100131.4 1256554.7 1451716.5 1688979.6 1881441.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  806857  862021.1  931428.3 1006423.9 1165954.0 1409723.1 1649637.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  847447  891052.4  944972.8 1002156.1 1151415.8 1389460.6 1612080.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  660666  724282.4  806602.6  898279.2  971244.4 1031286.5 1204663.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  567163  618932.0  685588.4  759423.3  842272.5  934883.1 1091224.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  493799  545343.6  612578.8  688103.5  742232.8  780973.1  853287.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  322936  358959.5  406281.0  459840.8  534635.4  631916.7  703726.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  320796  356804.8  404139.3  457753.3  501800.0  539170.1  597445.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  163876  186748.7  217621.0  253596.8  292311.7  334690.2  394523.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  133531  149036.6  169496.4  192764.9  227111.0  273433.6  300116.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  120866  131838.3  145958.8  161591.8  176010.5  189812.4  208314.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         1995      2000      2005</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0  3556299.5 3644494.9 3868463.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  3803075.0 3938282.0 3936933.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 3830078.7 4051299.9 4010951.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 3409983.7 3826258.8 4214826.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20 2557582.2 3009263.5 3708313.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25 2041201.1 2384782.1 2914476.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30 1892407.8 2113566.9 2322482.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35 1826211.4 2027223.3 2222776.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40 1491192.1 1743387.8 1968695.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45 1313261.1 1538665.5 1773622.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  953890.8 1139428.0 1416994.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  755845.6  891578.7 1113316.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  674527.6  760467.2  856611.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  473345.9  544881.0  611640.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  311394.3  340205.7  383522.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  231068.1  276120.6  345231.6</span>
+<span class='r-in'><span class='fu'>interp</span><span class='op'>(</span><span class='va'>popmat</span>, <span class='va'>datesIn</span>, <span class='va'>datesOut</span>, <span class='st'>"power"</span>, rule <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       1960      1965      1970      1975      1980      1985      1990</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0  2111460 2222819.3 2356853.9 2494812.1 2897460.8 3507911.3 3677699.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  1971927 2086240.2 2224190.1 2366556.1 2671597.3 3100302.9 3471895.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 1651421 1877031.0 2159565.8 2461900.3 2687809.4 2862982.5 3266817.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 1114149 1353188.2 1662598.7 2003837.7 2306105.9 2583813.6 2961729.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  921120 1065271.5 1247381.3 1443853.7 1725476.3 2080029.1 2349385.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  859806  972158.3 1112484.7 1262267.9 1458971.7 1694729.9 1884148.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  806857  864703.1  934983.8 1008010.1 1175173.7 1417218.4 1656426.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  847447  892639.9  947051.2 1003072.0 1160333.6 1396701.3 1617544.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  660666  728675.3  812545.5  900983.1  971996.7 1031847.6 1216779.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  567163  622315.6  690149.3  761491.2  844257.8  936408.3 1099456.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  493799  549211.4  617841.7  690511.4  742645.9  781279.4  855592.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  322936  361854.5  410240.3  461661.2  537901.8  634532.7  704503.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  320796  359717.4  408124.6  459586.5  502358.3  539589.9  599361.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  163876  189068.3  220855.9  255112.3  293477.4  335604.4  397400.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  133531  150335.6  171278.6  193586.9  228826.6  274824.4  300204.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  120866  132551.4  146919.7  162027.3  176226.9  189975.5  208801.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         1995      2000      2005</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0  3556909.3 3647294.3 3870547.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  3808021.3 3938282.1 3936933.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 3845553.6 4051386.8 4011013.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 3420741.8 3834028.4 4220753.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20 2560466.6 3038245.6 3732125.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25 2043245.3 2405933.2 2931759.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30 1897728.2 2117641.6 2325586.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35 1830458.3 2030952.6 2225612.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40 1501175.5 1748997.7 1973046.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45 1319919.9 1545454.6 1778960.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  955666.9 1151399.4 1426889.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  756428.5  901307.6 1121380.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  676013.6  762814.2  858428.8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  475668.5  546465.2  612864.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  311458.8  341269.9  384347.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  231440.8  279168.8  347760.1</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># ----------------------------------------------------------</span></span>
+<span class='r-in'><span class='co'># standard example data, taken from AGEINT PAS spreadsheet.</span></span>
+<span class='r-in'></span>
+<span class='r-in'> <span class='co'># YYYY-MM-DD dates as character</span></span>
+<span class='r-in'> <span class='va'>d1</span>              <span class='op'>&lt;-</span> <span class='st'>"1980-04-07"</span></span>
+<span class='r-in'> <span class='va'>d2</span>              <span class='op'>&lt;-</span> <span class='st'>"1990-10-06"</span></span>
+<span class='r-in'> <span class='va'>dout</span>            <span class='op'>&lt;-</span> <span class='st'>"1985-07-01"</span></span>
+<span class='r-in'></span>
+<span class='r-in'> <span class='op'>(</span><span class='va'>p_lin</span> <span class='op'>&lt;-</span> <span class='fu'>interp</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>popA_earlier</span>,<span class='va'>popA_later</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>d1</span>,<span class='va'>d2</span><span class='op'>)</span>,<span class='va'>dout</span>,method <span class='op'>=</span> <span class='st'>"linear"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 151269.21 698637.56 935163.70 838408.52 669361.53 555363.48 452291.31</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] 373698.99 370798.20 334150.36 258103.71 223758.80 190651.53 158396.80</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] 119288.68  80400.82  46479.94  51836.50</span>
+<span class='r-in'> <span class='op'>(</span><span class='va'>p_exp</span> <span class='op'>&lt;-</span> <span class='fu'>interp</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>popA_earlier</span>,<span class='va'>popA_later</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>d1</span>,<span class='va'>d2</span><span class='op'>)</span>,<span class='va'>dout</span>,method <span class='op'>=</span> <span class='st'>"exponential"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 142611.79 658653.23 881642.53 790424.84 631052.72 523578.99 426405.83</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] 352311.49 349576.73 315026.30 243331.95 210952.67 179740.18 149331.46</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] 112461.57  75799.33  43819.81  48869.80</span>
+<span class='r-in'> <span class='op'>(</span><span class='va'>p_pow</span> <span class='op'>&lt;-</span> <span class='fu'>interp</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>popA_earlier</span>,<span class='va'>popA_later</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>d1</span>,<span class='va'>d2</span><span class='op'>)</span>,<span class='va'>dout</span>,method <span class='op'>=</span> <span class='st'>"power"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 146938.84 678637.75 908392.88 814407.50 650199.80 539465.16 439343.62</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] 363001.15 360183.41 324584.67 250715.00 217353.29 185193.77 153862.40</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] 115873.82  78099.19  45149.37  50352.58</span>
+<span class='r-in'></span>
+<span class='r-in'> <span class='co'># \dontshow{</span></span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='dec.date.html'>dec.date</a></span><span class='op'>(</span><span class='va'>d1</span><span class='op'>)</span>,digits<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1980.26502732240442</span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='dec.date.html'>dec.date</a></span><span class='op'>(</span><span class='va'>d2</span><span class='op'>)</span>,digits<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1990.7616438356165</span>
+<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='dec.date.html'>dec.date</a></span><span class='op'>(</span><span class='va'>dout</span><span class='op'>)</span>,digits<span class='op'>=</span><span class='fl'>18</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1985.49589041095896</span>
+<span class='r-in'> <span class='co'># these were set to different dates: recreate above dates...</span></span>
+<span class='r-in'><span class='va'>expcheck</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>142611.789832724</span>, <span class='fl'>658653.225145641</span>, <span class='fl'>881642.532889494</span>, <span class='fl'>790424.835149364</span>, </span>
+<span class='r-in'><span class='fl'>631052.720366013</span>, <span class='fl'>523578.990638372</span>, <span class='fl'>426405.833143345</span>, <span class='fl'>352311.49478387</span>, </span>
+<span class='r-in'><span class='fl'>349576.729583329</span>, <span class='fl'>315026.304975883</span>, <span class='fl'>243331.949093535</span>, <span class='fl'>210952.668139616</span>, </span>
+<span class='r-in'><span class='fl'>179740.182668986</span>, <span class='fl'>149331.458251614</span>, <span class='fl'>112461.568530899</span>, <span class='fl'>75799.3288538202</span>, </span>
+<span class='r-in'><span class='fl'>43819.8095485345</span>, <span class='fl'>48869.8021063505</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>lincheck</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>151269.209810283</span>, <span class='fl'>698637.560216026</span>, <span class='fl'>935163.70169507</span>, <span class='fl'>838408.524061807</span>, </span>
+<span class='r-in'><span class='fl'>669361.533645738</span>, <span class='fl'>555363.482079782</span>, <span class='fl'>452291.311354737</span>, <span class='fl'>373698.987198367</span>, </span>
+<span class='r-in'><span class='fl'>370798.204791894</span>, <span class='fl'>334150.355163834</span>, <span class='fl'>258103.707303228</span>, <span class='fl'>223758.803211712</span>, </span>
+<span class='r-in'><span class='fl'>190651.52632461</span>, <span class='fl'>158396.803770816</span>, <span class='fl'>119288.683114125</span>, <span class='fl'>80400.8181463556</span>, </span>
+<span class='r-in'><span class='fl'>46479.9437144632</span>, <span class='fl'>51836.5021355072</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>expcheck</span> <span class='op'>-</span> <span class='va'>p_exp</span><span class='op'>)</span><span class='op'>&lt;</span><span class='fl'>1e-6</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>lincheck</span> <span class='op'>-</span> <span class='va'>p_lin</span><span class='op'>)</span><span class='op'>&lt;</span><span class='fl'>1e-6</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># do controlled spreadsheet test, passing in decimal dates, etc</span></span>
+<span class='r-in'><span class='co'># }</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='va'>age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>80</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>popA_later</span>, type <span class='op'>=</span> <span class='st'>'l'</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, main <span class='op'>=</span> <span class='st'>"Interpolation options"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>popA_earlier</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, lty <span class='op'>=</span> <span class='st'>"8282"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>p_lin</span>,col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>p_pow</span>,col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>.4</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>p_exp</span>,col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>30</span>, <span class='va'>popA_earlier</span><span class='op'>[</span><span class='fl'>8</span><span class='op'>]</span>, <span class='va'>d1</span>, pos <span class='op'>=</span> <span class='fl'>1</span>, cex <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='va'>popA_later</span><span class='op'>[</span><span class='fl'>6</span><span class='op'>]</span>, <span class='va'>d2</span>, pos <span class='op'>=</span> <span class='fl'>4</span>, cex <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>, lty <span class='op'>=</span> <span class='fl'>1</span>, col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"blue"</span>, <span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>.4</span><span class='op'>)</span>, <span class='st'>"red"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"linear"</span>, <span class='st'>"power 2"</span>, <span class='st'>"exponential"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"Interpolated 1985-07-01"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -427,11 +444,11 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -439,6 +456,8 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 
   
 
+
+  
 
   </body>
 </html>

@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,14 +170,14 @@
     <p>Coale-Demeny 4a1. This is a rule of thumb. In this and some other older texts, 4a1 is known as a 'separation factor'. These coefficients were pulled from the PAS spreadsheets <code>LTPOPDTH.XLS</code> and not located in the original Manual X.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span>
   <span class='va'>M0</span>,
   a0rule <span class='op'>=</span> <span class='st'>"ak"</span>,
   IMR <span class='op'>=</span> <span class='cn'>NA</span>,
   Sex <span class='op'>=</span> <span class='st'>"m"</span>,
   region <span class='op'>=</span> <span class='st'>"w"</span>,
   SRB <span class='op'>=</span> <span class='fl'>1.05</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -217,32 +225,32 @@ United States Census Bureau (2017).
 https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>m0</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>.001</span>,<span class='fl'>.2</span>,by <span class='op'>=</span><span class='fl'>.001</span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-
-<span class='co'># using Andreev-Kingkade for a0 (it makes no difference if you use cd actually...)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"e"</span><span class='op'>)</span>, ylab <span class='op'>=</span> <span class='st'>"4a1"</span>,
-    type <span class='op'>=</span> <span class='st'>'l'</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>)</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"w"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"n"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, lty <span class='op'>=</span> <span class='st'>"8383"</span>,lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"s"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, lty <span class='op'>=</span> <span class='st'>"6464"</span>,lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"e"</span><span class='op'>)</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"w"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"n"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, lty <span class='op'>=</span> <span class='st'>"8383"</span>,lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"s"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, lty <span class='op'>=</span> <span class='st'>"6464"</span>,lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>.05</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.05</span>,Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"e"</span><span class='op'>)</span>,<span class='st'>"males E"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>.05</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.05</span>,Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"w"</span><span class='op'>)</span>,<span class='st'>"males W"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>.05</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.05</span>,Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"s"</span><span class='op'>)</span>,<span class='st'>"males S"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>.05</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.05</span>,Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"n"</span><span class='op'>)</span>,<span class='st'>"males N"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.01</span>,Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"e"</span><span class='op'>)</span>,<span class='st'>"females E"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.01</span>,Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"w"</span><span class='op'>)</span>,<span class='st'>"females W"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.01</span>,Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"s"</span><span class='op'>)</span>,<span class='st'>"females S"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.01</span>,Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"n"</span><span class='op'>)</span>,<span class='st'>"females N"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span>
-
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>m0</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>.001</span>,<span class='fl'>.2</span>,by <span class='op'>=</span><span class='fl'>.001</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># using Andreev-Kingkade for a0 (it makes no difference if you use cd actually...)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"e"</span><span class='op'>)</span>, ylab <span class='op'>=</span> <span class='st'>"4a1"</span>,</span>
+<span class='r-in'>    type <span class='op'>=</span> <span class='st'>'l'</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>)</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"w"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"n"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, lty <span class='op'>=</span> <span class='st'>"8383"</span>,lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"s"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, lty <span class='op'>=</span> <span class='st'>"6464"</span>,lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"e"</span><span class='op'>)</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"w"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"n"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, lty <span class='op'>=</span> <span class='st'>"8383"</span>,lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>m0</span>,<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>m0</span>, <span class='va'>lt_rule_4a1_cd</span>, Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"s"</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, lty <span class='op'>=</span> <span class='st'>"6464"</span>,lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>.05</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.05</span>,Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"e"</span><span class='op'>)</span>,<span class='st'>"males E"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>.05</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.05</span>,Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"w"</span><span class='op'>)</span>,<span class='st'>"males W"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>.05</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.05</span>,Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"s"</span><span class='op'>)</span>,<span class='st'>"males S"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>.05</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.05</span>,Sex <span class='op'>=</span> <span class='st'>"m"</span>, region <span class='op'>=</span> <span class='st'>"n"</span><span class='op'>)</span>,<span class='st'>"males N"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.01</span>,Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"e"</span><span class='op'>)</span>,<span class='st'>"females E"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.01</span>,Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"w"</span><span class='op'>)</span>,<span class='st'>"females W"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.01</span>,Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"s"</span><span class='op'>)</span>,<span class='st'>"females S"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fu'>lt_rule_4a1_cd</span><span class='op'>(</span><span class='fl'>.01</span>,Sex <span class='op'>=</span> <span class='st'>"f"</span>, region <span class='op'>=</span> <span class='st'>"n"</span><span class='op'>)</span>,<span class='st'>"females N"</span>,font<span class='op'>=</span><span class='fl'>2</span>,pos<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -254,11 +262,11 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -266,6 +274,8 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 
   
 
+
+  
 
   </body>
 </html>

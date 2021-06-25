@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +170,7 @@
     <p>This is a frequent grouping situation. For a given vector of lower age bounds, repeat each value N times, where N is the width of the corresponding age interval. Age intervals are in this case calculated from the original Age vector.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>age2ageN</span><span class='op'>(</span><span class='va'>Age</span>, AgeInt <span class='op'>=</span> <span class='cn'>NULL</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>age2ageN</span><span class='op'>(</span><span class='va'>Age</span>, AgeInt <span class='op'>=</span> <span class='cn'>NULL</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,20 +197,22 @@
     <p>If OAG = TRUE then the last value is not repeated, otherwise the final age interval is assumed to be the same width as the penultimate. Here intervals do not need to be of uniform width.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>age1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>
-<span class='op'>(</span><span class='va'>ageN1</span> <span class='op'>&lt;-</span> <span class='fu'>age2ageN</span><span class='op'>(</span><span class='va'>age1</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15
-#&gt;  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35
-#&gt;  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50
-#&gt;  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70
-#&gt;  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85
-#&gt;  [91]  90  90  90  90  90  95  95  95  95  95 100 100 100 100 100</div><div class='input'><span class='op'>(</span><span class='va'>ageN2</span> <span class='op'>&lt;-</span> <span class='fu'>age2ageN</span><span class='op'>(</span><span class='va'>age1</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15
-#&gt;  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35
-#&gt;  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50
-#&gt;  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70
-#&gt;  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85
-#&gt;  [91]  90  90  90  90  90  95  95  95  95  95 100</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>age1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>ageN1</span> <span class='op'>&lt;-</span> <span class='fu'>age2ageN</span><span class='op'>(</span><span class='va'>age1</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91]  90  90  90  90  90  95  95  95  95  95 100 100 100 100 100</span>
+<span class='r-in'><span class='op'>(</span><span class='va'>ageN2</span> <span class='op'>&lt;-</span> <span class='fu'>age2ageN</span><span class='op'>(</span><span class='va'>age1</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91]  90  90  90  90  90  95  95  95  95  95 100</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -214,11 +224,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -226,6 +236,8 @@
 
   
 
+
+  
 
   </body>
 </html>

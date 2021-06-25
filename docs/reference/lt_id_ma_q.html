@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +170,7 @@
     <p>Sometimes a given age interval, death rate, and a(x) imply a death probability that is greater than 1. In this case either the interval needs to be extended or a(x) decreased. This especially arises with mid interval a(x) has been assumed in five-year age groups. This backstop reduces a(x) by assuming a constant death rate over the single ages within the interval, assuming mid interval a(x) for each single age, producing nq(x) by identity from the (5) single ages.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='va'>nMx</span>, <span class='va'>nax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>IMR</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='va'>nMx</span>, <span class='va'>nax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>IMR</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,7 +185,7 @@
     </tr>
     <tr>
       <th>AgeInt</th>
-      <td><p>integer. Vector of age class widths. Default <code><a href='inferAgeIntAbr.html'>inferAgeIntAbr(Age = Age)</a></code>.</p></td>
+      <td><p>integer. Vector of age class widths. Default <code>inferAgeIntAbr(Age = Age)</code>.</p></td>
     </tr>
     <tr>
       <th>closeout</th>
@@ -194,21 +202,26 @@
     <p>nMx equal to 2 will imply nqx of 1 by this formula. Implied nqx greater than 1 after this procedure are returned as 1. This is not vectorized!</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># implies a qx &gt; 1</span>
-<span class='va'>mx</span>     <span class='op'>&lt;-</span> <span class='fl'>.65</span>
-<span class='va'>AgeInt</span> <span class='op'>&lt;-</span> <span class='fl'>5</span>
-<span class='va'>ax</span>     <span class='op'>&lt;-</span> <span class='fl'>2.5</span>
-<span class='co'># this is a problematic case</span>
- <span class='op'>(</span><span class='va'>AgeInt</span> <span class='op'>*</span> <span class='va'>mx</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>AgeInt</span> <span class='op'>-</span> <span class='va'>ax</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>mx</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1.238095</div><div class='input'><span class='co'># here a workable value</span>
-<span class='op'>(</span><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='va'>mx</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.9612258</div><div class='input'><span class='co'>#' # still less than 1</span>
-<span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='fl'>1.99</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>1</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'># unity</span>
-<span class='op'>(</span><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='fl'>2</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.9999546</div><div class='input'><span class='co'># qx imputed as 1</span>
-<span class='op'>(</span><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='fl'>2.1</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.9999725</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># implies a qx &gt; 1</span></span>
+<span class='r-in'><span class='va'>mx</span>     <span class='op'>&lt;-</span> <span class='fl'>.65</span></span>
+<span class='r-in'><span class='va'>AgeInt</span> <span class='op'>&lt;-</span> <span class='fl'>5</span></span>
+<span class='r-in'><span class='va'>ax</span>     <span class='op'>&lt;-</span> <span class='fl'>2.5</span></span>
+<span class='r-in'><span class='co'># this is a problematic case</span></span>
+<span class='r-in'> <span class='op'>(</span><span class='va'>AgeInt</span> <span class='op'>*</span> <span class='va'>mx</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>AgeInt</span> <span class='op'>-</span> <span class='va'>ax</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>mx</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1.238095</span>
+<span class='r-in'><span class='co'># here a workable value</span></span>
+<span class='r-in'><span class='op'>(</span><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='va'>mx</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.9612258</span>
+<span class='r-in'><span class='co'>#' # still less than 1</span></span>
+<span class='r-in'><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='fl'>1.99</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+<span class='r-in'><span class='co'># unity</span></span>
+<span class='r-in'><span class='op'>(</span><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='fl'>2</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.9999546</span>
+<span class='r-in'><span class='co'># qx imputed as 1</span></span>
+<span class='r-in'><span class='op'>(</span><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='fl'>2.1</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.9999725</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -220,11 +233,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -232,6 +245,8 @@
 
   
 
+
+  
 
   </body>
 </html>

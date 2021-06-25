@@ -55,6 +55,8 @@ This is generalized from the PAS spreadsheet called GRPOP-YB." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -66,9 +68,15 @@ This is generalized from the PAS spreadsheet called GRPOP-YB." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -90,7 +98,7 @@ This is generalized from the PAS spreadsheet called GRPOP-YB." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -131,13 +139,13 @@ This is generalized from the PAS spreadsheet called GRPOP-YB." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -166,7 +174,7 @@ of time. The date assigned to the time interval is the midpoint of the interval.
 This is generalized from the PAS spreadsheet called GRPOP-YB.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>birthCohorts</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, <span class='va'>CensusDate</span>, cohortSize <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>birthCohorts</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, <span class='va'>CensusDate</span>, cohortSize <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -208,70 +216,73 @@ or 3) as a decimal date consisting in the year plus the fraction of the year pas
 https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>Males</span>      <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>18052</span>, <span class='fl'>16523</span>, <span class='fl'>15555</span>, <span class='fl'>12063</span>, <span class='fl'>9654</span>, <span class='fl'>9256</span>, <span class='fl'>10058</span>, <span class='fl'>10035</span>, <span class='fl'>9785</span>, <span class='fl'>9025</span>,
-                <span class='fl'>7562</span>, <span class='fl'>6241</span>, <span class='fl'>5362</span>, <span class='fl'>4256</span>, <span class='fl'>3168</span>, <span class='fl'>1956</span>, <span class='fl'>1056</span>, <span class='fl'>568</span><span class='op'>)</span>
-<span class='va'>Females</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>17274</span>, <span class='fl'>15915</span>, <span class='fl'>14455</span>, <span class='fl'>11475</span>, <span class='fl'>9202</span>, <span class='fl'>9226</span>, <span class='fl'>10162</span>, <span class='fl'>10633</span>, <span class='fl'>9962</span>, <span class='fl'>9226</span>,
-                <span class='fl'>7966</span>, <span class='fl'>6739</span>, <span class='fl'>5458</span>, <span class='fl'>4575</span>, <span class='fl'>3355</span>, <span class='fl'>2156</span>, <span class='fl'>1121</span>, <span class='fl'>636</span><span class='op'>)</span>
-<span class='va'>Age</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>85</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-<span class='va'>CensusDate</span>       <span class='op'>&lt;-</span> <span class='fl'>1950.25</span>
-<span class='fu'>birthCohorts</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Age</span>, <span class='va'>CensusDate</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       Year Births
-#&gt; 1  1947.75  18052
-#&gt; 2  1942.75  16523
-#&gt; 3  1937.75  15555
-#&gt; 4  1932.75  12063
-#&gt; 5  1927.75   9654
-#&gt; 6  1922.75   9256
-#&gt; 7  1917.75  10058
-#&gt; 8  1912.75  10035
-#&gt; 9  1907.75   9785
-#&gt; 10 1902.75   9025
-#&gt; 11 1897.75   7562
-#&gt; 12 1892.75   6241
-#&gt; 13 1887.75   5362
-#&gt; 14 1882.75   4256
-#&gt; 15 1877.75   3168
-#&gt; 16 1872.75   1956
-#&gt; 17 1867.75   1056
-#&gt; 18 1862.75    568</div><div class='input'><span class='fu'>birthCohorts</span><span class='op'>(</span><span class='va'>Females</span>, <span class='va'>Age</span>, <span class='va'>CensusDate</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       Year Births
-#&gt; 1  1947.75  17274
-#&gt; 2  1942.75  15915
-#&gt; 3  1937.75  14455
-#&gt; 4  1932.75  11475
-#&gt; 5  1927.75   9202
-#&gt; 6  1922.75   9226
-#&gt; 7  1917.75  10162
-#&gt; 8  1912.75  10633
-#&gt; 9  1907.75   9962
-#&gt; 10 1902.75   9226
-#&gt; 11 1897.75   7966
-#&gt; 12 1892.75   6739
-#&gt; 13 1887.75   5458
-#&gt; 14 1882.75   4575
-#&gt; 15 1877.75   3355
-#&gt; 16 1872.75   2156
-#&gt; 17 1867.75   1121
-#&gt; 18 1862.75    636</div><div class='input'><span class='fu'>birthCohorts</span><span class='op'>(</span><span class='va'>Females</span>, <span class='va'>Age</span>, <span class='va'>CensusDate</span>, cohortSize <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;      Year Births
-#&gt; 1 1945.25  33189
-#&gt; 2 1935.25  25930
-#&gt; 3 1925.25  18428
-#&gt; 4 1915.25  20795
-#&gt; 5 1905.25  19188
-#&gt; 6 1895.25  14705
-#&gt; 7 1885.25  10033
-#&gt; 8 1875.25   5511
-#&gt; 9 1865.25   1757</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'>birthCohorts</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Age</span>, <span class='va'>CensusDate</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"red"</span>,
-  xlab <span class='op'>=</span> <span class='st'>"Birth cohorts"</span>, ylab <span class='op'>=</span> <span class='st'>"Births"</span>, fill <span class='op'>=</span><span class='cn'>T</span>,pch<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'>birthCohorts</span><span class='op'>(</span><span class='va'>Females</span>, <span class='va'>Age</span>, <span class='va'>CensusDate</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, pch<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topleft"</span>,
-  pch <span class='op'>=</span> <span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span>,
-  col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"red"</span>,<span class='st'>"blue"</span><span class='op'>)</span>,
-  legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Males"</span>,<span class='st'>"Females"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>Males</span>      <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>18052</span>, <span class='fl'>16523</span>, <span class='fl'>15555</span>, <span class='fl'>12063</span>, <span class='fl'>9654</span>, <span class='fl'>9256</span>, <span class='fl'>10058</span>, <span class='fl'>10035</span>, <span class='fl'>9785</span>, <span class='fl'>9025</span>,</span>
+<span class='r-in'>                <span class='fl'>7562</span>, <span class='fl'>6241</span>, <span class='fl'>5362</span>, <span class='fl'>4256</span>, <span class='fl'>3168</span>, <span class='fl'>1956</span>, <span class='fl'>1056</span>, <span class='fl'>568</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Females</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>17274</span>, <span class='fl'>15915</span>, <span class='fl'>14455</span>, <span class='fl'>11475</span>, <span class='fl'>9202</span>, <span class='fl'>9226</span>, <span class='fl'>10162</span>, <span class='fl'>10633</span>, <span class='fl'>9962</span>, <span class='fl'>9226</span>,</span>
+<span class='r-in'>                <span class='fl'>7966</span>, <span class='fl'>6739</span>, <span class='fl'>5458</span>, <span class='fl'>4575</span>, <span class='fl'>3355</span>, <span class='fl'>2156</span>, <span class='fl'>1121</span>, <span class='fl'>636</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>85</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>CensusDate</span>       <span class='op'>&lt;-</span> <span class='fl'>1950.25</span></span>
+<span class='r-in'><span class='fu'>birthCohorts</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Age</span>, <span class='va'>CensusDate</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       Year Births</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  1947.75  18052</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  1942.75  16523</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  1937.75  15555</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4  1932.75  12063</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  1927.75   9654</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6  1922.75   9256</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7  1917.75  10058</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8  1912.75  10035</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9  1907.75   9785</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 1902.75   9025</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11 1897.75   7562</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12 1892.75   6241</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13 1887.75   5362</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14 1882.75   4256</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 1877.75   3168</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16 1872.75   1956</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17 1867.75   1056</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18 1862.75    568</span>
+<span class='r-in'><span class='fu'>birthCohorts</span><span class='op'>(</span><span class='va'>Females</span>, <span class='va'>Age</span>, <span class='va'>CensusDate</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       Year Births</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  1947.75  17274</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2  1942.75  15915</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3  1937.75  14455</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4  1932.75  11475</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5  1927.75   9202</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6  1922.75   9226</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7  1917.75  10162</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8  1912.75  10633</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9  1907.75   9962</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10 1902.75   9226</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11 1897.75   7966</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12 1892.75   6739</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13 1887.75   5458</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14 1882.75   4575</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15 1877.75   3355</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16 1872.75   2156</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17 1867.75   1121</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18 1862.75    636</span>
+<span class='r-in'><span class='fu'>birthCohorts</span><span class='op'>(</span><span class='va'>Females</span>, <span class='va'>Age</span>, <span class='va'>CensusDate</span>, cohortSize <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      Year Births</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 1945.25  33189</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2 1935.25  25930</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 1925.25  18428</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4 1915.25  20795</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5 1905.25  19188</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6 1895.25  14705</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7 1885.25  10033</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8 1875.25   5511</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9 1865.25   1757</span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'>birthCohorts</span><span class='op'>(</span><span class='va'>Males</span>, <span class='va'>Age</span>, <span class='va'>CensusDate</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"red"</span>,</span>
+<span class='r-in'>  xlab <span class='op'>=</span> <span class='st'>"Birth cohorts"</span>, ylab <span class='op'>=</span> <span class='st'>"Births"</span>, fill <span class='op'>=</span><span class='cn'>T</span>,pch<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'>birthCohorts</span><span class='op'>(</span><span class='va'>Females</span>, <span class='va'>Age</span>, <span class='va'>CensusDate</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, pch<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topleft"</span>,</span>
+<span class='r-in'>  pch <span class='op'>=</span> <span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span>,</span>
+<span class='r-in'>  col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"red"</span>,<span class='st'>"blue"</span><span class='op'>)</span>,</span>
+<span class='r-in'>  legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Males"</span>,<span class='st'>"Females"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -283,11 +294,11 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -295,6 +306,8 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 
   
 
+
+  
 
   </body>
 </html>

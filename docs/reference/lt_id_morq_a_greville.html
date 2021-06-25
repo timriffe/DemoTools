@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +170,7 @@
     <p>The UN a(x) formula uses Coale-Demeny for ages 0, and 1-4, values of 2.5 for ages 5-9 and 10-14, and the Greville formula thereafter. In the original sources these are referred to as separation factors.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lt_id_morq_a_greville</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>lt_id_morq_a_greville</span><span class='op'>(</span>
   <span class='va'>nMx</span>,
   <span class='va'>nqx</span>,
   <span class='va'>lx</span>,
@@ -179,7 +187,7 @@
   extrapFrom <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>,
   extrapFit <span class='op'>=</span> <span class='va'>Age</span><span class='op'>[</span><span class='va'>Age</span> <span class='op'>&gt;=</span> <span class='fl'>60</span><span class='op'>]</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -290,93 +298,98 @@ United Nations Department of International Economic and Social Affairs.</p>
     <div class='dont-index'><p><code><a href='lt_a_closeout.html'>lt_a_closeout</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>#Example witn Mexican data from UN</span>
-<span class='va'>nMx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.11621</span>,<span class='fl'>0.02268</span>,<span class='fl'>0.00409</span>,<span class='fl'>0.00212</span>,<span class='fl'>0.00295</span>,<span class='fl'>0.00418</span>,<span class='fl'>0.00509</span>,<span class='fl'>0.00609</span>,
-<span class='fl'>0.00714</span>,<span class='fl'>0.00808</span>,<span class='fl'>0.00971</span>,<span class='fl'>0.0125</span>,<span class='fl'>0.0175</span>,<span class='fl'>0.02551</span>,<span class='fl'>0.03809</span>,<span class='fl'>0.05595</span>,<span class='fl'>0.08098</span>,
-<span class='fl'>0.15353</span>,<span class='fl'>0.2557</span><span class='op'>)</span>
-
-<span class='va'>nqx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.10793</span>,<span class='fl'>0.08554</span>,<span class='fl'>0.02025</span>,<span class='fl'>0.01053</span>,<span class='fl'>0.01463</span>,<span class='fl'>0.02071</span>,<span class='fl'>0.02515</span>,<span class='fl'>0.02999</span>,
-<span class='fl'>0.03507</span>, <span class='fl'>0.03958</span>,<span class='fl'>0.04742</span>,<span class='fl'>0.0606</span>,<span class='fl'>0.08381</span>,<span class='fl'>0.11992</span>,<span class='fl'>0.17391</span>,<span class='fl'>0.2454</span>,<span class='fl'>0.33672</span>,
-<span class='fl'>0.54723</span>,<span class='cn'>NA</span><span class='op'>)</span>
-
-<span class='va'>lx</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>100000</span>,<span class='fl'>89207</span>,<span class='fl'>81577</span>,<span class='fl'>79924</span>,<span class='fl'>79083</span>,<span class='fl'>77925</span>,<span class='fl'>76312</span>,<span class='fl'>74393</span>,<span class='fl'>72162</span>,<span class='fl'>69631</span>,<span class='fl'>66875</span>,
-<span class='fl'>63704</span>,<span class='fl'>59843</span>,<span class='fl'>54828</span>,<span class='fl'>48253</span>,<span class='fl'>39861</span>,<span class='fl'>30079</span>,<span class='fl'>19951</span>,<span class='fl'>9033</span><span class='op'>)</span>
-
-<span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>85</span>,by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>AgeInt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='age2int.html'>age2int</a></span><span class='op'>(</span><span class='va'>Age</span>, OAvalue <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-<span class='co'># two quite different results depending whether you start with mx or qx</span>
-<span class='fu'>lt_id_morq_a_greville</span><span class='op'>(</span>nMx <span class='op'>=</span> <span class='va'>nMx</span>, 
-                      Age <span class='op'>=</span> <span class='va'>Age</span>, 
-                      AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, 
-                      Sex <span class='op'>=</span> <span class='st'>'f'</span>,
-                      region <span class='op'>=</span> <span class='st'>'w'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 0.314110 1.361000 1.971728 2.427513 2.635291 2.604932 2.567799 2.557820
-#&gt;  [9] 2.544030 2.547217 2.570674 2.596676 2.612155 2.608886 2.584268 2.540573
-#&gt; [17] 2.541591 2.419688 3.537193</div><div class='input'><span class='fu'>lt_id_morq_a_greville</span><span class='op'>(</span>nqx <span class='op'>=</span> <span class='va'>nqx</span>, 
-                      Age <span class='op'>=</span> <span class='va'>Age</span>, 
-                      AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, 
-                      Sex <span class='op'>=</span> <span class='st'>'f'</span>,
-                      region <span class='op'>=</span> <span class='st'>'w'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 0.314100 1.361000 1.998436 2.410337 2.610435 2.569726 2.524739 2.506789
-#&gt;  [9] 2.484742 2.480395 2.489952 2.492398 2.467590 2.402247 2.286868 2.126399
-#&gt; [17] 1.829551 1.480824 1.560036</div><div class='input'><span class='co'># same, qx comes from lx (Except OAG, because qx closed above w NA)</span>
-<span class='fu'>lt_id_morq_a_greville</span><span class='op'>(</span>lx <span class='op'>=</span> <span class='va'>lx</span>, 
-                      Age <span class='op'>=</span> <span class='va'>Age</span>, 
-                      AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, 
-                      Sex <span class='op'>=</span> <span class='st'>'f'</span>,
-                      region <span class='op'>=</span> <span class='st'>'w'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 0.314100 1.361000 1.998275 2.410401 2.610450 2.569538 2.524848 2.506840
-#&gt;  [9] 2.484738 2.480358 2.489988 2.492376 2.467577 2.402272 2.286855 2.126381
-#&gt; [17] 1.829564 1.480808 1.384313</div><div class='input'><span class='co'># both qx and lx given, but lx not used for anything = same as qx</span>
-<span class='fu'>lt_id_morq_a_greville</span><span class='op'>(</span>nqx <span class='op'>=</span> <span class='va'>nqx</span>, 
-                      lx <span class='op'>=</span> <span class='va'>lx</span>, 
-                      Age <span class='op'>=</span> <span class='va'>Age</span>, 
-                      AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, 
-                      Sex <span class='op'>=</span> <span class='st'>'f'</span>,
-                      region <span class='op'>=</span> <span class='st'>'w'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 0.314100 1.361000 1.998436 2.410337 2.610435 2.569726 2.524739 2.506789
-#&gt;  [9] 2.484742 2.480395 2.489952 2.492398 2.467590 2.402247 2.286868 2.126399
-#&gt; [17] 1.829551 1.480824 1.560036</div><div class='input'><span class='co'>#'</span>
-<span class='co'># nMx taken over lx.</span>
-<span class='fu'>lt_id_morq_a_greville</span><span class='op'>(</span>nMx <span class='op'>=</span> <span class='va'>nMx</span>,  
-                      lx <span class='op'>=</span> <span class='va'>lx</span>, 
-                      Sex <span class='op'>=</span> <span class='st'>'f'</span>, 
-                      Age <span class='op'>=</span> <span class='va'>Age</span>, 
-                      AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, 
-                      region <span class='op'>=</span> <span class='st'>'w'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 0.314110 1.361000 1.971728 2.427513 2.635291 2.604932 2.567799 2.557820
-#&gt;  [9] 2.544030 2.547217 2.570674 2.596676 2.612155 2.608886 2.584268 2.540573
-#&gt; [17] 2.541591 2.419688 3.537193</div><div class='input'>
-<span class='co'># example of transitivity. UN ax method is iterative</span>
-<span class='co'># and used greville on the inside</span>
-
-<span class='va'>nMx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.11621</span>,<span class='fl'>0.02268</span>,<span class='fl'>0.00409</span>,<span class='fl'>0.00212</span>,<span class='fl'>0.00295</span>,
-         <span class='fl'>0.00418</span>,<span class='fl'>0.00509</span>,<span class='fl'>0.00609</span>,<span class='fl'>0.00714</span>,<span class='fl'>0.00808</span>,
-         <span class='fl'>0.00971</span>,<span class='fl'>0.0125</span>,<span class='fl'>0.0175</span>,<span class='fl'>0.02551</span>,<span class='fl'>0.03809</span>,
-         <span class='fl'>0.05595</span>,<span class='fl'>0.0809</span>,<span class='fl'>0.15353</span>,<span class='fl'>0.2557</span><span class='op'>)</span>
-<span class='va'>AgeInt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='inferAgeIntAbr.html'>inferAgeIntAbr</a></span><span class='op'>(</span>vec <span class='op'>=</span> <span class='va'>nMx</span><span class='op'>)</span>
-<span class='va'>Age</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='int2age.html'>int2age</a></span><span class='op'>(</span><span class='va'>AgeInt</span><span class='op'>)</span>
-<span class='va'>nAx1</span>   <span class='op'>&lt;-</span> <span class='fu'><a href='lt_a_un.html'>lt_a_un</a></span><span class='op'>(</span><span class='va'>nMx</span>, 
-                  Age <span class='op'>=</span> <span class='va'>Age</span>,
-                  AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, 
-                  a0rule <span class='op'>=</span> <span class='st'>"ak"</span>,
-                  mod <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-                  closeout <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='va'>nqx</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='lt_id_ma_q.html'>lt_id_ma_q</a></span><span class='op'>(</span>nMx <span class='op'>=</span> <span class='va'>nMx</span>, 
-                     nax <span class='op'>=</span> <span class='va'>nAx1</span>, 
-                     AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, 
-                     closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='va'>nAx2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='lt_a_un.html'>lt_a_un</a></span><span class='op'>(</span>nqx <span class='op'>=</span> <span class='va'>nqx</span>, 
-                Age <span class='op'>=</span> <span class='va'>Age</span>,
-                AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, 
-                a0rule <span class='op'>=</span> <span class='st'>"ak"</span>, 
-                mod<span class='op'>=</span> <span class='cn'>TRUE</span>, 
-                closeout <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>nAx1</span><span class='op'>[</span><span class='va'>Age</span><span class='op'>&lt;</span><span class='fl'>75</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>nAx2</span><span class='op'>[</span><span class='va'>Age</span><span class='op'>&lt;</span><span class='fl'>75</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>1e-7</span><span class='op'>)</span><span class='op'>)</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'>#Example witn Mexican data from UN</span></span>
+<span class='r-in'><span class='va'>nMx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.11621</span>,<span class='fl'>0.02268</span>,<span class='fl'>0.00409</span>,<span class='fl'>0.00212</span>,<span class='fl'>0.00295</span>,<span class='fl'>0.00418</span>,<span class='fl'>0.00509</span>,<span class='fl'>0.00609</span>,</span>
+<span class='r-in'><span class='fl'>0.00714</span>,<span class='fl'>0.00808</span>,<span class='fl'>0.00971</span>,<span class='fl'>0.0125</span>,<span class='fl'>0.0175</span>,<span class='fl'>0.02551</span>,<span class='fl'>0.03809</span>,<span class='fl'>0.05595</span>,<span class='fl'>0.08098</span>,</span>
+<span class='r-in'><span class='fl'>0.15353</span>,<span class='fl'>0.2557</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>nqx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.10793</span>,<span class='fl'>0.08554</span>,<span class='fl'>0.02025</span>,<span class='fl'>0.01053</span>,<span class='fl'>0.01463</span>,<span class='fl'>0.02071</span>,<span class='fl'>0.02515</span>,<span class='fl'>0.02999</span>,</span>
+<span class='r-in'><span class='fl'>0.03507</span>, <span class='fl'>0.03958</span>,<span class='fl'>0.04742</span>,<span class='fl'>0.0606</span>,<span class='fl'>0.08381</span>,<span class='fl'>0.11992</span>,<span class='fl'>0.17391</span>,<span class='fl'>0.2454</span>,<span class='fl'>0.33672</span>,</span>
+<span class='r-in'><span class='fl'>0.54723</span>,<span class='cn'>NA</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>lx</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>100000</span>,<span class='fl'>89207</span>,<span class='fl'>81577</span>,<span class='fl'>79924</span>,<span class='fl'>79083</span>,<span class='fl'>77925</span>,<span class='fl'>76312</span>,<span class='fl'>74393</span>,<span class='fl'>72162</span>,<span class='fl'>69631</span>,<span class='fl'>66875</span>,</span>
+<span class='r-in'><span class='fl'>63704</span>,<span class='fl'>59843</span>,<span class='fl'>54828</span>,<span class='fl'>48253</span>,<span class='fl'>39861</span>,<span class='fl'>30079</span>,<span class='fl'>19951</span>,<span class='fl'>9033</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>85</span>,by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>AgeInt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='age2int.html'>age2int</a></span><span class='op'>(</span><span class='va'>Age</span>, OAvalue <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># two quite different results depending whether you start with mx or qx</span></span>
+<span class='r-in'><span class='fu'>lt_id_morq_a_greville</span><span class='op'>(</span>nMx <span class='op'>=</span> <span class='va'>nMx</span>, </span>
+<span class='r-in'>                      Age <span class='op'>=</span> <span class='va'>Age</span>, </span>
+<span class='r-in'>                      AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, </span>
+<span class='r-in'>                      Sex <span class='op'>=</span> <span class='st'>'f'</span>,</span>
+<span class='r-in'>                      region <span class='op'>=</span> <span class='st'>'w'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 0.314110 1.361000 1.971728 2.427513 2.635291 2.604932 2.567799 2.557820</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] 2.544030 2.547217 2.570674 2.596676 2.612155 2.608886 2.584268 2.540573</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] 2.541591 2.419688 3.537193</span>
+<span class='r-in'><span class='fu'>lt_id_morq_a_greville</span><span class='op'>(</span>nqx <span class='op'>=</span> <span class='va'>nqx</span>, </span>
+<span class='r-in'>                      Age <span class='op'>=</span> <span class='va'>Age</span>, </span>
+<span class='r-in'>                      AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, </span>
+<span class='r-in'>                      Sex <span class='op'>=</span> <span class='st'>'f'</span>,</span>
+<span class='r-in'>                      region <span class='op'>=</span> <span class='st'>'w'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 0.314100 1.361000 1.998436 2.410337 2.610435 2.569726 2.524739 2.506789</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] 2.484742 2.480395 2.489952 2.492398 2.467590 2.402247 2.286868 2.126399</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] 1.829551 1.480824 1.560036</span>
+<span class='r-in'><span class='co'># same, qx comes from lx (Except OAG, because qx closed above w NA)</span></span>
+<span class='r-in'><span class='fu'>lt_id_morq_a_greville</span><span class='op'>(</span>lx <span class='op'>=</span> <span class='va'>lx</span>, </span>
+<span class='r-in'>                      Age <span class='op'>=</span> <span class='va'>Age</span>, </span>
+<span class='r-in'>                      AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, </span>
+<span class='r-in'>                      Sex <span class='op'>=</span> <span class='st'>'f'</span>,</span>
+<span class='r-in'>                      region <span class='op'>=</span> <span class='st'>'w'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 0.314100 1.361000 1.998275 2.410401 2.610450 2.569538 2.524848 2.506840</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] 2.484738 2.480358 2.489988 2.492376 2.467577 2.402272 2.286855 2.126381</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] 1.829564 1.480808 1.384313</span>
+<span class='r-in'><span class='co'># both qx and lx given, but lx not used for anything = same as qx</span></span>
+<span class='r-in'><span class='fu'>lt_id_morq_a_greville</span><span class='op'>(</span>nqx <span class='op'>=</span> <span class='va'>nqx</span>, </span>
+<span class='r-in'>                      lx <span class='op'>=</span> <span class='va'>lx</span>, </span>
+<span class='r-in'>                      Age <span class='op'>=</span> <span class='va'>Age</span>, </span>
+<span class='r-in'>                      AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, </span>
+<span class='r-in'>                      Sex <span class='op'>=</span> <span class='st'>'f'</span>,</span>
+<span class='r-in'>                      region <span class='op'>=</span> <span class='st'>'w'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 0.314100 1.361000 1.998436 2.410337 2.610435 2.569726 2.524739 2.506789</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] 2.484742 2.480395 2.489952 2.492398 2.467590 2.402247 2.286868 2.126399</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] 1.829551 1.480824 1.560036</span>
+<span class='r-in'><span class='co'>#'</span></span>
+<span class='r-in'><span class='co'># nMx taken over lx.</span></span>
+<span class='r-in'><span class='fu'>lt_id_morq_a_greville</span><span class='op'>(</span>nMx <span class='op'>=</span> <span class='va'>nMx</span>,  </span>
+<span class='r-in'>                      lx <span class='op'>=</span> <span class='va'>lx</span>, </span>
+<span class='r-in'>                      Sex <span class='op'>=</span> <span class='st'>'f'</span>, </span>
+<span class='r-in'>                      Age <span class='op'>=</span> <span class='va'>Age</span>, </span>
+<span class='r-in'>                      AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, </span>
+<span class='r-in'>                      region <span class='op'>=</span> <span class='st'>'w'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 0.314110 1.361000 1.971728 2.427513 2.635291 2.604932 2.567799 2.557820</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] 2.544030 2.547217 2.570674 2.596676 2.612155 2.608886 2.584268 2.540573</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] 2.541591 2.419688 3.537193</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># example of transitivity. UN ax method is iterative</span></span>
+<span class='r-in'><span class='co'># and used greville on the inside</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>nMx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.11621</span>,<span class='fl'>0.02268</span>,<span class='fl'>0.00409</span>,<span class='fl'>0.00212</span>,<span class='fl'>0.00295</span>,</span>
+<span class='r-in'>         <span class='fl'>0.00418</span>,<span class='fl'>0.00509</span>,<span class='fl'>0.00609</span>,<span class='fl'>0.00714</span>,<span class='fl'>0.00808</span>,</span>
+<span class='r-in'>         <span class='fl'>0.00971</span>,<span class='fl'>0.0125</span>,<span class='fl'>0.0175</span>,<span class='fl'>0.02551</span>,<span class='fl'>0.03809</span>,</span>
+<span class='r-in'>         <span class='fl'>0.05595</span>,<span class='fl'>0.0809</span>,<span class='fl'>0.15353</span>,<span class='fl'>0.2557</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>AgeInt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='inferAgeIntAbr.html'>inferAgeIntAbr</a></span><span class='op'>(</span>vec <span class='op'>=</span> <span class='va'>nMx</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='int2age.html'>int2age</a></span><span class='op'>(</span><span class='va'>AgeInt</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>nAx1</span>   <span class='op'>&lt;-</span> <span class='fu'><a href='lt_a_un.html'>lt_a_un</a></span><span class='op'>(</span><span class='va'>nMx</span>, </span>
+<span class='r-in'>                  Age <span class='op'>=</span> <span class='va'>Age</span>,</span>
+<span class='r-in'>                  AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, </span>
+<span class='r-in'>                  a0rule <span class='op'>=</span> <span class='st'>"ak"</span>,</span>
+<span class='r-in'>                  mod <span class='op'>=</span> <span class='cn'>TRUE</span>, </span>
+<span class='r-in'>                  closeout <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>nqx</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='lt_id_ma_q.html'>lt_id_ma_q</a></span><span class='op'>(</span>nMx <span class='op'>=</span> <span class='va'>nMx</span>, </span>
+<span class='r-in'>                     nax <span class='op'>=</span> <span class='va'>nAx1</span>, </span>
+<span class='r-in'>                     AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, </span>
+<span class='r-in'>                     closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>nAx2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='lt_a_un.html'>lt_a_un</a></span><span class='op'>(</span>nqx <span class='op'>=</span> <span class='va'>nqx</span>, </span>
+<span class='r-in'>                Age <span class='op'>=</span> <span class='va'>Age</span>,</span>
+<span class='r-in'>                AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>, </span>
+<span class='r-in'>                a0rule <span class='op'>=</span> <span class='st'>"ak"</span>, </span>
+<span class='r-in'>                mod<span class='op'>=</span> <span class='cn'>TRUE</span>, </span>
+<span class='r-in'>                closeout <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>nAx1</span><span class='op'>[</span><span class='va'>Age</span><span class='op'>&lt;</span><span class='fl'>75</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>nAx2</span><span class='op'>[</span><span class='va'>Age</span><span class='op'>&lt;</span><span class='fl'>75</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>1e-7</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -388,11 +401,11 @@ United Nations Department of International Economic and Social Affairs.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -400,6 +413,8 @@ United Nations Department of International Economic and Social Affairs.</p>
 
   
 
+
+  
 
   </body>
 </html>

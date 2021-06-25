@@ -53,6 +53,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -64,9 +66,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +137,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +170,7 @@
     <p>This is a slightly more flexible implementation of Jdanov's formula, with defaults set to match his parameters. The numerator is the sum of (death counts) in ages 95, 100, and 105. The denominator consists in the sum of the 5-year age groups centered around each of the numerator ages. It probably only makes sense to use this with the default values, however. Used with a single age in the numerator, it is almost the same as <code>Noumbissi()</code>, except here we pick out particular ages, whereas Noumbissi picks out terminal digits.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_heaping_jdanov</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, Agei <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>95</span>, <span class='fl'>105</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>check_heaping_jdanov</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, Agei <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>95</span>, <span class='fl'>105</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,7 +185,7 @@
     </tr>
     <tr>
       <th>Agei</th>
-      <td><p>integer. A vector of ages to put in the numerator, default <code><a href='https://rdrr.io/r/base/c.html'>c(95,100,105)</a></code>.</p></td>
+      <td><p>integer. A vector of ages to put in the numerator, default <code>c(95,100,105)</code>.</p></td>
     </tr>
     </table>
 
@@ -191,19 +199,20 @@
 <em>MPIDR Working Paper WP-2008-013</em>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>Value</span> <span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>8904</span>, <span class='fl'>592</span>, <span class='fl'>354</span>, <span class='fl'>299</span>, <span class='fl'>292</span>, <span class='fl'>249</span>, <span class='fl'>222</span>, <span class='fl'>216</span>, <span class='fl'>181</span>, <span class='fl'>169</span>, <span class='fl'>151</span>, <span class='fl'>167</span>,
-  <span class='fl'>170</span>, <span class='fl'>196</span>, <span class='fl'>249</span>, <span class='fl'>290</span>, <span class='fl'>425</span>, <span class='fl'>574</span>, <span class='fl'>671</span>, <span class='fl'>724</span>, <span class='fl'>675</span>, <span class='fl'>754</span>, <span class='fl'>738</span>, <span class='fl'>695</span>, <span class='fl'>597</span>,
-  <span class='fl'>498</span>, <span class='fl'>522</span>, <span class='fl'>479</span>, <span class='fl'>482</span>, <span class='fl'>478</span>, <span class='fl'>558</span>, <span class='fl'>582</span>, <span class='fl'>620</span>, <span class='fl'>606</span>, <span class='fl'>676</span>, <span class='fl'>768</span>, <span class='fl'>862</span>, <span class='fl'>952</span>,
-  <span class='fl'>1078</span>, <span class='fl'>1215</span>, <span class='fl'>1215</span>, <span class='fl'>1357</span>, <span class='fl'>1470</span>, <span class='fl'>1605</span>, <span class='fl'>1723</span>, <span class='fl'>1782</span>, <span class='fl'>1922</span>, <span class='fl'>2066</span>, <span class='fl'>2364</span>,
-  <span class='fl'>2561</span>, <span class='fl'>2476</span>, <span class='fl'>1674</span>, <span class='fl'>1664</span>, <span class='fl'>1616</span>, <span class='fl'>1808</span>, <span class='fl'>3080</span>, <span class='fl'>3871</span>, <span class='fl'>4166</span>, <span class='fl'>4374</span>, <span class='fl'>4707</span>,
-  <span class='fl'>5324</span>, <span class='fl'>5678</span>, <span class='fl'>6256</span>, <span class='fl'>6382</span>, <span class='fl'>6823</span>, <span class='fl'>7061</span>, <span class='fl'>7344</span>, <span class='fl'>8149</span>, <span class='fl'>8439</span>, <span class='fl'>8308</span>, <span class='fl'>8482</span>,
-  <span class='fl'>8413</span>, <span class='fl'>8157</span>, <span class='fl'>7945</span>, <span class='fl'>7503</span>, <span class='fl'>7164</span>, <span class='fl'>7289</span>, <span class='fl'>7016</span>, <span class='fl'>6753</span>, <span class='fl'>6906</span>, <span class='fl'>6797</span>, <span class='fl'>6624</span>,
-  <span class='fl'>6416</span>, <span class='fl'>5811</span>, <span class='fl'>5359</span>, <span class='fl'>4824</span>, <span class='fl'>4277</span>, <span class='fl'>3728</span>, <span class='fl'>3136</span>, <span class='fl'>2524</span>, <span class='fl'>2109</span>, <span class='fl'>1657</span>, <span class='fl'>1235</span>,
-  <span class='fl'>924</span>, <span class='fl'>667</span>, <span class='fl'>465</span>, <span class='fl'>287</span>, <span class='fl'>189</span>, <span class='fl'>125</span>, <span class='fl'>99</span>, <span class='fl'>80</span>, <span class='fl'>24</span>, <span class='fl'>10</span>, <span class='fl'>7</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span>,
-  <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span>
-<span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>110</span>
-<span class='fu'>check_heaping_jdanov</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, Agei <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>95</span>,<span class='fl'>100</span>,<span class='fl'>105</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 94.72588</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>Value</span> <span class='op'>&lt;-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>8904</span>, <span class='fl'>592</span>, <span class='fl'>354</span>, <span class='fl'>299</span>, <span class='fl'>292</span>, <span class='fl'>249</span>, <span class='fl'>222</span>, <span class='fl'>216</span>, <span class='fl'>181</span>, <span class='fl'>169</span>, <span class='fl'>151</span>, <span class='fl'>167</span>,</span>
+<span class='r-in'>  <span class='fl'>170</span>, <span class='fl'>196</span>, <span class='fl'>249</span>, <span class='fl'>290</span>, <span class='fl'>425</span>, <span class='fl'>574</span>, <span class='fl'>671</span>, <span class='fl'>724</span>, <span class='fl'>675</span>, <span class='fl'>754</span>, <span class='fl'>738</span>, <span class='fl'>695</span>, <span class='fl'>597</span>,</span>
+<span class='r-in'>  <span class='fl'>498</span>, <span class='fl'>522</span>, <span class='fl'>479</span>, <span class='fl'>482</span>, <span class='fl'>478</span>, <span class='fl'>558</span>, <span class='fl'>582</span>, <span class='fl'>620</span>, <span class='fl'>606</span>, <span class='fl'>676</span>, <span class='fl'>768</span>, <span class='fl'>862</span>, <span class='fl'>952</span>,</span>
+<span class='r-in'>  <span class='fl'>1078</span>, <span class='fl'>1215</span>, <span class='fl'>1215</span>, <span class='fl'>1357</span>, <span class='fl'>1470</span>, <span class='fl'>1605</span>, <span class='fl'>1723</span>, <span class='fl'>1782</span>, <span class='fl'>1922</span>, <span class='fl'>2066</span>, <span class='fl'>2364</span>,</span>
+<span class='r-in'>  <span class='fl'>2561</span>, <span class='fl'>2476</span>, <span class='fl'>1674</span>, <span class='fl'>1664</span>, <span class='fl'>1616</span>, <span class='fl'>1808</span>, <span class='fl'>3080</span>, <span class='fl'>3871</span>, <span class='fl'>4166</span>, <span class='fl'>4374</span>, <span class='fl'>4707</span>,</span>
+<span class='r-in'>  <span class='fl'>5324</span>, <span class='fl'>5678</span>, <span class='fl'>6256</span>, <span class='fl'>6382</span>, <span class='fl'>6823</span>, <span class='fl'>7061</span>, <span class='fl'>7344</span>, <span class='fl'>8149</span>, <span class='fl'>8439</span>, <span class='fl'>8308</span>, <span class='fl'>8482</span>,</span>
+<span class='r-in'>  <span class='fl'>8413</span>, <span class='fl'>8157</span>, <span class='fl'>7945</span>, <span class='fl'>7503</span>, <span class='fl'>7164</span>, <span class='fl'>7289</span>, <span class='fl'>7016</span>, <span class='fl'>6753</span>, <span class='fl'>6906</span>, <span class='fl'>6797</span>, <span class='fl'>6624</span>,</span>
+<span class='r-in'>  <span class='fl'>6416</span>, <span class='fl'>5811</span>, <span class='fl'>5359</span>, <span class='fl'>4824</span>, <span class='fl'>4277</span>, <span class='fl'>3728</span>, <span class='fl'>3136</span>, <span class='fl'>2524</span>, <span class='fl'>2109</span>, <span class='fl'>1657</span>, <span class='fl'>1235</span>,</span>
+<span class='r-in'>  <span class='fl'>924</span>, <span class='fl'>667</span>, <span class='fl'>465</span>, <span class='fl'>287</span>, <span class='fl'>189</span>, <span class='fl'>125</span>, <span class='fl'>99</span>, <span class='fl'>80</span>, <span class='fl'>24</span>, <span class='fl'>10</span>, <span class='fl'>7</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>1</span>,</span>
+<span class='r-in'>  <span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>110</span></span>
+<span class='r-in'><span class='fu'>check_heaping_jdanov</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, Agei <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>95</span>,<span class='fl'>100</span>,<span class='fl'>105</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 94.72588</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -215,11 +224,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -227,6 +236,8 @@
 
   
 
+
+  
 
   </body>
 </html>
