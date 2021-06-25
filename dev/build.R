@@ -32,6 +32,7 @@ devtools::document()
 devtools::build_vignettes()
 
 # devtools::install_github("r-lib/pkgdown")
+usethis::proj_activate(here::here())
 pkgdown::build_site()
   
 versionIncrement(
