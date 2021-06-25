@@ -47,6 +47,12 @@ reference:
     desc: Functions to construct a lifetable
     contents:
       -  '`lt_abridged`'
+      -  '`lt_single_mx`'
+      -  '`lt_single_qx`'
+      -  '`lt_single2abridged`'
+      -  '`lt_abridged2single`'
+      -  '`lt_ambiguous`'
+      -  '`lt_smooth_ambiguous`'
   - title: "Interpolation"
     desc: Functions to interpolate counts
     contents:
