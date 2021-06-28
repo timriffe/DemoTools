@@ -11,6 +11,7 @@ interp(
   method = c("linear", "exponential", "power"),
   power = 2,
   extrap = FALSE,
+  negatives = FALSE,
   ...
 )
 }
@@ -26,6 +27,8 @@ interp(
 \item{power}{numeric power to interpolate by, if \code{method = "power"}. Default 2.}
 
 \item{extrap}{logical. In case \code{datesOut} is out of range of \code{datesIn}, do extrapolation using slope in extreme pairwise. Default \code{FALSE}.}
+
+\item{negatives}{logical. In case negative output are accepted, set to \code{TRUE}. Default \code{FALSE}.}
 
 \item{...}{arguments passed to \code{stats::approx}. For example, \code{rule}, which controls extrapolation behavior.}
 }

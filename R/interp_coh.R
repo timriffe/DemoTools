@@ -734,7 +734,7 @@ transform_pxt <- function(lxMat,
                                     sex = sex, 
                                     date1 = date1, 
                                     date2 = date2, 
-                                    OAnew = max(age1) + 1, 
+                                    OAnew = max(age1), 
                                     verbose = verbose)
     )
   } else {
@@ -798,7 +798,7 @@ transform_pxt <- function(lxMat,
       age_lx = age_lx,
       date1 = date1,
       date2 = date2,
-      OAnew = max(age1) + 1,
+      OAnew = max(age1),
       control = list(deg = 3, lambda = 100),
       ...)
   }
