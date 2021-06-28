@@ -281,10 +281,8 @@ lt_id_Ll_S      <- function(nLx, Age) {
   
   # abr or single
   N = ifelse(is_abridged(Age),5,1)
-  # infer radix in case was not given
-  if(is.null(radix)){
-    radix <- ifelse(nLx[1]>1, 10^nchar(trunc(nLx[1])), 1)
-  }
+  # infer radix
+  radix <- ifelse(nLx[1]>1, 10^nchar(trunc(nLx[1])), 1)
   # check validate of nLx
   stopifnot(all(nLx>0 & nLx<radix*N))
   # number ages
