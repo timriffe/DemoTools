@@ -274,16 +274,25 @@ lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
 #' @description An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age or five-year ages. Input vectors are assumed to come from either single or standard abridged ages. Note that the ages of the output Sx are the ages the population would be after the N-year projection.
 #' @details This function does not account for \code{nLx} having been pre-binned into uniform 5-year age widths, which will throw an error. Just leave them in abridged ages instead. Note that in the case of abridged ages, the interpretation for the first and second value don't follow the original abridged age intervals: the first value in the probability of surviving from birth into ages 0-4 in the first five years, and the second value is the probability of surviving from 0-4 to 5-9. This represents a slight misalignment with the rest of the lifetable, user beware.
 #' @param nLx numeric vector of lifetable exposure.
+#' @param lx numeric vector of lifetable survivors from same lifetable than \code{nLx}. Infered radix from nLx in case is \code{NULL}. 
 #' @param Age integer vector of starting ages.
+#' @param AgeInt integer vector of age intervals.
+#' @param N integer, the age width for survivor ratios, either 5 or 1. Default 5.
 #' @export
 
-lt_id_Ll_S      <- function(nLx, Age) {
+lt_id_Ll_S      <- function(nLx, lx=NULL, Age, AgeInt=NULL, N=NULL) {
   
-  # abr or single
-  N = ifelse(is_abridged(Age),5,1)
-  # infer radix
-  radix <- ifelse(nLx[1]>1, 10^nchar(trunc(nLx[1])), 1)
-  # check validate of nLx
+  # set abr or single
+  if(is.null(N)){
+    N = ifelse(is_abridged(Age),5,1)  
+  }
+  # infer radix in case lx is not given
+  if(is.null(lx)){
+    radix <- ifelse(nLx[1]>1, 10^nchar(trunc(nLx[1])), 1)  
+  }else{
+    radix = lx[1]
+  }
+  # validate of nLx
   stopifnot(all(nLx>0 & nLx<radix*N))
   # number ages
   n               <- length(nLx)
@@ -294,8 +303,15 @@ lt_id_Ll_S      <- function(nLx, Age) {
   # first age group is survival from births to the second age group
   if (N == 5) {
     Sx              <- rep(NA, n-1)
-    # infer always AgeInt
-    AgeInt <- inferAgeIntAbr(Age)
+    # infer AgeInt in case is not given
+    if(is.null(AgeInt)){
+      AgeInt <- inferAgeIntAbr(Age)  
+    }
+    stopifnot(length(AgeInt) == n)
+    ageintcompare <- inferAgeIntAbr(vec = nLx)
+    if  (Age[1] == 0){
+      stopifnot(all(ageintcompare[-n] == AgeInt[-n]))
+    }
     # birth until 0-4
     Sx[1]         <- (nLx[1] + nLx[2]) / ((AgeInt[1] + AgeInt[2]) * radix)
     # second age group is survival age 0-4 to age 5-9

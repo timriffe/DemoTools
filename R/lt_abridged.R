@@ -419,7 +419,7 @@ lt_abridged <- function(Deaths = NULL,
     nMx[N]   <-  lx[N] / Tx[N]
   }
 
-  Sx <- c(lt_id_Ll_S(nLx, Age), 0.0)
+  Sx <- c(lt_id_Ll_S(nLx, lx, Age, AgeInt, N = 5), 0.0)
   names(Sx) <- NULL
   
   # output is an unrounded, unsmoothed lifetable
