@@ -4,12 +4,18 @@
 \alias{lt_id_Ll_S}
 \title{Calculate survivor ratios}
 \usage{
-lt_id_Ll_S(nLx, Age)
+lt_id_Ll_S(nLx, lx = NULL, Age, AgeInt = NULL, N = 5)
 }
 \arguments{
 \item{nLx}{numeric vector of lifetable exposure.}
 
+\item{lx}{numeric vector of lifetable survivors from same lifetable than \code{nLx}. Infered radix from nLx in case is \code{NULL}.}
+
 \item{Age}{integer vector of starting ages.}
+
+\item{AgeInt}{integer vector of age intervals.}
+
+\item{N}{integer, the age width for survivor ratios, either 5 or 1. Default 5.}
 }
 \description{
 An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age or five-year ages. Input vectors are assumed to come from either single or standard abridged ages. Note that the ages of the output Sx are the ages the population would be after the N-year projection.

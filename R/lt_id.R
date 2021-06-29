@@ -280,24 +280,18 @@ lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
 #' @param N integer, the age width for survivor ratios, either 5 or 1. Default 5.
 #' @export
 
-lt_id_Ll_S      <- function(nLx, lx=NULL, Age, AgeInt=NULL, N=NULL) {
-  
-  # set abr or single
-  if(is.null(N)){
-    N = ifelse(is_abridged(Age),5,1)  
-  }
-  # infer radix in case lx is not given
-  if(is.null(lx)){
-    radix <- ifelse(nLx[1]>1, 10^nchar(trunc(nLx[1])), 1)  
-  }else{
-    radix = lx[1]
-  }
-  # validate of nLx
-  stopifnot(all(nLx>0 & nLx<radix*N))
+lt_id_Ll_S      <- function(nLx, lx = NULL, Age, AgeInt = NULL, N = 5) {
   # number ages
   n               <- length(nLx)
-  # double check because assuming abridged nLx is given...
-  stopifnot(length(Age) == n)
+  # either we're in 1 or 5 year age groups
+  stopifnot(length(N) == 1 & N %in% c(5, 1))
+  # infer radix in case lx is not given
+  radix <- lx[1] 
+  if(is.null(lx)){
+    radix <- ifelse(nLx[1]>1, 10^nchar(trunc(nLx[1])), 1)  
+  }
+  # validate nLx
+  stopifnot(all(nLx>0, nLx[-n] < (radix*N)))
   
   ## compute Sx (missing from the LTbr computation)
   # first age group is survival from births to the second age group
@@ -336,4 +330,5 @@ lt_id_Ll_S      <- function(nLx, lx=NULL, Age, AgeInt=NULL, N=NULL) {
   }
   Sx
 }
+
 
