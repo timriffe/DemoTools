@@ -697,15 +697,20 @@ interp_coh_lxMat_pxt <- function(lxMat,
       rule = 2)
   # transform back
   QX            <- exp(logit_qx_interp) / (1 + exp(logit_qx_interp))
-  
   QX[nrow(QX), ]  <- 1
-  
   
   f1            <- diff(dates_out)[1]
   f2            <- date2 - floor(date2)
   
+  # get Sx (keep PX name)
+  PX <- apply(QX,2,function(q){lt_single_qx(nqx = q,
+                                            Age=a1,
+                                            OAnew = OAnew,
+                                            ...)$Sx})
+  rownames(PX) <- rownames(QX)
   # assume linear px change within age class
-  PX            <- 1 - QX
+  # PX            <- 1 - QX
+  # IW: PX^f1 is not bad. Other option is PX=(1-QX*f). One assumes linear on d_x, the other constant mu_x.
   PX[,1]        <- PX[, 1] ^f1
   PX[,ncol(PX)] <- PX[, ncol(PX)] ^f2
   
