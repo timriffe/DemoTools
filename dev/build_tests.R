@@ -71,6 +71,8 @@ get_file(inferAgeIntAbr)
 lapply(ls("package:DemoTools"),function(x) eval() %>% is.function)
 is.function(DemoTools::`:=`)
 
+# list of functions by script
+
 scripts  <- dir("R")
 files <- list()
 
@@ -89,4 +91,5 @@ lengths <- lapply(files, length) %>% unlist()
 DF      <- tibble(Script = rep(names(lengths), times = lengths),
                   Function = unlist(files))
 DF %>% 
-  arrange(Function)
+  arrange(Function) %>% 
+  write_csv("dev/FunctionInventory.csv")
