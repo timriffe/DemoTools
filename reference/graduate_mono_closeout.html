@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
       </span>
     </div>
 
@@ -262,7 +262,7 @@ element of <code>Value</code> as the open age group?</p></td>
 <span class='co'># one may wish to instead rescale results colSums() of</span>
 <span class='co'># popg at age pivotAge and higher.</span>
 <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>grabill.closed.out</span><span class='op'>)</span> <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>popvec</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] -22.01899</div><div class='input'><span class='co'># also works on an age-labelled vector of data</span>
+</div><div class='output co'>#&gt; [1] -22.01899</div><div class='input'><span class='co'># also works on an age-labeled vector of data</span>
 <span class='va'>closed.vec</span>           <span class='op'>&lt;-</span> <span class='fu'>graduate_mono_closeout</span><span class='op'>(</span><span class='va'>popvec</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># let's compare this one with sprague()</span>
 <span class='va'>simple.vec</span>           <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span><span class='va'>popvec</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>

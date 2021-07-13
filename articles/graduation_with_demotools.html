@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
       <h1 data-toc-skip>Graduation with DemoTools</h1>
                         <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
-            <h4 class="date">2021-06-25</h4>
+            <h4 class="date">2021-07-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/graduation_with_demotools.Rmd"><code>vignettes/graduation_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>graduation_with_demotools.Rmd</code></div>
@@ -129,7 +129,7 @@
 <div id="what-is-graduation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#what-is-graduation" class="anchor"></a>What is graduation?</h3>
-<p>Graduation is a practice used to derive figures for <em>n</em>-year age groups, for example 5-year age groups from census data, that are corrected for net reporting error <span class="citation">(Siegel Jacob and Swanson David 2004)</span>. The basic idea is to fit different curves to the original <em>n</em>-year and redistribute them into single-year values. These techniques are designed so that the sum of the interpolated single-year values is consistent with the total for the groups as a whole. Among the major graduation methods are the Sprague <span class="citation">(Sprague 1880)</span> and Beers <span class="citation">(H. Beers 1945)</span> oscilatory methods, monotone spline and the uniform distribution. More recently, the penalized composite link model (pclm) was proposed to ungroup coarsely aggregated data <span class="citation">(Rizzi, Gampe, and Eilers 2015)</span>. All of these methodologies are implemented in <code>DemoTools</code>.</p>
+<p>Graduation is a practice used to derive figures for <em>n</em>-year age groups, for example 5-year age groups from census data, that are corrected for net reporting error <span class="citation">(Siegel Jacob and Swanson David 2004)</span>. The basic idea is to fit different curves to the original <em>n</em>-year and redistribute them into single-year values. These techniques are designed so that the sum of the interpolated single-year values is consistent with the total for the groups as a whole. Among the major graduation methods are the Sprague <span class="citation">(Sprague 1880)</span> and Beers <span class="citation">(H. Beers 1945)</span> oscillatory methods, monotone spline and the uniform distribution. More recently, the penalized composite link model (pclm) was proposed to ungroup coarsely aggregated data <span class="citation">(Rizzi, Gampe, and Eilers 2015)</span>. All of these methodologies are implemented in <code>DemoTools</code>.</p>
 </div>
 <div id="why-graduate" class="section level3">
 <h3 class="hasAnchor">
@@ -193,7 +193,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <div id="beers" class="section level3">
 <h3 class="hasAnchor">
 <a href="#beers" class="anchor"></a>Beers</h3>
-<p>Following a similar idea, Beers interpolated two overlapping curves minimizing the squares of the differences within the interpolation range <span class="citation">(H. Beers 1945)</span>. Specifically, Beers did this by minimizing fifth differences for a six-term formula, refered to as the ‘Ordinary’ Beers method <span class="citation">(H. S. Beers 1945)</span>. Subsequently, the ordinay formula was modified to relax the requirement that the given value be reproduced and yield smoother interpolated results, refered to as ‘Modified’ Beers method <span class="citation">(H. Beers 1945)</span>.</p>
+<p>Following a similar idea, Beers interpolated two overlapping curves minimizing the squares of the differences within the interpolation range <span class="citation">(H. Beers 1945)</span>. Specifically, Beers did this by minimizing fifth differences for a six-term formula, refered to as the ‘Ordinary’ Beers method <span class="citation">(H. S. Beers 1945)</span>. Subsequently, the ordinary formula was modified to relax the requirement that the given value be reproduced and yield smoother interpolated results, referred to as ‘Modified’ Beers method <span class="citation">(H. Beers 1945)</span>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">beers.ordinary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"beers(ord)"</span><span class="op">)</span>
 <span class="va">beers.modified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"beers(mod)"</span><span class="op">)</span>
@@ -219,7 +219,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <div id="monotone-spline" class="section level3">
 <h3 class="hasAnchor">
 <a href="#monotone-spline" class="anchor"></a>Monotone spline</h3>
-<p>Graduation by a monotone spline is another option available in <code>DemoTools</code>. This option offers an algorithm to produce interpolants that preserve properties such as monotonicity or convexity that are present in the data <span class="citation">(Fritsch and Carlson 1980)</span>. These are desirable conditions to not introduce biased details that cannot be ascertained from the data <span class="citation">(Hyman 1983)</span>. To run this algorithm in <code>DemoTools</code> the option <code>mono</code> should be selected as follows:</p>
+<p>Graduation by a monotone spline is another option available in <code>DemoTools</code>. This option offers an algorithm to produce interpolations that preserve properties such as monotonicity or convexity that are present in the data <span class="citation">(Fritsch and Carlson 1980)</span>. These are desirable conditions to not introduce biased details that cannot be ascertained from the data <span class="citation">(Hyman 1983)</span>. To run this algorithm in <code>DemoTools</code> the option <code>mono</code> should be selected as follows:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mono.grad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"mono"</span><span class="op">)</span>
 
@@ -339,9 +339,9 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
                  recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">pop1resc</span>
 <span class="co">#&gt;         0         1         6         8        10        14        18        19 </span>
-<span class="co">#&gt;  84.90773 300.79987  95.39789 192.65032 255.69982 274.17683 101.13434  94.93995 </span>
+<span class="co">#&gt; 101.88827 188.13925 114.29221  83.54341 137.56618 233.79744  40.24737 168.80996 </span>
 <span class="co">#&gt;        21        24        28        31        34        37        40 </span>
-<span class="co">#&gt; 141.12510 266.53081 258.37765 144.17586 122.76673  38.46531 207.89223</span></code></pre></div>
+<span class="co">#&gt; 155.82545 352.56297 237.01022 181.67455 191.14492 157.84641 395.52470</span></code></pre></div>
 </div>
 </div>
 <div id="graduation-as-a-light-smoother" class="section level2">

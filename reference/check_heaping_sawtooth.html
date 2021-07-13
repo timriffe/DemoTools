@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Detect if heaping is worse on terminal digits 0s than on 5s — check_heaping_sawtooth" />
-<meta property="og:description" content="Ages ending in 0 often have higher apparent heaping than ages ending in 5. In this case, data in 5-year age bins might show a sawtooth pattern. If heaping ocurrs in roughly the same amount on 0s and 5s, then it may be sufficient to group data into 5-year age groups and then graduate back to single ages. However, if heaping is worse on 0s, then this procedure tends to produce a wavy pattern in count data, with 10-year periodicity. In this case it is recommended to use one of the methods of smooth_age_5() as an intermediate step before graduation." />
+<meta property="og:description" content="Ages ending in 0 often have higher apparent heaping than ages ending in 5. In this case, data in 5-year age bins might show a sawtooth pattern. If heaping occurs in roughly the same amount on 0s and 5s, then it may be sufficient to group data into 5-year age groups and then graduate back to single ages. However, if heaping is worse on 0s, then this procedure tends to produce a wavy pattern in count data, with 10-year periodicity. In this case it is recommended to use one of the methods of smooth_age_5() as an intermediate step before graduation." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.59</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
       </span>
     </div>
 
@@ -159,7 +159,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Ages ending in 0 often have higher apparent heaping than ages ending in 5. In this case, data in 5-year age bins might show a sawtooth pattern. If heaping ocurrs in roughly the same amount on 0s and 5s, then it may be sufficient to group data into 5-year age groups and then graduate back to single ages. However, if heaping is worse on 0s, then this procedure tends to produce a wavy pattern in count data, with 10-year periodicity. In this case it is recommended to use one of the methods of <code><a href='smooth_age_5.html'>smooth_age_5()</a></code> as an intermediate step before graduation.</p>
+    <p>Ages ending in 0 often have higher apparent heaping than ages ending in 5. In this case, data in 5-year age bins might show a sawtooth pattern. If heaping occurs in roughly the same amount on 0s and 5s, then it may be sufficient to group data into 5-year age groups and then graduate back to single ages. However, if heaping is worse on 0s, then this procedure tends to produce a wavy pattern in count data, with 10-year periodicity. In this case it is recommended to use one of the methods of <code><a href='smooth_age_5.html'>smooth_age_5()</a></code> as an intermediate step before graduation.</p>
     </div>
 
     <pre class="usage"><span class='fu'>check_heaping_sawtooth</span><span class='op'>(</span>
@@ -186,7 +186,7 @@
     </tr>
     <tr>
       <th>ageMax</th>
-      <td><p>integer evently divisibly by 5. Upper bound of evaluated age range, defaults to highest age evenly divisible by 10.</p></td>
+      <td><p>integer evenly divisible by 5. Upper bound of evaluated age range, defaults to highest age evenly divisible by 10.</p></td>
     </tr>
     </table>
 
