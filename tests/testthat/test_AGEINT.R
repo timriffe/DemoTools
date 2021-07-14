@@ -62,5 +62,5 @@ test_that("basic interpolation function",{
                        datesIn = dates,
                        datesOut = dec.date(1900.5), 
                        extrap = T),
-                regexp = "Negative values were turned 0. No accepted in population counts, fertility rates or life table functions.")
+                regexp = "Negative values have been replaced with 0s")
 })
