@@ -1,6 +1,6 @@
 check_form <- function(x) {
   expect_is(x, "numeric")
-  expect_true(length(x) == 103)
+  expect_true(length(x) == 102)
   expect_true(all(!is.na(x)))
   expect_named(x)
 }
