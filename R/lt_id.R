@@ -271,29 +271,43 @@ lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
 }
 
 #' @title Calculate survivor ratios
-#' @description An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age (\code{N=1}) or five-year ages (\code{N=5}). Input vectors are assumed to come from either single or standard abridged ages.
+#' @description An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age or five-year ages. Input vectors are assumed to come from either single or standard abridged ages. Note that the ages of the output Sx are the ages the population would be after the N-year projection.
 #' @details This function does not account for \code{nLx} having been pre-binned into uniform 5-year age widths, which will throw an error. Just leave them in abridged ages instead. Note that in the case of abridged ages, the interpretation for the first and second value don't follow the original abridged age intervals: the first value in the probability of surviving from birth into ages 0-4 in the first five years, and the second value is the probability of surviving from 0-4 to 5-9. This represents a slight misalignment with the rest of the lifetable, user beware.
-#' @inheritParams lt_abridged
 #' @param nLx numeric vector of lifetable exposure.
+#' @param lx numeric vector of lifetable survivors from same lifetable than \code{nLx}. Infered radix from nLx in case is \code{NULL}. 
+#' @param Age integer vector of starting ages.
+#' @param AgeInt integer vector of age intervals.
 #' @param N integer, the age width for survivor ratios, either 5 or 1. Default 5.
 #' @export
-lt_id_Ll_S      <- function(nLx, lx, Age, AgeInt, N = c(5, 1)) {
+
+lt_id_Ll_S      <- function(nLx, lx = NULL, Age, AgeInt = NULL, N = 5) {
+  # number ages
   n               <- length(nLx)
-  stopifnot(length(lx) == n)
   # either we're in 1 or 5 year age groups
   stopifnot(length(N) == 1 & N %in% c(5, 1))
-  ## compute Sx (missing from the LTbr computation
-  Sx              <- rep(NA, n)
+  # infer radix in case lx is not given
+  radix <- lx[1] 
+  if(is.null(lx)){
+    radix <- ifelse(nLx[1]>1, 10^nchar(trunc(nLx[1])), 1)  
+  }
+  # validate nLx
+  stopifnot(all(nLx>0, nLx[-n] < (radix*N)))
+  
+  ## compute Sx (missing from the LTbr computation)
   # first age group is survival from births to the second age group
   if (N == 5) {
-    # double check because assuming abridged nLx is given...
+    Sx              <- rep(NA, n-1)
+    # infer AgeInt in case is not given
+    if(is.null(AgeInt)){
+      AgeInt <- inferAgeIntAbr(Age)  
+    }
     stopifnot(length(AgeInt) == n)
     ageintcompare <- inferAgeIntAbr(vec = nLx)
-    if (Age[1] == 0){
+    if  (Age[1] == 0){
       stopifnot(all(ageintcompare[-n] == AgeInt[-n]))
     }
     # birth until 0-4
-    Sx[1]         <- (nLx[1] + nLx[2]) / ((AgeInt[1] + AgeInt[2]) * lx[1])
+    Sx[1]         <- (nLx[1] + nLx[2]) / ((AgeInt[1] + AgeInt[2]) * radix)
     # second age group is survival age 0-4 to age 5-9
     Sx[2]         <- nLx[3] / (nLx[1] + nLx[2])
     # middle age groups
@@ -301,18 +315,20 @@ lt_id_Ll_S      <- function(nLx, lx, Age, AgeInt, N = c(5, 1)) {
     Sx[mind]      <- nLx[mind + 1] / nLx[mind]
     # penultimate age group
     Sx[n - 1]       <- nLx[n] / (nLx[n - 1] + nLx[n])
-    # closeout
-    Sx[n]           <- 0.0
+    # names of ages at arrive
+    names(Sx) <- seq(0,Age[length(Age)],5)
   }
   if (N == 1) {
-    LLXX          <- c(lx[1], nLx)
+    Sx            <- rep(NA, n)
+    LLXX          <- c(radix, nLx)
     mind          <- 1:(n - 1)
     Sx[mind]      <- LLXX[mind + 1] / LLXX[mind]
     # closeout
     Sx[n]           <- nLx[n] / (nLx[n - 1] + nLx[n])
+    # names of ages at arrive
+    names(Sx) <- 0:(n-1)
   }
-
-
-
   Sx
 }
+
+
