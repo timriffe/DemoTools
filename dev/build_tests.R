@@ -56,3 +56,40 @@ str(d2)
 names(eliminable) <- names(d2)
 N - eliminable
 unlist(d2) %>% unique()
+
+# what file is each function in?
+
+A <- lsf.str("package:DemoTools")
+devtools::load_all()
+attr(attr(inferAgeIntAbr,"srcref"),"srcfile")
+
+
+get_file <- function(filename_no_quotes){
+  attr(attr(filename_no_quotes,"srcref"),"srcfile")
+}
+get_file(inferAgeIntAbr)
+lapply(ls("package:DemoTools"),function(x) eval() %>% is.function)
+is.function(DemoTools::`:=`)
+
+# list of functions by script
+
+scripts  <- dir("R")
+files <- list()
+
+for (i in scripts){
+test.env <- new.env()
+sys.source(paste0("R/",i), envir = test.env)
+A <- lsf.str(envir=test.env)
+funs <- lapply(A,"[[",1) %>% unlist()
+files[[i]] <- funs
+rm(A)
+rm(test.env)
+}
+library(tidyverse)
+
+lengths <- lapply(files, length) %>% unlist()
+DF      <- tibble(Script = rep(names(lengths), times = lengths),
+                  Function = unlist(files))
+DF %>% 
+  arrange(Function) %>% 
+  write_csv("dev/FunctionInventory.csv")

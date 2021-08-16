@@ -70,7 +70,7 @@ for case 7 and 8 (e0 and 45q15 or 35q15 are known);}
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
 
-\item{SRB}{the sex ratio at birth (boys / girls), detault 1.05}
+\item{SRB}{the sex ratio at birth (boys / girls), default 1.05}
 }
 \value{
 The output is of class \code{lt_model_lq} with the components:

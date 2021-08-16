@@ -5,19 +5,19 @@
 [![R build status](https://github.com/timriffe/DemoTools/workflows/R-CMD-check/badge.svg)](https://github.com/timriffe/DemoTools/actions)
 [![codecov](https://codecov.io/gh/timriffe/DemoTools/branch/master/graph/badge.svg)](https://codecov.io/gh/timriffe/DemoTools) 
 
-[![](https://img.shields.io/badge/devel%20version-01.13.59-yellow.svg)](https://github.com/timriffe/DemoTools)
+[![](https://img.shields.io/badge/devel%20version-01.13.61-yellow.svg)](https://github.com/timriffe/DemoTools)
 [![issues](https://img.shields.io/github/issues-raw/timriffe/DemoTools.svg)](https://github.com/timriffe/DemoTools/issues)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 # Tools for aggregate demographic analysis
-Date: 2021-06-23
+Date: 2021-07-14
 
  
 `DemoTools` is an R package that contains simple functions often used in demographic analysis. It is in active development. 
 
 This project is commissioned by the [UN Population Division](http://www.un.org/en/development/desa/population/) and financed by the [Bill and Melinda Gates Foundation](https://www.gatesfoundation.org/) as part of the [Making Family Planning Count](http://www.un.org/en/development/desa/population/projects/making-family-planning-count/index.shtml) project. Work is also done in collaboration with Sean Fennell, [José Manuel Aburto](https://github.com/jmaburto), [Ilya Kashnitsky](https://ikashnitsky.github.io/), [Marius Pascariu](https://github.com/mpascariu), [Jorge Cimentada](https://github.com/cimentadaj), [Monica Alexander](https://www.monicaalexander.com/), and with minor contributions from [several more](https://github.com/timriffe/DemoTools/graphs/contributors) (thank you!). This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 IGO ([CC BY-SA 3.0 IGO](https://creativecommons.org/licenses/by-sa/3.0/igo/)). 
 
-The idea behind `DemoTools` is to provide  a common set of functions that can be easily used by analysts and scientists working on demographic analysis and modelling. 
+The idea behind `DemoTools` is to provide  a common set of functions that can be easily used by analysts and scientists working on demographic analysis and modeling. 
 
 If you detect a bug or have a suggestion please notify us using the [Issues](https://github.com/timriffe/DemoTools/issues) tab on github. Even better if you fix it and make a pull request! See [CONTRIBUTING.md](https://github.com/timriffe/DemoTools/blob/master/CONTRIBUTING.md) for more tips on reporting bugs or offering patches. 
 

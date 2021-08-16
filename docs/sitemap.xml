@@ -25,9 +25,6 @@
     <loc>https://timriffe.github.io/DemoTools/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://timriffe.github.io/DemoTools/articles/lifetable_with_demotools.html</loc>
-  </url>
-  <url>
     <loc>https://timriffe.github.io/DemoTools/articles/lifetables_with_demotools.html</loc>
   </url>
   <url>
@@ -211,6 +208,9 @@
     <loc>https://timriffe.github.io/DemoTools/reference/carrier_farrag_smth.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/census_cohort_adjust.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools/reference/check_heaping_bachi.html</loc>
   </url>
   <url>
@@ -364,6 +364,9 @@
     <loc>https://timriffe.github.io/DemoTools/reference/interp_coh.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/interp_coh_bare.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools/reference/interp_lc_lim.html</loc>
   </url>
   <url>
@@ -496,6 +499,9 @@
     <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_4m0_m0.html</loc>
   </url>
   <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_ak.html</loc>
+  </url>
+  <url>
     <loc>https://timriffe.github.io/DemoTools/reference/lt_rule_ak_m0_a0.html</loc>
   </url>
   <url>
@@ -554,6 +560,9 @@
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools/reference/mig_resid.html</loc>
+  </url>
+  <url>
+    <loc>https://timriffe.github.io/DemoTools/reference/mig_resid_stock.html</loc>
   </url>
   <url>
     <loc>https://timriffe.github.io/DemoTools/reference/mig_un_fam.html</loc>

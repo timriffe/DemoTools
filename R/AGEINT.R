@@ -285,9 +285,9 @@ interp <- function(popmat,
   }
   
   # IW: no negatives when extrapolate. Thinking in pop and lt expressions. Inactive when explicitly are accepted negatives
-  if(!negatives & all(!is.na(int)) & any(int<0)){
-    cat("Negative values were turned 0. No accepted in population counts, fertility rates or life table functions.\n")
-    int[int<0] <- 0  
+  if(!negatives & all(!is.na(int)) & any(int < 0)){
+    cat("Negative values have been replaced with 0s.\nNegatives not accepted in population counts,\n fertility rates or life table functions.\nYou can allow negatives (e.g. interpolating net migration)\n by specifying negatives = TRUE")
+    int[int < 0] <- 0  
   }
 
   int

@@ -19,7 +19,6 @@ Spreadsheets
 *.h
 *.o
 *.so
-docs/
 .gitsum
 .RData
 /doc/
