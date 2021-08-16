@@ -27,7 +27,7 @@ lt_rule_1a0(
 
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 
-\item{SRB}{the sex ratio at birth (boys / girls), detault 1.05}
+\item{SRB}{the sex ratio at birth (boys / girls), default 1.05}
 }
 \value{
 a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of values.

@@ -358,7 +358,7 @@ lt_rule_1a0_ak <- function(M0 = NULL, q0 = NULL, Sex){
 #' @param rule character. Either \code{"ak"} (Andreev-Kingkade) or \code{"cd"} (Coale-Demeny).
 #' @param Sex character, either \code{"m"}, \code{"f"}, or \code{"b"}
 #' @param q0 a value or vector of values of m0, the death risk in the first year of life.
-#' @param SRB the sex ratio at birth (boys / girls), detault 1.05
+#' @param SRB the sex ratio at birth (boys / girls), default 1.05
 #' @details Neither Coale-Demeny nor Andreev-Kingkade have explicit a0 rules for both-sexes combined. There's not a good way to arrive at a both-sex a0 estimate without increasing data requirements (you'd need data from each sex, which are not always available). It's more convenient to blend sex-specific a0 estimates based on something. Here we use SRB to do this, for no other reason than it has an easy well-known default value. This is bad because it assumes no sex differences in infant mortality, but this choice has a trivial impact on results.
 #' @return a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of values.
 #' 

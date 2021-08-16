@@ -7,7 +7,7 @@
 mig_un_fam(NM, family, Single = TRUE, OAnew = 100)
 }
 \arguments{
-\item{NM}{numeric. Total net migration to distribuite between ages and sex.}
+\item{NM}{numeric. Total net migration to distribute between ages and sex.}
 
 \item{family}{character. Could be "Family", "Female Labor", "Male Labor".}
 

@@ -66,7 +66,7 @@ library(DT)
  
 ```
 
-In this output, the `Age` column indicates the lower bound of each age group. The column `nMx` are the observed death rates, usually result from dividing the deaths observed in a calendar year by the mid-year population. The `nAX`, as described above, indicates the average number of person-years lived in the age-group by those who died. The column `lx` refers to the survival function. If divided by the initial value, i.e. 100,000, indicates the probability of surviving from birth to a given age. `ndx` is the age-at-death distribution and `Sx` are the survivorship ratios. Finally, `ex` is the life expectancy. For this example, males in Mexico had a life expectancty at birth of 52.58.
+In this output, the `Age` column indicates the lower bound of each age group. The column `nMx` are the observed death rates, usually result from dividing the deaths observed in a calendar year by the mid-year population. The `nAX`, as described above, indicates the average number of person-years lived in the age-group by those who died. The column `lx` refers to the survival function. If divided by the initial value, i.e. 100,000, indicates the probability of surviving from birth to a given age. `ndx` is the age-at-death distribution and `Sx` are the survivorship ratios. Finally, `ex` is the life expectancy. For this example, males in Mexico had a life expectancy at birth of 52.58.
 
 
 

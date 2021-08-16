@@ -122,7 +122,7 @@ and
 _{5}P_{x+5} = _{10}P_{x} - _{5}P_{x}.
 \end{equation*}
 
-To implement this smoothing process select the `KKN` inthe `agesmth` function.
+To implement this smoothing process select the `KKN` in the `agesmth` function.
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center', eval = FALSE}
 # TODO smooth_age_5 is throwing an internal error
