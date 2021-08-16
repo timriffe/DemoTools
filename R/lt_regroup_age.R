@@ -312,7 +312,7 @@ lt_ambiguous <- function(nMx_or_nqx_or_lx = NULL,
       out <- lt_single_qx(nqx = xx, Age = Age, Sex = Sex,  ...)
     }
     if (type == "q" & !Single){
-      out <- lt_single_qx(qx = xx, Age = Age, Sex = Sex,  ...)
+      out <- lt_single_qx(nqx = xx, Age = Age, Sex = Sex,  ...)
       out <- lt_single2abridged(lx = out$lx,nLx = out$nLx, ex = out$ex) 
     }
   }

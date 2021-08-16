@@ -304,7 +304,7 @@ interp_lc_lim <- function(input = NULL,
     ktm_star = ktf_star = c()
     for (j in 1:ndates_out){
       ktm_star[j] <- optimize(f = interp_lc_lim_kt_min,
-                              interval = c(-20, 20),
+                              interval = c(-100, 100),
                               ax = axm,
                               bx = bxm,
                               age = Age,
@@ -312,7 +312,7 @@ interp_lc_lim <- function(input = NULL,
                               e0_target = e0m[j],
                               ...)$minimum
       ktf_star[j] <- optimize(f = interp_lc_lim_kt_min, # TR: add ...
-                              interval = c(-20, 20),
+                              interval = c(-100, 100),
                               ax = axf,
                               bx = bxf,
                               age = Age,
