@@ -81,7 +81,7 @@ Choose between a 7,9,11 or 13 parameter model." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.61</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.62</span>
       </span>
     </div>
 
@@ -182,7 +182,7 @@ Choose between a 7,9,11 or 13 parameter model.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>In the full 13 parameter model, the migration rate at age x, \(m(x)\) is defined as
-$$m(x) = a1*exp(-1*alpha1*x) + a2*exp(-1*alpha2*(x - mu2) - exp(-1*lambda2*(x - mu2))) + a3*exp(-1*alpha3*(x - 3) - exp(-1*lambda3*(x - mu3))) + a4*exp(lambda4*x) + c$$</p>
+$$m(x) = a1*exp(-1*alpha1*x) + a2*exp(-1*alpha2*(x - mu2) - exp(-1*lambda2*(x - mu2))) + a3*exp(-1*alpha3*(x - mu3) - exp(-1*lambda3*(x - mu3))) + a4*exp(lambda4*x) + c$$</p>
 <p>The first, second, third and fourth pieces of the equation represent pre-working age, working age, retirement and post-retirement age patterns, respectively.
 Models with less parameters gradually remove terms at the older ages. Parameters in each family are:</p><ul>
 <li><p>pre-working age: a1, alpha1</p></li>
