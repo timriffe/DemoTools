@@ -291,7 +291,7 @@ lt_id_Ll_S      <- function(nLx, lx = NULL, Age, AgeInt = NULL, N = 5) {
     radix <- ifelse(nLx[1]>1, 10^nchar(trunc(nLx[1])), 1)  
   }
   # validate nLx
-  stopifnot(all(nLx>0, nLx[-n] < (radix*N)))
+  stopifnot(all(nLx>=0, nLx[-n] < (radix*N)))
   
   ## compute Sx (missing from the LTbr computation)
   # first age group is survival from births to the second age group
