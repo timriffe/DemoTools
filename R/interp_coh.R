@@ -772,10 +772,10 @@ transform_pxt <- function(lxMat,
       )
     }
     
-    ic_period <- date2 - date1
-    lx_mm <- range(dates_lx)
-    overlap <- min(c(lx_mm[2], date2)) - c(max(lx_mm[1], date1))
-    extrap_low <- lx_mm[1] - min(lx_mm[1],date1)
+    ic_period   <- date2 - date1
+    lx_mm       <- range(dates_lx)
+    overlap     <- min(c(lx_mm[2], date2)) - c(max(lx_mm[1], date1))
+    extrap_low  <- lx_mm[1] - min(lx_mm[1],date1)
     extrap_high <- max(lx_mm[2],date2) - lx_mm[2]
     t1 <- overlap / ic_period < .25
     t2 <- extrap_low > 6
