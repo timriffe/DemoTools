@@ -118,15 +118,16 @@ lt_id_l_d <- function(lx) {
 #' @title Derive lifetable death probabilities from survivorship.
 #' @description This lifetable identity is the same no matter what kind of lifetable is required.
 #'  You can find it in any demography textbook.
-#' @details The vector returned is the same length as \code{lx} and it sums to the lifetable radix.
-#' If the radix is one then this is the discrete deaths distribution.
+#' @details The vector returned is the same length as \code{lx}.
 #'
 #' @param lx numeric.  Vector of age-specific lifetable survivorship.
 #' @references
 #' \insertRef{preston2000demography}{DemoTools}
-#' @return ndx vector of lifetable deaths.
+#' @return `qx` values of age-specific mortality rates.  The last value is always 1.0
 #' @export
 lt_id_l_q <- function(lx) {
+  # TR note if there are trailing 0s in lx then
+  # this can be NaN
   dx <- lt_id_l_d(lx)
   dx / lx
 }
