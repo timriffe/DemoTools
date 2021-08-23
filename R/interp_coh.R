@@ -694,7 +694,8 @@ interp_coh_lxMat_pxt <- function(lxMat,
       popmat = logit_qx,
       datesIn = dates_lx,
       datesOut = dates_out,
-      rule = 2)
+      rule = 2,
+      negatives = TRUE)
   # transform back
   QX            <- exp(logit_qx_interp) / (1 + exp(logit_qx_interp))
   QX[nrow(QX), ]  <- 1
