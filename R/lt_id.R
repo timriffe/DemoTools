@@ -293,8 +293,8 @@ lt_id_Ll_S      <- function(nLx, lx = NULL, Age, AgeInt = NULL, N = 5) {
   if(is.null(lx)){
     radix <- ifelse(nLx[1]>1, 10^nchar(trunc(nLx[1])), 1)  
   }
-  # validate nLx. Some zero in ages>100 could happen
-  stopifnot(all(nLx>=0, nLx[Age<100]>0, nLx[-n] < (radix*N)))
+  # validate nLx. Some zero in ages>100 could happen. YP should be non-zero in ages<80, even in historical pops (?)
+  stopifnot(all(nLx>=0, nLx[Age<80]>0, nLx[-n] < (radix*N)))
   
   ## compute Sx (missing from the LTbr computation)
   # first age group is survival from births to the second age group
