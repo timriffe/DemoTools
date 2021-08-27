@@ -295,6 +295,15 @@ interp_lc_lim <- function(input = NULL,
                   dates_out,
                   extrap = TRUE)[1, ]
     
+    # IW: issue with dimension in case the interpolation is for 1 date only
+    if(ndates_out==1){
+      e0m = e0m[1]
+      e0f = e0f[1]
+    }else{
+      e0m = e0m[1,]
+      e0f = e0f[1,]
+    }
+    
     # avoid divergence: same bx but not kt.
     if (prev_divergence){
       bxm <- bxf <- (bxm + bxf) * .5
