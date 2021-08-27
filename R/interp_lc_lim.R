@@ -287,13 +287,13 @@ interp_lc_lim <- function(input = NULL,
                         e0_Males), 
                   dates_e0,
                   dates_out,
-                  extrap = TRUE)[1, ]
+                  extrap = TRUE)
     
     e0f <- interp(rbind(e0_Females, 
                         e0_Females),
                   dates_e0,
                   dates_out,
-                  extrap = TRUE)[1, ]
+                  extrap = TRUE)
     
     # IW: issue with dimension in case the interpolation is for 1 date only
     if(ndates_out==1){
