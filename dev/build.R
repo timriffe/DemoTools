@@ -35,7 +35,7 @@ devtools::build_vignettes()
 # usethis::proj_activate(here::here())
 pkgdown::build_site()
   
-versionIncrement(
+TimUtils::versionIncrement(
 		major = FALSE,       # only for releases
 		mid = FALSE,         # major functionality added
 		minor = TRUE,        # whenever documentation renewed, any patch, tweak, or fix
