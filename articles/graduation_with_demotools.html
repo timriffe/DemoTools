@@ -114,7 +114,7 @@
       <h1 data-toc-skip>Graduation with DemoTools</h1>
                         <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
-            <h4 class="date">2021-09-09</h4>
+            <h4 class="date">2021-09-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/graduation_with_demotools.Rmd"><code>vignettes/graduation_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>graduation_with_demotools.Rmd</code></div>
@@ -183,8 +183,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
      main <span class="op">=</span> <span class="st">'Graduation with Sprague method'</span><span class="op">)</span></code></pre></div>
 <p><img src="graduation_with_demotools_files/figure-html/unnamed-chunk-2-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co">#check the totals</span>
+<code class="sourceCode R"><span class="co">#check the totals</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">sprague</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395141.3</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>
@@ -230,8 +229,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
      main <span class="op">=</span> <span class="st">'Graduation with monotone spline'</span><span class="op">)</span></code></pre></div>
 <p><img src="graduation_with_demotools_files/figure-html/unnamed-chunk-4-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co">#check the totals</span>
+<code class="sourceCode R"><span class="co">#check the totals</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">mono.grad</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395138</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>
@@ -251,8 +249,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
      main <span class="op">=</span> <span class="st">'Graduation with pclm'</span><span class="op">)</span></code></pre></div>
 <p><img src="graduation_with_demotools_files/figure-html/unnamed-chunk-5-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co">#check the totals</span>
+<code class="sourceCode R"><span class="co">#check the totals</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">pclm.grad</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395138</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>
@@ -272,8 +269,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
      main <span class="op">=</span> <span class="st">'Graduation with uniform distribution'</span><span class="op">)</span></code></pre></div>
 <p><img src="graduation_with_demotools_files/figure-html/unnamed-chunk-6-1.png" width="\textwidth" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co">#check the totals</span>
+<code class="sourceCode R"><span class="co">#check the totals</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">unif.grad</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395138</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>
@@ -339,9 +335,9 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
                  recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">pop1resc</span>
 <span class="co">#&gt;         0         1         6         8        10        14        18        19 </span>
-<span class="co">#&gt;  91.07184 282.07333 165.44549  80.72868 362.76004 133.96793  23.08735  66.00990 </span>
+<span class="co">#&gt;  80.09169 368.55916 103.05482  38.24304 235.03472 282.95099  24.70744 152.24856 </span>
 <span class="co">#&gt;        21        24        28        31        34        37        40 </span>
-<span class="co">#&gt; 295.23877 362.15412 118.17417 157.85360 237.24303 267.96319 431.84379</span></code></pre></div>
+<span class="co">#&gt; 100.10850 161.51660 145.91133 137.73876 234.74673 130.68396 217.58216</span></code></pre></div>
 </div>
 </div>
 <div id="graduation-as-a-light-smoother" class="section level2">
