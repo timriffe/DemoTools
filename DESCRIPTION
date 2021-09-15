@@ -1,7 +1,7 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.13.69
+Version: 01.13.70
 Date: 2021-09-15
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
