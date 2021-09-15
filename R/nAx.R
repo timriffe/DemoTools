@@ -788,9 +788,14 @@ lt_a_un <- function(nMx,
         Sex = Sex,
         region = region,
         mod = mod,
-        # no need to redo extrap in here
+        # we need to redo extrap in here because otherwise extrapFit
+        # might be length < 2 and raise problems with MortalityLaws
+        extrapLaw = extrapLaw,
+        extrapFrom = extrapFrom,
+        extrapFit = extrapFit,
         ...
       )
+
       qxnew <-
         lt_id_ma_q(
           nMx = mxi,
