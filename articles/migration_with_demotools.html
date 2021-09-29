@@ -114,7 +114,7 @@
       <h1 data-toc-skip>Migration models with DemoTools</h1>
                         <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
-            <h4 class="date">2021-09-28</h4>
+            <h4 class="date">2021-09-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/migration_with_demotools.Rmd"><code>vignettes/migration_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>migration_with_demotools.Rmd</code></div>
@@ -236,7 +236,8 @@ m(x)= a_1 \exp{[ \alpha_1 x ]} + a_2 \exp{[ -\alpha_2 (x - \mu_2) - \exp{ [ -\la
 <p><img src="migration_with_demotools_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>Let’s fit a Rogers-Castro migration age schedule to these data. Below, we choose to estimate parameters associated with the pre-working age, working and retirement components (but not post retirement).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rc_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mig_estimate_rc.html">mig_estimate_rc</a></span><span class="op">(</span>
+<code class="sourceCode R">
+<span class="va">rc_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mig_estimate_rc.html">mig_estimate_rc</a></span><span class="op">(</span>
   <span class="va">ages</span>, <span class="va">mx_FL_sim</span>,
   pre_working_age <span class="op">=</span> <span class="cn">TRUE</span>,
   working_age <span class="op">=</span> <span class="cn">TRUE</span>,
