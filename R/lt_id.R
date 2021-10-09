@@ -118,15 +118,16 @@ lt_id_l_d <- function(lx) {
 #' @title Derive lifetable death probabilities from survivorship.
 #' @description This lifetable identity is the same no matter what kind of lifetable is required.
 #'  You can find it in any demography textbook.
-#' @details The vector returned is the same length as \code{lx} and it sums to the lifetable radix.
-#' If the radix is one then this is the discrete deaths distribution.
+#' @details The vector returned is the same length as \code{lx}.
 #'
 #' @param lx numeric.  Vector of age-specific lifetable survivorship.
 #' @references
 #' \insertRef{preston2000demography}{DemoTools}
-#' @return ndx vector of lifetable deaths.
+#' @return `qx` values of age-specific mortality rates.  The last value is always 1.0
 #' @export
 lt_id_l_q <- function(lx) {
+  # TR note if there are trailing 0s in lx then
+  # this can be NaN
   dx <- lt_id_l_d(lx)
   dx / lx
 }
@@ -283,6 +284,8 @@ lt_id_ma_q <- function(nMx, nax, AgeInt, closeout = TRUE, IMR) {
 lt_id_Ll_S      <- function(nLx, lx = NULL, Age, AgeInt = NULL, N = 5) {
   # number ages
   n               <- length(nLx)
+  # same length of vectors
+  stopifnot(length(nLx) == length(Age))
   # either we're in 1 or 5 year age groups
   stopifnot(length(N) == 1 & N %in% c(5, 1))
   # infer radix in case lx is not given
@@ -290,8 +293,10 @@ lt_id_Ll_S      <- function(nLx, lx = NULL, Age, AgeInt = NULL, N = 5) {
   if(is.null(lx)){
     radix <- ifelse(nLx[1]>1, 10^nchar(trunc(nLx[1])), 1)  
   }
-  # validate nLx
-  stopifnot(all(nLx>0, nLx[-n] < (radix*N)))
+  # validate nLx. Some zero in ages>100 could happen. YP should be non-zero in ages<80, even in historical pops (?)
+  # IW: relax this condition on YP of non-negative YP because of huge heterogeneity on input lt
+  stopifnot(all(nLx>=0, # nLx[Age<60]>0, 
+                nLx[-n] < (radix*N)))
   
   ## compute Sx (missing from the LTbr computation)
   # first age group is survival from births to the second age group

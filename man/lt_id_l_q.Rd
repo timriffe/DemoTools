@@ -10,15 +10,14 @@ lt_id_l_q(lx)
 \item{lx}{numeric.  Vector of age-specific lifetable survivorship.}
 }
 \value{
-ndx vector of lifetable deaths.
+\code{qx} values of age-specific mortality rates.  The last value is always 1.0
 }
 \description{
 This lifetable identity is the same no matter what kind of lifetable is required.
 You can find it in any demography textbook.
 }
 \details{
-The vector returned is the same length as \code{lx} and it sums to the lifetable radix.
-If the radix is one then this is the discrete deaths distribution.
+The vector returned is the same length as \code{lx}.
 }
 \references{
 \insertRef{preston2000demography}{DemoTools}

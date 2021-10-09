@@ -694,7 +694,8 @@ interp_coh_lxMat_pxt <- function(lxMat,
       popmat = logit_qx,
       datesIn = dates_lx,
       datesOut = dates_out,
-      rule = 2)
+      rule = 2,
+      negatives = TRUE)
   # transform back
   QX            <- exp(logit_qx_interp) / (1 + exp(logit_qx_interp))
   QX[nrow(QX), ]  <- 1
@@ -772,10 +773,10 @@ transform_pxt <- function(lxMat,
       )
     }
     
-    ic_period <- date2 - date1
-    lx_mm <- range(dates_lx)
-    overlap <- min(c(lx_mm[2], date2)) - c(max(lx_mm[1], date1))
-    extrap_low <- lx_mm[1] - min(lx_mm[1],date1)
+    ic_period   <- date2 - date1
+    lx_mm       <- range(dates_lx)
+    overlap     <- min(c(lx_mm[2], date2)) - c(max(lx_mm[1], date1))
+    extrap_low  <- lx_mm[1] - min(lx_mm[1],date1)
     extrap_high <- max(lx_mm[2],date2) - lx_mm[2]
     t1 <- overlap / ic_period < .25
     t2 <- extrap_low > 6

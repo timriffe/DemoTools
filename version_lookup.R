@@ -1,4 +1,4 @@
-
+# remotes::install_github("lorenzwalthert/gitsum")
 if (system("whoami",intern=TRUE) == "tim"){
   library(gitsum)
   library(tidyverse)

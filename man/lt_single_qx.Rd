@@ -66,7 +66,7 @@ Lifetable in data.frame with columns
 \item{lx}{numeric. Lifetable survivorship}
 \item{ndx}{numeric. Lifetable deaths distribution.}
 \item{nLx}{numeric. Lifetable exposure.}
-\item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
+\item{Sx}{numeric. Survivor ratios in uniform single-year age groups.}
 \item{Tx}{numeric. Lifetable total years left to live above age x.}
 \item{ex}{numeric. Age-specific remaining life expectancy.}
 }

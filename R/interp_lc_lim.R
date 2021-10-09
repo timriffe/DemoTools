@@ -287,13 +287,22 @@ interp_lc_lim <- function(input = NULL,
                         e0_Males), 
                   dates_e0,
                   dates_out,
-                  extrap = TRUE)[1, ]
+                  extrap = TRUE)
     
     e0f <- interp(rbind(e0_Females, 
                         e0_Females),
                   dates_e0,
                   dates_out,
-                  extrap = TRUE)[1, ]
+                  extrap = TRUE)
+    
+    # IW: issue with dimension in case the interpolation is for 1 date only
+    if(ndates_out==1){
+      e0m = e0m[1]
+      e0f = e0f[1]
+    }else{
+      e0m = e0m[1,]
+      e0f = e0f[1,]
+    }
     
     # avoid divergence: same bx but not kt.
     if (prev_divergence){
@@ -304,7 +313,7 @@ interp_lc_lim <- function(input = NULL,
     ktm_star = ktf_star = c()
     for (j in 1:ndates_out){
       ktm_star[j] <- optimize(f = interp_lc_lim_kt_min,
-                              interval = c(-100, 100),
+                              interval = c(-50, 50),
                               ax = axm,
                               bx = bxm,
                               age = Age,
@@ -312,7 +321,7 @@ interp_lc_lim <- function(input = NULL,
                               e0_target = e0m[j],
                               ...)$minimum
       ktf_star[j] <- optimize(f = interp_lc_lim_kt_min, # TR: add ...
-                              interval = c(-100, 100),
+                              interval = c(-50, 50),
                               ax = axf,
                               bx = bxf,
                               age = Age,
