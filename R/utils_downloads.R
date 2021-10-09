@@ -58,7 +58,7 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
     } 
     if (!any(fertestr::is_LocID(location))) {
       location_code <- fertestr::get_location_code(location)
-    }else {
+    } else {
       location_code <- as.integer(location)
     }
       
@@ -262,7 +262,7 @@ downloadSRB <- function(SRB, location, DatesOut, verbose = TRUE){
 fetch_wpp_births <- function(births, yrs_births, location, sex, verbose) {
   
   # fetch WPP births if not provided by user
-  if (is.null(births)) {
+  if (is.null(births) | length(births) == 0) {
     
     # load WPP births
     requireNamespace("DemoToolsData", quietly = TRUE)

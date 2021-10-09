@@ -1,7 +1,7 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.13.72
+Version: 01.13.73
 Date: 2021-10-09
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
@@ -38,9 +38,9 @@ RdMacros: Rdpack
 Imports:
     data.table (>= 1.13.6),
     demogR,
-    DemoToolsData (>= 0.1.4),
+    DemoToolsData (>= 0.1.5),
     dplyr,
-    fertestr (>= 0.0.5),
+    fertestr (>= 0.10.00),
     lubridate,
     magrittr,
     MortalityLaws (>= 1.7.0),
@@ -52,7 +52,7 @@ Imports:
     ungroup (>= 1.4.2)
 BugReports: https://github.com/timriffe/DemoTools/issues
 Remotes: 
-    github::josehcms/fertestr,
+    github::timriffe/fertestr,
     github::timriffe/DemoToolsData
 Encoding: UTF-8
 VignetteBuilder: knitr
