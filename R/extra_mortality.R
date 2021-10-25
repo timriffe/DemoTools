@@ -171,6 +171,19 @@ lt_rule_m_extrapolate <- function(mx,
     opt.method = opt.method,
     ...
   )
+  
+  if (any(is.nan(M$fitted.model$goodness.of.fit))){
+    warning("Extrapolation failed to converge\nFalling back to Gompertz with starting parameters:\n parS = nc(A = 0.005, B = 0.13))")
+    parS <- c(A = 0.005, B = 0.13)
+    law  <- "gompertz"
+    M  <- lt_rule_m_extrapolate(
+      x = x,
+      mx = mx,
+      fit.this.x = x_fit,
+      law = law,
+      parS = parS,
+      ...)
+  }
 
   pv <- predict(object = M,
                 x = x_extr)

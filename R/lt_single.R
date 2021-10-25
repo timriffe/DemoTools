@@ -83,7 +83,7 @@ lt_single_mx <- function(nMx,
                 x_extr = x_extr,
                 law = extrapLaw,
                 ...)
-  
+
     nMxext        <- Mxnew$values
     Age2          <- names2age(nMxext)
   
