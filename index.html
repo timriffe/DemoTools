@@ -131,12 +131,11 @@
 <p>If you are getting started with <code>DemoTools</code> we recommend taking a look at the tutorial articles and the examples in the package documentation.</p>
 <p>You can load the <code>DemoTools</code> package in R like so:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
 
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">devtools</span><span class="op">)</span>
 <span class="co"># requires the development version of rstan, sorry!</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rstan"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"https://mc-stan.org/r-packages/"</span>, <span class="fu"><a href="https://rdrr.io/r/base/options.html">getOption</a></span><span class="op">(</span><span class="st">"repos"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">install_github</span><span class="op">(</span><span class="st">"timriffe/DemoTools"</span><span class="op">)</span></code></pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"timriffe/DemoTools"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="-citation" class="section level2">
 <h2 class="hasAnchor">
