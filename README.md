@@ -29,12 +29,11 @@ If you are getting started with `DemoTools` we recommend taking a look at the tu
 
 You can load the ```DemoTools``` package in R like so:
 ```r
-# install.packages("devtools")
+# install.packages("remotes")
 
-library(devtools)
 # requires the development version of rstan, sorry!
 install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
-install_github("timriffe/DemoTools")
+remotes::install_github("timriffe/DemoTools")
 ```
 
 ## <i class="fa fa-pencil" aria-hidden="true"></i> Citation
