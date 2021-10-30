@@ -184,15 +184,19 @@ makes sense sometimes when age intervals are not explicitly given.</p>
 Therefore make sure that the age vector given refers to a single year of a single population.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
-<span class='va'>Age2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>10</span>,<span class='fl'>0</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
-<span class='va'>Age3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>80</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>
-<span class='va'>Age4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>10</span>,by<span class='op'>=</span><span class='fl'>.5</span><span class='op'>)</span>
-<span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>  <span class='co'># TRUE</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age2</span><span class='op'>)</span> <span class='co'># FALSE repeated, can't tell.</span>
-</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age3</span><span class='op'>)</span> <span class='co'># FALSE not single ages</span>
-</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age4</span><span class='op'>)</span> <span class='co'># FALSE not single ages</span>
-</div><div class='output co'>#&gt; [1] FALSE</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span></span>
+<span class='r-in'><span class='va'>Age2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>10</span>,<span class='fl'>0</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>80</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>10</span>,by<span class='op'>=</span><span class='fl'>.5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>  <span class='co'># TRUE</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+<span class='r-in'><span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age2</span><span class='op'>)</span> <span class='co'># FALSE repeated, can't tell.</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
+<span class='r-in'><span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age3</span><span class='op'>)</span> <span class='co'># FALSE not single ages</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
+<span class='r-in'><span class='fu'>is_single</span><span class='op'>(</span><span class='va'>Age4</span><span class='op'>)</span> <span class='co'># FALSE not single ages</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

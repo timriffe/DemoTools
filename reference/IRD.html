@@ -190,15 +190,19 @@
 <p>If <code>log = TRUE</code> then we return a simple mean of the absolute of the log of the element-wise ratios between <code>pop1</code> and <code>pop2</code>. In this case it doesn't matter which vector is which. This result is also on a percent scale, and the max is greater than 100.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>pop1</span>                     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>7.38</span>,<span class='fl'>14.16</span>,<span class='fl'>14.79</span>,<span class='fl'>17.36</span>,<span class='fl'>15.11</span>,<span class='fl'>10.14</span>,<span class='fl'>8.50</span>,<span class='fl'>7.28</span>,<span class='fl'>5.28</span><span class='op'>)</span>
-<span class='va'>pop2</span>                     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6.48</span>,<span class='fl'>12.27</span>,<span class='fl'>15.25</span>,<span class='fl'>15.10</span>,<span class='fl'>14.66</span>,<span class='fl'>10.80</span>,<span class='fl'>8.95</span>,<span class='fl'>9.28</span>,<span class='fl'>7.21</span><span class='op'>)</span>
-<span class='fu'>IRD</span><span class='op'>(</span><span class='va'>pop1</span>, <span class='va'>pop2</span><span class='op'>)</span>     <span class='co'># 6.7 reproduces table 7.20 of Siegel &amp; Swanson (2004)</span>
-</div><div class='output co'>#&gt; [1] 6.693219</div><div class='input'><span class='fu'>IRD</span><span class='op'>(</span><span class='va'>pop1</span>,<span class='va'>pop1</span><span class='op'>)</span>      <span class='co'># identical pops  = 0</span>
-</div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='fu'>IRD</span><span class='op'>(</span><span class='va'>pop1</span>, <span class='va'>pop1</span> <span class='op'>*</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'># only structure matters</span>
-</div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='va'>pop3</span>                     <span class='op'>&lt;-</span> <span class='va'>pop1</span>
-<span class='va'>pop3</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span>                <span class='op'>&lt;-</span> <span class='fl'>0</span>
-<span class='fu'>IRD</span><span class='op'>(</span><span class='va'>pop1</span>, <span class='va'>pop3</span><span class='op'>)</span>     <span class='co'># theoretical max &gt; 100</span>
-</div><div class='output co'>#&gt; [1] 116.242</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>pop1</span>                     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>7.38</span>,<span class='fl'>14.16</span>,<span class='fl'>14.79</span>,<span class='fl'>17.36</span>,<span class='fl'>15.11</span>,<span class='fl'>10.14</span>,<span class='fl'>8.50</span>,<span class='fl'>7.28</span>,<span class='fl'>5.28</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>pop2</span>                     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6.48</span>,<span class='fl'>12.27</span>,<span class='fl'>15.25</span>,<span class='fl'>15.10</span>,<span class='fl'>14.66</span>,<span class='fl'>10.80</span>,<span class='fl'>8.95</span>,<span class='fl'>9.28</span>,<span class='fl'>7.21</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>IRD</span><span class='op'>(</span><span class='va'>pop1</span>, <span class='va'>pop2</span><span class='op'>)</span>     <span class='co'># 6.7 reproduces table 7.20 of Siegel &amp; Swanson (2004)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 6.693219</span>
+<span class='r-in'><span class='fu'>IRD</span><span class='op'>(</span><span class='va'>pop1</span>,<span class='va'>pop1</span><span class='op'>)</span>      <span class='co'># identical pops  = 0</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0</span>
+<span class='r-in'><span class='fu'>IRD</span><span class='op'>(</span><span class='va'>pop1</span>, <span class='va'>pop1</span> <span class='op'>*</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'># only structure matters</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0</span>
+<span class='r-in'><span class='va'>pop3</span>                     <span class='op'>&lt;-</span> <span class='va'>pop1</span></span>
+<span class='r-in'><span class='va'>pop3</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span>                <span class='op'>&lt;-</span> <span class='fl'>0</span></span>
+<span class='r-in'><span class='fu'>IRD</span><span class='op'>(</span><span class='va'>pop1</span>, <span class='va'>pop3</span><span class='op'>)</span>     <span class='co'># theoretical max &gt; 100</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 116.242</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

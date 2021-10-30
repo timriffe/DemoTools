@@ -202,44 +202,46 @@ redistribution in <code><a href='OPAG.html'>OPAG()</a></code></p></li>
     <p>The argument <code>method</code> don't have much leverage on the result. In short, the stable population transformation is done by ungrouping <code>nLx</code> to single ages (if it isn't already), and <code>method</code> controls which graduation method is used for this, where <code>"uniform"</code>, <code>"mono"</code>, <code>"pclm"</code> are the reasonable choices at this writing.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>Pop_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>85000</span>,<span class='fl'>37000</span><span class='op'>)</span>
-<span class='va'>Age_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>70</span>,<span class='fl'>80</span><span class='op'>)</span>
-<span class='va'>nLx</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='downloadnLx.html'>downloadnLx</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>"Spain"</span>,<span class='st'>"female"</span>,<span class='fl'>1971</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Downloading nLx data for Spain, years 1971, gender female</div><div class='input'><span class='va'>Age_nLx</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span>
-<span class='va'>Lx1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate.html'>graduate</a></span><span class='op'>(</span><span class='va'>nLx</span>,Age<span class='op'>=</span><span class='va'>Age_nLx</span>,method <span class='op'>=</span> <span class='st'>"mono"</span><span class='op'>)</span>
-<span class='va'>Age_Lx1</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>
-<span class='co'># India Males, 1971</span>
-<span class='va'>Pop</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='smooth_age_5.html'>smooth_age_5</a></span><span class='op'>(</span><span class='va'>pop1m_ind</span>,
-                           Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>,
-                           method <span class='op'>=</span> <span class='st'>"Arriaga"</span><span class='op'>)</span>
-<span class='va'>Pop80</span>      <span class='op'>&lt;-</span> <span class='fu'><a href='groupOAG.html'>groupOAG</a></span><span class='op'>(</span><span class='va'>Pop</span>, <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>Pop</span><span class='op'>)</span>, <span class='fl'>80</span><span class='op'>)</span>
-<span class='va'>Age</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>Pop80</span><span class='op'>)</span>
-
-<span class='va'>nLx</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='downloadnLx.html'>downloadnLx</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>"India"</span>,<span class='st'>"male"</span>,<span class='fl'>1971</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Downloading nLx data for India, years 1971, gender male</div><div class='input'><span class='va'>Age_nLx</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span>
-
-
-<span class='va'>Pop_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='groupAges.html'>groupAges</a></span><span class='op'>(</span><span class='va'>Pop80</span>, <span class='va'>Age</span>, N <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"60"</span>,<span class='st'>"70"</span><span class='op'>)</span><span class='op'>]</span>
-<span class='va'>Age_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>,<span class='fl'>70</span><span class='op'>)</span>
-<span class='va'>AgeInt_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>,<span class='fl'>10</span><span class='op'>)</span>
-
-<span class='va'>Standard</span> <span class='op'>&lt;-</span> <span class='fu'>OPAG_fit_stable_standard</span><span class='op'>(</span>
-  Pop_fit <span class='op'>=</span> <span class='va'>Pop_fit</span>,
-  Age_fit <span class='op'>=</span> <span class='va'>Age_fit</span>,
-  AgeInt_fit <span class='op'>=</span> <span class='va'>AgeInt_fit</span>,
-  Lx1<span class='op'>=</span><span class='va'>Lx1</span>,
-  Age_Lx1 <span class='op'>=</span> <span class='va'>Age_Lx1</span>
-<span class='op'>)</span>
-
-<span class='co'># A visual comparison:</span>
-<span class='va'>nL60</span> <span class='op'>&lt;-</span> <span class='fu'><a href='rescale_vector.html'>rescale_vector</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>[</span><span class='va'>Age_nLx</span> <span class='op'>&gt;=</span> <span class='fl'>60</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>St60p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='rescale_vector.html'>rescale_vector</a></span><span class='op'>(</span> <span class='va'>Standard</span><span class='op'>$</span><span class='va'>Standard</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span> <span class='op'>&gt;=</span> <span class='fl'>60</span><span class='op'>]</span> <span class='op'>)</span>
-<span class='va'>ages_plot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>60</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>ages_plot</span>,<span class='va'>nL60</span>, type <span class='op'>=</span> <span class='st'>'l'</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>60</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>St60p</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>Pop_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>85000</span>,<span class='fl'>37000</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>70</span>,<span class='fl'>80</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>nLx</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='downloadnLx.html'>downloadnLx</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>"Spain"</span>,<span class='st'>"female"</span>,<span class='fl'>1971</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for Spain, years 1971, gender female</span>
+<span class='r-in'><span class='va'>Age_nLx</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Lx1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate.html'>graduate</a></span><span class='op'>(</span><span class='va'>nLx</span>,Age<span class='op'>=</span><span class='va'>Age_nLx</span>,method <span class='op'>=</span> <span class='st'>"mono"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age_Lx1</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span></span>
+<span class='r-in'><span class='co'># India Males, 1971</span></span>
+<span class='r-in'><span class='va'>Pop</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='smooth_age_5.html'>smooth_age_5</a></span><span class='op'>(</span><span class='va'>pop1m_ind</span>,</span>
+<span class='r-in'>                           Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>,</span>
+<span class='r-in'>                           method <span class='op'>=</span> <span class='st'>"Arriaga"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Pop80</span>      <span class='op'>&lt;-</span> <span class='fu'><a href='groupOAG.html'>groupOAG</a></span><span class='op'>(</span><span class='va'>Pop</span>, <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>Pop</span><span class='op'>)</span>, <span class='fl'>80</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>Pop80</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>nLx</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='downloadnLx.html'>downloadnLx</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>"India"</span>,<span class='st'>"male"</span>,<span class='fl'>1971</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for India, years 1971, gender male</span>
+<span class='r-in'><span class='va'>Age_nLx</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>Pop_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='groupAges.html'>groupAges</a></span><span class='op'>(</span><span class='va'>Pop80</span>, <span class='va'>Age</span>, N <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"60"</span>,<span class='st'>"70"</span><span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-in'><span class='va'>Age_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>,<span class='fl'>70</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>AgeInt_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>,<span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>Standard</span> <span class='op'>&lt;-</span> <span class='fu'>OPAG_fit_stable_standard</span><span class='op'>(</span></span>
+<span class='r-in'>  Pop_fit <span class='op'>=</span> <span class='va'>Pop_fit</span>,</span>
+<span class='r-in'>  Age_fit <span class='op'>=</span> <span class='va'>Age_fit</span>,</span>
+<span class='r-in'>  AgeInt_fit <span class='op'>=</span> <span class='va'>AgeInt_fit</span>,</span>
+<span class='r-in'>  Lx1<span class='op'>=</span><span class='va'>Lx1</span>,</span>
+<span class='r-in'>  Age_Lx1 <span class='op'>=</span> <span class='va'>Age_Lx1</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># A visual comparison:</span></span>
+<span class='r-in'><span class='va'>nL60</span> <span class='op'>&lt;-</span> <span class='fu'><a href='rescale_vector.html'>rescale_vector</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>[</span><span class='va'>Age_nLx</span> <span class='op'>&gt;=</span> <span class='fl'>60</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>St60p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='rescale_vector.html'>rescale_vector</a></span><span class='op'>(</span> <span class='va'>Standard</span><span class='op'>$</span><span class='va'>Standard</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span> <span class='op'>&gt;=</span> <span class='fl'>60</span><span class='op'>]</span> <span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ages_plot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>60</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>ages_plot</span>,<span class='va'>nL60</span>, type <span class='op'>=</span> <span class='st'>'l'</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>60</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>St60p</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

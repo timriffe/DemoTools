@@ -189,19 +189,21 @@
     <div class='dont-index'><p>graduate_mono_closeout, lt_abridged</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>V1</span>        <span class='op'>&lt;-</span> <span class='va'>pop1m_ind</span>
-<span class='va'>Age</span>       <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>100</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>AgeInt</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>19</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>)</span>
-<span class='va'>Value</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span><span class='op'>(</span><span class='va'>V1</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='va'>Age</span>,times<span class='op'>=</span><span class='va'>AgeInt</span><span class='op'>)</span>, <span class='va'>sum</span><span class='op'>)</span>
-
-<span class='fu'><a href='is_abridged.html'>is_abridged</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>age_abridge_force</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>AgeInt</span>, <span class='va'>Age</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        0        1        5       10       15       20       25       30 
-#&gt;  9350830 43009822 57419164 51947630 42231074 37514223 34546587 29917765 
-#&gt;       35       40       45       50       55       60       65       70 
-#&gt; 27558300 22842245 18954561 16904890 10941747 11907237  6493630  5535950 
-#&gt;       75       80       85       90       95      100 
-#&gt;  2102284  2094961   601000   421930   134360    72373 </div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>V1</span>        <span class='op'>&lt;-</span> <span class='va'>pop1m_ind</span></span>
+<span class='r-in'><span class='va'>Age</span>       <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>3</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>100</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>AgeInt</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>19</span><span class='op'>)</span>,<span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Value</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tapply.html'>tapply</a></span><span class='op'>(</span><span class='va'>V1</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='va'>Age</span>,times<span class='op'>=</span><span class='va'>AgeInt</span><span class='op'>)</span>, <span class='va'>sum</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='is_abridged.html'>is_abridged</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
+<span class='r-in'><span class='fu'>age_abridge_force</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>AgeInt</span>, <span class='va'>Age</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        0        1        5       10       15       20       25       30 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  9350830 43009822 57419164 51947630 42231074 37514223 34546587 29917765 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       35       40       45       50       55       60       65       70 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27558300 22842245 18954561 16904890 10941747 11907237  6493630  5535950 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       75       80       85       90       95      100 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  2102284  2094961   601000   421930   134360    72373 </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

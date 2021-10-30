@@ -177,7 +177,7 @@
     </tr>
     <tr>
       <th>AgeInt</th>
-      <td><p>integer. Vector of age class widths. Default <code><a href='inferAgeIntAbr.html'>inferAgeIntAbr(Age = Age)</a></code>.</p></td>
+      <td><p>integer. Vector of age class widths. Default <code>inferAgeIntAbr(Age = Age)</code>.</p></td>
     </tr>
     <tr>
       <th>closeout</th>
@@ -194,21 +194,26 @@
     <p>nMx equal to 2 will imply nqx of 1 by this formula. Implied nqx greater than 1 after this procedure are returned as 1. This is not vectorized!</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># implies a qx &gt; 1</span>
-<span class='va'>mx</span>     <span class='op'>&lt;-</span> <span class='fl'>.65</span>
-<span class='va'>AgeInt</span> <span class='op'>&lt;-</span> <span class='fl'>5</span>
-<span class='va'>ax</span>     <span class='op'>&lt;-</span> <span class='fl'>2.5</span>
-<span class='co'># this is a problematic case</span>
- <span class='op'>(</span><span class='va'>AgeInt</span> <span class='op'>*</span> <span class='va'>mx</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>AgeInt</span> <span class='op'>-</span> <span class='va'>ax</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>mx</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1.238095</div><div class='input'><span class='co'># here a workable value</span>
-<span class='op'>(</span><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='va'>mx</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.9612258</div><div class='input'><span class='co'>#' # still less than 1</span>
-<span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='fl'>1.99</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>1</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'># unity</span>
-<span class='op'>(</span><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='fl'>2</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.9999546</div><div class='input'><span class='co'># qx imputed as 1</span>
-<span class='op'>(</span><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='fl'>2.1</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.9999725</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># implies a qx &gt; 1</span></span>
+<span class='r-in'><span class='va'>mx</span>     <span class='op'>&lt;-</span> <span class='fl'>.65</span></span>
+<span class='r-in'><span class='va'>AgeInt</span> <span class='op'>&lt;-</span> <span class='fl'>5</span></span>
+<span class='r-in'><span class='va'>ax</span>     <span class='op'>&lt;-</span> <span class='fl'>2.5</span></span>
+<span class='r-in'><span class='co'># this is a problematic case</span></span>
+<span class='r-in'> <span class='op'>(</span><span class='va'>AgeInt</span> <span class='op'>*</span> <span class='va'>mx</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='fl'>1</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>AgeInt</span> <span class='op'>-</span> <span class='va'>ax</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>mx</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1.238095</span>
+<span class='r-in'><span class='co'># here a workable value</span></span>
+<span class='r-in'><span class='op'>(</span><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='va'>mx</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.9612258</span>
+<span class='r-in'><span class='co'>#' # still less than 1</span></span>
+<span class='r-in'><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='fl'>1.99</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+<span class='r-in'><span class='co'># unity</span></span>
+<span class='r-in'><span class='op'>(</span><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='fl'>2</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.9999546</span>
+<span class='r-in'><span class='co'># qx imputed as 1</span></span>
+<span class='r-in'><span class='op'>(</span><span class='fu'>lt_id_ma_q</span><span class='op'>(</span><span class='fl'>2.1</span>, <span class='va'>ax</span>, <span class='va'>AgeInt</span>, closeout <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.9999725</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

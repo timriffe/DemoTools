@@ -199,12 +199,14 @@ Siegel Jacob S, Swanson David A (eds.) (2004).
 Elsevier Academic Press, California, USA, San Diego, USA.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>a5</span>           <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>coefsOA</span>      <span class='op'>&lt;-</span> <span class='fu'>graduate_sprague_expand</span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>coefsclosed</span>  <span class='op'>&lt;-</span> <span class='fu'>graduate_sprague_expand</span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>coefsOA</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 101  21</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>coefsclosed</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 105  21</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>a5</span>           <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>coefsOA</span>      <span class='op'>&lt;-</span> <span class='fu'>graduate_sprague_expand</span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>coefsclosed</span>  <span class='op'>&lt;-</span> <span class='fu'>graduate_sprague_expand</span><span class='op'>(</span><span class='va'>pop5_mat</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>, Age <span class='op'>=</span> <span class='va'>a5</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>coefsOA</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 101  21</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>coefsclosed</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 105  21</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

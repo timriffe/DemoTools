@@ -178,181 +178,182 @@
     <p>A numeric vector with five-year age groups abridged</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>pop_male_counts</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
-    `0` <span class='op'>=</span> <span class='fl'>11684</span>,
-    `1` <span class='op'>=</span> <span class='fl'>11473</span>,
-    `2` <span class='op'>=</span> <span class='fl'>11647</span>,
-    `3` <span class='op'>=</span> <span class='fl'>11939</span>,
-    `4` <span class='op'>=</span> <span class='fl'>11680</span>,
-    `5` <span class='op'>=</span> <span class='fl'>10600</span>,
-    `6` <span class='op'>=</span> <span class='fl'>11100</span>,
-    `7` <span class='op'>=</span> <span class='fl'>11157</span>,
-    `8` <span class='op'>=</span> <span class='fl'>11238</span>,
-    `9` <span class='op'>=</span> <span class='fl'>11544</span>,
-    `10` <span class='op'>=</span> <span class='fl'>7216</span>,
-    `11` <span class='op'>=</span> <span class='fl'>7407</span>,
-    `12` <span class='op'>=</span> <span class='fl'>7461</span>,
-    `13` <span class='op'>=</span> <span class='fl'>7656</span>,
-    `14` <span class='op'>=</span> <span class='fl'>7774</span>,
-    `15` <span class='op'>=</span> <span class='fl'>5709</span>,
-    `16` <span class='op'>=</span> <span class='fl'>5629</span>,
-    `17` <span class='op'>=</span> <span class='fl'>5745</span>,
-    `18` <span class='op'>=</span> <span class='fl'>6056</span>,
-    `19` <span class='op'>=</span> <span class='fl'>6259</span>,
-    `20` <span class='op'>=</span> <span class='fl'>5303</span>,
-    `21` <span class='op'>=</span> <span class='fl'>5423</span>,
-    `22` <span class='op'>=</span> <span class='fl'>5497</span>,
-    `23` <span class='op'>=</span> <span class='fl'>5547</span>,
-    `24` <span class='op'>=</span> <span class='fl'>5417</span>,
-    `25` <span class='op'>=</span> <span class='fl'>5441</span>,
-    `26` <span class='op'>=</span> <span class='fl'>5466</span>,
-    `27` <span class='op'>=</span> <span class='fl'>5500</span>,
-    `28` <span class='op'>=</span> <span class='fl'>5668</span>,
-    `29` <span class='op'>=</span> <span class='fl'>5694</span>,
-    `30` <span class='op'>=</span> <span class='fl'>4365</span>,
-    `31` <span class='op'>=</span> <span class='fl'>4252</span>,
-    `32` <span class='op'>=</span> <span class='fl'>4122</span>,
-    `33` <span class='op'>=</span> <span class='fl'>4142</span>,
-    `34` <span class='op'>=</span> <span class='fl'>4039</span>,
-    `35` <span class='op'>=</span> <span class='fl'>3210</span>,
-    `36` <span class='op'>=</span> <span class='fl'>3222</span>,
-    `37` <span class='op'>=</span> <span class='fl'>3258</span>,
-    `38` <span class='op'>=</span> <span class='fl'>3413</span>,
-    `39` <span class='op'>=</span> <span class='fl'>3871</span>,
-    `40` <span class='op'>=</span> <span class='fl'>2684</span>,
-    `41` <span class='op'>=</span> <span class='fl'>2844</span>,
-    `42` <span class='op'>=</span> <span class='fl'>3052</span>,
-    `43` <span class='op'>=</span> <span class='fl'>3182</span>,
-    `44` <span class='op'>=</span> <span class='fl'>3237</span>,
-    `45` <span class='op'>=</span> <span class='fl'>2263</span>,
-    `46` <span class='op'>=</span> <span class='fl'>2298</span>,
-    `47` <span class='op'>=</span> <span class='fl'>2318</span>,
-    `48` <span class='op'>=</span> <span class='fl'>2257</span>,
-    `49` <span class='op'>=</span> <span class='fl'>2194</span>,
-    `50` <span class='op'>=</span> <span class='fl'>2231</span>,
-    `51` <span class='op'>=</span> <span class='fl'>2172</span>,
-    `52` <span class='op'>=</span> <span class='fl'>2072</span>,
-    `53` <span class='op'>=</span> <span class='fl'>2008</span>,
-    `54` <span class='op'>=</span> <span class='fl'>1932</span>,
-    `55` <span class='op'>=</span> <span class='fl'>1301</span>,
-    `56` <span class='op'>=</span> <span class='fl'>1262</span>,
-    `57` <span class='op'>=</span> <span class='fl'>1213</span>,
-    `58` <span class='op'>=</span> <span class='fl'>1197</span>,
-    `59` <span class='op'>=</span> <span class='fl'>1191</span>,
-    `60` <span class='op'>=</span> <span class='fl'>1601</span>,
-    `61` <span class='op'>=</span> <span class='fl'>1593</span>,
-    `62` <span class='op'>=</span> <span class='fl'>1490</span>,
-    `63` <span class='op'>=</span> <span class='fl'>1348</span>,
-    `64` <span class='op'>=</span> <span class='fl'>1299</span>,
-    `65` <span class='op'>=</span> <span class='fl'>568</span>,
-    `66` <span class='op'>=</span> <span class='fl'>745</span>,
-    `67` <span class='op'>=</span> <span class='fl'>843</span>,
-    `68` <span class='op'>=</span> <span class='fl'>801</span>,
-    `69` <span class='op'>=</span> <span class='fl'>925</span>,
-    `70` <span class='op'>=</span> <span class='fl'>806</span>,
-    `71` <span class='op'>=</span> <span class='fl'>883</span>,
-    `72` <span class='op'>=</span> <span class='fl'>796</span>,
-    `73` <span class='op'>=</span> <span class='fl'>725</span>,
-    `74` <span class='op'>=</span> <span class='fl'>672</span>,
-    `75` <span class='op'>=</span> <span class='fl'>470</span>,
-    `76` <span class='op'>=</span> <span class='fl'>441</span>,
-    `77` <span class='op'>=</span> <span class='fl'>340</span>,
-    `78` <span class='op'>=</span> <span class='fl'>300</span>,
-    `79` <span class='op'>=</span> <span class='fl'>289</span>,
-    `80` <span class='op'>=</span> <span class='fl'>4200</span>
-  <span class='op'>)</span>
-<span class='va'>pop_female_counts</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
-    `0` <span class='op'>=</span> <span class='fl'>11673</span>,
-    `1` <span class='op'>=</span> <span class='fl'>11474</span>,
-    `2` <span class='op'>=</span> <span class='fl'>11670</span>,
-    `3` <span class='op'>=</span> <span class='fl'>11934</span>,
-    `4` <span class='op'>=</span> <span class='fl'>11614</span>,
-    `5` <span class='op'>=</span> <span class='fl'>10603</span>,
-    `6` <span class='op'>=</span> <span class='fl'>11144</span>,
-    `7` <span class='op'>=</span> <span class='fl'>11179</span>,
-    `8` <span class='op'>=</span> <span class='fl'>11269</span>,
-    `9` <span class='op'>=</span> <span class='fl'>11617</span>,
-    `10` <span class='op'>=</span> <span class='fl'>6772</span>,
-    `11` <span class='op'>=</span> <span class='fl'>6948</span>,
-    `12` <span class='op'>=</span> <span class='fl'>7030</span>,
-    `13` <span class='op'>=</span> <span class='fl'>7211</span>,
-    `14` <span class='op'>=</span> <span class='fl'>7306</span>,
-    `15` <span class='op'>=</span> <span class='fl'>6531</span>,
-    `16` <span class='op'>=</span> <span class='fl'>6443</span>,
-    `17` <span class='op'>=</span> <span class='fl'>6535</span>,
-    `18` <span class='op'>=</span> <span class='fl'>6951</span>,
-    `19` <span class='op'>=</span> <span class='fl'>7213</span>,
-    `20` <span class='op'>=</span> <span class='fl'>6096</span>,
-    `21` <span class='op'>=</span> <span class='fl'>6234</span>,
-    `22` <span class='op'>=</span> <span class='fl'>6327</span>,
-    `23` <span class='op'>=</span> <span class='fl'>6410</span>,
-    `24` <span class='op'>=</span> <span class='fl'>6285</span>,
-    `25` <span class='op'>=</span> <span class='fl'>6464</span>,
-    `26` <span class='op'>=</span> <span class='fl'>6492</span>,
-    `27` <span class='op'>=</span> <span class='fl'>6549</span>,
-    `28` <span class='op'>=</span> <span class='fl'>6739</span>,
-    `29` <span class='op'>=</span> <span class='fl'>6795</span>,
-    `30` <span class='op'>=</span> <span class='fl'>5013</span>,
-    `31` <span class='op'>=</span> <span class='fl'>4888</span>,
-    `32` <span class='op'>=</span> <span class='fl'>4735</span>,
-    `33` <span class='op'>=</span> <span class='fl'>4747</span>,
-    `34` <span class='op'>=</span> <span class='fl'>4646</span>,
-    `35` <span class='op'>=</span> <span class='fl'>3040</span>,
-    `36` <span class='op'>=</span> <span class='fl'>3068</span>,
-    `37` <span class='op'>=</span> <span class='fl'>3107</span>,
-    `38` <span class='op'>=</span> <span class='fl'>3246</span>,
-    `39` <span class='op'>=</span> <span class='fl'>3658</span>,
-    `40` <span class='op'>=</span> <span class='fl'>2650</span>,
-    `41` <span class='op'>=</span> <span class='fl'>2788</span>,
-    `42` <span class='op'>=</span> <span class='fl'>2977</span>,
-    `43` <span class='op'>=</span> <span class='fl'>3108</span>,
-    `44` <span class='op'>=</span> <span class='fl'>3156</span>,
-    `45` <span class='op'>=</span> <span class='fl'>1756</span>,
-    `46` <span class='op'>=</span> <span class='fl'>1784</span>,
-    `47` <span class='op'>=</span> <span class='fl'>1802</span>,
-    `48` <span class='op'>=</span> <span class='fl'>1764</span>,
-    `49` <span class='op'>=</span> <span class='fl'>1724</span>,
-    `50` <span class='op'>=</span> <span class='fl'>1982</span>,
-    `51` <span class='op'>=</span> <span class='fl'>1935</span>,
-    `52` <span class='op'>=</span> <span class='fl'>1846</span>,
-    `53` <span class='op'>=</span> <span class='fl'>1795</span>,
-    `54` <span class='op'>=</span> <span class='fl'>1731</span>,
-    `55` <span class='op'>=</span> <span class='fl'>863</span>,
-    `56` <span class='op'>=</span> <span class='fl'>850</span>,
-    `57` <span class='op'>=</span> <span class='fl'>825</span>,
-    `58` <span class='op'>=</span> <span class='fl'>819</span>,
-    `59` <span class='op'>=</span> <span class='fl'>816</span>,
-    `60` <span class='op'>=</span> <span class='fl'>1348</span>,
-    `61` <span class='op'>=</span> <span class='fl'>1342</span>,
-    `62` <span class='op'>=</span> <span class='fl'>1246</span>,
-    `63` <span class='op'>=</span> <span class='fl'>1138</span>,
-    `64` <span class='op'>=</span> <span class='fl'>1101</span>,
-    `65` <span class='op'>=</span> <span class='fl'>391</span>,
-    `66` <span class='op'>=</span> <span class='fl'>520</span>,
-    `67` <span class='op'>=</span> <span class='fl'>585</span>,
-    `68` <span class='op'>=</span> <span class='fl'>560</span>,
-    `69` <span class='op'>=</span> <span class='fl'>659</span>,
-    `70` <span class='op'>=</span> <span class='fl'>670</span>,
-    `71` <span class='op'>=</span> <span class='fl'>750</span>,
-    `72` <span class='op'>=</span> <span class='fl'>686</span>,
-    `73` <span class='op'>=</span> <span class='fl'>634</span>,
-    `74` <span class='op'>=</span> <span class='fl'>604</span>,
-    `75` <span class='op'>=</span> <span class='fl'>353</span>,
-    `76` <span class='op'>=</span> <span class='fl'>340</span>,
-    `77` <span class='op'>=</span> <span class='fl'>270</span>,
-    `78` <span class='op'>=</span> <span class='fl'>246</span>,
-    `79` <span class='op'>=</span> <span class='fl'>247</span>,
-    `80` <span class='op'>=</span> <span class='fl'>4143</span>
-  <span class='op'>)</span>
-
-<span class='fu'>single2abridged</span><span class='op'>(</span><span class='va'>pop_male_counts</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     0     1     5    10    15    20    25    30    35    40    45    50    55 
-#&gt; 11684 46739 55639 37514 29398 27187 27769 20920 16974 14999 11330 10415  6164 
-#&gt;    60    65    70    75    80 
-#&gt;  7331  3882  3882  1840  4200 </div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>pop_male_counts</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span class='r-in'>    `0` <span class='op'>=</span> <span class='fl'>11684</span>,</span>
+<span class='r-in'>    `1` <span class='op'>=</span> <span class='fl'>11473</span>,</span>
+<span class='r-in'>    `2` <span class='op'>=</span> <span class='fl'>11647</span>,</span>
+<span class='r-in'>    `3` <span class='op'>=</span> <span class='fl'>11939</span>,</span>
+<span class='r-in'>    `4` <span class='op'>=</span> <span class='fl'>11680</span>,</span>
+<span class='r-in'>    `5` <span class='op'>=</span> <span class='fl'>10600</span>,</span>
+<span class='r-in'>    `6` <span class='op'>=</span> <span class='fl'>11100</span>,</span>
+<span class='r-in'>    `7` <span class='op'>=</span> <span class='fl'>11157</span>,</span>
+<span class='r-in'>    `8` <span class='op'>=</span> <span class='fl'>11238</span>,</span>
+<span class='r-in'>    `9` <span class='op'>=</span> <span class='fl'>11544</span>,</span>
+<span class='r-in'>    `10` <span class='op'>=</span> <span class='fl'>7216</span>,</span>
+<span class='r-in'>    `11` <span class='op'>=</span> <span class='fl'>7407</span>,</span>
+<span class='r-in'>    `12` <span class='op'>=</span> <span class='fl'>7461</span>,</span>
+<span class='r-in'>    `13` <span class='op'>=</span> <span class='fl'>7656</span>,</span>
+<span class='r-in'>    `14` <span class='op'>=</span> <span class='fl'>7774</span>,</span>
+<span class='r-in'>    `15` <span class='op'>=</span> <span class='fl'>5709</span>,</span>
+<span class='r-in'>    `16` <span class='op'>=</span> <span class='fl'>5629</span>,</span>
+<span class='r-in'>    `17` <span class='op'>=</span> <span class='fl'>5745</span>,</span>
+<span class='r-in'>    `18` <span class='op'>=</span> <span class='fl'>6056</span>,</span>
+<span class='r-in'>    `19` <span class='op'>=</span> <span class='fl'>6259</span>,</span>
+<span class='r-in'>    `20` <span class='op'>=</span> <span class='fl'>5303</span>,</span>
+<span class='r-in'>    `21` <span class='op'>=</span> <span class='fl'>5423</span>,</span>
+<span class='r-in'>    `22` <span class='op'>=</span> <span class='fl'>5497</span>,</span>
+<span class='r-in'>    `23` <span class='op'>=</span> <span class='fl'>5547</span>,</span>
+<span class='r-in'>    `24` <span class='op'>=</span> <span class='fl'>5417</span>,</span>
+<span class='r-in'>    `25` <span class='op'>=</span> <span class='fl'>5441</span>,</span>
+<span class='r-in'>    `26` <span class='op'>=</span> <span class='fl'>5466</span>,</span>
+<span class='r-in'>    `27` <span class='op'>=</span> <span class='fl'>5500</span>,</span>
+<span class='r-in'>    `28` <span class='op'>=</span> <span class='fl'>5668</span>,</span>
+<span class='r-in'>    `29` <span class='op'>=</span> <span class='fl'>5694</span>,</span>
+<span class='r-in'>    `30` <span class='op'>=</span> <span class='fl'>4365</span>,</span>
+<span class='r-in'>    `31` <span class='op'>=</span> <span class='fl'>4252</span>,</span>
+<span class='r-in'>    `32` <span class='op'>=</span> <span class='fl'>4122</span>,</span>
+<span class='r-in'>    `33` <span class='op'>=</span> <span class='fl'>4142</span>,</span>
+<span class='r-in'>    `34` <span class='op'>=</span> <span class='fl'>4039</span>,</span>
+<span class='r-in'>    `35` <span class='op'>=</span> <span class='fl'>3210</span>,</span>
+<span class='r-in'>    `36` <span class='op'>=</span> <span class='fl'>3222</span>,</span>
+<span class='r-in'>    `37` <span class='op'>=</span> <span class='fl'>3258</span>,</span>
+<span class='r-in'>    `38` <span class='op'>=</span> <span class='fl'>3413</span>,</span>
+<span class='r-in'>    `39` <span class='op'>=</span> <span class='fl'>3871</span>,</span>
+<span class='r-in'>    `40` <span class='op'>=</span> <span class='fl'>2684</span>,</span>
+<span class='r-in'>    `41` <span class='op'>=</span> <span class='fl'>2844</span>,</span>
+<span class='r-in'>    `42` <span class='op'>=</span> <span class='fl'>3052</span>,</span>
+<span class='r-in'>    `43` <span class='op'>=</span> <span class='fl'>3182</span>,</span>
+<span class='r-in'>    `44` <span class='op'>=</span> <span class='fl'>3237</span>,</span>
+<span class='r-in'>    `45` <span class='op'>=</span> <span class='fl'>2263</span>,</span>
+<span class='r-in'>    `46` <span class='op'>=</span> <span class='fl'>2298</span>,</span>
+<span class='r-in'>    `47` <span class='op'>=</span> <span class='fl'>2318</span>,</span>
+<span class='r-in'>    `48` <span class='op'>=</span> <span class='fl'>2257</span>,</span>
+<span class='r-in'>    `49` <span class='op'>=</span> <span class='fl'>2194</span>,</span>
+<span class='r-in'>    `50` <span class='op'>=</span> <span class='fl'>2231</span>,</span>
+<span class='r-in'>    `51` <span class='op'>=</span> <span class='fl'>2172</span>,</span>
+<span class='r-in'>    `52` <span class='op'>=</span> <span class='fl'>2072</span>,</span>
+<span class='r-in'>    `53` <span class='op'>=</span> <span class='fl'>2008</span>,</span>
+<span class='r-in'>    `54` <span class='op'>=</span> <span class='fl'>1932</span>,</span>
+<span class='r-in'>    `55` <span class='op'>=</span> <span class='fl'>1301</span>,</span>
+<span class='r-in'>    `56` <span class='op'>=</span> <span class='fl'>1262</span>,</span>
+<span class='r-in'>    `57` <span class='op'>=</span> <span class='fl'>1213</span>,</span>
+<span class='r-in'>    `58` <span class='op'>=</span> <span class='fl'>1197</span>,</span>
+<span class='r-in'>    `59` <span class='op'>=</span> <span class='fl'>1191</span>,</span>
+<span class='r-in'>    `60` <span class='op'>=</span> <span class='fl'>1601</span>,</span>
+<span class='r-in'>    `61` <span class='op'>=</span> <span class='fl'>1593</span>,</span>
+<span class='r-in'>    `62` <span class='op'>=</span> <span class='fl'>1490</span>,</span>
+<span class='r-in'>    `63` <span class='op'>=</span> <span class='fl'>1348</span>,</span>
+<span class='r-in'>    `64` <span class='op'>=</span> <span class='fl'>1299</span>,</span>
+<span class='r-in'>    `65` <span class='op'>=</span> <span class='fl'>568</span>,</span>
+<span class='r-in'>    `66` <span class='op'>=</span> <span class='fl'>745</span>,</span>
+<span class='r-in'>    `67` <span class='op'>=</span> <span class='fl'>843</span>,</span>
+<span class='r-in'>    `68` <span class='op'>=</span> <span class='fl'>801</span>,</span>
+<span class='r-in'>    `69` <span class='op'>=</span> <span class='fl'>925</span>,</span>
+<span class='r-in'>    `70` <span class='op'>=</span> <span class='fl'>806</span>,</span>
+<span class='r-in'>    `71` <span class='op'>=</span> <span class='fl'>883</span>,</span>
+<span class='r-in'>    `72` <span class='op'>=</span> <span class='fl'>796</span>,</span>
+<span class='r-in'>    `73` <span class='op'>=</span> <span class='fl'>725</span>,</span>
+<span class='r-in'>    `74` <span class='op'>=</span> <span class='fl'>672</span>,</span>
+<span class='r-in'>    `75` <span class='op'>=</span> <span class='fl'>470</span>,</span>
+<span class='r-in'>    `76` <span class='op'>=</span> <span class='fl'>441</span>,</span>
+<span class='r-in'>    `77` <span class='op'>=</span> <span class='fl'>340</span>,</span>
+<span class='r-in'>    `78` <span class='op'>=</span> <span class='fl'>300</span>,</span>
+<span class='r-in'>    `79` <span class='op'>=</span> <span class='fl'>289</span>,</span>
+<span class='r-in'>    `80` <span class='op'>=</span> <span class='fl'>4200</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'><span class='va'>pop_female_counts</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span class='r-in'>    `0` <span class='op'>=</span> <span class='fl'>11673</span>,</span>
+<span class='r-in'>    `1` <span class='op'>=</span> <span class='fl'>11474</span>,</span>
+<span class='r-in'>    `2` <span class='op'>=</span> <span class='fl'>11670</span>,</span>
+<span class='r-in'>    `3` <span class='op'>=</span> <span class='fl'>11934</span>,</span>
+<span class='r-in'>    `4` <span class='op'>=</span> <span class='fl'>11614</span>,</span>
+<span class='r-in'>    `5` <span class='op'>=</span> <span class='fl'>10603</span>,</span>
+<span class='r-in'>    `6` <span class='op'>=</span> <span class='fl'>11144</span>,</span>
+<span class='r-in'>    `7` <span class='op'>=</span> <span class='fl'>11179</span>,</span>
+<span class='r-in'>    `8` <span class='op'>=</span> <span class='fl'>11269</span>,</span>
+<span class='r-in'>    `9` <span class='op'>=</span> <span class='fl'>11617</span>,</span>
+<span class='r-in'>    `10` <span class='op'>=</span> <span class='fl'>6772</span>,</span>
+<span class='r-in'>    `11` <span class='op'>=</span> <span class='fl'>6948</span>,</span>
+<span class='r-in'>    `12` <span class='op'>=</span> <span class='fl'>7030</span>,</span>
+<span class='r-in'>    `13` <span class='op'>=</span> <span class='fl'>7211</span>,</span>
+<span class='r-in'>    `14` <span class='op'>=</span> <span class='fl'>7306</span>,</span>
+<span class='r-in'>    `15` <span class='op'>=</span> <span class='fl'>6531</span>,</span>
+<span class='r-in'>    `16` <span class='op'>=</span> <span class='fl'>6443</span>,</span>
+<span class='r-in'>    `17` <span class='op'>=</span> <span class='fl'>6535</span>,</span>
+<span class='r-in'>    `18` <span class='op'>=</span> <span class='fl'>6951</span>,</span>
+<span class='r-in'>    `19` <span class='op'>=</span> <span class='fl'>7213</span>,</span>
+<span class='r-in'>    `20` <span class='op'>=</span> <span class='fl'>6096</span>,</span>
+<span class='r-in'>    `21` <span class='op'>=</span> <span class='fl'>6234</span>,</span>
+<span class='r-in'>    `22` <span class='op'>=</span> <span class='fl'>6327</span>,</span>
+<span class='r-in'>    `23` <span class='op'>=</span> <span class='fl'>6410</span>,</span>
+<span class='r-in'>    `24` <span class='op'>=</span> <span class='fl'>6285</span>,</span>
+<span class='r-in'>    `25` <span class='op'>=</span> <span class='fl'>6464</span>,</span>
+<span class='r-in'>    `26` <span class='op'>=</span> <span class='fl'>6492</span>,</span>
+<span class='r-in'>    `27` <span class='op'>=</span> <span class='fl'>6549</span>,</span>
+<span class='r-in'>    `28` <span class='op'>=</span> <span class='fl'>6739</span>,</span>
+<span class='r-in'>    `29` <span class='op'>=</span> <span class='fl'>6795</span>,</span>
+<span class='r-in'>    `30` <span class='op'>=</span> <span class='fl'>5013</span>,</span>
+<span class='r-in'>    `31` <span class='op'>=</span> <span class='fl'>4888</span>,</span>
+<span class='r-in'>    `32` <span class='op'>=</span> <span class='fl'>4735</span>,</span>
+<span class='r-in'>    `33` <span class='op'>=</span> <span class='fl'>4747</span>,</span>
+<span class='r-in'>    `34` <span class='op'>=</span> <span class='fl'>4646</span>,</span>
+<span class='r-in'>    `35` <span class='op'>=</span> <span class='fl'>3040</span>,</span>
+<span class='r-in'>    `36` <span class='op'>=</span> <span class='fl'>3068</span>,</span>
+<span class='r-in'>    `37` <span class='op'>=</span> <span class='fl'>3107</span>,</span>
+<span class='r-in'>    `38` <span class='op'>=</span> <span class='fl'>3246</span>,</span>
+<span class='r-in'>    `39` <span class='op'>=</span> <span class='fl'>3658</span>,</span>
+<span class='r-in'>    `40` <span class='op'>=</span> <span class='fl'>2650</span>,</span>
+<span class='r-in'>    `41` <span class='op'>=</span> <span class='fl'>2788</span>,</span>
+<span class='r-in'>    `42` <span class='op'>=</span> <span class='fl'>2977</span>,</span>
+<span class='r-in'>    `43` <span class='op'>=</span> <span class='fl'>3108</span>,</span>
+<span class='r-in'>    `44` <span class='op'>=</span> <span class='fl'>3156</span>,</span>
+<span class='r-in'>    `45` <span class='op'>=</span> <span class='fl'>1756</span>,</span>
+<span class='r-in'>    `46` <span class='op'>=</span> <span class='fl'>1784</span>,</span>
+<span class='r-in'>    `47` <span class='op'>=</span> <span class='fl'>1802</span>,</span>
+<span class='r-in'>    `48` <span class='op'>=</span> <span class='fl'>1764</span>,</span>
+<span class='r-in'>    `49` <span class='op'>=</span> <span class='fl'>1724</span>,</span>
+<span class='r-in'>    `50` <span class='op'>=</span> <span class='fl'>1982</span>,</span>
+<span class='r-in'>    `51` <span class='op'>=</span> <span class='fl'>1935</span>,</span>
+<span class='r-in'>    `52` <span class='op'>=</span> <span class='fl'>1846</span>,</span>
+<span class='r-in'>    `53` <span class='op'>=</span> <span class='fl'>1795</span>,</span>
+<span class='r-in'>    `54` <span class='op'>=</span> <span class='fl'>1731</span>,</span>
+<span class='r-in'>    `55` <span class='op'>=</span> <span class='fl'>863</span>,</span>
+<span class='r-in'>    `56` <span class='op'>=</span> <span class='fl'>850</span>,</span>
+<span class='r-in'>    `57` <span class='op'>=</span> <span class='fl'>825</span>,</span>
+<span class='r-in'>    `58` <span class='op'>=</span> <span class='fl'>819</span>,</span>
+<span class='r-in'>    `59` <span class='op'>=</span> <span class='fl'>816</span>,</span>
+<span class='r-in'>    `60` <span class='op'>=</span> <span class='fl'>1348</span>,</span>
+<span class='r-in'>    `61` <span class='op'>=</span> <span class='fl'>1342</span>,</span>
+<span class='r-in'>    `62` <span class='op'>=</span> <span class='fl'>1246</span>,</span>
+<span class='r-in'>    `63` <span class='op'>=</span> <span class='fl'>1138</span>,</span>
+<span class='r-in'>    `64` <span class='op'>=</span> <span class='fl'>1101</span>,</span>
+<span class='r-in'>    `65` <span class='op'>=</span> <span class='fl'>391</span>,</span>
+<span class='r-in'>    `66` <span class='op'>=</span> <span class='fl'>520</span>,</span>
+<span class='r-in'>    `67` <span class='op'>=</span> <span class='fl'>585</span>,</span>
+<span class='r-in'>    `68` <span class='op'>=</span> <span class='fl'>560</span>,</span>
+<span class='r-in'>    `69` <span class='op'>=</span> <span class='fl'>659</span>,</span>
+<span class='r-in'>    `70` <span class='op'>=</span> <span class='fl'>670</span>,</span>
+<span class='r-in'>    `71` <span class='op'>=</span> <span class='fl'>750</span>,</span>
+<span class='r-in'>    `72` <span class='op'>=</span> <span class='fl'>686</span>,</span>
+<span class='r-in'>    `73` <span class='op'>=</span> <span class='fl'>634</span>,</span>
+<span class='r-in'>    `74` <span class='op'>=</span> <span class='fl'>604</span>,</span>
+<span class='r-in'>    `75` <span class='op'>=</span> <span class='fl'>353</span>,</span>
+<span class='r-in'>    `76` <span class='op'>=</span> <span class='fl'>340</span>,</span>
+<span class='r-in'>    `77` <span class='op'>=</span> <span class='fl'>270</span>,</span>
+<span class='r-in'>    `78` <span class='op'>=</span> <span class='fl'>246</span>,</span>
+<span class='r-in'>    `79` <span class='op'>=</span> <span class='fl'>247</span>,</span>
+<span class='r-in'>    `80` <span class='op'>=</span> <span class='fl'>4143</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>single2abridged</span><span class='op'>(</span><span class='va'>pop_male_counts</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     0     1     5    10    15    20    25    30    35    40    45    50    55 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11684 46739 55639 37514 29398 27187 27769 20920 16974 14999 11330 10415  6164 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    60    65    70    75    80 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  7331  3882  3882  1840  4200 </span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

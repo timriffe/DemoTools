@@ -217,58 +217,61 @@ United Nations (1983).
 United Nations Department of International Economic and Social Affairs, New York.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Based on Feeney's spreadsheets CENSUR~1.XLS, CENSUR~2.XLS, and CENSUR~3.XLS</span>
-<span class='co'># this is census data from Japan</span>
-
-<span class='co'># create a bunch of data to show the three variants.</span>
-<span class='va'>pop1960</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3831870</span>,<span class='fl'>4502304</span>,<span class='fl'>5397061</span>,<span class='fl'>4630775</span>,<span class='fl'>4193184</span>,<span class='fl'>4114704</span>,<span class='fl'>3770907</span>,<span class='fl'>3274822</span>,
-   <span class='fl'>2744786</span>,<span class='fl'>2559755</span>,<span class='fl'>2160716</span>,<span class='fl'>1839025</span>,<span class='fl'>1494043</span>,<span class='fl'>1133409</span>,<span class='fl'>870238</span>,<span class='fl'>577972</span>,<span class='fl'>313781</span>,<span class='fl'>131547</span><span class='op'>)</span>
-<span class='va'>pop1965</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3983902</span>,<span class='fl'>3854281</span>,<span class='fl'>4513237</span>,<span class='fl'>5373547</span>,<span class='fl'>4572392</span>,<span class='fl'>4206801</span>,<span class='fl'>4110076</span>,<span class='fl'>3751030</span>,
-   <span class='fl'>3231736</span>,<span class='fl'>2697217</span>,<span class='fl'>2485095</span>,<span class='fl'>2071540</span>,<span class='fl'>1719370</span>,<span class='fl'>1343444</span>,<span class='fl'>955567</span>,<span class='fl'>644043</span>,<span class='fl'>341170</span>,<span class='fl'>176068</span><span class='op'>)</span>
-<span class='va'>pop1970</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4292503</span>,<span class='fl'>3988292</span>,<span class='fl'>3852101</span>,<span class='fl'>4492096</span>,<span class='fl'>5347327</span>,<span class='fl'>4571868</span>,<span class='fl'>4190340</span>,<span class='fl'>4085338</span>,
-   <span class='fl'>3674127</span>,<span class='fl'>3198934</span>,<span class='fl'>2648360</span>,<span class='fl'>2382691</span>,<span class='fl'>1970485</span>,<span class='fl'>1584699</span>,<span class='fl'>1172155</span>,<span class='fl'>736258</span>,<span class='fl'>408191</span>,<span class='fl'>53116</span><span class='op'>)</span>
-<span class='va'>Age</span>          <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>85</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-<span class='va'>date1960</span>     <span class='op'>&lt;-</span> <span class='st'>"1960-10-01"</span>
-<span class='va'>date1965</span>     <span class='op'>&lt;-</span> <span class='st'>"1965-10-01"</span>
-<span class='va'>date1970</span>     <span class='op'>&lt;-</span> <span class='st'>"1970-10-01"</span>
-<span class='va'>date1960fake</span> <span class='op'>&lt;-</span> <span class='st'>"1960-10-05"</span>
-<span class='va'>ex1</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>69.45</span>,<span class='fl'>64.62</span>,<span class='fl'>59.72</span>,<span class='fl'>54.87</span>,<span class='fl'>50.11</span>,<span class='fl'>45.37</span>,<span class='fl'>40.65</span>,<span class='fl'>35.99</span>,
-<span class='fl'>31.40</span>,<span class='fl'>26.94</span>,<span class='fl'>22.64</span>,<span class='fl'>18.52</span>,<span class='fl'>14.67</span>,<span class='fl'>11.20</span>,<span class='fl'>8.25</span>,<span class='fl'>5.95</span>,<span class='fl'>6.00</span><span class='op'>)</span>
-<span class='va'>ex2</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>70.19</span>,<span class='fl'>65.33</span>,<span class='fl'>60.41</span>,<span class='fl'>55.54</span>,<span class='fl'>50.74</span>,<span class='fl'>45.96</span>,<span class='fl'>41.21</span>,
-<span class='fl'>36.52</span>,<span class='fl'>31.89</span>,<span class='fl'>27.39</span>,<span class='fl'>23.05</span>,<span class='fl'>18.89</span>,<span class='fl'>14.99</span>,<span class='fl'>11.45</span>,<span class='fl'>8.43</span>,<span class='fl'>6.06</span><span class='op'>)</span>
-
-<span class='co'># reproduces CENSUR~1.XLS</span>
-<span class='co'># this method called under the hood when censuses are a clean 10 years apart</span>
-<span class='op'>(</span><span class='va'>s10</span> <span class='op'>&lt;-</span> <span class='fu'>survRatioError</span><span class='op'>(</span>
- pop1 <span class='op'>=</span> <span class='va'>pop1960</span>,
- pop2 <span class='op'>=</span> <span class='va'>pop1970</span>,
- Age <span class='op'>=</span> <span class='va'>Age</span>,
- date1 <span class='op'>=</span> <span class='va'>date1960</span>,
- date2 <span class='op'>=</span> <span class='va'>date1970</span>,
- exprior <span class='op'>=</span> <span class='va'>ex1</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#.44</span>
-</div><div class='output co'>#&gt; [1] 0.4446597</div><div class='input'>
-<span class='co'># reproduces CENSUR~3.XLS</span>
-<span class='co'># this method called under the hood when censuses are a clean 5 years apart</span>
-<span class='op'>(</span><span class='va'>s5</span> <span class='op'>&lt;-</span> <span class='fu'>survRatioError</span><span class='op'>(</span>
-    pop1 <span class='op'>=</span> <span class='va'>pop1965</span>,
-    pop2 <span class='op'>=</span> <span class='va'>pop1970</span>,
-    Age <span class='op'>=</span> <span class='va'>Age</span>,
-    date1 <span class='op'>=</span> <span class='va'>date1965</span>,
-    date2 <span class='op'>=</span> <span class='va'>date1970</span>,
-    exprior <span class='op'>=</span> <span class='va'>ex2</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#.40</span>
-</div><div class='output co'>#&gt; [1] 0.3964347</div><div class='input'>
-<span class='co'># reproduces CENSUR~2.XLS (if indeed censuses are oddly spaced)</span>
-<span class='co'># this method called under the hood when censuses are not spaced</span>
-<span class='co'># a clean 5 or 10 years apart.</span>
-<span class='op'>(</span><span class='va'>sn</span> <span class='op'>&lt;-</span> <span class='fu'>survRatioError</span><span class='op'>(</span>
-    pop1 <span class='op'>=</span> <span class='va'>pop1960</span>,
-    pop2 <span class='op'>=</span> <span class='va'>pop1970</span>,
-    Age <span class='op'>=</span> <span class='va'>Age</span>,
-    date1 <span class='op'>=</span> <span class='va'>date1960fake</span>,
-    date2 <span class='op'>=</span> <span class='va'>date1970</span>,
-    exprior <span class='op'>=</span> <span class='va'>ex1</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># 1.067818</span>
-</div><div class='output co'>#&gt; [1] 1.06783</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Based on Feeney's spreadsheets CENSUR~1.XLS, CENSUR~2.XLS, and CENSUR~3.XLS</span></span>
+<span class='r-in'><span class='co'># this is census data from Japan</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># create a bunch of data to show the three variants.</span></span>
+<span class='r-in'><span class='va'>pop1960</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3831870</span>,<span class='fl'>4502304</span>,<span class='fl'>5397061</span>,<span class='fl'>4630775</span>,<span class='fl'>4193184</span>,<span class='fl'>4114704</span>,<span class='fl'>3770907</span>,<span class='fl'>3274822</span>,</span>
+<span class='r-in'>   <span class='fl'>2744786</span>,<span class='fl'>2559755</span>,<span class='fl'>2160716</span>,<span class='fl'>1839025</span>,<span class='fl'>1494043</span>,<span class='fl'>1133409</span>,<span class='fl'>870238</span>,<span class='fl'>577972</span>,<span class='fl'>313781</span>,<span class='fl'>131547</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>pop1965</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3983902</span>,<span class='fl'>3854281</span>,<span class='fl'>4513237</span>,<span class='fl'>5373547</span>,<span class='fl'>4572392</span>,<span class='fl'>4206801</span>,<span class='fl'>4110076</span>,<span class='fl'>3751030</span>,</span>
+<span class='r-in'>   <span class='fl'>3231736</span>,<span class='fl'>2697217</span>,<span class='fl'>2485095</span>,<span class='fl'>2071540</span>,<span class='fl'>1719370</span>,<span class='fl'>1343444</span>,<span class='fl'>955567</span>,<span class='fl'>644043</span>,<span class='fl'>341170</span>,<span class='fl'>176068</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>pop1970</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4292503</span>,<span class='fl'>3988292</span>,<span class='fl'>3852101</span>,<span class='fl'>4492096</span>,<span class='fl'>5347327</span>,<span class='fl'>4571868</span>,<span class='fl'>4190340</span>,<span class='fl'>4085338</span>,</span>
+<span class='r-in'>   <span class='fl'>3674127</span>,<span class='fl'>3198934</span>,<span class='fl'>2648360</span>,<span class='fl'>2382691</span>,<span class='fl'>1970485</span>,<span class='fl'>1584699</span>,<span class='fl'>1172155</span>,<span class='fl'>736258</span>,<span class='fl'>408191</span>,<span class='fl'>53116</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age</span>          <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>85</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>date1960</span>     <span class='op'>&lt;-</span> <span class='st'>"1960-10-01"</span></span>
+<span class='r-in'><span class='va'>date1965</span>     <span class='op'>&lt;-</span> <span class='st'>"1965-10-01"</span></span>
+<span class='r-in'><span class='va'>date1970</span>     <span class='op'>&lt;-</span> <span class='st'>"1970-10-01"</span></span>
+<span class='r-in'><span class='va'>date1960fake</span> <span class='op'>&lt;-</span> <span class='st'>"1960-10-05"</span></span>
+<span class='r-in'><span class='va'>ex1</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>69.45</span>,<span class='fl'>64.62</span>,<span class='fl'>59.72</span>,<span class='fl'>54.87</span>,<span class='fl'>50.11</span>,<span class='fl'>45.37</span>,<span class='fl'>40.65</span>,<span class='fl'>35.99</span>,</span>
+<span class='r-in'><span class='fl'>31.40</span>,<span class='fl'>26.94</span>,<span class='fl'>22.64</span>,<span class='fl'>18.52</span>,<span class='fl'>14.67</span>,<span class='fl'>11.20</span>,<span class='fl'>8.25</span>,<span class='fl'>5.95</span>,<span class='fl'>6.00</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ex2</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>,<span class='fl'>70.19</span>,<span class='fl'>65.33</span>,<span class='fl'>60.41</span>,<span class='fl'>55.54</span>,<span class='fl'>50.74</span>,<span class='fl'>45.96</span>,<span class='fl'>41.21</span>,</span>
+<span class='r-in'><span class='fl'>36.52</span>,<span class='fl'>31.89</span>,<span class='fl'>27.39</span>,<span class='fl'>23.05</span>,<span class='fl'>18.89</span>,<span class='fl'>14.99</span>,<span class='fl'>11.45</span>,<span class='fl'>8.43</span>,<span class='fl'>6.06</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># reproduces CENSUR~1.XLS</span></span>
+<span class='r-in'><span class='co'># this method called under the hood when censuses are a clean 10 years apart</span></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>s10</span> <span class='op'>&lt;-</span> <span class='fu'>survRatioError</span><span class='op'>(</span></span>
+<span class='r-in'> pop1 <span class='op'>=</span> <span class='va'>pop1960</span>,</span>
+<span class='r-in'> pop2 <span class='op'>=</span> <span class='va'>pop1970</span>,</span>
+<span class='r-in'> Age <span class='op'>=</span> <span class='va'>Age</span>,</span>
+<span class='r-in'> date1 <span class='op'>=</span> <span class='va'>date1960</span>,</span>
+<span class='r-in'> date2 <span class='op'>=</span> <span class='va'>date1970</span>,</span>
+<span class='r-in'> exprior <span class='op'>=</span> <span class='va'>ex1</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#.44</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.4446597</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># reproduces CENSUR~3.XLS</span></span>
+<span class='r-in'><span class='co'># this method called under the hood when censuses are a clean 5 years apart</span></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>s5</span> <span class='op'>&lt;-</span> <span class='fu'>survRatioError</span><span class='op'>(</span></span>
+<span class='r-in'>    pop1 <span class='op'>=</span> <span class='va'>pop1965</span>,</span>
+<span class='r-in'>    pop2 <span class='op'>=</span> <span class='va'>pop1970</span>,</span>
+<span class='r-in'>    Age <span class='op'>=</span> <span class='va'>Age</span>,</span>
+<span class='r-in'>    date1 <span class='op'>=</span> <span class='va'>date1965</span>,</span>
+<span class='r-in'>    date2 <span class='op'>=</span> <span class='va'>date1970</span>,</span>
+<span class='r-in'>    exprior <span class='op'>=</span> <span class='va'>ex2</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>#.40</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.3964347</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># reproduces CENSUR~2.XLS (if indeed censuses are oddly spaced)</span></span>
+<span class='r-in'><span class='co'># this method called under the hood when censuses are not spaced</span></span>
+<span class='r-in'><span class='co'># a clean 5 or 10 years apart.</span></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>sn</span> <span class='op'>&lt;-</span> <span class='fu'>survRatioError</span><span class='op'>(</span></span>
+<span class='r-in'>    pop1 <span class='op'>=</span> <span class='va'>pop1960</span>,</span>
+<span class='r-in'>    pop2 <span class='op'>=</span> <span class='va'>pop1970</span>,</span>
+<span class='r-in'>    Age <span class='op'>=</span> <span class='va'>Age</span>,</span>
+<span class='r-in'>    date1 <span class='op'>=</span> <span class='va'>date1960fake</span>,</span>
+<span class='r-in'>    date2 <span class='op'>=</span> <span class='va'>date1970</span>,</span>
+<span class='r-in'>    exprior <span class='op'>=</span> <span class='va'>ex1</span><span class='op'>)</span><span class='op'>)</span> <span class='co'># 1.067818</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1.06783</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

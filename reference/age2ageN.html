@@ -189,20 +189,22 @@
     <p>If OAG = TRUE then the last value is not repeated, otherwise the final age interval is assumed to be the same width as the penultimate. Here intervals do not need to be of uniform width.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>age1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>
-<span class='op'>(</span><span class='va'>ageN1</span> <span class='op'>&lt;-</span> <span class='fu'>age2ageN</span><span class='op'>(</span><span class='va'>age1</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15
-#&gt;  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35
-#&gt;  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50
-#&gt;  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70
-#&gt;  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85
-#&gt;  [91]  90  90  90  90  90  95  95  95  95  95 100 100 100 100 100</div><div class='input'><span class='op'>(</span><span class='va'>ageN2</span> <span class='op'>&lt;-</span> <span class='fu'>age2ageN</span><span class='op'>(</span><span class='va'>age1</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15
-#&gt;  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35
-#&gt;  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50
-#&gt;  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70
-#&gt;  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85
-#&gt;  [91]  90  90  90  90  90  95  95  95  95  95 100</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>age1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>ageN1</span> <span class='op'>&lt;-</span> <span class='fu'>age2ageN</span><span class='op'>(</span><span class='va'>age1</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91]  90  90  90  90  90  95  95  95  95  95 100 100 100 100 100</span>
+<span class='r-in'><span class='op'>(</span><span class='va'>ageN2</span> <span class='op'>&lt;-</span> <span class='fu'>age2ageN</span><span class='op'>(</span><span class='va'>age1</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91]  90  90  90  90  90  95  95  95  95  95 100</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

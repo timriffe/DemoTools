@@ -241,37 +241,39 @@ can use <code><a href='lt_abridged.html'>lt_abridged()</a></code>, specifying a 
 extracting <code>nLx</code> again from it.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># India Males, 1971</span>
-<span class='va'>Pop</span>            <span class='op'>&lt;-</span> <span class='fu'><a href='smooth_age_5.html'>smooth_age_5</a></span><span class='op'>(</span><span class='va'>pop1m_ind</span>,
-                         Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>,
-                         method <span class='op'>=</span> <span class='st'>"Arriaga"</span><span class='op'>)</span>
-<span class='va'>Age_Pop</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>Pop</span><span class='op'>)</span>
-<span class='va'>AgeInt_Pop</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='age2int.html'>age2int</a></span><span class='op'>(</span><span class='va'>Age_Pop</span>, OAvalue <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-
-<span class='va'>nLx</span>            <span class='op'>&lt;-</span> <span class='fu'><a href='downloadnLx.html'>downloadnLx</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>"India"</span>,<span class='st'>"male"</span>,<span class='fl'>1971</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Downloading nLx data for India, years 1971, gender male</div><div class='input'><span class='va'>Age_nLx</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span>
-<span class='va'>AgeInt_nLx</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='age2int.html'>age2int</a></span><span class='op'>(</span><span class='va'>Age_nLx</span>, OAvalue <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-
-<span class='va'>Pop_fit</span> <span class='op'>&lt;-</span> <span class='fu'>OPAG</span><span class='op'>(</span><span class='va'>Pop</span>,
-    Age_Pop <span class='op'>=</span> <span class='va'>Age_Pop</span>,
-    nLx <span class='op'>=</span> <span class='va'>nLx</span>,
-    Age_nLx <span class='op'>=</span> <span class='va'>Age_nLx</span>,
-    Age_fit <span class='op'>=</span>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>,<span class='fl'>70</span><span class='op'>)</span>,
-    AgeInt_fit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>,<span class='fl'>10</span><span class='op'>)</span>,
-    Redistribute_from <span class='op'>=</span> <span class='fl'>80</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; Age_Pop and Age_nLx age intervals are different!</div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># look at 75+</span>
-<span class='va'>ind</span> <span class='op'>&lt;-</span> <span class='va'>Age_Pop</span> <span class='op'>&gt;=</span> <span class='fl'>75</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age_Pop</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span>, <span class='va'>Pop</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age_Pop</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span>, <span class='va'>Pop_fit</span><span class='op'>$</span><span class='va'>Pop_out</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
-
-<span class='co'># relative differences in ages 80+</span>
-<span class='va'>ind</span> <span class='op'>&lt;-</span> <span class='va'>Age_Pop</span> <span class='op'>&gt;=</span> <span class='fl'>80</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age_Pop</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span>,  <span class='op'>(</span><span class='va'>Pop_fit</span><span class='op'>$</span><span class='va'>Pop_out</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>Pop</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>Pop</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># India Males, 1971</span></span>
+<span class='r-in'><span class='va'>Pop</span>            <span class='op'>&lt;-</span> <span class='fu'><a href='smooth_age_5.html'>smooth_age_5</a></span><span class='op'>(</span><span class='va'>pop1m_ind</span>,</span>
+<span class='r-in'>                         Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>,</span>
+<span class='r-in'>                         method <span class='op'>=</span> <span class='st'>"Arriaga"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age_Pop</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>Pop</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>AgeInt_Pop</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='age2int.html'>age2int</a></span><span class='op'>(</span><span class='va'>Age_Pop</span>, OAvalue <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>nLx</span>            <span class='op'>&lt;-</span> <span class='fu'><a href='downloadnLx.html'>downloadnLx</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>"India"</span>,<span class='st'>"male"</span>,<span class='fl'>1971</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for India, years 1971, gender male</span>
+<span class='r-in'><span class='va'>Age_nLx</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>AgeInt_nLx</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='age2int.html'>age2int</a></span><span class='op'>(</span><span class='va'>Age_nLx</span>, OAvalue <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>Pop_fit</span> <span class='op'>&lt;-</span> <span class='fu'>OPAG</span><span class='op'>(</span><span class='va'>Pop</span>,</span>
+<span class='r-in'>    Age_Pop <span class='op'>=</span> <span class='va'>Age_Pop</span>,</span>
+<span class='r-in'>    nLx <span class='op'>=</span> <span class='va'>nLx</span>,</span>
+<span class='r-in'>    Age_nLx <span class='op'>=</span> <span class='va'>Age_nLx</span>,</span>
+<span class='r-in'>    Age_fit <span class='op'>=</span>  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>,<span class='fl'>70</span><span class='op'>)</span>,</span>
+<span class='r-in'>    AgeInt_fit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>,<span class='fl'>10</span><span class='op'>)</span>,</span>
+<span class='r-in'>    Redistribute_from <span class='op'>=</span> <span class='fl'>80</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Age_Pop and Age_nLx age intervals are different!</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># look at 75+</span></span>
+<span class='r-in'><span class='va'>ind</span> <span class='op'>&lt;-</span> <span class='va'>Age_Pop</span> <span class='op'>&gt;=</span> <span class='fl'>75</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age_Pop</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span>, <span class='va'>Pop</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age_Pop</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span>, <span class='va'>Pop_fit</span><span class='op'>$</span><span class='va'>Pop_out</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># relative differences in ages 80+</span></span>
+<span class='r-in'><span class='va'>ind</span> <span class='op'>&lt;-</span> <span class='va'>Age_Pop</span> <span class='op'>&gt;=</span> <span class='fl'>80</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age_Pop</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span>,  <span class='op'>(</span><span class='va'>Pop_fit</span><span class='op'>$</span><span class='va'>Pop_out</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>Pop</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>Pop</span><span class='op'>[</span><span class='va'>ind</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

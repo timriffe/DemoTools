@@ -204,33 +204,36 @@ what is the error implied given the current $r$ and stationary standard?</p>
 given population vector and stationary standard.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Make up some population data to fit to:</span>
-<span class='va'>Pop_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>85000</span>,<span class='fl'>37000</span><span class='op'>)</span>
-<span class='va'>Age_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>70</span>,<span class='fl'>80</span><span class='op'>)</span>
-<span class='va'>AgeInt_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>,<span class='fl'>10</span><span class='op'>)</span>
-<span class='va'>nLx</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='downloadnLx.html'>downloadnLx</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>"Spain"</span>,<span class='st'>"female"</span>,<span class='fl'>1971</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Downloading nLx data for Spain, years 1971, gender female</div><div class='input'><span class='co'># graduate(nLx, Age_nLx, method = method, constrain = TRUE)</span>
-<span class='va'>Ageab</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span>
-<span class='va'>Lx1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate.html'>graduate</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span>, <span class='va'>Ageab</span>, method <span class='op'>=</span> <span class='st'>"mono"</span>, constrain <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>Age_Lx1</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>
-<span class='va'>r</span>          <span class='op'>&lt;-</span> <span class='fl'>.01</span>
-
-<span class='fu'>OPAG_r_min</span><span class='op'>(</span><span class='va'>r</span>,
-           Pop_fit <span class='op'>=</span> <span class='va'>Pop_fit</span>,
-           Age_fit <span class='op'>=</span> <span class='va'>Age_fit</span>,
-           AgeInt_fit <span class='op'>=</span> <span class='va'>AgeInt_fit</span>,
-           Lx1 <span class='op'>=</span> <span class='va'>Lx1</span>,
-           Age_Lx1 <span class='op'>=</span> <span class='va'>Age_Lx1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.03025071</div><div class='input'>
-<span class='op'>(</span><span class='va'>r_opt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/optimize.html'>optimize</a></span><span class='op'>(</span><span class='va'>OPAG_r_min</span>,
-         Pop_fit <span class='op'>=</span> <span class='va'>Pop_fit</span>,
-         Age_fit <span class='op'>=</span> <span class='va'>Age_fit</span>,
-         AgeInt_fit <span class='op'>=</span> <span class='va'>AgeInt_fit</span>,
-         Lx1 <span class='op'>=</span> <span class='va'>Lx1</span>,
-         Age_Lx1 <span class='op'>=</span> <span class='va'>Age_Lx1</span>,
-         interval <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>0.05</span>,<span class='fl'>.05</span><span class='op'>)</span><span class='op'>)</span><span class='op'>$</span><span class='va'>min</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.002199804</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Make up some population data to fit to:</span></span>
+<span class='r-in'><span class='va'>Pop_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>85000</span>,<span class='fl'>37000</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>70</span>,<span class='fl'>80</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>AgeInt_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>,<span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>nLx</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='downloadnLx.html'>downloadnLx</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>"Spain"</span>,<span class='st'>"female"</span>,<span class='fl'>1971</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for Spain, years 1971, gender female</span>
+<span class='r-in'><span class='co'># graduate(nLx, Age_nLx, method = method, constrain = TRUE)</span></span>
+<span class='r-in'><span class='va'>Ageab</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Lx1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate.html'>graduate</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span>, <span class='va'>Ageab</span>, method <span class='op'>=</span> <span class='st'>"mono"</span>, constrain <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>Age_Lx1</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span></span>
+<span class='r-in'><span class='va'>r</span>          <span class='op'>&lt;-</span> <span class='fl'>.01</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>OPAG_r_min</span><span class='op'>(</span><span class='va'>r</span>,</span>
+<span class='r-in'>           Pop_fit <span class='op'>=</span> <span class='va'>Pop_fit</span>,</span>
+<span class='r-in'>           Age_fit <span class='op'>=</span> <span class='va'>Age_fit</span>,</span>
+<span class='r-in'>           AgeInt_fit <span class='op'>=</span> <span class='va'>AgeInt_fit</span>,</span>
+<span class='r-in'>           Lx1 <span class='op'>=</span> <span class='va'>Lx1</span>,</span>
+<span class='r-in'>           Age_Lx1 <span class='op'>=</span> <span class='va'>Age_Lx1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.03025071</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>r_opt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/optimize.html'>optimize</a></span><span class='op'>(</span><span class='va'>OPAG_r_min</span>,</span>
+<span class='r-in'>         Pop_fit <span class='op'>=</span> <span class='va'>Pop_fit</span>,</span>
+<span class='r-in'>         Age_fit <span class='op'>=</span> <span class='va'>Age_fit</span>,</span>
+<span class='r-in'>         AgeInt_fit <span class='op'>=</span> <span class='va'>AgeInt_fit</span>,</span>
+<span class='r-in'>         Lx1 <span class='op'>=</span> <span class='va'>Lx1</span>,</span>
+<span class='r-in'>         Age_Lx1 <span class='op'>=</span> <span class='va'>Age_Lx1</span>,</span>
+<span class='r-in'>         interval <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>0.05</span>,<span class='fl'>.05</span><span class='op'>)</span><span class='op'>)</span><span class='op'>$</span><span class='va'>min</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.002199804</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

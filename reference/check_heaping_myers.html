@@ -223,14 +223,19 @@ United States Census Bureau (2017).
 https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
-<span class='fu'>check_heaping_myers</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>10</span>, <span class='fl'>89</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 23.62787</div><div class='input'><span class='fu'>check_heaping_myers</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>10</span>, <span class='fl'>89</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>2</span>
-</div><div class='output co'>#&gt; [1] 47.46004</div><div class='input'><span class='co'># pasex 10-89. result: ___ from spreadsheet</span>
-<span class='fu'>check_heaping_myers</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 29.7444</div><div class='input'><span class='fu'><a href='check_heaping_bachi.html'>check_heaping_bachi</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span>, method <span class='op'>=</span> <span class='st'>"orig"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 28.93849</div><div class='input'><span class='fu'><a href='check_heaping_bachi.html'>check_heaping_bachi</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 28.96891</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span></span>
+<span class='r-in'><span class='fu'>check_heaping_myers</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>10</span>, <span class='fl'>89</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 23.62787</span>
+<span class='r-in'><span class='fu'>check_heaping_myers</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>10</span>, <span class='fl'>89</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 47.46004</span>
+<span class='r-in'><span class='co'># pasex 10-89. result: ___ from spreadsheet</span></span>
+<span class='r-in'><span class='fu'>check_heaping_myers</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 29.7444</span>
+<span class='r-in'><span class='fu'><a href='check_heaping_bachi.html'>check_heaping_bachi</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span>, method <span class='op'>=</span> <span class='st'>"orig"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 28.93849</span>
+<span class='r-in'><span class='fu'><a href='check_heaping_bachi.html'>check_heaping_bachi</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 28.96891</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

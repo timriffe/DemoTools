@@ -185,7 +185,7 @@
     </tr>
     <tr>
       <th>digit</th>
-      <td><p>integer. Any digit between 0 and 9. Default <code><a href='https://rdrr.io/r/base/c.html'>c(0,5)</a></code>. Otherwise it needs to be a single digit.</p></td>
+      <td><p>integer. Any digit between 0 and 9. Default <code>c(0,5)</code>. Otherwise it needs to be a single digit.</p></td>
     </tr>
     </table>
 
@@ -206,17 +206,21 @@ United States Census Bureau (2017).
 https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
-<span class='co'># 2.34,replicates SINGAGE males</span>
- <span class='op'>(</span><span class='va'>w05</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2.33873</div><div class='input'>
- <span class='co'># implements formula from Roger et al. (1981, p. 148)</span>
- <span class='op'>(</span><span class='va'>w0</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2.601614</div><div class='input'> <span class='op'>(</span><span class='va'>w5</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1.786339</div><div class='input'>
- <span class='co'># Whipple types</span>
- <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.5561028</div></pre>
+    <pre class="examples"><span class='r-in'> <span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span></span>
+<span class='r-in'><span class='co'># 2.34,replicates SINGAGE males</span></span>
+<span class='r-in'> <span class='op'>(</span><span class='va'>w05</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2.33873</span>
+<span class='r-in'></span>
+<span class='r-in'> <span class='co'># implements formula from Roger et al. (1981, p. 148)</span></span>
+<span class='r-in'> <span class='op'>(</span><span class='va'>w0</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2.601614</span>
+<span class='r-in'> <span class='op'>(</span><span class='va'>w5</span> <span class='op'>&lt;-</span> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1.786339</span>
+<span class='r-in'></span>
+<span class='r-in'> <span class='co'># Whipple types</span></span>
+<span class='r-in'> <span class='fu'>check_heaping_whipple</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>25</span>, <span class='fl'>60</span>, digit <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.5561028</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

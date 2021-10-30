@@ -220,58 +220,58 @@ In Wright JE (ed.), <em>International Encyclopedia of the Social and Behavioral 
 Elsevier, Oxford.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># code currently breaking, needs to be revisited and updates completed, sorry</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-
-<span class='va'>Value</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span><span class='op'>(</span><span class='va'>pop1m_ind</span>, .Names <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span>
-<span class='co'>#barplot(Value, main = "yup, these have heaping!")</span>
-<span class='co'># this is the basic case we compare with:</span>
-<span class='va'>pop0</span>      <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span><span class='fu'><a href='groupAges.html'>groupAges</a></span><span class='op'>(</span><span class='va'>Value</span><span class='op'>)</span>, Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>,  OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='co'># note: this function needs single ages to work because</span>
-<span class='co'># ages are grouped into 5-year age groups in 5 different ways.</span>
-<span class='co'># breaks</span>
-<span class='co'>#pop1     &lt;- splitOscillate(Value, OAG = TRUE, splitfun = graduate_sprague)</span>
-<span class='va'>pop2</span>      <span class='op'>&lt;-</span> <span class='fu'>splitOscillate</span><span class='op'>(</span><span class='va'>Value</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, splitfun <span class='op'>=</span> <span class='va'>beers</span><span class='op'>)</span>
-<span class='co'># what's smoother, splitOscillate() or graduate_grabill()?</span>
-<span class='co'># note, same closeout problem, can be handled by graduate_mono_closeout()</span>
-<span class='va'>pop3</span>      <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_grabill.html'>graduate_grabill</a></span><span class='op'>(</span><span class='va'>Value</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='co'># and technically you could give grabill as splitfun too</span>
-<span class='va'>pop4</span>      <span class='op'>&lt;-</span> <span class='fu'>splitOscillate</span><span class='op'>(</span><span class='va'>Value</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, splitfun <span class='op'>=</span> <span class='va'>graduate_grabill</span><span class='op'>)</span>
-
-<span class='va'>Age</span>       <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>Value</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>pop0</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
-<span class='co'># slightly smoother (also shifted though)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>pop1</span><span class='op'>)</span>
-<span class='co'># only different at very high ages, small nrs</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>pop2</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>pop3</span>, col <span class='op'>=</span> <span class='st'>"magenta"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>pop4</span>, col <span class='op'>=</span> <span class='st'>"orange"</span>, lty <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>,
-lty <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>)</span>,
-lwd <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>,
-col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"blue"</span>,<span class='st'>"black"</span>,<span class='st'>"red"</span>,<span class='st'>"magenta"</span>,<span class='st'>"orange"</span><span class='op'>)</span>,
-    legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"graduate_sprague()"</span>,
-                <span class='st'>"splitOscillate(splitfun = graduate_sprague)"</span>,
-           <span class='st'>"splitOscillate(splitfun = beers)"</span>,
-           <span class='st'>"graduate_grabill()"</span>,
-                <span class='st'>"splitOscillate(splitfun = graduate_grabill)"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># index of dissimilarity</span>
-<span class='fu'><a href='ID.html'>ID</a></span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>pop0</span><span class='op'>)</span> <span class='co'># original vs sprague</span>
-<span class='fu'><a href='ID.html'>ID</a></span><span class='op'>(</span><span class='va'>pop0</span>,<span class='va'>pop1</span><span class='op'>)</span> <span class='co'># sprague vs sprague osc</span>
-<span class='fu'><a href='ID.html'>ID</a></span><span class='op'>(</span><span class='va'>pop1</span>,<span class='va'>pop2</span><span class='op'>)</span> <span class='co'># sprague osc vs beers osc</span>
-<span class='fu'><a href='ID.html'>ID</a></span><span class='op'>(</span><span class='va'>pop2</span>,<span class='va'>pop3</span><span class='op'>)</span> <span class='co'># beers osc vs grabill</span>
-<span class='fu'><a href='ID.html'>ID</a></span><span class='op'>(</span><span class='va'>pop3</span>,<span class='va'>pop4</span><span class='op'>)</span> <span class='co'># grabill vs grabill osc</span>
-<span class='co'># measure of smoothness:</span>
-<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>Value</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>pop0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>pop1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>pop2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>pop3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>pop4</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># code currently breaking, needs to be revisited and updates completed, sorry</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>Value</span>     <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span><span class='op'>(</span><span class='va'>pop1m_ind</span>, .Names <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>#barplot(Value, main = "yup, these have heaping!")</span></span>
+<span class='r-in'><span class='co'># this is the basic case we compare with:</span></span>
+<span class='r-in'><span class='va'>pop0</span>      <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span><span class='fu'><a href='groupAges.html'>groupAges</a></span><span class='op'>(</span><span class='va'>Value</span><span class='op'>)</span>, Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>,  OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># note: this function needs single ages to work because</span></span>
+<span class='r-in'><span class='co'># ages are grouped into 5-year age groups in 5 different ways.</span></span>
+<span class='r-in'><span class='co'># breaks</span></span>
+<span class='r-in'><span class='co'>#pop1     &lt;- splitOscillate(Value, OAG = TRUE, splitfun = graduate_sprague)</span></span>
+<span class='r-in'><span class='va'>pop2</span>      <span class='op'>&lt;-</span> <span class='fu'>splitOscillate</span><span class='op'>(</span><span class='va'>Value</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, splitfun <span class='op'>=</span> <span class='va'>beers</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># what's smoother, splitOscillate() or graduate_grabill()?</span></span>
+<span class='r-in'><span class='co'># note, same closeout problem, can be handled by graduate_mono_closeout()</span></span>
+<span class='r-in'><span class='va'>pop3</span>      <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_grabill.html'>graduate_grabill</a></span><span class='op'>(</span><span class='va'>Value</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># and technically you could give grabill as splitfun too</span></span>
+<span class='r-in'><span class='va'>pop4</span>      <span class='op'>&lt;-</span> <span class='fu'>splitOscillate</span><span class='op'>(</span><span class='va'>Value</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, splitfun <span class='op'>=</span> <span class='va'>graduate_grabill</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>Age</span>       <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>Value</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>pop0</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># slightly smoother (also shifted though)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>pop1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># only different at very high ages, small nrs</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>pop2</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, lty <span class='op'>=</span> <span class='fl'>2</span>, lwd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>pop3</span>, col <span class='op'>=</span> <span class='st'>"magenta"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>pop4</span>, col <span class='op'>=</span> <span class='st'>"orange"</span>, lty <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>,</span>
+<span class='r-in'>lty <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span><span class='op'>)</span>,</span>
+<span class='r-in'>lwd <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>,</span>
+<span class='r-in'>col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"blue"</span>,<span class='st'>"black"</span>,<span class='st'>"red"</span>,<span class='st'>"magenta"</span>,<span class='st'>"orange"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"graduate_sprague()"</span>,</span>
+<span class='r-in'>                <span class='st'>"splitOscillate(splitfun = graduate_sprague)"</span>,</span>
+<span class='r-in'>           <span class='st'>"splitOscillate(splitfun = beers)"</span>,</span>
+<span class='r-in'>           <span class='st'>"graduate_grabill()"</span>,</span>
+<span class='r-in'>                <span class='st'>"splitOscillate(splitfun = graduate_grabill)"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># index of dissimilarity</span></span>
+<span class='r-in'><span class='fu'><a href='ID.html'>ID</a></span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>pop0</span><span class='op'>)</span> <span class='co'># original vs sprague</span></span>
+<span class='r-in'><span class='fu'><a href='ID.html'>ID</a></span><span class='op'>(</span><span class='va'>pop0</span>,<span class='va'>pop1</span><span class='op'>)</span> <span class='co'># sprague vs sprague osc</span></span>
+<span class='r-in'><span class='fu'><a href='ID.html'>ID</a></span><span class='op'>(</span><span class='va'>pop1</span>,<span class='va'>pop2</span><span class='op'>)</span> <span class='co'># sprague osc vs beers osc</span></span>
+<span class='r-in'><span class='fu'><a href='ID.html'>ID</a></span><span class='op'>(</span><span class='va'>pop2</span>,<span class='va'>pop3</span><span class='op'>)</span> <span class='co'># beers osc vs grabill</span></span>
+<span class='r-in'><span class='fu'><a href='ID.html'>ID</a></span><span class='op'>(</span><span class='va'>pop3</span>,<span class='va'>pop4</span><span class='op'>)</span> <span class='co'># grabill vs grabill osc</span></span>
+<span class='r-in'><span class='co'># measure of smoothness:</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>Value</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>pop0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>pop1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>pop2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>pop3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/diff.html'>diff</a></span><span class='op'>(</span><span class='va'>pop4</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

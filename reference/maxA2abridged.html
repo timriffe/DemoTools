@@ -175,15 +175,17 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>integer. Vector of ages, e.g. <code><a href='https://rdrr.io/r/base/c.html'>c(0,1,5,10,15,...)</a></code>.</p>
+    <p>integer. Vector of ages, e.g. <code>c(0,1,5,10,15,...)</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If the highest age group is not evenly divisible by 5 then age classes only go up to its 5-year lower bound.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>maxA2abridged</span><span class='op'>(</span><span class='fl'>80</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]  0  1  5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'>maxA2abridged</span><span class='op'>(</span><span class='fl'>100</span><span class='op'>)</span> <span class='op'>==</span> <span class='fu'>maxA2abridged</span><span class='op'>(</span><span class='fl'>102</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>maxA2abridged</span><span class='op'>(</span><span class='fl'>80</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  0  1  5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'>maxA2abridged</span><span class='op'>(</span><span class='fl'>100</span><span class='op'>)</span> <span class='op'>==</span> <span class='fu'>maxA2abridged</span><span class='op'>(</span><span class='fl'>102</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

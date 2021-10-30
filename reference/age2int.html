@@ -191,29 +191,35 @@ If the final age group is closed, it is assumed to be equal to the next-lower in
 known and not equal to the next lowest interval, specify <code>OAG = TRUE</code> and assign its value to <code>OAvalue</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># single age examples:</span>
-<span class='va'>Age</span>  <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>
-<span class='fu'>age2int</span><span class='op'>(</span><span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, OAvalue <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
-#&gt;  [26]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
-#&gt;  [51]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
-#&gt;  [76]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
-#&gt; [101] NA</div><div class='input'><span class='fu'>age2int</span><span class='op'>(</span><span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, OAvalue <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1]   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
-#&gt;  [19]   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
-#&gt;  [37]   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
-#&gt;  [55]   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
-#&gt;  [73]   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
-#&gt;  [91]   1   1   1   1   1   1   1   1   1   1 Inf</div><div class='input'><span class='fu'>age2int</span><span class='op'>(</span><span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-#&gt;  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-#&gt;  [75] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</div><div class='input'>
-<span class='co'># and for abridged ages:</span>
-<span class='va'>AgeA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>85</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>age2int</span><span class='op'>(</span><span class='va'>AgeA</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, OAvalue <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]  1  4  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5 NA</div><div class='input'><span class='fu'>age2int</span><span class='op'>(</span><span class='va'>AgeA</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, OAvalue <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]   1   4   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5 Inf</div><div class='input'><span class='fu'>age2int</span><span class='op'>(</span><span class='va'>AgeA</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 1 4 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># single age examples:</span></span>
+<span class='r-in'><span class='va'>Age</span>  <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span></span>
+<span class='r-in'><span class='fu'>age2int</span><span class='op'>(</span><span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, OAvalue <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [26]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [51]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [76]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [101] NA</span>
+<span class='r-in'><span class='fu'>age2int</span><span class='op'>(</span><span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, OAvalue <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19]   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37]   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55]   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73]   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91]   1   1   1   1   1   1   1   1   1   1 Inf</span>
+<span class='r-in'><span class='fu'>age2int</span><span class='op'>(</span><span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [75] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># and for abridged ages:</span></span>
+<span class='r-in'><span class='va'>AgeA</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>85</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>age2int</span><span class='op'>(</span><span class='va'>AgeA</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, OAvalue <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  1  4  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5 NA</span>
+<span class='r-in'><span class='fu'>age2int</span><span class='op'>(</span><span class='va'>AgeA</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, OAvalue <span class='op'>=</span> <span class='cn'>Inf</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]   1   4   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5 Inf</span>
+<span class='r-in'><span class='fu'>age2int</span><span class='op'>(</span><span class='va'>AgeA</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 1 4 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

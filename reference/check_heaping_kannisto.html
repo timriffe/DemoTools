@@ -198,14 +198,20 @@
 <em>Validation of Exceptional Longevity'', Odense Monographs on Population Aging</em>, <b>6</b>, 235--249.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
-<span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>90</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 10.61044</div><div class='input'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 11.89005</div><div class='input'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span>, pow <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'># geometric mean in denom</span>
-</div><div class='output co'>#&gt; [1] 7.20897</div><div class='input'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span>, pow <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span> <span class='co'># similar, but robust to 0s</span>
-</div><div class='output co'>#&gt; [1] 11.88047</div><div class='input'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span>, pow <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='co'># arithmetic mean in denom</span>
-</div><div class='output co'>#&gt; [1] 4.198132</div><div class='input'><span class='va'>pop1m_pasex</span><span class='op'>[</span><span class='va'>Age</span><span class='op'>==</span><span class='fl'>95</span><span class='op'>]</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span><span class='op'>[</span><span class='va'>Age</span> <span class='op'>&gt;=</span> <span class='fl'>93</span> <span class='op'>&amp;</span> <span class='va'>Age</span> <span class='op'>&lt;=</span> <span class='fl'>97</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 4.198132</div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span></span>
+<span class='r-in'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>90</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 10.61044</span>
+<span class='r-in'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 11.89005</span>
+<span class='r-in'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span>, pow <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'># geometric mean in denom</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 7.20897</span>
+<span class='r-in'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span>, pow <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span> <span class='co'># similar, but robust to 0s</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 11.88047</span>
+<span class='r-in'><span class='fu'>check_heaping_kannisto</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>95</span>, pow <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='co'># arithmetic mean in denom</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 4.198132</span>
+<span class='r-in'><span class='va'>pop1m_pasex</span><span class='op'>[</span><span class='va'>Age</span><span class='op'>==</span><span class='fl'>95</span><span class='op'>]</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span><span class='op'>[</span><span class='va'>Age</span> <span class='op'>&gt;=</span> <span class='fl'>93</span> <span class='op'>&amp;</span> <span class='va'>Age</span> <span class='op'>&lt;=</span> <span class='fl'>97</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 4.198132</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
