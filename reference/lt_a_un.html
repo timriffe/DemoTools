@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.73</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.74</span>
       </span>
     </div>
 
@@ -299,6 +299,12 @@ United Nations Department of International Economic and Social Affairs.</p>
 <span class='r-in'>                    Sex <span class='op'>=</span> <span class='st'>"m"</span>,</span>
 <span class='r-in'>                  region <span class='op'>=</span> <span class='st'>"w"</span>,</span>
 <span class='r-in'>                    mod <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
 <span class='r-in'><span class='va'>nAx2</span>       <span class='op'>&lt;-</span> <span class='fu'>lt_a_un</span><span class='op'>(</span>nMx <span class='op'>=</span> <span class='va'>Mx</span>,</span>
 <span class='r-in'>                   Age <span class='op'>=</span> <span class='va'>Age</span>,</span>
 <span class='r-in'>                    AgeInt <span class='op'>=</span> <span class='va'>AgeInt</span>,</span>
@@ -306,10 +312,16 @@ United Nations Department of International Economic and Social Affairs.</p>
 <span class='r-in'>                    Sex <span class='op'>=</span> <span class='st'>"m"</span>,</span>
 <span class='r-in'>                  region <span class='op'>=</span> <span class='st'>"w"</span>,</span>
 <span class='r-in'>                    mod <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
 <span class='r-in'><span class='co'># this is acceptable...</span></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>nAx2</span>,<span class='fl'>3</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>ax</span> <span class='co'># only different in ages 5-9 and 10-14, and last two ages</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  0.000  0.000 -0.506 -0.082  0.000  0.000  0.000  0.000  0.000  0.000</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [11]  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.012 -0.566</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11]  0.000  0.000  0.000  0.000  0.000  0.000  0.000  0.012 -0.758</span>
 <span class='r-in'><span class='co'># ignore open age, which is treated differently</span></span>
 <span class='r-in'><span class='va'>N</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>ax</span><span class='op'>)</span></span>
 <span class='r-in'><span class='co'># default unit test...</span></span>
@@ -329,6 +341,12 @@ United Nations Department of International Economic and Social Affairs.</p>
 <span class='r-in'>                  a0rule <span class='op'>=</span> <span class='st'>"ak"</span>,</span>
 <span class='r-in'>                  mod <span class='op'>=</span> <span class='cn'>TRUE</span>, </span>
 <span class='r-in'>                  closeout <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='va'>nqx</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='lt_id_ma_q.html'>lt_id_ma_q</a></span><span class='op'>(</span>nMx <span class='op'>=</span> <span class='va'>nMx</span>, </span>
 <span class='r-in'>                     nax <span class='op'>=</span> <span class='va'>nAx1</span>, </span>
@@ -340,6 +358,45 @@ United Nations Department of International Economic and Social Affairs.</p>
 <span class='r-in'>                a0rule <span class='op'>=</span> <span class='st'>"ak"</span>, </span>
 <span class='r-in'>                mod<span class='op'>=</span> <span class='cn'>TRUE</span>, </span>
 <span class='r-in'>                closeout <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='va'>nAx1</span><span class='op'>[</span><span class='va'>Age</span><span class='op'>&lt;</span><span class='fl'>75</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>nAx2</span><span class='op'>[</span><span class='va'>Age</span><span class='op'>&lt;</span><span class='fl'>75</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>1e-7</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-in'></span>

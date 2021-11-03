@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.73</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.74</span>
       </span>
     </div>
 
@@ -206,6 +206,9 @@ redistribution in <code><a href='OPAG.html'>OPAG()</a></code></p></li>
 <span class='r-in'><span class='va'>Age_fit</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>70</span>,<span class='fl'>80</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>nLx</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='downloadnLx.html'>downloadnLx</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>"Spain"</span>,<span class='st'>"female"</span>,<span class='fl'>1971</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for Spain, years 1971, gender female</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
 <span class='r-in'><span class='va'>Age_nLx</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>Lx1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate.html'>graduate</a></span><span class='op'>(</span><span class='va'>nLx</span>,Age<span class='op'>=</span><span class='va'>Age_nLx</span>,method <span class='op'>=</span> <span class='st'>"mono"</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>Age_Lx1</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span></span>
@@ -218,6 +221,9 @@ redistribution in <code><a href='OPAG.html'>OPAG()</a></code></p></li>
 <span class='r-in'></span>
 <span class='r-in'><span class='va'>nLx</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='downloadnLx.html'>downloadnLx</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>"India"</span>,<span class='st'>"male"</span>,<span class='fl'>1971</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for India, years 1971, gender male</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = nc(A = 0.005, B = 0.13))</span>
 <span class='r-in'><span class='va'>Age_nLx</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span></span>
 <span class='r-in'></span>
 <span class='r-in'></span>
