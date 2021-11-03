@@ -26,6 +26,7 @@
 #' @param opt.method character. Default `"LF2"`, see `MortalityLaws::MortalityLaw` for a description of choices.
 #' @param ... Other arguments to be passed on to the
 #' \code{\link[MortalityLaws]{MortalityLaw}} function.
+#' @details If fitting fails to converge, then we refit assuming Gompertz mortality with explicit starting parameters of `parS = c(A = 0.005, B = 0.13)` and a warning is issued.
 #' @seealso
 #' \code{\link[MortalityLaws]{MortalityLaw}}
 #' \code{\link[MortalityLaws]{predict.MortalityLaw}}

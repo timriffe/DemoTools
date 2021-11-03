@@ -52,6 +52,9 @@ An object of class \code{lt_rule_m_extrapolate} with the following components:
 \description{
 Extrapolate old-age human mortality curve using mortality laws
 }
+\details{
+If fitting fails to converge, then we refit assuming Gompertz mortality with explicit starting parameters of \code{parS = c(A = 0.005, B = 0.13)} and a warning is issued.
+}
 \examples{
 # Example 1 - abridged data
 
