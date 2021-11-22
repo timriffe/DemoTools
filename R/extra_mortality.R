@@ -174,8 +174,9 @@ lt_rule_m_extrapolate <- function(mx,
   )
   
   if (any(is.nan(M$goodness.of.fit))){
-    warning("Extrapolation failed to converge\nFalling back to Gompertz with starting parameters:\n parS = nc(A = 0.005, B = 0.13))",
+    warning("Extrapolation failed to converge\nFalling back to Gompertz with starting parameters:\n parS = c(A = 0.005, B = 0.13))",
             immediate. = TRUE)
+   
     parS <- c(A = 0.005, B = 0.13)
     law  <- "gompertz"
     M  <- MortalityLaw(
@@ -186,10 +187,17 @@ lt_rule_m_extrapolate <- function(mx,
       parS = parS,
       ...)
   }
-
+  chop <- FALSE
+  if (length(x_extr) == 1){
+    chop <- TRUE
+    x_extr <- c(x_extr, x_extr + 1)
+  }
   pv <- predict(object = M,
                 x = x_extr)
-
+ if (chop){
+   pv <- pv[1]
+   x_extr <- x_extr[1]
+ }
   # which ages are not to be replaced with fitted values?
   L  <- !(x %in% x_extr)
 
