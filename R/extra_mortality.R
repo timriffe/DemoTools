@@ -132,8 +132,10 @@
 #' # Create some data
 #' mx_matrix <- matrix(rep(mx1, 3), ncol = 3) %*% diag(c(1, 1.05, 1.1))
 #' dimnames(mx_matrix) <- list(age = x1, year = c("year1", "year2", "year3"))
-#'
-#' F1 <- lt_rule_m_extrapolate(mx_matrix, x = x1, x_fit, x_extr, law = "kannisto")
+#' 
+#' # TR: temporary warning suppression until case handling is fixed
+#' # in MortalityLaws package
+#' F1 <- suppressWarnings(lt_rule_m_extrapolate(mx_matrix, x = x1, x_fit, x_extr, law = "kannisto"))
 #' F1
 #' ls(F1)
 #' coef(F1)
@@ -146,7 +148,10 @@ lt_rule_m_extrapolate <- function(mx,
                                   law = "kannisto",
                                   opt.method = "LF2",
                                   ...) {
-
+  dm <- dim(mx)
+  if (length(dm) == 1 | (length(mx) == 2 & any(dm == 1))){
+    mx <- c(mx)
+  }
   all_the_laws_we_care_about <- c("kannisto",
                                   "kannisto_makeham",
                                   "makeham",
@@ -173,20 +178,24 @@ lt_rule_m_extrapolate <- function(mx,
     ...
   )
   
-  if (any(is.nan(M$goodness.of.fit))){
-    warning("Extrapolation failed to converge\nFalling back to Gompertz with starting parameters:\n parS = c(A = 0.005, B = 0.13))",
-            immediate. = TRUE)
-   
-    parS <- c(A = 0.005, B = 0.13)
-    law  <- "gompertz"
-    M  <- MortalityLaw(
-      x = x,
-      mx = mx,
-      fit.this.x = x_fit,
-      law = law,
-      parS = parS,
-      ...)
+  if (!is.null(M$opt.diagnosis)){
+    if( M$opt.diagnosis$convergence != 0){
+      warning("Extrapolation failed to converge\nFalling back to Gompertz with starting parameters:\n parS = c(A = 0.005, B = 0.13))",
+              immediate. = TRUE)
+     
+      parS <- c(A = 0.005, B = 0.13)
+      law  <- "gompertz"
+      M  <- MortalityLaw(
+        x = x,
+        mx = mx,
+        fit.this.x = x_fit,
+        law = law,
+        parS = parS,
+        ...)
+      }
   }
+  
+  # TR: this will fail if a matrix is given where we only x_extr for 1 age.
   chop <- FALSE
   if (length(x_extr) == 1){
     chop <- TRUE

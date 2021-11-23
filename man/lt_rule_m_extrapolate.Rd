@@ -152,7 +152,9 @@ legend("topleft", bty = "n",
 mx_matrix <- matrix(rep(mx1, 3), ncol = 3) \%*\% diag(c(1, 1.05, 1.1))
 dimnames(mx_matrix) <- list(age = x1, year = c("year1", "year2", "year3"))
 
-F1 <- lt_rule_m_extrapolate(mx_matrix, x = x1, x_fit, x_extr, law = "kannisto")
+# TR: temporary warning suppression until case handling is fixed
+# in MortalityLaws package
+F1 <- suppressWarnings(lt_rule_m_extrapolate(mx_matrix, x = x1, x_fit, x_extr, law = "kannisto"))
 F1
 ls(F1)
 coef(F1)
