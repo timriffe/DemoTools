@@ -81,7 +81,7 @@ what is the error implied given the current $r$ and stationary standard?" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.75</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -210,9 +210,6 @@ given population vector and stationary standard.</p>
 <span class='r-in'><span class='va'>AgeInt_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>,<span class='fl'>10</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>nLx</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='downloadnLx.html'>downloadnLx</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>"Spain"</span>,<span class='st'>"female"</span>,<span class='fl'>1971</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for Spain, years 1971, gender female</span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = c(A = 0.005, B = 0.13))</span>
 <span class='r-in'><span class='co'># graduate(nLx, Age_nLx, method = method, constrain = TRUE)</span></span>
 <span class='r-in'><span class='va'>Ageab</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>Lx1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate.html'>graduate</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>nLx</span><span class='op'>)</span>, <span class='va'>Ageab</span>, method <span class='op'>=</span> <span class='st'>"mono"</span>, constrain <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>

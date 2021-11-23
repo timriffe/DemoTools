@@ -81,7 +81,7 @@ then subject the population structure to long-term growth by a constant rate, r.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.75</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -195,9 +195,6 @@ quite often an acceptable and useful approximation. The transformation is applie
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='va'>Lx</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='downloadnLx.html'>downloadnLx</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='st'>"Spain"</span>,<span class='st'>"female"</span>,<span class='fl'>1971</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for Spain, years 1971, gender female</span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Extrapolation failed to converge</span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Falling back to Gompertz with starting parameters:</span>
-<span class='r-wrn co'><span class='r-pr'>#&gt;</span>  parS = c(A = 0.005, B = 0.13))</span>
 <span class='r-in'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='names2age.html'>names2age</a></span><span class='op'>(</span><span class='va'>Lx</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>r</span>   <span class='op'>&lt;-</span> <span class='fl'>.01</span></span>
 <span class='r-in'><span class='va'>ai</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='age2int.html'>age2int</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span></span>
