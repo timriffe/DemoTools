@@ -53,8 +53,6 @@
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -66,15 +64,9 @@
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -170,7 +162,7 @@
     <p>This is a frequent grouping situation. For a given vector of lower age bounds, as implied by <code>AgeInt</code>, repeat each value N times, where N is the width of the corresponding age interval. Age intervals are in this case given, and age lower bound values are calculated from <code>AgeInt</code> vector.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>int2ageN</span><span class='op'>(</span><span class='va'>AgeInt</span>, <span class='va'>OAG</span><span class='op'>)</span></code></pre></div>
+    <pre class="usage"><span class='fu'>int2ageN</span><span class='op'>(</span><span class='va'>AgeInt</span>, <span class='va'>OAG</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,22 +185,20 @@
     <p>If OAG = TRUE then the last value is given just once, irrespective of the final value of <code>AgeInt</code>, otherwise the final age interval is repeated <code>AgeInt[length(AgeInt)]</code> times. Here intervals do not need to be of uniform width.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>int5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>21</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>(</span><span class='va'>ageN1</span> <span class='op'>&lt;-</span> <span class='fu'>int2ageN</span><span class='op'>(</span><span class='va'>int5</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91]  90  90  90  90  90  95  95  95  95  95 100 100 100 100 100</span>
-<span class='r-in'><span class='op'>(</span><span class='va'>ageN2</span> <span class='op'>&lt;-</span> <span class='fu'>int2ageN</span><span class='op'>(</span><span class='va'>int5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91]  90  90  90  90  90  95  95  95  95  95 100</span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='va'>int5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>21</span><span class='op'>)</span>
+<span class='op'>(</span><span class='va'>ageN1</span> <span class='op'>&lt;-</span> <span class='fu'>int2ageN</span><span class='op'>(</span><span class='va'>int5</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15
+#&gt;  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35
+#&gt;  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50
+#&gt;  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70
+#&gt;  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85
+#&gt;  [91]  90  90  90  90  90  95  95  95  95  95 100 100 100 100 100</div><div class='input'><span class='op'>(</span><span class='va'>ageN2</span> <span class='op'>&lt;-</span> <span class='fu'>int2ageN</span><span class='op'>(</span><span class='va'>int5</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   [1]   0   0   0   0   0   5   5   5   5   5  10  10  10  10  10  15  15  15
+#&gt;  [19]  15  15  20  20  20  20  20  25  25  25  25  25  30  30  30  30  30  35
+#&gt;  [37]  35  35  35  35  40  40  40  40  40  45  45  45  45  45  50  50  50  50
+#&gt;  [55]  50  55  55  55  55  55  60  60  60  60  60  65  65  65  65  65  70  70
+#&gt;  [73]  70  70  70  75  75  75  75  75  80  80  80  80  80  85  85  85  85  85
+#&gt;  [91]  90  90  90  90  90  95  95  95  95  95 100</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -220,11 +210,11 @@
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -232,8 +222,6 @@
 
   
 
-
-  
 
   </body>
 </html>

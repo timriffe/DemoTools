@@ -53,8 +53,6 @@
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -66,15 +64,9 @@
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -170,14 +162,14 @@
     <p>Implementation following the PASEX spreadsheet SINGAGE. Myers' measures preferences for each of the ten possible digits as a blended index. It is based on the principle that in the absence of age heaping, the aggregate population of each age ending in one of the digits 0 to 9 should represent 10 percent of the total population.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>check_heaping_myers</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>check_heaping_myers</span><span class='op'>(</span>
   <span class='va'>Value</span>,
   <span class='va'>Age</span>,
   ageMin <span class='op'>=</span> <span class='fl'>23</span>,
   ageMax <span class='op'>=</span> <span class='fl'>82</span>,
   details <span class='op'>=</span> <span class='cn'>FALSE</span>,
   method <span class='op'>=</span> <span class='st'>"orig"</span>
-<span class='op'>)</span></code></pre></div>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -231,19 +223,14 @@ United States Census Bureau (2017).
 https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span></span>
-<span class='r-in'><span class='fu'>check_heaping_myers</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>10</span>, <span class='fl'>89</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 23.62787</span>
-<span class='r-in'><span class='fu'>check_heaping_myers</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>10</span>, <span class='fl'>89</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>2</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 47.46004</span>
-<span class='r-in'><span class='co'># pasex 10-89. result: ___ from spreadsheet</span></span>
-<span class='r-in'><span class='fu'>check_heaping_myers</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 29.7444</span>
-<span class='r-in'><span class='fu'><a href='check_heaping_bachi.html'>check_heaping_bachi</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span>, method <span class='op'>=</span> <span class='st'>"orig"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 28.93849</span>
-<span class='r-in'><span class='fu'><a href='check_heaping_bachi.html'>check_heaping_bachi</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 28.96891</span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
+<span class='fu'>check_heaping_myers</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>10</span>, <span class='fl'>89</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 23.62787</div><div class='input'><span class='fu'>check_heaping_myers</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>10</span>, <span class='fl'>89</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>2</span>
+</div><div class='output co'>#&gt; [1] 47.46004</div><div class='input'><span class='co'># pasex 10-89. result: ___ from spreadsheet</span>
+<span class='fu'>check_heaping_myers</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 29.7444</div><div class='input'><span class='fu'><a href='check_heaping_bachi.html'>check_heaping_bachi</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span>, method <span class='op'>=</span> <span class='st'>"orig"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 28.93849</div><div class='input'><span class='fu'><a href='check_heaping_bachi.html'>check_heaping_bachi</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, <span class='fl'>23</span>, <span class='fl'>82</span>, method <span class='op'>=</span> <span class='st'>"pasex"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 28.96891</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -255,11 +242,11 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -267,8 +254,6 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 
   
 
-
-  
 
   </body>
 </html>

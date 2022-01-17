@@ -54,8 +54,6 @@ calculate the net migration age schedule based on the Rogers and Castro formula 
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -67,15 +65,9 @@ calculate the net migration age schedule based on the Rogers and Castro formula 
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -89,7 +81,7 @@ calculate the net migration age schedule based on the Rogers and Castro formula 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -172,7 +164,7 @@ calculate the net migration age schedule based on the Rogers and Castro formula 
 calculate the net migration age schedule based on the Rogers and Castro formula for UN families.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>mig_un_fam</span><span class='op'>(</span><span class='va'>NM</span>, <span class='va'>family</span>, Single <span class='op'>=</span> <span class='cn'>TRUE</span>, OAnew <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span></code></pre></div>
+    <pre class="usage"><span class='fu'>mig_un_fam</span><span class='op'>(</span><span class='va'>NM</span>, <span class='va'>family</span>, Single <span class='op'>=</span> <span class='cn'>TRUE</span>, OAnew <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -207,18 +199,18 @@ maximum age.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># 10000 net migrants, comparing two possible families</span></span>
-<span class='r-in'><span class='va'>nm1</span> <span class='op'>&lt;-</span> <span class='fu'>mig_un_fam</span><span class='op'>(</span>NM <span class='op'>=</span> <span class='fl'>10000</span>, family <span class='op'>=</span> <span class='st'>"Male Labor"</span>, OAnew <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>nm2</span> <span class='op'>&lt;-</span> <span class='fu'>mig_un_fam</span><span class='op'>(</span>NM <span class='op'>=</span> <span class='fl'>10000</span>, family <span class='op'>=</span> <span class='st'>"Family"</span>, OAnew <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span></span>
-<span class='r-in'><span class='co'># See the female profile in for these models:</span></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>nm1</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>age</span><span class='op'>[</span><span class='va'>nm1</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>sex</span><span class='op'>==</span><span class='st'>"Female"</span><span class='op'>]</span>,</span>
-<span class='r-in'>     <span class='va'>nm1</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>nm</span><span class='op'>[</span><span class='va'>nm1</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>sex</span><span class='op'>==</span><span class='st'>"Female"</span><span class='op'>]</span>,</span>
-<span class='r-in'>     xlab<span class='op'>=</span><span class='st'>"Age"</span>,ylab<span class='op'>=</span><span class='st'>"nm"</span>,ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>300</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>nm2</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>age</span><span class='op'>[</span><span class='va'>nm2</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>sex</span><span class='op'>==</span><span class='st'>"Female"</span><span class='op'>]</span>,</span>
-<span class='r-in'>       <span class='va'>nm2</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>nm</span><span class='op'>[</span><span class='va'>nm2</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>sex</span><span class='op'>==</span><span class='st'>"Female"</span><span class='op'>]</span>, col<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='co'># 10000 net migrants, comparing two possible families</span>
+<span class='va'>nm1</span> <span class='op'>&lt;-</span> <span class='fu'>mig_un_fam</span><span class='op'>(</span>NM <span class='op'>=</span> <span class='fl'>10000</span>, family <span class='op'>=</span> <span class='st'>"Male Labor"</span>, OAnew <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+<span class='va'>nm2</span> <span class='op'>&lt;-</span> <span class='fu'>mig_un_fam</span><span class='op'>(</span>NM <span class='op'>=</span> <span class='fl'>10000</span>, family <span class='op'>=</span> <span class='st'>"Family"</span>, OAnew <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+<span class='co'># See the female profile in for these models:</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>nm1</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>age</span><span class='op'>[</span><span class='va'>nm1</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>sex</span><span class='op'>==</span><span class='st'>"Female"</span><span class='op'>]</span>,
+     <span class='va'>nm1</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>nm</span><span class='op'>[</span><span class='va'>nm1</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>sex</span><span class='op'>==</span><span class='st'>"Female"</span><span class='op'>]</span>,
+     xlab<span class='op'>=</span><span class='st'>"Age"</span>,ylab<span class='op'>=</span><span class='st'>"nm"</span>,ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>300</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>nm2</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>age</span><span class='op'>[</span><span class='va'>nm2</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>sex</span><span class='op'>==</span><span class='st'>"Female"</span><span class='op'>]</span>,
+       <span class='va'>nm2</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>nm</span><span class='op'>[</span><span class='va'>nm2</span><span class='op'>$</span><span class='va'>net_migr</span><span class='op'>$</span><span class='va'>sex</span><span class='op'>==</span><span class='st'>"Female"</span><span class='op'>]</span>, col<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -230,11 +222,11 @@ maximum age.</p></td>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -242,8 +234,6 @@ maximum age.</p></td>
 
   
 
-
-  
 
   </body>
 </html>

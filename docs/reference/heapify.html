@@ -53,8 +53,6 @@
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -66,15 +64,9 @@
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -170,7 +162,7 @@
     <p>For single age count data, perturb the data in such a way as to induce heaping on ages ending in 0 and 5. This is a common phenomenon that several age heaping evaluation methods are designed to test for. In order to estimate how these methods respond to different degrees of heaping in a systematic way, a function such as  this may be useful. The way this works is purely a guess, and no checks are in place, so use with caution.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>heapify</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>heapify</span><span class='op'>(</span>
   <span class='va'>Value</span>,
   <span class='va'>Age</span>,
   p0 <span class='op'>=</span> <span class='fl'>2</span>,
@@ -178,8 +170,8 @@
   pdf0 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>6</span>, <span class='fl'>15</span>, <span class='fl'>20</span>, <span class='fl'>15</span>, <span class='fl'>6</span>, <span class='fl'>1</span><span class='op'>)</span>,
   pdf5 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>4</span>, <span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>,
   ageMin <span class='op'>=</span> <span class='fl'>25</span>,
-  ageMax <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>[</span><span class='va'>Age</span><span class='op'><a href='https://rdrr.io/r/base/Arithmetic.html'>%%</a></span><span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>]</span><span class='op'>)</span>
-<span class='op'>)</span></code></pre></div>
+  ageMax <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>[</span><span class='va'>Age</span><span class='op'>%%</span><span class='fl'>5</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>]</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -223,29 +215,29 @@
     <p>Value numeric vector perturbed to look like age heaping as happened.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>We use pascal weights, <code>c(1,4,6,4,1)</code> scaled to argument <code>p5</code> and <code>c(1,6,15,20,15,6,1)</code> scaled to argument <code>p0</code> to shift individuals from surrounding ages to ages endings in 5 and 0, respectively. This assumes that ages closer to digits 0 or 5 are more likely to be declared as 0 or 5, that this bias is symmetrical, and that such rounding can come from farther away ages for terminal digit 0 than for 5. The user can also make heaping scale differently for 0s and 5s, but there is no control over the shape of bias.</p>
+    <p>We use pascal weights, <code><a href='https://rdrr.io/r/base/c.html'>c(1,4,6,4,1)</a></code> scaled to argument <code>p5</code> and <code><a href='https://rdrr.io/r/base/c.html'>c(1,6,15,20,15,6,1)</a></code> scaled to argument <code>p0</code> to shift individuals from surrounding ages to ages endings in 5 and 0, respectively. This assumes that ages closer to digits 0 or 5 are more likely to be declared as 0 or 5, that this bias is symmetrical, and that such rounding can come from farther away ages for terminal digit 0 than for 5. The user can also make heaping scale differently for 0s and 5s, but there is no control over the shape of bias.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># example to show what we're talking about.</span></span>
-<span class='r-in'><span class='co'># pop1m_pasex is already quite heaped:</span></span>
-<span class='r-in'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span></span>
-<span class='r-in'><span class='va'>A5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>95</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>pop1m_pasex</span><span class='op'>)</span></span>
-<span class='r-in'><span class='co'># here it is again, smoothed:</span></span>
-<span class='r-in'><span class='va'>smoothed</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span></span>
-<span class='r-in'>    <span class='fu'><a href='smooth_age_5.html'>smooth_age_5</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span>,</span>
-<span class='r-in'>        <span class='va'>Age</span>,</span>
-<span class='r-in'>        method <span class='op'>=</span> <span class='st'>"Strong"</span>,</span>
-<span class='r-in'>        OAG <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
-<span class='r-in'>        young.tail <span class='op'>=</span> <span class='st'>"Arriaga"</span><span class='op'>)</span>,</span>
-<span class='r-in'>    Age <span class='op'>=</span> <span class='va'>A5</span>,</span>
-<span class='r-in'>    OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>smoothed</span><span class='op'>)</span></span>
-<span class='r-in'><span class='co'># an OK approximation for testing purposes.</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'>heapify</span><span class='op'>(</span><span class='va'>smoothed</span>,Age<span class='op'>=</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>,<span class='fl'>1.8</span>,<span class='fl'>1.1</span>,ageMin<span class='op'>=</span><span class='fl'>20</span><span class='op'>)</span>,pch<span class='op'>=</span><span class='st'>"x"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='co'># example to show what we're talking about.</span>
+<span class='co'># pop1m_pasex is already quite heaped:</span>
+<span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
+<span class='va'>A5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>95</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>pop1m_pasex</span><span class='op'>)</span>
+<span class='co'># here it is again, smoothed:</span>
+<span class='va'>smoothed</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span>
+    <span class='fu'><a href='smooth_age_5.html'>smooth_age_5</a></span><span class='op'>(</span><span class='va'>pop1m_pasex</span>,
+        <span class='va'>Age</span>,
+        method <span class='op'>=</span> <span class='st'>"Strong"</span>,
+        OAG <span class='op'>=</span> <span class='cn'>FALSE</span>,
+        young.tail <span class='op'>=</span> <span class='st'>"Arriaga"</span><span class='op'>)</span>,
+    Age <span class='op'>=</span> <span class='va'>A5</span>,
+    OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>smoothed</span><span class='op'>)</span>
+<span class='co'># an OK approximation for testing purposes.</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>Age</span>,<span class='fu'>heapify</span><span class='op'>(</span><span class='va'>smoothed</span>,Age<span class='op'>=</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>,<span class='fl'>1.8</span>,<span class='fl'>1.1</span>,ageMin<span class='op'>=</span><span class='fl'>20</span><span class='op'>)</span>,pch<span class='op'>=</span><span class='st'>"x"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -257,11 +249,11 @@
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -269,8 +261,6 @@
 
   
 
-
-  
 
   </body>
 </html>

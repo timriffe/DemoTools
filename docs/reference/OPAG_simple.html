@@ -53,8 +53,6 @@
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -66,15 +64,9 @@
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -170,7 +162,7 @@
     <p>This method could be useful whenever a reasonable standard is available. At present the standard must be supplied by the user.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>OPAG_simple</span><span class='op'>(</span><span class='va'>Pop</span>, <span class='va'>Age</span>, OAnow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>, <span class='va'>StPop</span>, <span class='va'>StAge</span>, OAnew <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>StAge</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
+    <pre class="usage"><span class='fu'>OPAG_simple</span><span class='op'>(</span><span class='va'>Pop</span>, <span class='va'>Age</span>, OAnow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>, <span class='va'>StPop</span>, <span class='va'>StAge</span>, OAnew <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>StAge</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,7 +189,7 @@
     </tr>
     <tr>
       <th>OAnew</th>
-      <td><p>integer. The desired new open age, must be no higher than <code>max(StAge)</code>.</p></td>
+      <td><p>integer. The desired new open age, must be no higher than <code><a href='https://rdrr.io/r/base/Extremes.html'>max(StAge)</a></code>.</p></td>
     </tr>
     </table>
 
@@ -211,40 +203,40 @@
 https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'> <span class='va'>Pop</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>38129</span>,<span class='fl'>38382</span>,<span class='fl'>38824</span>,<span class='fl'>39275</span>,<span class='fl'>39500</span>,<span class='fl'>37304</span>,<span class='fl'>35152</span>,</span>
-<span class='r-in'> <span class='fl'>34061</span>,<span class='fl'>33911</span>,<span class='fl'>32875</span>,<span class='fl'>31599</span>,<span class='fl'>30376</span>,<span class='fl'>29822</span>,<span class='fl'>29691</span>,<span class='fl'>28765</span>,</span>
-<span class='r-in'> <span class='fl'>28695</span>,<span class='fl'>28917</span>,<span class='fl'>28203</span>,<span class='fl'>29209</span>,<span class='fl'>30316</span>,<span class='fl'>29062</span>,<span class='fl'>26977</span>,<span class='fl'>26577</span>,</span>
-<span class='r-in'> <span class='fl'>27727</span>,<span class='fl'>28599</span>,<span class='fl'>30513</span>,<span class='fl'>31774</span>,<span class='fl'>32347</span>,<span class='fl'>34093</span>,<span class='fl'>33736</span>,<span class='fl'>32085</span>,</span>
-<span class='r-in'> <span class='fl'>30807</span>,<span class='fl'>28279</span>,<span class='fl'>26873</span>,<span class='fl'>25612</span>,<span class='fl'>23503</span>,<span class='fl'>22207</span>,<span class='fl'>21388</span>,<span class='fl'>20122</span>,</span>
-<span class='r-in'> <span class='fl'>18014</span>,<span class='fl'>15626</span>,<span class='fl'>15006</span>,<span class='fl'>14158</span>,<span class='fl'>11195</span>,<span class='fl'>7931</span>,<span class='fl'>7640</span>,<span class='fl'>9053</span>,</span>
-<span class='r-in'> <span class='fl'>13276</span>,<span class='fl'>17226</span>,<span class='fl'>18918</span>,<span class='fl'>17697</span>,<span class='fl'>18424</span>,<span class='fl'>17723</span>,<span class='fl'>16706</span>,<span class='fl'>14410</span>,</span>
-<span class='r-in'> <span class='fl'>13342</span>,<span class='fl'>14787</span>,<span class='fl'>15183</span>,<span class='fl'>15727</span>,<span class='fl'>16045</span>,<span class='fl'>14777</span>,<span class='fl'>14267</span>,<span class='fl'>13102</span>,</span>
-<span class='r-in'> <span class='fl'>10866</span>,<span class='fl'>9311</span>,<span class='fl'>6933</span>,<span class='fl'>5030</span>,<span class='fl'>3785</span>,<span class='fl'>3551</span>,<span class='fl'>2848</span>,<span class='fl'>3080</span>,</span>
-<span class='r-in'> <span class='fl'>2874</span>,<span class='fl'>2368</span>,<span class='fl'>2681</span>,<span class='fl'>3165</span>,<span class='fl'>3010</span>,<span class='fl'>3009</span>,<span class='fl'>2721</span>,<span class='fl'>2705</span>,</span>
-<span class='r-in'> <span class='fl'>2492</span>,<span class='fl'>2244</span>,<span class='fl'>1971</span>,<span class='fl'>1644</span>,<span class='fl'>1565</span>,<span class='fl'>1307</span>,<span class='fl'>5027</span><span class='op'>)</span></span>
-<span class='r-in'> <span class='va'>Age</span>        <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>85</span></span>
-<span class='r-in'> <span class='co'># standard pop taken from ages 55+</span></span>
-<span class='r-in'> <span class='va'>StPop</span>      <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6258</span>,<span class='fl'>6177</span>,<span class='fl'>6089</span>,<span class='fl'>5995</span>,<span class='fl'>5894</span>,<span class='fl'>5787</span>,<span class='fl'>5672</span>,<span class='fl'>5552</span>,</span>
-<span class='r-in'> <span class='fl'>5423</span>,<span class='fl'>5286</span>,<span class='fl'>5140</span>,<span class='fl'>4985</span>,<span class='fl'>4824</span>,<span class='fl'>4652</span>,<span class='fl'>4477</span>,<span class='fl'>4293</span>,</span>
-<span class='r-in'> <span class='fl'>4107</span>,<span class='fl'>3912</span>,<span class='fl'>3712</span>,<span class='fl'>3502</span>,<span class='fl'>3282</span>,<span class='fl'>3055</span>,<span class='fl'>2823</span>,<span class='fl'>2591</span>,</span>
-<span class='r-in'> <span class='fl'>2360</span>,<span class='fl'>2138</span>,<span class='fl'>1921</span>,<span class='fl'>1710</span>,<span class='fl'>1502</span>,<span class='fl'>1297</span>,<span class='fl'>1098</span>,<span class='fl'>910</span>,</span>
-<span class='r-in'> <span class='fl'>741</span>,<span class='fl'>592</span>,<span class='fl'>463</span>,<span class='fl'>353</span>,<span class='fl'>265</span>,<span class='fl'>192</span>,<span class='fl'>137</span>,<span class='fl'>95</span>,</span>
-<span class='r-in'> <span class='fl'>63</span>,<span class='fl'>42</span>,<span class='fl'>26</span>,<span class='fl'>17</span>,<span class='fl'>9</span>,<span class='fl'>13</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'> <span class='va'>StAge</span>      <span class='op'>&lt;-</span> <span class='fl'>55</span><span class='op'>:</span><span class='fl'>100</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>PopExtended</span> <span class='op'>&lt;-</span> <span class='fu'>OPAG_simple</span><span class='op'>(</span></span>
-<span class='r-in'>     Pop <span class='op'>=</span> <span class='va'>Pop</span>,</span>
-<span class='r-in'>     Age <span class='op'>=</span> <span class='va'>Age</span>,</span>
-<span class='r-in'>     StPop <span class='op'>=</span> <span class='va'>StPop</span>,</span>
-<span class='r-in'>     StAge <span class='op'>=</span> <span class='va'>StAge</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>Pop</span>, type <span class='op'>=</span> <span class='st'>'l'</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>80</span>,<span class='fl'>100</span><span class='op'>)</span>,ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1e4</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>PopExtended</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, lty <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>PopExtended</span><span class='op'>[</span><span class='fl'>86</span><span class='op'>:</span><span class='fl'>101</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>Pop</span><span class='op'>[</span><span class='fl'>86</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'> <span class='va'>Pop</span>        <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>38129</span>,<span class='fl'>38382</span>,<span class='fl'>38824</span>,<span class='fl'>39275</span>,<span class='fl'>39500</span>,<span class='fl'>37304</span>,<span class='fl'>35152</span>,
+ <span class='fl'>34061</span>,<span class='fl'>33911</span>,<span class='fl'>32875</span>,<span class='fl'>31599</span>,<span class='fl'>30376</span>,<span class='fl'>29822</span>,<span class='fl'>29691</span>,<span class='fl'>28765</span>,
+ <span class='fl'>28695</span>,<span class='fl'>28917</span>,<span class='fl'>28203</span>,<span class='fl'>29209</span>,<span class='fl'>30316</span>,<span class='fl'>29062</span>,<span class='fl'>26977</span>,<span class='fl'>26577</span>,
+ <span class='fl'>27727</span>,<span class='fl'>28599</span>,<span class='fl'>30513</span>,<span class='fl'>31774</span>,<span class='fl'>32347</span>,<span class='fl'>34093</span>,<span class='fl'>33736</span>,<span class='fl'>32085</span>,
+ <span class='fl'>30807</span>,<span class='fl'>28279</span>,<span class='fl'>26873</span>,<span class='fl'>25612</span>,<span class='fl'>23503</span>,<span class='fl'>22207</span>,<span class='fl'>21388</span>,<span class='fl'>20122</span>,
+ <span class='fl'>18014</span>,<span class='fl'>15626</span>,<span class='fl'>15006</span>,<span class='fl'>14158</span>,<span class='fl'>11195</span>,<span class='fl'>7931</span>,<span class='fl'>7640</span>,<span class='fl'>9053</span>,
+ <span class='fl'>13276</span>,<span class='fl'>17226</span>,<span class='fl'>18918</span>,<span class='fl'>17697</span>,<span class='fl'>18424</span>,<span class='fl'>17723</span>,<span class='fl'>16706</span>,<span class='fl'>14410</span>,
+ <span class='fl'>13342</span>,<span class='fl'>14787</span>,<span class='fl'>15183</span>,<span class='fl'>15727</span>,<span class='fl'>16045</span>,<span class='fl'>14777</span>,<span class='fl'>14267</span>,<span class='fl'>13102</span>,
+ <span class='fl'>10866</span>,<span class='fl'>9311</span>,<span class='fl'>6933</span>,<span class='fl'>5030</span>,<span class='fl'>3785</span>,<span class='fl'>3551</span>,<span class='fl'>2848</span>,<span class='fl'>3080</span>,
+ <span class='fl'>2874</span>,<span class='fl'>2368</span>,<span class='fl'>2681</span>,<span class='fl'>3165</span>,<span class='fl'>3010</span>,<span class='fl'>3009</span>,<span class='fl'>2721</span>,<span class='fl'>2705</span>,
+ <span class='fl'>2492</span>,<span class='fl'>2244</span>,<span class='fl'>1971</span>,<span class='fl'>1644</span>,<span class='fl'>1565</span>,<span class='fl'>1307</span>,<span class='fl'>5027</span><span class='op'>)</span>
+ <span class='va'>Age</span>        <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>85</span>
+ <span class='co'># standard pop taken from ages 55+</span>
+ <span class='va'>StPop</span>      <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>6258</span>,<span class='fl'>6177</span>,<span class='fl'>6089</span>,<span class='fl'>5995</span>,<span class='fl'>5894</span>,<span class='fl'>5787</span>,<span class='fl'>5672</span>,<span class='fl'>5552</span>,
+ <span class='fl'>5423</span>,<span class='fl'>5286</span>,<span class='fl'>5140</span>,<span class='fl'>4985</span>,<span class='fl'>4824</span>,<span class='fl'>4652</span>,<span class='fl'>4477</span>,<span class='fl'>4293</span>,
+ <span class='fl'>4107</span>,<span class='fl'>3912</span>,<span class='fl'>3712</span>,<span class='fl'>3502</span>,<span class='fl'>3282</span>,<span class='fl'>3055</span>,<span class='fl'>2823</span>,<span class='fl'>2591</span>,
+ <span class='fl'>2360</span>,<span class='fl'>2138</span>,<span class='fl'>1921</span>,<span class='fl'>1710</span>,<span class='fl'>1502</span>,<span class='fl'>1297</span>,<span class='fl'>1098</span>,<span class='fl'>910</span>,
+ <span class='fl'>741</span>,<span class='fl'>592</span>,<span class='fl'>463</span>,<span class='fl'>353</span>,<span class='fl'>265</span>,<span class='fl'>192</span>,<span class='fl'>137</span>,<span class='fl'>95</span>,
+ <span class='fl'>63</span>,<span class='fl'>42</span>,<span class='fl'>26</span>,<span class='fl'>17</span>,<span class='fl'>9</span>,<span class='fl'>13</span><span class='op'>)</span>
+
+ <span class='va'>StAge</span>      <span class='op'>&lt;-</span> <span class='fl'>55</span><span class='op'>:</span><span class='fl'>100</span>
+
+<span class='va'>PopExtended</span> <span class='op'>&lt;-</span> <span class='fu'>OPAG_simple</span><span class='op'>(</span>
+     Pop <span class='op'>=</span> <span class='va'>Pop</span>,
+     Age <span class='op'>=</span> <span class='va'>Age</span>,
+     StPop <span class='op'>=</span> <span class='va'>StPop</span>,
+     StAge <span class='op'>=</span> <span class='va'>StAge</span><span class='op'>)</span>
+
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+ <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>Pop</span>, type <span class='op'>=</span> <span class='st'>'l'</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>80</span>,<span class='fl'>100</span><span class='op'>)</span>,ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1e4</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>PopExtended</span>, col <span class='op'>=</span> <span class='st'>"red"</span>, lty <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>PopExtended</span><span class='op'>[</span><span class='fl'>86</span><span class='op'>:</span><span class='fl'>101</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>Pop</span><span class='op'>[</span><span class='fl'>86</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -256,11 +248,11 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -268,8 +260,6 @@ https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/d
 
   
 
-
-  
 
   </body>
 </html>

@@ -55,8 +55,6 @@ this will work as well for other age groupings." />
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -68,15 +66,9 @@ this will work as well for other age groupings." />
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -90,7 +82,7 @@ this will work as well for other age groupings." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -174,7 +166,7 @@ guaranteed that age groups are standard abridged age groups. If <code>Age</code>
 this will work as well for other age groupings.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>inferAgeIntAbr</span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>vec</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span>, OAvalue <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span></code></pre></div>
+    <pre class="usage"><span class='fu'>inferAgeIntAbr</span><span class='op'>(</span><span class='va'>Age</span>, <span class='va'>vec</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span>, OAvalue <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,7 +191,7 @@ this will work as well for other age groupings.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An integer vector of <code>length(vec)</code> indicating the width of the abridged age group that each
+    <p>An integer vector of <code><a href='https://rdrr.io/r/base/length.html'>length(vec)</a></code> indicating the width of the abridged age group that each
 vector element corresponds to.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -209,18 +201,15 @@ interval width is defined as <code>NA</code>. <code>Inf</code> or <code>-1</code
 also been a good choice, but we went with <code>NA</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>20</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'>inferAgeIntAbr</span><span class='op'>(</span>vec <span class='op'>=</span> <span class='va'>vec</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 1 4 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5</span>
-<span class='r-in'><span class='fu'>inferAgeIntAbr</span><span class='op'>(</span>vec <span class='op'>=</span> <span class='va'>vec</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  1  4  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5 NA</span>
-<span class='r-in'><span class='fu'>inferAgeIntAbr</span><span class='op'>(</span>Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [26]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [51]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [76]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [101] NA</span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='va'>vec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>20</span><span class='op'>)</span>
+<span class='fu'>inferAgeIntAbr</span><span class='op'>(</span>vec <span class='op'>=</span> <span class='va'>vec</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 1 4 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5</div><div class='input'><span class='fu'>inferAgeIntAbr</span><span class='op'>(</span>vec <span class='op'>=</span> <span class='va'>vec</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1]  1  4  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5  5 NA</div><div class='input'><span class='fu'>inferAgeIntAbr</span><span class='op'>(</span>Age <span class='op'>=</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   [1]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+#&gt;  [26]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+#&gt;  [51]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+#&gt;  [76]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+#&gt; [101] NA</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -232,11 +221,11 @@ also been a good choice, but we went with <code>NA</code>.</p>
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -244,8 +233,6 @@ also been a good choice, but we went with <code>NA</code>.</p>
 
   
 
-
-  
 
   </body>
 </html>

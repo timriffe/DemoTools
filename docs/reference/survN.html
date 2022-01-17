@@ -53,8 +53,6 @@
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -66,15 +64,9 @@
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -170,7 +162,7 @@
     <p>This function reproduces calculations of <code>CENSUR~2.XLS</code> by Griff Feeney. Censuses are assumed to be spaced N years apart and population counts for both censuses in 5-year age groups. The staggered ratio of these approximates lifetable function npx =1-nqx, i.e. probability of surviving between age x and age x+n. The cumulative product of this approximates the survival function lx.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>survN</span><span class='op'>(</span><span class='va'>pop1</span>, <span class='va'>pop2</span>, <span class='va'>interval</span><span class='op'>)</span></code></pre></div>
+    <pre class="usage"><span class='fu'>survN</span><span class='op'>(</span><span class='va'>pop1</span>, <span class='va'>pop2</span>, <span class='va'>interval</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -198,22 +190,21 @@
 <p>We assume the open age group has already been trimmed off. The time interval `N`` must be measured as a decimal in advance and specified. This method uses a synthetic approximation of person-years lived in each age interval over the intercensal period and then a second approximation based on age-specific growth rates to produce an estimate of lifetable \(p(x)\). This value of \(p(x)\) is not bounded to \([0,1]\), and therefore the resulting lx approximation is not strictly positive or monotonically non-increasing, so downstream usage of this result is limited. For example, is not advisable to use it in the standard way to derive the lifetable dx.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># 1960 vs 1970 pops</span></span>
-<span class='r-in'><span class='va'>pop1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3831870</span>,<span class='fl'>4502304</span>,<span class='fl'>5397061</span>,<span class='fl'>4630775</span>,<span class='fl'>4193184</span>,<span class='fl'>4114704</span>,<span class='fl'>3770907</span>,<span class='fl'>3274822</span>,</span>
-<span class='r-in'>    <span class='fl'>2744786</span>,<span class='fl'>2559755</span>,<span class='fl'>2160716</span>,<span class='fl'>1839025</span>,<span class='fl'>1494043</span>,<span class='fl'>1133409</span>,<span class='fl'>870238</span>,<span class='fl'>577972</span>,<span class='fl'>313781</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>pop2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4292503</span>,<span class='fl'>3988292</span>,<span class='fl'>3852101</span>,<span class='fl'>4492096</span>,<span class='fl'>5347327</span>,<span class='fl'>4571868</span>,<span class='fl'>4190340</span>,<span class='fl'>4085338</span>,</span>
-<span class='r-in'>    <span class='fl'>3674127</span>,<span class='fl'>3198934</span>,<span class='fl'>2648360</span>,<span class='fl'>2382691</span>,<span class='fl'>1970485</span>,<span class='fl'>1584699</span>,<span class='fl'>1172155</span>,<span class='fl'>736258</span>,<span class='fl'>408191</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>interval</span> <span class='op'>&lt;-</span> <span class='fl'>10</span></span>
-<span class='r-in'><span class='fu'>survN</span><span class='op'>(</span><span class='va'>pop1</span>,<span class='va'>pop2</span>,<span class='va'>interval</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 1.0000000 1.0429078 1.0047911 0.9125239 1.0015734 0.9989119 0.9650474</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] 0.9650575 0.9538966 0.9761038 0.9074620 0.8923755 0.8366291 0.7626398</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] 0.6726113 0.4965859 0.3092449</span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>80</span>,<span class='fl'>5</span><span class='op'>)</span>,<span class='fu'>survN</span><span class='op'>(</span><span class='va'>pop1</span>,<span class='va'>pop2</span>,<span class='va'>interval</span><span class='op'>)</span>, t <span class='op'>=</span><span class='st'>'l'</span>, col<span class='op'>=</span><span class='st'>'red'</span>,</span>
-<span class='r-in'>    ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1.1</span><span class='op'>)</span>,</span>
-<span class='r-in'>    ylab <span class='op'>=</span> <span class='st'>'Survival function'</span>, xlab <span class='op'>=</span> <span class='st'>'Age'</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='co'># 1960 vs 1970 pops</span>
+<span class='va'>pop1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3831870</span>,<span class='fl'>4502304</span>,<span class='fl'>5397061</span>,<span class='fl'>4630775</span>,<span class='fl'>4193184</span>,<span class='fl'>4114704</span>,<span class='fl'>3770907</span>,<span class='fl'>3274822</span>,
+    <span class='fl'>2744786</span>,<span class='fl'>2559755</span>,<span class='fl'>2160716</span>,<span class='fl'>1839025</span>,<span class='fl'>1494043</span>,<span class='fl'>1133409</span>,<span class='fl'>870238</span>,<span class='fl'>577972</span>,<span class='fl'>313781</span><span class='op'>)</span>
+<span class='va'>pop2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4292503</span>,<span class='fl'>3988292</span>,<span class='fl'>3852101</span>,<span class='fl'>4492096</span>,<span class='fl'>5347327</span>,<span class='fl'>4571868</span>,<span class='fl'>4190340</span>,<span class='fl'>4085338</span>,
+    <span class='fl'>3674127</span>,<span class='fl'>3198934</span>,<span class='fl'>2648360</span>,<span class='fl'>2382691</span>,<span class='fl'>1970485</span>,<span class='fl'>1584699</span>,<span class='fl'>1172155</span>,<span class='fl'>736258</span>,<span class='fl'>408191</span><span class='op'>)</span>
+<span class='va'>interval</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='fu'>survN</span><span class='op'>(</span><span class='va'>pop1</span>,<span class='va'>pop2</span>,<span class='va'>interval</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 1.0000000 1.0429078 1.0047911 0.9125239 1.0015734 0.9989119 0.9650474
+#&gt;  [8] 0.9650575 0.9538966 0.9761038 0.9074620 0.8923755 0.8366291 0.7626398
+#&gt; [15] 0.6726113 0.4965859 0.3092449</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>80</span>,<span class='fl'>5</span><span class='op'>)</span>,<span class='fu'>survN</span><span class='op'>(</span><span class='va'>pop1</span>,<span class='va'>pop2</span>,<span class='va'>interval</span><span class='op'>)</span>, t <span class='op'>=</span><span class='st'>'l'</span>, col<span class='op'>=</span><span class='st'>'red'</span>,
+    ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1.1</span><span class='op'>)</span>,
+    ylab <span class='op'>=</span> <span class='st'>'Survival function'</span>, xlab <span class='op'>=</span> <span class='st'>'Age'</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -225,11 +216,11 @@
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -237,8 +228,6 @@
 
   
 
-
-  
 
   </body>
 </html>

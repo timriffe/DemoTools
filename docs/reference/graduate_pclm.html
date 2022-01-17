@@ -53,8 +53,6 @@
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -66,15 +64,9 @@
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -170,7 +162,7 @@
     <p>This is exactly the function <code>pclm()</code> from the <code>ungroup</code> package, except with arguments using standard <code>DemoTools</code> argument names.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>graduate_pclm</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, <span class='va'>AgeInt</span>, OAnew <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
+    <pre class="usage"><span class='fu'>graduate_pclm</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, <span class='va'>AgeInt</span>, OAnew <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Age</span><span class='op'>)</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,7 +181,7 @@
     </tr>
     <tr>
       <th>OAnew</th>
-      <td><p>integer, optional new open age, higher than <code>max(Age)</code>. See details.</p></td>
+      <td><p>integer, optional new open age, higher than <code><a href='https://rdrr.io/r/base/Extremes.html'>max(Age)</a></code>. See details.</p></td>
     </tr>
     <tr>
       <th>OAG</th>
@@ -203,7 +195,7 @@
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The PCLM method can also be used to graduate rates using an offset if both numerators and denominators are available. In this case <code>Value</code> is the event count and <code>offset</code> is person years of exposure. The denominator must match the length of <code>Value</code> or else the length of the final single age result <code>length(min(Age):OAnew)</code>.  This method can be used to redistribute counts in the open age group if <code>OAnew</code> gives sufficient space. Likewise, it can give a rate extrapolation beyond the open age.</p>
+    <p>The PCLM method can also be used to graduate rates using an offset if both numerators and denominators are available. In this case <code>Value</code> is the event count and <code>offset</code> is person years of exposure. The denominator must match the length of <code>Value</code> or else the length of the final single age result <code><a href='https://rdrr.io/r/base/length.html'>length(min(Age):OAnew)</a></code>.  This method can be used to redistribute counts in the open age group if <code>OAnew</code> gives sufficient space. Likewise, it can give a rate extrapolation beyond the open age.</p>
 <p>If there are 0s in <code>Value</code>, these are replaced with a small value prior to fitting. If negatives result from the pclm fit, we retry after multiplying <code>Value</code> by 10, 100, or 1000, as sometimes a temporary rescale for fitting can help performance.</p>
 <p><code>Age</code> be any age range, it does not need to start at 0.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -220,32 +212,31 @@ Rizzi S, Gampe J, Eilers PH (2015).
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/ungroup/man/pclm.html'>pclm</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>a5</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>p5</span>  <span class='op'>&lt;-</span> <span class='va'>pop5_mat</span><span class='op'>[</span>, <span class='fl'>1</span><span class='op'>]</span></span>
-<span class='r-in'><span class='va'>p1</span>  <span class='op'>&lt;-</span> <span class='fu'>graduate_pclm</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>p5</span>, Age <span class='op'>=</span> <span class='va'>a5</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0s detected in Value, replacing with .01</span>
-<span class='r-in'><span class='va'>p1s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>p5</span>, Age <span class='op'>=</span> <span class='va'>a5</span><span class='op'>)</span></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>a5</span>, <span class='va'>p5</span><span class='op'>/</span><span class='fl'>5</span>, type <span class='op'>=</span> <span class='st'>"s"</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>,<span class='fl'>60</span><span class='op'>)</span>,ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2000</span>,<span class='fl'>4000</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>p1</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>p1s</span>, lwd <span class='op'>=</span> <span class='fl'>1</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>,lty<span class='op'>=</span><span class='st'>"8282"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-<span class='r-in'><span class='co'># example of how to graduate rates by splitting deaths using population</span></span>
-<span class='r-in'><span class='co'># as PCLM offset</span></span>
-<span class='r-in'><span class='va'>dth.ind</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>49</span>, <span class='fl'>14</span>, <span class='fl'>9</span>, <span class='fl'>39</span>, <span class='fl'>60</span>, <span class='fl'>101</span>, <span class='fl'>147</span>, <span class='fl'>178</span>, <span class='fl'>177</span>, <span class='fl'>232</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>pop.ind</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>7231</span>, <span class='fl'>28400</span>, <span class='fl'>66836</span>, <span class='fl'>52380</span>, <span class='fl'>38022</span>, <span class='fl'>36886</span>, <span class='fl'>26145</span>, <span class='fl'>14205</span>, <span class='fl'>6406</span>, </span>
-<span class='r-in'>             <span class='fl'>3322</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>15</span>,<span class='fl'>25</span>,<span class='fl'>35</span>,<span class='fl'>45</span>,<span class='fl'>55</span>,<span class='fl'>65</span>,<span class='fl'>75</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>mx</span> <span class='op'>&lt;-</span> <span class='fu'>graduate_pclm</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>dth.ind</span>, </span>
-<span class='r-in'>              Age <span class='op'>=</span> <span class='va'>age</span>, </span>
-<span class='r-in'>              OAnew <span class='op'>=</span> <span class='fl'>85</span>, </span>
-<span class='r-in'>              offset <span class='op'>=</span> <span class='va'>pop.ind</span><span class='op'>)</span></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>dth.ind</span> <span class='op'>/</span> <span class='va'>pop.ind</span>, type <span class='op'>=</span> <span class='st'>'s'</span>, log <span class='op'>=</span> <span class='st'>'y'</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>85</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>85</span>, <span class='va'>mx</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='va'>a5</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>100</span>,by<span class='op'>=</span><span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>p5</span>  <span class='op'>&lt;-</span> <span class='va'>pop5_mat</span><span class='op'>[</span>, <span class='fl'>1</span><span class='op'>]</span>
+<span class='va'>p1</span>  <span class='op'>&lt;-</span> <span class='fu'>graduate_pclm</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>p5</span>, Age <span class='op'>=</span> <span class='va'>a5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt; 0s detected in Value, replacing with .01</div><div class='input'><span class='va'>p1s</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graduate_sprague.html'>graduate_sprague</a></span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>p5</span>, Age <span class='op'>=</span> <span class='va'>a5</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>a5</span>, <span class='va'>p5</span><span class='op'>/</span><span class='fl'>5</span>, type <span class='op'>=</span> <span class='st'>"s"</span>,xlim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>,<span class='fl'>60</span><span class='op'>)</span>,ylim<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2000</span>,<span class='fl'>4000</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>p1</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>100</span>, <span class='va'>p1s</span>, lwd <span class='op'>=</span> <span class='fl'>1</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>,lty<span class='op'>=</span><span class='st'>"8282"</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='co'># example of how to graduate rates by splitting deaths using population</span>
+<span class='co'># as PCLM offset</span>
+<span class='va'>dth.ind</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>49</span>, <span class='fl'>14</span>, <span class='fl'>9</span>, <span class='fl'>39</span>, <span class='fl'>60</span>, <span class='fl'>101</span>, <span class='fl'>147</span>, <span class='fl'>178</span>, <span class='fl'>177</span>, <span class='fl'>232</span><span class='op'>)</span>
+<span class='va'>pop.ind</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>7231</span>, <span class='fl'>28400</span>, <span class='fl'>66836</span>, <span class='fl'>52380</span>, <span class='fl'>38022</span>, <span class='fl'>36886</span>, <span class='fl'>26145</span>, <span class='fl'>14205</span>, <span class='fl'>6406</span>, 
+             <span class='fl'>3322</span><span class='op'>)</span>
+<span class='va'>age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>15</span>,<span class='fl'>25</span>,<span class='fl'>35</span>,<span class='fl'>45</span>,<span class='fl'>55</span>,<span class='fl'>65</span>,<span class='fl'>75</span><span class='op'>)</span>
+<span class='va'>mx</span> <span class='op'>&lt;-</span> <span class='fu'>graduate_pclm</span><span class='op'>(</span>Value <span class='op'>=</span> <span class='va'>dth.ind</span>, 
+              Age <span class='op'>=</span> <span class='va'>age</span>, 
+              OAnew <span class='op'>=</span> <span class='fl'>85</span>, 
+              offset <span class='op'>=</span> <span class='va'>pop.ind</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>age</span>, <span class='va'>dth.ind</span> <span class='op'>/</span> <span class='va'>pop.ind</span>, type <span class='op'>=</span> <span class='st'>'s'</span>, log <span class='op'>=</span> <span class='st'>'y'</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>85</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>85</span>, <span class='va'>mx</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -257,11 +248,11 @@ Rizzi S, Gampe J, Eilers PH (2015).
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -269,8 +260,6 @@ Rizzi S, Gampe J, Eilers PH (2015).
 
   
 
-
-  
 
   </body>
 </html>

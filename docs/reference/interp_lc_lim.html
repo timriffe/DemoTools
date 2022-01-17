@@ -55,8 +55,6 @@ using the method for limited data suggested by  Li et. al (2004) (at least three
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -68,15 +66,9 @@ using the method for limited data suggested by  Li et. al (2004) (at least three
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -90,7 +82,7 @@ using the method for limited data suggested by  Li et. al (2004) (at least three
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -174,7 +166,7 @@ or survival function), this function interpolate/extrapolate life tables
 using the method for limited data suggested by  Li et. al (2004) (at least three observed years).</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>interp_lc_lim</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>interp_lc_lim</span><span class='op'>(</span>
   input <span class='op'>=</span> <span class='cn'>NULL</span>,
   dates_out <span class='op'>=</span> <span class='va'>dates_in</span>,
   Single <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -186,7 +178,7 @@ using the method for limited data suggested by  Li et. al (2004) (at least three
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
   SVD <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></code></pre></div>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -288,64 +280,64 @@ ISSN 0306-7734, doi: <a href='https://doi.org/10.1111/j.1751-5823.2004.tb00221.x
     <div class='dont-index'><p><code><a href='lt_abridged.html'>lt_abridged</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># mortality rates from Sweden, for specific dates</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># needs mortality rates in this dates: </span></span>
-<span class='r-in'><span class='va'>dates_out</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1948</span>,<span class='fl'>2018</span>,<span class='fl'>5</span><span class='op'>)</span>,<span class='st'>"-07-01"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># apply LC with limited data to extrap/interpolate</span></span>
-<span class='r-in'><span class='va'>lc_lim_data</span> <span class='op'>&lt;-</span> <span class='fu'>interp_lc_lim</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>mA_swe</span>, dates_out <span class='op'>=</span> <span class='va'>dates_out</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lt_hat</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='va'>lc_lim_data</span> <span class='op'><a href='pipe.html'>%&gt;%</a></span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>nMx</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>Date</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span class='r-in'>  <span class='fu'>geom_step</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>scale_color_viridis_d</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> </span>
-<span class='r-in'>  <span class='fu'>scale_y_log10</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>theme_classic</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>Sex</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># with simple ages as output</span></span>
-<span class='r-in'><span class='va'>lc_lim_data_single</span> <span class='op'>&lt;-</span> <span class='fu'>interp_lc_lim</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>mA_swe</span>, dates_out <span class='op'>=</span> <span class='va'>dates_out</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
-<span class='r-in'>                                    Single <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lt_hat</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='va'>lc_lim_data_single</span> <span class='op'><a href='pipe.html'>%&gt;%</a></span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>nMx</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>Date</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span class='r-in'>  <span class='fu'>geom_step</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>scale_color_viridis_d</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> </span>
-<span class='r-in'>  <span class='fu'>scale_y_log10</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>theme_classic</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>Sex</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Avoiding cross-over between sex.</span></span>
-<span class='r-in'><span class='va'>lc_lim_nondiv</span> <span class='op'>&lt;-</span> <span class='fu'>interp_lc_lim</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>mA_swe</span>, dates_out <span class='op'>=</span> <span class='va'>dates_out</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
-<span class='r-in'>                               prev_divergence <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lt_hat</span></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='va'>lc_lim_nondiv</span> <span class='op'><a href='pipe.html'>%&gt;%</a></span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>nMx</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>Date</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span class='r-in'>  <span class='fu'>geom_step</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>scale_color_viridis_d</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> </span>
-<span class='r-in'>  <span class='fu'>scale_y_log10</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>theme_classic</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>Sex</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Fitting information about e0 in Sweden for past years.</span></span>
-<span class='r-in'><span class='va'>lc_lim_fite0</span> <span class='op'>&lt;-</span> <span class='fu'>interp_lc_lim</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>mA_swe</span>, dates_out <span class='op'>=</span> <span class='va'>dates_out</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
-<span class='r-in'>                              dates_e0 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>e0_swe</span><span class='op'>$</span><span class='va'>Date</span><span class='op'>)</span>,</span>
-<span class='r-in'>                              e0_Males <span class='op'>=</span> <span class='va'>e0_swe</span><span class='op'>$</span><span class='va'>e0</span><span class='op'>[</span><span class='va'>e0_swe</span><span class='op'>$</span><span class='va'>Sex</span><span class='op'>==</span><span class='st'>"m"</span><span class='op'>]</span>, </span>
-<span class='r-in'>                              e0_Females <span class='op'>=</span> <span class='va'>e0_swe</span><span class='op'>$</span><span class='va'>e0</span><span class='op'>[</span><span class='va'>e0_swe</span><span class='op'>$</span><span class='va'>Sex</span><span class='op'>==</span><span class='st'>"f"</span><span class='op'>]</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lt_hat</span></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>                               </span>
-<span class='r-in'><span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> </span>
-<span class='r-in'>  <span class='fu'>geom_point</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>e0_swe</span>, <span class='fu'>aes</span><span class='op'>(</span><span class='va'>Date</span>,<span class='va'>e0</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>Sex</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span></span>
-<span class='r-in'>  <span class='fu'>geom_line</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>lc_lim_fite0</span><span class='op'>[</span><span class='va'>lc_lim_fite0</span><span class='op'>$</span><span class='va'>Age</span><span class='op'>==</span><span class='fl'>0</span>,<span class='op'>]</span>, <span class='fu'>aes</span><span class='op'>(</span><span class='va'>Date</span>,<span class='va'>ex</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>Sex</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span></span>
-<span class='r-in'>  <span class='fu'>labs</span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"Sex"</span><span class='op'>)</span><span class='op'>+</span></span>
-<span class='r-in'>  <span class='fu'>theme_classic</span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># smooth and/or extend open age group, in this case input is for 80+, and chosen law is Makeham.</span></span>
-<span class='r-in'><span class='va'>lc_lim_extOAg</span> <span class='op'>&lt;-</span> <span class='fu'>interp_lc_lim</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>mA_swe</span><span class='op'>[</span><span class='va'>mA_swe</span><span class='op'>$</span><span class='va'>Age</span><span class='op'>&lt;=</span><span class='fl'>80</span>,<span class='op'>]</span>, dates_out <span class='op'>=</span> <span class='va'>dates_out</span>,</span>
-<span class='r-in'>                               OAG <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
-<span class='r-in'>                               OAnew<span class='op'>=</span><span class='fl'>100</span>,</span>
-<span class='r-in'>                               extrapLaw <span class='op'>=</span> <span class='st'>"makeham"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lt_hat</span></span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> </span>
-<span class='r-in'>  <span class='fu'>geom_step</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>lc_lim_extOAg</span>, <span class='fu'>aes</span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>nMx</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>Date</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span class='r-in'>  <span class='fu'>scale_y_log10</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>scale_color_viridis_d</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>theme_classic</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>Sex</span><span class='op'>)</span></span>
-<span class='r-in'>  <span class='op'>}</span></span>
-<span class='r-in'><span class='co'>#End</span></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='co'># mortality rates from Sweden, for specific dates</span>
+
+<span class='co'># needs mortality rates in this dates: </span>
+<span class='va'>dates_out</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1948</span>,<span class='fl'>2018</span>,<span class='fl'>5</span><span class='op'>)</span>,<span class='st'>"-07-01"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># apply LC with limited data to extrap/interpolate</span>
+<span class='va'>lc_lim_data</span> <span class='op'>&lt;-</span> <span class='fu'>interp_lc_lim</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>mA_swe</span>, dates_out <span class='op'>=</span> <span class='va'>dates_out</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lt_hat</span>
+
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>lc_lim_data</span> <span class='op'>%&gt;%</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>nMx</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>Date</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_step</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>scale_color_viridis_d</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>scale_y_log10</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>theme_classic</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>Sex</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='co'># with simple ages as output</span>
+<span class='va'>lc_lim_data_single</span> <span class='op'>&lt;-</span> <span class='fu'>interp_lc_lim</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>mA_swe</span>, dates_out <span class='op'>=</span> <span class='va'>dates_out</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span>,
+                                    Single <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lt_hat</span>
+
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>lc_lim_data_single</span> <span class='op'>%&gt;%</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>nMx</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>Date</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_step</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>scale_color_viridis_d</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>scale_y_log10</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>theme_classic</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>Sex</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='co'># Avoiding cross-over between sex.</span>
+<span class='va'>lc_lim_nondiv</span> <span class='op'>&lt;-</span> <span class='fu'>interp_lc_lim</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>mA_swe</span>, dates_out <span class='op'>=</span> <span class='va'>dates_out</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span>,
+                               prev_divergence <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lt_hat</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>lc_lim_nondiv</span> <span class='op'>%&gt;%</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>nMx</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>Date</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_step</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>scale_color_viridis_d</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>scale_y_log10</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>theme_classic</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>Sex</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='co'># Fitting information about e0 in Sweden for past years.</span>
+<span class='va'>lc_lim_fite0</span> <span class='op'>&lt;-</span> <span class='fu'>interp_lc_lim</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>mA_swe</span>, dates_out <span class='op'>=</span> <span class='va'>dates_out</span>, OAG <span class='op'>=</span> <span class='cn'>FALSE</span>,
+                              dates_e0 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>e0_swe</span><span class='op'>$</span><span class='va'>Date</span><span class='op'>)</span>,
+                              e0_Males <span class='op'>=</span> <span class='va'>e0_swe</span><span class='op'>$</span><span class='va'>e0</span><span class='op'>[</span><span class='va'>e0_swe</span><span class='op'>$</span><span class='va'>Sex</span><span class='op'>==</span><span class='st'>"m"</span><span class='op'>]</span>, 
+                              e0_Females <span class='op'>=</span> <span class='va'>e0_swe</span><span class='op'>$</span><span class='va'>e0</span><span class='op'>[</span><span class='va'>e0_swe</span><span class='op'>$</span><span class='va'>Sex</span><span class='op'>==</span><span class='st'>"f"</span><span class='op'>]</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lt_hat</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>                               
+<span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_point</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>e0_swe</span>, <span class='fu'>aes</span><span class='op'>(</span><span class='va'>Date</span>,<span class='va'>e0</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>Sex</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span>
+  <span class='fu'>geom_line</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>lc_lim_fite0</span><span class='op'>[</span><span class='va'>lc_lim_fite0</span><span class='op'>$</span><span class='va'>Age</span><span class='op'>==</span><span class='fl'>0</span>,<span class='op'>]</span>, <span class='fu'>aes</span><span class='op'>(</span><span class='va'>Date</span>,<span class='va'>ex</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>Sex</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>color <span class='op'>=</span> <span class='st'>"Sex"</span><span class='op'>)</span><span class='op'>+</span>
+  <span class='fu'>theme_classic</span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+<span class='co'># smooth and/or extend open age group, in this case input is for 80+, and chosen law is Makeham.</span>
+<span class='va'>lc_lim_extOAg</span> <span class='op'>&lt;-</span> <span class='fu'>interp_lc_lim</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>mA_swe</span><span class='op'>[</span><span class='va'>mA_swe</span><span class='op'>$</span><span class='va'>Age</span><span class='op'>&lt;=</span><span class='fl'>80</span>,<span class='op'>]</span>, dates_out <span class='op'>=</span> <span class='va'>dates_out</span>,
+                               OAG <span class='op'>=</span> <span class='cn'>FALSE</span>,
+                               OAnew<span class='op'>=</span><span class='fl'>100</span>,
+                               extrapLaw <span class='op'>=</span> <span class='st'>"makeham"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>lt_hat</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>ggplot</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'>geom_step</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>lc_lim_extOAg</span>, <span class='fu'>aes</span><span class='op'>(</span><span class='va'>Age</span>,<span class='va'>nMx</span>,col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>Date</span>,<span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_y_log10</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>scale_color_viridis_d</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>theme_classic</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>facet_wrap</span><span class='op'>(</span><span class='op'>~</span><span class='va'>Sex</span><span class='op'>)</span>
+  <span class='op'>}</span>
+<span class='co'>#End</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -357,11 +349,11 @@ ISSN 0306-7734, doi: <a href='https://doi.org/10.1111/j.1751-5823.2004.tb00221.x
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -369,8 +361,6 @@ ISSN 0306-7734, doi: <a href='https://doi.org/10.1111/j.1751-5823.2004.tb00221.x
 
   
 
-
-  
 
   </body>
 </html>

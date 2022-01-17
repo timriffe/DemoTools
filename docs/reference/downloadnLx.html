@@ -54,8 +54,6 @@ A vector of countries can handle, but with an unique sex. Row names are not indi
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -67,15 +65,9 @@ A vector of countries can handle, but with an unique sex. Row names are not indi
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -89,7 +81,7 @@ A vector of countries can handle, but with an unique sex. Row names are not indi
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -172,7 +164,7 @@ A vector of countries can handle, but with an unique sex. Row names are not indi
 A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>downloadnLx</span><span class='op'>(</span><span class='va'>nLx</span>, <span class='va'>location</span>, <span class='va'>gender</span>, <span class='va'>nLxDatesIn</span>, method <span class='op'>=</span> <span class='st'>"linear"</span><span class='op'>)</span></code></pre></div>
+    <pre class="usage"><span class='fu'>downloadnLx</span><span class='op'>(</span><span class='va'>nLx</span>, <span class='va'>location</span>, <span class='va'>gender</span>, <span class='va'>nLxDatesIn</span>, method <span class='op'>=</span> <span class='st'>"linear"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -201,36 +193,33 @@ A vector of countries can handle, but with an unique sex. Row names are not indi
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>numeric matrix of <code>nLx</code> with <code>length(nLxDatesIn)</code> and abridged ages in rows.</p>
+    <p>numeric matrix of <code>nLx</code> with <code><a href='https://rdrr.io/r/base/length.html'>length(nLxDatesIn)</a></code> and abridged ages in rows.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># life expectancy calculated from Lx downloaded from WPP19. Using names or codes.</span></span>
-<span class='r-in'><span class='va'>Lxs_name</span> <span class='op'>&lt;-</span> <span class='fu'>downloadnLx</span><span class='op'>(</span>nLx<span class='op'>=</span><span class='cn'>NULL</span>, location <span class='op'>=</span> <span class='st'>"Argentina"</span>,</span>
-<span class='r-in'>                        gender <span class='op'>=</span> <span class='st'>"both"</span>, nLxDatesIn <span class='op'>=</span> <span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2030</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for Argentina, years 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, gender both</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Careful, extrapolating beyond range 1950-2025</span>
-<span class='r-in'><span class='va'>Lxs_code</span> <span class='op'>&lt;-</span> <span class='fu'>downloadnLx</span><span class='op'>(</span>nLx<span class='op'>=</span><span class='cn'>NULL</span>, location <span class='op'>=</span> <span class='st'>"32"</span>,</span>
-<span class='r-in'>                        gender <span class='op'>=</span> <span class='st'>"both"</span>, nLxDatesIn <span class='op'>=</span> <span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2030</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for 32, years 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, gender both</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Careful, extrapolating beyond range 1950-2025</span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2030</span>, <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>Lxs_name</span><span class='op'>)</span><span class='op'>)</span>, xlab <span class='op'>=</span> <span class='st'>"Year"</span>, ylab<span class='op'>=</span><span class='st'>"e0"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2030</span>, <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>Lxs_code</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-<span class='r-in'><span class='co'># life expectancy for different countries</span></span>
-<span class='r-in'><span class='va'>Lxs_countries</span> <span class='op'>&lt;-</span> <span class='fu'>downloadnLx</span><span class='op'>(</span>nLx<span class='op'>=</span><span class='cn'>NULL</span>, location <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Argentina"</span>,<span class='st'>"Brazil"</span>,<span class='st'>"Uruguay"</span><span class='op'>)</span>,</span>
-<span class='r-in'>gender <span class='op'>=</span> <span class='st'>"both"</span>, nLxDatesIn <span class='op'>=</span> <span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2025</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for Argentina, years 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, gender both</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for Brazil, years 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, gender both</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Downloading nLx data for Uruguay, years 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, gender both</span>
-<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2025</span>, <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>Lxs_countries</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>22</span>,<span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>, </span>
-<span class='r-in'>     t<span class='op'>=</span><span class='st'>"l"</span>, xlab <span class='op'>=</span> <span class='st'>"Year"</span>, ylab<span class='op'>=</span><span class='st'>"e0"</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>,<span class='fl'>80</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2025</span>, <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>Lxs_countries</span><span class='op'>[</span><span class='fl'>23</span><span class='op'>:</span><span class='fl'>44</span>,<span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>, col<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2025</span>, <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>Lxs_countries</span><span class='op'>[</span><span class='fl'>45</span><span class='op'>:</span><span class='fl'>64</span>,<span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>, col<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"bottomright"</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Argentina"</span>,<span class='st'>"Brazil"</span>,<span class='st'>"Uruguay"</span><span class='op'>)</span>,lty<span class='op'>=</span><span class='fl'>1</span>,col<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span></span>
-<span class='r-in'><span class='op'>}</span></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='co'># life expectancy calculated from Lx downloaded from WPP19. Using names or codes.</span>
+<span class='va'>Lxs_name</span> <span class='op'>&lt;-</span> <span class='fu'>downloadnLx</span><span class='op'>(</span>nLx<span class='op'>=</span><span class='cn'>NULL</span>, location <span class='op'>=</span> <span class='st'>"Argentina"</span>,
+                        gender <span class='op'>=</span> <span class='st'>"both"</span>, nLxDatesIn <span class='op'>=</span> <span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2030</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Downloading nLx data for Argentina, years 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, gender both
+#&gt; Careful, extrapolating beyond range 1950-2025</div><div class='input'><span class='va'>Lxs_code</span> <span class='op'>&lt;-</span> <span class='fu'>downloadnLx</span><span class='op'>(</span>nLx<span class='op'>=</span><span class='cn'>NULL</span>, location <span class='op'>=</span> <span class='st'>"32"</span>,
+                        gender <span class='op'>=</span> <span class='st'>"both"</span>, nLxDatesIn <span class='op'>=</span> <span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2030</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Downloading nLx data for 32, years 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030, gender both
+#&gt; Careful, extrapolating beyond range 1950-2025</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2030</span>, <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>Lxs_name</span><span class='op'>)</span><span class='op'>)</span>, xlab <span class='op'>=</span> <span class='st'>"Year"</span>, ylab<span class='op'>=</span><span class='st'>"e0"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2030</span>, <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>Lxs_code</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='co'># life expectancy for different countries</span>
+<span class='va'>Lxs_countries</span> <span class='op'>&lt;-</span> <span class='fu'>downloadnLx</span><span class='op'>(</span>nLx<span class='op'>=</span><span class='cn'>NULL</span>, location <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Argentina"</span>,<span class='st'>"Brazil"</span>,<span class='st'>"Uruguay"</span><span class='op'>)</span>,
+gender <span class='op'>=</span> <span class='st'>"both"</span>, nLxDatesIn <span class='op'>=</span> <span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2025</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Downloading nLx data for Argentina, years 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, gender both
+#&gt; Downloading nLx data for Brazil, years 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, gender both
+#&gt; Downloading nLx data for Uruguay, years 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, gender both</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2025</span>, <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>Lxs_countries</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>22</span>,<span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>, 
+     t<span class='op'>=</span><span class='st'>"l"</span>, xlab <span class='op'>=</span> <span class='st'>"Year"</span>, ylab<span class='op'>=</span><span class='st'>"e0"</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>40</span>,<span class='fl'>80</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2025</span>, <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>Lxs_countries</span><span class='op'>[</span><span class='fl'>23</span><span class='op'>:</span><span class='fl'>44</span>,<span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>, col<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span><span class='op'>(</span><span class='fl'>1950</span><span class='op'>:</span><span class='fl'>2025</span>, <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>Lxs_countries</span><span class='op'>[</span><span class='fl'>45</span><span class='op'>:</span><span class='fl'>64</span>,<span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>, col<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"bottomright"</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Argentina"</span>,<span class='st'>"Brazil"</span>,<span class='st'>"Uruguay"</span><span class='op'>)</span>,lty<span class='op'>=</span><span class='fl'>1</span>,col<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -242,11 +231,11 @@ A vector of countries can handle, but with an unique sex. Row names are not indi
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -254,8 +243,6 @@ A vector of countries can handle, but with an unique sex. Row names are not indi
 
   
 
-
-  
 
   </body>
 </html>

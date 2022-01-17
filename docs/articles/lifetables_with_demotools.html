@@ -26,8 +26,6 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -40,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -88,13 +86,13 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://twitter.com/timriffe1" class="external-link">
+  <a href="https://twitter.com/timriffe1">
     <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
-  <a href="https://github.com/timriffe/DemoTools/" class="external-link">
+  <a href="https://github.com/timriffe/DemoTools/">
     <span class="fa fa-github fa-lg"></span>
      
     github
@@ -110,7 +108,7 @@
 
       
 
-      </header><script src="lifetables_with_demotools_files/header-attrs-2.9/header-attrs.js"></script><script src="lifetables_with_demotools_files/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="lifetables_with_demotools_files/jquery-3.5.1/jquery.min.js"></script><link href="lifetables_with_demotools_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+      </header><script src="lifetables_with_demotools_files/header-attrs-2.10/header-attrs.js"></script><script src="lifetables_with_demotools_files/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="lifetables_with_demotools_files/jquery-3.5.1/jquery.min.js"></script><link href="lifetables_with_demotools_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
 <script src="lifetables_with_demotools_files/datatables-binding-0.18/datatables.js"></script><link href="lifetables_with_demotools_files/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
 <link href="lifetables_with_demotools_files/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet">
 <script src="lifetables_with_demotools_files/dt-core-1.10.20/js/jquery.dataTables.min.js"></script><link href="lifetables_with_demotools_files/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet">
@@ -118,11 +116,11 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Lifetables with DemoTools</h1>
-                        <h4 data-toc-skip class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
+                        <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
-            <h4 data-toc-skip class="date">2021-07-13</h4>
+            <h4 class="date">2022-01-17</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/lifetables_with_demotools.Rmd" class="external-link"><code>vignettes/lifetables_with_demotools.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/lifetables_with_demotools.Rmd"><code>vignettes/lifetables_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>lifetables_with_demotools.Rmd</code></div>
 
     </div>
@@ -131,59 +129,59 @@
     
 <div id="how-to-use-demotools-to-construct-an-abridged-lifetable" class="section level2">
 <h2 class="hasAnchor">
-<a href="#how-to-use-demotools-to-construct-an-abridged-lifetable" class="anchor" aria-hidden="true"></a>How to use <code>DemoTools</code> to construct an abridged lifetable</h2>
+<a href="#how-to-use-demotools-to-construct-an-abridged-lifetable" class="anchor"></a>How to use <code>DemoTools</code> to construct an abridged lifetable</h2>
 <div id="what-is-the-lifetable" class="section level3">
 <h3 class="hasAnchor">
-<a href="#what-is-the-lifetable" class="anchor" aria-hidden="true"></a>What is the lifetable?</h3>
+<a href="#what-is-the-lifetable" class="anchor"></a>What is the lifetable?</h3>
 <p>The lifetable is one of the most used tools in demographic research. It is designed to summarize the mortality profile of a population at a given point in time. In its simplest form, a lifetable is generated from age-specific death rates, and the resulting values give essential functions of mortality such as the survival function <span class="math inline">\(\ell(x)\)</span> and life expectancy <span class="math inline">\(e(x)\)</span> <span class="citation">(Siegel Jacob and Swanson David 2004)</span>. Life expectancy is the most-used column of a lifetable. It expresses the average number of additional years that a survivor to age <span class="math inline">\(x\)</span> is expected to live beyond that age given the current conditions of mortality <span class="citation">(Preston, Heuveline, and Guillot 2000)</span>. When measured from birth, life expectancy <span class="math inline">\(e(0)\)</span> expresses the average number of years a newborn from a hypothetical cohort is expected to live if he/she were to experience the current death-rates throughout his/her lifetime. One of the main advantages of the lifetable is that it gives a summary of the mortality profile of a population free of effects introduced by the size and composition of the population, allowing easy comparison between different populations.</p>
 </div>
 <div id="the-column-_na_x" class="section level3">
 <h3 class="hasAnchor">
-<a href="#the-column-_na_x" class="anchor" aria-hidden="true"></a>The column <span class="math inline">\(_nA_x\)</span>
+<a href="#the-column-_na_x" class="anchor"></a>The column <span class="math inline">\(_nA_x\)</span>
 </h3>
 <p>The column <span class="math inline">\(_nA_x\)</span> refers to the average number of person-years lived in the interval <span class="math inline">\(x\)</span> to <span class="math inline">\(x+n\)</span> by those who died in the interval. This is a key column when calculating period lifetables because it allows to convert from age-specific death rates <span class="math inline">\(_nM_x\)</span> to the probability of dying between ages <span class="math inline">\(x\)</span> and <span class="math inline">\(x+n\)</span> denoted as <span class="math inline">\(_nq_x\)</span>. There are several ways to calculate this column. <code>DemoTools</code> provides two options to calculate this column from which the user can choose, <code>PAS</code> and <code>UN</code>. The <code>PAS</code> option relies on following the rule of thumb given by Coale and Demeny for ages 0, and 1-4, and assumes interval midpoints in higher ages. This choice relies on the fact that the lower the level of mortality, the more heavily will infant deaths be concentrated at the earliest stages of infancy <span class="citation">(Preston, Heuveline, and Guillot 2000)</span>, and therefore the values of <span class="math inline">\(_1A_0\)</span> and <span class="math inline">\(_4A_1\)</span> depend on the values of <span class="math inline">\(_1q_0\)</span> and <span class="math inline">\(_4q_1\)</span> <span class="citation">(Coale, Demeny, and Vaughan 1983)</span>. For age 0, there are two choices for the rule of thumb to apply: Andreev-Kingkade is the default, but the Coale-Demeny model pattern is also available. The <code>UN</code> option also relies on the Coale-Demeny rule of thumb for ages 1-4. For ages 5-9 onwards, it uses the formula developed by <span class="citation">Greville (1977)</span>.</p>
 </div>
 </div>
 <div id="graduation-as-a-lifetable-step" class="section level2">
 <h2 class="hasAnchor">
-<a href="#graduation-as-a-lifetable-step" class="anchor" aria-hidden="true"></a>Graduation as a lifetable step</h2>
+<a href="#graduation-as-a-lifetable-step" class="anchor"></a>Graduation as a lifetable step</h2>
 <p>Abridged lifetables can be constructed with their own consequential <span class="math inline">\(_nA_x\)</span> assumptions, or they can be constructed by single ages and make a simpler lifetables after graduation. In the latter case the <span class="math inline">\(_nA_x\)</span> assumption is partly outsourced to the graduation and partly simplified by assuming midpoints (usually). The basic idea is that graduation followed by single age lifetable will produce an implied <span class="math inline">\(nAx\)</span>, which can be backed out. The alternative is to do something sophisticated to get nAx well behaved at the level of abridged lifetables.</p>
 </div>
 <div id="closing-the-lifetable" class="section level2">
 <h2 class="hasAnchor">
-<a href="#closing-the-lifetable" class="anchor" aria-hidden="true"></a>Closing the lifetable</h2>
+<a href="#closing-the-lifetable" class="anchor"></a>Closing the lifetable</h2>
 <p>An important step in the construction of lifetables is the choice to deal with the open-ended age interval. A standard way to deal with this final age group is by taking the inverse of the final <span class="math inline">\(_nM_x\)</span> as life expectancy for that age group. <code>DemoTools</code> instead offers variety of extrapolation methods implemented in the <code>MortalityLaws</code> package. For this, a desired open age must be specified, defaulting to the present open age group, but which can not exceed 110 in the present implementation. By default, the extrapolation model is fit to ages 60 and higher, but the user can control this using the <code>extrapFit</code> argument (give the vector of ages, which must be a subset of <code>Age</code>). By default extrapolated values are used starting with the input open age, but you can lower this age using the <code>extrapFrom</code> argument. The choices given in this implementation are: Kannisto, Kannisto-Makeham, Makeham, Gompertz, Gamma-Gompertz, Beard, Beard-Makeham and the Quadratic models. Documentation for these models can be found in <code>MortalityLaws</code>.</p>
 </div>
 <div id="example-with-demotools" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example-with-demotools" class="anchor" aria-hidden="true"></a>Example with <code>DemoTools</code>
+<a href="#example-with-demotools" class="anchor"></a>Example with <code>DemoTools</code>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">DemoTools</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">DemoTools</span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: Rcpp</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/DT" class="external-link">DT</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/DT">DT</a></span><span class="op">)</span>
 
 <span class="co">#Example witn Mexican data from UN</span>
- <span class="va">nMx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.11621</span>,<span class="fl">0.02268</span>,<span class="fl">0.00409</span>,<span class="fl">0.00212</span>,<span class="fl">0.00295</span>,<span class="fl">0.00418</span>,<span class="fl">0.00509</span>,<span class="fl">0.00609</span>,
+ <span class="va">nMx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.11621</span>,<span class="fl">0.02268</span>,<span class="fl">0.00409</span>,<span class="fl">0.00212</span>,<span class="fl">0.00295</span>,<span class="fl">0.00418</span>,<span class="fl">0.00509</span>,<span class="fl">0.00609</span>,
  <span class="fl">0.00714</span>,<span class="fl">0.00808</span>,<span class="fl">0.00971</span>,<span class="fl">0.0125</span>,<span class="fl">0.0175</span>,<span class="fl">0.02551</span>,<span class="fl">0.03809</span>,<span class="fl">0.05595</span>,<span class="fl">0.08098</span>,
  <span class="fl">0.15353</span>,<span class="fl">0.2557</span><span class="op">)</span>
  
  <span class="va">AgeInt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inferAgeIntAbr.html">inferAgeIntAbr</a></span><span class="op">(</span>vec <span class="op">=</span> <span class="va">nMx</span><span class="op">)</span>
  
- <span class="va">MX.lifetable</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lt_abridged.html">lt_abridged</a></span><span class="op">(</span>nMx <span class="op">=</span> <span class="va">nMx</span>, Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">85</span>,by<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>, AgeInt <span class="op">=</span> <span class="va">AgeInt</span>,
+ <span class="va">MX.lifetable</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/lt_abridged.html">lt_abridged</a></span><span class="op">(</span>nMx <span class="op">=</span> <span class="va">nMx</span>, Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">85</span>,by<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>, AgeInt <span class="op">=</span> <span class="va">AgeInt</span>,
                        axmethod <span class="op">=</span> <span class="st">"un"</span>,Sex <span class="op">=</span> <span class="st">"m"</span>,   mod <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
- <span class="va">MX.lifetable</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">MX.lifetable</span>,<span class="fl">3</span><span class="op">)</span>
+ <span class="va">MX.lifetable</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">MX.lifetable</span>,<span class="fl">3</span><span class="op">)</span>
  
- <span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">datatable</a></span><span class="op">(</span><span class="va">MX.lifetable</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">9</span>,<span class="fl">11</span><span class="op">)</span><span class="op">]</span>,
-           options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>paging<span class="op">=</span><span class="cn">FALSE</span>,ordering<span class="op">=</span><span class="cn">T</span>,dom <span class="op">=</span> <span class="st">'t'</span><span class="op">)</span>,
+ <span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span><span class="op">(</span><span class="va">MX.lifetable</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">9</span>,<span class="fl">11</span><span class="op">)</span><span class="op">]</span>,
+           options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>paging<span class="op">=</span><span class="cn">FALSE</span>,ordering<span class="op">=</span><span class="cn">T</span>,dom <span class="op">=</span> <span class="st">'t'</span><span class="op">)</span>,
            rownames <span class="op">=</span> <span class="cn">F</span>,
            caption <span class="op">=</span> <span class="st">'Lifetable for Mexican men'</span><span class="op">)</span></code></pre></div>
-<div id="htmlwidget-8d2b2515c1f8e5cff5c7" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8d2b2515c1f8e5cff5c7">{"x":{"filter":"none","caption":"<caption>Lifetable for Mexican men<\/caption>","data":[[0,1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85],[0.116,0.023,0.004,0.002,0.003,0.004,0.005,0.006,0.007,0.008,0.01,0.013,0.018,0.026,0.038,0.056,0.081,0.154,0.256],[0.299,1.352,2.5,2.5,2.635,2.605,2.568,2.558,2.544,2.547,2.571,2.597,2.612,2.609,2.584,2.541,2.542,2.421,3.435],[100000,89254.2,81615.796,79963.646,79120.5,77961.557,76348.312,74429.008,72195.858,69662.883,66903.196,63729.899,59862.95,54835.044,48242.936,39829.255,30034.788,19892.791,8953.737],[10745.8,7638.404,1652.15,843.146,1158.943,1613.246,1919.304,2233.15,2532.975,2759.688,3173.296,3866.95,5027.906,6592.109,8413.68,9794.467,10141.997,10939.054,8953.737],[0.859,0.941,0.985,0.988,0.982,0.977,0.972,0.967,0.963,0.957,0.947,0.929,0.899,0.855,0.793,0.715,0.569,0.302,0],[52.549,57.839,59.126,55.296,50.859,46.575,42.505,38.534,34.647,30.814,26.98,23.196,19.527,16.077,12.918,10.101,7.566,5.128,3.435]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Age<\/th>\n      <th>nMx<\/th>\n      <th>nAx<\/th>\n      <th>lx<\/th>\n      <th>ndx<\/th>\n      <th>Sx<\/th>\n      <th>ex<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"ordering":true,"dom":"t","columnDefs":[{"className":"dt-right","targets":[0,1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><p>In this output, the <code>Age</code> column indicates the lower bound of each age group. The column <code>nMx</code> are the observed death rates, usually result from dividing the deaths observed in a calendar year by the mid-year population. The <code>nAX</code>, as described above, indicates the average number of person-years lived in the age-group by those who died. The column <code>lx</code> refers to the survival function. If divided by the initial value, i.e. 100,000, indicates the probability of surviving from birth to a given age. <code>ndx</code> is the age-at-death distribution and <code>Sx</code> are the survivorship ratios. Finally, <code>ex</code> is the life expectancy. For this example, males in Mexico had a life expectancy at birth of 52.58.</p>
+<div id="htmlwidget-609e8bf4b442fb224e96" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-609e8bf4b442fb224e96">{"x":{"filter":"none","caption":"<caption>Lifetable for Mexican men<\/caption>","data":[[0,1,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85],[0.116,0.023,0.004,0.002,0.003,0.004,0.005,0.006,0.007,0.008,0.01,0.013,0.018,0.026,0.038,0.056,0.081,0.154,0.256],[0.299,1.352,2.5,2.5,2.635,2.605,2.568,2.558,2.544,2.547,2.571,2.597,2.612,2.609,2.584,2.541,2.542,2.421,3.435],[100000,89254.2,81615.796,79963.646,79120.5,77961.557,76348.312,74429.008,72195.858,69662.883,66903.196,63729.899,59862.95,54835.044,48242.936,39829.255,30034.788,19892.791,8953.737],[10745.8,7638.404,1652.15,843.146,1158.943,1613.246,1919.304,2233.15,2532.975,2759.688,3173.296,3866.95,5027.906,6592.109,8413.68,9794.467,10141.997,10939.054,8953.737],[0.859,0.941,0.985,0.988,0.982,0.977,0.972,0.967,0.963,0.957,0.947,0.929,0.899,0.855,0.793,0.715,0.569,0.302,0],[52.549,57.839,59.126,55.296,50.859,46.575,42.505,38.534,34.647,30.814,26.98,23.196,19.527,16.077,12.918,10.101,7.566,5.128,3.435]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Age<\/th>\n      <th>nMx<\/th>\n      <th>nAx<\/th>\n      <th>lx<\/th>\n      <th>ndx<\/th>\n      <th>Sx<\/th>\n      <th>ex<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"ordering":true,"dom":"t","columnDefs":[{"className":"dt-right","targets":[0,1,2,3,4,5,6]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><p>In this output, the <code>Age</code> column indicates the lower bound of each age group. The column <code>nMx</code> are the observed death rates, usually result from dividing the deaths observed in a calendar year by the mid-year population. The <code>nAX</code>, as described above, indicates the average number of person-years lived in the age-group by those who died. The column <code>lx</code> refers to the survival function. If divided by the initial value, i.e. 100,000, indicates the probability of surviving from birth to a given age. <code>ndx</code> is the age-at-death distribution and <code>Sx</code> are the survivorship ratios. Finally, <code>ex</code> is the life expectancy. For this example, males in Mexico had a life expectancy at birth of 52.58.</p>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
-<a href="#references" class="anchor" aria-hidden="true"></a>References</h2>
+<a href="#references" class="anchor"></a>References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Coale1983" class="csl-entry">
 Coale, Ansley J, Paul Demeny, and Barbara Vaughan. 1983. <em>Regional Model Life Tables and Stable Populations: Studies in Population</em>. Elsevier.
@@ -212,13 +210,11 @@ Siegel Jacob, S, and A Swanson David, eds. 2004. <em>The Methods and Materials o
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -226,8 +222,6 @@ Siegel Jacob, S, and A Swanson David, eds. 2004. <em>The Methods and Materials o
 
   
 
-
-  
 
   </body>
 </html>

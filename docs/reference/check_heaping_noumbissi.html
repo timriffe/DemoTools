@@ -53,8 +53,6 @@
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -66,15 +64,9 @@
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -88,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -170,13 +162,13 @@
     <p>Noumbissi's method improves on Whipple's method by extending its basic principle to all ten digits. It compares single terminal digit numerators to denominators consisting in 5-year age groups centered on the terminal digit of age in question. For example, 9, 19, 29, etc are all of digit 9.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span>
   <span class='va'>Value</span>,
   <span class='va'>Age</span>,
   ageMin <span class='op'>=</span> <span class='fl'>20</span> <span class='op'>+</span> <span class='va'>digit</span>,
   ageMax <span class='op'>=</span> <span class='va'>ageMin</span> <span class='op'>+</span> <span class='fl'>30</span>,
   digit <span class='op'>=</span> <span class='fl'>0</span>
-<span class='op'>)</span></code></pre></div>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,7 +191,7 @@
     </tr>
     <tr>
       <th>digit</th>
-      <td><p>integer. Any digit between 0 and 9. Default <code>c(0,5)</code>. Otherwise it needs to be a single digit.</p></td>
+      <td><p>integer. Any digit between 0 and 9. Default <code><a href='https://rdrr.io/r/base/c.html'>c(0,5)</a></code>. Otherwise it needs to be a single digit.</p></td>
     </tr>
     </table>
 
@@ -223,28 +215,18 @@ Spoorenberg T, Dutreuilh C (2007).
 <em>Population</em>, <b>62</b>(4), 729--741.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span></span>
-<span class='r-in'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='co'># 2.32</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2.239127</span>
-<span class='r-in'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='co'># 0.55</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.5679979</span>
-<span class='r-in'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'># 0.73</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.7653283</span>
-<span class='r-in'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='co'># 0.76</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.7533247</span>
-<span class='r-in'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span> <span class='co'># 0.49</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.5206658</span>
-<span class='r-in'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span> <span class='co'># 2.08</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2.040742</span>
-<span class='r-in'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span> <span class='co'># 0.66</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.6597471</span>
-<span class='r-in'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span> <span class='co'># 1.08  7 looks good!</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1.077396</span>
-<span class='r-in'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span> <span class='co'># 0.57</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.5700284</span>
-<span class='r-in'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>9</span><span class='op'>)</span> <span class='co'># 0.59</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.5895384</span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fl'>0</span><span class='op'>:</span><span class='fl'>99</span>
+<span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span> <span class='co'># 2.32</span>
+</div><div class='output co'>#&gt; [1] 2.239127</div><div class='input'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='co'># 0.55</span>
+</div><div class='output co'>#&gt; [1] 0.5679979</div><div class='input'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='co'># 0.73</span>
+</div><div class='output co'>#&gt; [1] 0.7653283</div><div class='input'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='co'># 0.76</span>
+</div><div class='output co'>#&gt; [1] 0.7533247</div><div class='input'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span> <span class='co'># 0.49</span>
+</div><div class='output co'>#&gt; [1] 0.5206658</div><div class='input'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span> <span class='co'># 2.08</span>
+</div><div class='output co'>#&gt; [1] 2.040742</div><div class='input'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span> <span class='co'># 0.66</span>
+</div><div class='output co'>#&gt; [1] 0.6597471</div><div class='input'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span> <span class='co'># 1.08  7 looks good!</span>
+</div><div class='output co'>#&gt; [1] 1.077396</div><div class='input'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span> <span class='co'># 0.57</span>
+</div><div class='output co'>#&gt; [1] 0.5700284</div><div class='input'><span class='fu'>check_heaping_noumbissi</span><span class='op'>(</span><span class='va'>pop1m_pasex</span>, <span class='va'>Age</span>, digit <span class='op'>=</span> <span class='fl'>9</span><span class='op'>)</span> <span class='co'># 0.59</span>
+</div><div class='output co'>#&gt; [1] 0.5895384</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -256,11 +238,11 @@ Spoorenberg T, Dutreuilh C (2007).
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -268,8 +250,6 @@ Spoorenberg T, Dutreuilh C (2007).
 
   
 
-
-  
 
   </body>
 </html>

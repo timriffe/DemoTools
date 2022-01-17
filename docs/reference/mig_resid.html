@@ -56,8 +56,6 @@ time even flow and cohort even flow" />
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -69,15 +67,9 @@ time even flow and cohort even flow" />
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-reverse navbar-fixed-top" role="navigation">
@@ -91,7 +83,7 @@ time even flow and cohort even flow" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.60</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -175,7 +167,7 @@ time even flow and cohort even flow</h1>
 time even flow and cohort even flow</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>mig_resid</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>mig_resid</span><span class='op'>(</span>
   <span class='va'>pop_m_mat</span>,
   <span class='va'>pop_f_mat</span>,
   <span class='va'>sr_m_mat</span>,
@@ -238,7 +230,7 @@ time even flow and cohort even flow</p>
   years_asfr <span class='op'>=</span> <span class='cn'>NULL</span>,
   years_srb <span class='op'>=</span> <span class='cn'>NULL</span>,
   verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></code></pre></div>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -364,714 +356,702 @@ specifying the <code>method</code> argument. By default it is set to the
 <code>stock</code> method. See the examples section.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
-<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>DemoTools</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># The data is loaded with DemoTools</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'>################ Stock change method #####################</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Generic mig_resid method which allows to choose either stock,</span></span>
-<span class='r-in'><span class='co'># cohort or time method for five year ages groups</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>mig_res</span> <span class='op'>&lt;-</span></span>
-<span class='r-in'> <span class='fu'>mig_resid</span><span class='op'>(</span></span>
-<span class='r-in'>   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_five</span>,</span>
-<span class='r-in'>   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_five</span>,</span>
-<span class='r-in'>   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_five</span>,</span>
-<span class='r-in'>   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_five</span>,</span>
-<span class='r-in'>   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_five</span>,</span>
-<span class='r-in'>   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_five</span>,</span>
-<span class='r-in'>   ages <span class='op'>=</span> <span class='va'>ages_five</span>,</span>
-<span class='r-in'>   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_five</span>,</span>
-<span class='r-in'>   <span class='co'># With the stock method</span></span>
-<span class='r-in'>   method <span class='op'>=</span> <span class='st'>"stock"</span></span>
-<span class='r-in'> <span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Using stock residual migration method</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># For single ages</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>mig_res</span> <span class='op'>&lt;-</span></span>
-<span class='r-in'> <span class='fu'>mig_resid</span><span class='op'>(</span></span>
-<span class='r-in'>   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_single</span>,</span>
-<span class='r-in'>   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_single</span>,</span>
-<span class='r-in'>   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_single</span>,</span>
-<span class='r-in'>   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_single</span>,</span>
-<span class='r-in'>   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_single</span>,</span>
-<span class='r-in'>   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_single</span>,</span>
-<span class='r-in'>   ages <span class='op'>=</span> <span class='va'>ages_single</span>,</span>
-<span class='r-in'>   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_single</span>,</span>
-<span class='r-in'>   <span class='co'># With the stock method</span></span>
-<span class='r-in'>   method <span class='op'>=</span> <span class='st'>"stock"</span></span>
-<span class='r-in'> <span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Using stock residual migration method</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Or directly the mid_resid_stock function</span></span>
-<span class='r-in'><span class='co'># (works for both single and five year age groups)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>mig_res</span> <span class='op'>&lt;-</span></span>
-<span class='r-in'> <span class='fu'>mig_resid_stock</span><span class='op'>(</span></span>
-<span class='r-in'>   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_five</span>,</span>
-<span class='r-in'>   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_five</span>,</span>
-<span class='r-in'>   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_five</span>,</span>
-<span class='r-in'>   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_five</span>,</span>
-<span class='r-in'>   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_five</span>,</span>
-<span class='r-in'>   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_five</span>,</span>
-<span class='r-in'>   ages <span class='op'>=</span> <span class='va'>ages_five</span>,</span>
-<span class='r-in'>   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_five</span></span>
-<span class='r-in'> <span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Net migration for males using stock change method</span></span>
-<span class='r-in'><span class='va'>mig_res</span><span class='op'>$</span><span class='va'>mig_m</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>              1950          1955          1960          1965          1970</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0    1.7899322803  3.919021e+00 -5.8543069648 12.9092374640  2.921119e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   51.6027045000  5.385321e+01 22.2235544078 22.9335351570  3.470664e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  29.1541335600  2.840815e+01  8.0306470720 19.3499225033  3.062147e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   7.3711371748  4.381831e+00 -5.0199593568 15.8034252562  3.131827e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  21.6150524800  1.566065e+01 -2.0994925197 40.1160914300  5.180611e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  47.8647752800  6.026311e+01 23.3854103582 84.5010463454  8.870085e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  37.0250555000  4.779935e+01 15.9943014370 54.4810744403  5.262150e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  37.0572080800  3.955049e+01  9.4550107496 26.9198029920  2.392796e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  26.6996119446  1.316362e+01  0.9599276814  8.9668772707  1.721723e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  19.3238383059  8.535687e+00 -5.7535831006  7.5537018836  4.394683e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  10.8706376948  5.802709e+00  0.6788420915  0.5444807024  1.053791e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  -0.4710838276  2.382475e+00 -3.2403068092  6.2785759004 -7.931068e-01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  -2.6739240018 -5.165887e-01  0.4397308595  6.8077825892  9.082899e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   8.2682526723  9.950218e+00  4.2594462540  9.7035767336  8.412578e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   5.1050824363  5.938504e+00  5.7341530320  1.5588869257  6.650109e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  -0.5308153600  3.023748e-01 -0.9342732742 -1.0616547642  1.687302e-01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   2.6458591680  2.923921e+00  2.3863401360  3.0909371135 -6.546424e-01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85  -0.0002322246  6.833100e-05 -0.0016322983  0.0003876803 -2.982705e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90  -0.0007090603 -4.370166e-04  0.0007138143  0.0007593676  4.629872e-05</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95  -0.0004184120  8.371022e-05 -0.0002732981 -0.0013148423 -9.538320e-05</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100  0.0003631314 -3.905702e-04  0.0004240167 -0.0001150535  1.791806e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>              1975          1980          1985          1990          1995</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0   14.4819380766 15.0050326629 30.6160862966  2.279134e+01 33.4094386250</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   24.2440961290 14.9144048249 39.4586215291  3.366381e+01 27.6300354900</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  19.8909763056 12.9976172834 31.3140753898  3.926617e+01 35.2017492389</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15  34.5412167950 31.1408714290 53.7835608961  5.806982e+01 56.4028387060</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  35.7746574910 48.8141184045 46.6091830651  3.355813e+01 46.6090142025</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  12.2320674097 15.7490655447 36.0248896021  2.994211e+01 35.2341965234</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  15.2768180385 15.1454438950 48.9912652841  2.939288e+01 43.0299390765</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35   3.4133017642  2.6512718093 35.7081057973  2.377502e+01 38.0465234759</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  11.3648881127  0.9157143211 26.0002282136  1.815304e+01 25.2147939559</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  -0.9025899903 -6.1414794104  9.4697258728  9.669273e+00 15.3801489305</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   4.1228516807  1.9180957545 11.4602048293  7.420501e-01  9.1744221357</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55   2.8324768102  8.0029005255 13.9249297918  9.461663e+00  7.0314765200</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   5.9587573287  6.1901407708 12.8552522823  1.254064e+01  5.9398053623</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   5.0265223258  6.1334063238 15.3105496329  6.693441e+00  6.2767061297</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   3.0667904029  2.1040520686  8.0829480782  9.051541e-01  4.9118127171</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   1.1085509966  0.4440585403  4.6902499048 -1.740263e+00  1.6956094777</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80  -0.3545171554 -1.0788234380 -0.8912981728 -3.259234e+00  1.0782154117</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85  -0.0007250264 -0.0003707507  0.0009264276 -1.502028e-03  0.0006504005</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90  -0.0010096296 -0.0013578629 -0.0001364608 -1.536187e-03  0.0002672308</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95  -0.0005597711  0.0002593028  0.0006724129  4.940180e-06  0.0000220428</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100 -0.0002663077  0.0002379727  0.0001025889 -1.467865e-04 -0.0004672003</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>              2000          2005          2010          2015          2020</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0   35.2063149299  2.574073e+01  1.686618e+01  3.726188e+01  3.596241e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   39.7815636351  5.198246e+01  3.545773e+01  1.621746e+01  1.572724e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  43.6134320305  4.087724e+01  2.529691e+01  1.243047e+01  1.205461e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15  69.4862261899  6.151655e+01  1.053807e+02  6.337355e+01  6.148319e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  61.4795683305  1.081416e+02  1.462701e+02  1.140761e+02  1.106660e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  40.9816130294  9.212637e+01  2.026667e+01  1.096321e+02  1.063574e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  54.2000383773  6.484557e+01  5.491794e+01  8.303648e+01  8.055508e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  54.3621106693  6.210615e+01  4.419383e+01  5.759037e+01  5.586794e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  46.1009769761  4.050389e+01  2.708597e+01  3.866853e+01  3.751901e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  24.3645150956  3.725019e+01  8.129041e+00  2.565676e+01  2.489228e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  19.0808001159  1.891404e+01  1.625201e+01  1.695107e+01  1.644513e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55   0.6483630675  1.268029e+01  3.792549e+01  1.118371e+01  1.085143e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  15.0435641770  1.036964e+01  1.188830e+01  7.376952e+00  7.159785e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   6.2874481579  8.037788e+00  3.314290e+01  4.860257e+00  4.720100e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   1.6845365642  1.544022e+00  1.088919e+00  3.201408e+00  3.110899e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   1.7851618553  2.240903e+00  2.708415e+00  2.114225e+00  2.050721e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   4.4904038435  1.151357e+01 -2.168209e+00  1.393847e+00  1.351674e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85   0.0003877412 -3.414889e-04  1.892320e-03  1.947218e-03 -5.815492e-05</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90  -0.0002732069  3.774664e-04 -1.778366e-03 -4.196944e-04  6.462397e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95   0.0003672265 -2.385004e-04 -1.187608e-03  9.547959e-04 -4.276800e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100  0.0004257843  1.591630e-04 -5.068183e-05 -3.603256e-04 -1.501552e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             2025          2030          2035          2040          2045</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0   3.713937e+01  3.872296e+01  38.710244991  3.875942e+01  3.884919e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   1.624346e+01  1.692868e+01  16.922542527  1.694990e+01  1.698616e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  1.245485e+01  1.298092e+01  12.972254791  1.299493e+01  1.303085e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15  6.348393e+01  6.617035e+01  66.152791816  6.626290e+01  6.641678e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  1.142679e+02  1.191112e+02 119.075586720  1.192639e+02  1.195424e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  1.098159e+02  1.144742e+02 114.442603943  1.146180e+02  1.148904e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  8.317144e+01  8.669744e+01  86.667686177  8.681930e+01  8.701090e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  5.769732e+01  6.012598e+01  60.113368482  6.020745e+01  6.034099e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  3.874399e+01  4.037813e+01  40.365452745  4.042687e+01  4.052742e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  2.570411e+01  2.679773e+01  26.784212118  2.683642e+01  2.688482e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  1.699112e+01  1.771062e+01  17.697703877  1.773515e+01  1.777363e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  1.120040e+01  1.167745e+01  11.672268085  1.169656e+01  1.172089e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  7.386918e+00  7.707266e+00   7.697176849  7.715443e+00  7.730054e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  4.878769e+00  5.078950e+00   5.072805619  5.084954e+00  5.100982e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  3.212492e+00  3.348749e+00   3.347115246  3.356025e+00  3.363517e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  2.116043e+00  2.206720e+00   2.205534484  2.206645e+00  2.212107e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80  1.392679e+00  1.453848e+00   1.454611333  1.461609e+00  1.459596e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85  5.095878e-04  1.592002e-03  -0.003113428 -1.789957e-04 -1.280066e-03</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90  6.580606e-04 -6.258823e-04   0.001700642 -2.324909e-03  1.481708e-03</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95  5.002212e-05 -3.570606e-04  -0.001343537  1.088385e-03  9.059035e-05</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100 6.132923e-05 -2.312750e-04   0.000230856 -1.040497e-04  4.127133e-05</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Net migration for females using stock change method</span></span>
-<span class='r-in'><span class='va'>mig_res</span><span class='op'>$</span><span class='va'>mig_f</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             1950         1955        1960        1965       1970       1975</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0   113.17293508 114.89636101 90.23263311 87.45872642 90.0432974 70.4587935</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    95.34564459  97.41671484 70.19452018 65.87207075 59.8263941 44.5359312</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   39.38203524  37.98494056 21.59118455 30.06125339 40.8511939 25.2266777</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   18.93727890  15.46635355 15.01716094 35.73093675 43.5519113 44.4185849</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20   35.06866853  38.29910784 32.49304247 61.96567298 71.3823189 60.4114357</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25   46.52931657  51.15055184 29.78558329 69.40305410 73.3726655 28.8506481</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30   49.26659651  53.64077560 28.11913980 41.28897946 46.1446383 30.6183323</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35   42.94237789  47.62602471 24.65857528 25.85740478 24.8366719 12.9039601</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   29.40340471  20.97115764 13.49470393 11.16104258 23.5821805 19.5062463</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45   18.57086996  17.19342125  7.68481801 16.01699993 16.0862520 12.4982334</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   13.71191120  17.11939842 13.92770203 13.62686866 27.4480823 18.0019021</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55   10.00669977  14.47415466 10.65372584 22.55101461 15.3631445 21.7322432</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   11.50849438  12.18200068 18.50430067 27.64042225 28.9167882 29.1498623</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   22.50025175  25.23334367 26.44347204 35.00252644 34.6956380 36.6317503</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   29.00954957  31.29857322 32.48545915 32.31809795 32.5289233 38.7470346</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   16.82217097  18.04473806 21.47476384 30.18757231 33.0546994 39.0628759</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   19.08659895  21.79087700 26.53310358 31.16165091 30.7052393 36.2665503</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85    7.00799770   9.63018174 11.75234533 16.01617288 19.8479281 24.8705826</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90    2.73784736   3.09952968  4.37523028  5.83026818  8.0543360 11.6835028</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95    0.47757027   0.63464332  0.73783617  1.16624771  1.6228540  2.8761175</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100   0.03766896   0.04934962  0.06275325  0.08664575  0.1430509  0.2940806</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>           1980       1985       1990       1995       2000        2005</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0   65.4905895 76.3891331 68.7130184 70.2702199 57.8078009  48.4244763</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   33.0373278 54.3669316 47.8767793 41.8410746 46.4490916  53.0134297</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  23.5971948 35.5482798 42.9332129 37.8361399 48.9140770  41.0945558</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15  30.0666391 49.2268809 54.1049977 53.0111697 61.1189534  59.3054565</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  51.8729917 66.5234561 53.3486767 57.1899226 80.8186413 108.2549385</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  24.8247651 59.2788922 49.3469215 48.0041198 67.9264170 111.1587027</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  30.4020995 63.2339790 44.9045881 54.5849296 74.0834107 103.0106675</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  13.7500933 46.1317183 42.2221569 54.2424859 64.2324081  79.7542022</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  16.8177810 42.4617981 35.6323975 44.6059232 63.2572127  59.0680211</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  10.6764505 24.0128959 31.6798027 36.3022661 41.1520887  57.4674939</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  19.1201073 21.6856843 25.6122443 28.1799534 37.8505654  39.2408961</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  27.1662997 25.9759242 32.3966763 25.4397052 35.6465904  39.5720843</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  31.4169027 32.3333678 33.6616631 29.4462690 42.3024418  45.1001209</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  38.5246016 46.0765985 37.8977766 37.4361944 40.0309377  44.4626225</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  41.3330306 45.5233111 45.3688341 47.3005896 48.0556069  45.6277274</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  43.8517132 52.2627443 48.9690557 59.9854503 61.9408546  63.0543494</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80  39.1634375 44.2990904 50.6981503 60.8224943 76.3761824  86.1956876</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85  30.2454966 34.3783368 40.9716493 47.5660261 54.0094551  70.3597063</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90  15.3906445 17.5112915 20.6083492 22.8002233 27.7876959  34.3398055</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95   4.4186387  5.1672347  5.9996563  6.0220990  6.9467713   9.5562259</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100  0.5528349  0.7229901  0.8275142  0.6994879  0.6407134   0.8698355</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>           2010        2015          2020          2025          2030</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0    40.893862  54.2482009  3.639646e+01  3.756888e+01  3.915000e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    44.012591  21.6549536  1.571378e+01  1.622971e+01  1.691831e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   28.495198  15.8682358  1.285681e+01  1.327584e+01  1.383276e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   93.817691  72.3096374  6.796569e+01  7.018092e+01  7.315433e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  150.599940 125.3306506  1.182762e+02  1.221251e+02  1.272877e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25   82.384536 118.5424184  1.095158e+02  1.130743e+02  1.178537e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  100.055532  89.6012339  7.987071e+01  8.246815e+01  8.595619e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35   66.203624  64.3219840  5.333906e+01  5.508070e+01  5.740907e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   51.479253  46.0958958  3.449321e+01  3.560806e+01  3.711957e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45   25.465817  34.5174228  2.203458e+01  2.275099e+01  2.371591e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   36.408361  29.2195403  1.402299e+01  1.447923e+01  1.509269e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55   46.657383  32.4093781  8.899044e+00  9.189698e+00  9.580706e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   37.500438  38.5073520  5.651936e+00  5.833683e+00  6.079587e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   53.185508  47.8148003  3.591765e+00  3.699831e+00  3.864664e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   55.705684  62.3853696  2.279530e+00  2.350295e+00  2.453483e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   65.979261  71.5828801  1.447269e+00  1.494431e+00  1.554029e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   75.191382  78.4085394  9.191045e-01  9.422448e-01  9.851964e-01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85   75.580026  73.6692924  2.023718e-03 -1.309560e-03 -3.205581e-03</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90   44.131329  45.7727592 -4.575784e-05 -1.760394e-03  5.530703e-05</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95   11.032250  13.0486004 -6.680146e-04  1.115547e-03  2.261978e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100   0.919266   0.8355002 -3.823113e-06 -6.037463e-04  1.228691e-05</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>              2035          2040          2045</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0    3.915065e+01  3.921944e+01  3.931634e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    1.691457e+01  1.693440e+01  1.697581e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   1.383380e+01  1.385223e+01  1.388592e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   7.313045e+01  7.324795e+01  7.341229e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20   1.272581e+02  1.274533e+02  1.277532e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25   1.178278e+02  1.180086e+02  1.182870e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30   8.594408e+01  8.607590e+01  8.627359e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35   5.739172e+01  5.748318e+01  5.762230e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   3.711233e+01  3.716508e+01  3.724629e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45   2.371210e+01  2.374261e+01  2.380269e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   1.509005e+01  1.510669e+01  1.514986e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55   9.583997e+00  9.598664e+00  9.619318e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   6.081444e+00  6.084633e+00  6.102345e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   3.859534e+00  3.866878e+00  3.879600e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   2.451742e+00  2.453048e+00  2.460003e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   1.554556e+00  1.562182e+00  1.559817e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   9.835399e-01  9.827943e-01  9.950495e-01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85   2.799884e-03  3.560486e-03 -4.231530e-03</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90  -7.542806e-04  2.292086e-03 -1.102522e-03</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95   7.982875e-04  2.063124e-03 -4.913987e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100 -5.497503e-04 -2.754639e-04 -2.854814e-05</span>
-<span class='r-in'></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'>################ cohort even flow method  #####################</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># We reuse the same data from before</span></span>
-<span class='r-in'><span class='co'># Either use the generic mig_resid choosing 'cohort'</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Five year age groups</span></span>
-<span class='r-in'><span class='va'>mig_res</span> <span class='op'>&lt;-</span></span>
-<span class='r-in'> <span class='fu'>mig_resid</span><span class='op'>(</span></span>
-<span class='r-in'>   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_five</span>,</span>
-<span class='r-in'>   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_five</span>,</span>
-<span class='r-in'>   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_five</span>,</span>
-<span class='r-in'>   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_five</span>,</span>
-<span class='r-in'>   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_five</span>,</span>
-<span class='r-in'>   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_five</span>,</span>
-<span class='r-in'>   ages <span class='op'>=</span> <span class='va'>ages_five</span>,</span>
-<span class='r-in'>   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_five</span>,</span>
-<span class='r-in'>   <span class='co'># With the cohort method</span></span>
-<span class='r-in'>   method <span class='op'>=</span> <span class='st'>"cohort"</span></span>
-<span class='r-in'> <span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Using cohort residual migration method</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Single ages</span></span>
-<span class='r-in'><span class='va'>mig_res</span> <span class='op'>&lt;-</span></span>
-<span class='r-in'> <span class='fu'>mig_resid</span><span class='op'>(</span></span>
-<span class='r-in'>   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_single</span>,</span>
-<span class='r-in'>   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_single</span>,</span>
-<span class='r-in'>   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_single</span>,</span>
-<span class='r-in'>   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_single</span>,</span>
-<span class='r-in'>   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_single</span>,</span>
-<span class='r-in'>   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_single</span>,</span>
-<span class='r-in'>   ages <span class='op'>=</span> <span class='va'>ages_single</span>,</span>
-<span class='r-in'>   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_single</span>,</span>
-<span class='r-in'>   <span class='co'># With the stock method</span></span>
-<span class='r-in'>   method <span class='op'>=</span> <span class='st'>"cohort"</span></span>
-<span class='r-in'> <span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Using cohort residual migration method</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Or directly the mid_resid_cohort function</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>mig_res</span> <span class='op'>&lt;-</span></span>
-<span class='r-in'>  <span class='fu'>mig_resid_cohort</span><span class='op'>(</span></span>
-<span class='r-in'>    pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_five</span>,</span>
-<span class='r-in'>    pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_five</span>,</span>
-<span class='r-in'>    sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_five</span>,</span>
-<span class='r-in'>    sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_five</span>,</span>
-<span class='r-in'>    asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_five</span>,</span>
-<span class='r-in'>    srb_vec <span class='op'>=</span> <span class='va'>srb_vec_five</span>,</span>
-<span class='r-in'>    ages <span class='op'>=</span> <span class='va'>ages_five</span>,</span>
-<span class='r-in'>    ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_five</span></span>
-<span class='r-in'>  <span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Net migration for males using the cohort even flow method</span></span>
-<span class='r-in'><span class='va'>mig_res</span><span class='op'>$</span><span class='va'>mig_m</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>              1950          1955          1960          1965          1970</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0   27.7345854720 31.0019371482  5.1942053540 24.5624659219  4.688525e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   40.5102116592 41.2343357598 15.1606536999 21.1793513869  3.271567e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  18.3013151966 16.4222220410  1.5058793365 17.6053516384  3.102412e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15  14.5468170638 10.0564010777 -3.5687147753 28.0614898551  4.172147e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  34.8888314231 38.1140374410 10.6856647744 62.5658663403  7.055654e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  42.6329532877 54.2516150063 19.7676547862 69.7666525943  7.093797e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  37.2248714152 43.8717655890 12.7781665228 40.8677327075  3.842664e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  32.0814535293 26.5020660760  5.2333131522 18.0380639382  2.068785e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  23.2334561570 10.9459192982 -2.4258656763  8.3347645192  1.089106e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  15.3265554535  7.2748524613 -2.5633574346  4.0973563278  7.587504e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   5.3028125043  4.1864884603 -1.3245914367  3.5133073257  4.957193e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  -1.6476700692  0.9576589788 -1.4395096532  6.8074763188  4.347471e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   3.0476956367  5.0897985122  2.5236522427  8.7981552818  9.271884e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   7.2975977560  8.6761911905  5.4904630231  6.0964521738  8.217822e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   2.5311742841  3.4940993902  2.6452918966  0.2448806986  3.800742e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   1.3981785084  2.0660658863  0.9794162929  1.3492354084 -3.171552e-01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   1.7122472632  1.8870772095  1.5306732316  1.9744450576 -4.164296e-01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85  -0.0008180112 -0.0003418182 -0.0005657794  0.0009453795 -1.747616e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90  -0.0011282773 -0.0002951569  0.0003245206 -0.0008184162 -6.416606e-05</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95  -0.0009690561  0.0001945259 -0.0006136342 -0.0029657259 -2.079006e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100  0.0003631314 -0.0003905702  0.0004240167 -0.0001150535  1.791806e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>              1975          1980          1985          1990          1995</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0   26.7290464322 22.5514135124 50.5005203859  3.971947e+01  4.733699e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   22.0962653344 13.9694166410 35.4141109601  3.648698e+01  3.143147e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  27.2613524622 22.0997423995 42.5971117509  4.871322e+01  4.583846e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15  35.2720807678 40.0886284255 50.3067733763  4.589406e+01  5.158882e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  24.1056789950 32.3931085097 41.4420067581  3.183571e+01  4.101680e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  13.8048985375 15.4971051546 42.6358411330  2.975410e+01  3.922889e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30   9.3790926968  8.9270470232 42.4876305010  2.667472e+01  4.065530e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35   7.4318376300  1.7905172492 30.9784476453  2.105322e+01  3.174649e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   5.2620681370 -2.6361050610 17.8294359966  1.398769e+01  2.039907e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45   1.6409798784 -2.1235510680 10.5680414394  5.242261e+00  1.236784e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   3.5528032225  5.0697335208 12.9059761124  5.190501e+00  8.201545e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55   4.5669024604  7.3126011011 13.7574122211  1.127484e+01  6.618932e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   5.7964848148  6.4725021367 14.7392106038  9.973541e+00  6.324542e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   4.3823473498  4.4122945905 12.4941899906  4.003111e+00  5.912938e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   2.3424884610  1.4118350206  7.0917545044 -4.958813e-01  3.587037e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   0.4223807796 -0.4160797352  2.1344354343 -2.976618e+00  1.602920e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80  -0.2237692930 -0.6727819681 -0.5508956693 -1.992855e+00  6.527169e-01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85  -0.0013472520 -0.0013649720  0.0005310532 -2.288892e-03  6.637464e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90  -0.0014153765 -0.0008447875  0.0005782918 -1.248544e-03  2.421791e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95  -0.0011599514  0.0005239992  0.0013807440  1.016482e-05  4.658246e-05</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100 -0.0002663077  0.0002379727  0.0001025889 -1.467865e-04 -4.672003e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             2000          2005          2010          2015          2020</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0   5.521348e+01  5.181794e+01  3.464569e+01  4.546868e+01  4.391070e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   4.171498e+01  4.644763e+01  3.038654e+01  1.432799e+01  1.389523e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  5.658804e+01  5.122663e+01  6.537600e+01  3.792246e+01  3.678382e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15  6.557516e+01  8.495273e+01  1.259713e+02  8.882648e+01  8.614305e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  5.133396e+01  1.003256e+02  8.339817e+01  1.120286e+02  1.086440e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  4.769132e+01  7.864393e+01  3.765750e+01  9.649354e+01  9.359811e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  5.441186e+01  6.361715e+01  4.964878e+01  7.043648e+01  6.832703e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  5.038857e+01  5.144900e+01  3.572532e+01  4.823902e+01  4.679176e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  3.538553e+01  3.904144e+01  1.766614e+01  3.227328e+01  3.130150e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  2.187529e+01  2.825565e+01  1.226915e+01  2.142061e+01  2.076887e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  9.953746e+00  1.595878e+01  2.736801e+01  1.418917e+01  1.375317e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  8.024718e+00  1.171475e+01  2.523316e+01  9.404806e+00  9.113674e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  1.095858e+01  9.441914e+00  2.309601e+01  6.246623e+00  6.051291e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  4.157159e+00  4.963837e+00  1.761464e+01  4.165787e+00  4.032837e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  1.879553e+00  2.032313e+00  2.029089e+00  2.804870e+00  2.709220e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  3.633292e+00  7.856819e+00  2.269679e-01  1.921612e+00  1.849407e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80  2.648544e+00  6.637323e+00 -1.231256e+00  7.883184e-01  7.562531e-01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85  4.033675e-05  7.105796e-05 -1.498956e-04  9.007669e-04  4.340415e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90  1.617833e-04  5.104875e-05 -2.514495e-03  6.246262e-04  5.782513e-05</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95  7.570578e-04 -4.775804e-04 -2.347887e-03  1.876386e-03 -8.238661e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100 4.257843e-04  1.591630e-04 -5.068183e-05 -3.603256e-04 -1.501552e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             2025          2030          2035          2040         2045</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0   4.533636e+01  4.725714e+01  4.723415e+01  4.729110e+01 4.739403e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   1.435297e+01  1.495834e+01  1.495057e+01  1.497529e+01 1.501112e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  3.798272e+01  3.958804e+01  3.957368e+01  3.963905e+01 3.973308e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15  8.893813e+01  9.269935e+01  9.266739e+01  9.281208e+01 9.302437e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  1.121642e+02  1.169091e+02  1.168658e+02  1.170394e+02 1.173074e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  9.662625e+01  1.007130e+02  1.006725e+02  1.008273e+02 1.010516e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  7.054235e+01  7.351530e+01  7.348607e+01  7.360189e+01 7.375815e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  4.831215e+01  5.033959e+01  5.031996e+01  5.039165e+01 5.050329e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  3.231319e+01  3.367316e+01  3.365320e+01  3.370409e+01 3.377327e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  2.144079e+01  2.234327e+01  2.232287e+01  2.236153e+01 2.239942e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  1.419322e+01  1.478717e+01  1.477057e+01  1.479497e+01 1.482056e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  9.393798e+00  9.787974e+00  9.772460e+00  9.787043e+00 9.800488e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  6.235955e+00  6.491396e+00  6.475070e+00  6.483358e+00 6.492494e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  4.154458e+00  4.317637e+00  4.305202e+00  4.308499e+00 4.313789e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  2.783655e+00  2.892001e+00  2.881492e+00  2.878664e+00 2.878182e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  1.892981e+00  1.963852e+00  1.953794e+00  1.949436e+00 1.943300e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80  7.721803e-01  8.009601e-01  7.934284e-01  7.943901e-01 7.884978e-01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85  7.786621e-04  5.130995e-04 -6.648082e-04 -1.703315e-03 2.604560e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90  5.174199e-04 -7.749870e-04 -5.907210e-05 -6.034064e-04 1.089173e-03</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95  9.482005e-05 -6.681631e-04 -2.483761e-03  1.989245e-03 1.637868e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100 6.132923e-05 -2.312750e-04  2.308560e-04 -1.040497e-04 4.127133e-05</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Net migration for females using the cohort even flow method</span></span>
-<span class='r-in'><span class='va'>mig_res</span><span class='op'>$</span><span class='va'>mig_f</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             1950         1955         1960         1965        1970       1975</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0   171.72131816 173.14456142 131.77820968 125.77017105 124.6968682 95.9520589</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    69.20081450  69.28238640  46.84641331  48.75618851  50.9922442 35.2853877</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   29.46477771  26.96618336  18.44416874  33.10558630  42.4374326 34.9937120</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   27.29600628  27.13733711  23.95068047  49.19164496  57.8183162 52.7039012</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20   41.33304378  45.22976783  31.44274248  66.24574140  72.9147253 44.9214309</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25   48.61860483  53.07861527  29.28367497  55.88984313  60.2716586 29.9682458</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30   46.88561716  51.38378241  26.73500957  33.95470778  35.8411804 21.9525937</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35   36.86298992  34.86859624  19.36135344  18.75110168  24.4968027 16.3825468</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   24.51040044  19.45753274  10.77528557  13.81136654  20.1137017 16.2070083</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45   16.56535817  17.57029029  11.05335164  15.11774766  22.1790338 15.5127441</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   12.26265055  16.29327790  12.64429657  18.59839574  21.9134313 20.3315864</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55   11.30080079  13.92818445  15.23128103  26.10027153  22.9939702 26.3244627</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   18.40400698  20.13441348  24.01142703  33.27825496  33.6423294 34.6656953</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   29.00224834  31.55144157  32.65724529  36.93668833  36.6712748 40.9309041</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   27.17509206  28.94143981  31.42783859  36.27914530  37.7960682 44.4445436</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   23.83314481  26.11712003  31.07521196  39.00073414  39.9437017 46.6140330</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   19.13202079  22.82358621  27.36889447  33.37685139  35.5223684 42.3677161</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85    8.57065143  10.90765432  13.64065673  18.13800515  22.8559186 29.5426976</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90    3.41815884   3.91939256   5.21967120   7.05826177   9.5714802 14.1771134</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95    1.25221623   1.63514702   1.86297785   2.89364187   3.9438894  6.8026913</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100   0.03766896   0.04934962   0.06275325   0.08664575   0.1430509  0.2940806</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>           1980        1985       1990       1995       2000        2005</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0   84.4975756 106.1761668 94.7745340 93.0428964 82.3545273  75.8669558</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   28.5730084  45.3124335 45.7159530 40.0648036 47.8985128  47.2331783</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  26.9396863  42.5369562 48.6845584 45.5573823 55.1597026  50.3105897</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15  41.1581199  58.1083629 53.9313215 55.2936585 71.1989878  84.0183980</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  38.5564169  63.2154839 51.5985008 52.8430913 74.7031986 110.1303313</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  27.7977659  61.6234186 47.4051198 51.6083434 71.4428640 107.6456040</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  22.2422255  55.0624099 43.8731207 54.8247021 69.7022819  92.0023679</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  15.4282339  44.6721699 39.2611120 49.8762677 64.3662482  69.9977501</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  13.9022608  33.5791503 34.0132172 40.9028124 52.7987748  58.8675964</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  15.1324013  23.1657203 29.0358476 32.6897767 40.0602448  48.9595289</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  23.6430427  24.3027282 29.5679655 27.3167444 37.4326840  40.0787725</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  30.2152519  30.0197155 33.9584308 28.2084960 40.0225780  43.3773939</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  36.7180278  41.0735925 37.3701400 34.8975556 42.8133296  46.4391888</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  43.1354913  49.2244096 44.6705493 45.3497331 46.9441002  47.7359675</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  48.3036273  55.1229691 52.8406941 59.9426380 61.0737010  59.9554207</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  50.7362876  58.3363476 59.9609448 72.1377381 82.0927869  87.8106758</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80  47.5944714  53.1999714 61.2981433 71.6760979 84.6800893 100.6440966</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85  36.3664993  40.6306969 47.4201296 53.3764469 60.9562720  76.3506288</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90  19.0369669  21.3787584 24.5943500 26.1127004 30.5702757  37.8712336</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95  10.2343876  11.7002979 13.3059286 13.1155117 14.6560891  19.6212289</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100  0.5528349   0.7229901  0.8275142  0.6994879  0.6407134   0.8698355</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>           2010        2015          2020          2025          2030</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0    63.536304  65.7260833  4.433063e+01  4.575479e+01  4.767406e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    36.364455  18.8075067  1.428867e+01  1.475587e+01  1.537836e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   61.269592  44.1589114  4.042136e+01  4.173772e+01  4.350211e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15  122.497446  99.0230306  9.315949e+01  9.618904e+01  1.002545e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  116.841872 122.2617185  1.139634e+02  1.176635e+02  1.226309e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25   91.599610 104.4228958  9.476476e+01  9.783964e+01  1.019700e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30   83.556553  77.2882500  6.666796e+01  6.883477e+01  7.174004e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35   59.226427  55.5069429  4.397429e+01  4.539983e+01  4.731691e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   38.779598  40.5871463  2.832219e+01  2.923507e+01  3.047038e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45   31.279570  32.1673624  1.808882e+01  1.867232e+01  1.945852e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   42.163635  31.2312923  1.152124e+01  1.189181e+01  1.239102e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55   42.973366  36.1762133  7.334320e+00  7.567618e+00  7.883037e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   46.928486  44.5379457  4.679762e+00  4.821689e+00  5.024070e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   57.430282  57.9859587  2.994345e+00  3.080767e+00  3.211853e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   66.529195  72.8098599  1.925118e+00  1.981168e+00  2.059526e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   81.908880  86.2100493  1.251706e+00  1.283795e+00  1.332189e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   96.146695  95.5267726  4.973036e-01  5.053310e-01  5.244282e-01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85   86.396271  84.8470594  1.139063e-03 -1.900901e-03 -1.787040e-03</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90   46.461630  48.6423262 -5.916063e-04 -2.214464e-04  2.219107e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95   22.183238  25.5167066 -1.122828e-03  1.857040e-03  3.723792e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100   0.919266   0.8355002 -3.823113e-06 -6.037463e-04  1.228691e-05</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>              2035          2040          2045</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0    4.766587e+01  4.773854e+01  4.785075e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    1.537671e+01  1.539557e+01  1.543288e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   4.348980e+01  4.355698e+01  4.365529e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   1.002246e+02  1.003781e+02  1.006076e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20   1.225980e+02  1.227812e+02  1.230660e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25   1.019459e+02  1.020974e+02  1.023309e+02</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30   7.172074e+01  7.182816e+01  7.199256e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35   4.730032e+01  4.736846e+01  4.747491e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   3.046052e+01  3.049816e+01  3.056507e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45   1.945084e+01  1.947030e+01  1.951809e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   1.238686e+01  1.239838e+01  1.242642e+01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55   7.881202e+00  7.886047e+00  7.901435e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   5.018025e+00  5.019264e+00  5.030757e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   3.203963e+00  3.204237e+00  3.210327e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   2.054404e+00  2.054788e+00  2.053114e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   1.326888e+00  1.326015e+00  1.327060e+00</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   5.245498e-01  5.223082e-01  5.222588e-01</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85   1.098362e-03  3.448556e-03 -3.048916e-03</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90   1.682787e-04  3.117486e-03 -1.084673e-03</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95   1.301420e-03  3.330889e-03 -7.856163e-04</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100 -5.497503e-04 -2.754639e-04 -2.854814e-05</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'>################ time even flow method  #####################</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># We reuse the same data from before</span></span>
-<span class='r-in'><span class='co'># Either use the generic mig_resid with the 'time' method</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># For five year age groups</span></span>
-<span class='r-in'><span class='va'>mig_res</span> <span class='op'>&lt;-</span></span>
-<span class='r-in'> <span class='fu'>mig_resid</span><span class='op'>(</span></span>
-<span class='r-in'>   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_five</span>,</span>
-<span class='r-in'>   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_five</span>,</span>
-<span class='r-in'>   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_five</span>,</span>
-<span class='r-in'>   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_five</span>,</span>
-<span class='r-in'>   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_five</span>,</span>
-<span class='r-in'>   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_five</span>,</span>
-<span class='r-in'>   ages <span class='op'>=</span> <span class='va'>ages_five</span>,</span>
-<span class='r-in'>   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_five</span>,</span>
-<span class='r-in'>   <span class='co'># With the time method</span></span>
-<span class='r-in'>   method <span class='op'>=</span> <span class='st'>"time"</span></span>
-<span class='r-in'> <span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Using time residual migration method</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># For single ages</span></span>
-<span class='r-in'><span class='va'>mig_res</span> <span class='op'>&lt;-</span></span>
-<span class='r-in'> <span class='fu'>mig_resid</span><span class='op'>(</span></span>
-<span class='r-in'>   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_single</span>,</span>
-<span class='r-in'>   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_single</span>,</span>
-<span class='r-in'>   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_single</span>,</span>
-<span class='r-in'>   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_single</span>,</span>
-<span class='r-in'>   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_single</span>,</span>
-<span class='r-in'>   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_single</span>,</span>
-<span class='r-in'>   ages <span class='op'>=</span> <span class='va'>ages_single</span>,</span>
-<span class='r-in'>   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_single</span>,</span>
-<span class='r-in'>   <span class='co'># With the stock method</span></span>
-<span class='r-in'>   method <span class='op'>=</span> <span class='st'>"stock"</span></span>
-<span class='r-in'> <span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> Using stock residual migration method</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Or directly the mid_resid_time function</span></span>
-<span class='r-in'><span class='co'># (works for both five and single year ages)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>mig_res</span> <span class='op'>&lt;-</span></span>
-<span class='r-in'>  <span class='fu'>mig_resid_time</span><span class='op'>(</span></span>
-<span class='r-in'>    pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_five</span>,</span>
-<span class='r-in'>    pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_five</span>,</span>
-<span class='r-in'>    sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_five</span>,</span>
-<span class='r-in'>    sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_five</span>,</span>
-<span class='r-in'>    asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_five</span>,</span>
-<span class='r-in'>    srb_vec <span class='op'>=</span> <span class='va'>srb_vec_five</span>,</span>
-<span class='r-in'>    ages <span class='op'>=</span> <span class='va'>ages_five</span>,</span>
-<span class='r-in'>    ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_five</span></span>
-<span class='r-in'>  <span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Net migration for males using the time even flow method</span></span>
-<span class='r-in'><span class='va'>mig_res</span><span class='op'>$</span><span class='va'>mig_m</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             1950         1955          1960         1965         1970</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0     3.57986456   7.83804281 -11.708613930  25.81847493  58.42237710</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    99.65372764  99.91545521  56.096782636  20.16120060  11.21457792</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  -40.94162774 -42.78430686 -39.882708344  18.59078430  50.05512859</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   55.48348586  51.36112198  29.686148299  13.09179503  12.81047107</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  -11.79757463 -19.64383338 -33.657655806  67.25140324  90.92287133</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  107.42501258 140.01220683  80.160934509 102.29400345  87.21131258</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  -32.40904222 -43.26549135 -47.553510864   7.44391246  18.67159066</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  106.17661163 121.93971456  66.014834078  46.46533877  29.35435108</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  -51.15631402 -93.89843855 -63.174578114 -27.88927758   5.48775806</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45   88.57046150 108.82847303  50.267264262  42.37000677   3.42290940</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  -63.32934115 -93.13047934 -47.057179615 -39.73615654  17.77493878</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55   58.46883834  92.26143114  37.785755257  49.95450413 -18.35527636</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60  -58.32986589 -84.64085443 -33.370638099 -31.75995974  34.90416044</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   66.83013145  92.79117747  37.313414670  46.77483495 -13.45378292</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  -43.57046784 -62.56497815 -18.527162169 -34.44289291  24.15556419</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   30.01886407  45.21821705  11.378053697  22.72777192 -17.18309176</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80  -12.62450034 -21.29332857  -2.130173274  -7.74682943   9.31779578</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85    5.60441174   9.70724986   0.986839238   3.68891047  -4.50288791</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90   -1.70123799  -3.01062248  -0.313951952  -1.20302297   1.52466156</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95    0.31632108   0.55768479   0.061728916   0.23383116  -0.32111739</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100  -0.02811154  -0.05411331  -0.005447638  -0.02448547   0.03644719</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             1975         1980          1985         1990        1995</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0    28.96387615  30.01006533  61.232172593  45.58267324  66.8188773</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    19.61458145  -0.11384016  17.798839229  21.81186415 -11.4789958</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   20.20595285  26.10889922  44.850683328  56.74184507  81.8729514</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   48.95919987  36.25809415  62.845864529  59.53667644  31.0999449</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20   23.01801705  61.62328797  30.756451497   7.89400063  62.2618417</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25    1.62298038 -29.72231189  41.475065426  52.03339643   8.4963877</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30   28.94199434  59.82581388  56.757960851   7.07303243  77.6072932</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  -21.87239151 -54.10090181  15.060691363  40.53058132  -1.0157575</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   44.33117340  55.38825229  37.079303424  -3.83519751  51.4366294</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  -45.24366939 -66.76114668 -17.615872177  23.12250876 -20.0512376</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   51.97198921  68.73233751  40.118018493 -21.15026980  38.0260225</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  -43.51296896 -49.55790353 -10.657202225  39.33641676 -22.7965318</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   51.82676172  58.29271858  35.664479258 -11.98652737  33.5229966</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  -35.33901983 -39.41621873  -1.325981088  24.25817390 -18.2014075</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   34.99220822  36.88719713  17.281657343 -18.97573621  25.6182594</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  -23.57247670 -26.76288480  -3.793379475  11.33350586 -16.9839990</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   14.15059062  15.05938901   0.694028281 -14.10486407  13.7584471</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85   -7.09942975  -7.76410472  -0.358176585   7.41969081  -7.3510661</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90    2.59035597   2.91884576   0.132464878  -2.78840546   2.7397113</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95   -0.60437431  -0.71424802  -0.030070852   0.65864048  -0.6134260</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100   0.07855023   0.09881163   0.004110768  -0.08173701   0.0688248</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>            2000         2005          2010        2015        2020        2025</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0    70.4126299  51.48145831   33.73236083  74.5237684  71.9248264  74.2787331</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5     9.2223352  52.52998713   37.20561118 -42.0424248 -40.4151595 -41.7427286</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   78.0107215  29.25548089   13.40764281  66.8830873  64.5071365  66.6372408</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   61.1002538  93.82266121  197.37105948  59.9439586  58.5164254  60.3817971</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20   62.1021505 122.80643192   95.77213448 168.3817044 162.9313907 168.2596094</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25   20.1148330  61.93362372  -54.90300355  51.4450008  50.2569949  51.8140624</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30   88.3718114  68.01002222  164.54991665 114.7947184 111.0135390 114.6788458</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35   20.8205517  56.52957864  -75.48650810   0.8280661   1.1274237   1.0935709</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   71.5336598  24.86139074  129.21554946  76.5135937  73.9162539  76.3993357</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  -22.0122498  49.89176029 -111.77480201 -24.5285913 -23.5568882 -24.4557117</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   59.7886258 -11.24947223  142.64920256  58.0869502  56.1548785  58.1644701</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  -56.8405940  36.31951173  -63.55416721 -34.4574904 -33.3626521 -34.7478059</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   84.3838898 -14.13565389   85.10506293  48.0687406  46.6862333  48.5890735</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  -65.7712511  29.32707902  -14.15647172 -35.8655365 -35.0816217 -36.8046551</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   61.6773024 -23.35409488   15.10886419  39.3393827  38.7196217  40.7791816</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  -47.0754634  24.20349394   -7.59220972 -29.9265975 -29.9667998 -32.0866992</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   42.8165215   4.82076390    1.53813111  26.2495781  26.6336803  28.8995750</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85  -24.3487769  -2.93691216   -0.96750858 -16.8699992 -17.6523987 -19.6928288</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90    9.6710926   1.24605503    0.42211034   7.5546157   8.3531350   9.6521764</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95   -2.2748115  -0.31123505   -0.11037382  -1.9541809  -2.2518481  -2.6861664</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100   0.2597073   0.03683747    0.01288714   0.2285256   0.2509391   0.3042474</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>            2030        2035        2040        2045</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0    77.4459176  77.4204900  77.5188470  77.6983814</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   -43.5429804 -43.5345068 -43.5819780 -43.6922370</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   69.4908108  69.4665111  69.5605646  69.7436785</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   62.8975960  62.8819987  63.0042277  63.1255567</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  175.4243967 175.3598544 175.6067308 176.0358055</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25   53.9474549  53.9155099  53.9903843  54.0801592</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  119.5914528 119.5528521 119.7715458 120.0562085</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35    1.0225270   1.0072712   0.9519375   0.9121235</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   79.7379684  79.7274719  79.9051533  80.1456864</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  -25.6296697 -25.6871280 -25.7956559 -25.9708380</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   60.7878345  60.8398404  61.0409161  61.3084604</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  -36.4591281 -36.5987410 -36.8176156 -37.0954370</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   50.9769737  51.1657131  51.4807825  51.8403704</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  -38.8691838 -39.2202149 -39.6397621 -40.0819810</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   43.1850851  43.6969678  44.2773104  44.8632888</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  -34.3995882 -35.1814702 -35.9946429 -36.7846096</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   31.3094023  32.3339309  33.3781480  34.3711942</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85  -21.7940080 -22.9599143 -24.1187034 -25.2468632</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90   10.9779695  11.8694772  12.7578752  13.6605184</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95   -3.1357372  -3.4757375  -3.8169784  -4.1788256</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100   0.3588661   0.4034127   0.4472692   0.4953120</span>
-<span class='r-in'></span>
-<span class='r-in'><span class='co'># Net migration for females using the time even flow method</span></span>
-<span class='r-in'><span class='va'>mig_res</span><span class='op'>$</span><span class='va'>mig_f</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>            1950         1955         1960         1965         1970</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0   226.3458702 229.79272201 180.46526622 174.91745284  180.0865949</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   -21.0374290 -22.28540657 -31.50143500 -36.12133305  -54.2299461</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   99.3415777  97.83858796  74.17190806  95.74522542  135.2772394</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15  -59.6809765 -65.39419993 -43.13633166 -23.17129337  -46.8001148</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  128.4354061 140.68621033 107.36582549 146.74972311  188.9421056</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25  -31.8378149 -35.02737104 -45.53762715  -5.25186295  -39.1701555</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  129.3780748 141.35666443 100.68019100  87.71909797  130.7375337</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  -38.9436452 -41.71922721 -48.58209382 -33.86767281  -78.2687759</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   96.1969156  82.17618397  74.01404694  55.22193698  123.4478722</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  -54.6355206 -44.39140208 -55.84845122 -21.29545414  -87.4661601</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   78.9618389  76.33323073  81.03814346  47.61263555  138.8417828</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  -52.9859019 -42.06729052 -54.48681576   0.34775936 -100.3924019</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   70.2110143  62.17078749  86.34367902  54.96362841  150.0050752</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  -13.6705663  -2.18847224 -21.04847767  22.41355071  -61.7595508</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   68.3375982  64.28074915  81.42847971  46.82844725  114.8253826</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  -10.3770787  -6.38475405 -12.10171449  27.99107016  -14.8924516</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   43.4733361  46.94240803  59.62805297  46.69267660   69.9571248</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85   -1.9687420   1.39813765  -0.03423644  12.94953562   10.0953495</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90    5.9489557   5.85004073   8.75937070   8.16573505   13.2737132</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95    0.0898606   0.38802533   0.10170185   1.00605627    0.9981967</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100   0.0679131   0.06587289   0.11661638   0.08288009    0.1932348</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>             1975         1980        1985        1990        1995        2000</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0    140.9175869  130.9811791 152.7782663 137.4260367 140.5404398 115.6156018</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    -47.6765502  -61.7171348 -40.8585367 -39.0325437 -54.6180620 -21.2182395</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10    97.6260741  108.3826166 111.6492954 124.6180639 129.9601873 118.9342766</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15    -7.8818342  -47.4337354 -12.4509483 -15.6031808 -23.1929547   3.9108808</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20   128.6090432  150.7026598 145.3857926 122.1649032 137.3844478 157.7556344</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25   -69.0487765  -99.2216052 -25.2362233 -22.1547875 -39.9084905 -20.2548668</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30   129.1419899  158.6280625 151.3826146 111.6798611 148.5439952 168.1412151</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  -100.8450048 -128.4887081 -56.8328512 -25.5163741 -37.6094921 -36.7292738</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   137.5336842  159.5245635 140.7046297  96.3026480 126.0717377 162.4750899</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  -108.6421302 -134.1399364 -89.3958210 -30.7009674 -50.4245702 -76.1732663</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   140.6039363  167.8574350 129.9678704  80.9786683 105.2077827 149.5078659</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55   -89.8706856 -105.5535968 -72.2499150 -12.6897624 -49.8245648 -71.9891197</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   141.3008408  160.8936779 132.1033687  79.1982021 105.5948969 152.2723407</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   -51.4025974  -66.1123963 -26.1991832   4.4994582 -20.5531042 -58.3050739</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   119.4994680  137.3914275 112.9664642  86.9423211 112.0615845 146.1102282</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75    -7.9495626  -13.1711402  20.1620016  32.1240324  34.2024895  10.3023640</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80    77.2260167   86.3128305  76.0691914  81.0085017  99.5705861 145.9411473</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85    15.8341860   21.3140279  33.0870227  42.8214335  45.8964765  33.1931354</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90    18.7134443   24.2671827  24.5037172  27.0921147  30.0018912  43.7139432</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95     2.4071631    4.3137979   5.5552771   6.4911688   5.7190028   4.0726763</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100    0.3523143    0.6684041   0.8605413   0.9424119   0.7500321   0.7860324</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>            2005        2010        2015        2020        2025        2030</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0    96.8489527   81.787724 108.4964018  72.7929143  75.1377635  78.2999917</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    10.1456148    6.861041 -64.5147999 -41.3212737 -42.6378073 -44.4263380</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   72.0885342   50.154505  96.0526852  67.0220607  69.1777814  72.0812494</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   46.8365412  137.666319  48.8726280  68.9452677  71.2172872  74.2579199</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  169.9719435  164.268004 202.0142957 167.6757076 173.0972445 180.3776182</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25   53.8651176    1.674869  36.2921853  51.5879497  53.2730104  55.5402431</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  152.8004253  198.451595 143.1858115 108.2401113 111.7463469 116.4513446</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35    9.0499008  -63.722429 -13.1662853  -1.3229319  -1.3567847  -1.4166120</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  109.2538323  165.752322 105.1968799  70.3049707  72.5687612  75.6518060</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45    8.0918478 -111.804908 -34.4986470 -25.8589758 -26.7076872 -27.8794694</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   70.6184057  181.907767  92.1907107  53.6822324  55.4537780  57.8631744</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55   11.2247424  -82.427027 -24.5262744 -35.1714449 -36.3953427 -38.0578218</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   79.5974807  153.293244 100.4054475  45.7645298  47.3851820  49.5739605</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65   16.0694181  -35.018895   2.4904511 -37.1421185 -38.6125234 -40.5402789</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   77.3204513  142.125455 122.5674937  39.8336501  41.5180415  43.7294736</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   64.9764201   17.669656  43.2746269 -33.6428689 -35.3367518 -37.5389842</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80  128.3596517  138.115219 126.1406102  30.7027237  32.5078219  34.8617924</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85   72.5951224   75.405603  75.9497393 -22.9890882 -24.7183961 -26.9616805</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90   41.4996635   58.915419  60.6511414  13.2008917  14.4778586  16.1584514</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95    9.2686019    7.492899  10.2366742  -4.6738266  -5.2221854  -5.9617379</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100   0.5589578    0.851188   0.2535397   0.7421335   0.8358793   0.9663258</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>           2035       2040       2045</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 0    78.301291  78.438885  78.632681</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 5   -44.439072 -44.540444 -44.654494</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   72.097267  72.236517  72.418842</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   74.190986  74.283958  74.427831</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20  180.379735 180.672096 181.123362</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25   55.469495  55.523010  55.613918</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  116.491593 116.695956 116.994920</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35   -1.508978  -1.546569  -1.582514</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 40   75.729792  75.873104  76.071716</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  -27.992601 -28.100488 -28.203044</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 50   57.986739  58.142769  58.345844</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  -38.226599 -38.401601 -38.608806</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   49.797401  50.026525  50.314056</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  -40.876810 -41.187768 -41.540384</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 70   44.186892  44.619462  45.098744</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 75  -38.197735 -38.810642 -39.481595</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   35.743188  36.582545  37.499323</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 85  -28.026998 -29.079131 -30.223302</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 90   17.126684  18.119018  19.185104</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 95   -6.442425  -6.947161  -7.507029</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100   1.053518   1.148182   1.254126</span>
-<span class='r-in'></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>DemoTools</span><span class='op'>)</span>
+
+<span class='co'># The data is loaded with DemoTools</span>
+
+<span class='co'>################ Stock change method #####################</span>
+
+<span class='co'># Generic mig_resid method which allows to choose either stock,</span>
+<span class='co'># cohort or time method for five year ages groups</span>
+
+<span class='va'>mig_res</span> <span class='op'>&lt;-</span>
+ <span class='fu'>mig_resid</span><span class='op'>(</span>
+   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_five</span>,
+   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_five</span>,
+   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_five</span>,
+   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_five</span>,
+   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_five</span>,
+   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_five</span>,
+   ages <span class='op'>=</span> <span class='va'>ages_five</span>,
+   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_five</span>,
+   <span class='co'># With the stock method</span>
+   method <span class='op'>=</span> <span class='st'>"stock"</span>
+ <span class='op'>)</span>
+</div><div class='output co'>#&gt; Using stock residual migration method</div><div class='input'>
+<span class='co'># For single ages</span>
+
+<span class='va'>mig_res</span> <span class='op'>&lt;-</span>
+ <span class='fu'>mig_resid</span><span class='op'>(</span>
+   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_single</span>,
+   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_single</span>,
+   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_single</span>,
+   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_single</span>,
+   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_single</span>,
+   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_single</span>,
+   ages <span class='op'>=</span> <span class='va'>ages_single</span>,
+   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_single</span>,
+   <span class='co'># With the stock method</span>
+   method <span class='op'>=</span> <span class='st'>"stock"</span>
+ <span class='op'>)</span>
+</div><div class='output co'>#&gt; Using stock residual migration method</div><div class='input'>
+<span class='co'># Or directly the mid_resid_stock function</span>
+<span class='co'># (works for both single and five year age groups)</span>
+
+<span class='va'>mig_res</span> <span class='op'>&lt;-</span>
+ <span class='fu'>mig_resid_stock</span><span class='op'>(</span>
+   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_five</span>,
+   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_five</span>,
+   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_five</span>,
+   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_five</span>,
+   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_five</span>,
+   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_five</span>,
+   ages <span class='op'>=</span> <span class='va'>ages_five</span>,
+   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_five</span>
+ <span class='op'>)</span>
+
+<span class='co'># Net migration for males using stock change method</span>
+<span class='va'>mig_res</span><span class='op'>$</span><span class='va'>mig_m</span>
+</div><div class='output co'>#&gt;              1950          1955          1960          1965          1970
+#&gt; 0    1.7899322803  3.919021e+00 -5.8543069648 12.9092374640  2.921119e+01
+#&gt; 5   51.6027045000  5.385321e+01 22.2235544078 22.9335351570  3.470664e+01
+#&gt; 10  29.1541335600  2.840815e+01  8.0306470720 19.3499225033  3.062147e+01
+#&gt; 15   7.3711371748  4.381831e+00 -5.0199593568 15.8034252562  3.131827e+01
+#&gt; 20  21.6150524800  1.566065e+01 -2.0994925197 40.1160914300  5.180611e+01
+#&gt; 25  47.8647752800  6.026311e+01 23.3854103582 84.5010463454  8.870085e+01
+#&gt; 30  37.0250555000  4.779935e+01 15.9943014370 54.4810744403  5.262150e+01
+#&gt; 35  37.0572080800  3.955049e+01  9.4550107496 26.9198029920  2.392796e+01
+#&gt; 40  26.6996119446  1.316362e+01  0.9599276814  8.9668772707  1.721723e+01
+#&gt; 45  19.3238383059  8.535687e+00 -5.7535831006  7.5537018836  4.394683e+00
+#&gt; 50  10.8706376948  5.802709e+00  0.6788420915  0.5444807024  1.053791e+01
+#&gt; 55  -0.4710838276  2.382475e+00 -3.2403068092  6.2785759004 -7.931068e-01
+#&gt; 60  -2.6739240018 -5.165887e-01  0.4397308595  6.8077825892  9.082899e+00
+#&gt; 65   8.2682526723  9.950218e+00  4.2594462540  9.7035767336  8.412578e+00
+#&gt; 70   5.1050824363  5.938504e+00  5.7341530320  1.5588869257  6.650109e+00
+#&gt; 75  -0.5308153600  3.023748e-01 -0.9342732742 -1.0616547642  1.687302e-01
+#&gt; 80   2.6458591680  2.923921e+00  2.3863401360  3.0909371135 -6.546424e-01
+#&gt; 85  -0.0002322246  6.833100e-05 -0.0016322983  0.0003876803 -2.982705e-04
+#&gt; 90  -0.0007090603 -4.370166e-04  0.0007138143  0.0007593676  4.629872e-05
+#&gt; 95  -0.0004184120  8.371022e-05 -0.0002732981 -0.0013148423 -9.538320e-05
+#&gt; 100  0.0003631314 -3.905702e-04  0.0004240167 -0.0001150535  1.791806e-04
+#&gt;              1975          1980          1985          1990          1995
+#&gt; 0   14.4819380766 15.0050326629 30.6160862966  2.279134e+01 33.4094386250
+#&gt; 5   24.2440961290 14.9144048249 39.4586215291  3.366381e+01 27.6300354900
+#&gt; 10  19.8909763056 12.9976172834 31.3140753898  3.926617e+01 35.2017492389
+#&gt; 15  34.5412167950 31.1408714290 53.7835608961  5.806982e+01 56.4028387060
+#&gt; 20  35.7746574910 48.8141184045 46.6091830651  3.355813e+01 46.6090142025
+#&gt; 25  12.2320674097 15.7490655447 36.0248896021  2.994211e+01 35.2341965234
+#&gt; 30  15.2768180385 15.1454438950 48.9912652841  2.939288e+01 43.0299390765
+#&gt; 35   3.4133017642  2.6512718093 35.7081057973  2.377502e+01 38.0465234759
+#&gt; 40  11.3648881127  0.9157143211 26.0002282136  1.815304e+01 25.2147939559
+#&gt; 45  -0.9025899903 -6.1414794104  9.4697258728  9.669273e+00 15.3801489305
+#&gt; 50   4.1228516807  1.9180957545 11.4602048293  7.420501e-01  9.1744221357
+#&gt; 55   2.8324768102  8.0029005255 13.9249297918  9.461663e+00  7.0314765200
+#&gt; 60   5.9587573287  6.1901407708 12.8552522823  1.254064e+01  5.9398053623
+#&gt; 65   5.0265223258  6.1334063238 15.3105496329  6.693441e+00  6.2767061297
+#&gt; 70   3.0667904029  2.1040520686  8.0829480782  9.051541e-01  4.9118127171
+#&gt; 75   1.1085509966  0.4440585403  4.6902499048 -1.740263e+00  1.6956094777
+#&gt; 80  -0.3545171554 -1.0788234380 -0.8912981728 -3.259234e+00  1.0782154117
+#&gt; 85  -0.0007250264 -0.0003707507  0.0009264276 -1.502028e-03  0.0006504005
+#&gt; 90  -0.0010096296 -0.0013578629 -0.0001364608 -1.536187e-03  0.0002672308
+#&gt; 95  -0.0005597711  0.0002593028  0.0006724129  4.940180e-06  0.0000220428
+#&gt; 100 -0.0002663077  0.0002379727  0.0001025889 -1.467865e-04 -0.0004672003
+#&gt;              2000          2005          2010          2015          2020
+#&gt; 0   35.2063149299  2.574073e+01  1.686618e+01  3.726188e+01  3.596241e+01
+#&gt; 5   39.7815636351  5.198246e+01  3.545773e+01  1.621746e+01  1.572724e+01
+#&gt; 10  43.6134320305  4.087724e+01  2.529691e+01  1.243047e+01  1.205461e+01
+#&gt; 15  69.4862261899  6.151655e+01  1.053807e+02  6.337355e+01  6.148319e+01
+#&gt; 20  61.4795683305  1.081416e+02  1.462701e+02  1.140761e+02  1.106660e+02
+#&gt; 25  40.9816130294  9.212637e+01  2.026667e+01  1.096321e+02  1.063574e+02
+#&gt; 30  54.2000383773  6.484557e+01  5.491794e+01  8.303648e+01  8.055508e+01
+#&gt; 35  54.3621106693  6.210615e+01  4.419383e+01  5.759037e+01  5.586794e+01
+#&gt; 40  46.1009769761  4.050389e+01  2.708597e+01  3.866853e+01  3.751901e+01
+#&gt; 45  24.3645150956  3.725019e+01  8.129041e+00  2.565676e+01  2.489228e+01
+#&gt; 50  19.0808001159  1.891404e+01  1.625201e+01  1.695107e+01  1.644513e+01
+#&gt; 55   0.6483630675  1.268029e+01  3.792549e+01  1.118371e+01  1.085143e+01
+#&gt; 60  15.0435641770  1.036964e+01  1.188830e+01  7.376952e+00  7.159785e+00
+#&gt; 65   6.2874481579  8.037788e+00  3.314290e+01  4.860257e+00  4.720100e+00
+#&gt; 70   1.6845365642  1.544022e+00  1.088919e+00  3.201408e+00  3.110899e+00
+#&gt; 75   1.7851618553  2.240903e+00  2.708415e+00  2.114225e+00  2.050721e+00
+#&gt; 80   4.4904038435  1.151357e+01 -2.168209e+00  1.393847e+00  1.351674e+00
+#&gt; 85   0.0003877412 -3.414889e-04  1.892320e-03  1.947218e-03 -5.815492e-05
+#&gt; 90  -0.0002732069  3.774664e-04 -1.778366e-03 -4.196944e-04  6.462397e-04
+#&gt; 95   0.0003672265 -2.385004e-04 -1.187608e-03  9.547959e-04 -4.276800e-04
+#&gt; 100  0.0004257843  1.591630e-04 -5.068183e-05 -3.603256e-04 -1.501552e-04
+#&gt;             2025          2030          2035          2040          2045
+#&gt; 0   3.713937e+01  3.872296e+01  38.710244991  3.875942e+01  3.884919e+01
+#&gt; 5   1.624346e+01  1.692868e+01  16.922542527  1.694990e+01  1.698616e+01
+#&gt; 10  1.245485e+01  1.298092e+01  12.972254791  1.299493e+01  1.303085e+01
+#&gt; 15  6.348393e+01  6.617035e+01  66.152791816  6.626290e+01  6.641678e+01
+#&gt; 20  1.142679e+02  1.191112e+02 119.075586720  1.192639e+02  1.195424e+02
+#&gt; 25  1.098159e+02  1.144742e+02 114.442603943  1.146180e+02  1.148904e+02
+#&gt; 30  8.317144e+01  8.669744e+01  86.667686177  8.681930e+01  8.701090e+01
+#&gt; 35  5.769732e+01  6.012598e+01  60.113368482  6.020745e+01  6.034099e+01
+#&gt; 40  3.874399e+01  4.037813e+01  40.365452745  4.042687e+01  4.052742e+01
+#&gt; 45  2.570411e+01  2.679773e+01  26.784212118  2.683642e+01  2.688482e+01
+#&gt; 50  1.699112e+01  1.771062e+01  17.697703877  1.773515e+01  1.777363e+01
+#&gt; 55  1.120040e+01  1.167745e+01  11.672268085  1.169656e+01  1.172089e+01
+#&gt; 60  7.386918e+00  7.707266e+00   7.697176849  7.715443e+00  7.730054e+00
+#&gt; 65  4.878769e+00  5.078950e+00   5.072805619  5.084954e+00  5.100982e+00
+#&gt; 70  3.212492e+00  3.348749e+00   3.347115246  3.356025e+00  3.363517e+00
+#&gt; 75  2.116043e+00  2.206720e+00   2.205534484  2.206645e+00  2.212107e+00
+#&gt; 80  1.392679e+00  1.453848e+00   1.454611333  1.461609e+00  1.459596e+00
+#&gt; 85  5.095878e-04  1.592002e-03  -0.003113428 -1.789957e-04 -1.280066e-03
+#&gt; 90  6.580606e-04 -6.258823e-04   0.001700642 -2.324909e-03  1.481708e-03
+#&gt; 95  5.002212e-05 -3.570606e-04  -0.001343537  1.088385e-03  9.059035e-05
+#&gt; 100 6.132923e-05 -2.312750e-04   0.000230856 -1.040497e-04  4.127133e-05</div><div class='input'>
+<span class='co'># Net migration for females using stock change method</span>
+<span class='va'>mig_res</span><span class='op'>$</span><span class='va'>mig_f</span>
+</div><div class='output co'>#&gt;             1950         1955        1960        1965       1970       1975
+#&gt; 0   113.17293508 114.89636101 90.23263311 87.45872642 90.0432974 70.4587935
+#&gt; 5    95.34564459  97.41671484 70.19452018 65.87207075 59.8263941 44.5359312
+#&gt; 10   39.38203524  37.98494056 21.59118455 30.06125339 40.8511939 25.2266777
+#&gt; 15   18.93727890  15.46635355 15.01716094 35.73093675 43.5519113 44.4185849
+#&gt; 20   35.06866853  38.29910784 32.49304247 61.96567298 71.3823189 60.4114357
+#&gt; 25   46.52931657  51.15055184 29.78558329 69.40305410 73.3726655 28.8506481
+#&gt; 30   49.26659651  53.64077560 28.11913980 41.28897946 46.1446383 30.6183323
+#&gt; 35   42.94237789  47.62602471 24.65857528 25.85740478 24.8366719 12.9039601
+#&gt; 40   29.40340471  20.97115764 13.49470393 11.16104258 23.5821805 19.5062463
+#&gt; 45   18.57086996  17.19342125  7.68481801 16.01699993 16.0862520 12.4982334
+#&gt; 50   13.71191120  17.11939842 13.92770203 13.62686866 27.4480823 18.0019021
+#&gt; 55   10.00669977  14.47415466 10.65372584 22.55101461 15.3631445 21.7322432
+#&gt; 60   11.50849438  12.18200068 18.50430067 27.64042225 28.9167882 29.1498623
+#&gt; 65   22.50025175  25.23334367 26.44347204 35.00252644 34.6956380 36.6317503
+#&gt; 70   29.00954957  31.29857322 32.48545915 32.31809795 32.5289233 38.7470346
+#&gt; 75   16.82217097  18.04473806 21.47476384 30.18757231 33.0546994 39.0628759
+#&gt; 80   19.08659895  21.79087700 26.53310358 31.16165091 30.7052393 36.2665503
+#&gt; 85    7.00799770   9.63018174 11.75234533 16.01617288 19.8479281 24.8705826
+#&gt; 90    2.73784736   3.09952968  4.37523028  5.83026818  8.0543360 11.6835028
+#&gt; 95    0.47757027   0.63464332  0.73783617  1.16624771  1.6228540  2.8761175
+#&gt; 100   0.03766896   0.04934962  0.06275325  0.08664575  0.1430509  0.2940806
+#&gt;           1980       1985       1990       1995       2000        2005
+#&gt; 0   65.4905895 76.3891331 68.7130184 70.2702199 57.8078009  48.4244763
+#&gt; 5   33.0373278 54.3669316 47.8767793 41.8410746 46.4490916  53.0134297
+#&gt; 10  23.5971948 35.5482798 42.9332129 37.8361399 48.9140770  41.0945558
+#&gt; 15  30.0666391 49.2268809 54.1049977 53.0111697 61.1189534  59.3054565
+#&gt; 20  51.8729917 66.5234561 53.3486767 57.1899226 80.8186413 108.2549385
+#&gt; 25  24.8247651 59.2788922 49.3469215 48.0041198 67.9264170 111.1587027
+#&gt; 30  30.4020995 63.2339790 44.9045881 54.5849296 74.0834107 103.0106675
+#&gt; 35  13.7500933 46.1317183 42.2221569 54.2424859 64.2324081  79.7542022
+#&gt; 40  16.8177810 42.4617981 35.6323975 44.6059232 63.2572127  59.0680211
+#&gt; 45  10.6764505 24.0128959 31.6798027 36.3022661 41.1520887  57.4674939
+#&gt; 50  19.1201073 21.6856843 25.6122443 28.1799534 37.8505654  39.2408961
+#&gt; 55  27.1662997 25.9759242 32.3966763 25.4397052 35.6465904  39.5720843
+#&gt; 60  31.4169027 32.3333678 33.6616631 29.4462690 42.3024418  45.1001209
+#&gt; 65  38.5246016 46.0765985 37.8977766 37.4361944 40.0309377  44.4626225
+#&gt; 70  41.3330306 45.5233111 45.3688341 47.3005896 48.0556069  45.6277274
+#&gt; 75  43.8517132 52.2627443 48.9690557 59.9854503 61.9408546  63.0543494
+#&gt; 80  39.1634375 44.2990904 50.6981503 60.8224943 76.3761824  86.1956876
+#&gt; 85  30.2454966 34.3783368 40.9716493 47.5660261 54.0094551  70.3597063
+#&gt; 90  15.3906445 17.5112915 20.6083492 22.8002233 27.7876959  34.3398055
+#&gt; 95   4.4186387  5.1672347  5.9996563  6.0220990  6.9467713   9.5562259
+#&gt; 100  0.5528349  0.7229901  0.8275142  0.6994879  0.6407134   0.8698355
+#&gt;           2010        2015          2020          2025          2030
+#&gt; 0    40.893862  54.2482009  3.639646e+01  3.756888e+01  3.915000e+01
+#&gt; 5    44.012591  21.6549536  1.571378e+01  1.622971e+01  1.691831e+01
+#&gt; 10   28.495198  15.8682358  1.285681e+01  1.327584e+01  1.383276e+01
+#&gt; 15   93.817691  72.3096374  6.796569e+01  7.018092e+01  7.315433e+01
+#&gt; 20  150.599940 125.3306506  1.182762e+02  1.221251e+02  1.272877e+02
+#&gt; 25   82.384536 118.5424184  1.095158e+02  1.130743e+02  1.178537e+02
+#&gt; 30  100.055532  89.6012339  7.987071e+01  8.246815e+01  8.595619e+01
+#&gt; 35   66.203624  64.3219840  5.333906e+01  5.508070e+01  5.740907e+01
+#&gt; 40   51.479253  46.0958958  3.449321e+01  3.560806e+01  3.711957e+01
+#&gt; 45   25.465817  34.5174228  2.203458e+01  2.275099e+01  2.371591e+01
+#&gt; 50   36.408361  29.2195403  1.402299e+01  1.447923e+01  1.509269e+01
+#&gt; 55   46.657383  32.4093781  8.899044e+00  9.189698e+00  9.580706e+00
+#&gt; 60   37.500438  38.5073520  5.651936e+00  5.833683e+00  6.079587e+00
+#&gt; 65   53.185508  47.8148003  3.591765e+00  3.699831e+00  3.864664e+00
+#&gt; 70   55.705684  62.3853696  2.279530e+00  2.350295e+00  2.453483e+00
+#&gt; 75   65.979261  71.5828801  1.447269e+00  1.494431e+00  1.554029e+00
+#&gt; 80   75.191382  78.4085394  9.191045e-01  9.422448e-01  9.851964e-01
+#&gt; 85   75.580026  73.6692924  2.023718e-03 -1.309560e-03 -3.205581e-03
+#&gt; 90   44.131329  45.7727592 -4.575784e-05 -1.760394e-03  5.530703e-05
+#&gt; 95   11.032250  13.0486004 -6.680146e-04  1.115547e-03  2.261978e-04
+#&gt; 100   0.919266   0.8355002 -3.823113e-06 -6.037463e-04  1.228691e-05
+#&gt;              2035          2040          2045
+#&gt; 0    3.915065e+01  3.921944e+01  3.931634e+01
+#&gt; 5    1.691457e+01  1.693440e+01  1.697581e+01
+#&gt; 10   1.383380e+01  1.385223e+01  1.388592e+01
+#&gt; 15   7.313045e+01  7.324795e+01  7.341229e+01
+#&gt; 20   1.272581e+02  1.274533e+02  1.277532e+02
+#&gt; 25   1.178278e+02  1.180086e+02  1.182870e+02
+#&gt; 30   8.594408e+01  8.607590e+01  8.627359e+01
+#&gt; 35   5.739172e+01  5.748318e+01  5.762230e+01
+#&gt; 40   3.711233e+01  3.716508e+01  3.724629e+01
+#&gt; 45   2.371210e+01  2.374261e+01  2.380269e+01
+#&gt; 50   1.509005e+01  1.510669e+01  1.514986e+01
+#&gt; 55   9.583997e+00  9.598664e+00  9.619318e+00
+#&gt; 60   6.081444e+00  6.084633e+00  6.102345e+00
+#&gt; 65   3.859534e+00  3.866878e+00  3.879600e+00
+#&gt; 70   2.451742e+00  2.453048e+00  2.460003e+00
+#&gt; 75   1.554556e+00  1.562182e+00  1.559817e+00
+#&gt; 80   9.835399e-01  9.827943e-01  9.950495e-01
+#&gt; 85   2.799884e-03  3.560486e-03 -4.231530e-03
+#&gt; 90  -7.542806e-04  2.292086e-03 -1.102522e-03
+#&gt; 95   7.982875e-04  2.063124e-03 -4.913987e-04
+#&gt; 100 -5.497503e-04 -2.754639e-04 -2.854814e-05</div><div class='input'>
+
+<span class='co'>################ cohort even flow method  #####################</span>
+
+<span class='co'># We reuse the same data from before</span>
+<span class='co'># Either use the generic mig_resid choosing 'cohort'</span>
+
+<span class='co'># Five year age groups</span>
+<span class='va'>mig_res</span> <span class='op'>&lt;-</span>
+ <span class='fu'>mig_resid</span><span class='op'>(</span>
+   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_five</span>,
+   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_five</span>,
+   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_five</span>,
+   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_five</span>,
+   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_five</span>,
+   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_five</span>,
+   ages <span class='op'>=</span> <span class='va'>ages_five</span>,
+   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_five</span>,
+   <span class='co'># With the cohort method</span>
+   method <span class='op'>=</span> <span class='st'>"cohort"</span>
+ <span class='op'>)</span>
+</div><div class='output co'>#&gt; Using cohort residual migration method</div><div class='input'>
+<span class='co'># Single ages</span>
+<span class='va'>mig_res</span> <span class='op'>&lt;-</span>
+ <span class='fu'>mig_resid</span><span class='op'>(</span>
+   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_single</span>,
+   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_single</span>,
+   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_single</span>,
+   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_single</span>,
+   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_single</span>,
+   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_single</span>,
+   ages <span class='op'>=</span> <span class='va'>ages_single</span>,
+   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_single</span>,
+   <span class='co'># With the stock method</span>
+   method <span class='op'>=</span> <span class='st'>"cohort"</span>
+ <span class='op'>)</span>
+</div><div class='output co'>#&gt; Using cohort residual migration method</div><div class='input'>
+<span class='co'># Or directly the mid_resid_cohort function</span>
+
+<span class='va'>mig_res</span> <span class='op'>&lt;-</span>
+  <span class='fu'>mig_resid_cohort</span><span class='op'>(</span>
+    pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_five</span>,
+    pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_five</span>,
+    sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_five</span>,
+    sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_five</span>,
+    asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_five</span>,
+    srb_vec <span class='op'>=</span> <span class='va'>srb_vec_five</span>,
+    ages <span class='op'>=</span> <span class='va'>ages_five</span>,
+    ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_five</span>
+  <span class='op'>)</span>
+
+<span class='co'># Net migration for males using the cohort even flow method</span>
+<span class='va'>mig_res</span><span class='op'>$</span><span class='va'>mig_m</span>
+</div><div class='output co'>#&gt;              1950          1955          1960          1965          1970
+#&gt; 0   27.7345854720 31.0019371482  5.1942053540 24.5624659219  4.688525e+01
+#&gt; 5   40.5102116592 41.2343357598 15.1606536999 21.1793513869  3.271567e+01
+#&gt; 10  18.3013151966 16.4222220410  1.5058793365 17.6053516384  3.102412e+01
+#&gt; 15  14.5468170638 10.0564010777 -3.5687147753 28.0614898551  4.172147e+01
+#&gt; 20  34.8888314231 38.1140374410 10.6856647744 62.5658663403  7.055654e+01
+#&gt; 25  42.6329532877 54.2516150063 19.7676547862 69.7666525943  7.093797e+01
+#&gt; 30  37.2248714152 43.8717655890 12.7781665228 40.8677327075  3.842664e+01
+#&gt; 35  32.0814535293 26.5020660760  5.2333131522 18.0380639382  2.068785e+01
+#&gt; 40  23.2334561570 10.9459192982 -2.4258656763  8.3347645192  1.089106e+01
+#&gt; 45  15.3265554535  7.2748524613 -2.5633574346  4.0973563278  7.587504e+00
+#&gt; 50   5.3028125043  4.1864884603 -1.3245914367  3.5133073257  4.957193e+00
+#&gt; 55  -1.6476700692  0.9576589788 -1.4395096532  6.8074763188  4.347471e+00
+#&gt; 60   3.0476956367  5.0897985122  2.5236522427  8.7981552818  9.271884e+00
+#&gt; 65   7.2975977560  8.6761911905  5.4904630231  6.0964521738  8.217822e+00
+#&gt; 70   2.5311742841  3.4940993902  2.6452918966  0.2448806986  3.800742e+00
+#&gt; 75   1.3981785084  2.0660658863  0.9794162929  1.3492354084 -3.171552e-01
+#&gt; 80   1.7122472632  1.8870772095  1.5306732316  1.9744450576 -4.164296e-01
+#&gt; 85  -0.0008180112 -0.0003418182 -0.0005657794  0.0009453795 -1.747616e-04
+#&gt; 90  -0.0011282773 -0.0002951569  0.0003245206 -0.0008184162 -6.416606e-05
+#&gt; 95  -0.0009690561  0.0001945259 -0.0006136342 -0.0029657259 -2.079006e-04
+#&gt; 100  0.0003631314 -0.0003905702  0.0004240167 -0.0001150535  1.791806e-04
+#&gt;              1975          1980          1985          1990          1995
+#&gt; 0   26.7290464322 22.5514135124 50.5005203859  3.971947e+01  4.733699e+01
+#&gt; 5   22.0962653344 13.9694166410 35.4141109601  3.648698e+01  3.143147e+01
+#&gt; 10  27.2613524622 22.0997423995 42.5971117509  4.871322e+01  4.583846e+01
+#&gt; 15  35.2720807678 40.0886284255 50.3067733763  4.589406e+01  5.158882e+01
+#&gt; 20  24.1056789950 32.3931085097 41.4420067581  3.183571e+01  4.101680e+01
+#&gt; 25  13.8048985375 15.4971051546 42.6358411330  2.975410e+01  3.922889e+01
+#&gt; 30   9.3790926968  8.9270470232 42.4876305010  2.667472e+01  4.065530e+01
+#&gt; 35   7.4318376300  1.7905172492 30.9784476453  2.105322e+01  3.174649e+01
+#&gt; 40   5.2620681370 -2.6361050610 17.8294359966  1.398769e+01  2.039907e+01
+#&gt; 45   1.6409798784 -2.1235510680 10.5680414394  5.242261e+00  1.236784e+01
+#&gt; 50   3.5528032225  5.0697335208 12.9059761124  5.190501e+00  8.201545e+00
+#&gt; 55   4.5669024604  7.3126011011 13.7574122211  1.127484e+01  6.618932e+00
+#&gt; 60   5.7964848148  6.4725021367 14.7392106038  9.973541e+00  6.324542e+00
+#&gt; 65   4.3823473498  4.4122945905 12.4941899906  4.003111e+00  5.912938e+00
+#&gt; 70   2.3424884610  1.4118350206  7.0917545044 -4.958813e-01  3.587037e+00
+#&gt; 75   0.4223807796 -0.4160797352  2.1344354343 -2.976618e+00  1.602920e+00
+#&gt; 80  -0.2237692930 -0.6727819681 -0.5508956693 -1.992855e+00  6.527169e-01
+#&gt; 85  -0.0013472520 -0.0013649720  0.0005310532 -2.288892e-03  6.637464e-04
+#&gt; 90  -0.0014153765 -0.0008447875  0.0005782918 -1.248544e-03  2.421791e-04
+#&gt; 95  -0.0011599514  0.0005239992  0.0013807440  1.016482e-05  4.658246e-05
+#&gt; 100 -0.0002663077  0.0002379727  0.0001025889 -1.467865e-04 -4.672003e-04
+#&gt;             2000          2005          2010          2015          2020
+#&gt; 0   5.521348e+01  5.181794e+01  3.464569e+01  4.546868e+01  4.391070e+01
+#&gt; 5   4.171498e+01  4.644763e+01  3.038654e+01  1.432799e+01  1.389523e+01
+#&gt; 10  5.658804e+01  5.122663e+01  6.537600e+01  3.792246e+01  3.678382e+01
+#&gt; 15  6.557516e+01  8.495273e+01  1.259713e+02  8.882648e+01  8.614305e+01
+#&gt; 20  5.133396e+01  1.003256e+02  8.339817e+01  1.120286e+02  1.086440e+02
+#&gt; 25  4.769132e+01  7.864393e+01  3.765750e+01  9.649354e+01  9.359811e+01
+#&gt; 30  5.441186e+01  6.361715e+01  4.964878e+01  7.043648e+01  6.832703e+01
+#&gt; 35  5.038857e+01  5.144900e+01  3.572532e+01  4.823902e+01  4.679176e+01
+#&gt; 40  3.538553e+01  3.904144e+01  1.766614e+01  3.227328e+01  3.130150e+01
+#&gt; 45  2.187529e+01  2.825565e+01  1.226915e+01  2.142061e+01  2.076887e+01
+#&gt; 50  9.953746e+00  1.595878e+01  2.736801e+01  1.418917e+01  1.375317e+01
+#&gt; 55  8.024718e+00  1.171475e+01  2.523316e+01  9.404806e+00  9.113674e+00
+#&gt; 60  1.095858e+01  9.441914e+00  2.309601e+01  6.246623e+00  6.051291e+00
+#&gt; 65  4.157159e+00  4.963837e+00  1.761464e+01  4.165787e+00  4.032837e+00
+#&gt; 70  1.879553e+00  2.032313e+00  2.029089e+00  2.804870e+00  2.709220e+00
+#&gt; 75  3.633292e+00  7.856819e+00  2.269679e-01  1.921612e+00  1.849407e+00
+#&gt; 80  2.648544e+00  6.637323e+00 -1.231256e+00  7.883184e-01  7.562531e-01
+#&gt; 85  4.033675e-05  7.105796e-05 -1.498956e-04  9.007669e-04  4.340415e-04
+#&gt; 90  1.617833e-04  5.104875e-05 -2.514495e-03  6.246262e-04  5.782513e-05
+#&gt; 95  7.570578e-04 -4.775804e-04 -2.347887e-03  1.876386e-03 -8.238661e-04
+#&gt; 100 4.257843e-04  1.591630e-04 -5.068183e-05 -3.603256e-04 -1.501552e-04
+#&gt;             2025          2030          2035          2040         2045
+#&gt; 0   4.533636e+01  4.725714e+01  4.723415e+01  4.729110e+01 4.739403e+01
+#&gt; 5   1.435297e+01  1.495834e+01  1.495057e+01  1.497529e+01 1.501112e+01
+#&gt; 10  3.798272e+01  3.958804e+01  3.957368e+01  3.963905e+01 3.973308e+01
+#&gt; 15  8.893813e+01  9.269935e+01  9.266739e+01  9.281208e+01 9.302437e+01
+#&gt; 20  1.121642e+02  1.169091e+02  1.168658e+02  1.170394e+02 1.173074e+02
+#&gt; 25  9.662625e+01  1.007130e+02  1.006725e+02  1.008273e+02 1.010516e+02
+#&gt; 30  7.054235e+01  7.351530e+01  7.348607e+01  7.360189e+01 7.375815e+01
+#&gt; 35  4.831215e+01  5.033959e+01  5.031996e+01  5.039165e+01 5.050329e+01
+#&gt; 40  3.231319e+01  3.367316e+01  3.365320e+01  3.370409e+01 3.377327e+01
+#&gt; 45  2.144079e+01  2.234327e+01  2.232287e+01  2.236153e+01 2.239942e+01
+#&gt; 50  1.419322e+01  1.478717e+01  1.477057e+01  1.479497e+01 1.482056e+01
+#&gt; 55  9.393798e+00  9.787974e+00  9.772460e+00  9.787043e+00 9.800488e+00
+#&gt; 60  6.235955e+00  6.491396e+00  6.475070e+00  6.483358e+00 6.492494e+00
+#&gt; 65  4.154458e+00  4.317637e+00  4.305202e+00  4.308499e+00 4.313789e+00
+#&gt; 70  2.783655e+00  2.892001e+00  2.881492e+00  2.878664e+00 2.878182e+00
+#&gt; 75  1.892981e+00  1.963852e+00  1.953794e+00  1.949436e+00 1.943300e+00
+#&gt; 80  7.721803e-01  8.009601e-01  7.934284e-01  7.943901e-01 7.884978e-01
+#&gt; 85  7.786621e-04  5.130995e-04 -6.648082e-04 -1.703315e-03 2.604560e-04
+#&gt; 90  5.174199e-04 -7.749870e-04 -5.907210e-05 -6.034064e-04 1.089173e-03
+#&gt; 95  9.482005e-05 -6.681631e-04 -2.483761e-03  1.989245e-03 1.637868e-04
+#&gt; 100 6.132923e-05 -2.312750e-04  2.308560e-04 -1.040497e-04 4.127133e-05</div><div class='input'>
+<span class='co'># Net migration for females using the cohort even flow method</span>
+<span class='va'>mig_res</span><span class='op'>$</span><span class='va'>mig_f</span>
+</div><div class='output co'>#&gt;             1950         1955         1960         1965        1970       1975
+#&gt; 0   171.72131816 173.14456142 131.77820968 125.77017105 124.6968682 95.9520589
+#&gt; 5    69.20081450  69.28238640  46.84641331  48.75618851  50.9922442 35.2853877
+#&gt; 10   29.46477771  26.96618336  18.44416874  33.10558630  42.4374326 34.9937120
+#&gt; 15   27.29600628  27.13733711  23.95068047  49.19164496  57.8183162 52.7039012
+#&gt; 20   41.33304378  45.22976783  31.44274248  66.24574140  72.9147253 44.9214309
+#&gt; 25   48.61860483  53.07861527  29.28367497  55.88984313  60.2716586 29.9682458
+#&gt; 30   46.88561716  51.38378241  26.73500957  33.95470778  35.8411804 21.9525937
+#&gt; 35   36.86298992  34.86859624  19.36135344  18.75110168  24.4968027 16.3825468
+#&gt; 40   24.51040044  19.45753274  10.77528557  13.81136654  20.1137017 16.2070083
+#&gt; 45   16.56535817  17.57029029  11.05335164  15.11774766  22.1790338 15.5127441
+#&gt; 50   12.26265055  16.29327790  12.64429657  18.59839574  21.9134313 20.3315864
+#&gt; 55   11.30080079  13.92818445  15.23128103  26.10027153  22.9939702 26.3244627
+#&gt; 60   18.40400698  20.13441348  24.01142703  33.27825496  33.6423294 34.6656953
+#&gt; 65   29.00224834  31.55144157  32.65724529  36.93668833  36.6712748 40.9309041
+#&gt; 70   27.17509206  28.94143981  31.42783859  36.27914530  37.7960682 44.4445436
+#&gt; 75   23.83314481  26.11712003  31.07521196  39.00073414  39.9437017 46.6140330
+#&gt; 80   19.13202079  22.82358621  27.36889447  33.37685139  35.5223684 42.3677161
+#&gt; 85    8.57065143  10.90765432  13.64065673  18.13800515  22.8559186 29.5426976
+#&gt; 90    3.41815884   3.91939256   5.21967120   7.05826177   9.5714802 14.1771134
+#&gt; 95    1.25221623   1.63514702   1.86297785   2.89364187   3.9438894  6.8026913
+#&gt; 100   0.03766896   0.04934962   0.06275325   0.08664575   0.1430509  0.2940806
+#&gt;           1980        1985       1990       1995       2000        2005
+#&gt; 0   84.4975756 106.1761668 94.7745340 93.0428964 82.3545273  75.8669558
+#&gt; 5   28.5730084  45.3124335 45.7159530 40.0648036 47.8985128  47.2331783
+#&gt; 10  26.9396863  42.5369562 48.6845584 45.5573823 55.1597026  50.3105897
+#&gt; 15  41.1581199  58.1083629 53.9313215 55.2936585 71.1989878  84.0183980
+#&gt; 20  38.5564169  63.2154839 51.5985008 52.8430913 74.7031986 110.1303313
+#&gt; 25  27.7977659  61.6234186 47.4051198 51.6083434 71.4428640 107.6456040
+#&gt; 30  22.2422255  55.0624099 43.8731207 54.8247021 69.7022819  92.0023679
+#&gt; 35  15.4282339  44.6721699 39.2611120 49.8762677 64.3662482  69.9977501
+#&gt; 40  13.9022608  33.5791503 34.0132172 40.9028124 52.7987748  58.8675964
+#&gt; 45  15.1324013  23.1657203 29.0358476 32.6897767 40.0602448  48.9595289
+#&gt; 50  23.6430427  24.3027282 29.5679655 27.3167444 37.4326840  40.0787725
+#&gt; 55  30.2152519  30.0197155 33.9584308 28.2084960 40.0225780  43.3773939
+#&gt; 60  36.7180278  41.0735925 37.3701400 34.8975556 42.8133296  46.4391888
+#&gt; 65  43.1354913  49.2244096 44.6705493 45.3497331 46.9441002  47.7359675
+#&gt; 70  48.3036273  55.1229691 52.8406941 59.9426380 61.0737010  59.9554207
+#&gt; 75  50.7362876  58.3363476 59.9609448 72.1377381 82.0927869  87.8106758
+#&gt; 80  47.5944714  53.1999714 61.2981433 71.6760979 84.6800893 100.6440966
+#&gt; 85  36.3664993  40.6306969 47.4201296 53.3764469 60.9562720  76.3506288
+#&gt; 90  19.0369669  21.3787584 24.5943500 26.1127004 30.5702757  37.8712336
+#&gt; 95  10.2343876  11.7002979 13.3059286 13.1155117 14.6560891  19.6212289
+#&gt; 100  0.5528349   0.7229901  0.8275142  0.6994879  0.6407134   0.8698355
+#&gt;           2010        2015          2020          2025          2030
+#&gt; 0    63.536304  65.7260833  4.433063e+01  4.575479e+01  4.767406e+01
+#&gt; 5    36.364455  18.8075067  1.428867e+01  1.475587e+01  1.537836e+01
+#&gt; 10   61.269592  44.1589114  4.042136e+01  4.173772e+01  4.350211e+01
+#&gt; 15  122.497446  99.0230306  9.315949e+01  9.618904e+01  1.002545e+02
+#&gt; 20  116.841872 122.2617185  1.139634e+02  1.176635e+02  1.226309e+02
+#&gt; 25   91.599610 104.4228958  9.476476e+01  9.783964e+01  1.019700e+02
+#&gt; 30   83.556553  77.2882500  6.666796e+01  6.883477e+01  7.174004e+01
+#&gt; 35   59.226427  55.5069429  4.397429e+01  4.539983e+01  4.731691e+01
+#&gt; 40   38.779598  40.5871463  2.832219e+01  2.923507e+01  3.047038e+01
+#&gt; 45   31.279570  32.1673624  1.808882e+01  1.867232e+01  1.945852e+01
+#&gt; 50   42.163635  31.2312923  1.152124e+01  1.189181e+01  1.239102e+01
+#&gt; 55   42.973366  36.1762133  7.334320e+00  7.567618e+00  7.883037e+00
+#&gt; 60   46.928486  44.5379457  4.679762e+00  4.821689e+00  5.024070e+00
+#&gt; 65   57.430282  57.9859587  2.994345e+00  3.080767e+00  3.211853e+00
+#&gt; 70   66.529195  72.8098599  1.925118e+00  1.981168e+00  2.059526e+00
+#&gt; 75   81.908880  86.2100493  1.251706e+00  1.283795e+00  1.332189e+00
+#&gt; 80   96.146695  95.5267726  4.973036e-01  5.053310e-01  5.244282e-01
+#&gt; 85   86.396271  84.8470594  1.139063e-03 -1.900901e-03 -1.787040e-03
+#&gt; 90   46.461630  48.6423262 -5.916063e-04 -2.214464e-04  2.219107e-04
+#&gt; 95   22.183238  25.5167066 -1.122828e-03  1.857040e-03  3.723792e-04
+#&gt; 100   0.919266   0.8355002 -3.823113e-06 -6.037463e-04  1.228691e-05
+#&gt;              2035          2040          2045
+#&gt; 0    4.766587e+01  4.773854e+01  4.785075e+01
+#&gt; 5    1.537671e+01  1.539557e+01  1.543288e+01
+#&gt; 10   4.348980e+01  4.355698e+01  4.365529e+01
+#&gt; 15   1.002246e+02  1.003781e+02  1.006076e+02
+#&gt; 20   1.225980e+02  1.227812e+02  1.230660e+02
+#&gt; 25   1.019459e+02  1.020974e+02  1.023309e+02
+#&gt; 30   7.172074e+01  7.182816e+01  7.199256e+01
+#&gt; 35   4.730032e+01  4.736846e+01  4.747491e+01
+#&gt; 40   3.046052e+01  3.049816e+01  3.056507e+01
+#&gt; 45   1.945084e+01  1.947030e+01  1.951809e+01
+#&gt; 50   1.238686e+01  1.239838e+01  1.242642e+01
+#&gt; 55   7.881202e+00  7.886047e+00  7.901435e+00
+#&gt; 60   5.018025e+00  5.019264e+00  5.030757e+00
+#&gt; 65   3.203963e+00  3.204237e+00  3.210327e+00
+#&gt; 70   2.054404e+00  2.054788e+00  2.053114e+00
+#&gt; 75   1.326888e+00  1.326015e+00  1.327060e+00
+#&gt; 80   5.245498e-01  5.223082e-01  5.222588e-01
+#&gt; 85   1.098362e-03  3.448556e-03 -3.048916e-03
+#&gt; 90   1.682787e-04  3.117486e-03 -1.084673e-03
+#&gt; 95   1.301420e-03  3.330889e-03 -7.856163e-04
+#&gt; 100 -5.497503e-04 -2.754639e-04 -2.854814e-05</div><div class='input'>
+<span class='co'>################ time even flow method  #####################</span>
+
+<span class='co'># We reuse the same data from before</span>
+<span class='co'># Either use the generic mig_resid with the 'time' method</span>
+
+<span class='co'># For five year age groups</span>
+<span class='va'>mig_res</span> <span class='op'>&lt;-</span>
+ <span class='fu'>mig_resid</span><span class='op'>(</span>
+   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_five</span>,
+   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_five</span>,
+   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_five</span>,
+   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_five</span>,
+   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_five</span>,
+   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_five</span>,
+   ages <span class='op'>=</span> <span class='va'>ages_five</span>,
+   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_five</span>,
+   <span class='co'># With the time method</span>
+   method <span class='op'>=</span> <span class='st'>"time"</span>
+ <span class='op'>)</span>
+</div><div class='output co'>#&gt; Using time residual migration method</div><div class='input'>
+<span class='co'># For single ages</span>
+<span class='va'>mig_res</span> <span class='op'>&lt;-</span>
+ <span class='fu'>mig_resid</span><span class='op'>(</span>
+   pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_single</span>,
+   pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_single</span>,
+   sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_single</span>,
+   sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_single</span>,
+   asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_single</span>,
+   srb_vec <span class='op'>=</span> <span class='va'>srb_vec_single</span>,
+   ages <span class='op'>=</span> <span class='va'>ages_single</span>,
+   ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_single</span>,
+   <span class='co'># With the stock method</span>
+   method <span class='op'>=</span> <span class='st'>"stock"</span>
+ <span class='op'>)</span>
+</div><div class='output co'>#&gt; Using stock residual migration method</div><div class='input'>
+<span class='co'># Or directly the mid_resid_time function</span>
+<span class='co'># (works for both five and single year ages)</span>
+
+<span class='va'>mig_res</span> <span class='op'>&lt;-</span>
+  <span class='fu'>mig_resid_time</span><span class='op'>(</span>
+    pop_m_mat <span class='op'>=</span> <span class='va'>pop_m_mat_five</span>,
+    pop_f_mat <span class='op'>=</span> <span class='va'>pop_f_mat_five</span>,
+    sr_m_mat <span class='op'>=</span> <span class='va'>sr_m_mat_five</span>,
+    sr_f_mat <span class='op'>=</span> <span class='va'>sr_f_mat_five</span>,
+    asfr_mat <span class='op'>=</span> <span class='va'>asfr_mat_five</span>,
+    srb_vec <span class='op'>=</span> <span class='va'>srb_vec_five</span>,
+    ages <span class='op'>=</span> <span class='va'>ages_five</span>,
+    ages_asfr <span class='op'>=</span> <span class='va'>ages_asfr_five</span>
+  <span class='op'>)</span>
+
+<span class='co'># Net migration for males using the time even flow method</span>
+<span class='va'>mig_res</span><span class='op'>$</span><span class='va'>mig_m</span>
+</div><div class='output co'>#&gt;             1950         1955          1960         1965         1970
+#&gt; 0     3.57986456   7.83804281 -11.708613930  25.81847493  58.42237710
+#&gt; 5    99.65372764  99.91545521  56.096782636  20.16120060  11.21457792
+#&gt; 10  -40.94162774 -42.78430686 -39.882708344  18.59078430  50.05512859
+#&gt; 15   55.48348586  51.36112198  29.686148299  13.09179503  12.81047107
+#&gt; 20  -11.79757463 -19.64383338 -33.657655806  67.25140324  90.92287133
+#&gt; 25  107.42501258 140.01220683  80.160934509 102.29400345  87.21131258
+#&gt; 30  -32.40904222 -43.26549135 -47.553510864   7.44391246  18.67159066
+#&gt; 35  106.17661163 121.93971456  66.014834078  46.46533877  29.35435108
+#&gt; 40  -51.15631402 -93.89843855 -63.174578114 -27.88927758   5.48775806
+#&gt; 45   88.57046150 108.82847303  50.267264262  42.37000677   3.42290940
+#&gt; 50  -63.32934115 -93.13047934 -47.057179615 -39.73615654  17.77493878
+#&gt; 55   58.46883834  92.26143114  37.785755257  49.95450413 -18.35527636
+#&gt; 60  -58.32986589 -84.64085443 -33.370638099 -31.75995974  34.90416044
+#&gt; 65   66.83013145  92.79117747  37.313414670  46.77483495 -13.45378292
+#&gt; 70  -43.57046784 -62.56497815 -18.527162169 -34.44289291  24.15556419
+#&gt; 75   30.01886407  45.21821705  11.378053697  22.72777192 -17.18309176
+#&gt; 80  -12.62450034 -21.29332857  -2.130173274  -7.74682943   9.31779578
+#&gt; 85    5.60441174   9.70724986   0.986839238   3.68891047  -4.50288791
+#&gt; 90   -1.70123799  -3.01062248  -0.313951952  -1.20302297   1.52466156
+#&gt; 95    0.31632108   0.55768479   0.061728916   0.23383116  -0.32111739
+#&gt; 100  -0.02811154  -0.05411331  -0.005447638  -0.02448547   0.03644719
+#&gt;             1975         1980          1985         1990        1995
+#&gt; 0    28.96387615  30.01006533  61.232172593  45.58267324  66.8188773
+#&gt; 5    19.61458145  -0.11384016  17.798839229  21.81186415 -11.4789958
+#&gt; 10   20.20595285  26.10889922  44.850683328  56.74184507  81.8729514
+#&gt; 15   48.95919987  36.25809415  62.845864529  59.53667644  31.0999449
+#&gt; 20   23.01801705  61.62328797  30.756451497   7.89400063  62.2618417
+#&gt; 25    1.62298038 -29.72231189  41.475065426  52.03339643   8.4963877
+#&gt; 30   28.94199434  59.82581388  56.757960851   7.07303243  77.6072932
+#&gt; 35  -21.87239151 -54.10090181  15.060691363  40.53058132  -1.0157575
+#&gt; 40   44.33117340  55.38825229  37.079303424  -3.83519751  51.4366294
+#&gt; 45  -45.24366939 -66.76114668 -17.615872177  23.12250876 -20.0512376
+#&gt; 50   51.97198921  68.73233751  40.118018493 -21.15026980  38.0260225
+#&gt; 55  -43.51296896 -49.55790353 -10.657202225  39.33641676 -22.7965318
+#&gt; 60   51.82676172  58.29271858  35.664479258 -11.98652737  33.5229966
+#&gt; 65  -35.33901983 -39.41621873  -1.325981088  24.25817390 -18.2014075
+#&gt; 70   34.99220822  36.88719713  17.281657343 -18.97573621  25.6182594
+#&gt; 75  -23.57247670 -26.76288480  -3.793379475  11.33350586 -16.9839990
+#&gt; 80   14.15059062  15.05938901   0.694028281 -14.10486407  13.7584471
+#&gt; 85   -7.09942975  -7.76410472  -0.358176585   7.41969081  -7.3510661
+#&gt; 90    2.59035597   2.91884576   0.132464878  -2.78840546   2.7397113
+#&gt; 95   -0.60437431  -0.71424802  -0.030070852   0.65864048  -0.6134260
+#&gt; 100   0.07855023   0.09881163   0.004110768  -0.08173701   0.0688248
+#&gt;            2000         2005          2010        2015        2020        2025
+#&gt; 0    70.4126299  51.48145831   33.73236083  74.5237684  71.9248264  74.2787331
+#&gt; 5     9.2223352  52.52998713   37.20561118 -42.0424248 -40.4151595 -41.7427286
+#&gt; 10   78.0107215  29.25548089   13.40764281  66.8830873  64.5071365  66.6372408
+#&gt; 15   61.1002538  93.82266121  197.37105948  59.9439586  58.5164254  60.3817971
+#&gt; 20   62.1021505 122.80643192   95.77213448 168.3817044 162.9313907 168.2596094
+#&gt; 25   20.1148330  61.93362372  -54.90300355  51.4450008  50.2569949  51.8140624
+#&gt; 30   88.3718114  68.01002222  164.54991665 114.7947184 111.0135390 114.6788458
+#&gt; 35   20.8205517  56.52957864  -75.48650810   0.8280661   1.1274237   1.0935709
+#&gt; 40   71.5336598  24.86139074  129.21554946  76.5135937  73.9162539  76.3993357
+#&gt; 45  -22.0122498  49.89176029 -111.77480201 -24.5285913 -23.5568882 -24.4557117
+#&gt; 50   59.7886258 -11.24947223  142.64920256  58.0869502  56.1548785  58.1644701
+#&gt; 55  -56.8405940  36.31951173  -63.55416721 -34.4574904 -33.3626521 -34.7478059
+#&gt; 60   84.3838898 -14.13565389   85.10506293  48.0687406  46.6862333  48.5890735
+#&gt; 65  -65.7712511  29.32707902  -14.15647172 -35.8655365 -35.0816217 -36.8046551
+#&gt; 70   61.6773024 -23.35409488   15.10886419  39.3393827  38.7196217  40.7791816
+#&gt; 75  -47.0754634  24.20349394   -7.59220972 -29.9265975 -29.9667998 -32.0866992
+#&gt; 80   42.8165215   4.82076390    1.53813111  26.2495781  26.6336803  28.8995750
+#&gt; 85  -24.3487769  -2.93691216   -0.96750858 -16.8699992 -17.6523987 -19.6928288
+#&gt; 90    9.6710926   1.24605503    0.42211034   7.5546157   8.3531350   9.6521764
+#&gt; 95   -2.2748115  -0.31123505   -0.11037382  -1.9541809  -2.2518481  -2.6861664
+#&gt; 100   0.2597073   0.03683747    0.01288714   0.2285256   0.2509391   0.3042474
+#&gt;            2030        2035        2040        2045
+#&gt; 0    77.4459176  77.4204900  77.5188470  77.6983814
+#&gt; 5   -43.5429804 -43.5345068 -43.5819780 -43.6922370
+#&gt; 10   69.4908108  69.4665111  69.5605646  69.7436785
+#&gt; 15   62.8975960  62.8819987  63.0042277  63.1255567
+#&gt; 20  175.4243967 175.3598544 175.6067308 176.0358055
+#&gt; 25   53.9474549  53.9155099  53.9903843  54.0801592
+#&gt; 30  119.5914528 119.5528521 119.7715458 120.0562085
+#&gt; 35    1.0225270   1.0072712   0.9519375   0.9121235
+#&gt; 40   79.7379684  79.7274719  79.9051533  80.1456864
+#&gt; 45  -25.6296697 -25.6871280 -25.7956559 -25.9708380
+#&gt; 50   60.7878345  60.8398404  61.0409161  61.3084604
+#&gt; 55  -36.4591281 -36.5987410 -36.8176156 -37.0954370
+#&gt; 60   50.9769737  51.1657131  51.4807825  51.8403704
+#&gt; 65  -38.8691838 -39.2202149 -39.6397621 -40.0819810
+#&gt; 70   43.1850851  43.6969678  44.2773104  44.8632888
+#&gt; 75  -34.3995882 -35.1814702 -35.9946429 -36.7846096
+#&gt; 80   31.3094023  32.3339309  33.3781480  34.3711942
+#&gt; 85  -21.7940080 -22.9599143 -24.1187034 -25.2468632
+#&gt; 90   10.9779695  11.8694772  12.7578752  13.6605184
+#&gt; 95   -3.1357372  -3.4757375  -3.8169784  -4.1788256
+#&gt; 100   0.3588661   0.4034127   0.4472692   0.4953120</div><div class='input'>
+<span class='co'># Net migration for females using the time even flow method</span>
+<span class='va'>mig_res</span><span class='op'>$</span><span class='va'>mig_f</span>
+</div><div class='output co'>#&gt;            1950         1955         1960         1965         1970
+#&gt; 0   226.3458702 229.79272201 180.46526622 174.91745284  180.0865949
+#&gt; 5   -21.0374290 -22.28540657 -31.50143500 -36.12133305  -54.2299461
+#&gt; 10   99.3415777  97.83858796  74.17190806  95.74522542  135.2772394
+#&gt; 15  -59.6809765 -65.39419993 -43.13633166 -23.17129337  -46.8001148
+#&gt; 20  128.4354061 140.68621033 107.36582549 146.74972311  188.9421056
+#&gt; 25  -31.8378149 -35.02737104 -45.53762715  -5.25186295  -39.1701555
+#&gt; 30  129.3780748 141.35666443 100.68019100  87.71909797  130.7375337
+#&gt; 35  -38.9436452 -41.71922721 -48.58209382 -33.86767281  -78.2687759
+#&gt; 40   96.1969156  82.17618397  74.01404694  55.22193698  123.4478722
+#&gt; 45  -54.6355206 -44.39140208 -55.84845122 -21.29545414  -87.4661601
+#&gt; 50   78.9618389  76.33323073  81.03814346  47.61263555  138.8417828
+#&gt; 55  -52.9859019 -42.06729052 -54.48681576   0.34775936 -100.3924019
+#&gt; 60   70.2110143  62.17078749  86.34367902  54.96362841  150.0050752
+#&gt; 65  -13.6705663  -2.18847224 -21.04847767  22.41355071  -61.7595508
+#&gt; 70   68.3375982  64.28074915  81.42847971  46.82844725  114.8253826
+#&gt; 75  -10.3770787  -6.38475405 -12.10171449  27.99107016  -14.8924516
+#&gt; 80   43.4733361  46.94240803  59.62805297  46.69267660   69.9571248
+#&gt; 85   -1.9687420   1.39813765  -0.03423644  12.94953562   10.0953495
+#&gt; 90    5.9489557   5.85004073   8.75937070   8.16573505   13.2737132
+#&gt; 95    0.0898606   0.38802533   0.10170185   1.00605627    0.9981967
+#&gt; 100   0.0679131   0.06587289   0.11661638   0.08288009    0.1932348
+#&gt;             1975         1980        1985        1990        1995        2000
+#&gt; 0    140.9175869  130.9811791 152.7782663 137.4260367 140.5404398 115.6156018
+#&gt; 5    -47.6765502  -61.7171348 -40.8585367 -39.0325437 -54.6180620 -21.2182395
+#&gt; 10    97.6260741  108.3826166 111.6492954 124.6180639 129.9601873 118.9342766
+#&gt; 15    -7.8818342  -47.4337354 -12.4509483 -15.6031808 -23.1929547   3.9108808
+#&gt; 20   128.6090432  150.7026598 145.3857926 122.1649032 137.3844478 157.7556344
+#&gt; 25   -69.0487765  -99.2216052 -25.2362233 -22.1547875 -39.9084905 -20.2548668
+#&gt; 30   129.1419899  158.6280625 151.3826146 111.6798611 148.5439952 168.1412151
+#&gt; 35  -100.8450048 -128.4887081 -56.8328512 -25.5163741 -37.6094921 -36.7292738
+#&gt; 40   137.5336842  159.5245635 140.7046297  96.3026480 126.0717377 162.4750899
+#&gt; 45  -108.6421302 -134.1399364 -89.3958210 -30.7009674 -50.4245702 -76.1732663
+#&gt; 50   140.6039363  167.8574350 129.9678704  80.9786683 105.2077827 149.5078659
+#&gt; 55   -89.8706856 -105.5535968 -72.2499150 -12.6897624 -49.8245648 -71.9891197
+#&gt; 60   141.3008408  160.8936779 132.1033687  79.1982021 105.5948969 152.2723407
+#&gt; 65   -51.4025974  -66.1123963 -26.1991832   4.4994582 -20.5531042 -58.3050739
+#&gt; 70   119.4994680  137.3914275 112.9664642  86.9423211 112.0615845 146.1102282
+#&gt; 75    -7.9495626  -13.1711402  20.1620016  32.1240324  34.2024895  10.3023640
+#&gt; 80    77.2260167   86.3128305  76.0691914  81.0085017  99.5705861 145.9411473
+#&gt; 85    15.8341860   21.3140279  33.0870227  42.8214335  45.8964765  33.1931354
+#&gt; 90    18.7134443   24.2671827  24.5037172  27.0921147  30.0018912  43.7139432
+#&gt; 95     2.4071631    4.3137979   5.5552771   6.4911688   5.7190028   4.0726763
+#&gt; 100    0.3523143    0.6684041   0.8605413   0.9424119   0.7500321   0.7860324
+#&gt;            2005        2010        2015        2020        2025        2030
+#&gt; 0    96.8489527   81.787724 108.4964018  72.7929143  75.1377635  78.2999917
+#&gt; 5    10.1456148    6.861041 -64.5147999 -41.3212737 -42.6378073 -44.4263380
+#&gt; 10   72.0885342   50.154505  96.0526852  67.0220607  69.1777814  72.0812494
+#&gt; 15   46.8365412  137.666319  48.8726280  68.9452677  71.2172872  74.2579199
+#&gt; 20  169.9719435  164.268004 202.0142957 167.6757076 173.0972445 180.3776182
+#&gt; 25   53.8651176    1.674869  36.2921853  51.5879497  53.2730104  55.5402431
+#&gt; 30  152.8004253  198.451595 143.1858115 108.2401113 111.7463469 116.4513446
+#&gt; 35    9.0499008  -63.722429 -13.1662853  -1.3229319  -1.3567847  -1.4166120
+#&gt; 40  109.2538323  165.752322 105.1968799  70.3049707  72.5687612  75.6518060
+#&gt; 45    8.0918478 -111.804908 -34.4986470 -25.8589758 -26.7076872 -27.8794694
+#&gt; 50   70.6184057  181.907767  92.1907107  53.6822324  55.4537780  57.8631744
+#&gt; 55   11.2247424  -82.427027 -24.5262744 -35.1714449 -36.3953427 -38.0578218
+#&gt; 60   79.5974807  153.293244 100.4054475  45.7645298  47.3851820  49.5739605
+#&gt; 65   16.0694181  -35.018895   2.4904511 -37.1421185 -38.6125234 -40.5402789
+#&gt; 70   77.3204513  142.125455 122.5674937  39.8336501  41.5180415  43.7294736
+#&gt; 75   64.9764201   17.669656  43.2746269 -33.6428689 -35.3367518 -37.5389842
+#&gt; 80  128.3596517  138.115219 126.1406102  30.7027237  32.5078219  34.8617924
+#&gt; 85   72.5951224   75.405603  75.9497393 -22.9890882 -24.7183961 -26.9616805
+#&gt; 90   41.4996635   58.915419  60.6511414  13.2008917  14.4778586  16.1584514
+#&gt; 95    9.2686019    7.492899  10.2366742  -4.6738266  -5.2221854  -5.9617379
+#&gt; 100   0.5589578    0.851188   0.2535397   0.7421335   0.8358793   0.9663258
+#&gt;           2035       2040       2045
+#&gt; 0    78.301291  78.438885  78.632681
+#&gt; 5   -44.439072 -44.540444 -44.654494
+#&gt; 10   72.097267  72.236517  72.418842
+#&gt; 15   74.190986  74.283958  74.427831
+#&gt; 20  180.379735 180.672096 181.123362
+#&gt; 25   55.469495  55.523010  55.613918
+#&gt; 30  116.491593 116.695956 116.994920
+#&gt; 35   -1.508978  -1.546569  -1.582514
+#&gt; 40   75.729792  75.873104  76.071716
+#&gt; 45  -27.992601 -28.100488 -28.203044
+#&gt; 50   57.986739  58.142769  58.345844
+#&gt; 55  -38.226599 -38.401601 -38.608806
+#&gt; 60   49.797401  50.026525  50.314056
+#&gt; 65  -40.876810 -41.187768 -41.540384
+#&gt; 70   44.186892  44.619462  45.098744
+#&gt; 75  -38.197735 -38.810642 -39.481595
+#&gt; 80   35.743188  36.582545  37.499323
+#&gt; 85  -28.026998 -29.079131 -30.223302
+#&gt; 90   17.126684  18.119018  19.185104
+#&gt; 95   -6.442425  -6.947161  -7.507029
+#&gt; 100   1.053518   1.148182   1.254126</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -1083,11 +1063,11 @@ specifying the <code>method</code> argument. By default it is set to the
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p></p>
+  <p>Developed by Tim Riffe, José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Marius D. Pascariu, Sara Hertog, Sean Fennell.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -1095,8 +1075,6 @@ specifying the <code>method</code> argument. By default it is set to the
 
   
 
-
-  
 
   </body>
 </html>
