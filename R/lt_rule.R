@@ -88,8 +88,8 @@
 #' segments(1, M1_4, 5, M1_4)
 #' text(1, c(M0, M1_4, M0_4), c("M0", "M1_4", "M0_4"), pos = 3)
 #' }
-lt_rule_4m0_D0 <- function(D04, M04, P04, Sex = c("m", "f")) {
-  
+lt_rule_4m0_D0 <- function(D04, M04, P04, Sex = "m") {
+  stopifnot(Sex %in% c("m","f"))
   if (missing(M04)) {
     M5 <- D04 / P04
   } else {
@@ -225,8 +225,8 @@ lt_rule_4m0_D0 <- function(D04, M04, P04, Sex = c("m", "f")) {
 #' text(1, c(M0, M1_4, M0_4), c("M0", "M1_4", "M0_4"), pos = 3)
 #' }
 
-lt_rule_4m0_m0 <- function(M04, D04, P04, Sex = c("m", "f")) {
-
+lt_rule_4m0_m0 <- function(M04, D04, P04, Sex ="m") {
+  stopifnot(Sex %in% c("m","f"))
   if (missing(M04)) {
     M5 <- D04 / P04
   } else {
