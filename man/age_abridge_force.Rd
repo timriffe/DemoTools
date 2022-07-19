@@ -4,12 +4,10 @@
 \alias{age_abridge_force}
 \title{force a (count) vector to abridged ages}
 \usage{
-age_abridge_force(Value, AgeInt, Age)
+age_abridge_force(Value, Age)
 }
 \arguments{
 \item{Value}{numeric vector, presumably counts in grouped ages}
-
-\item{AgeInt}{integer vector, age interval widths}
 
 \item{Age}{integer vector, lower bounds of age groups}
 }
@@ -26,7 +24,7 @@ AgeInt    <- c(1,2,2,rep(5,19),1)
 Value     <- tapply(V1,rep(Age,times=AgeInt), sum)
 
 is_abridged(Age)
-age_abridge_force(Value, AgeInt, Age)
+age_abridge_force(Value, Age)
 }
 \seealso{
 graduate_mono_closeout, lt_abridged

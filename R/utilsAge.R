@@ -737,12 +737,14 @@ rescaleAgeGroups <- function(Value1,
 #' Value     <- tapply(V1,rep(Age,times=AgeInt), sum)
 #'
 #' is_abridged(Age)
-#' age_abridge_force(Value, AgeInt, Age)
-age_abridge_force <- function(Value, AgeInt, Age) {
+#' age_abridge_force(Value, Age)
+age_abridge_force <- function(Value, Age) {
+  
   v1     <- graduate_mono_closeout(
                       Value,
                       Age = Age)
-  a1     <- min(Age):(length(v1) - 1)
+  #a1     <- min(Age):(length(v1) - 1)
+  a1     <- 1:length(v1) - 1 + min(Age)
   AgeAbr <- calcAgeAbr(a1)
   vabr   <- tapply(v1, AgeAbr, sum)
   vabr
