@@ -1,4 +1,4 @@
-#' estimate adult mortality using two censuses.
+#' Estimation of adult mortality using the data from two censuses.
 #' @description 
 #' @param c1 numeric vector. Population counts in five-age groups, from first census with an exact reference date.
 #' @param c2 numeric vector. Population counts in five-age groups, from second census with an exact reference date.
@@ -15,7 +15,7 @@
 #' * `"var-r"` variable-r method (Preston & Benet, 1986).
 #' * `"feeney"` smoothing survival ratios into survival function, implementation by Feeney (UN, 2002).
 #' * `logit` logit model changing level (Preston 2001, section 11.5.2)
-#' @param ages_fit integer vector. Ages to be considered when calculating the median of implied level by age. By default 10 to 70, but depends data and method.  
+#' @param ages_fit integer vector. Ages to be considered when calculating the median of implied level by age. By default 10 to 70, but depends on data and method.  
 #' @param e0_accept integer vector. Range acceptable when calculating the median of implied level by age (avoid non-possible extrapolations). By deafult between 20 and 100.
 #' @param q01_q05 numeric. Both values in case final life table be computed considering child mortality input values.
 #' @param span_pre_smooth numeric. smooth is applied to survival ratios by age in case is not null. Value is `span` parameter from `loess` function (between 0 and 1). Default `FALSE`.
@@ -24,8 +24,11 @@
 #' @param extrapLaw character. Which mortality law is chosen for extension to 100 age in lt output. See `Demotools::lt_abridged` for mode details
 #' @param HIV_prev numeric. Estimates of population-based estimate of HIV prevalence by age. If some value is assigned, then will be assumed AIDS variation of the method based on Spectrum patterns.
 #' @param HIV_art numeric. Estimate of proportion using antiretroviral therapy (ART).
+#' @references
+#' \insertRef{preston2000demography}{DemoTools}
 #' @return A list with 45q15, 35q15, the life table as result of the method, the general implicit level, the age-specific implicit level, and nSx from input data.
 #' @export
+#' @importFrom data.table tidyverse 
 #' @examples
 #' \dontrun{
 #' # PANAMA 1960-1970 from UN Manual X (Table 174). Get only level.
@@ -63,161 +66,298 @@ intercensal_survival <- function(c1,
                                  extrapLaw = "makeham",
                                  verbose = TRUE){
   
-  # check family and method
+  # all available families and methods
   mlt_families <- c("CD_East", "CD_North", "CD_South", "CD_West", "UN_Chilean", 
                     "UN_Far_Eastern", "UN_General", "UN_Latin_American", "UN_South_Asian")
-  # which families consider
-  if(!is.null(mlt_family)){
+  
+  # choose the method/s
+  if(!is.null(mlt_family)) {
+    
     mlt_family <- match.arg(mlt_family, mlt_families, several.ok = TRUE)
-  }else{
+    
+  } else {
+    
     mlt_family <- mlt_families
+    
   }
   
-  # is HIV
-  if((is.null(HIV_prev) + is.null(HIV_art)) == 0) is.HIV = TRUE
-  if((is.null(HIV_prev) + is.null(HIV_art)) == 2) is.HIV = FALSE
-  if((is.null(HIV_prev) + is.null(HIV_art)) == 1) stop("for hiv you need prevalence and art")
-  
+  # is HIV prevalence and ART  correction considered
+  if ((is.null(HIV_prev) + is.null(HIV_art)) == 0) { 
+    
+    is.HIV <-  TRUE
+    
+  } else if ((is.null(HIV_prev) + is.null(HIV_art)) == 2) { 
+    
+    is.HIV <-  FALSE  
+    
+  } else {
+      
+    stop("To apply the HIV correction you need to provide both prevalence and antiretroviral therapy or ignore both")
+    
+    }
+    
   # check input method
   method <- match.arg(method, c("match", "bproj", "fproj", "var-r", "feeney", "logit"))
   
-  # manage ages: fit to more wider group and minor OAG.
-  # Always assume last age is an OAG
-  if(length(age1)!=length(c1) | length(age2)!=length(c2)) stop("Not same interval between pop and age")
+  
+  # manage ages: fit to more wider group and minor OAG (open age group).
+  # Always assumes that the last age is an OAG
+  
+  if(length(age1) != length(c1) | length(age2) != length(c2)) {
+
+    stop("The length of age and population vectors are different")
+    
+  }
+  
   age1_int <- max(unique(diff(age1)))
   age2_int <- max(unique(diff(age2)))
-  age_int <- max(age1_int, age2_int)  
-  OAG <- min(max(age1), max(age2))
-  c1 <- data.frame(c1=c1, age1=pmin(trunc(age1/age_int)*age_int, OAG)) %>% dplyr::group_by(age1) %>% dplyr::summarise(c1 = sum(c1)) %>% dplyr::pull(c1)
-  c2 <- data.frame(c2=c2, age2=pmin(trunc(age2/age_int)*age_int, OAG)) %>% dplyr::group_by(age2) %>% dplyr::summarise(c2 = sum(c2)) %>% dplyr::pull(c2)
-  age <- seq(0, OAG, age_int)
-  ages <- length(age)
+  age_int  <- max(age1_int, age2_int)  
+  OAG      <- min(max(age1), max(age2))
+  age      <- seq(0, OAG, age_int)
+  ages     <- length(age)
+  
+  # Maybe it is better to wrote the helper function for these? Identical operation. Why iterate?
+  c1 <- (data.frame(c1 = c1,
+                    age1 = pmin(round(age1 / age_int, digits = 0) * age_int, OAG)) |>
+           aggregate(c1 ~ age1, FUN = \ (x) sum(x)))$c1
+
+  c2 <- (data.frame(c2 = c2,
+                    age2 = pmin(round(age2 / age_int, digits = 0) * age_int, OAG)) |>
+           aggregate(c2 ~ age2, FUN = \ (x) sum(x)))$c2
+
+  
+  # alternative data.table version ~~~~~~~~~~
+  # c1_dt <- data.table(c1, age1 = pmin(round(age1 / age_int, digits = 0) * age_int, OAG))
+  # # Aggregate c2 using data.table syntax
+  # c1 <- c1_dt[, .(c1 = sum(c1)), by = age1]$c1
+  # 
+  # c2_dt <- data.table(c2, age2 = pmin(round(age2 / age_int, digits = 0) * age_int, OAG))
+  # # Aggregate c2 using data.table syntax
+  # c2 <- c2_dt[, .(c2 = sum(c2)), by = age2]$c2
+  
   
   # fitting ages, important for some methods
-  if(is.null(ages_fit)) ages_fit <- age
+  if(is.null(ages_fit))  { 
+    
+    ages_fit <- age
+    
+  }
   
-  # find a close date for date1, so difference is a multiple of age_int
-  if(!is.numeric(date1)) date1 <- round(DemoTools::dec.date(date1),2)
-  if(!is.numeric(date2)) date2 <- round(DemoTools::dec.date(date2),2)
-  interc_t <- date2-date1
-  if((interc_t)>30) stop("More than 30 years in intercensal period. Too much")
-  interc_length <- (interc_t)/age_int
-  interc_round <- round(interc_length)
-  date1_adj <- date1 + (interc_length-interc_round)*age_int
+  # find a close date for date1, so difference is a multiple of age_int |||| What did he mean?
+  # MAYBE better also to turn into helper function?
+  if(!is.numeric(date1)) { 
+    
+    date1 <- round(dec.date(date1), digits = 2)
+    
+    }
+    
+  if (!is.numeric(date2)) { 
+    
+    date2 <- round(dec.date(date2), digits = 2)
+    
+    }
+    
+  # difference between census dates in years
+  interc_t <- date2 - date1
   
-  # translate first census using general growth rate (UN Manual)
+  
+  if (interc_t > 30) { 
+    
+    stop("The intercensal period exceeds 30 years. The calculation is halted.")
+    
+    }
+    
+  interc_length <- (interc_t) / age_int
+  interc_round  <- round(interc_length)
+  date1_adj     <- date1 + (interc_length - interc_round) * age_int
+  
+  
+  # translate first census using general growth rate (UN Manual) #### check which one better???
   # IW: using age specific growth rate, probably better: c1 <- DemoTools::interpolatePop(c1, c2, date1, date2, DesiredDate = date1_adj, method = "exponential")
-  r_hat <- log(sum(c2)/sum(c1))/(date2-date1)
-  c1_noadj <- c1
-  date1_noadj <- date1
-  c1 <- c1 * exp(r_hat * (date1_adj-date1))
-  date1 <- date1_adj
-  interc_t <- date2-date1
-  interc_length <- (interc_t)/age_int
+  r_hat         <- log(sum(c2) / sum(c1)) / (date2 - date1)
+  c1_noadj      <- c1
+  date1_noadj   <- date1
+  c1            <- c1 * exp(r_hat * (date1_adj - date1))
+  date1         <- date1_adj
+  interc_t      <- date2 - date1
+  interc_length <- (interc_t) / age_int
   
   # get survival ratios and cum pop, preparing for methods
-  surv_data <- data.frame(age = age, age_int = age_int, c1_noadj = c1_noadj, c1 = c1, c2 = c2) %>%  
-    dplyr::mutate(c1_cum = purrr::accumulate(c1, `+`, .dir = "backward"), 
-                  c2_cum = purrr::accumulate(c2, `+`, .dir = "backward"),
-                  nSx = dplyr::case_when(age < (OAG - interc_t)  ~ dplyr::lead(c2, interc_length)/c1,
-                                         T ~ dplyr::lead(c2_cum, interc_length)/c1_cum),
-                  n = interc_t,
-                  age_int = ifelse(age == OAG, NA, age_int))
+  surv_data <- data.frame(age      = age, 
+                          age_int  = age_int, 
+                          c1_noadj = c1_noadj, 
+                          c1       = c1, 
+                          c2       = c2) 
+  
+  surv_data$c1_cum  <- lt_id_L_T(surv_data$c1)
+  surv_data$c2_cum  <- lt_id_L_T(surv_data$c2)
+  surv_data$n       <- interc_t
+  surv_data$age_int <-  ifelse(age == OAG, NA, age_int)
+  surv_data         <- within(surv_data,
+                              nSx <- ifelse(age < (OAG - interc_t),
+                                            c(c2[-c(1:interc_length)], rep(NA, interc_length)) / c1,
+                                            c(c2_cum[-c(1:interc_length)], rep(NA, interc_length)) / c1_cum))
+  
+  
   
   # give a message on how many survival ratios greater than 1 you have, no matter ages_fit
-  ages_nSx_greater1 <- surv_data$age[surv_data$nSx>1 & !is.na(surv_data$nSx)]
-  if(length(ages_nSx_greater1)>0 & verbose) message(
-    paste0("survival ratios greater than 1 for group ages starting on ", paste(ages_nSx_greater1,collapse=", "))
-  )
+  ages_nSx_greater1 <- surv_data$age[surv_data$nSx > 1 & !is.na(surv_data$nSx)]
+  
+  if(length(ages_nSx_greater1) > 0 & verbose) { 
+    message(
+      paste0("Survival ratios exceed 1 for the following age groups: ", paste(ages_nSx_greater1,collapse= ", ")))
+  }
   
   # pre-smooth on nSx
-  if(!is.null(span_pre_smooth)){
-    surv_data$nSx[!is.na(surv_data$nSx)] <- loess(nSx ~ age, data = surv_data, span = span_pre_smooth) %>% 
+  if (!is.null(span_pre_smooth)) {
+    surv_data$nSx[!is.na(surv_data$nSx)] <- loess(nSx ~ age, data = surv_data, span = span_pre_smooth) |>
       predict(age = surv_data$age[!is.na(surv_data$nSx)])
   }
   
   # select family and standardize for same age_int, OAG and risk interval
-  if(!is.null(mlt_input_data)){
-    if(!all(colnames(mlt_input_data) %in% colnames(MortCast::MLTlookup))) stop("Be sure to have same col names and cathegories than MortCast::MLTlookup")
-    mlt_data <- mlt_data_input %>% mutate(type = "user", e0 = "user")
-    mlt_e0_logit_feeney <- "user"
-  }else{
-    if(!is.HIV){
-      this_sex <- ifelse(sex == "f", 2, 1)
-      mlt_this_family_all_ages <- MortCast::MLTlookup %>% filter(type %in% mlt_family, sex == this_sex)
-      # e0 should be rounded to proximate available level
-      mlt_e0_logit_feeney <- round(mlt_e0_logit_feeney/2.5,0)*2.5
-    }else{
-      if(is.null(q01_q05[2]) | is.null(HIV_art)) stop("needs 5q0 and/or HIV ART")
-      # Spectrum model metadata
-      load("R/modsr-vr-dhs-spectrum-25-04.RData")
-      this_sex <- ifelse(sex == "f", "female", "male")
-      mlt_this_family_all_ages <- lapply(seq(.1,.9,.05), function(x){
-        hiv_svd_comp_x <- predictNQX(this_sex, 
-                                     cm = q01_q05[2], 
-                                     am = x, 
-                                     hiv = HIV_prev, 
-                                     art = HIV_art, 
-                                     adult = "q45") %>% pull()
-        lx_hiv_svd_comp_x <- lt_id_q_l(expit(hiv_svd_comp_x))
-        lt_abridged(lx = lx_hiv_svd_comp_x[c(0,1,seq(5,100,5))+1], Age = c(0,1,seq(5,100,5))) %>% 
-          mutate(type = "HIVSpectrum", sex = ifelse(sex== "f", 2, 1)) %>% 
-          group_by(type) %>% 
-          mutate(e0 = ex[Age == 0])}) %>% 
-        bind_rows() %>% 
-        select(type, e0, sex, age = Age, mx = nMx, lx, Lx = nLx)
-      mlt_family <- "HIVSpectrum"
-      if(method %in% c("feeney", "logit")){
-        actual_levels <- unique(mlt_data$e0)
-        closer_level <- which(abs(actual_levels-mlt_e0_logit_feeney)==min(abs(actual_levels-mlt_e0_logit_feeney)))
-        mlt_e0_logit_feeney <- actual_levels[closer_level]
-      }
-    }
+  if (!all(colnames(mlt_input_data) %in% colnames(MortCast::MLTlookup))) {
+    stop("Be sure to have same col names and cathegories than MortCast::MLTlookup")
+  
   }
   
+  # select family and standardize for same age_int, OAG and risk interval
+  if (!is.null(mlt_input_data)) {
+    
+    mlt_data <- mlt_data_input %>% mutate(type = "user", e0 = "user")
+    mlt_e0_logit_feeney <- "user"
+    
+    
+    # THIS PART HAS NOT BEEN CHANGED
+  } else if (!is.HIV) {
+    
+    this_sex <- ifelse(sex == "f", 2, 1)
+    mlt_this_family_all_ages <-
+      MortCast::MLTlookup |> subset(type %in% mlt_family, sex == this_sex)    
+    
+    # e0 should be rounded to proximate available level
+    mlt_e0_logit_feeney <- round(mlt_e0_logit_feeney / 2.5, 0) * 2.5
+    
+  } else if (is.null(q01_q05[2]) | is.null(HIV_art)) {
+    
+    stop("needs 5q0 and/or HIV ART")
+    
+    # Spectrum model metadata
+    load("R/modsr-vr-dhs-spectrum-25-04.RData")
+    
+    this_sex <- ifelse(sex == "f", "female", "male")
+    
+    mlt_this_family_all_ages <- lapply(seq(.1, .9, .05), function(x) {
+      hiv_svd_comp_x <- (predictNQX( #### I did not find this function in scope
+        this_sex,
+        cm    = q01_q05[2],
+        am    = x,
+        hiv   = HIV_prev,
+        art   = HIV_art,
+        adult = "q45"
+      ))[ ,1] ################## WAS  pull()
+      lx_hiv_svd_comp_x <- lt_id_q_l(expit(hiv_svd_comp_x)) # same did not find the expit in scope
+     
+      
+      
+      lx_age <- data.table(lx = lx_hiv_svd_comp_x[c(0, 1, seq(5, 100, 5)) + 1],
+                           Age = c(0, 1, seq(5, 100, 5)))
+      
+      # Add type and sex columns, and calculate e0 using data.table syntax
+      lx_age[, `:=`(type = "HIVSpectrum", sex = ifelse(sex == "f", 2, 1))]
+      lx_age[, e0 := ex[Age == 0], by = type]
+        
+    }) |>
+      rbindlist() |> ### dt[, c("type", "e0", "sex", "age", "mx", "lx", "Lx") := .(type, e0, sex, Age, nMx, lx, nLx)]
+      select(type,
+             e0,
+             sex,
+             age = Age,
+             mx = nMx,
+             lx,
+             Lx = nLx)
+    mlt_family <- "HIVSpectrum"
+  }
+  
+  
+  if (method %in% c("feeney", "logit")) {
+    actual_levels <- unique(mlt_data$e0)
+    closer_level <-
+      which(abs(actual_levels - mlt_e0_logit_feeney) == min(abs(
+        actual_levels - mlt_e0_logit_feeney
+      )))
+    mlt_e0_logit_feeney <- actual_levels[closer_level]
+  }
+  
+  
   # standarize mlt to same age structure than data
-  this_sex = ifelse(sex == "f", 2, 1)
-  this_mlt_family <- mlt_this_family_all_ages %>% 
-    dplyr::mutate(age_desired = as.integer(pmin(trunc(age/age_int)*age_int, OAG))) %>% 
-    dplyr::group_by(type, e0, age_desired) %>% 
-    dplyr::summarise(mxn = sum(mx*Lx)/sum(Lx),
-                     lx = max(lx),
-                     Lxn = sum(Lx), .groups = 'drop') %>%
-    dplyr::ungroup() %>% 
-    dplyr::group_by(type, e0) %>% 
-    dplyr::mutate(Tx = purrr::accumulate(Lxn, `+`, .dir = "backward"),
-                  ex = Tx/lx,
-                  nSx = dplyr::case_when(age_desired < (OAG - interc_t)  ~ dplyr::lead(Lxn, interc_length)/Lxn,
-                                         T ~ dplyr::lead(Tx, interc_length)/Tx),
-                  n = interc_t) %>% 
-    dplyr::select(type, e0, age = age_desired, mxn, lx, Lxn, Tx, ex, nSx, n) %>% 
-    dplyr::ungroup()
+  this_sex <-  ifelse(sex == "f", 2, 1)
+  
+  # Convert mlt_this_family_all_ages to a data.table
+  mlt_this_family_all_ages <- as.data.table(mlt_this_family_all_ages)
+  
+  # Calculate age_desired and group by type, e0, age_desired
+  this_mlt_family <- mlt_this_family_all_ages[, age_desired := as.integer(pmin(trunc(age/age_int)*age_int, OAG)),
+                                              by = .(type, e0)]
+  
+  # Calculate mxn, lx, Lxn
+  this_mlt_family <- this_mlt_family[, .(mxn = sum(mx * Lx) / sum(Lx),
+                                         lx = max(lx),
+                                         Lxn = sum(Lx)),
+                                     by = .(type, e0, age_desired)]
+  
+  # Calculate Tx, ex, nSx, n
+  this_mlt_family[, Tx :=lt_id_L_T(Lxn),
+                  by = .(type, e0)]
+  
+  this_mlt_family[, ex := Tx/lx]
+  
+  this_mlt_family[, nSx := shift(Lxn, type = "lead", fill = 0) / Lxn,
+                  by = .(type, e0)]
+  
+  this_mlt_family[, n := interc_t]
+  
+  # Select columns
+  this_mlt_family <- this_mlt_family[, .(age = age_desired, mxn, lx, Lxn, Tx, ex, nSx, n),
+                                     by = .(type, e0)]
+  
   
   # Find best level for each nSx (Table 171, B.2 in MX)
-  if(method == "match" | method == "logit"){
+  if(method == "match" | method == "logit") {
     
     # get closest level for each nSx
-    obs_data <- data.frame(age = age, nSx = surv_data$nSx) %>% dplyr::filter(nSx<1)
-    mlt_data <- this_mlt_family %>% dplyr::select(type, age, e0, nSx)
+    obs_data <- data.frame(age = age, nSx = surv_data$nSx) |> subset(nSx < 1)
+    mlt_data <- this_mlt_family[, c("type", "age", "e0", "nSx")]
     mlt_closest <- interp_level_mlt(obs_data, mlt_data, var_interp = "e0", var_ref = "nSx")
   }
   
+  
   # variable-r 
   if(method == "var-r"){
-    
     # get closest level for each nSx
-    obs_data <- lt_ManualX_variable_r(age = age, 
-                                      Nx1 = pmax(c1_noadj,1), # to avoid 0 pop in some age (age-specific rate goes Inf) 
-                                      Nx2 = pmax(c2,1), # to avoid 0 pop in some age (age-specific rate goes Inf) 
-                                      ts = date2-date1_noadj, radix = 100000, full_lt = F) %>% dplyr::select(age, ex)
-    mlt_data <- this_mlt_family %>% dplyr::select(type, age, e0, ex)
+    obs_data <- (lt_ManualX_variable_r(age = age, 
+                                       Nx1 = pmax(c1_noadj, 1), # to avoid 0 pop in some age (age-specific rate goes Inf) 
+                                       Nx2 = pmax(c2, 1), # to avoid 0 pop in some age (age-specific rate goes Inf) 
+                                       ts = date2-date1_noadj, radix = 100000, full_lt = F))[, c("age", "ex")]
+    mlt_data <- this_mlt_family[, c("type", "age", "e0", "ex")]
     mlt_closest <- interp_level_mlt(obs_data, mlt_data, var_interp = "e0", var_ref = "ex")
   }
   
   # projection (forw and backw)
-  if(method %in% c("bproj", "fproj")){
+  if(method %in% c("bproj", "fproj")) {
     
     # do proj and bproj for each level
+    # new one
+    surv_data_method <- data.frame(age = age, c1 = c1, c2 = c2)
+    surv_data_method$c1_cum  <- lt_id_L_T(surv_data_method$c1)
+    surv_data_method$c1_cum  <- lt_id_L_T(surv_data_method$c1)
+    surv_data_method <- merge(surv_data_method, this_mlt_family[, .(type, age, e0, nSx_mlt = nSx)], by = "age")
+    surv_data_method <- as.data.table(surv_data_method)
+    setorder(surv_data_method, type, e0, age)
+    surv_data_method[, c1_bproj := shift(c2, type = "lead", n = interc_length, fill = NA) / nSx_mlt]
+    surv_data_method[, c2_fproj := fifelse(age < OAG, shift(c1 * nSx_mlt, type = "lag", n = interc_length, fill = NA), 
+                                           shift(c1_cum * nSx_mlt, type = "lag", n = interc_length, fill = NA))]
+    #######################################################################################################
+    # old one ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     surv_data_method <- data.frame(age = age, c1 = c1, c2 = c2) %>% 
       dplyr::mutate(c1_cum = purrr::accumulate(c1, `+`, .dir = "backward"), 
                     c2_cum = purrr::accumulate(c2, `+`, .dir = "backward")) %>% 
@@ -227,22 +367,30 @@ intercensal_survival <- function(c1,
       dplyr::mutate(c1_bproj = lead(c2, interc_length, default = NA)/ nSx_mlt,
                     c2_fproj = case_when(age < OAG ~ lag(c1 * nSx_mlt, interc_length, default = NA),
                                          T ~ lag(c1_cum * nSx_mlt, interc_length, default = NA)),
+                    # stuck here~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     c1_bproj_cum = ifelse(is.na(c1_bproj), NA, purrr::accumulate(c1_bproj, sum, .dir = "backward", na.rm = T)),
-                    c2_fproj_cum = ifelse(is.na(c2_fproj), NA, purrr::accumulate(c2_fproj, sum, .dir = "backward", na.rm = T))) %>% ungroup()
-    
+                    c2_fproj_cum = ifelse(is.na(c2_fproj), NA, purrr::accumulate(c2_fproj, sum, .dir = "backward", na.rm = T))) %>% 
+      dplyr::ungroup()
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # get best level for each direction
     if(method == "bproj"){
-      obs_data <- surv_data_method %>% dplyr::select(age, c1_cum) %>% distinct()
-      mlt_data <- surv_data_method %>% dplyr::select(age, type, e0, c1_cum = c1_bproj_cum)
+      
+      # Create obs_data using data.table syntax
+      obs_data <- unique(surv_data_method[, .(age, c1_cum)])
+      # Create mlt_data using data.table syntax
+      mlt_data <- surv_data_method[, .(age, type, e0, c1_cum = c1_bproj_cum)]
       mlt_closest <- interp_level_mlt(obs_data, mlt_data, "e0", "c1_cum")
     }
     if(method == "fproj"){
-      obs_data <- surv_data_method %>% dplyr::select(age, c2_cum) %>% distinct()
-      mlt_data <- surv_data_method %>% dplyr::select(age, type, e0, c2_cum = c2_fproj_cum)
-      mlt_closest <- interp_level_mlt(obs_data, mlt_data, "e0", "c2_cum") %>% 
-        dplyr::mutate(e0_interp = lead(e0_interp, interc_length))
+      # Create obs_data using data.table syntax
+      obs_data <- unique(surv_data_method[, .(age, c2_cum)])
+      # Create mlt_data using data.table syntax
+      mlt_data    <- surv_data_method[, .(age, type, e0, c2_cum = c2_fproj_cum)]
+      mlt_closest <- mlt_data[, e0_interp := shift(e0_interp, type = "lead", n = interc_length, fill = NA)]
+      
     }
   }
+
   
   # Feeney UN´s manual (2002)
   if(method == "feeney"){
@@ -263,7 +411,8 @@ intercensal_survival <- function(c1,
         dplyr::pull()
       mlt_data <- this_mlt_family %>%  
         dplyr::select(type, age, e0, ex)
-    }else{
+      
+    } else {
       trunc_age <- OAG - 5
       mlt_data <- this_mlt_family %>% 
         dplyr::filter(age<trunc_age) %>% 
@@ -530,7 +679,7 @@ interp_level_mlt <- function(obs_data, mlt_data, var_interp = "e0", var_ref = "n
     dplyr::mutate(diff = min(abs(ref - var_ref_left), abs(ref - var_ref_right)),
                   interp = var_int_left + (ref - var_ref_left)/(var_ref_right - var_ref_left) * (var_int_right - var_int_left)) %>% 
     dplyr::select(type, age, ref, var_ref_left, var_ref_right, var_int_left, var_int_right, interp) %>% 
-    ungroup()
+    dplyr::ungroup()
   
   # rename
   colnames(data) <- c("type", "age", paste0(var_ref,"_obs"), 
@@ -628,7 +777,7 @@ intercensal_surv_var_r <- function(c1,
 # from Michael Lachanski (mikelach@sas.upenn.edu)
 # be sure to add Preston reference, or the exact manual X reference, or something
 #' @author author
-lt_ManualX_variable_r <- function(age, Nx1, Nx2, ts, radix = 1000, full_lt = T){
+lt_ManualX_variable_r <- function(age, Nx1, Nx2, ts, radix = 1000, full_lt = T) {
   DT <- data.table(age, Nx1, Nx2, ts, radix, key = "age")
   
   # set rho parameters - taken from Table 185 on page 219 in Manual X.
@@ -675,7 +824,7 @@ lt_ManualX_variable_r <- function(age, Nx1, Nx2, ts, radix = 1000, full_lt = T){
   if(full_lt == F){
     DT_lt[nrow(DT),  n_r_x := NA_real_] %>%
       .[ ,
-         Rx := 0.5*n_before*replace_na(n_r_x, 0) +
+         Rx := 0.5*n_before*tidyr::replace_na(n_r_x, 0) +  #### CHECK THIS OUT
            cumsum(shift(n_before, fill = 0)*shift(n_r_x, fill= 0))]   %>%
       # only in Preston (1983) does he do this.
       .[1, Rx :=NA_real_]
@@ -697,7 +846,7 @@ lt_ManualX_variable_r <- function(age, Nx1, Nx2, ts, radix = 1000, full_lt = T){
     # https://timriffe.github.io/DemoTools/articles/lifetables_with_demotools.html
     .[         , ndx := lx - shift(lx, n = 1, type = "lead")] %>%
     .[nrow(DT) , ndx := lx ]   %>%
-    .[         , Tx := revcumsumSkipNA(Lx_star)] %>%
+    .[         , Tx := revcumsumSkipNA(Lx_star)] %>% ####### THis function is also non existent
     .[         , Sx := lx/lx[1]] %>%
     .[         , ex := Tx/lx]
   if(full_lt == F){DT_lt[age > 50 , ex := NA_real_] }
@@ -718,3 +867,16 @@ lt_ManualX_variable_r <- function(age, Nx1, Nx2, ts, radix = 1000, full_lt = T){
   DT_lt %>% `[`
   return(DT_lt)
 }
+
+cumSkipNA <- function(x, FUNC)
+{
+  d <- deparse(substitute(FUNC))
+  funs <- c("max", "min", "prod", "sum")
+  stopifnot(is.vector(x), is.numeric(x), d %in% funs)
+  FUNC <- match.fun(paste0("cum", d))
+  x[!is.na(x)] <- FUNC(x[!is.na(x)])
+  x
+}
+
+
+revcumsumSkipNA <- function(x){rev(cumSkipNA(rev(x), FUNC = sum))}
