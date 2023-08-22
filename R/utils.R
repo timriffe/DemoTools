@@ -397,6 +397,28 @@ single2abridged <- function(Age) {
   tapply(Age, abridged_index, sum)
 }
 
+# TODO: document these functions
+
+#' @description
+#' A short description...
+#' @param x
+#' @param FUNC character. either `"max"`, `"min"`, `"prod"`, or `"sum"`
+#' @return
+#' @export
+cumSkipNA <- function(x, FUNC)
+{
+  d            <- deparse(substitute(FUNC))
+  funs         <- c("max", "min", "prod", "sum")
+  stopifnot(is.vector(x), is.numeric(x), d %in% funs)
+  FUNC         <- match.fun(paste0("cum", d))
+  x[!is.na(x)] <- FUNC(x[!is.na(x)])
+  x
+}
+
+# TODO document this
+revcumsumSkipNA <- function(x){rev(cumSkipNA(rev(x), FUNC = sum))}
+
+
 
 # deprecated functions
 
