@@ -115,7 +115,7 @@ smooth_age_5_kkn <- function(Value,
 
   # would need to move this up to ensure?
   # or in case of 85+ would we want to keep 80-84, 85+ as-is?
-  Value10    <- groupAges(Value5, Age = Age, N = 10, shiftdown = start_on)
+  Value10    <- groupAges(Value5, Age = Age5, N = 10, shiftdown = start_on)
 
   # what OAG is a strange digit? Then take OAG after grouping.
   if (OAG) {
