@@ -42,6 +42,7 @@
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include
 #'   \code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"} if the highest age is at least 90, otherwise `"makeham"`. See details.
 #' @inheritParams lt_a_closeout
+#' @importFrom dplyr case_when
 #' @export
 #' @return Lifetable in data.frame with columns
 #' \itemize{
@@ -183,9 +184,30 @@ lt_abridged <- function(Deaths = NULL,
                   extrapFrom = max(Age),
                   extrapFit = NULL,
                   ...) {
+  
+  # some handy name coercion
+  a0rule <- case_when(a0rule == "Andreev-Kingkade" ~ "ak",
+                      a0rule == "Coale-Demeny" ~ "cd",
+                      TRUE ~ a0rule)
+  axmethod <- case_when(axmethod == "UN (Greville)" ~ "un",
+                        axmethod == "PASEX" ~ "pas",
+                        TRUE ~ axmethod)
+  Sex <- substr(Sex, 1, 1) |> 
+    tolower()
+  Sex <- ifelse(Sex == "t", "b", Sex)
+  
+  region <-  substr(region, 1, 1) |> 
+    tolower()
+  if (!is.null(extrapLaw)){
+    extrapLaw <- tolower(extrapLaw)
+  }
+
+  
+  # now we check args
   axmethod <- match.arg(axmethod, choices = c("pas","un"))
   Sex      <- match.arg(Sex, choices = c("m","f","b"))
   a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
+  
   if (!is.null(extrapLaw)){
     extrapLaw      <- tolower(extrapLaw)
     extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",

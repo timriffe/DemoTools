@@ -19,6 +19,7 @@
 #'   \item{ex}{numeric. Age-specific remaining life expectancy.}
 #' }
 #' @export
+#' @importFrom dplyr case_when
 lt_single_mx <- function(nMx,
                         Age = 1:length(nMx) - 1,
                         radix = 1e5,
@@ -36,6 +37,21 @@ lt_single_mx <- function(nMx,
                         ...) {
 
   stopifnot(extrapFrom <= max(Age))
+  
+  # some handy name coercion
+  a0rule <- case_when(a0rule == "Andreev-Kingkade" ~ "ak",
+                      a0rule == "Coale-Demeny" ~ "cd",
+                      TRUE ~ a0rule)
+  Sex <- substr(Sex, 1, 1) |> 
+    tolower()
+  Sex <- ifelse(Sex == "t", "b", Sex)
+  
+  region <-  substr(region, 1, 1) |> 
+    tolower()
+  if (!is.null(extrapLaw)){
+    extrapLaw <- tolower(extrapLaw)
+  }
+  
   Sex      <- match.arg(Sex, choices = c("m","f","b"))
   a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
   if (!is.null(extrapLaw)){

@@ -99,6 +99,7 @@ lt_single2abridged <- function(lx,
 #' 
 #' @export
 #' @importFrom ungroup pclm
+#' @importFrom dplyr case_when
 #' @examples
 #'  Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
 #'          .01332,.01528,.01757,.02092,.02517,.03225,.04241,.06056,
@@ -150,6 +151,23 @@ lt_abridged2single <- function(
   stopifnot(is_abridged(Age))
   NN <- length(Age)
   #stopifnot(length(nMx) == NN)
+  
+  # some handy name coercion
+  a0rule <- case_when(a0rule == "Andreev-Kingkade" ~ "ak",
+                      a0rule == "Coale-Demeny" ~ "cd",
+                      TRUE ~ a0rule)
+  axmethod <- case_when(axmethod == "UN (Greville)" ~ "un",
+                        axmethod == "PASEX" ~ "pas",
+                        TRUE ~ axmethod)
+  Sex <- substr(Sex, 1, 1) |> 
+    tolower()
+  Sex <- ifelse(Sex == "t", "b", Sex)
+  
+  region <-  substr(region, 1, 1) |> 
+    tolower()
+  if (!is.null(extrapLaw)){
+    extrapLaw <- tolower(extrapLaw)
+  }
   
   if (!is.null(extrapLaw)){
     extrapLaw      <- tolower(extrapLaw)

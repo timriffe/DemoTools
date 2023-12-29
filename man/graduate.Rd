@@ -10,8 +10,7 @@ graduate(
   AgeInt = age2int(Age),
   OAG = TRUE,
   OAnew = max(Age),
-  method = c("sprague", "beers(ord)", "beers(mod)", "grabill", "pclm", "mono",
-    "uniform"),
+  method = c("sprague", "beers(ord)", "beers(mod)", "grabill", "pclm", "mono", "uniform"),
   keep0 = FALSE,
   constrain = FALSE,
   ...

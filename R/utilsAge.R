@@ -735,7 +735,7 @@ rescaleAgeGroups <- function(Value1,
 #' Age       <- c(0,1,3,seq(5,100,5))
 #' AgeInt    <- c(1,2,2,rep(5,19),1)
 #' Value     <- tapply(V1,rep(Age,times=AgeInt), sum)
-#'
+#' 
 #' is_abridged(Age)
 #' age_abridge_force(Value, Age)
 age_abridge_force <- function(Value, Age) {
@@ -744,7 +744,7 @@ age_abridge_force <- function(Value, Age) {
                       Value,
                       Age = Age)
   #a1     <- min(Age):(length(v1) - 1)
-  a1     <- 1:length(v1) - 1 + min(Age)
+  a1     <- (1:length(v1) - 1 + min(Age)) |> as.integer()
   AgeAbr <- calcAgeAbr(a1)
   vabr   <- tapply(v1, AgeAbr, sum)
   vabr
