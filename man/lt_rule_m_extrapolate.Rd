@@ -73,7 +73,8 @@ f1 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "kannisto")
 f2 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "kannisto_makeham")
 f3 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "gompertz")
 f4 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "ggompertz")
-f5 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "makeham")
+ # makeham falls back to gompertz for this data
+suppressWarnings(f5 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "makeham"))
 f6 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "beard")
 f7 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "beard_makeham")
 f8 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "quadratic")
@@ -145,19 +146,6 @@ legend("topleft", bty = "n",
        lty = c(NA, NA, 1:8), pch = c(16, 16, rep(NA, 8)),
        col = c(1, 4, 2:9), lwd = 2, pt.cex = 2)
 }
-# ----------------------------------------------
-# Example 3 - Extrapolate mortality for multiple years at once
-
-# Create some data
-mx_matrix <- matrix(rep(mx1, 3), ncol = 3) \%*\% diag(c(1, 1.05, 1.1))
-dimnames(mx_matrix) <- list(age = x1, year = c("year1", "year2", "year3"))
-
-# TR: temporary warning suppression until case handling is fixed
-# in MortalityLaws package
-F1 <- suppressWarnings(lt_rule_m_extrapolate(mx_matrix, x = x1, x_fit, x_extr, law = "kannisto"))
-F1
-ls(F1)
-coef(F1)
 }
 \seealso{
 \code{\link[MortalityLaws]{MortalityLaw}}
