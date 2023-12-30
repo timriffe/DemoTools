@@ -85,14 +85,21 @@ smooth_age_5_arriaga_tidy <- function(data, variable, OAG = TRUE){
  
   data <- 
     data |> 
-    rename(V = !!variable) |> 
+    rename(V = !!variable)
+  V  <- data$V
+  A  <- data$Age
+  V1 <- graduate_uniform(Value = V, 
+                         Age = Age, 
+                         OAG = OAG)
+  A1 <- age2single(A, OAG = OAG)
     # force to single
-    reframe(
-      V = graduate_uniform(Value = V,
-                           Age = Age,
-                           OAG = OAG),
-      Age = age2single(Age))  
-  data |> 
+    # reframe(
+    #   V = graduate_uniform(Value = V,
+    #                        Age = Age,
+    #                        OAG = OAG),
+    #   Age = age2single(Age))  
+  data.frame(V = V1, Age = A1) |> 
+  # data |> 
     # group to 5 (innocuous if 5-year data given)
     fmutate(Age = Age - Age %% 5,
             V = fifelse(Age == max(Age) & OAG, NA_real_, V)) |> 
@@ -149,7 +156,7 @@ smooth_age_5_arriaga_tidy(data,
 library(rbenchmark)
 benchmark(smooth_age_5_arriaga_tidy(data, 
                                     variable = "Pop", 
-                                    OAG = TRUE)) #  .522
+                                    OAG = TRUE)) #  .522 | 0.402 if we remove reframe()
 benchmark(smooth_age_5_arriaga(v75, Age75, TRUE)) # .054, 10 times faster...
 
 # Conclusion:
