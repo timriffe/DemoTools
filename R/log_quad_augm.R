@@ -115,12 +115,15 @@ HMD_old_logquad <- function(nMx, Age = NULL,
      
      # plot diagnostic
      if(plot_comparison){
-       df <- 
-       rbind(
-         data.frame(Age = Age, nMx = nMx, Type = "Input"),
-         data.frame(Age = smooth_transtition_nMx$Age, nMx = smooth_transtition_nMx$nMx, Type = "Adjusted"),
-         data.frame(Age = Age_smooth, nMx = nMx_interpolated, Type = "Transition")) %>% 
-       ggplot2::ggplot(ggplot2::aes(x = Age, y = nMx, color = Type)) +
+       Type <- NULL
+       df1 <- data.frame(Age = Age, nMx = nMx)
+       df1$Type <- "Input"
+       df2 <- data.frame(Age = smooth_transtition_nMx$Age, nMx = smooth_transtition_nMx$nMx) 
+       df2$Type <- "Adjusted"
+       df3 <- data.frame(Age = Age_smooth, nMx = nMx_interpolated) 
+       df3$Type <- "Transition"
+       rbind(df1, df2, df3) %>% 
+         ggplot2::ggplot(ggplot2::aes(x = Age, y = nMx, color = Type)) +
          ggplot2::geom_line() +
          ggplot2::geom_vline(xintercept = Age_transition, linetype = "dashed", color = "grey") +
          ggplot2::scale_y_log10() +
