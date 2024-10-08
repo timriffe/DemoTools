@@ -76,17 +76,17 @@ lt_abridged(
 \value{
 Lifetable in data.frame with columns
 \itemize{
-\item{Age}{integer. Lower bound of abridged age class},
-\item{AgeInt}{integer. Age class widths.}
-\item{nMx}{numeric. Age-specific central death rates.}
-\item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
-\item{nqx}{numeric. Age-specific conditional death probabilities.}
-\item{lx}{numeric. Lifetable survivorship}
-\item{ndx}{numeric. Lifetable deaths distribution.}
-\item{nLx}{numeric. Lifetable exposure.}
-\item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
-\item{Tx}{numeric. Lifetable total years left to live above age x.}
-\item{ex}{numeric. Age-specific remaining life expectancy.}
+\item Age integer. Lower bound of abridged age class
+\item AgeInt integer. Age class widths.
+\item nMx numeric. Age-specific central death rates.
+\item nAx numeric. Average time spent in interval by those deceased in interval.
+\item nqx numeric. Age-specific conditional death probabilities.
+\item lx numeric. Lifetable survivorship
+\item ndx numeric. Lifetable deaths distribution.
+\item nLx numeric. Lifetable exposure.
+\item Sx numeric. Survivor ratios in uniform 5-year age groups.
+\item Tx numeric. Lifetable total years left to live above age x.
+\item ex numeric. Age-specific remaining life expectancy.
 }
 }
 \description{

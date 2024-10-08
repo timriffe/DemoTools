@@ -22,11 +22,12 @@ In the full 13 parameter model, the migration rate at age x, \eqn{m(x)} is defin
 The first, second, third and fourth pieces of the equation represent pre-working age, working age, retirement and post-retirement age patterns, respectively.
 Models with less parameters gradually remove terms at the older ages. Parameters in each family are:
 \itemize{
-\item pre-working age: {a1, alpha1}
-\item working age: {a2, alpha2, mu2, lambda2}
-\item retirement: {a3, alpha3, mu3, lambda3}
-\item post retirement: {a4, lambda4}
+\item pre-working age: a1, alpha1
+\item working age: a2, alpha2, mu2, lambda2
+\item retirement: a3, alpha3, mu3, lambda3
+\item post retirement: a4, lambda4
 }
+
 For a specific family to be included, values for all parameters in that family must be specified.
 }
 \examples{

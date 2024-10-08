@@ -45,19 +45,19 @@
 #' @importFrom dplyr case_when
 #' @export
 #' @return Lifetable in data.frame with columns
-#' \itemize{
-#'   \item{Age}{integer. Lower bound of abridged age class},
-#'   \item{AgeInt}{integer. Age class widths.}
-#'   \item{nMx}{numeric. Age-specific central death rates.}
-#'   \item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
-#'   \item{nqx}{numeric. Age-specific conditional death probabilities.}
-#'   \item{lx}{numeric. Lifetable survivorship}
-#'   \item{ndx}{numeric. Lifetable deaths distribution.}
-#'   \item{nLx}{numeric. Lifetable exposure.}
-#'   \item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
-#'   \item{Tx}{numeric. Lifetable total years left to live above age x.}
-#'   \item{ex}{numeric. Age-specific remaining life expectancy.}
-#' }
+
+#'   * Age integer. Lower bound of abridged age class
+#'   * AgeInt integer. Age class widths.
+#'   * nMx numeric. Age-specific central death rates.
+#'   * nAx numeric. Average time spent in interval by those deceased in interval. 
+#'   * nqx numeric. Age-specific conditional death probabilities.
+#'   * lx numeric. Lifetable survivorship
+#'   * ndx numeric. Lifetable deaths distribution.
+#'   * nLx numeric. Lifetable exposure.
+#'   * Sx numeric. Survivor ratios in uniform 5-year age groups.
+#'   * Tx numeric. Lifetable total years left to live above age x.
+#'   * ex numeric. Age-specific remaining life expectancy.
+#' 
 #' @references
 #' \insertRef{greville1977short}{DemoTools}
 #' \insertRef{un1982model}{DemoTools}

@@ -72,17 +72,17 @@ lt_abridged2single(
 \value{
 Single-year lifetable in data.frame with columns
 \itemize{
-\item{Age}{integer. Lower bound of single year age class},
-\item{AgeInt}{integer. Age class widths.}
-\item{nMx}{numeric. Age-specific central death rates.}
-\item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
-\item{nqx}{numeric. Age-specific conditional death probabilities.}
-\item{lx}{numeric. Lifetable survivorship}
-\item{ndx}{numeric. Lifetable deaths distribution.}
-\item{nLx}{numeric. Lifetable exposure.}
-\item{Sx}{numeric. Survivor ratios.}
-\item{Tx}{numeric. Lifetable total years left to live above age x.}
-\item{ex}{numeric. Age-specific remaining life expectancy.}
+\item \code{Age} integer. Lower bound of single year age class
+\item \code{AgeInt} integer. Age class widths.
+\item \code{nMx} numeric. Age-specific central death rates.
+\item \code{nAx} numeric. Average time spent in interval by those deceased in interval.
+\item \code{nqx} numeric. Age-specific conditional death probabilities.
+\item \code{lx} numeric. Lifetable survivorship
+\item \code{ndx} numeric. Lifetable deaths distribution.
+\item \code{nLx} numeric. Lifetable exposure.
+\item \code{Sx} numeric. Survivor ratios.
+\item \code{Tx} numeric. Lifetable total years left to live above age x.
+\item \code{ex} numeric. Age-specific remaining life expectancy.
 }
 }
 \description{
