@@ -4,7 +4,7 @@
 \alias{mav}
 \title{Calculate the moving average (mav) over 3 or 5 years.}
 \usage{
-mav(Value, Age, n = 3, OAG = TRUE)
+mav(Value, Age, n = 3, OAG = TRUE, tails = FALSE)
 }
 \arguments{
 \item{Value}{numeric. A vector of demographic counts in single age groups.}
@@ -14,6 +14,10 @@ mav(Value, Age, n = 3, OAG = TRUE)
 \item{n}{integer. A single number, (often 3 or 5), indicating the number of years taken to smooth the population distribution by single ages.}
 
 \item{OAG}{logical. Whether or not the top age group is open. Default \code{TRUE}.}
+
+\item{tails}{logical. If set to \code{TRUE}, smaller-n moving averages are applied on both tails
+such that all values are non-NA. If \code{FALSE} (default), tails are set to NA
+due to the lag of moving averages.}
 }
 \value{
 Vector with the smoothed demographic counts.
@@ -22,9 +26,9 @@ Vector with the smoothed demographic counts.
 This arithmetic smoothing technique aims to eliminate irregularities of the population pyramid by averaging values in a moving window of user-defined width.
 }
 \details{
-The moving window is applied symmetrically. Data endpoints are imputed with \code{NA}s in output: the is nothing under 0 or over the highest closed age group to average with. The open age group is imputed with \code{NA} prior to calculations, since it cannot be averaged into the next lowest group. For example, for \code{n=3}, age 0 will be \code{NA}, as will the open age group and next lowest age. Age intervals are assumed uniform. This function could be used with either single or 5-year age groups.
+The moving window is applied symmetrically. By default (\code{tails = FALSE}) data endpoints are imputed with \code{NA}s in output: the is nothing under 0 or over the highest closed age group to average with. The open age group is not used in averaging, and it is returned as-is. Age intervals are assumed uniform. This function could be used with either single or 5-year age groups.
 
-Ages may be single or grouped, but all age intervals are assumed equal.
+If \code{tails} is set to \code{TRUE}, then tails have been imputed using moving averages with successively smaller values of \code{n}, the cascade method.
 }
 \examples{
 Pop  <-c(303583,390782,523903,458546,517996,400630,485606,325423,471481,189710,
@@ -37,8 +41,15 @@ Pop  <-c(303583,390782,523903,458546,517996,400630,485606,325423,471481,189710,
 Age  <- 0:70
 # final age group assumed open
 mav(Pop, n = 3, Age = Age)
+
 \dontrun{
-nwindows <- sapply(seq(3, 11, by = 2),mav, Value = Pop, Age = Age)
+ odds <- seq(3, 11, by = 2)
+nwindows <- sapply(odds,
+                   mav, 
+                   Value = Pop, 
+                   Age = Age,
+                   OAG = TRUE,
+                   tails = FALSE)
 cols     <- gray(seq(.8, 0, length = 5))
 lwds     <- seq(3, 1, length = 5)
 plot(Age,Pop, col = "red", xlab = "Age", ylab = "The counts", pch=16,
@@ -50,10 +61,31 @@ legend("topright",
 		lwd = lwds,
 		legend = paste0("n=",seq(3,11,by=2)))
 }
+
+# For cascading smoothing on the tails:
+mav(Pop, Age, tails = TRUE)
+
+\dontrun{
+# Compare
+nwindows_tails <- sapply(odds,
+                         mav, 
+                         Value = Pop, 
+                         Age = Age, 
+                         OAG = TRUE, 
+                         tails = TRUE)
+
+colnames(nwindows)        <- odds
+colnamaes(nwindows_tails) <- odds
+
+# NA triangles are completed with
+# successively smaller ns.
+head(nwindows)
+head(nwindows_tails)
+
+tail(nwindows)
+tail(nwindows_tails)
+}
 }
 \references{
 \insertRef{GDA1981IREDA}{DemoTools}
-}
-\author{
-Juan Galeano
 }

@@ -19,6 +19,7 @@
 #'   \item{ex}{numeric. Age-specific remaining life expectancy.}
 #' }
 #' @export
+#' @importFrom dplyr case_when
 lt_single_mx <- function(nMx,
                         Age = 1:length(nMx) - 1,
                         radix = 1e5,
@@ -36,6 +37,21 @@ lt_single_mx <- function(nMx,
                         ...) {
 
   stopifnot(extrapFrom <= max(Age))
+  
+  # some handy name coercion
+  a0rule <- case_when(a0rule == "Andreev-Kingkade" ~ "ak",
+                      a0rule == "Coale-Demeny" ~ "cd",
+                      TRUE ~ a0rule)
+  Sex <- substr(Sex, 1, 1) |> 
+    tolower()
+  Sex <- ifelse(Sex == "t", "b", Sex)
+  
+  region <-  substr(region, 1, 1) |> 
+    tolower()
+  if (!is.null(extrapLaw)){
+    extrapLaw <- tolower(extrapLaw)
+  }
+  
   Sex      <- match.arg(Sex, choices = c("m","f","b"))
   a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
   if (!is.null(extrapLaw)){
@@ -74,37 +90,40 @@ lt_single_mx <- function(nMx,
   }
   # --------------------------
   # Now all vectors may end up being longer
-  x_extr <- seq(extrapFrom, 130, by = 1)
-  Mxnew  <- lt_rule_m_extrapolate(
-              x = Age,
-              mx = nMx,
-              x_fit = extrapFit,
-              x_extr = x_extr,
-              law = extrapLaw,
-              ...)
+  if (max(Age) < 130){
+    x_extr <- seq(extrapFrom, 130, by = 1)
+    Mxnew  <- lt_rule_m_extrapolate(
+                x = Age,
+                mx = nMx,
+                x_fit = extrapFit,
+                x_extr = x_extr,
+                law = extrapLaw,
+                ...)
 
-  nMxext        <- Mxnew$values
-  Age2          <- names2age(nMxext)
-
-  keepi         <- Age2 < extrapFrom
-  nMxext[keepi] <- nMx[Age < extrapFrom]
-
-  # overwrite some variables:
-  nMx           <- nMxext
-  Age           <- Age2
+    nMxext        <- Mxnew$values
+    Age2          <- names2age(nMxext)
+  
+    keepi         <- Age2 < extrapFrom
+    nMxext[keepi] <- nMx[Age < extrapFrom]
+  
+    # overwrite some variables:
+    nMx           <- nMxext
+    Age           <- Age2
+  }
   N             <- length(Age)
   AgeInt        <- rep(1, N)
 
   # get ax:
   nAx           <- rep(.5, N)
-  nAx[1]        <- lt_rule_1a0(
-                     rule = a0rule,
-                     M0 = nMx[1],
-                     IMR = IMR,
-                     Sex = Sex,
-                     region = region,
-                     SRB = SRB)
-
+  if (Age[1] == 0){
+    nAx[1]        <- lt_rule_1a0(
+                       rule = a0rule,
+                       M0 = nMx[1],
+                       IMR = IMR,
+                       Sex = Sex,
+                       region = region,
+                       SRB = SRB)
+  }
   # get qx (if pathological qx > 1, ax replaced, assumed constant hazard)
   qx            <- lt_id_ma_q(
                      nMx = nMx,
@@ -146,7 +165,7 @@ lt_single_mx <- function(nMx,
   AgeInt[N]     <- NA
 
   # Survival ratios computed only after  nLx is closed out
-  Sx            <- lt_id_Ll_S(nLx, lx, AgeInt = AgeInt, N = 1)
+  Sx            <- lt_id_Ll_S(nLx, lx, Age, AgeInt = AgeInt, N = 1)
 
   if (OAG) {
     if (OAnew == OA) {

@@ -1,8 +1,8 @@
 Package: DemoTools
 Type: Package
 Title: Standardize, Evaluate, and Adjust Demographic Data
-Version: 01.13.39
-Date: 2021-03-23
+Version: 01.13.80
+Date: 2023-12-29
 Authors@R: c(
    person("Tim", "Riffe", role = c("aut", "cre"), 
           email = "tim.riffe@gmail.com", comment = c(ORCID = "0000-0002-2673-4622")),
@@ -22,7 +22,7 @@ License: file LICENSE
 LazyLoad: yes
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 Depends:
     R (>= 3.6),
     Rcpp (>= 0.12.0),
@@ -31,15 +31,16 @@ Suggests:
     testthat (>= 2.1.0),
     knitr,
     rmarkdown,
+    markdown,
     DT,
     ggplot2
 RdMacros: Rdpack
 Imports:
     data.table (>= 1.13.6),
     demogR,
-    DemoToolsData (>= 0.1.1),
+    DemoToolsData (>= 0.1.5),
     dplyr,
-    fertestr (>= 0.0.5),
+    fertestr (>= 0.10.00),
     lubridate,
     magrittr,
     MortalityLaws (>= 1.7.0),
@@ -48,10 +49,11 @@ Imports:
     rstan (>= 2.18.1),
     tibble,
     tidybayes,
-    ungroup
+    ungroup (>= 1.4.2)
 BugReports: https://github.com/timriffe/DemoTools/issues
 Remotes: 
-    github::josehcms/fertestr,
-    github::timriffe/DemoToolsData
+    github::timriffe/fertestr,
+    github::timriffe/DemoToolsData,
+    github::timriffe/MortalityLaws
 Encoding: UTF-8
 VignetteBuilder: knitr

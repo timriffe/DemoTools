@@ -9,9 +9,19 @@ context("test-lt_abridged")
 
 # testing function --------------------------------------------------------
 
-lt_test_all_positive_plus_qx_lt_1 <- function(LT) {
+lt_consistent <- function(LT) {
     # check positive values
+    nAx    <- LT$nAx
+    qx     <- LT$qx
+    lx     <- LT$lx
+    ndx    <- LT$ndx
+    Lx     <- LT$Lx
+    Sx     <- LT$Sx
+    ex     <- LT$ex
+    Age    <- LT$Age
+    AgeInt <- LT$AgeInt
   
+    # no negatives allows
     expect_equal(
         LT %>% 
           # TR: open age AgeInt is NA, not handled well with logicals
@@ -23,13 +33,12 @@ lt_test_all_positive_plus_qx_lt_1 <- function(LT) {
     )
     
     # check qx less than 1
-    expect_equal(
-        LT %>% 
-          '['("nqx") %>% 
-            '>'(1) %>% 
-            sum(),
-        0
-    )
+    expect_equal( sum(qx > 1), 0 )
+    
+    # check monotonicity of lx, Lx, Tx, x + ex
+    # check sum(dx) = lx[1]
+    
+    # ds <- diff(Age + ex) %>% sign()
 }
 
 
@@ -80,7 +89,7 @@ test_that("lt_abridged works on PAS example", {
     )
     
     # positive, qx =< 1
-    PASLT %>% lt_test_all_positive_plus_qx_lt_1()
+    PASLT %>% lt_consistent()
 
 })
 
@@ -126,8 +135,8 @@ test_that("lt_abridged works on UN 1982 (p. 34) example", {
     )
     
     # positive, qx =< 1
-    UNLT1 %>% lt_test_all_positive_plus_qx_lt_1()
-    UNLT2 %>% lt_test_all_positive_plus_qx_lt_1()
+    UNLT1 %>% lt_consistent()
+    UNLT2 %>% lt_consistent()
 
 })
 
@@ -225,8 +234,32 @@ test_that("lt_abridged works on Mortpak example (United Nations 1988, p. 82)", {
     )
     
     # positive, qx =< 1
-    MP_UNLT100 %>% lt_test_all_positive_plus_qx_lt_1()
-    MP_UNLT80 %>% lt_test_all_positive_plus_qx_lt_1()
-    MP_UNLT60 %>% lt_test_all_positive_plus_qx_lt_1()
+    MP_UNLT100 %>% lt_consistent()
+    MP_UNLT80 %>% lt_consistent()
+    MP_UNLT60 %>% lt_consistent()
 })
 
+
+test_that("lt_abridged does not fail when extrapFit is > 2", {
+  lx <- c(1.0000000, 0.8352893, 0.6128018, 0.5733119, 0.5723181, 0.5568574, 0.5477342, 0.5244361, 0.5120798, 0.4926618, 0.4628227, 0.4390118, 0.4100229, 0.3840418)
+
+  Age <- c(0, 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60)
+
+  Sex <- "m"
+
+
+  res <- lt_abridged(
+    lx = lx,
+    Age = Age,
+    radix = 1e+05,
+    axmethod = "un",
+    a0rule = "cd",
+    Sex = Sex,
+    region = "w",
+    mod = TRUE,
+    OAG = TRUE,
+    extrapFit = seq(20, 60, by = 5)
+  )
+
+  expect_s3_class(res, "data.frame")
+})

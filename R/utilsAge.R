@@ -58,7 +58,7 @@ AGEN <-
 #' @param shiftdown integer. Move the grouping down by one or more single ages. Optional argument.
 #'
 #' @details If you shift the groupings, then the first age groups may have a negative lower bound
-#' (for example of -5). These counts would be discarded for the osculatory version of Sprague smoothing,
+#' (for example of -5). These counts would be discarded for the oscillatory version of Sprague smoothing,
 #' for example, but they are preserved in this function. The important thing to know is that if you shift
 #'  the groups, the first and last groups won't be N years wide. For example if \code{shiftdown} is 1,
 #' the first age group is 4-ages wide.
@@ -272,7 +272,7 @@ age2int <- function(Age, OAG = TRUE, OAvalue = NA) {
 #' @return Vector of counts in N-year age groups.
 #'
 #' @details If you shift the groupings, then the first age groups may have a negative lower bound
-#' (for example of -5). These counts would be discarded for the osculatory version of Sprague smoothing,
+#' (for example of -5). These counts would be discarded for the oscillatory version of Sprague smoothing,
 #' for example, but they are preserved in this function. The important thing to know is that if you shift
 #'  the groups, the first and last groups will not be N years wide. For example if \code{shiftdown} is 1, the first age group is 4-ages wide. The ages themselves are not returned,
 #' but they are the name attribute of the output count vector. Note this will also correctly group abridged ages
@@ -324,6 +324,7 @@ groupOAG <- function(Value, Age, OAnew) {
   N        <- length(Value[Age <= OAnew])
   Value[N] <- sum(Value[Age >= OAnew])
   Value    <- Value[1:N]
+  names(Value) <- Age[1:N]
   Value
 }
 
@@ -331,7 +332,7 @@ groupOAG <- function(Value, Age, OAnew) {
 #' check for coherence within Age and between Age and AgeInt
 #'
 #' @description A few checks are carried out to test if \code{Age} is internally consistent, that \code{OAG} is consistent with \code{AgeInt}, and that \code{Age} and \code{AgeInt} are consistent with one another. For \code{Age} to be internally consistent, we cannot have redundant values, and values must be sequential.
-#' @details If \code{OAG} is \code{TRUE} then \code{AgeInt} must be coded as \code{NA}. If \code{Age} is not sorted then we sort both \code{Age} and \code{AgeInt}, assuming that they are in matched order. This isn't incoherence per se, but a message is returned to the console.
+#' @details If \code{OAG} is \code{TRUE} then \code{AgeInt} must be coded as \code{NA}. If \code{Age} is not sorted then we sort both \code{Age} and \code{AgeInt}, assuming that they are in matched order. This isn't incoherence in itself, but a message is returned to the console.
 #'
 #' @param Age integer vector of single ages (lower bound)
 #' @param AgeInt integer vector. Age interval widths
@@ -724,7 +725,7 @@ rescaleAgeGroups <- function(Value1,
 }
 
 #' force a (count) vector to abridged ages
-#' @description This is a robustness utility, in place to avoid annoying hang-ups in \code{LTAbr()}. If data are given in non-standard ages, they are forced to standard abrdiged ages on the fly. Really this should happen prior to calling \code{lt_abridged()}
+#' @description This is a robustness utility, in place to avoid annoying hang-ups in \code{LTAbr()}. If data are given in non-standard ages, they are forced to standard abridged ages on the fly. Really this should happen prior to calling \code{lt_abridged()}
 #' @details This should be able to group up and group down as needed. \code{graduate_mono()} is used below the hood. \code{pclm()} or \code{graduate_uniform()} out to be flexible enough to do the same.
 #' @inheritParams graduate_uniform
 #' @seealso graduate_mono_closeout, lt_abridged
@@ -734,14 +735,16 @@ rescaleAgeGroups <- function(Value1,
 #' Age       <- c(0,1,3,seq(5,100,5))
 #' AgeInt    <- c(1,2,2,rep(5,19),1)
 #' Value     <- tapply(V1,rep(Age,times=AgeInt), sum)
-#'
+#' 
 #' is_abridged(Age)
-#' age_abridge_force(Value, AgeInt, Age)
-age_abridge_force <- function(Value, AgeInt, Age) {
+#' age_abridge_force(Value, Age)
+age_abridge_force <- function(Value, Age) {
+  
   v1     <- graduate_mono_closeout(
                       Value,
                       Age = Age)
-  a1     <- min(Age):(length(v1) - 1)
+  #a1     <- min(Age):(length(v1) - 1)
+  a1     <- (1:length(v1) - 1 + min(Age)) |> as.integer()
   AgeAbr <- calcAgeAbr(a1)
   vabr   <- tapply(v1, AgeAbr, sum)
   vabr

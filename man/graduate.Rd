@@ -10,8 +10,7 @@ graduate(
   AgeInt = age2int(Age),
   OAG = TRUE,
   OAnew = max(Age),
-  method = c("sprague", "beers(ord)", "beers(mod)", "grabill", "pclm", "mono",
-    "uniform"),
+  method = c("sprague", "beers(ord)", "beers(mod)", "grabill", "pclm", "mono", "uniform"),
   keep0 = FALSE,
   constrain = FALSE,
   ...
@@ -50,7 +49,7 @@ This wrapper standardizes some inconsistencies in how open ages are dealt with. 
 
 \code{OAnew} cannot be higher than \code{max(Age)+4} for \code{"sprague"} or \code{"beers"} methods. For \code{"uniform","mono","pclm"} it can be higher than this, and in each case the open age group is completely redistributed within this range, meaning it's not really open anymore.
 
-For all methods, negative values are detected in output. If present, we deal with these in the following way: we take the geometric mean between the given output (with negative imputed with 0s) and the output of \code{graduate_mono()}, which is guaranteed non-negative. This only affects age groups where negatives were produced in the first pass. In our experience this only arises when using sprague, beers, or grabill methods, whereas all others are guarateed non-negative.
+For all methods, negative values are detected in output. If present, we deal with these in the following way: we take the geometric mean between the given output (with negative imputed with 0s) and the output of \code{graduate_mono()}, which is guaranteed non-negative. This only affects age groups where negatives were produced in the first pass. In our experience this only arises when using Sprague, Beers, or Grabill methods, whereas all others are guaranteed non-negative.
 
 For any case where input data are in single ages, constraining results to sum to values in the original age groups will simply return the original input data, which is clearly not your intent. This might arise when using graduation as an implicit two-step smoother (group + graduate). In this case, separate the steps, first group using \code{groupAges()} then use \code{graduate(..., constrain = TRUE)}.
 }

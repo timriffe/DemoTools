@@ -1,10 +1,10 @@
 #' Lee-Carter method with limited data.
 #' 
-#' @description Given a data frame with dates, sex and mortality data by age (rates, conditionated probabilities of death 
+#' @description Given a data frame with dates, sex and mortality data by age (rates, conditioned probabilities of death 
 #' or survival function), this function interpolate/extrapolate life tables 
 #' using the method for limited data suggested by  Li et. al (2004) (at least three observed years). 
 #'
-#' @details Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN. 
+#' @details Based on spreadsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN. 
 #' Useful for abridged or single ages, and allows output in both formats also.
 #' One option is the use of non-divergent method for sex coherency (Li & Lee, 2005).
 #' The other is the possibility of fitting `"k"` to replicate `"e_0"` at some given dates. 
@@ -13,7 +13,7 @@
 #'
 #' @param input data.frame with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)  
 #' @param dates_out numeric. Vector of decimal years to interpolate or extrapolate.
-#' @param Single logical. Wheter or not the lifetable output is by single ages.
+#' @param Single logical. Whether or not the lifetable output is by single ages.
 #' @param dates_e0 numeric. Vector of decimal years where `"e_0"` should be fitted when apply method.
 #' @param e0_Males numeric. Vector of life expectancy by year to be fitted. Same length than `"dates_e0"`.
 #' @param e0_Females numeric. Vector of life expectancy by year to be fitted. Same length than `"dates_e0"`.
@@ -287,13 +287,22 @@ interp_lc_lim <- function(input = NULL,
                         e0_Males), 
                   dates_e0,
                   dates_out,
-                  extrap = TRUE)[1, ]
+                  extrap = TRUE)
     
     e0f <- interp(rbind(e0_Females, 
                         e0_Females),
                   dates_e0,
                   dates_out,
-                  extrap = TRUE)[1, ]
+                  extrap = TRUE)
+    
+    # IW: issue with dimension in case the interpolation is for 1 date only
+    if(ndates_out==1){
+      e0m = e0m[1]
+      e0f = e0f[1]
+    }else{
+      e0m = e0m[1,]
+      e0f = e0f[1,]
+    }
     
     # avoid divergence: same bx but not kt.
     if (prev_divergence){
@@ -304,7 +313,7 @@ interp_lc_lim <- function(input = NULL,
     ktm_star = ktf_star = c()
     for (j in 1:ndates_out){
       ktm_star[j] <- optimize(f = interp_lc_lim_kt_min,
-                              interval = c(-20, 20),
+                              interval = c(-50, 50),
                               ax = axm,
                               bx = bxm,
                               age = Age,
@@ -312,7 +321,7 @@ interp_lc_lim <- function(input = NULL,
                               e0_target = e0m[j],
                               ...)$minimum
       ktf_star[j] <- optimize(f = interp_lc_lim_kt_min, # TR: add ...
-                              interval = c(-20, 20),
+                              interval = c(-50, 50),
                               ax = axf,
                               bx = bxf,
                               age = Age,
@@ -414,13 +423,13 @@ interp_lc_lim_abk_m <- function(k,ax,bx){
 }
 
 # estimate LC for limited data
-#' Estimate LC with limited data params
+#' Estimate LC with limited data parameters
 #' @description Estimate LC with limited data from a matrix of rates (age by dates).
-#' @details SVD for ax and bx. Fit a simmple linear model for k and interp/extrapolate for objective dates.
-#' @param M numeric. Matrix with many rows as ages and columns as dates_in.
+#' @details SVD for `ax` and `bx.` Fit a simple linear model for `k` and interpolate/extrapolate for objective dates.
+#' @param M numeric. Matrix with many rows as ages and columns as `dates_in`.
 #' @param dates_in numeric. Vector of dates with input rates.
 #' @param dates_out numeric. Vector of dates for estimate a set of rates.
-#' @param SVD logical. Use Singular Value Decomposition for estimate b and k or Maximum Likelihood Estimation. Default `FALSE` for Maximum Likelihood Estimation.
+#' @param SVD logical. Use Singular Value Decomposition for estimate `b` and `k` or Maximum Likelihood Estimation. Default `FALSE` for Maximum Likelihood Estimation.
 #' @references
 #' \insertRef{Li2004}{DemoTools}
 #' @export
@@ -452,7 +461,7 @@ interp_lc_lim_estimate <- function(M, dates_in, dates_out, SVD = F){
 # smooth rule previous to solve ambiguous
 #' Smooth and apply lt_ambiguous
 #' @description Considering different mortality input for each sex/year data, 
-#' smooth olders with makeham or kannisto in case no law was specified, 
+#' smooth older ages with makeham or kannisto in case no law was specified, 
 #' and return a data.frame with standard LT. 
 #' @details Makeham is chosen if last age is less than 90. Else Kannisto. 
 #' @param input data.frame. with cols: Date, Sex, Age, nMx (opt), nqx (opt), lx (opt)  

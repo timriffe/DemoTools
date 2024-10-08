@@ -27,13 +27,13 @@ lt_rule_1a0(
 
 \item{region}{character. \code{"n"}, \code{"e"}, \code{"s"} or \code{"w"} for North, East, South, or West.}
 
-\item{SRB}{the sex ratio at birth (boys / girls), detault 1.05}
+\item{SRB}{the sex ratio at birth (boys / girls), default 1.05}
 }
 \value{
 a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of values.
 }
 \description{
-This function wraps the Coale-Demeny and Andreev-Kingkade approximations for a0, which can come from M0, qo, or IMR.
+This function wraps the Coale-Demeny and Andreev-Kingkade approximations for \code{a0}, which can come from \code{M0}, \code{q0}, or \code{IMR.}
 }
 \details{
 If sex is given as both, \code{"b"}, then we calculate the male and female results separately, then weight them together using SRB. This is bad in theory, but the leverage is trivial, and it's better than using male or female coefs for the total population.

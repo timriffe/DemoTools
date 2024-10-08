@@ -24,7 +24,7 @@ Numeric vector of counts for single year age groups.
 Uniformly splits aggregate counts in age groups into single year age groups.
 }
 \details{
-Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If \code{AgeInt} is given, its final value is used as the interval for the final age group. If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, \emph{or} give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}.
+Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If \code{AgeInt} is given, its final value is used as the interval for the final age group. If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, \emph{or} give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}.  \code{Age} be any age range, it does not need to start at 0.
 }
 \examples{
 MalePop <- c(9544406,7471790,11590109,11881844,11872503,12968350,

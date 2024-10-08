@@ -4,36 +4,20 @@
 \alias{OPAG_r_min}
 \title{calculates residual for optimizing growth rate r for OPAG family}
 \usage{
-OPAG_r_min(
-  r,
-  Pop_fit,
-  Age_fit,
-  AgeInt_fit,
-  nLx,
-  Age_nLx,
-  AgeInt_nLx = NULL,
-  continuous = TRUE,
-  method = "uniform"
-)
+OPAG_r_min(r, Age_fit, Pop_fit, AgeInt_fit, Lx1, Age_Lx1)
 }
 \arguments{
 \item{r}{given stable growth rate}
 
-\item{Pop_fit}{numeric vector of at least two population counts to use for fitting}
-
 \item{Age_fit}{integer vector of lower bounds for age groups of \code{Pop_fit}}
+
+\item{Pop_fit}{numeric vector of at least two population counts to use for fitting}
 
 \item{AgeInt_fit}{integer vector of widths of age groups of \code{Pop_fit}}
 
-\item{nLx}{numeric vector of stable population standard}
+\item{Lx1}{numeric vector of stable population standard by single ages}
 
-\item{Age_nLx}{integer vector of lower bounds for age groups of \code{nLx}}
-
-\item{AgeInt_nLx}{optional integer vector of widths of age groups of \code{nLx}, inferred if not given.}
-
-\item{continuous}{logical. If \code{TRUE} we use the growth adjustment. \code{e^(-age*r)}. If \code{FALSE} we assume \code{r} is geometric growth, and we use \code{(1+r)^age} for the growth adjustment.}
-
-\item{method}{character. Graduation method, default \code{"uniform"}. \code{"mono"} or \code{"pclm"} would also be good choices.}
+\item{Age_Lx1}{integer vector of lower bounds for age groups of \code{Lx1}}
 }
 \value{
 numeric. A residual that you're presumably trying to minimize.
@@ -43,7 +27,7 @@ For a given set of age groups to fit against, and a given stable growth rate, $r
 what is the error implied given the current $r$ and stationary standard?
 }
 \details{
-This is a utiltiy function for \code{OPAG()}, which needs to optimize $r$ for a
+This is a utility function for \code{OPAG()}, which needs to optimize $r$ for a
 given population vector and stationary standard.
 }
 \examples{
@@ -52,32 +36,25 @@ Pop_fit    <- c(85000,37000)
 Age_fit    <- c(70,80)
 AgeInt_fit <- c(10,10)
 nLx        <- downloadnLx(NULL, "Spain","female",1971)
-Age_nLx    <- names2age(nLx)
+# graduate(nLx, Age_nLx, method = method, constrain = TRUE)
+Ageab    <- names2age(nLx)
+Lx1 <- graduate(c(nLx), Ageab, method = "mono", constrain = TRUE)
+Age_Lx1 <- 0:100
 r          <- .01
 
 OPAG_r_min(r,
-           Pop_fit,
-           Age_fit,
-           AgeInt_fit,
-           nLx,
-           Age_nLx)
+           Pop_fit = Pop_fit,
+           Age_fit = Age_fit,
+           AgeInt_fit = AgeInt_fit,
+           Lx1 = Lx1,
+           Age_Lx1 = Age_Lx1)
 
 (r_opt <- optimize(OPAG_r_min,
          Pop_fit = Pop_fit,
          Age_fit = Age_fit,
          AgeInt_fit = AgeInt_fit,
-         nLx = nLx,
-         Age_nLx = Age_nLx,
+         Lx1 = Lx1,
+         Age_Lx1 = Age_Lx1,
          interval = c(-0.05,.05))$min)
 
-ai  <- age2int(Age_nLx)
-
-# Note the whole age range is being scaled to 1 here, but in practice
-# you'd only be doing this in the highest ages. If only two fitting
-# ages are given, then we can get an r that matches them perfectly,
-# at least within reasonable bounds.
-\dontrun{
-plot(Age, nLx / sum(nLx) / ai, type = 's')
-lines(Age,OPAG_nLx_warp_r(Lx,Age,r=r_opt)/ai,type='s',col = "red")
-}
 }

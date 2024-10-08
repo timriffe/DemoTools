@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -162,7 +162,7 @@
     <p>Uniformly splits aggregate counts in age groups into single year age groups.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>graduate_uniform</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>AgeInt</span>, <span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, OAvalue <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>graduate_uniform</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, <span class='va'>AgeInt</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span>, OAvalue <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,12 +172,12 @@
       <td><p>numeric vector, presumably counts in grouped ages</p></td>
     </tr>
     <tr>
-      <th>AgeInt</th>
-      <td><p>integer vector, age interval widths</p></td>
-    </tr>
-    <tr>
       <th>Age</th>
       <td><p>integer vector, lower bounds of age groups</p></td>
+    </tr>
+    <tr>
+      <th>AgeInt</th>
+      <td><p>integer vector, age interval widths</p></td>
     </tr>
     <tr>
       <th>OAG</th>
@@ -194,7 +194,7 @@
     <p>Numeric vector of counts for single year age groups.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If <code>AgeInt</code> is given, its final value is used as the interval for the final age group. If <code>AgeInt</code> is missing, then <code>Age</code> must be given, and the open age group is by default preserved <code>OAvalue</code> rather than split. To instead split the final age group into, e.g., a 5-year age class, either give <code>AgeInt</code>, <em>or</em> give <code>Age</code>, <code>OAG = TRUE</code>, and <code>OAvalue = 5</code>.</p>
+    <p>Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If <code>AgeInt</code> is given, its final value is used as the interval for the final age group. If <code>AgeInt</code> is missing, then <code>Age</code> must be given, and the open age group is by default preserved <code>OAvalue</code> rather than split. To instead split the final age group into, e.g., a 5-year age class, either give <code>AgeInt</code>, <em>or</em> give <code>Age</code>, <code>OAG = TRUE</code>, and <code>OAvalue = 5</code>.  <code>Age</code> be any age range, it does not need to start at 0.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>MalePop</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>9544406</span>,<span class='fl'>7471790</span>,<span class='fl'>11590109</span>,<span class='fl'>11881844</span>,<span class='fl'>11872503</span>,<span class='fl'>12968350</span>,

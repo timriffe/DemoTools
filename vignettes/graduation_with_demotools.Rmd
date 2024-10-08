@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 ## How to use `DemoTools` to graduate counts in grouped ages
 
 ### What is graduation?
-Graduation is a practice used to derive figures for _n_-year age groups, for example 5-year age groups from census data, that are corrected for net reporting error [@siegel2004methods]. The basic idea is to fit different curves to the original  _n_-year and redistribute them into single-year values. These techniques are designed so that the sum of the interpolated single-year values is consistent with the total for the groups as a whole. Among the major graduation methods are the Sprague [@sprague1880explanation] and Beers [@beers1945modified] oscilatory methods, monotone spline and the uniform distribution. More recently, the penalized composite link model (pclm) was proposed to ungroup coarsely aggregated data [@rizzi2015efficient]. All of these methodologies are implemented in `DemoTools`.
+Graduation is a practice used to derive figures for _n_-year age groups, for example 5-year age groups from census data, that are corrected for net reporting error [@siegel2004methods]. The basic idea is to fit different curves to the original  _n_-year and redistribute them into single-year values. These techniques are designed so that the sum of the interpolated single-year values is consistent with the total for the groups as a whole. Among the major graduation methods are the Sprague [@sprague1880explanation] and Beers [@beers1945modified] oscillatory methods, monotone spline and the uniform distribution. More recently, the penalized composite link model (pclm) was proposed to ungroup coarsely aggregated data [@rizzi2015efficient]. All of these methodologies are implemented in `DemoTools`.
 
 ### Why graduate?
 One of the main purposes of graduation is to refine the detail of available data in published statistics or surveys. This allows to estimate numbers of persons in single years of age from data originally in 5-year age groups. In practice, graduation of mortality curves has been very important to estimate reliable life tables, but also in fertility studies graduation is useful for the analysis of data from populations where demographic records are defective [@brass1960graduation].
@@ -80,7 +80,7 @@ sum(Value)
 ```
 ### Beers
 
-Following a similar idea, Beers interpolated two overlapping curves minimizing the squares of the differences within the interpolation range [@beers1945modified]. Specifically, Beers did this by minimizing fifth differences for a six-term formula, refered to as the 'Ordinary' Beers method [@beers1945six]. Subsequently, the ordinay formula was modified to relax the requirement that the given value be reproduced and yield smoother interpolated results, refered to as 'Modified' Beers method [@beers1945modified].
+Following a similar idea, Beers interpolated two overlapping curves minimizing the squares of the differences within the interpolation range [@beers1945modified]. Specifically, Beers did this by minimizing fifth differences for a six-term formula, refered to as the 'Ordinary' Beers method [@beers1945six]. Subsequently, the ordinary formula was modified to relax the requirement that the given value be reproduced and yield smoother interpolated results, referred to as 'Modified' Beers method [@beers1945modified].
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
 beers.ordinary <- graduate(Value, Age, method = "beers(ord)")
@@ -101,7 +101,7 @@ sum(Value)
 ```
 
 ### Monotone spline
-Graduation by a monotone spline is another option available in `DemoTools`. This option offers an algorithm to produce interpolants that preserve properties such as monotonicity or convexity that are present in the data [@fritsch1980monotone]. These are desirable conditions to not introduce biased details that cannot be ascertained from the data [@hyman1983accurate]. To run this algorithm in `DemoTools` the option `mono` should be selected as follows:
+Graduation by a monotone spline is another option available in `DemoTools`. This option offers an algorithm to produce interpolations that preserve properties such as monotonicity or convexity that are present in the data [@fritsch1980monotone]. These are desirable conditions to not introduce biased details that cannot be ascertained from the data [@hyman1983accurate]. To run this algorithm in `DemoTools` the option `mono` should be selected as follows:
 
 ```{r,out.width='\\textwidth', fig.width= 6, fig.height=6, fig.align='center'}
 mono.grad <- graduate(Value, Age, method = "mono")

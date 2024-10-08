@@ -504,7 +504,7 @@ check_heaping_spoorenberg <- function(Value,
 #' @param Agei integer. The age on which the index is centered.
 #' @param pow either \code{"exp"} (default) or a power such as 2. See details
 #'
-#' @details The index looks down two ages and up two ages, so the data must accommodate that range. The denominator is a mean of the counts in the sourrounding 5 single ages. The kind of mean can be controlled with the \code{pow} argument. By default, this takes the antilog of the arithmetic mean of the natural log of the five denominator counts. That will fail if one of the counts is equal to 0. In such cases, another power, such as 2 or 10 or 100 may be used, which is more robust to 0s. The higher the power, the closer the result will resemble the default output. If \code{pow=="exp"} but a 0 is detected among the denominator ages, then \code{pow} is assigned a value of 1000. \code{pow=1} would imply an arithmetic mean in the denominator.
+#' @details The index looks down two ages and up two ages, so the data must accommodate that range. The denominator is a mean of the counts in the surrounding 5 single ages. The kind of mean can be controlled with the \code{pow} argument. By default, this takes the antilog of the arithmetic mean of the natural log of the five denominator counts. That will fail if one of the counts is equal to 0. In such cases, another power, such as 2 or 10 or 100 may be used, which is more robust to 0s. The higher the power, the closer the result will resemble the default output. If \code{pow=="exp"} but a 0 is detected among the denominator ages, then \code{pow} is assigned a value of 1000. \code{pow=1} would imply an arithmetic mean in the denominator.
 #' @return The value of the index.
 #'
 #' @references
@@ -679,13 +679,13 @@ heapify <- function(Value,
 
 #' Detect if heaping is worse on terminal digits 0s than on 5s
 #'
-#' @description Ages ending in 0 often have higher apparent heaping than ages ending in 5. In this case, data in 5-year age bins might show a sawtooth pattern. If heaping ocurrs in roughly the same amount on 0s and 5s, then it may be sufficient to group data into 5-year age groups and then graduate back to single ages. However, if heaping is worse on 0s, then this procedure tends to produce a wavy pattern in count data, with 10-year periodicity. In this case it is recommended to use one of the methods of \code{smooth_age_5()} as an intermediate step before graduation.
+#' @description Ages ending in 0 often have higher apparent heaping than ages ending in 5. In this case, data in 5-year age bins might show a sawtooth pattern. If heaping occurs in roughly the same amount on 0s and 5s, then it may be sufficient to group data into 5-year age groups and then graduate back to single ages. However, if heaping is worse on 0s, then this procedure tends to produce a wavy pattern in count data, with 10-year periodicity. In this case it is recommended to use one of the methods of \code{smooth_age_5()} as an intermediate step before graduation.
 #'
 #' @details Data is grouped to 5-year age bins. The ratio of each value to the average of its neighboring values is calculated. If 0s have stronger attraction than 5s then we expect these ratios to be >1 for 0s and <1 for 5s. Ratios are compared within each 10-year age group in the evaluated age range. If in the evaluated range there are at most two exceptions to this rule (0s>5s), then the ratio of the mean of these ratios is returned, and it is recommended to use a smoother method. Higher values suggest use of a more aggressive method. This approach is only slightly different from that of Feeney, as implemented in the \code{smooth_age_5_zigzag_inner()} functions. This is not a general measure of roughness, but rather an indicator of this particular pattern of age attraction.
 #' @export
 #' @inheritParams heapify
 #' @param ageMin integer evenly divisible by 10. Lower bound of evaluated age range, default 40.
-#' @param ageMax integer evently divisibly by 5. Upper bound of evaluated age range, defaults to highest age evenly divisible by 10.
+#' @param ageMax integer evenly divisible by 5. Upper bound of evaluated age range, defaults to highest age evenly divisible by 10.
 #' @return numeric, ratio of 0s to 5s. If > 1 then the pattern is present.
 #' @references
 #' \insertRef{feeney1979}{DemoTools}
@@ -762,7 +762,7 @@ check_heaping_sawtooth <-
   }
 
 #' Evaluate roughness of data in 5-year age groups
-#' @description For a given age-structured vector of counts, how rough is data after grouping to 5-year age bins? Data may require smoothing even if there is no detectable sawtooth pattern. It is best to use the value in this method together with visual evidence to gauage whether use of \code{smooth_age_5()} is recommended.
+#' @description For a given age-structured vector of counts, how rough is data after grouping to 5-year age bins? Data may require smoothing even if there is no detectable sawtooth pattern. It is best to use the value in this method together with visual evidence to gauge whether use of \code{smooth_age_5()} is recommended.
 #' @details First we group data to 5-year age bins. Then we take first differences (d1) of these within the evaluated age range. Then we smooth first differences (d1s) using a generic smoother (\code{ogive()}). Roughness is defined as the mean of the absolute differences between \code{mean(abs(d1 - d1s) / abs(d1s))}. Higher values indicate rougher data, and may suggest more aggressive smoothing. Just eyeballing, one could consider smoothing if the returned value is greater than ca 0.2, and values greater than 0.5 already highly recommend it (pending visual verification).
 #' @export
 #' @inheritParams check_heaping_sawtooth

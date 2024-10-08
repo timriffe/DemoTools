@@ -7,11 +7,11 @@
 mig_un_fam(NM, family, Single = TRUE, OAnew = 100)
 }
 \arguments{
-\item{NM}{numeric. Total net migration to distribuite between ages and sex.}
+\item{NM}{numeric. Total net migration to distribute between ages and sex.}
 
 \item{family}{character. Could be "Family", "Female Labor", "Male Labor".}
 
-\item{Single}{logical. Results by simple age. Default \code{FALSE}.
+\item{Single}{logical. Results by simple age. Default \code{TRUE}.
 Typically from pre-working age and working age parts of in Roger-Castro formula.}
 
 \item{OAnew}{The age from which to group all ages into an open ended age group.

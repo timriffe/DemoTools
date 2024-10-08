@@ -2,7 +2,7 @@
 % Please edit documentation in R/lt_regroup_age.R
 \name{lt_ambiguous}
 \alias{lt_ambiguous}
-\title{calculate an abidged or single age lifetable from abridged or sinlge age data}
+\title{calculate an abridged or single age lifetable from abridged or single age data}
 \usage{
 lt_ambiguous(
   nMx_or_nqx_or_lx = NULL,

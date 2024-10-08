@@ -26,12 +26,13 @@
 #' @param opt.method character. Default `"LF2"`, see `MortalityLaws::MortalityLaw` for a description of choices.
 #' @param ... Other arguments to be passed on to the
 #' \code{\link[MortalityLaws]{MortalityLaw}} function.
+#' @details If fitting fails to converge, then we refit assuming Gompertz mortality with explicit starting parameters of `parS = c(A = 0.005, B = 0.13)` and a warning is issued.
 #' @seealso
 #' \code{\link[MortalityLaws]{MortalityLaw}}
 #' \code{\link[MortalityLaws]{predict.MortalityLaw}}
 #' @return An object of class \code{lt_rule_m_extrapolate} with the following components:
 #'  \item{input}{List with arguments provided in input. Saved for convenience.}
-#'  \item{call}{An unevaluated function call, that is, an unevaluated expressionwhich consists of the named function applied to the given arguments.}
+#'  \item{call}{An unevaluated function call, that is, an unevaluated expression that consists of the named function applied to the given arguments.}
 #'  \item{fitted.model}{An object of class \code{\link[MortalityLaws]{MortalityLaw}}. Here one can find fitted values, residuals, goodness of fit measures etc.}
 #'  \item{values}{A vector or matrix containing the complete mortality data, that is the modified input data following the extrapolation procedure.}
 #'
@@ -53,7 +54,8 @@
 #' f2 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "kannisto_makeham")
 #' f3 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "gompertz")
 #' f4 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "ggompertz")
-#' f5 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "makeham")
+#'  # makeham falls back to gompertz for this data
+#' suppressWarnings(f5 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "makeham"))
 #' f6 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "beard")
 #' f7 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "beard_makeham")
 #' f8 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "quadratic")
@@ -125,17 +127,7 @@
 #'        lty = c(NA, NA, 1:8), pch = c(16, 16, rep(NA, 8)),
 #'        col = c(1, 4, 2:9), lwd = 2, pt.cex = 2)
 #'}
-#' # ----------------------------------------------
-#' # Example 3 - Extrapolate mortality for multiple years at once
-#'
-#' # Create some data
-#' mx_matrix <- matrix(rep(mx1, 3), ncol = 3) %*% diag(c(1, 1.05, 1.1))
-#' dimnames(mx_matrix) <- list(age = x1, year = c("year1", "year2", "year3"))
-#'
-#' F1 <- lt_rule_m_extrapolate(mx_matrix, x = x1, x_fit, x_extr, law = "kannisto")
-#' F1
-#' ls(F1)
-#' coef(F1)
+
 #' @author Marius D. Pascariu <rpascariu@@outlook.com>
 #' @export
 lt_rule_m_extrapolate <- function(mx,
@@ -145,7 +137,10 @@ lt_rule_m_extrapolate <- function(mx,
                                   law = "kannisto",
                                   opt.method = "LF2",
                                   ...) {
-
+  dm <- dim(mx)
+  if (length(dm) == 1 | (length(mx) == 2 & any(dm == 1))){
+    mx <- c(mx)
+  }
   all_the_laws_we_care_about <- c("kannisto",
                                   "kannisto_makeham",
                                   "makeham",
@@ -171,10 +166,36 @@ lt_rule_m_extrapolate <- function(mx,
     opt.method = opt.method,
     ...
   )
-
+  
+  if (!is.null(M$opt.diagnosis)){
+    if( M$opt.diagnosis$convergence != 0){
+      warning("Extrapolation failed to converge\nFalling back to Gompertz with starting parameters:\n parS = c(A = 0.005, B = 0.13))",
+              immediate. = TRUE)
+     
+      parS <- c(A = 0.005, B = 0.13)
+      law  <- "gompertz"
+      M  <- MortalityLaw(
+        x = x,
+        mx = mx,
+        fit.this.x = x_fit,
+        law = law,
+        parS = parS,
+        ...)
+      }
+  }
+  
+  # TR: this will fail if a matrix is given where we only x_extr for 1 age.
+  chop <- FALSE
+  if (length(x_extr) == 1){
+    chop <- TRUE
+    x_extr <- c(x_extr, x_extr + 1)
+  }
   pv <- predict(object = M,
                 x = x_extr)
-
+ if (chop){
+   pv <- pv[1]
+   x_extr <- x_extr[1]
+ }
   # which ages are not to be replaced with fitted values?
   L  <- !(x %in% x_extr)
 

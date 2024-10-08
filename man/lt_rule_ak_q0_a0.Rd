@@ -15,5 +15,5 @@ lt_rule_ak_q0_a0(q0, Sex)
 a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of a_0 values.
 }
 \description{
-\code{AKq02a0} Andreev Kingkade a0 method. This version has a 3-part segemented linear model, based on cutpoints in q0. Code ported from HMDLifeTables.
+\code{AKq02a0} Andreev Kingkade a0 method. This version has a 3-part segmented linear model, based on cut points in q0. Code ported from HMDLifeTables.
 }

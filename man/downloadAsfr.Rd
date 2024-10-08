@@ -19,7 +19,7 @@ downloadAsfr(Asfrmat, location = NULL, AsfrDatesIn, method = "linear")
 numeric matrix interpolated asfr
 }
 \description{
-We extract \code{ASFRx} from \code{wpp2019}, interpolated to exact dates. Different methods availables.
+We extract \code{ASFRx} from \code{wpp2019}, interpolated to exact dates. Different methods available.
 A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
 }
 \examples{

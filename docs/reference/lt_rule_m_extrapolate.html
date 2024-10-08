@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -222,10 +222,13 @@ The following options are available:</p><ul>
 
     <p>An object of class <code>lt_rule_m_extrapolate</code> with the following components:</p>
 <dt>input</dt><dd><p>List with arguments provided in input. Saved for convenience.</p></dd>
-<dt>call</dt><dd><p>An unevaluated function call, that is, an unevaluated expressionwhich consists of the named function applied to the given arguments.</p></dd>
+<dt>call</dt><dd><p>An unevaluated function call, that is, an unevaluated expression that consists of the named function applied to the given arguments.</p></dd>
 <dt>fitted.model</dt><dd><p>An object of class <code><a href='https://rdrr.io/pkg/MortalityLaws/man/MortalityLaw.html'>MortalityLaw</a></code>. Here one can find fitted values, residuals, goodness of fit measures etc.</p></dd>
 <dt>values</dt><dd><p>A vector or matrix containing the complete mortality data, that is the modified input data following the extrapolation procedure.</p></dd>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If fitting fails to converge, then we refit assuming Gompertz mortality with explicit starting parameters of <code>parS = c(A = 0.005, B = 0.13)</code> and a warning is issued.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/MortalityLaws/man/MortalityLaw.html'>MortalityLaw</a></code>
@@ -253,7 +256,9 @@ The following options are available:</p><ul>
 <span class='va'>f3</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx</span>, <span class='va'>x</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"gompertz"</span><span class='op'>)</span>
 <span class='va'>f4</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx</span>, <span class='va'>x</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"ggompertz"</span><span class='op'>)</span>
 <span class='va'>f5</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx</span>, <span class='va'>x</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"makeham"</span><span class='op'>)</span>
-<span class='va'>f6</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx</span>, <span class='va'>x</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"beard"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Extrapolation failed to converge</span>
+#&gt; <span class='warning'>Falling back to Gompertz with starting parameters:</span>
+#&gt; <span class='warning'> parS = c(A = 0.005, B = 0.13))</span></div><div class='input'><span class='va'>f6</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx</span>, <span class='va'>x</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"beard"</span><span class='op'>)</span>
 <span class='va'>f7</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx</span>, <span class='va'>x</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"beard_makeham"</span><span class='op'>)</span>
 <span class='va'>f8</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx</span>, <span class='va'>x</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"quadratic"</span><span class='op'>)</span>
 
@@ -301,7 +306,9 @@ The following options are available:</p><ul>
 <span class='va'>g5</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx1</span>, <span class='va'>x1</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"makeham"</span><span class='op'>)</span>
 <span class='va'>g6</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx1</span>, <span class='va'>x1</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"beard"</span><span class='op'>)</span>
 <span class='va'>g7</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx1</span>, <span class='va'>x1</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"beard_makeham"</span><span class='op'>)</span>
-<span class='va'>g8</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx1</span>, <span class='va'>x1</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"quadratic"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Extrapolation failed to converge</span>
+#&gt; <span class='warning'>Falling back to Gompertz with starting parameters:</span>
+#&gt; <span class='warning'> parS = c(A = 0.005, B = 0.13))</span></div><div class='input'><span class='va'>g8</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx1</span>, <span class='va'>x1</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"quadratic"</span><span class='op'>)</span>
 
 <span class='co'># Plot</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
@@ -331,8 +338,10 @@ The following options are available:</p><ul>
 <span class='va'>mx_matrix</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='va'>mx1</span>, <span class='fl'>3</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>%*%</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1.05</span>, <span class='fl'>1.1</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span><span class='op'>(</span><span class='va'>mx_matrix</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>age <span class='op'>=</span> <span class='va'>x1</span>, year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"year1"</span>, <span class='st'>"year2"</span>, <span class='st'>"year3"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='va'>F1</span> <span class='op'>&lt;-</span> <span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx_matrix</span>, x <span class='op'>=</span> <span class='va'>x1</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"kannisto"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='input'><span class='va'>F1</span>
+<span class='co'># TR: temporary warning suppression until case handling is fixed</span>
+<span class='co'># in MortalityLaws package</span>
+<span class='va'>F1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='fu'>lt_rule_m_extrapolate</span><span class='op'>(</span><span class='va'>mx_matrix</span>, x <span class='op'>=</span> <span class='va'>x1</span>, <span class='va'>x_fit</span>, <span class='va'>x_extr</span>, law <span class='op'>=</span> <span class='st'>"kannisto"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>F1</span>
 </div><div class='output co'>#&gt; $input
 #&gt; $input$opt.choices
 #&gt; [1] "poissonL"  "LF2"       "LF1"       "LF3"       "LF4"       "LF5"      
@@ -341,6 +350,9 @@ The following options are available:</p><ul>
 #&gt; $input$all_the_laws_we_care_about
 #&gt; [1] "kannisto"         "kannisto_makeham" "makeham"          "gompertz"        
 #&gt; [5] "ggompertz"        "beard"            "beard_makeham"    "quadratic"       
+#&gt; 
+#&gt; $input$dm
+#&gt; [1] 37  3
 #&gt; 
 #&gt; $input$mx
 #&gt;      year

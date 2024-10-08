@@ -81,7 +81,7 @@ Sprague estimated single-age population counts for the first and final ten ages.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@ Sprague estimated single-age population counts for the first and final ten ages.
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -130,13 +130,13 @@ Sprague estimated single-age population counts for the first and final ten ages.
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -164,7 +164,7 @@ Sprague estimated single-age population counts for the first and final ten ages.
 Sprague estimated single-age population counts for the first and final ten ages. Open age groups are preserved, as are annual totals.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>graduate_grabill</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>graduate_grabill</span><span class='op'>(</span><span class='va'>Value</span>, <span class='va'>Age</span>, <span class='va'>AgeInt</span>, OAG <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -178,6 +178,10 @@ Sprague estimated single-age population counts for the first and final ten ages.
       <td><p>integer vector, lower bounds of age groups</p></td>
     </tr>
     <tr>
+      <th>AgeInt</th>
+      <td><p>integer vector, age interval widths</p></td>
+    </tr>
+    <tr>
       <th>OAG</th>
       <td><p>logical, default = <code>TRUE</code> is the final age group open?</p></td>
     </tr>
@@ -188,7 +192,7 @@ Sprague estimated single-age population counts for the first and final ten ages.
     <p>numeric vector in single ages.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages. If the highest age does not end in a 0 or 5, and <code>OAG == TRUE</code>, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and <code>OAG == FALSE</code>, then results extend to single ages covering the entire 5-year age group.</p>
+    <p>Dimension labeling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages. If the highest age does not end in a 0 or 5, and <code>OAG == TRUE</code>, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and <code>OAG == FALSE</code>, then results extend to single ages covering the entire 5-year age group.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Shryock HS, Siegel JS, Larmon EA (1973).

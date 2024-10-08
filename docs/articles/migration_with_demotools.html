@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -87,13 +87,13 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -108,13 +108,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="migration_with_demotools_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Migration models with DemoTools</h1>
                         <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
-            <h4 class="date">2021-02-24</h4>
+            <h4 class="date">2022-01-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/migration_with_demotools.Rmd"><code>vignettes/migration_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>migration_with_demotools.Rmd</code></div>
@@ -266,32 +266,32 @@ m(x)= a_1 \exp{[ \alpha_1 x ]} + a_2 \exp{[ -\alpha_2 (x - \mu_2) - \exp{ [ -\la
 <div id="comments-about-warnings" class="section level4">
 <h4 class="hasAnchor">
 <a href="#comments-about-warnings" class="anchor"></a>Comments about warnings</h4>
-<p>When running <code>mc_estimate_rc</code> it is common to see warnings from Stan, particularly when the retirement and post-retirement families are included in the model. Warnings about divergent transitions, low ESS and maximum treedepth can often be eliminated by changing the Stan settings to have a larger <code>adapt_delta</code>, <code>iter</code> and <code>maximum_treedepth</code>, respectively. If warnings persist it is not the end of the world; the results are probably still fine. The warnings are largely a consequence of the complexity of the function being fitted and the strong correlations that exist between estimates of different parameters. Work is still on going investigating different prior set-ups to improve the efficiency of fit.</p>
+<p>When running <code>mc_estimate_rc</code> it is common to see warnings from Stan, particularly when the retirement and post-retirement families are included in the model. Warnings about divergent transitions, low ESS and maximum tree depth can often be eliminated by changing the Stan settings to have a larger <code>adapt_delta</code>, <code>iter</code> and <code>maximum_treedepth</code>, respectively. If warnings persist it is not the end of the world; the results are probably still fine. The warnings are largely a consequence of the complexity of the function being fitted and the strong correlations that exist between estimates of different parameters. Work is still on going investigating different prior set-ups to improve the efficiency of fit.</p>
 </div>
 </div>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
-<div id="refs" class="references">
-<div id="ref-carpenter2017stan">
-<p>Carpenter, Bob, Andrew Gelman, Matthew D Hoffman, Daniel Lee, Ben Goodrich, Michael Betancourt, Marcus Brubaker, Jiqiang Guo, Peter Li, and Allen Riddell. 2017. “Stan: A Probabilistic Programming Language.” <em>Journal of Statistical Software</em> 76 (1). Columbia Univ., New York, NY (United States); Harvard Univ., Cambridge, MA.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-carpenter2017stan" class="csl-entry">
+Carpenter, Bob, Andrew Gelman, Matthew D Hoffman, Daniel Lee, Ben Goodrich, Michael Betancourt, Marcus Brubaker, Jiqiang Guo, Peter Li, and Allen Riddell. 2017. <span>“Stan: A Probabilistic Programming Language.”</span> <em>Journal of Statistical Software</em> 76 (1).
 </div>
-<div id="ref-preston2000demography">
-<p>Preston, Samuel, Patrick Heuveline, and Michel Guillot. 2000. <em>Demography: Measuring and Modeling Population Processes</em>. Wiley-Blackwell.</p>
+<div id="ref-preston2000demography" class="csl-entry">
+Preston, Samuel, Patrick Heuveline, and Michel Guillot. 2000. <em>Demography: Measuring and Modeling Population Processes</em>. Wiley-Blackwell.
 </div>
-<div id="ref-rogers1981model">
-<p>Rogers, Andrei, and Luis J Castro. 1981. “Model Migration Schedules.” <em>IIASA Working Papers</em>.</p>
+<div id="ref-rogers1981model" class="csl-entry">
+Rogers, Andrei, and Luis J Castro. 1981. <span>“Model Migration Schedules.”</span> <em>IIASA Working Papers</em>.
 </div>
-<div id="ref-rogers2010indirect">
-<p>Rogers, Andrei, Jani Little, and James Raymer. 2010. <em>The Indirect Estimation of Migration: Methods for Dealing with Irregular, Inadequate, and Missing Data</em>. Vol. 26. Springer Science &amp; Business Media.</p>
+<div id="ref-rogers2010indirect" class="csl-entry">
+Rogers, Andrei, Jani Little, and James Raymer. 2010. <em>The Indirect Estimation of Migration: Methods for Dealing with Irregular, Inadequate, and Missing Data</em>. Vol. 26. Springer Science &amp; Business Media.
 </div>
 </div>
 </div>
 <div class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p><a href="http://demographicestimation.iussp.org/content/multi-exponential-model-migration-schedule" class="uri">http://demographicestimation.iussp.org/content/multi-exponential-model-migration-schedule</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p><a href="http://demographicestimation.iussp.org/content/multi-exponential-model-migration-schedule" class="uri">http://demographicestimation.iussp.org/content/multi-exponential-model-migration-schedule</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>

@@ -11,7 +11,7 @@
 #'
 #' @return Numeric vector of counts for single year age groups.
 #'
-#' @details Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If \code{AgeInt} is given, its final value is used as the interval for the final age group. If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, *or* give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}.
+#' @details Assumes that the population is uniformly distributed across each age interval, and that initial age intervals are integers greater than or equal to 1. If \code{AgeInt} is given, its final value is used as the interval for the final age group. If \code{AgeInt} is missing, then \code{Age} must be given, and the open age group is by default preserved \code{OAvalue} rather than split. To instead split the final age group into, e.g., a 5-year age class, either give \code{AgeInt}, *or* give \code{Age}, \code{OAG = TRUE}, and \code{OAvalue = 5}.  `Age` be any age range, it does not need to start at 0.
 #'
 #' @export
 #' @examples
@@ -52,7 +52,7 @@ graduate_uniform <-
 #' @description This method is used to interpolate counts based on the Sprague formula. It is based on the first stage of the Sprague R script prepared by Thomas Buettner and Patrick Gerland, itself based on the description in Siegel and Swanson, 2004, p. 727.
 #'
 #' @inheritParams graduate
-#' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as or coercible to a single-column matrix. This method may produce negative values, most likely in the youngest or oldest ages. This case is dealt with in the \code{graduate()} wrapper function but not in this function.
+#' @details Ages should refer to lower age bounds, ending in the open age group in the last row (not a closed terminal age). Dimension labeling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as or coercible to a single-column matrix. This method may produce negative values, most likely in the youngest or oldest ages. This case is dealt with in the \code{graduate()} wrapper function but not in this function.
 #'
 #' If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend to single ages covering the entire 5-year age group.
 #'
@@ -203,6 +203,8 @@ graduate_sprague_expand    <- function(
 
   # get the split coefficients
   # block for ages 0-9
+  
+  # TR: 5-5-2021, this assumes ages start at 0...
   g1g2                           <- matrix(
     c( 0.3616, -0.2768, 0.1488, -0.0336,
        0.0000, 0.2640, -0.0960, 0.0400,
@@ -387,7 +389,7 @@ graduate_grabill_expand <- function(Value, Age, OAG = TRUE) {
 #' Sprague estimated single-age population counts for the first and final ten ages. Open age groups are preserved, as are annual totals.
 #'
 #' @inheritParams graduate
-#' @details  Dimension labelling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages. If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend to single ages covering the entire 5-year age group.
+#' @details  Dimension labeling is necessary. There must be at least six age groups (including the open group). One year of data will work as well, as long as it's given as a single-column matrix. Data may be given in either single or grouped ages. If the highest age does not end in a 0 or 5, and \code{OAG == TRUE}, then the open age will be grouped down to the next highest age ending in 0 or 5. If the highest age does not end in a 0 or 5, and \code{OAG == FALSE}, then results extend to single ages covering the entire 5-year age group.
 #'
 #' @return numeric vector in single ages.
 #'
@@ -716,7 +718,7 @@ graduate_beers_expand <- function(Value,
 #' @inheritParams graduate
 #' @param method character. Valid values are `"ord"` or `"mod"`. Default `"ord"`.
 #' @param johnson  logical. Whether or not to adjust young ages according to the \href{https://www.census.gov/data/software/dapps.html}{Demographic Analysis & Population Projection System Software} method. Default `FALSE.`
-#' @details Ages should refer to lower age bounds. `Value` must be labelled with ages unless `Age` is given separately. There must be at least six 5-year age groups (including the open group, 5 otherwise). If you want the `johnson` adjustment then `Value` must contain a single-year estimate of the population count in age 0. That means `Value` must come either as standard abridged or single age data.
+#' @details Ages should refer to lower age bounds. `Value` must be labeled with ages unless `Age` is given separately. There must be at least six 5-year age groups (including the open group, 5 otherwise). If you want the `johnson` adjustment then `Value` must contain a single-year estimate of the population count in age 0. That means `Value` must come either as standard abridged or single age data.
 #' 
 #' `method` option `"ord"` conserves sums in 5-year age groups, whereas `"mod"` does some smoothing between 5-year age groups too, and is not constrained.
 #'
@@ -893,6 +895,8 @@ graduate_beers_johnson <- function(Age0, pop5, pop1) {
 #' @details The PCLM method can also be used to graduate rates using an offset if both numerators and denominators are available. In this case \code{Value} is the event count and \code{offset} is person years of exposure. The denominator must match the length of \code{Value} or else the length of the final single age result \code{length(min(Age):OAnew)}.  This method can be used to redistribute counts in the open age group if \code{OAnew} gives sufficient space. Likewise, it can give a rate extrapolation beyond the open age.
 #' 
 #' If there are 0s in `Value`, these are replaced with a small value prior to fitting. If negatives result from the pclm fit, we retry after multiplying `Value` by 10, 100, or 1000, as sometimes a temporary rescale for fitting can help performance.
+#' 
+#' `Age` be any age range, it does not need to start at 0.
 #'
 #' @inheritParams graduate
 #' @param ... further arguments passed to \code{ungroup::pclm()}
@@ -1004,7 +1008,7 @@ graduate_pclm <- function(Value, Age, AgeInt, OAnew = max(Age), OAG = TRUE, ...)
 #' Graduate age groups using a monotonic spline.
 #' @description Take the cumulative sum of \code{Value} and then run a monotonic spline through it. The first differences split back single-age estimates of \code{Value}. Optionally keep the open age group untouched.
 #'
-#' @details The \code{"hyman"} method of \code{stats::splinefun()} is used to fit the spline because 1) it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages.
+#' @details The \code{"hyman"} method of \code{stats::splinefun()} is used to fit the spline because 1) it passes exactly through the points, 2) it is monotonic and therefore guarantees positive counts, and 3) it seems to be a bit less wiggly (lower average first differences of split counts). Single-age data is returned as-is. If you want to use this function as a smoother you first need to group to non-single ages. `Age` be any age range, it does not need to start at 0.
 #' @inheritParams graduate
 #' @return Numeric. vector of single smoothed age counts.
 #' @importFrom stats splinefun
@@ -1069,9 +1073,9 @@ graduate_mono   <- function(
   # if the final age is Open, then we should remove it and then
   # stick it back on
 
-  AgePred               <- c(min(Age), cumsum(AgeInt))
+  AgePred               <- c(min(Age), cumsum(AgeInt) + min(Age))
   y                     <- c(0, cumsum(Value))
-  AgeS                  <- min(Age):sum(AgeInt)
+  AgeS                  <- min(Age):(sum(AgeInt)+ min(Age))
   # TR: changed from monoH.FC to hyman 3.3.2021
   y1                    <- splinefun(y ~ AgePred, method = "hyman")(AgeS)
   out                   <- diff(y1)
@@ -1119,7 +1123,7 @@ graduate_mono   <- function(
 #' # one may wish to instead rescale results colSums() of
 #' # popg at age pivotAge and higher.
 #' sum(grabill.closed.out) - sum(popvec)
-#' # also works on an age-labelled vector of data
+#' # also works on an age-labeled vector of data
 
 #' closed.vec           <- graduate_mono_closeout(popvec, Age = a5, OAG = TRUE)
 #' # let's compare this one with sprague()
@@ -1218,7 +1222,7 @@ graduate_mono_closeout <-
 #'
 #' \code{OAnew} cannot be higher than \code{max(Age)+4} for \code{"sprague"} or \code{"beers"} methods. For \code{"uniform","mono","pclm"} it can be higher than this, and in each case the open age group is completely redistributed within this range, meaning it's not really open anymore.
 #'
-#' For all methods, negative values are detected in output. If present, we deal with these in the following way: we take the geometric mean between the given output (with negative imputed with 0s) and the output of \code{graduate_mono()}, which is guaranteed non-negative. This only affects age groups where negatives were produced in the first pass. In our experience this only arises when using sprague, beers, or grabill methods, whereas all others are guarateed non-negative.
+#' For all methods, negative values are detected in output. If present, we deal with these in the following way: we take the geometric mean between the given output (with negative imputed with 0s) and the output of \code{graduate_mono()}, which is guaranteed non-negative. This only affects age groups where negatives were produced in the first pass. In our experience this only arises when using Sprague, Beers, or Grabill methods, whereas all others are guaranteed non-negative.
 #'
 #' For any case where input data are in single ages, constraining results to sum to values in the original age groups will simply return the original input data, which is clearly not your intent. This might arise when using graduation as an implicit two-step smoother (group + graduate). In this case, separate the steps, first group using \code{groupAges()} then use \code{graduate(..., constrain = TRUE)}.
 #'
@@ -1420,7 +1424,7 @@ graduate <- function(Value,
   }
 
   n  <- length(out)
-  a1 <- min(Age):(n - 1)
+  a1 <- min(Age):(min(Age) + n - 1)
 
   # detect negatives. Have default option to replace.
   # Favor quick over perfect, since this only can arise

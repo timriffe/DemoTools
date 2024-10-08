@@ -4,19 +4,21 @@
 \alias{lt_id_Ll_S}
 \title{Calculate survivor ratios}
 \usage{
-lt_id_Ll_S(nLx, lx, AgeInt, N = c(5, 1))
+lt_id_Ll_S(nLx, lx = NULL, Age, AgeInt = NULL, N = 5)
 }
 \arguments{
 \item{nLx}{numeric vector of lifetable exposure.}
 
-\item{lx}{numeric. Vector of lifetable survivorship at abridged ages.}
+\item{lx}{numeric vector of lifetable survivors from same lifetable than \code{nLx}. Infered radix from nLx in case is \code{NULL}.}
 
-\item{AgeInt}{integer. Vector of age class widths. Default \code{inferAgeIntAbr(Age = Age)}.}
+\item{Age}{integer vector of starting ages.}
+
+\item{AgeInt}{integer vector of age intervals.}
 
 \item{N}{integer, the age width for survivor ratios, either 5 or 1. Default 5.}
 }
 \description{
-An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age (\code{N=1}) or five-year ages (\code{N=5}). Input vectors are assumed to come from either single or standard abridged ages.
+An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age or five-year ages. Input vectors are assumed to come from either single or standard abridged ages. Note that the ages of the output Sx are the ages the population would be after the N-year projection.
 }
 \details{
 This function does not account for \code{nLx} having been pre-binned into uniform 5-year age widths, which will throw an error. Just leave them in abridged ages instead. Note that in the case of abridged ages, the interpretation for the first and second value don't follow the original abridged age intervals: the first value in the probability of surviving from birth into ages 0-4 in the first five years, and the second value is the probability of surviving from 0-4 to 5-9. This represents a slight misalignment with the rest of the lifetable, user beware.

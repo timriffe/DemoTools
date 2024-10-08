@@ -8,7 +8,7 @@
 A data frame with:
 \describe{
 \item{Date}{Reference time for the rates estimate.}
-\item{Age}{Inferior age for abridged groups. Carefull: last age 100 is not an OAG}
+\item{Age}{Inferior age for abridged groups. Careful: last age 100 is not an OAG}
 \item{Sex}{Male \code{m} and female \code{m}.}
 \item{nMx}{Mortality rates.}
 }

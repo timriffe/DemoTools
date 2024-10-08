@@ -45,12 +45,15 @@ The following options are available: \itemize{
 \value{
 An object of class \code{lt_rule_m_extrapolate} with the following components:
 \item{input}{List with arguments provided in input. Saved for convenience.}
-\item{call}{An unevaluated function call, that is, an unevaluated expressionwhich consists of the named function applied to the given arguments.}
+\item{call}{An unevaluated function call, that is, an unevaluated expression that consists of the named function applied to the given arguments.}
 \item{fitted.model}{An object of class \code{\link[MortalityLaws]{MortalityLaw}}. Here one can find fitted values, residuals, goodness of fit measures etc.}
 \item{values}{A vector or matrix containing the complete mortality data, that is the modified input data following the extrapolation procedure.}
 }
 \description{
 Extrapolate old-age human mortality curve using mortality laws
+}
+\details{
+If fitting fails to converge, then we refit assuming Gompertz mortality with explicit starting parameters of \code{parS = c(A = 0.005, B = 0.13)} and a warning is issued.
 }
 \examples{
 # Example 1 - abridged data
@@ -70,7 +73,8 @@ f1 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "kannisto")
 f2 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "kannisto_makeham")
 f3 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "gompertz")
 f4 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "ggompertz")
-f5 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "makeham")
+ # makeham falls back to gompertz for this data
+suppressWarnings(f5 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "makeham"))
 f6 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "beard")
 f7 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "beard_makeham")
 f8 <- lt_rule_m_extrapolate(mx, x, x_fit, x_extr, law = "quadratic")
@@ -142,17 +146,6 @@ legend("topleft", bty = "n",
        lty = c(NA, NA, 1:8), pch = c(16, 16, rep(NA, 8)),
        col = c(1, 4, 2:9), lwd = 2, pt.cex = 2)
 }
-# ----------------------------------------------
-# Example 3 - Extrapolate mortality for multiple years at once
-
-# Create some data
-mx_matrix <- matrix(rep(mx1, 3), ncol = 3) \%*\% diag(c(1, 1.05, 1.1))
-dimnames(mx_matrix) <- list(age = x1, year = c("year1", "year2", "year3"))
-
-F1 <- lt_rule_m_extrapolate(mx_matrix, x = x1, x_fit, x_extr, law = "kannisto")
-F1
-ls(F1)
-coef(F1)
 }
 \seealso{
 \code{\link[MortalityLaws]{MortalityLaw}}

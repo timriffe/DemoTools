@@ -19,11 +19,11 @@ interp_lc_lim_group(
 }
 \arguments{
 \item{input}{data.frame. Columns: id, Date, Sex, Age, nMx (opt), nqx (opt), lx (opt).
-The first column (id) cn be a numeric index or charcter vector identifying each group.}
+The first column (id) can be a numeric index or character vector identifying each group.}
 
 \item{dates_out}{numeric. Vector of decimal years to interpolate or extrapolate.}
 
-\item{Single}{logical. Wheter or not the lifetable output is by single ages.}
+\item{Single}{logical. Whether or not the lifetable output is by single ages.}
 
 \item{input_e0}{data.frame with cols: id, Date, Sex and \code{"e_0"}. This should be fitted when apply method.}
 
@@ -65,12 +65,12 @@ List with:
 }
 }
 \description{
-Given a data frame with groups (country, region, sex), dates, sex and mortality data by age (rates, conditionated probabilities of death
+Given a data frame with groups (country, region, sex), dates, sex and mortality data by age (rates, conditioned probabilities of death
 or survival function), this function interpolate/extrapolate life tables
 using the method for limited data suggested by  Li et. al (2004) (at least three observed years).
 }
 \details{
-Based on spreedsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN.
+Based on spreadsheet "Li_2018_Limited_Lee-Carter-v4.xlsm" from UN.
 Useful for abridged or single ages, and allows output in both formats also.
 One option is the use of non-divergent method for sex coherency (Li & Lee, 2005).
 The other is the possibility of fitting \code{"k"} to replicate \code{"e_0"} at some given dates.

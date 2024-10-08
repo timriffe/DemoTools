@@ -20,7 +20,7 @@
 #'  is aligned with the other columns in all 5-year age groups, but note the
 #'  first two values have a slightly different age-interval interpretation:
 #'  In Age 0, the interpretation is survival from birth until interval 0-4.
-#'  In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align.
+#'  In Age 1, it is survival from 0-4 into 5-9. Thereafter the age groups align.
 #'  This column is required for population projections.
 #'
 #' @param Deaths numeric. Vector of death counts in abridged age classes.
@@ -36,12 +36,13 @@
 #' @param region character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.
 #' @param IMR numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.
 #' @param mod logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.
-#' @param SRB the sex ratio at birth (boys / girls), detault 1.05
+#' @param SRB the sex ratio at birth (boys / girls), default 1.05
 #' @param OAnew integer. Desired open age group (5-year ages only). Default \code{max(Age)}. If higher then rates are extrapolated.
 #' @param OAG logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include
 #'   \code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"} if the highest age is at least 90, otherwise `"makeham"`. See details.
 #' @inheritParams lt_a_closeout
+#' @importFrom dplyr case_when
 #' @export
 #' @return Lifetable in data.frame with columns
 #' \itemize{
@@ -183,9 +184,30 @@ lt_abridged <- function(Deaths = NULL,
                   extrapFrom = max(Age),
                   extrapFit = NULL,
                   ...) {
+  
+  # some handy name coercion
+  a0rule <- case_when(a0rule == "Andreev-Kingkade" ~ "ak",
+                      a0rule == "Coale-Demeny" ~ "cd",
+                      TRUE ~ a0rule)
+  axmethod <- case_when(axmethod == "UN (Greville)" ~ "un",
+                        axmethod == "PASEX" ~ "pas",
+                        TRUE ~ axmethod)
+  Sex <- substr(Sex, 1, 1) |> 
+    tolower()
+  Sex <- ifelse(Sex == "t", "b", Sex)
+  
+  region <-  substr(region, 1, 1) |> 
+    tolower()
+  if (!is.null(extrapLaw)){
+    extrapLaw <- tolower(extrapLaw)
+  }
+
+  
+  # now we check args
   axmethod <- match.arg(axmethod, choices = c("pas","un"))
   Sex      <- match.arg(Sex, choices = c("m","f","b"))
   a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
+  
   if (!is.null(extrapLaw)){
     extrapLaw      <- tolower(extrapLaw)
     extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",
@@ -318,27 +340,30 @@ lt_abridged <- function(Deaths = NULL,
     momega       <- nMx[length(nMx)]
   }
   # --------------------------------
-  # begin extrapolation:
-  # TR: 13 Oct 2018. always extrapolate to 130 no matter what,
-  # then truncate to OAnew in all cases. This will ensure more robust closeouts
-  # and an e(x) that doesn't depend on OAnew. 130 is used similarly by HMD.
-  x_extr         <- seq(extrapFrom, 130, by = 5)
-
-  Mxnew          <- lt_rule_m_extrapolate(
-                      x = Age,
-                      mx = nMx,
-                      x_fit = extrapFit,
-                      x_extr = x_extr,
-                      law = extrapLaw,
-                      ...)
-
-  nMxext         <- Mxnew$values
-  Age2           <- names2age(nMxext)
-
-  keepi          <- Age2 < extrapFrom
-  nMxext[keepi]  <- nMx[Age < extrapFrom]
-  nMx            <- nMxext
-  Age            <- Age2
+  
+  if (max(Age) < 130){
+    # begin extrapolation:
+    # TR: 13 Oct 2018. always extrapolate to 130 no matter what,
+    # then truncate to OAnew in all cases. This will ensure more robust closeouts
+    # and an e(x) that doesn't depend on OAnew. 130 is used similarly by HMD.
+    x_extr         <- seq(extrapFrom, 130, by = 5)
+  
+    Mxnew          <- lt_rule_m_extrapolate(
+                        x = Age,
+                        mx = nMx,
+                        x_fit = extrapFit,
+                        x_extr = x_extr,
+                        law = extrapLaw,
+                        ...)
+  
+    nMxext         <- Mxnew$values
+    Age2           <- names2age(nMxext)
+  
+    keepi          <- Age2 < extrapFrom
+    nMxext[keepi]  <- nMx[Age < extrapFrom]
+    nMx            <- nMxext
+    Age            <- Age2
+  }
   AgeInt         <- age2int(
                       Age,
                       OAG = TRUE,
@@ -416,7 +441,9 @@ lt_abridged <- function(Deaths = NULL,
     nMx[N]   <-  lx[N] / Tx[N]
   }
 
-  Sx <- lt_id_Ll_S(nLx, lx, AgeInt, N = 5)
+  Sx <- c(lt_id_Ll_S(nLx, lx, Age, AgeInt, N = 5), 0.0)
+  names(Sx) <- NULL
+  
   # output is an unrounded, unsmoothed lifetable
   out <- data.frame(
     Age = Age,

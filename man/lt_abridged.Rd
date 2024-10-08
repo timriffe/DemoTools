@@ -57,7 +57,7 @@ lt_abridged(
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
 
-\item{SRB}{the sex ratio at birth (boys / girls), detault 1.05}
+\item{SRB}{the sex ratio at birth (boys / girls), default 1.05}
 
 \item{OAG}{logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.}
 
@@ -109,7 +109,7 @@ starting with the input open age, but you can lower this age using the
 is aligned with the other columns in all 5-year age groups, but note the
 first two values have a slightly different age-interval interpretation:
 In Age 0, the interpretation is survival from birth until interval 0-4.
-In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align.
+In Age 1, it is survival from 0-4 into 5-9. Thereafter the age groups align.
 This column is required for population projections.
 }
 \examples{

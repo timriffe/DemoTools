@@ -2,24 +2,24 @@
 % Please edit documentation in R/interp_lc_lim.R
 \name{interp_lc_lim_estimate}
 \alias{interp_lc_lim_estimate}
-\title{Estimate LC with limited data params}
+\title{Estimate LC with limited data parameters}
 \usage{
 interp_lc_lim_estimate(M, dates_in, dates_out, SVD = F)
 }
 \arguments{
-\item{M}{numeric. Matrix with many rows as ages and columns as dates_in.}
+\item{M}{numeric. Matrix with many rows as ages and columns as \code{dates_in}.}
 
 \item{dates_in}{numeric. Vector of dates with input rates.}
 
 \item{dates_out}{numeric. Vector of dates for estimate a set of rates.}
 
-\item{SVD}{logical. Use Singular Value Decomposition for estimate b and k or Maximum Likelihood Estimation. Default \code{FALSE} for Maximum Likelihood Estimation.}
+\item{SVD}{logical. Use Singular Value Decomposition for estimate \code{b} and \code{k} or Maximum Likelihood Estimation. Default \code{FALSE} for Maximum Likelihood Estimation.}
 }
 \description{
 Estimate LC with limited data from a matrix of rates (age by dates).
 }
 \details{
-SVD for ax and bx. Fit a simmple linear model for k and interp/extrapolate for objective dates.
+SVD for \code{ax} and \code{bx.} Fit a simple linear model for \code{k} and interpolate/extrapolate for objective dates.
 }
 \references{
 \insertRef{Li2004}{DemoTools}

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -87,13 +87,13 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -108,13 +108,13 @@
 
       
 
-      </header><div class="row">
+      </header><script src="graduation_with_demotools_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Graduation with DemoTools</h1>
                         <h4 class="author">José Manuel Aburto, Ilya Kashnitsky, Monica Alexander, Jorge Cimentada, Tim Riffe</h4>
             
-            <h4 class="date">2021-02-24</h4>
+            <h4 class="date">2022-01-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/timriffe/DemoTools/blob/master/vignettes/graduation_with_demotools.Rmd"><code>vignettes/graduation_with_demotools.Rmd</code></a></small>
       <div class="hidden name"><code>graduation_with_demotools.Rmd</code></div>
@@ -129,7 +129,7 @@
 <div id="what-is-graduation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#what-is-graduation" class="anchor"></a>What is graduation?</h3>
-<p>Graduation is a practice used to derive figures for <em>n</em>-year age groups, for example 5-year age groups from census data, that are corrected for net reporting error <span class="citation">(Siegel Jacob and Swanson David 2004)</span>. The basic idea is to fit different curves to the original <em>n</em>-year and redistribute them into single-year values. These techniques are designed so that the sum of the interpolated single-year values is consistent with the total for the groups as a whole. Among the major graduation methods are the Sprague <span class="citation">(Sprague 1880)</span> and Beers <span class="citation">(H. Beers 1945)</span> oscilatory methods, monotone spline and the uniform distribution. More recently, the penalized composite link model (pclm) was proposed to ungroup coarsely aggregated data <span class="citation">(Rizzi, Gampe, and Eilers 2015)</span>. All of these methodologies are implemented in <code>DemoTools</code>.</p>
+<p>Graduation is a practice used to derive figures for <em>n</em>-year age groups, for example 5-year age groups from census data, that are corrected for net reporting error <span class="citation">(Siegel Jacob and Swanson David 2004)</span>. The basic idea is to fit different curves to the original <em>n</em>-year and redistribute them into single-year values. These techniques are designed so that the sum of the interpolated single-year values is consistent with the total for the groups as a whole. Among the major graduation methods are the Sprague <span class="citation">(Sprague 1880)</span> and Beers <span class="citation">(H. Beers 1945)</span> oscillatory methods, monotone spline and the uniform distribution. More recently, the penalized composite link model (pclm) was proposed to ungroup coarsely aggregated data <span class="citation">(Rizzi, Gampe, and Eilers 2015)</span>. All of these methodologies are implemented in <code>DemoTools</code>.</p>
 </div>
 <div id="why-graduate" class="section level3">
 <h3 class="hasAnchor">
@@ -186,14 +186,14 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <code class="sourceCode R">
 <span class="co">#check the totals</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">sprague</span><span class="op">)</span>
-<span class="co">#&gt; [1] 395139.8</span>
+<span class="co">#&gt; [1] 395141.3</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>
 <span class="co">#&gt; [1] 395138</span></code></pre></div>
 </div>
 <div id="beers" class="section level3">
 <h3 class="hasAnchor">
 <a href="#beers" class="anchor"></a>Beers</h3>
-<p>Following a similar idea, Beers interpolated two overlapping curves minimizing the squares of the differences within the interpolation range <span class="citation">(H. Beers 1945)</span>. Specifically, Beers did this by minimizing fifth differences for a six-term formula, refered to as the ‘Ordinary’ Beers method <span class="citation">(H. S. Beers 1945)</span>. Subsequently, the ordinay formula was modified to relax the requirement that the given value be reproduced and yield smoother interpolated results, refered to as ‘Modified’ Beers method <span class="citation">(H. Beers 1945)</span>.</p>
+<p>Following a similar idea, Beers interpolated two overlapping curves minimizing the squares of the differences within the interpolation range <span class="citation">(H. Beers 1945)</span>. Specifically, Beers did this by minimizing fifth differences for a six-term formula, refered to as the ‘Ordinary’ Beers method <span class="citation">(H. S. Beers 1945)</span>. Subsequently, the ordinary formula was modified to relax the requirement that the given value be reproduced and yield smoother interpolated results, referred to as ‘Modified’ Beers method <span class="citation">(H. Beers 1945)</span>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">beers.ordinary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"beers(ord)"</span><span class="op">)</span>
 <span class="va">beers.modified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"beers(mod)"</span><span class="op">)</span>
@@ -219,7 +219,7 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <div id="monotone-spline" class="section level3">
 <h3 class="hasAnchor">
 <a href="#monotone-spline" class="anchor"></a>Monotone spline</h3>
-<p>Graduation by a monotone spline is another option available in <code>DemoTools</code>. This option offers an algorithm to produce interpolants that preserve properties such as monotonicity or convexity that are present in the data <span class="citation">(Fritsch and Carlson 1980)</span>. These are desirable conditions to not introduce biased details that cannot be ascertained from the data <span class="citation">(Hyman 1983)</span>. To run this algorithm in <code>DemoTools</code> the option <code>mono</code> should be selected as follows:</p>
+<p>Graduation by a monotone spline is another option available in <code>DemoTools</code>. This option offers an algorithm to produce interpolations that preserve properties such as monotonicity or convexity that are present in the data <span class="citation">(Fritsch and Carlson 1980)</span>. These are desirable conditions to not introduce biased details that cannot be ascertained from the data <span class="citation">(Hyman 1983)</span>. To run this algorithm in <code>DemoTools</code> the option <code>mono</code> should be selected as follows:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mono.grad</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graduate.html">graduate</a></span><span class="op">(</span><span class="va">Value</span>, <span class="va">Age</span>, method <span class="op">=</span> <span class="st">"mono"</span><span class="op">)</span>
 
@@ -338,12 +338,10 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
                     splitfun <span class="op">=</span> <span class="va">graduate_uniform</span>, 
                  recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">pop1resc</span>
-<span class="co">#&gt;          0          1          6          8         10         14         18 </span>
-<span class="co">#&gt;  77.564622 307.324828 177.930968 127.943315 271.952999 259.819449   4.988328 </span>
-<span class="co">#&gt;         19         21         24         28         31         34         37 </span>
-<span class="co">#&gt;  99.177502 134.093179 257.662726 112.092588 173.855370 168.577732 119.897178 </span>
-<span class="co">#&gt;         40 </span>
-<span class="co">#&gt; 249.142993</span></code></pre></div>
+<span class="co">#&gt;         0         1         6         8        10        14        18        19 </span>
+<span class="co">#&gt;  14.01029 417.19723 111.24706 163.11039 214.19437 380.31624  68.27963 169.87352 </span>
+<span class="co">#&gt;        21        24        28        31        34        37        40 </span>
+<span class="co">#&gt;  83.10931 362.36966 238.36890  61.02290  57.59022 163.75313 332.03078</span></code></pre></div>
 </div>
 </div>
 <div id="graduation-as-a-light-smoother" class="section level2">
@@ -354,33 +352,33 @@ y_{n+2+x} = \frac{(x+2)}{1!}\Delta y_n +
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
-<div id="refs" class="references">
-<div id="ref-beers1945six">
-<p>Beers, Henry S. 1945. “Six-Term Formulas for Routine Actuarial Interpolation.” <em>The Record of the American Institute of Actuaries</em> 34 (69): 59–60.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-beers1945six" class="csl-entry">
+Beers, Henry S. 1945. <span>“Six-Term Formulas for Routine Actuarial Interpolation.”</span> <em>The Record of the American Institute of Actuaries</em> 34 (69): 59–60.
 </div>
-<div id="ref-beers1945modified">
-<p>Beers, HS. 1945. “Modified-Interpolation Formulas That Minimize Fourth Differences.” <em>Record of the American Institute of Actuaries</em> 34 (69): 14–20.</p>
+<div id="ref-beers1945modified" class="csl-entry">
+Beers, HS. 1945. <span>“Modified-Interpolation Formulas That Minimize Fourth Differences.”</span> <em>Record of the American Institute of Actuaries</em> 34 (69): 14–20.
 </div>
-<div id="ref-brass1960graduation">
-<p>Brass, William. 1960. “The Graduation of Fertility Distributions by Polynomial Functions.” <em>Population Studies</em> 14 (2). Taylor &amp; Francis: 148–62.</p>
+<div id="ref-brass1960graduation" class="csl-entry">
+Brass, William. 1960. <span>“The Graduation of Fertility Distributions by Polynomial Functions.”</span> <em>Population Studies</em> 14 (2): 148–62.
 </div>
-<div id="ref-fritsch1980monotone">
-<p>Fritsch, Frederick N, and Ralph E Carlson. 1980. “Monotone Piecewise Cubic Interpolation.” <em>SIAM Journal on Numerical Analysis</em> 17 (2). SIAM: 238–46.</p>
+<div id="ref-fritsch1980monotone" class="csl-entry">
+Fritsch, Frederick N, and Ralph E Carlson. 1980. <span>“Monotone Piecewise Cubic Interpolation.”</span> <em>SIAM Journal on Numerical Analysis</em> 17 (2): 238–46.
 </div>
-<div id="ref-hyman1983accurate">
-<p>Hyman, James M. 1983. “Accurate Monotonicity Preserving Cubic Interpolation.” <em>SIAM Journal on Scientific and Statistical Computing</em> 4 (4). SIAM: 645–54.</p>
+<div id="ref-hyman1983accurate" class="csl-entry">
+Hyman, James M. 1983. <span>“Accurate Monotonicity Preserving Cubic Interpolation.”</span> <em>SIAM Journal on Scientific and Statistical Computing</em> 4 (4): 645–54.
 </div>
-<div id="ref-pascariu2018ungroup">
-<p>Pascariu, Marius D, Maciej J Dańko, Jonas Schöley, and Silvia Rizzi. 2018. “Ungroup: An R Package for Efficient Estimation of Smooth Distributions from Coarsely Binned Data.” <em>Age</em> 10: 0.</p>
+<div id="ref-pascariu2018ungroup" class="csl-entry">
+Pascariu, Marius D, Maciej J Dańko, Jonas Schöley, and Silvia Rizzi. 2018. <span>“Ungroup: An r Package for Efficient Estimation of Smooth Distributions from Coarsely Binned Data.”</span> <em>Age</em> 10: 0.
 </div>
-<div id="ref-rizzi2015efficient">
-<p>Rizzi, Silvia, Jutta Gampe, and Paul HC Eilers. 2015. “Efficient Estimation of Smooth Distributions from Coarsely Grouped Data.” <em>American Journal of Epidemiology</em> 182 (2). Oxford University Press: 138–47.</p>
+<div id="ref-rizzi2015efficient" class="csl-entry">
+Rizzi, Silvia, Jutta Gampe, and Paul HC Eilers. 2015. <span>“Efficient Estimation of Smooth Distributions from Coarsely Grouped Data.”</span> <em>American Journal of Epidemiology</em> 182 (2): 138–47.
 </div>
-<div id="ref-siegel2004methods">
-<p>Siegel Jacob, S, and A Swanson David, eds. 2004. <em>The Methods and Materials of Demography</em>. 2nd ed. San Diego, USA: Elsevier Academic Press, California, USA.</p>
+<div id="ref-siegel2004methods" class="csl-entry">
+Siegel Jacob, S, and A Swanson David, eds. 2004. <em>The Methods and Materials of Demography</em>. 2nd ed. San Diego, USA: Elsevier Academic Press, California, USA.
 </div>
-<div id="ref-sprague1880explanation">
-<p>Sprague, Thomas Bond. 1880. “Explanation of a New Formula for Interpolation.” <em>Journal of the Institute of Actuaries</em> 22 (4). Cambridge University Press: 270–85.</p>
+<div id="ref-sprague1880explanation" class="csl-entry">
+Sprague, Thomas Bond. 1880. <span>“Explanation of a New Formula for Interpolation.”</span> <em>Journal of the Institute of Actuaries</em> 22 (4): 270–85.
 </div>
 </div>
 </div>

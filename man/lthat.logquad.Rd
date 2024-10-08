@@ -47,7 +47,7 @@ The following options are available: \itemize{
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
 
-\item{SRB}{the sex ratio at birth (boys / girls), detault 1.05}
+\item{SRB}{the sex ratio at birth (boys / girls), default 1.05}
 }
 \description{
 Estimated life table using the log-quadratic model

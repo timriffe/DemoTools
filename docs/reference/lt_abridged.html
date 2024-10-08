@@ -81,7 +81,7 @@ calculate a full abridged lifetable." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@ calculate a full abridged lifetable." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -130,13 +130,13 @@ calculate a full abridged lifetable." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -249,7 +249,7 @@ calculate a full abridged lifetable.</p>
     </tr>
     <tr>
       <th>SRB</th>
-      <td><p>the sex ratio at birth (boys / girls), detault 1.05</p></td>
+      <td><p>the sex ratio at birth (boys / girls), default 1.05</p></td>
     </tr>
     <tr>
       <th>OAG</th>
@@ -262,7 +262,7 @@ calculate a full abridged lifetable.</p>
     <tr>
       <th>extrapLaw</th>
       <td><p>character. If extrapolating, which parametric mortality law should be invoked? Options include
-<code>"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"</code>. Default <code>"Kannisto"</code>. See details.</p></td>
+<code>"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",    "Beard_Makeham", "Quadratic"</code>. Default <code>"Kannisto"</code> if the highest age is at least 90, otherwise <code>"makeham"</code>. See details.</p></td>
     </tr>
     <tr>
       <th>extrapFrom</th>
@@ -312,7 +312,7 @@ starting with the input open age, but you can lower this age using the
 is aligned with the other columns in all 5-year age groups, but note the
 first two values have a slightly different age-interval interpretation:
 In Age 0, the interpretation is survival from birth until interval 0-4.
-In Age 1, it is survival from 0-4 into 5-9. Therafter the age groups align.
+In Age 1, it is survival from 0-4 into 5-9. Thereafter the age groups align.
 This column is required for population projections.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -335,7 +335,7 @@ United Nations Department of International Economic and Social Affairs.
 
 United States Census Bureau (2017).
 &#8220;Population Analysis System (PAS) Software.&#8221;
-<a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
+https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># trial code from PAS LTPOPDTH, North, Males, IMR = .1</span>

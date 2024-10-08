@@ -39,7 +39,7 @@ lt_single_qx(
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
 
-\item{SRB}{the sex ratio at birth (boys / girls), detault 1.05}
+\item{SRB}{the sex ratio at birth (boys / girls), default 1.05}
 
 \item{OAG}{logical. Whether or not the last element of \code{nMx} (or \code{nqx} or \code{lx}) is an open age group. Default \code{TRUE}.}
 
@@ -66,7 +66,7 @@ Lifetable in data.frame with columns
 \item{lx}{numeric. Lifetable survivorship}
 \item{ndx}{numeric. Lifetable deaths distribution.}
 \item{nLx}{numeric. Lifetable exposure.}
-\item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
+\item{Sx}{numeric. Survivor ratios in uniform single-year age groups.}
 \item{Tx}{numeric. Lifetable total years left to live above age x.}
 \item{ex}{numeric. Age-specific remaining life expectancy.}
 }

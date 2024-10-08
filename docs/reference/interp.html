@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -169,6 +169,7 @@
   method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"linear"</span>, <span class='st'>"exponential"</span>, <span class='st'>"power"</span><span class='op'>)</span>,
   power <span class='op'>=</span> <span class='fl'>2</span>,
   extrap <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  negatives <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -197,7 +198,11 @@
     </tr>
     <tr>
       <th>extrap</th>
-      <td><p>logical. In case <code>datesOut</code> is out of range of datesIn, do extrapolation using slope in extreme pairwise. Deafult <code>FALSE</code>.</p></td>
+      <td><p>logical. In case <code>datesOut</code> is out of range of <code>datesIn</code>, do extrapolation using slope in extreme pairwise. Default <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>negatives</th>
+      <td><p>logical. In case negative output are accepted, set to <code>TRUE</code>. Default <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -216,7 +221,7 @@
 
     <p>United States Census Bureau (2017).
 &#8220;Population Analysis System (PAS) Software.&#8221;
-<a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
+https://www.census.gov/data/software/pas.html, <a href='https://www.census.gov/data/software/pas.html'>https://www.census.gov/data/software/pas.html</a>.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Tim Riffe</p>

@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Calculate survivor ratios — lt_id_Ll_S" />
-<meta property="og:description" content="An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age (N=1) or five-year ages (N=5). Input vectors are assumed to come from either single or standard abridged ages." />
+<meta property="og:description" content="An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age or five-year ages. Input vectors are assumed to come from either single or standard abridged ages. Note that the ages of the output Sx are the ages the population would be after the N-year projection." />
 <meta property="og:image" content="https://timriffe.github.io/DemoTools/logo.png" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DemoTools</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.20</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">01.13.76</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -129,13 +129,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://twitter.com/timriffe1">
-    <span class="fas fa-twitter"></span>
+    <span class="fa fa-twitter"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/timriffe/DemoTools/">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
     github
   </a>
@@ -159,10 +159,10 @@
     </div>
 
     <div class="ref-description">
-    <p>An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age (<code>N=1</code>) or five-year ages (<code>N=5</code>). Input vectors are assumed to come from either single or standard abridged ages.</p>
+    <p>An extra lifetable column for use in projections, which require uniform time steps both both age and period. Intervals are either single age or five-year ages. Input vectors are assumed to come from either single or standard abridged ages. Note that the ages of the output Sx are the ages the population would be after the N-year projection.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lt_id_Ll_S</span><span class='op'>(</span><span class='va'>nLx</span>, <span class='va'>lx</span>, <span class='va'>AgeInt</span>, N <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>lt_id_Ll_S</span><span class='op'>(</span><span class='va'>nLx</span>, lx <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>Age</span>, AgeInt <span class='op'>=</span> <span class='cn'>NULL</span>, N <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,11 +173,15 @@
     </tr>
     <tr>
       <th>lx</th>
-      <td><p>numeric. Vector of lifetable survivorship at abridged ages.</p></td>
+      <td><p>numeric vector of lifetable survivors from same lifetable than <code>nLx</code>. Infered radix from nLx in case is <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>Age</th>
+      <td><p>integer vector of starting ages.</p></td>
     </tr>
     <tr>
       <th>AgeInt</th>
-      <td><p>integer. Vector of age class widths. Default <code><a href='inferAgeIntAbr.html'>inferAgeIntAbr(Age = Age)</a></code>.</p></td>
+      <td><p>integer vector of age intervals.</p></td>
     </tr>
     <tr>
       <th>N</th>

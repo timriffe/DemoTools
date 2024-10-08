@@ -88,8 +88,8 @@
 #' segments(1, M1_4, 5, M1_4)
 #' text(1, c(M0, M1_4, M0_4), c("M0", "M1_4", "M0_4"), pos = 3)
 #' }
-lt_rule_4m0_D0 <- function(D04, M04, P04, Sex = c("m", "f")) {
-  
+lt_rule_4m0_D0 <- function(D04, M04, P04, Sex = "m") {
+  stopifnot(Sex %in% c("m","f"))
   if (missing(M04)) {
     M5 <- D04 / P04
   } else {
@@ -225,8 +225,8 @@ lt_rule_4m0_D0 <- function(D04, M04, P04, Sex = c("m", "f")) {
 #' text(1, c(M0, M1_4, M0_4), c("M0", "M1_4", "M0_4"), pos = 3)
 #' }
 
-lt_rule_4m0_m0 <- function(M04, D04, P04, Sex = c("m", "f")) {
-
+lt_rule_4m0_m0 <- function(M04, D04, P04, Sex ="m") {
+  stopifnot(Sex %in% c("m","f"))
   if (missing(M04)) {
     M5 <- D04 / P04
   } else {
@@ -282,7 +282,7 @@ lt_rule_4m0_m0 <- function(M04, D04, P04, Sex = c("m", "f")) {
 
 #' @title estimates a0 using the Andreev-Kingkade rule of thumb starting with IMR
 #'
-#' @description \code{AKq02a0} Andreev Kingkade a0 method. This version has a 3-part segemented linear model, based on cutpoints in q0. Code ported from HMDLifeTables.
+#' @description \code{AKq02a0} Andreev Kingkade a0 method. This version has a 3-part segmented linear model, based on cut points in q0. Code ported from HMDLifeTables.
 #'
 #' @param q0 a value or vector of values of q0, the death probability in the first year of life.
 #' @param Sex either "m" or "f"
@@ -328,9 +328,9 @@ lt_rule_ak_m0_a0 <- function(M0, Sex ){
 #'
 #' @description This function wraps the two approximations for a0 based on either q0 (IMR) or m0.
 #'
-#' @param M0 a value or vector of values of m0, the death probability in the first year of life.
-#' @param q0 a value or vector of values of m0, the death risk in the first year of life.
-#' @param Sex either "m" or "f"
+#' @param M0 a value or vector of values of `1m0``, the death risk in the first year of life.
+#' @param q0 a value or vector of values of `1q0``, the death probability in the first year of life, sometimes approximated with IMR.
+#' @param Sex either `"m"` or `"f"`
 #' 
 #' @return a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of values.
 #' 
@@ -343,7 +343,7 @@ lt_rule_1a0_ak <- function(M0 = NULL, q0 = NULL, Sex){
     a0 <- lt_rule_ak_q0_a0(q0,Sex)
   } 
   if (is.null(q0) & !is.null(M0)){
-    a0 <- lt_rule_ak_q0_a0(M0,Sex)
+    a0 <- lt_rule_ak_m0_a0(M0,Sex)
   }
   a0
 }
@@ -351,14 +351,14 @@ lt_rule_1a0_ak <- function(M0 = NULL, q0 = NULL, Sex){
 
 #' @title calculate a0 in different ways
 #'
-#' @description This function wraps the Coale-Demeny and Andreev-Kingkade approximations for a0, which can come from M0, qo, or IMR.
+#' @description This function wraps the Coale-Demeny and Andreev-Kingkade approximations for `a0`, which can come from `M0`, `q0`, or `IMR.`
 #' @details If sex is given as both, \code{"b"}, then we calculate the male and female results separately, then weight them together using SRB. This is bad in theory, but the leverage is trivial, and it's better than using male or female coefs for the total population.
 #'
 #' @inheritParams  lt_rule_1a0_cd
 #' @param rule character. Either \code{"ak"} (Andreev-Kingkade) or \code{"cd"} (Coale-Demeny).
 #' @param Sex character, either \code{"m"}, \code{"f"}, or \code{"b"}
 #' @param q0 a value or vector of values of m0, the death risk in the first year of life.
-#' @param SRB the sex ratio at birth (boys / girls), detault 1.05
+#' @param SRB the sex ratio at birth (boys / girls), default 1.05
 #' @details Neither Coale-Demeny nor Andreev-Kingkade have explicit a0 rules for both-sexes combined. There's not a good way to arrive at a both-sex a0 estimate without increasing data requirements (you'd need data from each sex, which are not always available). It's more convenient to blend sex-specific a0 estimates based on something. Here we use SRB to do this, for no other reason than it has an easy well-known default value. This is bad because it assumes no sex differences in infant mortality, but this choice has a trivial impact on results.
 #' @return a0, the estimated average age at death of those dying in the first year of life, either a single value or a vector of values.
 #' 

@@ -3,7 +3,7 @@
 # and potentially others.
 
 #' Extract Lx estimates from WPP2019. Mainly an util function for other ones.
-#' @description We extract `Lx` from `wpp2019`, interpolated to exact dates. Different methods availables. 
+#' @description We extract `Lx` from `wpp2019`, interpolated to exact dates. Different methods available. 
 #' A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
 #' @param nLx numeric. either `NULL` or a numeric vector of lifetable exposure. If it's the second then we just pass it back.
 #' @param location vector. UN Pop Div `LocName` or `LocID`
@@ -11,7 +11,7 @@
 #' @param nLxDatesIn numeric. Vector of three decimal dates produced by (or passed through) `basepop_five()`
 #' @param method character. Could be `"linear"`, `"exponential"`, or `"power"`
 #'
-#' @return numeric matrix of `nLx` with `length(nLxDatesIn)` and abrdiged ages in rows.
+#' @return numeric matrix of `nLx` with `length(nLxDatesIn)` and abridged ages in rows.
 #' @export
 #' @importFrom stats setNames
 #' @importFrom stats reshape
@@ -58,7 +58,7 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
     } 
     if (!any(fertestr::is_LocID(location))) {
       location_code <- fertestr::get_location_code(location)
-    }else {
+    } else {
       location_code <- as.integer(location)
     }
       
@@ -121,7 +121,7 @@ downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
 }
 
 #' Extract ASFR estimates from WPP2019. Mainly an util function for other ones.
-#' @description We extract `ASFRx` from `wpp2019`, interpolated to exact dates. Different methods availables.
+#' @description We extract `ASFRx` from `wpp2019`, interpolated to exact dates. Different methods available.
 #' A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
 #' @param Asfrmat numeric.
 #' @param location vector. UN Pop Div `LocName` or `LocID`
@@ -262,7 +262,7 @@ downloadSRB <- function(SRB, location, DatesOut, verbose = TRUE){
 fetch_wpp_births <- function(births, yrs_births, location, sex, verbose) {
   
   # fetch WPP births if not provided by user
-  if (is.null(births)) {
+  if (is.null(births) | length(births) == 0) {
     
     # load WPP births
     requireNamespace("DemoToolsData", quietly = TRUE)
@@ -316,7 +316,8 @@ interp_coh_download_mortality <- function(location, sex, date1, date2, OAnew = 1
     }) %>%
     lapply(lt_a2s_chunk, OAnew = OAnew) %>%
     lapply(function(X){
-      1 - X$nqx
+      #1 - X$nqx
+      lt_id_Ll_S(X$nLx, X$lx, X$Age, X$AgeInt, N = 1)
     }) %>%
     do.call("cbind",.)
   

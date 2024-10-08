@@ -89,7 +89,8 @@ interpolatePop <-
 #' @param datesOut vector of dates. The desired dates to interpolate to. See details for ways to express it.
 #' @param method string. The method to use for the interpolation, either \code{"linear"}, \code{"exponential"}, or \code{"power"}. Default \code{"linear"}.
 #' @param power numeric power to interpolate by, if \code{method = "power"}. Default 2.
-#' @param extrap logical. In case \code{datesOut} is out of range of datesIn, do extrapolation using slope in extreme pairwise. Deafult \code{FALSE}.
+#' @param extrap logical. In case \code{datesOut} is out of range of `datesIn`, do extrapolation using slope in extreme pairwise. Default \code{FALSE}.
+#' @param negatives logical. In case negative output are accepted, set to \code{TRUE}. Default \code{FALSE}.
 #' @param ... arguments passed to \code{stats::approx}. For example, \code{rule}, which controls extrapolation behavior.
 #' @details The age group structure of the output is the same as that of the input. Ideally, \code{datesOut} should be within the range of \code{datesIn}. If not, the left-side and right-side output are held constant outside the range if \code{rule = 2} is passed in, otherwise \code{NA} is returned (see examples). Dates can be given in three ways 1) a \code{Date} class object, 2) an unambiguous character string in the format \code{"YYYY-MM-DD"}, or 3) as a decimal date consisting in the year plus the fraction of the year passed as of the given date.
 #'
@@ -198,6 +199,7 @@ interp <- function(popmat,
                    method = c("linear", "exponential", "power"),
                    power = 2,
                    extrap = FALSE,
+                   negatives = FALSE,
                    ...) {
   # ... args passed to stats::approx . Can give control over extrap assumptions
   # IW: extrap=T for extrapolate following each slope in extreme pairwise. 
@@ -282,10 +284,10 @@ interp <- function(popmat,
     int           <- int ^ power
   }
   
-  # IW: no negatives when extrapolate. Thinking in pop and lt expressions
-  if(all(!is.na(int)) & any(int<0)){
-    cat("Negative values were turned 0. No accepted in population counts, fertility rates or life table functions.\n")
-    int[int<0] <- 0  
+  # IW: no negatives when extrapolate. Thinking in pop and lt expressions. Inactive when explicitly are accepted negatives
+  if(!negatives & all(!is.na(int)) & any(int < 0)){
+    cat("Negative values have been replaced with 0s.\nNegatives not accepted in population counts,\n fertility rates or life table functions.\nYou can allow negatives (e.g. interpolating net migration)\n by specifying negatives = TRUE")
+    int[int < 0] <- 0  
   }
 
   int

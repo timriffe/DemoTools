@@ -15,7 +15,7 @@
 #'   \item{lx}{numeric. Lifetable survivorship}
 #'   \item{ndx}{numeric. Lifetable deaths distribution.}
 #'   \item{nLx}{numeric. Lifetable exposure.}
-#'   \item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
+#'   \item{Sx}{numeric. Survivor ratios in uniform single-year age groups.}
 #'   \item{Tx}{numeric. Lifetable total years left to live above age x.}
 #'   \item{ex}{numeric. Age-specific remaining life expectancy.}
 #' }
@@ -81,13 +81,14 @@ lt_single_qx <- function(nqx,
   
   # compute ax:
   nAx           <- rep(.5, N)
-  nAx[1]        <- lt_rule_1a0(rule = a0rule,
-                               q0 = nqx[1],
-                               IMR = IMR,
-                               Sex = Sex,
-                               region = region,
-                               SRB = SRB)
-  
+  if (Age[1] == 0){
+    nAx[1]        <- lt_rule_1a0(rule = a0rule,
+                                 q0 = nqx[1],
+                                 IMR = IMR,
+                                 Sex = Sex,
+                                 region = region,
+                                 SRB = SRB)
+  }
   # compute 1mx from 1qx and 1ax
   nMx          <- lt_id_qa_m(nqx = nqx,
                              nax = nAx,

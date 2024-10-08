@@ -10,8 +10,8 @@ home:
   title: DemoTools
   description: Do you love demography and data? If so, you might enjoy using this package.
   links:
-  - text: UN Deparment of Economic and Social Affairs Population
-    href: https://www.un.org/en/development/desa/population/index.asp
+  - text: United Nations Population Division
+    href: https://www.un.org/development/desa/pd/
   - text: Browse source code
     href: https://github.com/timriffe/DemoTools/    
   
@@ -47,6 +47,12 @@ reference:
     desc: Functions to construct a lifetable
     contents:
       -  '`lt_abridged`'
+      -  '`lt_single_mx`'
+      -  '`lt_single_qx`'
+      -  '`lt_single2abridged`'
+      -  '`lt_abridged2single`'
+      -  '`lt_ambiguous`'
+      -  '`lt_smooth_ambiguous`'
   - title: "Interpolation"
     desc: Functions to interpolate counts
     contents:
@@ -54,6 +60,7 @@ reference:
       - '`interp_coh`'
   - title: "Extrapolation" 
     desc: Functions to interpolate/extrapolate rates or counts
+    contents:
       - '`interp_lc_lim`'
       - '`lt_rule_m_extrapolate`'
       - '`OPAG`'
