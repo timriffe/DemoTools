@@ -33,7 +33,7 @@ lt_single_mx(
 
 \item{Sex}{character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}.}
 
-\item{region}{character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.}
+\item{region}{character. North, East, South, or West: \code{"n"}, \code{"e"}, \code{"s"}, \code{"w"}. Default \code{"w"}.}
 
 \item{IMR}{numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.}
 

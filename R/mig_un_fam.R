@@ -12,10 +12,8 @@
 #' @importFrom stats aggregate
 #' @importFrom stats as.formula
 #' @return List with
-#' \itemize{
-#'   \item{params_RC} {data.frame. Roger-Castro parameters in a data.frame. Same as `mig_un_params` data.}
-#'   \item{net_migr} {data.frame. Net migrants by age and sex for the chosen family.}
-#' }
+#'  * `params_RC` `data.frame`. Roger-Castro parameters in a `data.frame`. Same as `mig_un_params` data.
+#'  * `net_migr` `data.frame`. Net migrants by age and sex for the chosen family.
 #' @examples
 #' # 10000 net migrants, comparing two possible families
 #' nm1 <- mig_un_fam(NM = 10000, family = "Male Labor", OAnew = 100)

@@ -98,7 +98,7 @@
 #' ignored.
 #'
 #' @param years_asfr Years used in the column names of age-specific fertility
-#' rate. If code{asfr_r_mat} doesn't have column names, these names are used.
+#' rate. If \code{asfr_r_mat} doesn't have column names, these names are used.
 #' Otherwise ignored.
 #'
 #' @param years_srb Years used in the column names of sex-ratio at birth. If

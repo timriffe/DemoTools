@@ -21,8 +21,8 @@ maximum age.}
 \value{
 List with
 \itemize{
-\item{params_RC} {data.frame. Roger-Castro parameters in a data.frame. Same as \code{mig_un_params} data.}
-\item{net_migr} {data.frame. Net migrants by age and sex for the chosen family.}
+\item \code{params_RC} \code{data.frame}. Roger-Castro parameters in a \code{data.frame}. Same as \code{mig_un_params} data.
+\item \code{net_migr} \code{data.frame}. Net migrants by age and sex for the chosen family.
 }
 }
 \description{

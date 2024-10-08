@@ -33,7 +33,7 @@
 #' @param axmethod character. Either \code{"pas"} or \code{"un"}.
 #' @param a0rule character. Either \code{"ak"} (default) or \code{"cd"}.
 #' @param Sex character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}.
-#' @param region character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.
+#' @param region character. North, East, South, or West: \code{"n"}, \code{"e"}, \code{"s"}, \code{"w"}. Default \code{"w"}.
 #' @param IMR numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.
 #' @param mod logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.
 #' @param SRB the sex ratio at birth (boys / girls), default 1.05
