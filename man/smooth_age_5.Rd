@@ -14,7 +14,8 @@ smooth_age_5(
   ageMax = 65,
   n = 3,
   young.tail = c("Original", "Arriaga", "Strong", "Cascade", NA),
-  old.tail = young.tail
+  old.tail = young.tail,
+  keep0 = FALSE
 )
 }
 \arguments{
@@ -35,6 +36,8 @@ smooth_age_5(
 \item{young.tail}{\code{NA} or character. Method to use for ages 0-9. See details. Default \code{"original"}.}
 
 \item{old.tail}{\code{NA} or character. Method to use for the final age groups. See details. Default \code{"original"}.}
+
+\item{keep0}{logical. Default \code{FALSE}. If available, should the value in the infant age group be maintained, and ages 1-4 constrained?}
 }
 \value{
 numeric vector of smoothed counts in 5-year age groups.

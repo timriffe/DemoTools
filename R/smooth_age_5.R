@@ -658,7 +658,7 @@ smooth_age_5_feeney          <- function(Value,
 #' @param n integer. The width of the moving average. Default 3 intervals (x-5 to x+9). Only relevant for moving average method.
 #' @param young.tail \code{NA} or character. Method to use for ages 0-9. See details. Default \code{"original"}.
 #' @param old.tail \code{NA} or character. Method to use for the final age groups. See details. Default \code{"original"}.
-#'
+#' @param keep0 logical. Default \code{FALSE}. If available, should the value in the infant age group be maintained, and ages 1-4 constrained?
 #' @return numeric vector of smoothed counts in 5-year age groups.
 #' @export
 #'
@@ -768,7 +768,8 @@ smooth_age_5 <- function(Value,
                     ageMax = 65,
                     n = 3,
                     young.tail = c("Original", "Arriaga", "Strong", "Cascade", NA),
-                    old.tail = young.tail) {
+                    old.tail = young.tail,
+                    keep0 = FALSE) {
 
   method <- match.arg(method, c("Carrier-Farrag",
                                 "KKN",
@@ -786,12 +787,19 @@ smooth_age_5 <- function(Value,
   young.tail <- simplify.text(young.tail)
   old.tail   <- simplify.text(old.tail)
 
-
-
   if (missing(Age)) {
     Age      <- as.integer(names(Value))
   }
   stopifnot(length(Age) == length(Value))
+  
+  # 6 Dec 2024, possibly keep infant value separate
+  ageInt <- age2int(Age)
+  if (keep0 & ageInt[1] == 1 & Age[1] == 0){
+    keep_infants <- TRUE
+    infants <- Value[1]
+  }
+  # we return to this at the end, potentially.
+  
   # carrierfarrag or cf
   if (method %in% c("cf", "carrierfarrag")) {
     out      <- smooth_age_5_cf(Value = Value,
@@ -926,5 +934,12 @@ smooth_age_5 <- function(Value,
     }
   } # end tail operations
 
+  # separate treatment for infants
+  if (keep_infants){
+    value1_4 <- out[1] - infants
+    out <- c(infants, value1_4, out[-1])
+    names(out)[1:2] <- c("0","1")
+  }
+  
   out
 }
