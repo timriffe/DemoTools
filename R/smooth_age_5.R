@@ -797,6 +797,9 @@ smooth_age_5 <- function(Value,
   if (keep0 & ageInt[1] == 1 & Age[1] == 0){
     keep_infants <- TRUE
     infants <- Value[1]
+  } else {
+    # 23 July 2025, but of course this needs to be generated HT PG
+    keep_infants = FALSE
   }
   # we return to this at the end, potentially.
   
