@@ -5,20 +5,21 @@
 #' @details Similar to \code{lt_abridged()} details, forthcoming
 #' @inheritParams lt_abridged
 #' @return Lifetable in data.frame with columns
-#' \itemize{
-#'   \item{Age}{integer. Lower bound of abridged age class},
-#'   \item{AgeInt}{integer. Age class widths.}
-#'   \item{nMx}{numeric. Age-specific central death rates.}
-#'   \item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
-#'   \item{nqx}{numeric. Age-specific conditional death probabilities.}
-#'   \item{lx}{numeric. Lifetable survivorship}
-#'   \item{ndx}{numeric. Lifetable deaths distribution.}
-#'   \item{nLx}{numeric. Lifetable exposure.}
-#'   \item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
-#'   \item{Tx}{numeric. Lifetable total years left to live above age x.}
-#'   \item{ex}{numeric. Age-specific remaining life expectancy.}
-#' }
+
+#'  * `Age` integer. Lower bound of abridged age class
+#'  * `AgeInt` integer. Age class widths.
+#'  * `nMx` numeric. Age-specific central death rates.
+#'  * `nAx` numeric. Average time spent in interval by those deceased in interval. 
+#'  * `nqx` numeric. Age-specific conditional death probabilities.
+#'  * `lx` numeric. Lifetable survivorship
+#'  * `ndx` numeric. Lifetable deaths distribution.
+#'  * `nLx` numeric. Lifetable exposure.
+#'  * `Sx` numeric. Survivor ratios in uniform 5-year age groups.
+#'  * `Tx` numeric. Lifetable total years left to live above age x.
+#'  * `ex` numeric. Age-specific remaining life expectancy.
+#' 
 #' @export
+#' @importFrom dplyr case_when
 lt_single_mx <- function(nMx,
                         Age = 1:length(nMx) - 1,
                         radix = 1e5,
@@ -36,6 +37,21 @@ lt_single_mx <- function(nMx,
                         ...) {
 
   stopifnot(extrapFrom <= max(Age))
+  
+  # some handy name coercion
+  a0rule <- case_when(a0rule == "Andreev-Kingkade" ~ "ak",
+                      a0rule == "Coale-Demeny" ~ "cd",
+                      TRUE ~ a0rule)
+  Sex <- substr(Sex, 1, 1) |> 
+    tolower()
+  Sex <- ifelse(Sex == "t", "b", Sex)
+  
+  region <-  substr(region, 1, 1) |> 
+    tolower()
+  if (!is.null(extrapLaw)){
+    extrapLaw <- tolower(extrapLaw)
+  }
+  
   Sex      <- match.arg(Sex, choices = c("m","f","b"))
   a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
   if (!is.null(extrapLaw)){

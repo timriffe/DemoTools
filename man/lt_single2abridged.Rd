@@ -18,20 +18,18 @@ lt_single2abridged(lx, nLx, ex, Age = 1:length(lx) - 1, ...)
 \item{...}{optional args, not currently used.}
 }
 \value{
-Abridged lifetable in data.frame with columns
-\itemize{
-\item{Age}{integer. Lower bound of abridged age class},
-\item{AgeInt}{integer. Age class widths.}
-\item{nMx}{numeric. Age-specific central death rates.}
-\item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
-\item{nqx}{numeric. Age-specific conditional death probabilities.}
-\item{lx}{numeric. Lifetable survivorship}
-\item{ndx}{numeric. Lifetable deaths distribution.}
-\item{nLx}{numeric. Lifetable exposure.}
-\item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
-\item{Tx}{numeric. Lifetable total years left to live above age x.}
-\item{ex}{numeric. Age-specific remaining life expectancy.}
-}
+Abridged lifetable in \code{data.frame} with columns
+\code{Age} integer. Lower bound of abridged age class
+\code{AgeInt} integer. Age class widths.
+\code{nMx} numeric. Age-specific central death rates.
+\code{nAx} numeric. Average time spent in interval by those deceased in interval.
+\code{nqx} numeric. Age-specific conditional death probabilities.
+\code{lx} numeric. Lifetable survivorship
+\code{ndx} numeric. Lifetable deaths distribution.
+\code{nLx} numeric. Lifetable exposure.
+\code{Sx} numeric. Survivor ratios in uniform 5-year age groups.
+\code{Tx} numeric. Lifetable total years left to live above age x.
+\code{ex} numeric. Age-specific remaining life expectancy.
 }
 \description{
 Computes abridged life table columns based on the lx, nLx , and ex values from

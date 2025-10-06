@@ -196,7 +196,9 @@ getModelLifeTable <- function(ModelName, Sex) {
 
 avg_adj <- function(x) {
   n <- length(x)
-  (shift.vector(x,-1, NA) + shift.vector(x, 1, NA)) / 2
+  out <- (shift.vector(x,-1, NA) + shift.vector(x, 1, NA)) / 2
+  names(out) <- names(x)
+  out
 }
 
 #' convert strings to concatenation of lower case alphabet

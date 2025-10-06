@@ -11,20 +11,19 @@
 #' @param nLx numeric. Vector of lifetable exposure at single ages.
 #' @param ex numeric. Vector of Age-specific remaining life expectancy at single ages.
 #' @param ... optional args, not currently used.
-#' @return Abridged lifetable in data.frame with columns
-#' \itemize{
-#'   \item{Age}{integer. Lower bound of abridged age class},
-#'   \item{AgeInt}{integer. Age class widths.}
-#'   \item{nMx}{numeric. Age-specific central death rates.}
-#'   \item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
-#'   \item{nqx}{numeric. Age-specific conditional death probabilities.}
-#'   \item{lx}{numeric. Lifetable survivorship}
-#'   \item{ndx}{numeric. Lifetable deaths distribution.}
-#'   \item{nLx}{numeric. Lifetable exposure.}
-#'   \item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
-#'   \item{Tx}{numeric. Lifetable total years left to live above age x.}
-#'   \item{ex}{numeric. Age-specific remaining life expectancy.}
-#' }
+#' @return Abridged lifetable in `data.frame` with columns
+#'   `Age` integer. Lower bound of abridged age class
+#'   `AgeInt` integer. Age class widths.
+#'   `nMx` numeric. Age-specific central death rates.
+#'   `nAx` numeric. Average time spent in interval by those deceased in interval. 
+#'   `nqx` numeric. Age-specific conditional death probabilities.
+#'   `lx` numeric. Lifetable survivorship
+#'   `ndx` numeric. Lifetable deaths distribution.
+#'   `nLx` numeric. Lifetable exposure.
+#'   `Sx` numeric. Survivor ratios in uniform 5-year age groups.
+#'   `Tx` numeric. Lifetable total years left to live above age x.
+#'   `ex` numeric. Age-specific remaining life expectancy.
+#' 
 #' 
 #' @export
 #' 
@@ -83,22 +82,23 @@ lt_single2abridged <- function(lx,
 #' @inheritParams lt_abridged
 #' @param ... optional arguments passed to `pclm()`. For example, if you pass an explicit `lambda` parameter via the `control` argument, you can speed up estimation
 #' @return Single-year lifetable in data.frame with columns
-#' \itemize{
-#'   \item{Age}{integer. Lower bound of single year age class},
-#'   \item{AgeInt}{integer. Age class widths.}
-#'   \item{nMx}{numeric. Age-specific central death rates.}
-#'   \item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
-#'   \item{nqx}{numeric. Age-specific conditional death probabilities.}
-#'   \item{lx}{numeric. Lifetable survivorship}
-#'   \item{ndx}{numeric. Lifetable deaths distribution.}
-#'   \item{nLx}{numeric. Lifetable exposure.}
-#'   \item{Sx}{numeric. Survivor ratios.}
-#'   \item{Tx}{numeric. Lifetable total years left to live above age x.}
-#'   \item{ex}{numeric. Age-specific remaining life expectancy.}
-#' }
+
+#'  * `Age` integer. Lower bound of single year age class
+#'  * `AgeInt` integer. Age class widths.
+#'  * `nMx` numeric. Age-specific central death rates.
+#'  * `nAx` numeric. Average time spent in interval by those deceased in interval. 
+#'  * `nqx` numeric. Age-specific conditional death probabilities.
+#'  * `lx` numeric. Lifetable survivorship
+#'  * `ndx` numeric. Lifetable deaths distribution.
+#'  * `nLx` numeric. Lifetable exposure.
+#'  * `Sx` numeric. Survivor ratios.
+#'  * `Tx` numeric. Lifetable total years left to live above age x.
+#'  * `ex` numeric. Age-specific remaining life expectancy.
+
 #' 
 #' @export
 #' @importFrom ungroup pclm
+#' @importFrom dplyr case_when
 #' @examples
 #'  Mx <- c(.23669,.04672,.00982,.00511,.00697,.01036,.01169,
 #'          .01332,.01528,.01757,.02092,.02517,.03225,.04241,.06056,
@@ -150,6 +150,23 @@ lt_abridged2single <- function(
   stopifnot(is_abridged(Age))
   NN <- length(Age)
   #stopifnot(length(nMx) == NN)
+  
+  # some handy name coercion
+  a0rule <- case_when(a0rule == "Andreev-Kingkade" ~ "ak",
+                      a0rule == "Coale-Demeny" ~ "cd",
+                      TRUE ~ a0rule)
+  axmethod <- case_when(axmethod == "UN (Greville)" ~ "un",
+                        axmethod == "PASEX" ~ "pas",
+                        TRUE ~ axmethod)
+  Sex <- substr(Sex, 1, 1) |> 
+    tolower()
+  Sex <- ifelse(Sex == "t", "b", Sex)
+  
+  region <-  substr(region, 1, 1) |> 
+    tolower()
+  if (!is.null(extrapLaw)){
+    extrapLaw <- tolower(extrapLaw)
+  }
   
   if (!is.null(extrapLaw)){
     extrapLaw      <- tolower(extrapLaw)

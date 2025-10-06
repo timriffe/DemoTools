@@ -87,7 +87,7 @@ calcAgeN <- function(Age, N = 5, shiftdown = 0) {
 
 #' repeat age lower bounds once for each single age
 #' @description This is a frequent grouping situation. For a given vector of lower age bounds, repeat each value N times, where N is the width of the corresponding age interval. Age intervals are in this case calculated from the original Age vector.
-#' @details If {OAG = TRUE} then the last value is not repeated, otherwise the final age interval is assumed to be the same width as the penultimate. Here intervals do not need to be of uniform width.
+#' @details If `OAG = TRUE` then the last value is not repeated, otherwise the final age interval is assumed to be the same width as the penultimate. Here intervals do not need to be of uniform width.
 #' @param Age integer. Vector of lower age bounds.
 #' @param AgeInt integer vector of age group widths.
 #' @param OAG logical. Whether or not the final age group open. Default \code{FALSE}. See details
@@ -105,11 +105,11 @@ age2ageN <- function(Age, AgeInt = NULL, OAG = FALSE) {
 }
 
 #' repeat age lower bounds once for each single age
-#' @description This is a frequent grouping situation. For a given vector of lower age bounds, as implied by \code{AgeInt}, repeat each value N times, where N is the width of the corresponding age interval. Age intervals are in this case given, and age lower bound values are calculated from \code{AgeInt} vector.
-#' @details If {OAG = TRUE} then the last value is given just once, irrespective of the final value of \code{AgeInt}, otherwise the final age interval is repeated \code{AgeInt[length(AgeInt)]} times. Here intervals do not need to be of uniform width.
+#' @description This is a frequent grouping situation. For a given vector of lower age bounds, as implied by `AgeInt`, repeat each value N times, where N is the width of the corresponding age interval. Age intervals are in this case given, and age lower bound values are calculated from `AgeInt` vector.
+#' @details If `OAG == TRUE` then the last value is given just once, irrespective of the final value of `AgeInt`, otherwise the final age interval is repeated `AgeInt[length(AgeInt)]` times. Here intervals do not need to be of uniform width.
 #' @param AgeInt integer or numeric. Vector of age intervals.
-#' @param OAG logical. Whether or not the final age group open. Default \code{FALSE}. See details
-#' @return integer vector of elements of \code{Age} repeated once for each implied single age.
+#' @param OAG logical. Whether or not the final age group open. Default `FALSE`. See details
+#' @return integer vector of elements of `Age` repeated once for each implied single age.
 #' @export
 #' @examples
 #' int5 <- rep(5,21)
@@ -155,7 +155,7 @@ calcAgeAbr <- function(Age) {
 #' @param Age integer. Vector of lower bound of each age group.
 #' @param vec Any vector, presumably a count, rate, or similar.
 #' @param OAG logical. Whether or not the final age group open. Default \code{FALSE}.
-#' @param OAvalue numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.
+#' @param OAvalue numeric or integer. The value to use for the final age interval if `OAG = TRUE`. Default `NA`.
 #'
 #' @details If based solely on the length of a vector, this will give erroneous results if ages
 #' are anything other than standard abridged ages groups. If the final age group is open, the
@@ -235,10 +235,10 @@ int2age <- function(AgeInt, ageMin = 0) {
 #' @description Determine age class intervals based on a vector of age class lower bounds.
 #' @details If the final age group is open, it is given a value of \code{NA} by default, or else a user-determined value.
 #' If the final age group is closed, it is assumed to be equal to the next-lower interval. If the final age interval is
-#' known and not equal to the next lowest interval, specify \code{OAG = TRUE} and assign its value to \code{OAvalue}.
+#' known and not equal to the next lowest interval, specify `OAG = TRUE` and assign its value to `OAvalue`.
 #' @param Age integer or numeric. Vector of lower age group bounds .
 #' @param OAG logical. Whether or not the final age group is open. Default \code{TRUE}.
-#' @param OAvalue numeric or integer. The value to use for the final age interval if \code{OAG = TRUE}. Default \code{NA}.
+#' @param OAvalue numeric or integer. The value to use for the final age interval if `OAG = TRUE`. Default `NA`.
 #' @export
 #' @return Age interval vector, of same length as \code{Age}.
 #' @examples
@@ -735,7 +735,7 @@ rescaleAgeGroups <- function(Value1,
 #' Age       <- c(0,1,3,seq(5,100,5))
 #' AgeInt    <- c(1,2,2,rep(5,19),1)
 #' Value     <- tapply(V1,rep(Age,times=AgeInt), sum)
-#'
+#' 
 #' is_abridged(Age)
 #' age_abridge_force(Value, Age)
 age_abridge_force <- function(Value, Age) {
@@ -744,7 +744,7 @@ age_abridge_force <- function(Value, Age) {
                       Value,
                       Age = Age)
   #a1     <- min(Age):(length(v1) - 1)
-  a1     <- 1:length(v1) - 1 + min(Age)
+  a1     <- (1:length(v1) - 1 + min(Age)) |> as.integer()
   AgeAbr <- calcAgeAbr(a1)
   vabr   <- tapply(v1, AgeAbr, sum)
   vabr

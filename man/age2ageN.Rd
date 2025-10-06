@@ -20,7 +20,7 @@ integer vector of elements of \code{Age} repeated once for each implied single a
 This is a frequent grouping situation. For a given vector of lower age bounds, repeat each value N times, where N is the width of the corresponding age interval. Age intervals are in this case calculated from the original Age vector.
 }
 \details{
-If {OAG = TRUE} then the last value is not repeated, otherwise the final age interval is assumed to be the same width as the penultimate. Here intervals do not need to be of uniform width.
+If \code{OAG = TRUE} then the last value is not repeated, otherwise the final age interval is assumed to be the same width as the penultimate. Here intervals do not need to be of uniform width.
 }
 \examples{
 age1 <- seq(0,100,by=5)

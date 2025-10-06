@@ -53,7 +53,7 @@ lt_abridged(
 
 \item{IMR}{numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.}
 
-\item{region}{character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.}
+\item{region}{character. North, East, South, or West: \code{"n"}, \code{"e"}, \code{"s"}, \code{"w"}. Default \code{"w"}.}
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
 
@@ -76,17 +76,17 @@ lt_abridged(
 \value{
 Lifetable in data.frame with columns
 \itemize{
-\item{Age}{integer. Lower bound of abridged age class},
-\item{AgeInt}{integer. Age class widths.}
-\item{nMx}{numeric. Age-specific central death rates.}
-\item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
-\item{nqx}{numeric. Age-specific conditional death probabilities.}
-\item{lx}{numeric. Lifetable survivorship}
-\item{ndx}{numeric. Lifetable deaths distribution.}
-\item{nLx}{numeric. Lifetable exposure.}
-\item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
-\item{Tx}{numeric. Lifetable total years left to live above age x.}
-\item{ex}{numeric. Age-specific remaining life expectancy.}
+\item Age integer. Lower bound of abridged age class
+\item AgeInt integer. Age class widths.
+\item nMx numeric. Age-specific central death rates.
+\item nAx numeric. Average time spent in interval by those deceased in interval.
+\item nqx numeric. Age-specific conditional death probabilities.
+\item lx numeric. Lifetable survivorship
+\item ndx numeric. Lifetable deaths distribution.
+\item nLx numeric. Lifetable exposure.
+\item Sx numeric. Survivor ratios in uniform 5-year age groups.
+\item Tx numeric. Lifetable total years left to live above age x.
+\item ex numeric. Age-specific remaining life expectancy.
 }
 }
 \description{

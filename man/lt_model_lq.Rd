@@ -66,7 +66,7 @@ for case 7 and 8 (e0 and 45q15 or 35q15 are known);}
 
 \item{IMR}{numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.}
 
-\item{region}{character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.}
+\item{region}{character. North, East, South, or West: \code{"n"}, \code{"e"}, \code{"s"}, \code{"w"}. Default \code{"w"}.}
 
 \item{mod}{logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.}
 

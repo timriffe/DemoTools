@@ -3,7 +3,7 @@
 #' calculate the net migration age schedule based on the Rogers and Castro formula for UN families.
 #' @param NM numeric. Total net migration to distribute between ages and sex.
 #' @param family character. Could be "Family", "Female Labor", "Male Labor".
-#' @param Single logical. Results by simple age. Default `FALSE`.
+#' @param Single logical. Results by simple age. Default `TRUE`.
 #' Typically from pre-working age and working age parts of in Roger-Castro formula.
 #' @param OAnew The age from which to group all ages into an open ended age group.
 #' By default it is set to 100, so it groups all ages up to 120, which is the
@@ -12,10 +12,8 @@
 #' @importFrom stats aggregate
 #' @importFrom stats as.formula
 #' @return List with
-#' \itemize{
-#'   \item{params_RC} {data.frame. Roger-Castro parameters in a data.frame. Same as `mig_un_params` data.}
-#'   \item{net_migr} {data.frame. Net migrants by age and sex for the chosen family.}
-#' }
+#'  * `params_RC` `data.frame`. Roger-Castro parameters in a `data.frame`. Same as `mig_un_params` data.
+#'  * `net_migr` `data.frame`. Net migrants by age and sex for the chosen family.
 #' @examples
 #' # 10000 net migrants, comparing two possible families
 #' nm1 <- mig_un_fam(NM = 10000, family = "Male Labor", OAnew = 100)

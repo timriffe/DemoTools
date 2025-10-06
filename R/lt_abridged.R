@@ -33,7 +33,7 @@
 #' @param axmethod character. Either \code{"pas"} or \code{"un"}.
 #' @param a0rule character. Either \code{"ak"} (default) or \code{"cd"}.
 #' @param Sex character. Either male \code{"m"}, female \code{"f"}, or both \code{"b"}.
-#' @param region character. North, East, South, or West: code{"n"}, code{"e"}, code{"s"}, code{"w"}. Default code{"w"}.
+#' @param region character. North, East, South, or West: \code{"n"}, \code{"e"}, \code{"s"}, \code{"w"}. Default \code{"w"}.
 #' @param IMR numeric. Infant mortality rate \ifelse{html}{\out{q<sub>0}}{\eqn{q_0}}, in case available and \code{nqx} is not specified. Default \code{NA}.
 #' @param mod logical. If \code{"un"} specified for \code{axmethod}, whether or not to use Nan Li's modification for ages 5-14. Default \code{TRUE}.
 #' @param SRB the sex ratio at birth (boys / girls), default 1.05
@@ -42,21 +42,22 @@
 #' @param extrapLaw character. If extrapolating, which parametric mortality law should be invoked? Options include
 #'   \code{"Kannisto", "Kannisto_Makeham", "Makeham", "Gompertz", "GGompertz", "Beard",	"Beard_Makeham", "Quadratic"}. Default \code{"Kannisto"} if the highest age is at least 90, otherwise `"makeham"`. See details.
 #' @inheritParams lt_a_closeout
+#' @importFrom dplyr case_when
 #' @export
 #' @return Lifetable in data.frame with columns
-#' \itemize{
-#'   \item{Age}{integer. Lower bound of abridged age class},
-#'   \item{AgeInt}{integer. Age class widths.}
-#'   \item{nMx}{numeric. Age-specific central death rates.}
-#'   \item{nAx}{numeric. Average time spent in interval by those deceased in interval. }
-#'   \item{nqx}{numeric. Age-specific conditional death probabilities.}
-#'   \item{lx}{numeric. Lifetable survivorship}
-#'   \item{ndx}{numeric. Lifetable deaths distribution.}
-#'   \item{nLx}{numeric. Lifetable exposure.}
-#'   \item{Sx}{numeric. Survivor ratios in uniform 5-year age groups.}
-#'   \item{Tx}{numeric. Lifetable total years left to live above age x.}
-#'   \item{ex}{numeric. Age-specific remaining life expectancy.}
-#' }
+
+#'   * Age integer. Lower bound of abridged age class
+#'   * AgeInt integer. Age class widths.
+#'   * nMx numeric. Age-specific central death rates.
+#'   * nAx numeric. Average time spent in interval by those deceased in interval. 
+#'   * nqx numeric. Age-specific conditional death probabilities.
+#'   * lx numeric. Lifetable survivorship
+#'   * ndx numeric. Lifetable deaths distribution.
+#'   * nLx numeric. Lifetable exposure.
+#'   * Sx numeric. Survivor ratios in uniform 5-year age groups.
+#'   * Tx numeric. Lifetable total years left to live above age x.
+#'   * ex numeric. Age-specific remaining life expectancy.
+#' 
 #' @references
 #' \insertRef{greville1977short}{DemoTools}
 #' \insertRef{un1982model}{DemoTools}
@@ -183,9 +184,30 @@ lt_abridged <- function(Deaths = NULL,
                   extrapFrom = max(Age),
                   extrapFit = NULL,
                   ...) {
+  
+  # some handy name coercion
+  a0rule <- case_when(a0rule == "Andreev-Kingkade" ~ "ak",
+                      a0rule == "Coale-Demeny" ~ "cd",
+                      TRUE ~ a0rule)
+  axmethod <- case_when(axmethod == "UN (Greville)" ~ "un",
+                        axmethod == "PASEX" ~ "pas",
+                        TRUE ~ axmethod)
+  Sex <- substr(Sex, 1, 1) |> 
+    tolower()
+  Sex <- ifelse(Sex == "t", "b", Sex)
+  
+  region <-  substr(region, 1, 1) |> 
+    tolower()
+  if (!is.null(extrapLaw)){
+    extrapLaw <- tolower(extrapLaw)
+  }
+
+  
+  # now we check args
   axmethod <- match.arg(axmethod, choices = c("pas","un"))
   Sex      <- match.arg(Sex, choices = c("m","f","b"))
   a0rule   <- match.arg(a0rule, choices = c("ak","cd"))
+  
   if (!is.null(extrapLaw)){
     extrapLaw      <- tolower(extrapLaw)
     extrapLaw      <- match.arg(extrapLaw, choices = c("kannisto",

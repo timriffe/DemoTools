@@ -11,7 +11,7 @@ mig_un_fam(NM, family, Single = TRUE, OAnew = 100)
 
 \item{family}{character. Could be "Family", "Female Labor", "Male Labor".}
 
-\item{Single}{logical. Results by simple age. Default \code{FALSE}.
+\item{Single}{logical. Results by simple age. Default \code{TRUE}.
 Typically from pre-working age and working age parts of in Roger-Castro formula.}
 
 \item{OAnew}{The age from which to group all ages into an open ended age group.
@@ -21,8 +21,8 @@ maximum age.}
 \value{
 List with
 \itemize{
-\item{params_RC} {data.frame. Roger-Castro parameters in a data.frame. Same as \code{mig_un_params} data.}
-\item{net_migr} {data.frame. Net migrants by age and sex for the chosen family.}
+\item \code{params_RC} \code{data.frame}. Roger-Castro parameters in a \code{data.frame}. Same as \code{mig_un_params} data.
+\item \code{net_migr} \code{data.frame}. Net migrants by age and sex for the chosen family.
 }
 }
 \description{

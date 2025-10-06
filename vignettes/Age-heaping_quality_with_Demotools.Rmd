@@ -201,4 +201,4 @@ r5
 
 Values greater than 0.1 coupled with a sawtooth value greater than 0 already suggest that some smoothing is warranted. If there is no detected sawtooth pattern, then five-year-roughness indices should probably need to be higher and visually confirmed before deciding to smooth. Further guidelines can be found in the vignette on smoothing. 
 
-##References
+# References
