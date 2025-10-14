@@ -749,7 +749,23 @@ age_abridge_force <- function(Value, Age) {
   vabr   <- tapply(v1, AgeAbr, sum)
   vabr
 }
-
+#' detect if age groups are single, abridged, five-year or other
+#' @description This is can be used to standardize age group checking, used in flow control, method decision-making, input-output matching, and so on. Used firstly in ODAPbackend package, but generally useful and general enough to make it into DemoTools.
+#' @param Age integer vector of age class lower bounds
+#' @seealso is_single, is_abridged
+#' @export
+#' @examples
+#' detect_age_grouping(0:100)
+#' detect_age_grouping(seq(0,100,by=5))
+#' detect_age_grouping(c(0,1,seq(5,100,by=5)))
+#' detect_age_grouping(c(0,1,2,3,4,seq(5,100,by=5)))
+detect_age_grouping <- function(Age){
+  age_groups <- case_when(is_single(Age)~"single",
+                          is_abridged(Age)~"abridged",
+                          all(diff(Age) == 5)~"five-year",
+                          TRUE ~ "other")
+  age_groups
+}
 
 # deprecated functions
 
