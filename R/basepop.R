@@ -1,4 +1,3 @@
-
 #' BPA and BPE methods for adjusting age groups under 10
 #' @description Adjust population counts for the age groups 0 to 10
 #'
@@ -227,305 +226,42 @@
 #' @examples
 #'
 #'  \dontrun{
+#'refDate  <- 1985
+#'location <- "Brazil"
+#'data("popF",  package = "wpp2024")
+#'data("popM",  package = "wpp2024")
 #'
-#' ################ BPE (five year age groups) #####################
+#'Age <- parse_number(unique(popF$age))
 #'
-#' # Grab population counts for females
-#' refDate <- 1986
-#' location <- "Brazil"
-#' pop_female_single <- fertestr::FetchPopWpp2019(location,
-#'                                                refDate,
-#'                                                ages = 0:100,
-#'                                                sex = "female")
-#' pop_female_counts <- single2abridged(setNames(pop_female_single$pop,
-#'                                               pop_female_single$ages))
-#' pop_male_single   <- fertestr::FetchPopWpp2019(location,
-#'                                                refDate,
-#'                                                ages = 0:100,
-#'                                                sex = "male")
-#' pop_male_counts   <- single2abridged(setNames(pop_male_single$pop,
-#'                                               pop_male_single$ages))
-#' Age <- names2age(pop_male_counts)
-#' # Automatically downloads the nLx, ASFR, and SRB data
-#' bpe <- basepop_five(
-#'   location = location,
-#'   refDate = refDate,
-#'   Females_five = pop_female_counts,
-#'   Males_five = pop_male_counts,
-#'   Age = Age
-#' )
+#'# so technically this function is for abridged data
+#'# it does not work if first group is in 5 years
+#'pop_female_counts <- popF %>%
+#'  dplyr::filter(name == location) %>% 
+#'  pull("1985")
 #'
-#' # The counts for the first three age groups have been adjusted:
-#' bpe$Females_adjusted[1:3]
-#' pop_female_counts[1:3]
+#'pop_male_counts   <- popM %>%
+#'  dplyr::filter(name == location) %>% 
+#'  pull("1985")
 #'
-#' bpe$Males_adjusted[1:3]
-#' pop_male_counts[1:3]
+#'names(pop_female_counts) <- names(pop_female_counts) <-  Age
 #'
+#'# graduate
+#'Females_five <- graduate_pclm(pop_female_counts, Age = Age) %>% 
+#'  single2abridged()
+#'Males_five   <- graduate_pclm(pop_male_counts, Age = Age) %>% 
+#'  single2abridged()
 #'
-#' ################ BPE (for single ages) ############################
-#' # blocked out for now, until single age function refactored as
-#' # TR: actually, it just needs to be rethought for single ages..
-#' # pop_female_single <- setNames(pop_female_single$pop, pop_female_single$ages)
-#' #
-#' # # Automatically downloads the nLx and ASFR data
-#' # bpe_female <- basepop_single(
-#' #   location = location,
-#' #   refDate = refDate,
-#' #   Females_single = pop_female_single
-#' # )
-#' #
-#' # # The counts for the first 10 age groups have been adjusted:
-#' # bpe_female[1:10]
-#' # pop_female_single[1:10]
-#' ################ BPA (five year age groups) #####################
-#' # for BPA, smooth counts in advance
-#' smoothed_females <- smooth_age_5(Value = pop_female_counts,
-#'                                  Age = Age,
-#'                                  method = "Arriaga",
-#'                                  OAG = TRUE,
-#'                                  young.tail = "Original")
-#' # Note, smooth_age_5() will group infants into the 0-4 age group. So,
-#' # we manually stick them back in place.
-#' smoothed_females <- c(pop_female_counts[1:2], smoothed_females[-1])
-#' smoothed_males <- smooth_age_5(Value = pop_male_counts,
-#'                                Age = Age,
-#'                                method = "Arriaga",
-#'                                OAG = TRUE,
-#'                                young.tail = "Original")
-#' smoothed_males <- c(smoothed_males[1:2], smoothed_males[-1])
+#'Age <- names2age(Males_five)
 #'
-#' # Automatically downloads the nLx, ASFR, and SRB data
-#' bpa <- basepop_five(
-#'   location = location,
-#'   refDate = refDate,
-#'   Females_five = smoothed_females,
-#'   Males_five = smoothed_males,
-#'   Age = Age
-#' )
-#'
-#' # The counts for the first three age groups have been adjusted:
-#' bpa$Females_adjusted[1:3]
-#' smoothed_females[1:3]
-#' pop_female_counts[1:3]
-#'
-#' bpa$Males_adjusted[1:3]
-#' smoothed_males[1:3]
-#' pop_male_counts[1:3]
-#'
-#' ################ PAS example ###############################
-#'
-#'  # (1) refDate
-#'  refDate <- 1986.21
-#'
-#'  # (2) Reported population by 5-year age groups and sex in the base year
-#'  # (Include unknowns).
-#'
-#'  pop_male_counts <- c(11684, 46738, 55639, 37514, 29398, 27187, 27770, 20920, 16973,
-#'                       14999, 11330, 10415, 6164, 7330, 3882, 3882, 1840, 4200)
-#'
-#'  pop_female_counts <- c(11673, 46693, 55812, 35268, 33672, 31352, 33038, 24029, 16120,
-#'                         14679, 8831, 9289, 4172, 6174, 2715, 3344, 1455, 4143)
-#'  Age <- c(0,1, seq(5, 80, by = 5))
-#'
-#'  # (4) Sex ratio at birth (m/f)
-#'  sex_ratio <- 1.0300
-#'
-#'  # (6) The male and female nLx functions for ages under 1 year, 1 to 4 years, and 5 to 9
-#'  # years, pertaining to an earlier and later date
-#'  nLxDatesIn <- c(1977.31, 1986.50)
-#'
-#'  nLxMale <- matrix(c(87732, 304435, 361064, 88451, 310605, 370362),
-#'                    nrow = 3, ncol = 2)
-#'
-#'  nLxFemale <- matrix(c(89842, 314521, 372681, 353053, 340650, 326588,
-#'                        311481, 295396, 278646, 261260, 241395,217419,
-#'                        90478, 320755, 382531, 364776, 353538, 340687,
-#'                        326701, 311573, 295501, 278494, 258748,234587),
-#'                      nrow = 12,
-#'                      ncol = 2)
-#'
-#'  # (7) A set of age-specific fertility rates pertaining to an earlier and later
-#'  # date
-#'
-#'  asfrmat <- structure(
-#'     c(0.2, 0.3, 0.3, 0.25, 0.2, 0.15, 0.05, 0.15, 0.2,
-#'       0.275, 0.225, 0.175, 0.125, 0.05), .Dim = c(7L, 2L),
-#'     .Dimnames = list(
-#'       c("15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49"),
-#'       c("1977.81", "1985.71")))
-#'
-#'  # for BPA, smooth counts in advance
-#'  smoothed_females <- smooth_age_5(Value = pop_female_counts,
-#'                                   Age = Age,
-#'                                   method = "Arriaga",
-#'                                   OAG = TRUE,
-#'                                   young.tail = "Original")
-#'  smoothed_females <- c(pop_female_counts[1:2], smoothed_females[-1])
-#'  smoothed_males <- smooth_age_5(Value = pop_male_counts,
-#'                                   Age = Age,
-#'                                   method = "Arriaga",
-#'                                   OAG = TRUE,
-#'                                   young.tail = "Original")
-#'  smoothed_males <- c(pop_male_counts[1:2], smoothed_males[-1])
-#'  ## This is the only number that messes up the whole calculation.
-#'  ## smooth_age_5 returns the same result as the PASS excel sheet
-#'  ## except for the age groups 10-15 and 15-19. Here we only use
-#'  ## age group 15-19. If we plug in manually the correct value,
-#'  ## we get all results match exactly, otherwise there are
-#'  ## some differences.
-#'  smoothed_females[4] <- 34721
-#'
-#'  # For adjusting using BPA for males, we need to specify
-#'  # female = FALSE with Males and nLxMale.
-#'  bpa <-
-#'    basepop_five(
-#'      refDate = refDate,
-#'      Males_five = smoothed_males,
-#'      Females_five = smoothed_females,
-#'      Age = Age,
-#'      SRB = sex_ratio,
-#'      nLxFemale = nLxFemale,
-#'      nLxMale = nLxMale,
-#'      nLxDatesIn = nLxDatesIn,
-#'      AsfrMat = asfrmat,
-#'      AsfrDatesIn = AsfrDatesIn,
-#'      radix = 1e5
-#'    )
-#'
-#'  # See adjustments?
-#'  pop_male_counts[1:3]
-#'  bpa$Male_adjusted[1:3]
-#'
-#'  pop_female_counts[1:3]
-#'  bpa$Female_adjusted[1:3]
-#'
-#'  # For adjustment using BPE, we use exactly the same definitions as above
-#'  # but use the original inputs
-#'
-#'  bpe <-
-#'    basepop_five(
-#'      refDate = refDate,
-#'      Females_five = pop_female_counts,
-#'      Males_five = pop_male_counts,
-#'      SRB = sex_ratio,
-#'      nLxFemale = nLxFemale,
-#'      nLxDatesIn = nLxDatesIn,
-#'      AsfrMat = asfrmat,
-#'      AsfrDatesIn = AsfrDatesIn
-#'    )
-#'
-#'  pop_female_counts[1:3]
-#'  bpe$Females_adjusted[1:3]
-#'
-#' # basepop_single for single ages
-#' # Single ages for males and females
-#'
-#' # pop_male_counts <-
-#' #   c(11684, 11473, 11647, 11939, 11680, 10600, 11100, 11157, 11238,
-#' #     11544, 7216, 7407, 7461, 7656, 7774, 5709, 5629, 5745, 6056,
-#' #     6259, 5303, 5423, 5497, 5547, 5417, 5441, 5466, 5500, 5668, 5694,
-#' #     4365, 4252, 4122, 4142, 4039, 3210, 3222, 3258, 3413, 3871, 2684,
-#' #     2844, 3052, 3182, 3237, 2263, 2298, 2318, 2257, 2194, 2231, 2172,
-#' #     2072, 2008, 1932, 1301, 1262, 1213, 1197, 1191, 1601, 1593, 1490,
-#' #     1348, 1299, 568, 745, 843, 801, 925, 806, 883, 796, 725, 672,
-#' #     470, 441, 340, 300, 289, 4200)
-#' #
-#' # pop_female_counts <-
-#' #   c(11673, 11474, 11670, 11934, 11614, 10603, 11144, 11179, 11269,
-#' #     11617, 6772, 6948, 7030, 7211, 7306, 6531, 6443, 6535, 6951,
-#' #     7213, 6096, 6234, 6327, 6410, 6285, 6464, 6492, 6549, 6739, 6795,
-#' #     5013, 4888, 4735, 4747, 4646, 3040, 3068, 3107, 3246, 3658, 2650,
-#' #     2788, 2977, 3108, 3156, 1756, 1784, 1802, 1764, 1724, 1982, 1935,
-#' #     1846, 1795, 1731, 863, 850, 825, 819, 816, 1348, 1342, 1246,
-#' #     1138, 1101, 391, 520, 585, 560, 659, 670, 750, 686, 634, 604,
-#' #     353, 340, 270, 246, 247, 4143)
-#' #  Age <- 0:80
-#' #
-#' #  smoothed_females <- smooth_age_5(Value = pop_female_counts,
-#' #                                   Age = Age,
-#' #                                   method = "Arriaga",
-#' #                                   OAG = TRUE,
-#' #                                   young.tail = "Original")
-#' #  smoothed_males <- smooth_age_5(Value = pop_male_counts,
-#' #                                   Age = Age,
-#' #                                   method = "Arriaga",
-#' #                                   OAG = TRUE,
-#' #                                   young.tail = "Original")
-#'
-#'  # For adjusting using BPA for males, we need to specify
-#'  # female = FALSE with Males and nLxMale.
-#'
-#'  # This needs work still
-#'  # bpa_male <-
-#'  #   basepop_single(
-#'  #     refDate = refDate,
-#'  #     Males_single = pop_male_counts,
-#'  #     Females_single = pop_female_counts,
-#'  #     SRB = sex_ratio,
-#'  #     nLxFemale = nLxFemale,
-#'  #     nLxMale = nLxMale,
-#'  #     nLxDatesIn = nLxDatesIn,
-#'  #     AsfrMat = asfrmat,
-#'  #     AsfrDatesIn = AsfrDatesIn
-#'  #     )
-#'
-#'  # See adjustments?
-#'  # pop_male_counts[1:10]
-#'  # bpa_male[1:10]
-#'
-#'  # Adjusting the BPA for females requires less arguments
-#'  # bpa_female <-
-#'  #   basepop_single(
-#'  #     refDate = refDate,
-#'  #     Females_single = pop_female_counts,
-#'  #     SmoothedFemales = smoothed_females,
-#'  #     SRB = sex_ratio,
-#'  #     nLxFemale = nLxFemale,
-#'  #     nLxDatesIn = nLxDatesIn,
-#'  #     AsfrMat = asfrmat,
-#'  #     AsfrDatesIn = AsfrDatesIn
-#'  #   )
-#'
-#'  # pop_female_counts[1:10]
-#'  # bpa_female[1:10]
-#'  #
-#'  # # For adjustment using BPE, we use exactly the same definitions as above
-#'  # # but remove SmoothedFemales.
-#'  # bpe_male <-
-#'  #   basepop_single(
-#'  #     refDate = refDate,
-#'  #     Males_single = pop_male_counts,
-#'  #     Females_single = pop_female_counts,
-#'  #     SRB = sex_ratio,
-#'  #     nLxFemale = nLxFemale,
-#'  #     nLxMale = nLxMale,
-#'  #     nLxDatesIn = nLxDatesIn,
-#'  #     AsfrMat = asfrmat,
-#'  #     AsfrDatesIn = AsfrDatesIn,
-#'  #     female = FALSE
-#'  #     )
-#'
-#'  # See adjustments?
-#'  # pop_male_counts[1:10]
-#'  # bpa_male[1:10]
-#'  # bpe_male[1:10]
-#'
-#'  # Adjusting the BPA for females requires less arguments
-#'  # bpe_female <-
-#'  #   basepop_single(
-#'  #     refDate = refDate,
-#'  #     Females_single = pop_female_counts,
-#'  #     SRB = sex_ratio,
-#'  #     nLxFemale = nLxFemale,
-#'  #     nLxDatesIn = nLxDatesIn,
-#'  #     AsfrMat = asfrmat,
-#'  #     AsfrDatesIn = AsfrDatesIn
-#'  #   )
-#'  #
-#'  # pop_female_counts[1:10]
-#'  # bpa_female[1:10]
-#'  # bpe_female[1:10]
+#'# Automatically downloads the nLx, ASFR, and SRB data
+#'bpe <- basepop_five(
+#'  location     = location,
+#'  refDate      = refDate,
+#'  Females_five = Females_five,
+#'  Males_five   = Males_five,
+#'  Age          = Age,
+#'  verbose      = TRUE
+#')
 #'
 #'  }
 #'
@@ -533,226 +269,1094 @@
 #' \insertRef{arriaga1994population}{DemoTools}
 #' \insertRef{PAS}{DemoTools}
 #'
-basepop_five <- function(location = NULL,
-                         refDate,
-                         Age = NULL,
-                         Females_five,
-                         Males_five = NULL,
-                         nLxFemale = NULL,
-                         nLxMale = NULL,
-                         nLxDatesIn = NULL,
-                         AsfrMat = NULL,
-                         AsfrDatesIn = NULL,
-                         ...,
-                         SRB = NULL,
-                         SRBDatesIn = NULL,
-                         radix = NULL,
-                         verbose = TRUE) {
+# basepop_five <- function(location = NULL,
+#                          refDate,
+#                          Age = NULL,
+#                          Females_five,
+#                          Males_five = NULL,
+#                          nLxFemale = NULL,
+#                          nLxMale = NULL,
+#                          nLxDatesIn = NULL,
+#                          AsfrMat = NULL,
+#                          AsfrDatesIn = NULL,
+#                          ...,
+#                          SRB = NULL,
+#                          SRBDatesIn = NULL,
+#                          radix = NULL,
+#                          verbose = TRUE) {
+# 
+#   options(basepop_verbose = verbose)
+#   on.exit(options(basepop_verbose = NULL))
+# 
+#   # Ensure census date is numeric.
+#   # "YYYY-MM-DD" input is acceptable
+#   refDate <- dec.date(refDate)
+# 
+#   if (!is.null(Age)){
+#     stopifnot(is_abridged(Age))
+#     stopifnot(length(Age) == length(Females_five))
+#   } else {
+#     if (!is.null(names(Females_five))){
+#       Age <- names2age(Females_five)
+#     } else {
+#       if (verbose) {
+#         cat("Assuming age groups are in standard abridged intervals")
+#       }
+#       # last resort = assume in abrided ages!
+#       Age <- inferAgeIntAbr(Females_five)
+#     }
+#   }
+# 
+#   if (is.null(nLxDatesIn)) {
+#     # re PJ issue #183 suggested default
+#     nLxDatesIn <- refDate - c(0.5, 7.5)
+#     #nLxDatesIn <- c(abs(8 - refDate), refDate + 0.5)
+#     if (verbose) {
+#       cat(paste0("Assuming the two prior dates for the nLx matrix to be: ", paste0(nLxDatesIn, collapse = ", ")), sep = "\n")
+#     }
+#   }
+# 
+#   if (is.null(AsfrDatesIn)) {
+#     # re PJ issue #183 suggested default
+#     AsfrDatesIn <- refDate - c(0.5, 7.5)
+#     #AsfrDatesIn <- abs(c(8, 0.5) - refDate)
+#     if (verbose) {
+#       cat(paste0("Assuming the two prior dates for the Asfr matrix to be: ", paste0(AsfrDatesIn, collapse = ", ")), sep = "\n")
+#     }
+#   }
+# 
+#   # ensure vectors named, for purposes of selection
+#   names(Females_five) <- Age
+#   names(Males_five)   <- Age
+#   ## obtain nLx for males and females
+#   ## If these arguments have been specified, they return
+#   ## the same thing and don't download the data
+#   nLxFemale <-
+#     downloadnLx(
+#       nLx = nLxFemale,
+#       location = location,
+#       gender = "female",
+#       nLxDatesIn = nLxDatesIn
+#     )
+# 
+#   nLxMale <-
+#     downloadnLx(
+#       nLx = nLxMale,
+#       location = location,
+#       gender = "male",
+#       nLxDatesIn = nLxDatesIn
+#     )
+# 
+#   if (is.null(radix)) {
+#     # TR: not perfect, but it's a better guess. It would seem the radix
+#     # being pulled before was always 1, whereas the nLx columns was based on 100000
+#     radix <- lt_infer_radix_from_1L0(nLxMale[1,1])
+#     if (verbose) {
+#       cat(paste0("Setting radix to value of lx: ", radix, ". Can be overwritten with the `radix` argument"), sep = "\n")
+#     }
+#   }
+# 
+#   AsfrMat <-
+#     downloadAsfr(
+#       Asfrmat = AsfrMat,
+#       location = location,
+#       AsfrDatesIn = AsfrDatesIn
+#     )
+# 
+#   DatesOut <- refDate - c(0.5, 2.5, 7.5)
+#   SRBDatesIn <- if (!is.null(SRBDatesIn)) SRBDatesIn else DatesOut
+# 
+#   SRB <- downloadSRB(SRB,
+#                      location,
+#                      DatesOut = SRBDatesIn,
+#                      verbose = verbose)
+# 
+#   ## Check all arguments
+#   AllArgs <- as.list(environment())
+#   ArgsCheck(AllArgs)
+# 
+#   lower_bound <- abs(min(nLxDatesIn) - min(DatesOut))
+#   upper_bound <- abs(max(nLxDatesIn) - max(DatesOut))
+# 
+#   if (lower_bound > 5 || upper_bound > 5) {
+#     stop("nLxDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates")
+#   }
+# 
+#   # Interpolate the gender specific nLx to the requested
+#   # dates out
+#   nLxf <- interp(
+#     nLxFemale,
+#     datesIn = nLxDatesIn,
+#     datesOut = DatesOut,
+#     ...
+#   )
+# 
+#   nLxm <- interp(
+#     nLxMale,
+#     datesIn = nLxDatesIn,
+#     datesOut = DatesOut,
+#    ...
+#   )
+# 
+#   lower_bound <- abs(min(AsfrDatesIn) - min(DatesOut))
+#   upper_bound <- abs(max(AsfrDatesIn) - max(DatesOut))
+# 
+#   if (lower_bound > 5 || upper_bound > 5) {
+#     stop("AsfrDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates")
+#   }
+# 
+#   # Interpolate the asfr to the requested dates.
+#   # This is gender agnostic.
+#   Asfr <- interp(
+#     AsfrMat,
+#     datesIn = AsfrDatesIn,
+#     datesOut = DatesOut,
+#     ...
+#   )
+# 
+#   # TR: Follows spreadsheet logic, can still be more elegant.
+#   # sometimes character indexing, sometimes position, but still
+#   ages_15_55         <- as.character(seq(15,55,by=5))
+#   ages_20_55         <- ages_15_55[-1]
+#   ages_15_50         <- ages_15_55[-9]
+#   ages_20_50         <- ages_15_55[-c(1,9)]
+#   ages_15_45         <- ages_15_55[-c(8,9)]
+#   ages_20_45         <- ages_15_55[-c(1,8,9)]
+#   ages_15_40         <- ages_15_55[-c(7,8,9)]
+# 
+#   FMiddleages        <- Females_five[ages_15_55]
+#   Ft_minus_5         <- FMiddleages[ages_20_55] *
+#                           nLxf[ages_15_50, 2] / nLxf[ages_20_55, 2]
+#   names(Ft_minus_5)  <- ages_15_50
+# 
+#   Ft_minus_10        <- Ft_minus_5[ages_20_50] *
+#                           nLxf[ages_15_45, 3] / nLxf[ages_20_50, 3]
+#   names(Ft_minus_10) <- ages_15_45
+# 
+#   # Now we take some averages to get to midpoints
+#   Ft_minus_.5        <- FMiddleages[ages_15_45] * .9 + Ft_minus_5[ages_15_45] * .1
+#   Ft_minus_2.5       <- FMiddleages[ages_15_45] * .5 + Ft_minus_5[ages_15_45] * .5
+#   Ft_minus_7.5       <- Ft_minus_5[ages_15_45] * .5 + Ft_minus_10[ages_15_45] * .5
+# 
+#   # 3 column matrix of sort-of-exposures for ages 15-45, matched to ASFR
+#   fExpos             <- cbind(Ft_minus_.5, Ft_minus_2.5, Ft_minus_7.5)
+# 
+#   # Calculate births
+#   Bt     <- colSums(fExpos * Asfr)
+# 
+# 
+#   #GenderCounts <- if (male) Males_five else Females_five
+#   Males_five_out     <- Males_five
+#   Females_five_out   <- Females_five
+#   ## Currently, this assumes that there can only be 3 dates.
+# 
+#   ## We only have 3 age groups to adjust and 3 dates
+#   PF <- 1 / (SRB + 1)
+# 
+#   # Age 0
+#   Females_five_out[1] <- Bt[1] * PF[1] * nLxf[1, 1] / radix
+#   Males_five_out[1]   <- Bt[1] * (1 - PF[1]) * nLxm[1, 1] / radix
+# 
+#   # Age 1-4
+#   Females_five_out[2] <- Bt[2] * PF[2] * 5 *
+#     sum(nLxf[1:2, 2]) / (radix * 5) -
+#     Females_five_out[1]
+# 
+#   Males_five_out[2]   <- Bt[2] * (1 - PF[2]) * 5 *
+#     sum(nLxm[1:2, 2]) / (radix * 5) -
+#     Males_five_out[1]
+# 
+#   # Age 5-9
+#   Females_five_out[3] <- Bt[3] * PF[3] * 5 *
+#     sum(nLxf[1:2,3]) / (radix * 5) *
+#     nLxf[3,2] / sum(nLxf[1:2,2])
+# 
+#   Males_five_out[3]   <-  Bt[3] * (1 - PF[3]) * 5 *
+#     sum(nLxm[1:2,3]) / (radix * 5) *
+#     nLxm[3,2] / sum(nLxm[1:2,2])
+# 
+#   # return the important things
+#   list(
+#     Females_adjusted = Females_five_out,
+#     Males_adjusted = Males_five_out,
+#     Females_five = Females_five,
+#     Males_five = Males_five,
+#     nLxf = nLxf,
+#     nLxm = nLxm,
+#     Asfr = Asfr,
+#     Exposure_female = fExpos,
+#     Bt = Bt,
+#     SRB = SRB,
+#     Age = Age
+#     )
+# }
 
+basepop_five <- function(location     = NULL,
+                         refDate      = NULL,
+                         Age          = NULL,
+                         Females_five = NULL,
+                         Males_five   = NULL,
+                         nLxFemale    = NULL,
+                         nLxMale      = NULL,
+                         nLxDatesIn   = NULL,
+                         AsfrMat      = NULL,
+                         AsfrDatesIn  = NULL,
+                         SRB          = NULL,
+                         SRBDatesIn   = NULL,
+                         radix        = NULL,
+                         verbose      = TRUE,
+                         ...) {
+  
   options(basepop_verbose = verbose)
   on.exit(options(basepop_verbose = NULL))
-
-  # Ensure census date is numeric.
-  # "YYYY-MM-DD" input is acceptable
   refDate <- dec.date(refDate)
-
-  if (!is.null(Age)){
+  
+  # if population are missing stop
+  
+  if(is.null(Females_five) | is.null(Males_five)) { 
+    
+    stop("Male or female population was not provided.")
+    
+  }
+  
+  
+  if (length(Females_five) != length(Males_five)) {
+    stop("Females population length differs from male population length.")
+  }
+  
+  
+  
+  if(!is.null(Age)) {
+    
     stopifnot(is_abridged(Age))
     stopifnot(length(Age) == length(Females_five))
+    
   } else {
-    if (!is.null(names(Females_five))){
+    
+    if(!is.null(names(Females_five))) {
+      
       Age <- names2age(Females_five)
+      
     } else {
-      if (verbose) {
-        cat("Assuming age groups are in standard abridged intervals")
+      
+      if(verbose) {
+        
+        message("Assuming age groups are in standard abridged intervals")
+        
       }
-      # last resort = assume in abrided ages!
+      
       Age <- inferAgeIntAbr(Females_five)
+      
     }
   }
-
-  if (is.null(nLxDatesIn)) {
-    # re PJ issue #183 suggested default
+  
+  if(is.null(nLxDatesIn)) {
+    
     nLxDatesIn <- refDate - c(0.5, 7.5)
-    #nLxDatesIn <- c(abs(8 - refDate), refDate + 0.5)
-    if (verbose) {
-      cat(paste0("Assuming the two prior dates for the nLx matrix to be: ", paste0(nLxDatesIn, collapse = ", ")), sep = "\n")
+    
+    if(verbose) {
+      
+      message(paste0(
+        "Assuming the two prior dates for the nLx matrix to be: ",
+        paste0(nLxDatesIn, collapse = ", ")
+      ),
+      sep = "\n")
+      
     }
   }
-
-  if (is.null(AsfrDatesIn)) {
-    # re PJ issue #183 suggested default
+  
+  if(is.null(AsfrDatesIn)) {
+    
     AsfrDatesIn <- refDate - c(0.5, 7.5)
-    #AsfrDatesIn <- abs(c(8, 0.5) - refDate)
-    if (verbose) {
-      cat(paste0("Assuming the two prior dates for the Asfr matrix to be: ", paste0(AsfrDatesIn, collapse = ", ")), sep = "\n")
+    
+    if(verbose){
+      
+      message(paste0(
+        "Assuming the two prior dates for the Asfr matrix to be: ",
+        paste0(AsfrDatesIn, collapse = ", ")
+      ),
+      sep = "\n")
+      
     }
   }
-
-  # ensure vectors named, for purposes of selection
+  
   names(Females_five) <- Age
   names(Males_five)   <- Age
-  ## obtain nLx for males and females
-  ## If these arguments have been specified, they return
-  ## the same thing and don't download the data
-  nLxFemale <-
-    downloadnLx(
-      nLx = nLxFemale,
-      location = location,
-      gender = "female",
-      nLxDatesIn = nLxDatesIn
+  
+  if(is.null(radix)) { 
+    
+    radix       <- 1
+    check_radix <- FALSE
+    
+    message("Since radix was not provided we assume your radix to be equal to 1")
+    
+  } else { 
+    
+    check_radix <- TRUE
+    
+  }
+  
+  if(is.null(nLxFemale)) { 
+    # download nLx data
+    nLxFemale <- downloadnLx(
+      nLx        = nLxFemale,
+      Age        = Age,
+      location   = location,
+      gender     = "female",
+      nLxDatesIn = sort(nLxDatesIn),
+      output     = "abridged",
+      radix      = radix,
+      verbose    = verbose
     )
-
-  nLxMale <-
-    downloadnLx(
-      nLx = nLxMale,
-      location = location,
-      gender = "male",
-      nLxDatesIn = nLxDatesIn
+  }
+  
+  if(is.null(nLxMale)) { 
+    
+    nLxMale <- downloadnLx(
+      nLx        = nLxMale,
+      Age        = Age,
+      location   = location,
+      gender     = "male",
+      nLxDatesIn = sort(nLxDatesIn),
+      output     = "abridged",
+      radix      = radix,
+      verbose    = verbose
     )
-
-  if (is.null(radix)) {
-    # TR: not perfect, but it's a better guess. It would seem the radix
-    # being pulled before was always 1, whereas the nLx columns was based on 100000
-    radix <- lt_infer_radix_from_1L0(nLxMale[1,1])
-    if (verbose) {
-      cat(paste0("Setting radix to value of lx: ", radix, ". Can be overwritten with the `radix` argument"), sep = "\n")
+    
+  }
+  
+  
+  if(check_radix) {
+    
+    radix1 <- radix
+    radix  <- lt_rule_l0_1L0(nLxMale[1, 1])
+    
+    if(radix1 != radix) { 
+      
+      stop("Your provided radix value do not match with the radix obtained from your nLx table. Please enter correct radix or nLx data.") 
+      
     }
   }
-
-  AsfrMat <-
-    downloadAsfr(
-      Asfrmat = AsfrMat,
-      location = location,
-      AsfrDatesIn = AsfrDatesIn
-    )
-
-  DatesOut <- refDate - c(0.5, 2.5, 7.5)
-  SRBDatesIn <- if (!is.null(SRBDatesIn)) SRBDatesIn else DatesOut
-
-  SRB <- downloadSRB(SRB,
-                     location,
-                     DatesOut = SRBDatesIn,
-                     verbose = verbose)
-
-  ## Check all arguments
+  
+  if(is.null(AsfrMat)) { 
+    # asfr now
+    AsfrMat <- downloadASFR(Asfrmat     = AsfrMat,
+                            location    = location,
+                            AsfrDatesIn = sort(AsfrDatesIn),
+                            Age         = NULL,
+                            output      = "5-year",
+                            verbose     = verbose)
+    
+  }
+  
+  DatesOut   <- refDate - c(0.5, 2.5, 7.5)
+  
+  # SRB now
+  SRBDatesIn <- if(!is.null(SRBDatesIn)) {
+    
+    SRBDatesIn
+    
+  } else { 
+    
+    DatesOut
+    
+  }
+  
+  if(is.null(SRB)) {
+    SRB <- downloadSRB(SRB       = SRB,
+                       location  = location,
+                       DatesOut  = sort(SRBDatesIn),
+                       verbose   = verbose)
+  }
+  # check argumnts if everything is ok
   AllArgs <- as.list(environment())
   ArgsCheck(AllArgs)
-
+  
+  # check bounds
   lower_bound <- abs(min(nLxDatesIn) - min(DatesOut))
   upper_bound <- abs(max(nLxDatesIn) - max(DatesOut))
-
-  if (lower_bound > 5 || upper_bound > 5) {
-    stop("nLxDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates")
+  
+  if(lower_bound > 5 || upper_bound > 5) {
+    
+    stop(
+      "nLxDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates"
+    )
+    
   }
-
-  # Interpolate the gender specific nLx to the requested
-  # dates out
-  nLxf <- interp(
-    nLxFemale,
-    datesIn = nLxDatesIn,
-    datesOut = DatesOut,
-    ...
-  )
-
-  nLxm <- interp(
-    nLxMale,
-    datesIn = nLxDatesIn,
-    datesOut = DatesOut,
-   ...
-  )
-
+  
+  # same for asfr
   lower_bound <- abs(min(AsfrDatesIn) - min(DatesOut))
   upper_bound <- abs(max(AsfrDatesIn) - max(DatesOut))
-
-  if (lower_bound > 5 || upper_bound > 5) {
-    stop("AsfrDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates")
-  }
-
-  # Interpolate the asfr to the requested dates.
-  # This is gender agnostic.
-  Asfr <- interp(
-    AsfrMat,
-    datesIn = AsfrDatesIn,
-    datesOut = DatesOut,
-    ...
-  )
-
-  # TR: Follows spreadsheet logic, can still be more elegant.
-  # sometimes character indexing, sometimes position, but still
-  ages_15_55         <- as.character(seq(15,55,by=5))
-  ages_20_55         <- ages_15_55[-1]
-  ages_15_50         <- ages_15_55[-9]
-  ages_20_50         <- ages_15_55[-c(1,9)]
-  ages_15_45         <- ages_15_55[-c(8,9)]
-  ages_20_45         <- ages_15_55[-c(1,8,9)]
-  ages_15_40         <- ages_15_55[-c(7,8,9)]
-
-  FMiddleages        <- Females_five[ages_15_55]
-  Ft_minus_5         <- FMiddleages[ages_20_55] *
-                          nLxf[ages_15_50, 2] / nLxf[ages_20_55, 2]
-  names(Ft_minus_5)  <- ages_15_50
-
-  Ft_minus_10        <- Ft_minus_5[ages_20_50] *
-                          nLxf[ages_15_45, 3] / nLxf[ages_20_50, 3]
-  names(Ft_minus_10) <- ages_15_45
-
-  # Now we take some averages to get to midpoints
-  Ft_minus_.5        <- FMiddleages[ages_15_45] * .9 + Ft_minus_5[ages_15_45] * .1
-  Ft_minus_2.5       <- FMiddleages[ages_15_45] * .5 + Ft_minus_5[ages_15_45] * .5
-  Ft_minus_7.5       <- Ft_minus_5[ages_15_45] * .5 + Ft_minus_10[ages_15_45] * .5
-
-  # 3 column matrix of sort-of-exposures for ages 15-45, matched to ASFR
-  fExpos             <- cbind(Ft_minus_.5, Ft_minus_2.5, Ft_minus_7.5)
-
-  # Calculate births
-  Bt     <- colSums(fExpos * Asfr)
-
-
-  #GenderCounts <- if (male) Males_five else Females_five
-  Males_five_out     <- Males_five
-  Females_five_out   <- Females_five
-  ## Currently, this assumes that there can only be 3 dates.
-
-  ## We only have 3 age groups to adjust and 3 dates
-  PF <- 1 / (SRB + 1)
-
-  # Age 0
-  Females_five_out[1] <- Bt[1] * PF[1] * nLxf[1, 1] / radix
-  Males_five_out[1]   <- Bt[1] * (1 - PF[1]) * nLxm[1, 1] / radix
-
-  # Age 1-4
-  Females_five_out[2] <- Bt[2] * PF[2] * 5 *
-    sum(nLxf[1:2, 2]) / (radix * 5) -
-    Females_five_out[1]
-
-  Males_five_out[2]   <- Bt[2] * (1 - PF[2]) * 5 *
-    sum(nLxm[1:2, 2]) / (radix * 5) -
-    Males_five_out[1]
-
-  # Age 5-9
-  Females_five_out[3] <- Bt[3] * PF[3] * 5 *
-    sum(nLxf[1:2,3]) / (radix * 5) *
-    nLxf[3,2] / sum(nLxf[1:2,2])
-
-  Males_five_out[3]   <-  Bt[3] * (1 - PF[3]) * 5 *
-    sum(nLxm[1:2,3]) / (radix * 5) *
-    nLxm[3,2] / sum(nLxm[1:2,2])
-
-  # return the important things
-  list(
-    Females_adjusted = Females_five_out,
-    Males_adjusted = Males_five_out,
-    Females_five = Females_five,
-    Males_five = Males_five,
-    nLxf = nLxf,
-    nLxm = nLxm,
-    Asfr = Asfr,
-    Exposure_female = fExpos,
-    Bt = Bt,
-    SRB = SRB,
-    Age = Age
+  
+  if(lower_bound > 5 || upper_bound > 5) {
+    stop(
+      "AsfrDatesIn implies an extrapolation of > 5 years to achieve the needed reference dates"
     )
+  }
+  
+  # interpolate nLx and ASFR
+  nLxf <- interp(nLxFemale,
+                 datesIn  = nLxDatesIn, 
+                 datesOut = DatesOut)
+  nLxm <- interp(nLxMale,
+                 datesIn  = nLxDatesIn, 
+                 datesOut = DatesOut)
+  Asfr <- interp(AsfrMat, 
+                 datesIn  = AsfrDatesIn, 
+                 datesOut = DatesOut)
+  
+  # now here a little update
+  # we need ASFR match fExpos for colSums(fExpos * Asfr)
+  # thus age adjustment
+  Asfr <- Asfr[c(which(names2age(Asfr) %in% seq(from = 15, to = 45, by = 5))), ]
+  # Asfr                <- Asfr[-c(1, ncol(Asfr)), ]
+  ages_15_55          <- as.character(seq(15, 55, by = 5))
+  ages_20_55          <- ages_15_55[-1]
+  ages_15_50          <- ages_15_55[-9]
+  ages_20_50          <- ages_15_55[-c(1, 9)]
+  ages_15_45          <- ages_15_55[-c(8, 9)]
+  ages_20_45          <- ages_15_55[-c(1, 8, 9)]
+  ages_15_40          <- ages_15_55[-c(7, 8, 9)]
+  FMiddleages         <- Females_five[ages_15_55]
+  Ft_minus_5          <- FMiddleages[ages_20_55] * nLxf[ages_15_50, 2] / nLxf[ages_20_55, 2]
+  names(Ft_minus_5)   <- ages_15_50
+  Ft_minus_10         <- Ft_minus_5[ages_20_50]  * nLxf[ages_15_45, 3] / nLxf[ages_20_50, 3]
+  names(Ft_minus_10)  <- ages_15_45
+  Ft_minus_.5         <- FMiddleages[ages_15_45] * 0.9 + Ft_minus_5[ages_15_45]  * 0.1
+  Ft_minus_2.5        <- FMiddleages[ages_15_45] * 0.5 + Ft_minus_5[ages_15_45]  * 0.5
+  Ft_minus_7.5        <- Ft_minus_5[ages_15_45]  * 0.5 + Ft_minus_10[ages_15_45] * 0.5
+  fExpos              <- cbind(Ft_minus_.5, Ft_minus_2.5, Ft_minus_7.5)
+  Bt                  <- colSums(fExpos * Asfr)
+  Males_five_out      <- Males_five
+  Females_five_out    <- Females_five
+  PF                  <- 1 / (SRB + 1)
+  Females_five_out[1] <- Bt[1] * (PF[1])     * nLxf[1, 1] / radix
+  Males_five_out[1]   <- Bt[1] * (1 - PF[1]) * nLxm[1, 1] / radix
+  Females_five_out[2] <- Bt[2] * (PF[2] * 5) * sum(nLxf[1:2, 2])     / (radix * 5) - Females_five_out[1]
+  Males_five_out[2]   <- Bt[2] * (1 - PF[2]) * 5 * sum(nLxm[1:2, 2]) / (radix * 5) - Males_five_out[1]
+  Females_five_out[3] <- Bt[3] * (PF[3] * 5) * sum(nLxf[1:2, 3])     / (radix * 5) * nLxf[3, 2] / sum(nLxf[1:2, 2])
+  Males_five_out[3]   <- Bt[3] * (1 - PF[3]) * 5 * sum(nLxm[1:2, 3]) / (radix * 5) * nLxm[3, 2] / sum(nLxm[1:2, 2])
+  
+  return(
+    list(
+      Females_adjusted = Females_five_out,
+      Males_adjusted   = Males_five_out,
+      Females_five     = Females_five,
+      Males_five       = Males_five,
+      nLxf             = nLxf,
+      nLxm             = nLxm,
+      Asfr             = Asfr,
+      Exposure_female  = fExpos,
+      Bt               = Bt,
+      SRB              = SRB,
+      Age              = Age
+    ))
+}
+
+
+
+
+
+
+# Authors: Tim, Rustam
+#' Construct Single-Year Base Population Using Reverse Survival
+#'
+#' Constructs a single-year, age-specific population for both sexes using the reverse
+#' survival method. This combines life table data, fertility rates, and sex ratio
+#' at birth (SRB) to estimate age-specific population counts, optionally using
+#' user-supplied demographic data or WPP inputs.
+#'
+#' @param location Optional character string naming the location (used only for messages).
+#' @param refDate Numeric reference date (e.g., census year). Required.
+#' @param Age Optional numeric vector of single ages. Must match population vector length if supplied.
+#' @param country_code Numeric ISO country code. Required for WPP data retrieval.
+#' @param Females_single Optional numeric vector of female single-age population counts.
+#' @param Males_single Optional numeric vector of male single-age population counts.
+#' @param nLxFemale Optional life table \code{nLx} matrix for females. If supplied, used to derive period and cohort survival ratios.
+#' @param nLxMale Optional life table \code{nLx} matrix for males. If supplied, used to derive period and cohort survival ratios.
+#' @param nLxDatesIn Optional numeric vector of years corresponding to life table data.
+#' @param AsfrMat Optional matrix of age-specific fertility rates (ASFR). If supplied, reshaped internally; if not, WPP ASFR will be downloaded.
+#' @param AsfrDatesIn Optional numeric vector of years corresponding to ASFR data.
+#' @param SRB Optional numeric vector or single value giving sex ratio at birth (males per female); if not supplied, WPP data are used.
+#' @param SRBDatesIn Optional numeric vector of years corresponding to SRB input.
+#' @param radix Numeric starting radix for life table calculations. Defaults to 1 if not inferred.
+#' @param verbose Logical; if \code{TRUE}, prints progress messages. Default = \code{TRUE}.
+#' @param ... Additional arguments passed to internal DemoTools functions.
+#'
+#' @details
+#' The function performs the following sequence:
+#' \enumerate{
+#'   \item Validates input arguments and loads the most recent available \code{wpp} dataset.
+#'   \item Retrieves population, mortality (\code{mx}), fertility (ASFR), and SRB data from WPP if not supplied by the user.
+#'   \item Converts \code{nLx} inputs (if provided) into period life tables and reconstructs cohort survival ratios needed for reverse survival.
+#'   \item Computes reverse-survival multipliers (\code{SxRev}) and cumulative inflation factors.
+#'   \item Estimates exposures for reproductive ages and computes annual births.
+#'   \item Splits births into male and female counts using the sex ratio at birth.
+#'   \item Reverse-survives births to reconstruct ages 0–9, and reverse-survives older ages using cohort-specific inflation factors.
+#'   \item Returns reconstructed population for males and females.
+#' }
+#'
+#' The reverse survival method is useful when historical population data are unavailable
+#' or incomplete but life table and fertility information are known.
+#'
+#' @return A named list with two tibbles:
+#' \describe{
+#'   \item{pop_hat_m}{Reconstructed male population by single year of age and cohort.}
+#'   \item{pop_hat_f}{Reconstructed female population by single year of age and cohort.}
+#' }
+#' @importFrom dplyr filter select mutate arrange group_by ungroup right_join left_join summarize
+#' @importFrom tidyr pivot_longer pivot_wider unnest
+#' @importFrom tibble tibble rownames_to_column as_tibble_col
+#' @importFrom magrittr %>%
+#' @importFrom rlang .data
+#'
+#' @examples
+#' # Example: Estimate base population for Germany, year 2000
+#' basepop <- basepop_single(
+#'   country_code = 276,
+#'   refDate = 2000
+#' )
+#'
+#' basepop$pop_hat_m  # Male reconstructed population
+#' basepop$pop_hat_f  # Female reconstructed population
+#'
+#' @export
+
+basepop_single <- function(refDate        = NULL,
+                           Age            = NULL,
+                           country_code   = NULL,
+                           Females_single = NULL,
+                           Males_single   = NULL,
+                           nLxFemale      = NULL,
+                           nLxMale        = NULL,
+                           nLxDatesIn     = NULL,
+                           AsfrMat        = NULL,
+                           AsfrDatesIn    = NULL,
+                           SRB            = NULL,
+                           SRBDatesIn     = NULL,
+                           radix          = NULL,
+                           verbose        = TRUE,
+                           ...) {
+  
+  # --- Global setup ---------------------------------------------------------
+  # options from DemoTools version
+  options(basepop_verbose = verbose)
+  on.exit(options(basepop_verbose = NULL))
+  
+  if(!is.numeric(country_code)) { 
+    
+    stop("Please provide a numeric code of the country you working with.")
+    
+  }
+  
+  
+  if(length(refDate) > 1) { 
+    
+    stop("You should pick one reference date refDate")
+    
+  }
+  
+  
+  # Jan 1 2000 female pop;
+  # note:  1999 means dec 31, 1999, so we treat as jan 1, 2000.
+  # we need these dates to filter period
+  # refDate is treated as Jan 1 of the following year for consistency with WPP
+  refDate       <- dec.date(refDate) - 1
+  refDate_start <- refDate - 9
+  
+  # --- Basic validation -----------------------------------------------------
+  # we need minimum of date and country to run a function
+  if(is.null(refDate) | is.null(country_code)) {
+    
+    stop("At least refDate and country_code should be provided for function to work")
+    
+  }
+  
+  # here we attach the latest wpp package available
+  installed_wpp <- grep("^wpp\\d{4}$", rownames(installed.packages()), value = TRUE)
+  
+  if(length(installed_wpp) == 0) {
+    
+    stop("No wpp package installed.")
+    
+  }
+  
+  latest_wpp <- sort(installed_wpp, decreasing = TRUE)[1]
+  library(latest_wpp, character.only = TRUE, quietly = TRUE)
+  
+  if(parse_number(latest_wpp) < 2022) { 
+    
+    stop("No single ages are availabe in wpp versions earlier that wpp2022. Consider updating the wpp package or change to five year solution, basepop_five.")
+    
+  }
+  
+  # --- Load population and mortality data ----------------------------------
+  # if user did not provide population we can calculate it from wpp
+  if(is.null(Females_single) | is.null(Males_single)) {
+    
+    data("popAge1dt", package = latest_wpp)
+    
+  }
+  
+  # this data is for future calculations
+  data("mx1dt", package = latest_wpp)
+  
+  # --- Prepare user-supplied population vectors ----------------------------
+  # Convert numeric vectors to tidy tibbles with cohort tagging
+  # if user provided Population vector we turn it into tibble
+  if(!is.null(Females_single)) {
+    
+    Females_single <- tibble("pop"  = Females_single,
+                             "year" = refDate + 1) %>% 
+      mutate("age"    = row_number() - 1,
+             "cohort" = year - age - 1)
+    
+    
+  }
+  
+  # same for Males
+  if(!is.null(Males_single)) {
+    
+    Males_single <- tibble("pop"    = Males_single,
+                           "year"   = refDate + 1) %>% 
+      mutate("age"    = row_number() - 1,
+             "cohort" = year - age - 1)
+    
+  }
+  
+  # --- Retrieve WPP population if user did not provide one -----------------
+  # if user did not provide Population
+  if(is.null(Females_single)) {
+    
+    Females_single <- popAge1dt %>%
+      dplyr::filter(.data$country_code == !!country_code, 
+             .data$year == refDate) %>%
+      select("year", "age", "pop" = "popF") %>%
+      mutate("year"   = .data$year + 1,
+             "cohort" = .data$year - .data$age - 1)
+    
+  }
+  
+  # same operation for males
+  if(is.null(Males_single)) {
+    
+    Males_single <- popAge1dt %>% 
+      dplyr::filter(.data$country_code == !!country_code, 
+             .data$year == refDate) %>% 
+      select("year", "age", "pop" = "popM") %>% 
+      mutate("year"   = .data$year + 1,
+             "cohort" = .data$year - .data$age - 1)
+    
+  }
+  
+  # --- Age validation and setup --------------------------------------------
+  # Age setup
+  if(!is.null(Age)) {
+    
+    stopifnot(is_single(Age))
+    stopifnot(length(Age) == nrow(Females_single))
+    
+  } else {
+    
+    Age <- as.integer(sort(unique(Females_single$age)))
+    
+  }
+  
+  # --- Determine life table radix ------------------------------------------
+  if(is.null(radix) & !is.null(nLxFemale)) {
+    
+    radix <- lt_infer_radix_from_1L0(nLxFemale[1, 1])
+    
+    if(verbose) {
+      
+      cat(paste0("Setting radix to value of lx: ", radix, 
+                 ". Can be overwritten with the `radix` argument"),
+          sep = "\n")
+      
+    }
+    
+  }
+  
+  if(is.null(radix) & is.null(nLxFemale)) { 
+    
+    radix <- 1
+    cat(paste0("Setting radix to value of lx: ", radix, 
+               ". Can be overwritten with the `radix` argument"),
+        sep = "\n")
+    
+  }
+  
+  # --- Compute reverse survival ratios (SxRev) ------------------------------
+  # These represent the probability of surviving backward in time.
+  # Female and male SxRev matrices are created either from nLx input or WPP mx data.
+  # Inflation factor is cumulative survival ratio (used for exposure reconstruction).
+  
+  if(!is.null(nLxFemale)) {
+    
+    mxF <- downloadnLx(nLx = nLxFemale) %>% 
+      as.data.frame() %>% 
+      { if (!"age" %in% names(.)) rownames_to_column(., "age") else . } %>%
+      mutate("age" = parse_number(.data$age)) %>% 
+      pivot_longer(-c("age"),
+                   names_to  = "year",
+                   values_to = "Lxp",
+                   names_transform  = list("year" = as.numeric)) %>% 
+      mutate("n"  = age2int(.data$age, OAvalue = Inf),
+             "ax" = ifelse(.data$age == 0,
+                           lt_rule_L0_1a0(L0_target = .data$Lxp[.data$age == 0],
+                                          l0        = radix,
+                                          sex       = "f"), 0.5), .by = "year") %>% 
+      unnest("ax") %>% 
+      mutate("qx"      = (.data$Lxp - lead(.data$Lxp)) / .data$Lxp,
+             "lx"      = lt_id_q_l(nqx   = .data$qx, 
+                                   radix = radix),
+             "dx"      = .data$lx * .data$qx,
+             "Lx"      = .data$lx - .data$dx * (1 - .data$ax),
+             "mx"      = lt_id_qa_m(nqx    = .data$qx, 
+                                    nax    = .data$ax, 
+                                    AgeInt = .data$n),
+             "cohort"  = .data$year - .data$age - 1,
+             "qx"      = ifelse(.data$age == max(.data$age), 1, .data$qx),
+             "mx"      = ifelse(.data$age == max(.data$age), 1 / 
+                                  .data$ax[.data$age == max(.data$age)], .data$mx)) %>% 
+      arrange(.data$cohort, .data$age)  %>% 
+      mutate(
+        "lx"    = lt_id_q_l(nqx   = .data$qx, 
+                            radix = radix),
+        "dx"    = .data$lx * .data$qx,
+        "Lx"    = .data$lx - .data$dx * (1 - .data$ax),
+        "SxRev" = .data$Lx / lead(.data$Lx, default = 1),
+        .by = "cohort"
+      )  %>% 
+      arrange(.data$year, .data$age)  %>% 
+      mutate(
+        "lxp"   = lt_id_q_l(nqx   = .data$qx, 
+                            radix = radix),
+        "dxp"   = .data$lxp * .data$qx,
+        "Lxp"   = .data$lxp - .data$dxp * (1 - .data$ax),
+        "SxRev" = ifelse(year == max(.data$year), .data$Lxp / 
+                           lead(.data$Lxp), .data$SxRev), 
+        .by = "year")  %>% 
+      dplyr::filter(.data$age < 100)  %>% 
+      select("cohort", "year", "age", "SxRev")  %>% 
+      arrange(.data$cohort, -c(.data$age)) %>% 
+      # inflation for reverse-surviving
+      mutate("inflation_factor" = cumprod(.data$SxRev), .by = "cohort")
+    
+  }
+  
+  if(!is.null(nLxMale)) {
+    
+    # tst <- downloadnLx(
+    #   nLx         = NULL,
+    #   location    = country_code,
+    #   gender      = "m",
+    #   nLxDatesIn  = refDate_start:refDate,
+    #   Age         = NULL,
+    #   method      = "linear",
+    #   output      = "single",
+    #   radix       = radix)
+    
+    mxM <- downloadnLx(nLx = nLxMale) %>% 
+      as.data.frame() %>% 
+      { if (!"age" %in% names(.)) rownames_to_column(., "age") else . } %>%
+      mutate("age" = parse_number(.data$age)) %>% 
+      pivot_longer(-c("age"),
+                   names_to  = "year",
+                   values_to = "Lxp",
+                   names_transform  = list(year = as.numeric)) %>% 
+      mutate("n"  = age2int(.data$age, OAvalue = Inf),
+             "ax" = ifelse(.data$age == 0,
+                           lt_rule_L0_1a0(L0_target = .data$Lxp[.data$age == 0],
+                                          l0        = radix,
+                                          sex       = "m"), 0.5), .by = "year") %>% 
+      unnest("ax") %>% 
+      mutate("qx"      = (.data$Lxp - lead(.data$Lxp)) / .data$Lxp,
+             "lx"      = lt_id_q_l(nqx   = .data$qx, 
+                                   radix = radix),
+             "dx"      = .data$lx * .data$qx,
+             "Lx"      = .data$lx - .data$dx * (1 - .data$ax),
+             "mx"      = lt_id_qa_m(nqx    = .data$qx, 
+                                    nax    = .data$ax, 
+                                    AgeInt = .data$n),
+             "cohort"  = .data$year - .data$age - 1,
+             "qx"      = ifelse(.data$age == max(.data$age), 1, .data$qx),
+             "mx"      = ifelse(.data$age == max(.data$age), 1 / 
+                                  .data$ax[.data$age == max(.data$age)], .data$mx)) %>% 
+      arrange(.data$cohort, .data$age)  %>%
+      mutate(
+        "lx"    = lt_id_q_l(nqx   = .data$qx, 
+                            radix = radix),
+        "dx"    = .data$lx * .data$qx,
+        "Lx"    = .data$lx - .data$dx * (1 - .data$ax),
+        "SxRev" = .data$Lx / lead(.data$Lx, default = 1),
+        .by = "cohort"
+      ) %>% 
+      arrange(.data$year, .data$age) %>% 
+      mutate(
+        "lxp"   = lt_id_q_l(nqx   = .data$qx, 
+                            radix = radix),
+        "dxp"   = .data$lxp * .data$qx,
+        "Lxp"   = .data$lxp - .data$dxp * (1 - .data$ax),
+        "SxRev" = ifelse(year == max(.data$year), .data$Lxp / 
+                           lead(.data$Lxp), .data$SxRev), 
+        .by = "year") %>% 
+      dplyr::filter(.data$age < 100) %>% 
+      select("cohort", "year", "age", "SxRev") %>% 
+      arrange(.data$cohort, -c(.data$age)) %>% 
+      # inflation for reverse-surviving
+      mutate("inflation_factor" = cumprod(.data$SxRev), .by = "cohort")
+    
+  }
+  
+  # if not provided by user
+  if(is.null(nLxMale)) {
+    
+    mxM <- mx1dt  %>% 
+      dplyr::filter(.data$country_code == !!country_code,
+             between(.data$year, refDate_start, refDate)) %>% 
+      as_tibble() %>% 
+      select("year", "age", "mx" = "mxM") %>% 
+      # could try to warp to PC shape here,
+      # but uncertain infants. Maybe using
+      # an a0 assumption it'd be doable.
+      # need cohorts to structure reverse survival
+      mutate(
+        "cohort" = .data$year - .data$age - 1,
+        "age_int" = 1, 
+        "ax" = if_else(.data$age == 0, lt_rule_1a0_ak(M0  = .data$mx, 
+                                                      Sex = "m"), 0.5),
+        "qx" = lt_id_ma_q(nMx = .data$mx, nax = .data$ax, AgeInt = .data$age_int)
+      ) %>% 
+      arrange(.data$cohort, .data$age) %>% 
+      mutate(
+        "lx" = lt_id_q_l(nqx   = .data$qx, 
+                         radix = radix),
+        "dx" = .data$lx * .data$qx,
+        "Lx" = .data$lx - .data$dx * (1 - .data$ax),
+        "SxRev" = .data$Lx / lead(.data$Lx, default = 1), .by = "cohort"
+      ) %>% 
+      arrange(.data$year, .data$age) %>% 
+      mutate(
+        "lxp" = lt_id_q_l(nqx   = .data$qx, 
+                          radix = radix), 
+        "dxp" = .data$lxp * .data$qx,
+        "Lxp" = .data$lxp - .data$dxp * (1 - .data$ax),
+        "SxRev" = ifelse(.data$year == max(.data$year), .data$Lxp / lead(.data$Lxp), .data$SxRev), 
+        .by = "year") %>% 
+      dplyr::filter(.data$age < 100) %>% 
+      select("cohort", "year", "age", "SxRev") %>% 
+      arrange(.data$cohort, -c(.data$age)) %>% 
+      # inflation for reverse-surviving
+      mutate("inflation_factor" = cumprod(.data$SxRev), .by = "cohort")
+    
+  }
+  
+  # if not provided by user
+  if(is.null(nLxFemale)) {
+    
+    mxF <- mx1dt  %>% 
+      dplyr::filter(.data$country_code == !!country_code,
+             between(.data$year, refDate_start, refDate))  %>% 
+      select("year", "age", "mx" = "mxF")  %>% 
+      # could try to warp to PC shape here,
+      # but uncertain infants. Maybe using
+      # an a0 assumption it'd be doable.
+      # need cohorts to structure reverse survival
+      mutate(
+        "cohort" = .data$year - .data$age - 1,
+        "age_int" = 1,
+        "ax" = if_else(.data$age == 0, lt_rule_1a0_ak(M0  = .data$mx, 
+                                                      Sex = "f"), 0.5),
+        "qx" = lt_id_ma_q(nMx = .data$mx, nax = .data$ax, AgeInt = .data$age_int)
+      )  %>% 
+      arrange(.data$cohort, .data$age)  %>% 
+      mutate(
+        "lx" = lt_id_q_l(nqx   = .data$qx, 
+                         radix = radix),
+        "dx" = .data$lx * .data$qx,
+        "Lx" = .data$lx - .data$dx * (1 - .data$ax),
+        "SxRev" = .data$Lx / lead(.data$Lx, default = 1), .by = "cohort"
+      )  %>% 
+      arrange(.data$year, .data$age)  %>% 
+      mutate(
+        "lxp" = lt_id_q_l(nqx   = .data$qx, 
+                          radix = radix), 
+        "dxp" = .data$lxp * .data$qx,
+        "Lxp" = .data$lxp - .data$dxp * (1 - .data$ax),
+        "SxRev" = ifelse(.data$year == max(.data$year), .data$Lxp / lead(.data$Lxp), .data$SxRev), 
+        .by = "year") %>% 
+      dplyr::filter(.data$age < 100)  %>% 
+      select("cohort", "year", "age", "SxRev")  %>% 
+      arrange(.data$cohort, -c(.data$age))  %>% 
+      # inflation for reverse-surviving
+      mutate("inflation_factor" = cumprod(.data$SxRev), .by = "cohort")
+  }
+  
+  # --- Compute exposures ---------------------------------------------------
+  # Exposures are estimated as mean of adjacent populations (mid-year approx).
+  # Restricted to ages 15–49 for fertility-related computations.
+  
+  # (Exposure calculations for expF and expM unchanged)
+  
+  expF <- Females_single  %>% 
+    select("cohort", "pop") %>% 
+    right_join(mxF, by = c("cohort")) %>% 
+    mutate("pop_hat" = .data$pop * .data$inflation_factor) %>%
+    select("year", "age", "pop" = "pop_hat") %>%
+    bind_rows(select(Females_single, "year", "age", "pop")) %>%
+    dplyr::filter(between(.data$age, 10, 55)) %>% # are we sure about this age range??
+    arrange(.data$age, .data$year) %>%
+    mutate("pop_1p1"  = lead(.data$pop),
+           "exposure" = (.data$pop + .data$pop_1p1) / 2) %>%
+    dplyr::filter(.data$age < 55)
+  
+  # --- Fertility rates (ASFR) ----------------------------------------------
+  # If user supplies AsfrMat, reshape to long format; otherwise, download from WPP.
+  if(!is.null(AsfrMat)) {
+    
+    AsfrMat <- downloadASFR(Asfrmat = AsfrMat) %>% 
+      as.data.frame() %>%
+      # only if age is not present in data
+      { if (!"age" %in% names(.)) rownames_to_column(., "age") else . } %>%
+      mutate(age = readr::parse_number(age)) %>% 
+      pivot_longer(-any_of(c("country_code", "name", "age")),
+                   names_to  = "year",
+                   values_to = "asfr") %>%
+      mutate("year" = as.numeric(.data$year))
+    
+  }
+  
+  if(is.null(AsfrMat)) {
+    
+    AsfrMat <- downloadASFR(Asfrmat     = NULL,
+                            location    = country_code,
+                            AsfrDatesIn = refDate_start:refDate,
+                            Age         = NULL,
+                            method      = "linear",
+                            output      = "single") %>%
+      as.data.frame() %>% 
+      rownames_to_column("age") %>%
+      mutate("age" = parse_number(.data$age)) %>% 
+      pivot_longer(-c("age"),
+                   names_to  = "year",
+                   values_to = "asfr",
+                   names_transform = list("year" = as.numeric))
+    
+  }
+  
+  # --- Birth computations --------------------------------------------------
+  # Estimate annual births from ASFR and exposures, then compute age since birth.
+  Bt <- left_join(expF, AsfrMat , by = c("year", "age")) %>% 
+    dplyr::filter(.data$year < refDate + 1) %>% 
+    mutate("Bx" = .data$asfr * .data$exposure)  %>% 
+    summarize(B = sum(Bx), .by = "year") %>% 
+    mutate("age"  = refDate - .data$year)
+  
+  # --- Sex ratio at birth (SRB) --------------------------------------------
+  # If missing, download from WPP; otherwise, align with cohort years.
+  if(!is.null(SRB)) {
+    
+    SRB <- downloadSRB(SRB = SRB) %>%
+      as_tibble_col(column_name = "SRB") %>%
+      mutate("cohort" = refDate_start:refDate)  
+  }
+  
+  if(is.null(SRB)) {
+    
+    SRB <- downloadSRB(SRB      = NULL,
+                       location = country_code,
+                       DatesOut = refDate_start:refDate,
+                       verbose  = TRUE) %>%
+      as_tibble() %>%
+      mutate("cohort" = refDate_start:refDate) %>%
+      rename("SRB" = "value")
+    
+  }
+  
+  # Separate births into M and F
+  Bt <- Bt %>% 
+    left_join(SRB, by = c("year" = "cohort")) %>% 
+    mutate("Bm" = .data$B * .data$SRB  / (1 + .data$SRB),
+           "Bf" = .data$B - .data$Bm)
+  
+  # --- Reverse-survival of infants -----------------------------------------
+  # Use infant mortality (Lx values) to reverse-survive births and estimate
+  # age 0–9 populations for females and males.
+  # final part
+  pop_hat_f <- mx1dt %>% 
+    dplyr::filter(.data$country_code == !!country_code) %>% 
+    select("year", "age", "mx" = "mxF") %>% 
+    # could try to warp to PC shape here,
+    # but uncertain infants. Maybe using
+    # an a0 assumption it'd be doable.
+    # need cohorts to structure reverse survival
+    mutate("cohort" = .data$year - .data$age - 1,
+           "age_int" = 1,
+           "ax" = ifelse(.data$age == 0,
+                         lt_rule_1a0_ak(M0  = .data$mx, 
+                                        Sex = "f"),
+                         0.5),
+           "qx" = lt_id_ma_q(nMx    = .data$mx, 
+                             nax    = .data$ax, 
+                             AgeInt = .data$age_int)) %>% 
+    dplyr::filter(between(.data$cohort, refDate_start, refDate),
+           between(.data$year,   refDate_start, (refDate + 1)),
+           .data$age < 10) %>% 
+    arrange(.data$cohort, .data$age) %>% 
+    mutate("lx" = lt_id_q_l(nqx   = .data$qx, 
+                            radix = radix),
+           "dx" = .data$lx * .data$qx,
+           "Lx" = .data$lx - .data$dx * (1 - .data$ax), .by = "cohort") %>% 
+    dplyr::filter(.data$year == max(.data$year), .by = "cohort") %>%  # ??????
+    select("age", "Lx", "cohort") %>% 
+    left_join(Bt, by = c("age")) %>% 
+    left_join(SRB, by = c("cohort")) %>% 
+    mutate("pop_hat_f" = .data$Lx * .data$Bf) %>%
+    select("age", "pop_hat_f", "cohort")
+  
+  # for males
+  pop_hat_m <- mx1dt %>% 
+    dplyr::filter(.data$country_code == !!country_code) %>% 
+    select("year", "age", "mx" = "mxM") %>% 
+    # could try to warp to PC shape here,
+    # but uncertain infants. Maybe using
+    # an a0 assumption it'd be doable.
+    # need cohorts to structure reverse survival
+    mutate("cohort" = .data$year - .data$age - 1,
+           "age_int" = 1,
+           "ax" = ifelse(.data$age == 0,
+                         lt_rule_1a0_ak(M0  = .data$mx, 
+                                        Sex = "m"),
+                         0.5),
+           "qx" = lt_id_ma_q(nMx    = .data$mx, 
+                             nax    = .data$ax, 
+                             AgeInt = .data$age_int)) %>% 
+    dplyr::filter(between(.data$cohort, refDate_start, refDate),
+           between(.data$year,   refDate_start, (refDate + 1)),
+           .data$age < 10) %>% 
+    arrange(.data$cohort, .data$age) %>% 
+    mutate("lx" = lt_id_q_l(nqx   = .data$qx, 
+                            radix = radix),
+           "dx" = .data$lx * .data$qx,
+           "Lx" = .data$lx - .data$dx * (1 - .data$ax), .by = "cohort") %>% 
+    dplyr::filter(.data$year == max(.data$year), .by = "cohort") %>%  # ??????
+    select("age", "Lx", "cohort") %>% 
+    left_join(Bt, by = c("age")) %>% 
+    left_join(SRB, by = c("cohort")) %>% 
+    mutate("pop_hat_m" = .data$Lx * .data$Bm) %>%
+    select("age", "pop_hat_m", "cohort")
+  
+  return(list(pop_hat_m = pop_hat_m,
+              pop_hat_f = pop_hat_f,
+              SRB       = SRB,
+              AsfrMat   = AsfrMat,
+              Bt        = Bt,
+              nLxFemale = nLxFemale,
+              nLxMale   = nLxMale,
+              expF      = expF
+  ))
+  
 }
 
 
@@ -837,7 +1441,7 @@ basepop_five <- function(location = NULL,
 
 #
 
-# TR: modified to assume males and females always given
+# # TR: modified to assume males and females always given
 ArgsCheck <- function(ArgList) {
   with(ArgList, {
     stopifnot(
@@ -853,23 +1457,23 @@ ArgsCheck <- function(ArgList) {
       # TR no check on ASFRmat dates?
     )})
 }
-
-
-lt_infer_radix_from_1L0 <- function(L0){
-
-  if (L0 > 1){
-    radix_check <- L0 %>% as.integer() %>% log10()
-    is_it_a_radix <- (radix_check - round(radix_check)) == 0
-
-    if (!is_it_a_radix){
-      pow <- L0 %>% round() %>% as.integer() %>% nchar()
-
-      the_radix <- 10^pow
-    } else {
-      the_radix <- L0
-    }
-  } else {
-    the_radix <- 1
-  }
-  the_radix
-}
+# 
+# 
+# lt_infer_radix_from_1L0 <- function(L0){
+# 
+#   if (L0 > 1){
+#     radix_check <- L0 %>% as.integer() %>% log10()
+#     is_it_a_radix <- (radix_check - round(radix_check)) == 0
+# 
+#     if (!is_it_a_radix){
+#       pow <- L0 %>% round() %>% as.integer() %>% nchar()
+# 
+#       the_radix <- 10^pow
+#     } else {
+#       the_radix <- L0
+#     }
+#   } else {
+#     the_radix <- 1
+#   }
+#   the_radix
+# }
