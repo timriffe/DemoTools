@@ -22,7 +22,7 @@ License: file LICENSE
 LazyLoad: yes
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Depends:
     R (>= 4.1),
     Rcpp (>= 0.12.0),
@@ -39,7 +39,6 @@ Imports:
     data.table (>= 1.13.6),
     demogR,
     DemoToolsData (>= 0.1.5),
-    dplyr,
     fertestr (>= 0.10.00),
     lubridate,
     magrittr,
@@ -49,7 +48,8 @@ Imports:
     rstan (>= 2.18.1),
     tibble,
     tidybayes,
-    ungroup (>= 1.4.2)
+    ungroup (>= 1.4.2),
+    dplyr
 BugReports: https://github.com/timriffe/DemoTools/issues
 Remotes: 
     github::timriffe/fertestr,

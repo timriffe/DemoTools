@@ -6,20 +6,20 @@
 \usage{
 basepop_five(
   location = NULL,
-  refDate,
+  refDate = NULL,
   Age = NULL,
-  Females_five,
+  Females_five = NULL,
   Males_five = NULL,
   nLxFemale = NULL,
   nLxMale = NULL,
   nLxDatesIn = NULL,
   AsfrMat = NULL,
   AsfrDatesIn = NULL,
-  ...,
   SRB = NULL,
   SRBDatesIn = NULL,
   radix = NULL,
-  verbose = TRUE
+  verbose = TRUE,
+  ...
 )
 }
 \arguments{
@@ -77,10 +77,6 @@ the dates which pertain to the columns in \code{AsfrMat}. If not provided,
 the function automatically determines two dates which are 8 years before
 \code{refDate} and 0.5 before \code{refDate}.}
 
-\item{...}{Arguments passed to \verb{\link{interp}}. In particular, users
-might be interested in changing the interpolation method for the \verb{nLx*}
-matrices and the \code{Asfr} matrix. By default, it's linearly interpolated.}
-
 \item{SRB}{A numeric. Sex ratio at birth (males / females). Default is set
 to 1.046. Only a maximum of three values permitted.}
 
@@ -98,6 +94,10 @@ about the download at each step? Defaults to \code{TRUE}. We recommend the
 user to set this to \code{TRUE} at all times because the function needs to
 make decisions (such as picking the dates for the Asfr and nLx) that the user
 should be aware of.}
+
+\item{...}{Arguments passed to \verb{\link{interp}}. In particular, users
+might be interested in changing the interpolation method for the \verb{nLx*}
+matrices and the \code{Asfr} matrix. By default, it's linearly interpolated.}
 }
 \value{
 \code{basepop_five} returns a list with the following elements:
@@ -247,305 +247,42 @@ underenumeration of persons in certain ages, nor by age misreporting.
 \examples{
 
  \dontrun{
-
-################ BPE (five year age groups) #####################
-
-# Grab population counts for females
-refDate <- 1986
+refDate  <- 1985
 location <- "Brazil"
-pop_female_single <- fertestr::FetchPopWpp2019(location,
-                                               refDate,
-                                               ages = 0:100,
-                                               sex = "female")
-pop_female_counts <- single2abridged(setNames(pop_female_single$pop,
-                                              pop_female_single$ages))
-pop_male_single   <- fertestr::FetchPopWpp2019(location,
-                                               refDate,
-                                               ages = 0:100,
-                                               sex = "male")
-pop_male_counts   <- single2abridged(setNames(pop_male_single$pop,
-                                              pop_male_single$ages))
-Age <- names2age(pop_male_counts)
+data("popF",  package = "wpp2024")
+data("popM",  package = "wpp2024")
+
+Age <- parse_number(unique(popF$age))
+
+# so technically this function is for abridged data
+# it does not work if first group is in 5 years
+pop_female_counts <- popF \%>\%
+ dplyr::filter(name == location) \%>\% 
+ pull("1985")
+
+pop_male_counts   <- popM \%>\%
+ dplyr::filter(name == location) \%>\% 
+ pull("1985")
+
+names(pop_female_counts) <- names(pop_female_counts) <-  Age
+
+# graduate
+Females_five <- graduate_pclm(pop_female_counts, Age = Age) \%>\% 
+ single2abridged()
+Males_five   <- graduate_pclm(pop_male_counts, Age = Age) \%>\% 
+ single2abridged()
+
+Age <- names2age(Males_five)
+
 # Automatically downloads the nLx, ASFR, and SRB data
 bpe <- basepop_five(
-  location = location,
-  refDate = refDate,
-  Females_five = pop_female_counts,
-  Males_five = pop_male_counts,
-  Age = Age
+ location     = location,
+ refDate      = refDate,
+ Females_five = Females_five,
+ Males_five   = Males_five,
+ Age          = Age,
+ verbose      = TRUE
 )
-
-# The counts for the first three age groups have been adjusted:
-bpe$Females_adjusted[1:3]
-pop_female_counts[1:3]
-
-bpe$Males_adjusted[1:3]
-pop_male_counts[1:3]
-
-
-################ BPE (for single ages) ############################
-# blocked out for now, until single age function refactored as
-# TR: actually, it just needs to be rethought for single ages..
-# pop_female_single <- setNames(pop_female_single$pop, pop_female_single$ages)
-#
-# # Automatically downloads the nLx and ASFR data
-# bpe_female <- basepop_single(
-#   location = location,
-#   refDate = refDate,
-#   Females_single = pop_female_single
-# )
-#
-# # The counts for the first 10 age groups have been adjusted:
-# bpe_female[1:10]
-# pop_female_single[1:10]
-################ BPA (five year age groups) #####################
-# for BPA, smooth counts in advance
-smoothed_females <- smooth_age_5(Value = pop_female_counts,
-                                 Age = Age,
-                                 method = "Arriaga",
-                                 OAG = TRUE,
-                                 young.tail = "Original")
-# Note, smooth_age_5() will group infants into the 0-4 age group. So,
-# we manually stick them back in place.
-smoothed_females <- c(pop_female_counts[1:2], smoothed_females[-1])
-smoothed_males <- smooth_age_5(Value = pop_male_counts,
-                               Age = Age,
-                               method = "Arriaga",
-                               OAG = TRUE,
-                               young.tail = "Original")
-smoothed_males <- c(smoothed_males[1:2], smoothed_males[-1])
-
-# Automatically downloads the nLx, ASFR, and SRB data
-bpa <- basepop_five(
-  location = location,
-  refDate = refDate,
-  Females_five = smoothed_females,
-  Males_five = smoothed_males,
-  Age = Age
-)
-
-# The counts for the first three age groups have been adjusted:
-bpa$Females_adjusted[1:3]
-smoothed_females[1:3]
-pop_female_counts[1:3]
-
-bpa$Males_adjusted[1:3]
-smoothed_males[1:3]
-pop_male_counts[1:3]
-
-################ PAS example ###############################
-
- # (1) refDate
- refDate <- 1986.21
-
- # (2) Reported population by 5-year age groups and sex in the base year
- # (Include unknowns).
-
- pop_male_counts <- c(11684, 46738, 55639, 37514, 29398, 27187, 27770, 20920, 16973,
-                      14999, 11330, 10415, 6164, 7330, 3882, 3882, 1840, 4200)
-
- pop_female_counts <- c(11673, 46693, 55812, 35268, 33672, 31352, 33038, 24029, 16120,
-                        14679, 8831, 9289, 4172, 6174, 2715, 3344, 1455, 4143)
- Age <- c(0,1, seq(5, 80, by = 5))
-
- # (4) Sex ratio at birth (m/f)
- sex_ratio <- 1.0300
-
- # (6) The male and female nLx functions for ages under 1 year, 1 to 4 years, and 5 to 9
- # years, pertaining to an earlier and later date
- nLxDatesIn <- c(1977.31, 1986.50)
-
- nLxMale <- matrix(c(87732, 304435, 361064, 88451, 310605, 370362),
-                   nrow = 3, ncol = 2)
-
- nLxFemale <- matrix(c(89842, 314521, 372681, 353053, 340650, 326588,
-                       311481, 295396, 278646, 261260, 241395,217419,
-                       90478, 320755, 382531, 364776, 353538, 340687,
-                       326701, 311573, 295501, 278494, 258748,234587),
-                     nrow = 12,
-                     ncol = 2)
-
- # (7) A set of age-specific fertility rates pertaining to an earlier and later
- # date
-
- asfrmat <- structure(
-    c(0.2, 0.3, 0.3, 0.25, 0.2, 0.15, 0.05, 0.15, 0.2,
-      0.275, 0.225, 0.175, 0.125, 0.05), .Dim = c(7L, 2L),
-    .Dimnames = list(
-      c("15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49"),
-      c("1977.81", "1985.71")))
-
- # for BPA, smooth counts in advance
- smoothed_females <- smooth_age_5(Value = pop_female_counts,
-                                  Age = Age,
-                                  method = "Arriaga",
-                                  OAG = TRUE,
-                                  young.tail = "Original")
- smoothed_females <- c(pop_female_counts[1:2], smoothed_females[-1])
- smoothed_males <- smooth_age_5(Value = pop_male_counts,
-                                  Age = Age,
-                                  method = "Arriaga",
-                                  OAG = TRUE,
-                                  young.tail = "Original")
- smoothed_males <- c(pop_male_counts[1:2], smoothed_males[-1])
- ## This is the only number that messes up the whole calculation.
- ## smooth_age_5 returns the same result as the PASS excel sheet
- ## except for the age groups 10-15 and 15-19. Here we only use
- ## age group 15-19. If we plug in manually the correct value,
- ## we get all results match exactly, otherwise there are
- ## some differences.
- smoothed_females[4] <- 34721
-
- # For adjusting using BPA for males, we need to specify
- # female = FALSE with Males and nLxMale.
- bpa <-
-   basepop_five(
-     refDate = refDate,
-     Males_five = smoothed_males,
-     Females_five = smoothed_females,
-     Age = Age,
-     SRB = sex_ratio,
-     nLxFemale = nLxFemale,
-     nLxMale = nLxMale,
-     nLxDatesIn = nLxDatesIn,
-     AsfrMat = asfrmat,
-     AsfrDatesIn = AsfrDatesIn,
-     radix = 1e5
-   )
-
- # See adjustments?
- pop_male_counts[1:3]
- bpa$Male_adjusted[1:3]
-
- pop_female_counts[1:3]
- bpa$Female_adjusted[1:3]
-
- # For adjustment using BPE, we use exactly the same definitions as above
- # but use the original inputs
-
- bpe <-
-   basepop_five(
-     refDate = refDate,
-     Females_five = pop_female_counts,
-     Males_five = pop_male_counts,
-     SRB = sex_ratio,
-     nLxFemale = nLxFemale,
-     nLxDatesIn = nLxDatesIn,
-     AsfrMat = asfrmat,
-     AsfrDatesIn = AsfrDatesIn
-   )
-
- pop_female_counts[1:3]
- bpe$Females_adjusted[1:3]
-
-# basepop_single for single ages
-# Single ages for males and females
-
-# pop_male_counts <-
-#   c(11684, 11473, 11647, 11939, 11680, 10600, 11100, 11157, 11238,
-#     11544, 7216, 7407, 7461, 7656, 7774, 5709, 5629, 5745, 6056,
-#     6259, 5303, 5423, 5497, 5547, 5417, 5441, 5466, 5500, 5668, 5694,
-#     4365, 4252, 4122, 4142, 4039, 3210, 3222, 3258, 3413, 3871, 2684,
-#     2844, 3052, 3182, 3237, 2263, 2298, 2318, 2257, 2194, 2231, 2172,
-#     2072, 2008, 1932, 1301, 1262, 1213, 1197, 1191, 1601, 1593, 1490,
-#     1348, 1299, 568, 745, 843, 801, 925, 806, 883, 796, 725, 672,
-#     470, 441, 340, 300, 289, 4200)
-#
-# pop_female_counts <-
-#   c(11673, 11474, 11670, 11934, 11614, 10603, 11144, 11179, 11269,
-#     11617, 6772, 6948, 7030, 7211, 7306, 6531, 6443, 6535, 6951,
-#     7213, 6096, 6234, 6327, 6410, 6285, 6464, 6492, 6549, 6739, 6795,
-#     5013, 4888, 4735, 4747, 4646, 3040, 3068, 3107, 3246, 3658, 2650,
-#     2788, 2977, 3108, 3156, 1756, 1784, 1802, 1764, 1724, 1982, 1935,
-#     1846, 1795, 1731, 863, 850, 825, 819, 816, 1348, 1342, 1246,
-#     1138, 1101, 391, 520, 585, 560, 659, 670, 750, 686, 634, 604,
-#     353, 340, 270, 246, 247, 4143)
-#  Age <- 0:80
-#
-#  smoothed_females <- smooth_age_5(Value = pop_female_counts,
-#                                   Age = Age,
-#                                   method = "Arriaga",
-#                                   OAG = TRUE,
-#                                   young.tail = "Original")
-#  smoothed_males <- smooth_age_5(Value = pop_male_counts,
-#                                   Age = Age,
-#                                   method = "Arriaga",
-#                                   OAG = TRUE,
-#                                   young.tail = "Original")
-
- # For adjusting using BPA for males, we need to specify
- # female = FALSE with Males and nLxMale.
-
- # This needs work still
- # bpa_male <-
- #   basepop_single(
- #     refDate = refDate,
- #     Males_single = pop_male_counts,
- #     Females_single = pop_female_counts,
- #     SRB = sex_ratio,
- #     nLxFemale = nLxFemale,
- #     nLxMale = nLxMale,
- #     nLxDatesIn = nLxDatesIn,
- #     AsfrMat = asfrmat,
- #     AsfrDatesIn = AsfrDatesIn
- #     )
-
- # See adjustments?
- # pop_male_counts[1:10]
- # bpa_male[1:10]
-
- # Adjusting the BPA for females requires less arguments
- # bpa_female <-
- #   basepop_single(
- #     refDate = refDate,
- #     Females_single = pop_female_counts,
- #     SmoothedFemales = smoothed_females,
- #     SRB = sex_ratio,
- #     nLxFemale = nLxFemale,
- #     nLxDatesIn = nLxDatesIn,
- #     AsfrMat = asfrmat,
- #     AsfrDatesIn = AsfrDatesIn
- #   )
-
- # pop_female_counts[1:10]
- # bpa_female[1:10]
- #
- # # For adjustment using BPE, we use exactly the same definitions as above
- # # but remove SmoothedFemales.
- # bpe_male <-
- #   basepop_single(
- #     refDate = refDate,
- #     Males_single = pop_male_counts,
- #     Females_single = pop_female_counts,
- #     SRB = sex_ratio,
- #     nLxFemale = nLxFemale,
- #     nLxMale = nLxMale,
- #     nLxDatesIn = nLxDatesIn,
- #     AsfrMat = asfrmat,
- #     AsfrDatesIn = AsfrDatesIn,
- #     female = FALSE
- #     )
-
- # See adjustments?
- # pop_male_counts[1:10]
- # bpa_male[1:10]
- # bpe_male[1:10]
-
- # Adjusting the BPA for females requires less arguments
- # bpe_female <-
- #   basepop_single(
- #     refDate = refDate,
- #     Females_single = pop_female_counts,
- #     SRB = sex_ratio,
- #     nLxFemale = nLxFemale,
- #     nLxDatesIn = nLxDatesIn,
- #     AsfrMat = asfrmat,
- #     AsfrDatesIn = AsfrDatesIn
- #   )
- #
- # pop_female_counts[1:10]
- # bpa_female[1:10]
- # bpe_female[1:10]
 
  }
 

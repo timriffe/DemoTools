@@ -2,22 +2,56 @@
 % Please edit documentation in R/utils_downloads.R
 \name{downloadSRB}
 \alias{downloadSRB}
-\title{Extract SRB estimates from WPP2019}
+\title{Updated Download or Process Sex Ratio at Birth (SRB)}
 \usage{
-downloadSRB(SRB, location, DatesOut, verbose = TRUE)
+downloadSRB(SRB = NULL, location = NULL, DatesOut = NULL, verbose = TRUE)
 }
 \arguments{
-\item{SRB}{sex ratio at birth. Either \code{NULL}, a scalar to assume constant, or a vector of length 3, assumed.}
+\item{SRB}{Optional numeric value or vector specifying SRB(s) to use. If provided, this value is repeated for all \code{DatesOut}.}
 
-\item{location}{UN Pop Div \code{LocName} or \code{LocID}}
+\item{location}{Character or numeric code specifying the country or region for which SRB data should be downloaded.}
 
-\item{DatesOut}{numeric vector of three decimal dates produced by \code{basepop_ive()}}
+\item{DatesOut}{Numeric vector of years for which SRB values are required. Must contain at least one element.}
 
-\item{verbose}{logical, shall we send optional messages to the console?}
+\item{verbose}{Logical; if \code{TRUE}, prints progress and diagnostic messages. Default is \code{TRUE}.}
 }
 \value{
-numeric vector with three SRB estimates
+A named numeric vector of SRB values for each year in \code{DatesOut}.
 }
 \description{
-We use the \code{WPP2019_births} dataset from \code{DemoToolsData} for the sex ratio at birth. Births from WPP 2019 were graduates to single year totals.
+Retrieves country-specific Sex Ratio at Birth (SRB) data from the most recent installed \code{wpp} package
+(e.g., \code{wpp2022}) or returns user-supplied SRB values for a specified set of years. If the requested
+location is not found in WPP data, a default SRB value (1.0486) is used. Missing years are filled with the
+mean of available SRB values.
+}
+\details{
+The function identifies the latest installed \code{wpp} package (e.g., \code{wpp2022}) and extracts single-year
+SRB data (\code{sexRatio1}). It supports both country names and ISO numeric codes as \code{location} inputs.
+
+If the specified location is not found in the WPP data, a default SRB value corresponding to a sex ratio of
+105 male births per 100 female births (\code{1.0486}) is returned. If certain requested years are missing from
+the WPP dataset, the missing SRB values are imputed using the mean of available SRB values.
+}
+\examples{
+# Example 1: Download SRB data for France
+# lets try SRB 
+SRB <- downloadSRB(SRB      = NULL,
+                   location = "Argentina",
+                   DatesOut = 1950:1952,
+                   verbose  = TRUE)
+
+# another setup for Spain
+SRB2 <- downloadSRB(SRB      = NULL,
+                    location = "Spain",
+                    DatesOut = 2000:2030,
+                    verbose  = TRUE)
+
+SRB_user <- downloadSRB(SRB = SRB[1],
+                       DatesOut = 1950)
+
+}
+\references{
+Keyfitz, N. and Flieger, W. (1971). \emph{Population: Facts and Methods of Demography}. San Francisco: W. H. Freeman.
+
+The default proportion female at birth (\code{0.4886}), corresponding to \code{SRB = 1.0486}, is a widely used demographic constant commonly attributed to Keyfitz & Flieger (1971). This explains why the default value is not the rounded \code{1.05}.
 }

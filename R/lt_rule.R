@@ -1,5 +1,3 @@
-
-
 # Author: tim
 ###############################################################################
 
@@ -401,3 +399,171 @@ lt_rule_1a0 <- function(rule = "ak",
   }
   a0
 }
+
+#' Infer Life Table radix from 1L0
+#' Infers the radix (`l0`) of a life table based on the value of \code{1L0}.  
+#' The function tests whether \code{1L0} is already a power of 10.
+#' If it is not, the next higher power of 10 is used as the radix.
+#' If \code{1L0 <= 1}, the radix is set to 1.
+#'
+#' This helper is useful when reconstructing life tables from partial information,
+#' such as when only \code{1L0} is available and the scaling factor (radix)
+#' must be inferred.
+#'
+#' @param L0 Numeric. Numeric value of \code{1L0} from which to infer the radix.
+#'
+#' @return A numeric scalar giving the inferred radix.
+#'
+#' @examples
+#' lt_rule_l0_1L0(10000)
+#' lt_rule_l0_1L0(20)
+#' lt_rule_l0_1L0(1)
+#'
+#' @export
+
+lt_rule_l0_1L0 <- function(L0) {
+  
+  if(is.na(L0))       return(NA_real_)
+  if(is.nan(L0))      return(NA_real_)
+  if(is.infinite(L0)) return(NA_real_)
+  
+  if(L0 > 1) {
+    
+    radix_check <- L0 |>
+      as.integer() |>
+      log10()
+    
+    is_it_a_radix <- (radix_check - round(radix_check)) == 0
+    
+    if(!is_it_a_radix) {
+      
+      pow <- L0 |>
+        round() |>
+        as.integer() |>
+        nchar()
+      
+      the_radix <- 10 ^ pow
+      
+    } else {
+      
+      the_radix <- L0
+      
+    }
+    
+  } else {
+    
+    the_radix <- 1
+    
+  }
+  
+  return(the_radix)
+}
+
+
+# Author: Rustam.
+###############################################################################
+
+#' Infer a(0) and m(0) from a target L(0) using Andreev-Kingkade rule of thumb.
+#'
+#' Computes the life table quantities \code{a0}, \code{m0}, \code{l1} and other
+#' related values required to match a specified value of \code{L0_target}.
+#' 
+#' This function numerically solves for the value of \code{l1} that produces the
+#' desired value of \code{L(0)} under a mortality model given by
+#' \code{lt_rule_ak_m0_a0()}. It then derives the implied values of the infant
+#' mortality rate \code{m(0)} and separation factor \code{a(0)}.
+#'
+#' The function internally validates that the user-supplied \code{l0} matches the
+#' radix inferred from \code{L0_target} via \code{lt_rule_l0_1L0()}.
+#'
+#' @param L0_target Numeric scalar. The value of \code{L(0)} to match.
+#' @param l0 Numeric scalar. The life table radix, defaulting to 1. Must be consistent with the radix inferred from \code{L0_target}.
+#' @param sex Character. Sex indicator passed to \code{lt_rule_ak_m0_a0()}, typically \code{"m"} or \code{"f"}. Defaults to \code{"f"}.
+#'
+#' @return A named list with the following elements:
+#' \describe{
+#'   \item{a0}{The inferred separation factor at age 0.}
+#'   \item{m0}{The inferred mortality rate at age 0.}
+#'   \item{l0}{The initial radix used.}
+#'   \item{l1}{The numerically solved value of survivors to age 1.}
+#'   \item{L0_target}{The target value of L(0) supplied by the user.}
+#'   \item{sex}{The sex category used.}
+#' }
+#'
+#' @details
+#' The function solves for \code{l1} using \code{\link[stats]{uniroot}},
+#' ensuring that the predicted L(0) exactly matches \code{L0_target}.
+#' The linking mortality function \code{lt_rule_ak_m0_a0()} 
+#' The function \code{lt_rule_l0_1L0()} is also used for basic valudation.
+#'
+#' @seealso
+#'   \code{\link{lt_rule_l0_1L0}},
+#'   \code{\link{lt_rule_ak_m0_a0}}
+#'
+#' @examples
+#' lt_rule_L0_1a0(
+#'   L0_target = 0.98,
+#'   l0 = 1,
+#'   sex = "f"
+#' )
+#'
+#' @export
+
+lt_rule_L0_1a0 <- function(L0_target = NULL,
+                           l0        = 1,
+                           sex       = "f") {
+  
+  sex <- match.arg(sex, c("f", "m"))
+  
+  # Basic sanity check L(0) = l1 + a0 *(l0 − l1)
+  if (L0_target >= l0) {
+    stop(
+      "Invalid input: L0_target must be strictly less than l0.\n",
+      "The value of L0_target (", L0_target, ") is inconsistent with the ",
+      "life table definition that L(0) < l(0)."
+    )
+  }
+  
+  inferred_l0 <- round(lt_rule_l0_1L0(L0_target))
+  
+  if(l0 != inferred_l0) { 
+    stop(
+      "Input mismatch: The supplied l0 (", l0, 
+      ") does not match the radix inferred from L0_target (", inferred_l0, ").\n",
+      "Please verify the scaling of L0_target and l0."
+    )
+  }
+  
+  # Define function whose root gives the correct l(1)
+  f_root_l1 <- function(l1) {
+    
+    m0      <- (l0 - l1) / L0_target
+    a0      <- lt_rule_ak_m0_a0(M0 = m0, Sex = sex)
+    L0_pred <- l1 + a0 * (l0 - l1)
+    return(L0_pred - L0_target)
+    
+  }
+  
+  # Numerically solve for l(1)
+  sol <- uniroot(f_root_l1, 
+                 lower = 0, 
+                 upper = l0)
+  l1  <- sol$root
+  
+  # Compute implied m(0) and a(0)
+  m0  <- (l0 - l1) / L0_target
+  a0  <- lt_rule_ak_m0_a0(M0 = m0, Sex = sex)
+  
+  # Return everything useful
+  return(list(
+    a0        = a0,
+    m0        = m0,
+    l0        = l0,
+    l1        = l1,
+    L0_target = L0_target,
+    sex       = sex
+  ))
+  
+}
+
+
