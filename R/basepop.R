@@ -804,7 +804,7 @@ basepop_five <- function(location     = NULL,
 #'   \item{pop_hat_m}{Reconstructed male population by single year of age and cohort.}
 #'   \item{pop_hat_f}{Reconstructed female population by single year of age and cohort.}
 #' }
-#' @importFrom dplyr filter select mutate arrange group_by ungroup right_join left_join summarize
+#' @importFrom dplyr select mutate arrange group_by ungroup right_join left_join summarize
 #' @importFrom tidyr pivot_longer pivot_wider unnest
 #' @importFrom tibble tibble rownames_to_column as_tibble_col
 #' @importFrom magrittr %>%

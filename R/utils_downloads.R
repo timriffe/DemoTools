@@ -2,132 +2,10 @@
 # These utils might be used by basepop, interp_coh, OPAG, mig_resid*,
 # and potentially others.
 
-#' #' Extract Lx estimates from WPP2019. Mainly an util function for other ones.
-#' #' @description We extract `Lx` from `wpp2019`, interpolated to exact dates. Different methods available. 
-#' #' A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
-#' #' @param nLx numeric. either `NULL` or a numeric vector of lifetable exposure. If it's the second then we just pass it back.
-#' #' @param location vector. UN Pop Div `LocName` or `LocID`
-#' #' @param gender character. `"male"`, `"female"`, or `"both"`
-#' #' @param nLxDatesIn numeric. Vector of three decimal dates produced by (or passed through) `basepop_five()`
-#' #' @param method character. Could be `"linear"`, `"exponential"`, or `"power"`
-#' #'
-#' #' @return numeric matrix of `nLx` with `length(nLxDatesIn)` and abridged ages in rows.
-#' #' @export
-#' #' @importFrom stats setNames
-#' #' @importFrom stats reshape
-#' #' @importFrom fertestr is_LocID
-#' #' @examples
-#' #' # life expectancy calculated from Lx downloaded from WPP19. Using names or codes.
-#' #' Lxs_name <- downloadnLx(nLx=NULL, location = "Argentina",
-#' #'                         gender = "both", nLxDatesIn = 1950:2030)
-#' #' Lxs_code <- downloadnLx(nLx=NULL, location = "32",
-#' #'                         gender = "both", nLxDatesIn = 1950:2030)
-#' #' \dontrun{
-#' #' plot(1950:2030, as.numeric(colSums(Lxs_name)), xlab = "Year", ylab="e0")
-#' #' lines(1950:2030, as.numeric(colSums(Lxs_code)))
-#' #' }
-#' #' # life expectancy for different countries
-#' #' Lxs_countries <- downloadnLx(nLx=NULL, location = c("Argentina","Brazil","Uruguay"),
-#' #' gender = "both", nLxDatesIn = 1950:2025)
-#' #' \dontrun{
-#' #' plot(1950:2025, as.numeric(colSums(Lxs_countries[1:22,])), 
-#' #'      t="l", xlab = "Year", ylab="e0", ylim = c(40,80))
-#' #' lines(1950:2025, as.numeric(colSums(Lxs_countries[23:44,])), col=2)
-#' #' lines(1950:2025, as.numeric(colSums(Lxs_countries[45:64,])), col=3)
-#' #' legend("bottomright",c("Argentina","Brazil","Uruguay"),lty=1,col=1:3)
-#' #' }
-
-# downloadnLx <- function(nLx, location, gender, nLxDatesIn, method="linear") {
-# 
-#   verbose <- getOption("basepop_verbose", TRUE)
-# 
-#   if (!is.null(nLx)) {
-#     # TR: ensure colnames passed
-#     nLx <- as.matrix(nLx)
-#     colnames(nLx) <- nLxDatesIn
-#     n             <- nrow(nLx)
-#     Age           <- c(0,1,seq(5,(n-2)*5,by=5))
-#     rownames(nLx) <- Age
-#     return(nLx)
-#   }
-# 
-#   if (is.null(nLx)){
-# 
-#     # stop/warnings
-#     if (is.null(location)){
-#       stop("You need to provide a location to download the data for nLx")
-#     }
-#     if (!any(fertestr::is_LocID(location))) {
-#       location_code <- fertestr::get_location_code(location)
-#     } else {
-#       location_code <- as.integer(location)
-#     }
-# 
-#     if (verbose) {
-#       cat(paste0("Downloading nLx data for ", location, ", years ", paste(nLxDatesIn,collapse=", "), ", gender ", gender), sep = "\n")
-#     }
-#     if(any(nLxDatesIn<1950,nLxDatesIn>2025)){
-#       cat("Careful, extrapolating beyond range 1950-2025")
-#     }
-# 
-#     # handle sex
-#     sex_code <- ifelse(tolower(gender) == "both", "b",
-#                        ifelse(tolower(gender) == "female", "f",
-#                               ifelse(tolower(gender) == "male", "m", NA)))
-#     Sex_mortlaws <- ifelse(sex_code == "b", "total", tolower(gender))
-#     stopifnot(`Invalid sex name, please set it to 'both', 'male' or 'female'` = !is.na(sex_code))
-# 
-#     # initial data
-#     lt_wpp19 <-DemoToolsData::WPP2019_lt
-# 
-#     # filter and matrix shape
-#     lt_ctry <- lt_wpp19[lt_wpp19$LocID %in% location_code &
-#                           lt_wpp19$Sex %in% sex_code,] %>% as.data.frame() %>%
-#                 stats::reshape(data = .,
-#                         direction = "wide", idvar = c("LocID","AgeStart","Sex"),
-#                         timevar = "Year", v.names = "mx", drop = c("AgeSpan","lx"))
-# 
-#     # intert/extrap rates and built life tables for each combination location/Sex/Year
-#     .<-NULL
-#     out <- cbind(lt_ctry[,c(1:3)],
-#                  interp(lt_ctry[,-c(1:3)],
-#                         seq(1953,2023,5), as.numeric(nLxDatesIn),
-#                         extrap = TRUE, method = method) %>%
-#                         as.data.frame() %>%
-#                    stats::setNames(as.character(nLxDatesIn))
-#                  ) %>%
-#           split(., list(lt_ctry$LocID, lt_ctry$Sex)) %>%
-#           lapply(function(X){
-#             Age <- X[["AgeStart"]]
-#             apply(X[,-c(1:3)] %>%
-#                     as.data.frame()%>% stats::setNames(as.character(nLxDatesIn)), 2,
-#                     function(S){
-#                         # MortalityLaws::LifeTable(x = Age,
-#                         #                          mx = S,
-#                         #                          lx0 = 1,
-#                         #                          sex = Sex_mortlaws)$lt$Lx
-#                         DemoTools::lt_abridged(nMx=S,
-#                                                Age = Age,
-#                                                radix = 1,
-#                                                Sex=sex_code)$nLx
-#                   })
-#           }) %>%
-#           do.call("rbind", .)
-# 
-#     # combination as rowname
-#     rownames(out) <- lt_ctry$AgeStart
-# 
-#     return(out)
-#   }
-# }
-
 # Authors: Tim, Rustam
 #' Download or Construct nLx Life Table Values
 #'
-#' This function either formats user-supplied \code{nLx} data or downloads, interpolates, 
-#' and constructs \code{nLx} values from the most recent installed \code{wpp} package. 
-#' It supports returning single-year, abridged, or 5-year life table values for a given 
-#' location and gender.
+#' This function either formats user-supplied \code{nLx} data or downloads, interpolates, and constructs \code{nLx} values from the most recent installed \code{wpp} package. It supports returning single-year, abridged, or 5-year life table values for a given location and gender.
 #'
 #' @param nLx Optional matrix or data frame of user-supplied \code{nLx} values. If provided, these will be formatted and returned according to the chosen \code{output} structure.
 #' @param location Character or numeric code specifying the country or region for which to download data. Required if \code{nLx} is not provided.
@@ -137,9 +15,9 @@
 #' @param method Character specifying the interpolation method for missing years. Defaults to \code{"linear"}. Other methods may be supported by the internal \code{interp()} function.
 #' @param output Character specifying the desired output age structure:
 #'   \itemize{
-#'     \item \code{"single"} – single-year ages (0, 1, 2, …)
-#'     \item \code{"abridged"} – standard abridged ages (0, 1, 5, 10, …)
-#'     \item \code{"5-year"} – five-year grouped ages (0–4, 5–9, …)
+#'     \item \code{"single"}: single-year ages (0, 1, 2, …)
+#'     \item \code{"abridged"}: standard abridged ages (0, 1, 5, 10, …)
+#'     \item \code{"5-year"}: five-year grouped ages (0–4, 5–9, …)
 #'   }
 #'   Defaults to \code{"5-year"}.
 #' @param radix Numeric; radix used for life table construction (usually 1 or 100,000), defaults to 1.
@@ -172,7 +50,7 @@
 #' \code{\link{interp}}.
 #' \code{\link{graduate_pclm}}.
 #'
-#' @importFrom dplyr filter select mutate summarise across rename group_nest
+#' @importFrom dplyr select mutate summarise across rename group_nest
 #' @importFrom tidyr pivot_longer pivot_wider unnest
 #' @importFrom purrr map map2
 #' @importFrom tibble column_to_rownames as_tibble
@@ -180,7 +58,6 @@
 #' @importFrom readr parse_number
 #' @importFrom rlang .data
 #' @importFrom magrittr %>%
-#' @importFrom base replace
 #'
 #' @examples
 #' # Example using downloaded life table data
@@ -367,7 +244,7 @@ downloadnLx <- function(nLx        = NULL,
                      names_to  = "year",
                      values_to = "pop") %>% 
         mutate(year = parse_number(.data$year)) %>%
-        filter(.data$year %in% anchor_years)
+        dplyr::filter(.data$year %in% anchor_years)
       
       popF <- popF %>% 
         dplyr::filter(.data$country_code %in% location_code) %>% 
@@ -420,7 +297,7 @@ downloadnLx <- function(nLx        = NULL,
                                                    Age    = .x$age,
                                                    a0rule = "ak") %>% 
                              select("Age", "ndx", "nLx") %>%
-                             mutate(Age = replace(.data$Age, .data$Age %in% 0:1, 0)) %>%
+                             mutate(Age = base::replace(.data$Age, .data$Age %in% 0:1, 0)) %>%
                              summarise(
                                ndx = sum(.data$ndx),
                                nLx = sum(.data$nLx),
@@ -789,13 +666,12 @@ downloadnLx <- function(nLx        = NULL,
 #' @seealso 
 #' \code{\link{interp}}, 
 #' \code{\link{graduate_pclm}}
-#' @importFrom dplyr filter select mutate summarise left_join group_nest rename reframe
+#' @importFrom dplyr select mutate summarise left_join group_nest rename reframe
 #' @importFrom tidyr pivot_longer pivot_wider unnest
 #' @importFrom purrr map
 #' @importFrom tibble as_tibble column_to_rownames
 #' @importFrom readr parse_number
 #' @importFrom rlang .data
-#' @importFrom DemoTools names2age interp graduate_pclm
 #' @importFrom magrittr %>%
 #' 
 #' @examples
@@ -991,7 +867,7 @@ downloadASFR <- function(Asfrmat      = NULL,
       left_join(tfr1, by = c("country_code", "name", "year")) %>%
       # create asfr
       # Convert pasfr (percent of TFR) to absolute ASFR for each single age.
-      # Important: we divided pasfr by sum(pasfr) — that ensures normalization.
+      # Important: we divide pasfr by sum(pasfr)to ensure normalization.
       # this one is for 5 years so no division by 5
       mutate(
         asfr = (.data$pasfr / sum(.data$pasfr)) * .data$tfr,
@@ -1153,7 +1029,7 @@ downloadASFR <- function(Asfrmat      = NULL,
         left_join(tfr, by = c("country_code", "name", "year")) %>%
         # create asfr
         # Convert pasfr (percent of TFR) to absolute ASFR for each single age.
-        # Important: earlier code divided pasfr by sum(pasfr) — that ensures normalization.
+        # Important: earlier code divided pasfr by sum(pasfr) to ensure normalization.
         mutate(asfr = (.data$pasfr / sum(.data$pasfr)) * .data$tfr,
                .by = c("country_code", "name", "year")) %>%
         select(-c("pasfr", "tfr")) %>% 
@@ -1341,7 +1217,7 @@ downloadASFR <- function(Asfrmat      = NULL,
 #' Keyfitz, N. and Flieger, W. (1971). *Population: Facts and Methods of Demography*. San Francisco: W. H. Freeman.
 #'
 #' The default proportion female at birth (\code{0.4886}), corresponding to \code{SRB = 1.0486}, is a widely used demographic constant commonly attributed to Keyfitz & Flieger (1971). This explains why the default value is not the rounded \code{1.05}.
-#' @importFrom dplyr filter select rename reframe mutate
+#' @importFrom dplyr select rename reframe mutate
 #' @importFrom tidyr pivot_longer
 #' @importFrom tibble as_tibble
 #' @importFrom readr parse_number
@@ -1555,7 +1431,7 @@ fetch_wpp_births <- function(births, yrs_births, location, sex, verbose) {
   if (is.null(births) | length(births) == 0) {
     
     # load WPP births
-    requireNamespace("DemoToolsData", quietly = TRUE)
+    #requireNamespace("DemoToolsData", quietly = TRUE)
     WPP2019_births <- DemoToolsData::WPP2019_births
     
     
@@ -1702,7 +1578,7 @@ check_and_load_latest_wpp <- function() {
     } else {
       
       # If session is non-interactive, assume answer "yes".
-      message("Non-interactive session detected → proceeding with update.")
+      message("Non-interactive session detected -> proceeding with update.")
       ans <- "y"
       
     }
