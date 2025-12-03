@@ -33,7 +33,8 @@ Suggests:
     rmarkdown,
     markdown,
     DT,
-    ggplot2
+    ggplot2,
+    mockery
 RdMacros: Rdpack
 Imports:
     data.table (>= 1.13.6),
@@ -49,7 +50,15 @@ Imports:
     tibble,
     tidybayes,
     ungroup (>= 1.4.2),
-    dplyr
+    dplyr,
+    stats,
+    httr, 
+    jsonlite, 
+    purrr, 
+    readr, 
+    remotes, 
+    stringr, 
+    tidyr
 BugReports: https://github.com/timriffe/DemoTools/issues
 Remotes: 
     github::timriffe/fertestr,
