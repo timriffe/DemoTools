@@ -10,7 +10,6 @@
 #' @details Single year age groups are assumed.
 
 #' @return A named vector with the smoothed age structure.
-#' @importFrom stats filter
 #' @export
 #' @references
 #' \insertRef{GDA1981IREDA}{DemoTools}

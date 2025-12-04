@@ -2,46 +2,86 @@
 % Please edit documentation in R/utils_downloads.R
 \name{downloadnLx}
 \alias{downloadnLx}
-\title{Extract Lx estimates from WPP2019. Mainly an util function for other ones.}
+\title{Download or Construct nLx Life Table Values}
 \usage{
-downloadnLx(nLx, location, gender, nLxDatesIn, method = "linear")
+downloadnLx(
+  nLx = NULL,
+  location = NULL,
+  gender = NULL,
+  nLxDatesIn = NULL,
+  Age = NULL,
+  method = "linear",
+  output = "5-year",
+  radix = 1,
+  ...
+)
 }
 \arguments{
-\item{nLx}{numeric. either \code{NULL} or a numeric vector of lifetable exposure. If it's the second then we just pass it back.}
+\item{nLx}{Optional matrix or data frame of user-supplied \code{nLx} values. If provided, these will be formatted and returned according to the chosen \code{output} structure.}
 
-\item{location}{vector. UN Pop Div \code{LocName} or \code{LocID}}
+\item{location}{Character or numeric code specifying the country or region for which to download data. Required if \code{nLx} is not provided.}
 
-\item{gender}{character. \code{"male"}, \code{"female"}, or \code{"both"}}
+\item{gender}{Character; one of \code{"m"}, \code{"f"}. Determines which mortality rates are used from the \code{wpp} package.}
 
-\item{nLxDatesIn}{numeric. Vector of three decimal dates produced by (or passed through) \code{basepop_five()}}
+\item{nLxDatesIn}{Numeric vector of reference years to download or interpolate life table data for.}
 
-\item{method}{character. Could be \code{"linear"}, \code{"exponential"}, or \code{"power"}}
+\item{Age}{Numeric vector of ages Age that are present in \code{nLx}}
+
+\item{method}{Character specifying the interpolation method for missing years. Defaults to \code{"linear"}. Other methods may be supported by the internal \code{interp()} function.}
+
+\item{output}{Character specifying the desired output age structure:
+\itemize{
+\item \code{"single"}: single-year ages (0, 1, 2, …)
+\item \code{"abridged"}: standard abridged ages (0, 1, 5, 10, …)
+\item \code{"5-year"}: five-year grouped ages (0–4, 5–9, …)
+}
+Defaults to \code{"5-year"}.}
+
+\item{radix}{Numeric; radix used for life table construction (usually 1 or 100,000), defaults to 1.}
+
+\item{...}{Additional arguments passed to internal interpolation or life table functions.}
 }
 \value{
-numeric matrix of \code{nLx} with \code{length(nLxDatesIn)} and abridged ages in rows.
+A numeric matrix of \code{nLx} values with ages as rows and years as columns.
 }
 \description{
-We extract \code{Lx} from \code{wpp2019}, interpolated to exact dates. Different methods available.
-A vector of countries can handle, but with an unique sex. Row names are not indicative of countries.
+This function either formats user-supplied \code{nLx} data or downloads, interpolates, and constructs \code{nLx} values from the most recent installed \code{wpp} package. It supports returning single-year, abridged, or 5-year life table values for a given location and gender.
+}
+\details{
+The function first checks if user-supplied \code{nLx} data is available.
+If provided, it reformats the matrix and assigns appropriate age labels
+according to \code{output}.
+
+If \code{nLx} is not provided, the function retrieves mortality rate data (\code{mx1dt})
+from the latest installed \code{wpp} package (version ≥ 2022). It then:
+\enumerate{
+\item Identifies the correct country code from the supplied \code{location}.
+\item Interpolates single-year mortality rates across specified \code{nLxDatesIn}.
+\item Constructs single-age life tables using \code{DemoTools::lt_single_mx()}.
+\item Optionally aggregates these results to abridged or 5-year age groups.
+}
+
+This allows consistent generation of life table exposure values (\code{nLx})
+across age structures and time periods, which are essential inputs to
+base population estimation and demographic reconstruction.
 }
 \examples{
-# life expectancy calculated from Lx downloaded from WPP19. Using names or codes.
-Lxs_name <- downloadnLx(nLx=NULL, location = "Argentina",
-                        gender = "both", nLxDatesIn = 1950:2030)
-Lxs_code <- downloadnLx(nLx=NULL, location = "32",
-                        gender = "both", nLxDatesIn = 1950:2030)
-\dontrun{
-plot(1950:2030, as.numeric(colSums(Lxs_name)), xlab = "Year", ylab="e0")
-lines(1950:2030, as.numeric(colSums(Lxs_code)))
+# Example using downloaded life table data
+nLx_data <- downloadnLx(location = "Germany",
+                         gender = "female",
+                         nLxDatesIn = c(2000, 2005, 2010),
+                         output = "abridged")
+
+# Example using user-supplied matrix
+nLx_data <- matrix(runif(20), nrow = 4)
+downloadnLx(nLx = nLx_data,
+             nLxDatesIn = c(2000, 2005, 2010, 2015, 2020),
+             output = "5-year")
+
 }
-# life expectancy for different countries
-Lxs_countries <- downloadnLx(nLx=NULL, location = c("Argentina","Brazil","Uruguay"),
-gender = "both", nLxDatesIn = 1950:2025)
-\dontrun{
-plot(1950:2025, as.numeric(colSums(Lxs_countries[1:22,])), 
-     t="l", xlab = "Year", ylab="e0", ylim = c(40,80))
-lines(1950:2025, as.numeric(colSums(Lxs_countries[23:44,])), col=2)
-lines(1950:2025, as.numeric(colSums(Lxs_countries[45:64,])), col=3)
-legend("bottomright",c("Argentina","Brazil","Uruguay"),lty=1,col=1:3)
-}
+\seealso{
+\code{\link{lt_single_mx}},
+\code{\link{lt_single2abridged}},
+\code{\link{interp}}.
+\code{\link{graduate_pclm}}.
 }
