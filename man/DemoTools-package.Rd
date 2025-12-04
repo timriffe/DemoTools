@@ -24,6 +24,7 @@ Authors:
   \item Ilya Kashnitsky (\href{https://orcid.org/0000-0003-1835-8687}{ORCID})
   \item Monica Alexander (\href{https://orcid.org/0000-0002-8135-3435}{ORCID})
   \item Marius D. Pascariu (\href{https://orcid.org/0000-0002-2568-6489}{ORCID})
+  \item Rustam Tursun-zade
   \item Sara Hertog
   \item Sean Fennell
 }
