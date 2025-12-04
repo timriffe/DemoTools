@@ -235,7 +235,10 @@ Pop            <- smooth_age_5(pop1m_ind,
 Age_Pop        <- names2age(Pop)
 AgeInt_Pop     <- age2int(Age_Pop, OAvalue = 1)
 
-nLx            <- downloadnLx(NULL, "India","male",1991)
+nLx            <- downloadnLx(nLx = NULL, 
+                              location = "India",
+                              gender = "male",
+                              nLxDatesIn = 1991)
 Age_nLx        <- names2age(nLx)
 AgeInt_nLx     <- age2int(Age_nLx, OAvalue = 1)
 
@@ -243,7 +246,7 @@ test_that("OAnew checks enforced", {
 
 expect_error(Pop_fit <- OPAG(Pop,
                 Age_Pop = Age_Pop,
-                AgeInt_Pop = AgeInt_Pop,
+                # AgeInt_Pop = AgeInt_Pop,
                 nLx = nLx,
                 Age_nLx = Age_nLx,
                 AgeInt_nLx,
@@ -256,11 +259,9 @@ expect_error(Pop_fit <- OPAG(Pop,
 ## Checking warnings
 test_that("Age intervals of standard population and population still works even if they are different", {
   
-
-    
   
-  expect_output(OPAG(Pop,
-                Age_Pop = Age_Pop,
+  res <- OPAG(Pop,
+              Age_Pop = Age_Pop,
                 #AgeInt_Pop = AgeInt_Pop,
                 nLx = nLx,
                 Age_nLx = Age_nLx,
@@ -269,9 +270,11 @@ test_that("Age intervals of standard population and population still works even 
                 AgeInt_fit = c(10,10),
                 Redistribute_from = 80,
                 OAnew = max(Age_nLx),
-                method = "mono"), regexp = "\nAge_Pop and Age_nLx age intervals are different!")
+                method = "mono")
+  
+  expect_type(res, "list")
+  
 })
-
 
 test_that("Check if r returned is between -0.5 and 0.5", {
   

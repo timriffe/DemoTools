@@ -52,8 +52,6 @@ basepop_single(
 \item{verbose}{Logical; if \code{TRUE}, prints progress messages. Default = \code{TRUE}.}
 
 \item{...}{Additional arguments passed to internal DemoTools functions.}
-
-\item{location}{Optional character string naming the location (used only for messages).}
 }
 \value{
 A named list with two tibbles:

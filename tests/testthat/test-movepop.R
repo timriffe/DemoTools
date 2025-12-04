@@ -119,7 +119,6 @@ test_that("movepop handles incoming ages correctly", {
   
 })
 
-
 # Incoming single data
 test_that("movepop handles incoming single-year ages correctly", {
   
@@ -178,7 +177,6 @@ test_that("movepop handles incoming single-year ages correctly", {
     age_out      = "abridged"
   )
   
-  
   # ---------- equivalence tests ----------
   expect_equal(r_single_charAge, r_single_numAge)
   
@@ -192,9 +190,6 @@ test_that("movepop handles incoming single-year ages correctly", {
   expect_true(max(r_single_charAge$projected_data$age) == 85)
   
 })
-
-
-
 
 # Incoming abridged data
 test_that("movepop handles incoming asfr correctly", {
@@ -254,7 +249,3 @@ test_that("movepop handles incoming asfr correctly", {
   expect_equal(max(r_abr_to_single$projected_data$age), 85)
   
 })
-
-
-
-
