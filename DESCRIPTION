@@ -34,7 +34,8 @@ Suggests:
     markdown,
     DT,
     ggplot2,
-    mockery
+    mockery,
+    wpp2024
 RdMacros: Rdpack
 Imports:
     data.table (>= 1.13.6),
@@ -59,8 +60,7 @@ Imports:
     remotes, 
     stringr, 
     tidyr,
-    tidyselect,
-    wpp2024
+    tidyselect
 BugReports: https://github.com/timriffe/DemoTools/issues
 Remotes: 
     github::timriffe/fertestr,
