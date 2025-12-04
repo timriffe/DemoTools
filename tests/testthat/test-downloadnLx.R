@@ -112,7 +112,7 @@ test_that("Output type = 'abridged' produces collapsed age groups", {
   res <- downloadnLx(
     location   = "Argentina",
     gender     = "female",
-    nLxDatesIn = 2000 ,
+    nLxDatesIn = 2000,
     output     = "5-year"
   )
   )
@@ -149,8 +149,6 @@ test_that("Output type = '5-year' produces collapsed age groups", {
   
 })
 
-
-
 test_that("Output type = 'single' produces collapsed age groups", {
   
   # Make the function believe only wpp2019 is installed  
@@ -177,8 +175,7 @@ test_that("Output type = 'single' produces collapsed age groups", {
   
 })
 
-
-test_that("downloadnLx errors when WPP < 2022 and output='single'", {
+test_that("downloadnLx warns when WPP < 2022 and output = 'single'", {
   
   fake_installed <- matrix("wpp2019", nrow = 1, 
                            dimnames = list("wpp2019",NULL))
@@ -186,18 +183,11 @@ test_that("downloadnLx errors when WPP < 2022 and output='single'", {
   
   expect_warning(
     downloadnLx(
-      nLx        = NULL,
-      Age        = Age_five,
-      location   = location,
+      location   = "Argentina",
       gender     = "female",
-      nLxDatesIn = refDate - c(0.5, 7.5),
-      output     = "single",   # not allowed in WPP < 2022
-      radix      = 1
+      nLxDatesIn = 2011,
+      output     = "single"   # not allowed in WPP < 2022
     ),
     regexp = "No single ages are available in wpp versions"
   )
 })
-
-
-
-

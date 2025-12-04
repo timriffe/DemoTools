@@ -1,4 +1,4 @@
-context("test-downloadASFR")
+context("test-downloadAsfr")
 
 # Mocked ASFR data
 mock_asfrmat           <- matrix(runif(5 * 3, 0, 0.1), nrow = 5, ncol = 3)
@@ -7,7 +7,7 @@ colnames(mock_asfrmat) <- c(2000, 2005, 2010)
 
 # Test 1: User-supplied matrix is returned unchanged
 test_that("user-supplied Asfrmat is returned correctly", {
-  res <- downloadASFR(
+  res <- downloadAsfr(
     Asfrmat     = mock_asfrmat,
     Age         = c(15, 20, 25, 30, 35),
     AsfrDatesIn = c(2000, 2005, 2010),
@@ -22,7 +22,7 @@ test_that("user-supplied Asfrmat is returned correctly", {
 # Test 2: Error when Asfrmat and Age length mismatch
 test_that("error when Asfrmat rows and Age length mismatch", {
   expect_error(
-    downloadASFR(Asfrmat = mock_asfrmat, 
+    downloadAsfr(Asfrmat = mock_asfrmat, 
                  Age     = 1:4),
     "Inconsistent input"
   )
@@ -31,7 +31,7 @@ test_that("error when Asfrmat rows and Age length mismatch", {
 # Test 3: Error when Asfrmat cols and AsfrDatesIn length mismatch
 test_that("error when Asfrmat cols and AsfrDatesIn length mismatch", {
   expect_error(
-    downloadASFR(Asfrmat     = mock_asfrmat, 
+    downloadAsfr(Asfrmat     = mock_asfrmat, 
                  Age         = 15:19, 
                  AsfrDatesIn = 2000:2004),
     "Inconsistent input"
@@ -41,7 +41,7 @@ test_that("error when Asfrmat cols and AsfrDatesIn length mismatch", {
 # Test 4: Error when location is missing and Asfrmat is NULL
 test_that("error when location is NULL and Asfrmat is NULL", {
   expect_error(
-    downloadASFR(Asfrmat     = NULL, 
+    downloadAsfr(Asfrmat     = NULL, 
                  location    = NULL, 
                  AsfrDatesIn = 2000:2005),
     "You need to provide a location"
@@ -52,7 +52,7 @@ test_that("error when location is NULL and Asfrmat is NULL", {
 test_that("5-year ASFR output matrix has correct dimensions", {
   
   # Run the function
-  res <- downloadASFR(
+  res <- downloadAsfr(
     Asfrmat     = NULL,
     location    = "Argentina",
     AsfrDatesIn = 2000:2001,
@@ -70,12 +70,13 @@ test_that("5-year ASFR output matrix has correct dimensions", {
 # Test 6: ASFR download with single-year output matrix
 test_that("single-year ASFR output matrix has correct dimensions", {
   # reuse previous mocks
-  res <- downloadASFR(
+  res <- downloadAsfr(
     Asfrmat     = NULL,
     location    = "Argentina",
     AsfrDatesIn = 2000:2001,
     output      = "single",
-    method      = "linear"
+    method      = "linear",
+    Age = NULL
   )
   
   expect_true(is.matrix(res))
@@ -86,7 +87,7 @@ test_that("single-year ASFR output matrix has correct dimensions", {
 # Test 7: ASFR extrapolation beyond WPP range triggers message
 test_that("message is printed for years outside WPP range", {
   expect_message(
-    downloadASFR(
+    downloadAsfr(
       Asfrmat     = NULL,
       location    = "Argentina",
       AsfrDatesIn = 1900:1902,

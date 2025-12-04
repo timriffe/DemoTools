@@ -11,11 +11,11 @@ test_that("Setup: prepare Brazil population and input age groups", {
   
   pop_female_counts <- popF %>%
     dplyr::filter(name == location) %>%
-    pull("1985")
+    dplyr::pull("1985")
   
   pop_male_counts <- popM %>%
     dplyr::filter(name == location) %>%
-    pull("1985")
+    dplyr::pull("1985")
   
   names(pop_female_counts) <- Age_raw
   names(pop_male_counts)   <- Age_raw
@@ -235,7 +235,7 @@ test_that("basepop_five works when nLx provided but Age = NULL", {
 # ---------------------------------------------------------
 test_that("basepop_five works with supplied ASFR matrix", {
   
-  AsfrMat <- downloadASFR(
+  AsfrMat <- downloadAsfr(
     Asfrmat     = NULL,
     location    = location_global,
     AsfrDatesIn = refDate_global - c(0.5, 7.5),
@@ -504,11 +504,11 @@ Age <- parse_number(unique(popF$age))
 
 pop_female_counts <- popF %>%
   dplyr::filter(name == location) %>% 
-  pull("1985")
+  dplyr::pull("1985")
 
 pop_male_counts   <- popM %>%
   dplyr::filter(name == location) %>% 
-  pull("1985")
+  dplyr::pull("1985")
 
 names(pop_female_counts) <- names(pop_female_counts) <-  Age
 
@@ -546,7 +546,6 @@ test_that("Minimal data setting", {
   expect_true(nrow(res$pop_hat_m) == 10)
   
 })
-
 
 # test 3 - radix is provided
 test_that("radix setup and more than one refDate", {
@@ -613,7 +612,7 @@ test_that("nLxFemale and nLxMale AsfrMat, SRB are provided", {
                          nLxDatesIn = 1990:1999,
                          output = "single",
                          radix = 1)
-  AsfrMat <- downloadASFR(location = 276,
+  AsfrMat <- downloadAsfr(location = 276,
                           AsfrDatesIn = 1990:1999,
                           output = "single")
   SRB <- downloadSRB(location = 276,
@@ -687,9 +686,6 @@ test_that("nLxFemale and nLxMale AsfrMat, SRB are provided", {
   expect_true(nrow(res3$pop_hat_m) == 10)
   
 })
-
-
-
 
 
 

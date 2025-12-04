@@ -519,6 +519,13 @@ basepop_five <- function(location     = NULL,
     
   }
   
+  if(any(Females_five < 0) | any(Males_five < 0)) { 
+    
+    stop("Your population has negative numbers. Check your input.")
+    
+    
+    }
+  
   
   if (length(Females_five) != length(Males_five)) {
     stop("Females population length differs from male population length.")
@@ -640,7 +647,7 @@ basepop_five <- function(location     = NULL,
   
   if(is.null(AsfrMat)) { 
     # asfr now
-    AsfrMat <- downloadASFR(Asfrmat     = AsfrMat,
+    AsfrMat <- downloadAsfr(Asfrmat     = AsfrMat,
                             location    = location,
                             AsfrDatesIn = sort(AsfrDatesIn),
                             Age         = NULL,
@@ -766,7 +773,6 @@ basepop_five <- function(location     = NULL,
 #' at birth (SRB) to estimate age-specific population counts, optionally using
 #' user-supplied demographic data or WPP inputs.
 #'
-#' @param location Optional character string naming the location (used only for messages).
 #' @param refDate Numeric reference date (e.g., census year). Required.
 #' @param Age Optional numeric vector of single ages. Must match population vector length if supplied.
 #' @param country_code Numeric ISO country code. Required for WPP data retrieval.
@@ -804,11 +810,13 @@ basepop_five <- function(location     = NULL,
 #'   \item{pop_hat_m}{Reconstructed male population by single year of age and cohort.}
 #'   \item{pop_hat_f}{Reconstructed female population by single year of age and cohort.}
 #' }
-#' @importFrom dplyr select mutate arrange group_by ungroup right_join left_join summarize
+#' @importFrom dplyr select mutate arrange group_by ungroup right_join left_join summarize row_number lead if_else bind_rows
 #' @importFrom tidyr pivot_longer pivot_wider unnest
 #' @importFrom tibble tibble rownames_to_column as_tibble_col
+#' @importFrom tidyselect any_of
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
+#' @importFrom utils data
 #'
 #' @examples
 #' # Example: Estimate base population for Germany, year 2000
@@ -849,13 +857,11 @@ basepop_single <- function(refDate        = NULL,
     
   }
   
-  
   if(length(refDate) > 1) { 
     
     stop("You should pick one reference date refDate")
     
   }
-  
   
   # Jan 1 2000 female pop;
   # note:  1999 means dec 31, 1999, so we treat as jan 1, 2000.
@@ -870,6 +876,11 @@ basepop_single <- function(refDate        = NULL,
     
     stop("At least refDate and country_code should be provided for function to work")
     
+  }
+  
+  if(any(Females_single < 0) | any(Males_single < 0)) { 
+    
+    stop("Your population has negative numbers. Check your input.") 
   }
   
   # here we attach the latest wpp package available
@@ -890,16 +901,22 @@ basepop_single <- function(refDate        = NULL,
     
   }
   
+  # create a new enfironment where we will store the objects
+  # from wpp packages
+  env <- new.env()
+  
   # --- Load population and mortality data ----------------------------------
   # if user did not provide population we can calculate it from wpp
-  if(is.null(Females_single) | is.null(Males_single)) {
+  if(is.null(Females_single) || is.null(Males_single)) {
     
-    data("popAge1dt", package = latest_wpp)
+    data("popAge1dt", package = latest_wpp, envir = env)
+    popAge1dt <- env$popAge1dt
     
   }
   
   # this data is for future calculations
-  data("mx1dt", package = latest_wpp)
+  data("mx1dt", package = latest_wpp, envir = env)
+  mx1dt <- env$mx1dt
   
   # --- Prepare user-supplied population vectors ----------------------------
   # Convert numeric vectors to tidy tibbles with cohort tagging
@@ -909,7 +926,7 @@ basepop_single <- function(refDate        = NULL,
     Females_single <- tibble("pop"  = Females_single,
                              "year" = refDate + 1) %>% 
       mutate("age"    = row_number() - 1,
-             "cohort" = year - age - 1)
+             "cohort" = .data$year - .data$age - 1)
     
     
   }
@@ -920,7 +937,7 @@ basepop_single <- function(refDate        = NULL,
     Males_single <- tibble("pop"    = Males_single,
                            "year"   = refDate + 1) %>% 
       mutate("age"    = row_number() - 1,
-             "cohort" = year - age - 1)
+             "cohort" = .data$year - .data$age - 1)
     
   }
   
@@ -929,8 +946,7 @@ basepop_single <- function(refDate        = NULL,
   if(is.null(Females_single)) {
     
     Females_single <- popAge1dt %>%
-      dplyr::filter(.data$country_code == !!country_code, 
-             .data$year == refDate) %>%
+      dplyr::filter(.data$country_code == !!country_code, .data$year == refDate) %>%
       select("year", "age", "pop" = "popF") %>%
       mutate("year"   = .data$year + 1,
              "cohort" = .data$year - .data$age - 1)
@@ -941,8 +957,7 @@ basepop_single <- function(refDate        = NULL,
   if(is.null(Males_single)) {
     
     Males_single <- popAge1dt %>% 
-      dplyr::filter(.data$country_code == !!country_code, 
-             .data$year == refDate) %>% 
+      dplyr::filter(.data$country_code == !!country_code, .data$year == refDate) %>% 
       select("year", "age", "pop" = "popM") %>% 
       mutate("year"   = .data$year + 1,
              "cohort" = .data$year - .data$age - 1)
@@ -965,7 +980,7 @@ basepop_single <- function(refDate        = NULL,
   # --- Determine life table radix ------------------------------------------
   if(is.null(radix) & !is.null(nLxFemale)) {
     
-    radix <- lt_infer_radix_from_1L0(nLxFemale[1, 1])
+    radix <- lt_rule_l0_1L0(nLxFemale[1, 1])
     
     if(verbose) {
       
@@ -995,7 +1010,13 @@ basepop_single <- function(refDate        = NULL,
     
     mxF <- downloadnLx(nLx = nLxFemale) %>% 
       as.data.frame() %>% 
-      { if (!"age" %in% names(.)) rownames_to_column(., "age") else . } %>%
+      (\(x) {
+        if(!"age" %in% names(x)) {
+          rownames_to_column(x, "age")
+        } else {
+          x
+        }
+      })() %>%      
       mutate("age" = parse_number(.data$age)) %>% 
       pivot_longer(-c("age"),
                    names_to  = "year",
@@ -1034,9 +1055,8 @@ basepop_single <- function(refDate        = NULL,
                             radix = radix),
         "dxp"   = .data$lxp * .data$qx,
         "Lxp"   = .data$lxp - .data$dxp * (1 - .data$ax),
-        "SxRev" = ifelse(year == max(.data$year), .data$Lxp / 
-                           lead(.data$Lxp), .data$SxRev), 
-        .by = "year")  %>% 
+        "SxRev" = ifelse(.data$year == max(.data$year), .data$Lxp /
+                           lead(.data$Lxp), .data$SxRev), .by = "year")  %>% 
       dplyr::filter(.data$age < 100)  %>% 
       select("cohort", "year", "age", "SxRev")  %>% 
       arrange(.data$cohort, -c(.data$age)) %>% 
@@ -1059,12 +1079,18 @@ basepop_single <- function(refDate        = NULL,
     
     mxM <- downloadnLx(nLx = nLxMale) %>% 
       as.data.frame() %>% 
-      { if (!"age" %in% names(.)) rownames_to_column(., "age") else . } %>%
+      (\(x) {
+        if(!"age" %in% names(x)) {
+          rownames_to_column(x, "age")
+        } else {
+          x
+        }
+      })() %>%      
       mutate("age" = parse_number(.data$age)) %>% 
       pivot_longer(-c("age"),
                    names_to  = "year",
                    values_to = "Lxp",
-                   names_transform  = list(year = as.numeric)) %>% 
+                   names_transform  = list("year" = as.numeric)) %>% 
       mutate("n"  = age2int(.data$age, OAvalue = Inf),
              "ax" = ifelse(.data$age == 0,
                            lt_rule_L0_1a0(L0_target = .data$Lxp[.data$age == 0],
@@ -1089,8 +1115,7 @@ basepop_single <- function(refDate        = NULL,
                             radix = radix),
         "dx"    = .data$lx * .data$qx,
         "Lx"    = .data$lx - .data$dx * (1 - .data$ax),
-        "SxRev" = .data$Lx / lead(.data$Lx, default = 1),
-        .by = "cohort"
+        "SxRev" = .data$Lx / lead(.data$Lx, default = 1), .by = "cohort"
       ) %>% 
       arrange(.data$year, .data$age) %>% 
       mutate(
@@ -1098,9 +1123,8 @@ basepop_single <- function(refDate        = NULL,
                             radix = radix),
         "dxp"   = .data$lxp * .data$qx,
         "Lxp"   = .data$lxp - .data$dxp * (1 - .data$ax),
-        "SxRev" = ifelse(year == max(.data$year), .data$Lxp / 
-                           lead(.data$Lxp), .data$SxRev), 
-        .by = "year") %>% 
+        "SxRev" = ifelse(.data$year == max(.data$year), .data$Lxp / 
+                           lead(.data$Lxp), .data$SxRev), .by = "year") %>% 
       dplyr::filter(.data$age < 100) %>% 
       select("cohort", "year", "age", "SxRev") %>% 
       arrange(.data$cohort, -c(.data$age)) %>% 
@@ -1114,7 +1138,7 @@ basepop_single <- function(refDate        = NULL,
     
     mxM <- mx1dt  %>% 
       dplyr::filter(.data$country_code == !!country_code,
-             between(.data$year, refDate_start, refDate)) %>% 
+                    between(.data$year, refDate_start, refDate)) %>% 
       as_tibble() %>% 
       select("year", "age", "mx" = "mxM") %>% 
       # could try to warp to PC shape here,
@@ -1157,7 +1181,7 @@ basepop_single <- function(refDate        = NULL,
     
     mxF <- mx1dt  %>% 
       dplyr::filter(.data$country_code == !!country_code,
-             between(.data$year, refDate_start, refDate))  %>% 
+                    between(.data$year, refDate_start, refDate))  %>% 
       select("year", "age", "mx" = "mxF")  %>% 
       # could try to warp to PC shape here,
       # but uncertain infants. Maybe using
@@ -1184,8 +1208,8 @@ basepop_single <- function(refDate        = NULL,
                           radix = radix), 
         "dxp" = .data$lxp * .data$qx,
         "Lxp" = .data$lxp - .data$dxp * (1 - .data$ax),
-        "SxRev" = ifelse(.data$year == max(.data$year), .data$Lxp / lead(.data$Lxp), .data$SxRev), 
-        .by = "year") %>% 
+        "SxRev" = ifelse(.data$year == max(.data$year), .data$Lxp / 
+                           lead(.data$Lxp), .data$SxRev), .by = "year") %>% 
       dplyr::filter(.data$age < 100)  %>% 
       select("cohort", "year", "age", "SxRev")  %>% 
       arrange(.data$cohort, -c(.data$age))  %>% 
@@ -1215,11 +1239,17 @@ basepop_single <- function(refDate        = NULL,
   # If user supplies AsfrMat, reshape to long format; otherwise, download from WPP.
   if(!is.null(AsfrMat)) {
     
-    AsfrMat <- downloadASFR(Asfrmat = AsfrMat) %>% 
+    AsfrMat <- downloadAsfr(Asfrmat = AsfrMat) %>% 
       as.data.frame() %>%
       # only if age is not present in data
-      { if (!"age" %in% names(.)) rownames_to_column(., "age") else . } %>%
-      mutate(age = readr::parse_number(age)) %>% 
+      (\(x) {
+        if(!"age" %in% names(x)) {
+          rownames_to_column(x, "age")
+        } else {
+          x
+        }
+      })() %>%      
+      mutate("age" = parse_number(.data$age)) %>% 
       pivot_longer(-any_of(c("country_code", "name", "age")),
                    names_to  = "year",
                    values_to = "asfr") %>%
@@ -1229,7 +1259,7 @@ basepop_single <- function(refDate        = NULL,
   
   if(is.null(AsfrMat)) {
     
-    AsfrMat <- downloadASFR(Asfrmat     = NULL,
+    AsfrMat <- downloadAsfr(Asfrmat     = NULL,
                             location    = country_code,
                             AsfrDatesIn = refDate_start:refDate,
                             Age         = NULL,
@@ -1249,8 +1279,8 @@ basepop_single <- function(refDate        = NULL,
   # Estimate annual births from ASFR and exposures, then compute age since birth.
   Bt <- left_join(expF, AsfrMat , by = c("year", "age")) %>% 
     dplyr::filter(.data$year < refDate + 1) %>% 
-    mutate("Bx" = .data$asfr * .data$exposure)  %>% 
-    summarize(B = sum(Bx), .by = "year") %>% 
+    mutate("Bx" = .data$asfr * .data$exposure)  %>%
+    summarize("B" = sum(.data$Bx), .by = "year") %>% 
     mutate("age"  = refDate - .data$year)
   
   # --- Sex ratio at birth (SRB) --------------------------------------------
@@ -1301,14 +1331,14 @@ basepop_single <- function(refDate        = NULL,
                              nax    = .data$ax, 
                              AgeInt = .data$age_int)) %>% 
     dplyr::filter(between(.data$cohort, refDate_start, refDate),
-           between(.data$year,   refDate_start, (refDate + 1)),
-           .data$age < 10) %>% 
+                  between(.data$year,   refDate_start, (refDate + 1)),
+                  .data$age < 10) %>% 
     arrange(.data$cohort, .data$age) %>% 
     mutate("lx" = lt_id_q_l(nqx   = .data$qx, 
                             radix = radix),
            "dx" = .data$lx * .data$qx,
            "Lx" = .data$lx - .data$dx * (1 - .data$ax), .by = "cohort") %>% 
-    dplyr::filter(.data$year == max(.data$year), .by = "cohort") %>%  # ??????
+    dplyr::filter(.data$year == max(.data$year), .by = "cohort") %>%
     select("age", "Lx", "cohort") %>% 
     left_join(Bt, by = c("age")) %>% 
     left_join(SRB, by = c("cohort")) %>% 
@@ -1327,14 +1357,13 @@ basepop_single <- function(refDate        = NULL,
            "age_int" = 1,
            "ax" = ifelse(.data$age == 0,
                          lt_rule_1a0_ak(M0  = .data$mx, 
-                                        Sex = "m"),
-                         0.5),
+                                        Sex = "m"), 0.5),
            "qx" = lt_id_ma_q(nMx    = .data$mx, 
                              nax    = .data$ax, 
                              AgeInt = .data$age_int)) %>% 
     dplyr::filter(between(.data$cohort, refDate_start, refDate),
-           between(.data$year,   refDate_start, (refDate + 1)),
-           .data$age < 10) %>% 
+                  between(.data$year,   refDate_start, (refDate + 1)),
+                  .data$age < 10) %>% 
     arrange(.data$cohort, .data$age) %>% 
     mutate("lx" = lt_id_q_l(nqx   = .data$qx, 
                             radix = radix),

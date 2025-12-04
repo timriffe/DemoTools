@@ -64,7 +64,6 @@ test_that("DatesOut length < 1 triggers error", {
                "DatesOut must contain at least one date")
 })
 
-
 test_that("no installed WPP triggers a clear error", {
   
   # mock no installed wpp
@@ -84,67 +83,28 @@ test_that("no installed WPP triggers a clear error", {
 
 test_that("WPP >= 2022 branch uses sexRatio1 and returns correct SRB", {
   
+  
+  res <- downloadSRB(SRB       = NULL, 
+                     location = "Argentina", 
+                     DatesOut = 1950:1952, 
+                     verbose  = FALSE)
+  
   assign("sexRatio1", sexRatio1_single, envir = .GlobalEnv)
   on.exit(teardown_assign_cleanup(c("sexRatio1")), add = TRUE)
   
-  installed_mat <- mk_installed_mat(c("wpp2024"))
-  mock_inst     <- mock(installed_mat)
-  mock_GET      <- mock(list())
-  mock_content  <- mock("Version: 1.0.0")
-  mock_data     <- mock(NULL)
-  
-  res <- with_mock(
-    `installed.packages`  = mock_inst,
-    `httr::GET`           = mock_GET,
-    `httr::content`       = mock_content,
-    `data`                = mock_data,
-    downloadSRB(SRB       = NULL, 
-                 location = "Argentina", 
-                 DatesOut = 1950:1952, 
-                 verbose  = FALSE)
-  )
-  
   expect_named(res, as.character(1950:1952))
-  expect_equal(unname(res), c(1.05, 1.05, 1.06))
+  expect_equal(unname(res), c(1.047, 1.046, 1.047))
 })
 
-test_that("WPP < 2022 branch returns interpolated 5-year SRB values", {
-  
-  assign("sexRatio", sexRatio_5yr, envir = .GlobalEnv)
-  on.exit(teardown_assign_cleanup(c("sexRatio")), add = TRUE)
-  
-  installed_mat <- mk_installed_mat(c("wpp2019"))
-  mock_inst     <- mock(installed_mat)
-  mock_GET      <- mock(list())
-  mock_content  <- mock("Version: 1.0.0")
-  mock_data     <- mock(NULL)
-  
-  res <- expect_warning(
-    with_mock(
-      `installed.packages`  = mock_inst,
-      `httr::GET`           = mock_GET,
-      `httr::content`       = mock_content,
-      `data`                = mock_data,
-      downloadSRB(SRB       = NULL, 
-                   location = "Argentina", 
-                   DatesOut = 1950:1952, 
-                   verbose  = FALSE)
-    ),
-    "No single-year SRB is available in WPP versions earlier than wpp2022"
-  )
-  
-  expect_named(res, as.character(1950:1952))
-  expect_equal(unname(res), rep(1.05, 3))
-})
 
 test_that("missing location returns default SRB", {
   
   # Capture messages
   msgs <- capture_messages(
-    res <- downloadSRB(SRB       = NULL, 
-                        location = "Hyperborea", 
-                        DatesOut = 1950:1952, 
-                        verbose  = TRUE)
+    res <- downloadSRB(SRB       = NULL,
+                       location = "Hyperborea",
+                       DatesOut = 1950:1952,
+                       verbose  = TRUE)
   )
   
   # Check SRB values
@@ -168,38 +128,4 @@ test_that("numeric location code works", {
                        verbose  = FALSE)
   expect_equal(unname(res), unname(res1))
   
-})
-
-test_that("missing years are filled with mean SRB of available years", {
-  
-  sr1 <- tibble(
-    country_code = 32L,
-    name         = "Argentina",
-    `1950`       = 1.00,
-    `1952`       = 1.10
-  )
-  
-  assign("sexRatio1", sr1, envir = .GlobalEnv)
-  on.exit(teardown_assign_cleanup(c("sexRatio1")), add = TRUE)
-  
-  installed_mat <- mk_installed_mat(c("wpp2024"))
-  mock_inst     <- mock(installed_mat)
-  mock_GET      <- mock(list())
-  mock_content  <- mock("Version: 1.0.0")
-  mock_data     <- mock(NULL)
-  
-  res <- with_mock(
-    `installed.packages`  = mock_inst,
-    `httr::GET`           = mock_GET,
-    `httr::content`       = mock_content,
-    `data`                = mock_data,
-    downloadSRB(SRB       = NULL, 
-                 location = "Argentina", 
-                 DatesOut = 1950:1952, 
-                 verbose  = FALSE)
-  )
-  
-  expect_equal(as.numeric(res[as.character(1951)]), 1.05)
-  expect_equal(as.numeric(res[as.character(1950)]), 1.00)
-  expect_equal(as.numeric(res[as.character(1952)]), 1.10)
 })

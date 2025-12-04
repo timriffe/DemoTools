@@ -31,11 +31,12 @@
 #'   \item{\code{data}}{A tibble with age-specific populations, ASFR, births, deaths, projected populations by sex, both-sexes totals, and sex ratios.}
 #' }
 #'
-#' @importFrom dplyr mutate summarise case_when
+#' @importFrom dplyr mutate summarise case_when bind_rows
 #' @importFrom stringr str_detect
 #' @importFrom magrittr %>% 
 #' @importFrom tibble tibble
 #' @importFrom tidyr replace_na
+#' @importFrom tidyselect contains everything
 #' @importFrom rlang .data
 #' @importFrom readr parse_number
 #' @examples
@@ -229,44 +230,44 @@ movepop <- function(initial_date        = NULL,
     }  
   }
   
-  asfr <- tibble(asfr = asfr,
-                 age  = asfr_age)
+  asfr <- tibble("asfr" = asfr,
+                 "age"  = asfr_age)
   
   data <- data %>% 
     left_join(asfr, by = "age") %>% 
-    mutate(asfr   = replace_na(.data$asfr, 0),
-           births = .data$asfr * .data$female_pop,
-           deaths = .data$male_mx * .data$male_pop + .data$female_mx * .data$female_pop)
+    mutate("asfr"   = replace_na(.data$asfr, 0),
+           "births" = .data$asfr * .data$female_pop,
+           "deaths" = .data$male_mx * .data$male_pop + .data$female_mx * .data$female_pop)
   
   summaries <- data %>%
-    summarise(total_births        = sum(.data$births),
-              total_deaths        = sum(.data$deaths),
-              total_pop_initial   = sum(.data$male_pop) + sum(.data$female_pop),
-              crude_birth_rate    = .data$total_births / .data$total_pop_initial,
-              crude_death_rate    = .data$total_deaths / .data$total_pop_initial,
-              net_migration_rate  = annual_net_migrants / .data$total_pop_initial,
-              growth_rate         = .data$crude_birth_rate - .data$crude_death_rate + .data$net_migration_rate,
-              inc_age             = inc_age,
-              tfr                 = ifelse(.data$inc_age %in% c("five_year", "abridged"), 5 * sum(.data$asfr), sum(.data$asfr)),
-              desired_date        = desired_date,
-              initial_date        = initial_date,
-              time_diff           = .data$desired_date - .data$initial_date,
-              total_pop_projected = .data$total_pop_initial * exp(.data$growth_rate * .data$time_diff),
-              adjustment_factor   = .data$total_pop_projected / .data$total_pop_initial)
+    summarise("total_births"        = sum(.data$births),
+              "total_deaths"        = sum(.data$deaths),
+              "total_pop_initial"   = sum(.data$male_pop) + sum(.data$female_pop),
+              "crude_birth_rate"    = .data$total_births / .data$total_pop_initial,
+              "crude_death_rate"    = .data$total_deaths / .data$total_pop_initial,
+              "net_migration_rate"  = annual_net_migrants / .data$total_pop_initial,
+              "growth_rate"         = .data$crude_birth_rate - .data$crude_death_rate + .data$net_migration_rate,
+              "inc_age"             = inc_age,
+              "tfr"                 = ifelse(.data$inc_age %in% c("five_year", "abridged"), 5 * sum(.data$asfr), sum(.data$asfr)),
+              "desired_date"        = desired_date,
+              "initial_date"        = initial_date,
+              "time_diff"           = .data$desired_date - .data$initial_date,
+              "total_pop_projected" = .data$total_pop_initial * exp(.data$growth_rate * .data$time_diff),
+              "adjustment_factor"   = .data$total_pop_projected / .data$total_pop_initial)
   
   
   projected_data <- data %>% 
-    mutate(male_pop_projected   = summaries$adjustment_factor * .data$male_pop,
-           female_pop_projected = summaries$adjustment_factor * .data$female_pop,
-           both_sexes_projected = .data$male_pop_projected + .data$female_pop_projected,
-           sex_ratio            = .data$male_pop_projected / .data$female_pop_projected)
+    mutate("male_pop_projected"   = summaries$adjustment_factor * .data$male_pop,
+           "female_pop_projected" = summaries$adjustment_factor * .data$female_pop,
+           "both_sexes_projected" = .data$male_pop_projected + .data$female_pop_projected,
+           "sex_ratio"            = .data$male_pop_projected / .data$female_pop_projected)
   
   summaries_proj <- projected_data %>%
-    summarise(age_group  = "All ages",
-              both_sexes = sum(.data$both_sexes_projected),
-              male       = sum(.data$male_pop_projected),
-              female     = sum(.data$female_pop_projected),
-              sex_ratio  = sum(.data$male_pop_projected) / sum(.data$female_pop_projected))
+    summarise("age_group"  = "All ages",
+              "both_sexes" = sum(.data$both_sexes_projected),
+              "male"       = sum(.data$male_pop_projected),
+              "female"     = sum(.data$female_pop_projected),
+              "sex_ratio"  = sum(.data$male_pop_projected) / sum(.data$female_pop_projected))
   
   projected_data1 <- projected_data %>%
     select("age", contains("proj"))
@@ -294,7 +295,7 @@ movepop <- function(initial_date        = NULL,
         pivot_longer(-"result",
                      names_to   = "age",
                      values_to  = "val",
-                     names_transform = list(age = as.numeric)) %>% 
+                     names_transform = list("age" = as.numeric)) %>% 
         pivot_wider(names_from  = "result",
                     values_from = "val")
       
@@ -315,7 +316,7 @@ movepop <- function(initial_date        = NULL,
         pivot_longer(-"result",
                      names_to   = "age",
                      values_to  = "val",
-                     names_transform = list(age = as.numeric)) %>% 
+                     names_transform = list("age" = as.numeric)) %>% 
         pivot_wider(names_from  = "result",
                     values_from = "val")
       
@@ -335,7 +336,7 @@ movepop <- function(initial_date        = NULL,
         pivot_longer(-"result",
                      names_to   = "age",
                      values_to  = "val",
-                     names_transform = list(age = as.numeric)) %>% 
+                     names_transform = list("age" = as.numeric)) %>% 
         pivot_wider(names_from  = "result",
                     values_from = "val") 
       
@@ -364,7 +365,7 @@ movepop <- function(initial_date        = NULL,
         pivot_longer(-"result",
                      names_to   = "age",
                      values_to  = "val",
-                     names_transform = list(age = as.numeric)) %>% 
+                     names_transform = list("age" = as.numeric)) %>% 
         pivot_wider(names_from  = "result",
                     values_from = "val")
       
@@ -379,7 +380,7 @@ movepop <- function(initial_date        = NULL,
     if(inc_age == "abridged") {
       
       projected_data1 <- projected_data1 %>% 
-        mutate(age = replace(.data$age, .data$age %in% 0:1, 0)) %>%
+        mutate("age" = replace(.data$age, .data$age %in% 0:1, 0)) %>%
         summarise(
           across(everything(), sum),
           .by = "age"

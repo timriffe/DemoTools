@@ -50,7 +50,7 @@
 #' \code{\link{interp}}.
 #' \code{\link{graduate_pclm}}.
 #'
-#' @importFrom dplyr select mutate summarise across rename group_nest
+#' @importFrom dplyr select mutate summarise across rename group_nest full_join
 #' @importFrom tidyr pivot_longer pivot_wider unnest
 #' @importFrom purrr map map2
 #' @importFrom tibble column_to_rownames as_tibble
@@ -58,6 +58,8 @@
 #' @importFrom readr parse_number
 #' @importFrom rlang .data
 #' @importFrom magrittr %>%
+#' @importFrom utils data
+#' @importFrom tidyselect where
 #'
 #' @examples
 #' # Example using downloaded life table data
@@ -85,6 +87,15 @@ downloadnLx <- function(nLx        = NULL,
                         radix      = 1,
                         ...) {
   
+  if(is.null(Age)) {
+    
+  prt_msg <- FALSE
+  
+  } else { 
+    
+    prt_msg <- TRUE
+    
+    }
   output <- match.arg(output, c("single", "abridged", "5-year"))
   
   verbose <- getOption("basepop_verbose", TRUE)
@@ -210,12 +221,18 @@ downloadnLx <- function(nLx        = NULL,
       
       warning("No single ages are available in wpp versions earlier that wpp2022. Please update the wpp package using check_and_load_latest_wpp function.")
       
+      env <- new.env()      
       # in this case we need mxM, mxF, popM, and popF
-      data("mxM",  package = latest_wpp)
-      data("mxF",  package = latest_wpp)
+      data("mxM",  package = latest_wpp, envir = env)
+      data("mxF",  package = latest_wpp, envir = env)
       # population per 1000 
-      data("popF", package = latest_wpp)
-      data("popM", package = latest_wpp)
+      data("popF", package = latest_wpp, envir = env)
+      data("popM", package = latest_wpp, envir = env)
+      
+      mxM  <- env$mxM
+      mxF  <- env$mxF
+      popF <- env$popF
+      popM <- env$popM
       
       # define location
       if(is.numeric(location)) {
@@ -239,47 +256,47 @@ downloadnLx <- function(nLx        = NULL,
       # prepare population data
       popM <- popM %>% 
         dplyr::filter(.data$country_code %in% location_code) %>% 
-        mutate(sex = "m") %>% 
+        mutate("sex" = "m") %>% 
         pivot_longer(-c("country_code", "name", "sex", "age"),
                      names_to  = "year",
                      values_to = "pop") %>% 
-        mutate(year = parse_number(.data$year)) %>%
+        mutate("year" = parse_number(.data$year)) %>%
         dplyr::filter(.data$year %in% anchor_years)
       
       popF <- popF %>% 
         dplyr::filter(.data$country_code %in% location_code) %>% 
-        mutate(sex = "f") %>% 
+        mutate("sex" = "f") %>% 
         pivot_longer(-c("country_code", "name", "sex", "age"),
                      names_to  = "year",
                      values_to = "pop") %>% 
-        mutate(year = parse_number(.data$year)) %>%
+        mutate("year" = parse_number(.data$year)) %>%
         dplyr::filter(.data$year %in% anchor_years)
       
       # pop
       population <- popM %>% 
         full_join(popF, by = c("country_code", "name", "age",
                                "sex", "year", "pop")) %>% 
-        mutate(age = parse_number(.data$age),
+        mutate("age" = parse_number(.data$age),
                # population is per 1000
-               pop = .data$pop * 1000)
+               "pop" = .data$pop * 1000)
       
       # prepare mx data
       mxM <- mxM %>% 
         dplyr::filter(.data$country_code %in% location_code) %>%
-        mutate(sex = "m") %>% 
+        mutate("sex" = "m") %>% 
         pivot_longer(-c("country_code", "name", "sex", "age"),
                      names_to  = "year",
                      values_to = "mx") %>% 
-        mutate(year = parse_number(.data$year)) %>%
+        mutate("year" = parse_number(.data$year)) %>%
         dplyr::filter(.data$year %in% anchor_years)
       
       mxF <- mxF %>% 
         dplyr::filter(.data$country_code %in% location_code) %>%
-        mutate(sex = "f") %>% 
+        mutate("sex" = "f") %>% 
         pivot_longer(-c("country_code", "name", "sex", "age"),
                      names_to  = "year",
                      values_to = "mx") %>% 
-        mutate(year = parse_number(.data$year)) %>%
+        mutate("year" = parse_number(.data$year)) %>%
         dplyr::filter(.data$year %in% anchor_years)
       
       # A problem the ages in mx are 0, 1-4, ...
@@ -290,12 +307,12 @@ downloadnLx <- function(nLx        = NULL,
         full_join(mxF, by = c("country_code", "name", "age",
                               "sex", "year", 'mx')) %>%
         group_nest(.data$country_code, .data$name, .data$sex, .data$year) %>% 
-        mutate(data = map2(.x = data, 
-                           .y = sex, ~ lt_abridged(nMx    = .x$mx,
-                                                   radix  = radix,
-                                                   Sex    = .y,
-                                                   Age    = .x$age,
-                                                   a0rule = "ak") %>% 
+        mutate(data = map2(.x = .data$data, 
+                           .y = .data$sex, ~ lt_abridged(nMx    = .x$mx,
+                                                         radix  = radix,
+                                                         Sex    = .y,
+                                                         Age    = .x$age,
+                                                         a0rule = "ak") %>% 
                              select("Age", "ndx", "nLx") %>%
                              mutate(Age = base::replace(.data$Age, .data$Age %in% 0:1, 0)) %>%
                              summarise(
@@ -310,7 +327,7 @@ downloadnLx <- function(nLx        = NULL,
       # now that age groups match we can graduate
       mx1 <- population %>% 
         full_join(mx, by = c("country_code", "name", "age" = "Age", "sex", "year")) %>% 
-        mutate(deaths = .data$nMx * .data$pop) %>% 
+        mutate("deaths" = .data$nMx * .data$pop) %>% 
         group_nest(.data$country_code, .data$name, .data$year, .data$sex) %>% 
         mutate(data1 = map(data, ~ graduate_pclm(Value  = .x$deaths,
                                                  Age    = .x$age,
@@ -347,11 +364,11 @@ downloadnLx <- function(nLx        = NULL,
                      values_to = "mx") %>% 
         group_nest(.data$country_code, .data$name, .data$sex, .data$year) %>%
         # calculate lifetable
-        mutate(data = map2(.x = data, 
-                           .y = sex, ~ lt_single_mx(nMx    = .x$mx,
-                                                    radix  = radix,
-                                                    Sex    = .y,
-                                                    a0rule = "ak")))
+        mutate(data = map2(.x = .data$data, 
+                           .y = .data$sex, ~ lt_single_mx(nMx    = .x$mx,
+                                                          radix  = radix,
+                                                          Sex    = .y,
+                                                          a0rule = "ak")))
       
       if(output == "single") {
         
@@ -370,8 +387,8 @@ downloadnLx <- function(nLx        = NULL,
       if(output == "abridged") {
         
         out <- out %>% 
-          mutate(data = map2(.x = data,
-                             .y = sex, ~ .x %>% 
+          mutate(data = map2(.x = .data$data,
+                             .y = .data$sex, ~ .x %>% 
                                reframe(lt_single2abridged(lx  = lx,
                                                           ex  = ex,
                                                           nLx = nLx)) %>% 
@@ -390,8 +407,8 @@ downloadnLx <- function(nLx        = NULL,
       if(output == "5-year") { 
         
         out <- out %>% 
-          mutate(data = map2(.x = data,
-                             .y = sex, ~ .x %>% 
+          mutate(data = map2(.x = .data$data,
+                             .y = .data$sex, ~ .x %>% 
                                reframe(lt_single2abridged(lx  = lx,
                                                           ex  = ex,
                                                           nLx = nLx)) %>% 
@@ -401,7 +418,7 @@ downloadnLx <- function(nLx        = NULL,
           # wide format
           pivot_wider(names_from  = "year", 
                       values_from = "nLx") %>%
-          mutate(age = replace(.data$age, .data$age %in% 0:1, 0)) %>%
+          mutate("age" = replace(.data$age, .data$age %in% 0:1, 0)) %>%
           summarise(across(where(is.numeric), ~ sum(., na.rm = TRUE)), 
                     .by = "age") %>% 
           column_to_rownames("age") %>% 
@@ -412,9 +429,11 @@ downloadnLx <- function(nLx        = NULL,
       # now if wpp version is 2022+ !!!!
     } else {
       
+      env <- new.env()
       # download mx1dt data from the latest package version
       # this data contain nmx, age, territory, sex, year
-      data("mx1dt", package = latest_wpp)
+      data("mx1dt", package = latest_wpp, envir = env)
+      mx1dt <- env$mx1dt
       
       # User can provide location in either number (country_code)
       # OR as a name e.g. Brazil
@@ -440,12 +459,12 @@ downloadnLx <- function(nLx        = NULL,
       # and thne I calculate the lt_single_mx for same combination
       out <- mx1dt %>%
         dplyr::filter(.data$country_code %in% location_code,
-               .data$year < parse_number(latest_wpp) + 1) %>%
+                      .data$year < parse_number(latest_wpp) + 1) %>%
         pivot_longer(-c("country_code", "name", "year", "age"),
                      names_to  = "sex",
                      values_to = "mx") %>%
-        mutate(sex = str_remove(.data$sex, "mx"), 
-               sex = tolower(.data$sex)) %>%
+        mutate("sex" = str_remove(.data$sex, "mx"), 
+               "sex" = tolower(.data$sex)) %>%
         dplyr::filter(.data$sex %in% sex_code) %>%
         pivot_wider(names_from  = "year", 
                     values_from = "mx") %>%
@@ -471,11 +490,11 @@ downloadnLx <- function(nLx        = NULL,
         group_nest(.data$country_code, .data$name, .data$sex, .data$year) %>%
         # calculate lifetable
         # SRB???
-        mutate(data = map2(.x = data, 
-                           .y = sex, ~ lt_single_mx(nMx    = .x$mx,
-                                                    radix  = radix,
-                                                    Sex    = .y,
-                                                    a0rule = "ak")))
+        mutate(data = map2(.x = .data$data, 
+                           .y = .data$sex, ~ lt_single_mx(nMx    = .x$mx,
+                                                          radix  = radix,
+                                                          Sex    = .y,
+                                                          a0rule = "ak")))
       
       # now if the output is single ages, we do not need no extra
       if(output == "single") {
@@ -495,8 +514,8 @@ downloadnLx <- function(nLx        = NULL,
       if(output == "abridged") {
         
         out <- out %>% 
-          mutate(data = map2(.x = data,
-                             .y = sex, ~ .x %>% 
+          mutate(data = map2(.x = .data$data,
+                             .y = .data$sex, ~ .x %>% 
                                reframe(lt_single2abridged(lx  = lx,
                                                           ex  = ex,
                                                           nLx = nLx)) %>% 
@@ -515,8 +534,8 @@ downloadnLx <- function(nLx        = NULL,
       if(output == "5-year") { 
         
         out <- out %>% 
-          mutate(data = map2(.x = data,
-                             .y = sex, ~ .x %>% 
+          mutate(data = map2(.x = .data$data,
+                             .y = .data$sex, ~ .x %>% 
                                reframe(lt_single2abridged(lx  = lx,
                                                           ex  = ex,
                                                           nLx = nLx)) %>% 
@@ -526,7 +545,7 @@ downloadnLx <- function(nLx        = NULL,
           # wide format
           pivot_wider(names_from  = "year", 
                       values_from = "nLx") %>%
-          mutate(age = ifelse(.data$age %in% c(0, 1), 0, .data$age)) %>% 
+          mutate("age" = ifelse(.data$age %in% c(0, 1), 0, .data$age)) %>% 
           summarise(across(where(is.numeric), ~ sum(., na.rm = TRUE)), .by = "age") %>% 
           column_to_rownames("age") %>% 
           as.matrix()
@@ -536,7 +555,7 @@ downloadnLx <- function(nLx        = NULL,
     }
     
     # Check and Assign user provided ages if they comply with requirements
-    if(length(Age) != nrow(out)) { 
+    if(prt_msg & length(Age) != nrow(out)) { 
       
       warning("The ages you provided do not match with the requested data. Assigning ages automatically from the wpp data")
       
@@ -666,23 +685,24 @@ downloadnLx <- function(nLx        = NULL,
 #' @seealso 
 #' \code{\link{interp}}, 
 #' \code{\link{graduate_pclm}}
-#' @importFrom dplyr select mutate summarise left_join group_nest rename reframe
+#' @importFrom dplyr select mutate summarise left_join group_nest rename reframe full_join
 #' @importFrom tidyr pivot_longer pivot_wider unnest
 #' @importFrom purrr map
 #' @importFrom tibble as_tibble column_to_rownames
 #' @importFrom readr parse_number
 #' @importFrom rlang .data
 #' @importFrom magrittr %>%
+#' @importFrom utils data 
 #' 
 #' @examples
 #' # Using user-supplied ASFR matrix
 #' ASFR_user <- matrix(runif(5*3), nrow = 5, ncol = 3)
 #' rownames(ASFR_user) <- c(15, 20, 25, 30, 35)
 #' colnames(ASFR_user) <- c(2000, 2005, 2010)
-#' ASFR_mat <- download_Asfr(Asfrmat = ASFR_user, Age = 15:35, AsfrDatesIn = 2000:2010, output = "5-year")
+#' ASFR_mat <-  downloadAsfr(Asfrmat = ASFR_user)
 #'
 #' # Download single-year ASFR for Argentina
-#' ASFR_Arg <- download_Asfr(
+#' ASFR_Arg <- downloadAsfr(
 #'   Asfrmat = NULL,
 #'   location = "Argentina",
 #'   AsfrDatesIn = 1950:1960,
@@ -690,7 +710,7 @@ downloadnLx <- function(nLx        = NULL,
 #'   output = "single"
 #' )
 #'
-#'ASFR_Arg1 <- downloadASFR(
+#'ASFR_Arg1 <- downloadAsfr(
 #'  Asfrmat     = NULL,
 #'  location    = "Argentina",
 #'  AsfrDatesIn = 1950:1960,
@@ -699,7 +719,7 @@ downloadnLx <- function(nLx        = NULL,
 #')
 #'
 #'
-#'ASFR_Arg2 <- downloadASFR(
+#'ASFR_Arg2 <- downloadAsfr(
 #'  Asfrmat     = NULL,
 #'  location    = "Argentina",
 #'  AsfrDatesIn = 1950:1963,
@@ -708,13 +728,23 @@ downloadnLx <- function(nLx        = NULL,
 #')
 #' @export
 
-downloadASFR <- function(Asfrmat      = NULL,
+downloadAsfr <- function(Asfrmat     = NULL,
                          location    = NULL,
                          AsfrDatesIn = NULL,
                          Age         = NULL,
                          method      = "linear",
                          output      = "5-year",
                          ...) {
+  
+  if(is.null(Age)) {
+    
+    prt_msg <- FALSE
+    
+  } else { 
+    
+    prt_msg <- TRUE
+    
+  }
   
   verbose <- getOption("basepop_verbose", TRUE)
   
@@ -815,13 +845,20 @@ downloadASFR <- function(Asfrmat      = NULL,
   # in case single user requested single data output from wpp < 2022 we graduate
   if(parse_number(latest_wpp) < 2022) {
     
-    warning("No single ages or years are availabe in wpp versions earlier that wpp2022.
+    warning("No single ages or years are availabe in wpp versions earlier than wpp2022.
             Please update the wpp package. Currently the pclm-graduated data will be provided.")
     
+    # create environment for wpp dta
+    env <- new.env()    
+    
     # in this case we need tfr, percentASFR, and popF
-    data("percentASFR", package = latest_wpp)
-    data("tfr",         package = latest_wpp)
-    data("popF",        package = latest_wpp)
+    data("percentASFR", package = latest_wpp, envir = env)
+    data("tfr",         package = latest_wpp, envir = env)
+    data("popF",        package = latest_wpp, envir = env)
+    
+    percentASFR <- env$percentASFR
+    tfr         <- env$tfr
+    popF        <- env$popF
     
     # define location. if it is numeric use as is. 
     # if it is character say "USA" find the corresponding numeric code from data
@@ -852,7 +889,7 @@ downloadASFR <- function(Asfrmat      = NULL,
       pivot_longer(-c("country_code", "name"),
                    names_to  = "year",
                    values_to = "tfr") %>%
-      mutate(year = suppressWarnings(parse_number(.data$year))) %>% 
+      mutate("year" = suppressWarnings(parse_number(.data$year))) %>% 
       dplyr::filter(.data$year %in% anchor_years)
     
     # now calculate 5-year asfr
@@ -861,7 +898,7 @@ downloadASFR <- function(Asfrmat      = NULL,
       pivot_longer(-c("country_code", "name", "age"),
                    names_to  = "year",
                    values_to = "pasfr") %>% 
-      mutate(year = parse_number(.data$year)) %>%
+      mutate("year" = parse_number(.data$year)) %>%
       dplyr::filter(.data$year %in% anchor_years) %>% 
       # join TFR so we can convert percentage-of-TFR to ASFR
       left_join(tfr1, by = c("country_code", "name", "year")) %>%
@@ -870,8 +907,8 @@ downloadASFR <- function(Asfrmat      = NULL,
       # Important: we divide pasfr by sum(pasfr)to ensure normalization.
       # this one is for 5 years so no division by 5
       mutate(
-        asfr = (.data$pasfr / sum(.data$pasfr)) * .data$tfr,
-        age  = parse_number(.data$age),
+        "asfr" = (.data$pasfr / sum(.data$pasfr)) * .data$tfr,
+        "age"  = parse_number(.data$age),
         .by  = c("country_code", "name", "year")
       ) %>% 
       select(-c("pasfr", "tfr"))
@@ -879,7 +916,7 @@ downloadASFR <- function(Asfrmat      = NULL,
     # now we need female population to calculate births in future
     popage <- popF %>% 
       dplyr::filter(.data$country_code %in% location_code) %>%
-      mutate(age = parse_number(.data$age)) %>% 
+      mutate("age" = parse_number(.data$age)) %>% 
       dplyr::filter(.data$age %in% unique(asfr$age)) %>%
       pivot_longer(-c("country_code", "name", "age"),
                    names_to  = "year",
@@ -887,14 +924,14 @@ downloadASFR <- function(Asfrmat      = NULL,
                    names_transform = list(year = as.integer)) %>% 
       dplyr::filter(.data$year %in% anchor_years) %>% 
       # population is per 1000
-      mutate(pop = .data$pop * 1000)
+      mutate("pop" = .data$pop * 1000)
     
     age1 <- range(unique(popage$age))
     
     # now we calculate births and graduate them with pclm using pop as offset
     asfr1 <- asfr %>%
       full_join(popage, by = c("country_code", "name", "year", "age")) %>% 
-      mutate(births5 = .data$asfr * .data$pop) %>%
+      mutate("births5" = .data$asfr * .data$pop) %>%
       group_nest(.data$country_code, .data$name, .data$year) %>% 
       mutate(data1 = map(data, ~ graduate_pclm(Value  = .x$births5,
                                                Age    = .x$age,
@@ -905,7 +942,7 @@ downloadASFR <- function(Asfrmat      = NULL,
                            as_tibble() %>% 
                            mutate(age = min(age1):(max(age1) + 4)) %>% 
                            rename("asfr" = "value"))) %>% 
-      select(-"data") %>%
+      select(-c("data")) %>%
       unnest("data1")
     
     # now we have options for 5 and single year output
@@ -931,8 +968,8 @@ downloadASFR <- function(Asfrmat      = NULL,
           ) %>%
             as_tibble()
         )) %>% 
-        unnest(data) %>% 
-        mutate(age = age1) %>% 
+        unnest("data") %>% 
+        mutate("age" = age1) %>% 
         select(-c("country_code", "name")) %>% 
         column_to_rownames("age") %>% 
         as.matrix()
@@ -967,7 +1004,7 @@ downloadASFR <- function(Asfrmat      = NULL,
             as_tibble()
         )) %>%
         unnest("data") %>%
-        mutate(age = age5) %>% 
+        mutate("age" = age5) %>% 
         select(-c("country_code", "name")) %>% 
         column_to_rownames("age") %>% 
         as.matrix()
@@ -976,10 +1013,15 @@ downloadASFR <- function(Asfrmat      = NULL,
     
   } else { 
     
-    # download mx1dt data from the latest package version
-    data("percentASFR1dt", package = latest_wpp)
-    data("tfr1",           package = latest_wpp)
+    # environment
+    env <- new.env()
     
+    # download mx1dt data from the latest package version
+    data("percentASFR1dt", package = latest_wpp, envir = env)
+    data("tfr1",           package = latest_wpp, envir = env)
+    
+    percentASFR1dt <- env$percentASFR1dt
+    tfr1           <- env$tfr1
     # ------------------------------------------------------ #
     # find location code from the provided location
     # if location is misspelled return NA
@@ -1010,8 +1052,8 @@ downloadASFR <- function(Asfrmat      = NULL,
                    names_to  = "year",
                    values_to = "tfr") %>% 
       dplyr::filter(.data$country_code %in% location_code,
-             .data$year < parse_number(latest_wpp) + 1) %>% 
-      mutate(year = as.integer(.data$year))
+                    .data$year < parse_number(latest_wpp) + 1) %>% 
+      mutate("year" = as.integer(.data$year))
     
     # -------------------------------
     # OUTPUT OPTION: single-year ASFR
@@ -1024,13 +1066,13 @@ downloadASFR <- function(Asfrmat      = NULL,
       
       out <- percentASFR1dt %>%
         dplyr::filter(.data$country_code %in% location_code,
-               .data$year <= max(tfr$year)) %>%
+                      .data$year <= max(tfr$year)) %>%
         # join TFR so we can convert percentage-of-TFR to ASFR
         left_join(tfr, by = c("country_code", "name", "year")) %>%
         # create asfr
         # Convert pasfr (percent of TFR) to absolute ASFR for each single age.
         # Important: earlier code divided pasfr by sum(pasfr) to ensure normalization.
-        mutate(asfr = (.data$pasfr / sum(.data$pasfr)) * .data$tfr,
+        mutate("asfr" = (.data$pasfr / sum(.data$pasfr)) * .data$tfr,
                .by = c("country_code", "name", "year")) %>%
         select(-c("pasfr", "tfr")) %>% 
         # wide format
@@ -1053,7 +1095,7 @@ downloadASFR <- function(Asfrmat      = NULL,
             as_tibble()
         )) %>%
         unnest("data") %>%
-        mutate(age = agen) %>% 
+        mutate("age" = agen) %>% 
         select(-c("country_code", "name")) %>% 
         column_to_rownames("age") %>% 
         as.matrix()
@@ -1071,18 +1113,18 @@ downloadASFR <- function(Asfrmat      = NULL,
       
       out <- percentASFR1dt %>% 
         dplyr::filter(.data$country_code %in% location_code,
-               .data$year <= max(tfr$year)) %>%
+                      .data$year <= max(tfr$year)) %>%
         # create asfr
         # Convert individual single-year percentages to normalized shares
-        mutate(pasfr = (.data$pasfr / sum(.data$pasfr)),
-               age   = (.data$age %/% 5) * 5,
+        mutate("pasfr" = (.data$pasfr / sum(.data$pasfr)),
+               "age"   = (.data$age %/% 5) * 5,
                .by = c("country_code", "name", "year")) %>% 
         # sum normalized shares across the 5-year bins
-        summarise(pasfr = sum(.data$pasfr), 
+        summarise("pasfr" = sum(.data$pasfr), 
                   .by = c("country_code", "name", "year", "age")) %>%
         # attach TFR and convert to ASFR for 5-year groups
         left_join(tfr, by = c("country_code", "name", "year")) %>% 
-        mutate(asfr = .data$pasfr * .data$tfr) %>%
+        mutate("asfr" = .data$pasfr * .data$tfr) %>%
         select(-c("pasfr", "tfr")) %>% 
         # wide format
         pivot_wider(names_from  = "year", 
@@ -1104,7 +1146,7 @@ downloadASFR <- function(Asfrmat      = NULL,
             as_tibble()
         )) %>%
         unnest("data") %>%
-        mutate(age = age5) %>% 
+        mutate("age" = age5) %>% 
         select(-c("country_code", "name")) %>% 
         column_to_rownames("age") %>% 
         as.matrix()
@@ -1113,7 +1155,7 @@ downloadASFR <- function(Asfrmat      = NULL,
   }
   
   # Check and Assign user provided ages if they comply with requirements
-  if(length(Age) != nrow(out)) { 
+  if(prt_msg & length(Age) != nrow(out)) { 
     
     warning("The ages you provided do not match with the requested data. Assigning ages automatically from the wpp data")
     
@@ -1223,7 +1265,8 @@ downloadASFR <- function(Asfrmat      = NULL,
 #' @importFrom readr parse_number
 #' @importFrom rlang .data
 #' @importFrom magrittr %>% 
-#' @importFrom stats approx
+#' @importFrom stats approx setNames
+#' @importFrom utils data
 #'
 #' @examples
 #' # Example 1: Download SRB data for France
@@ -1270,7 +1313,7 @@ downloadSRB <- function(SRB      = NULL,
       
       DatesOut <- names2age(SRB)
       
-      }
+    }
     
     SRB <- setNames(rep(SRB, length.out = length(DatesOut)), DatesOut)
     
@@ -1300,13 +1343,16 @@ downloadSRB <- function(SRB      = NULL,
               "Please update the wpp package if you want the exact values.")
       
       # Load SRB data from the selected WPP package
-      data("sexRatio", package = latest_wpp)
-      sexRatio1 <- sexRatio
+      env <- new.env()
+      data("sexRatio", package = latest_wpp, envir = env)
+      sexRatio1 <- env$sexRatio
       
     } else { 
       
+      env <- new.env()
       # Load SRB data from the selected WPP package
-      data("sexRatio1", package = latest_wpp)
+      data("sexRatio1", package = latest_wpp, envir = env)
+      sexRatio1 <- env$sexRatio1
       
     }
     
@@ -1345,8 +1391,8 @@ downloadSRB <- function(SRB      = NULL,
                      " for years ", 
                      round(min(DatesOut), 1), 
                      " to ", 
-                     round(max(DatesOut),1)
-                     ))
+                     round(max(DatesOut), 1)
+      ))
       
     }
     
@@ -1359,19 +1405,19 @@ downloadSRB <- function(SRB      = NULL,
       pivot_longer(-c("country_code", "name"), 
                    names_to  = "year", 
                    values_to = "SRB") %>%
-      mutate(year = parse_number(.data$year)) %>%
+      mutate("year" = parse_number(.data$year)) %>%
       dplyr::filter(.data$year %in% floor(DatesOut))
     
     # in case we need interpolation we assume uniformity
     if(parse_number(latest_wpp) < 2022) {
       
-     dt <- dt %>%
+      dt <- dt %>%
         reframe(
           # single years
-          year_out = seq(min(DatesOut), max(DatesOut)),
+          "year_out" = seq(min(DatesOut), max(DatesOut)),
           
           # Original year & SRB vectors for interpolation
-          SRB = approx(
+          "SRB" = approx(
             x      = .data$year,         # original years
             y      = .data$SRB,          # original SRB values
             xout   = seq(min(.data$year), max(.data$year)),
@@ -1384,6 +1430,7 @@ downloadSRB <- function(SRB      = NULL,
       
       years_srb <- dt$year
       SRB       <- setNames(dt$SRB, years_srb)
+      
       return(SRB)
       
       # in case data originally comes by single years
@@ -1433,9 +1480,6 @@ fetch_wpp_births <- function(births, yrs_births, location, sex, verbose) {
     # load WPP births
     #requireNamespace("DemoToolsData", quietly = TRUE)
     WPP2019_births <- DemoToolsData::WPP2019_births
-    
-    
-   
     
     # filter out location and years
     ind       <- WPP2019_births$LocID == get_LocID(location) & 
@@ -1608,9 +1652,7 @@ check_and_load_latest_wpp <- function() {
   # Step 6: Load the appropriate version
   final_pkg <- ifelse(needs_update && ans == "y", latest_pkg, current_pkg)
   
-  suppressPackageStartupMessages(
-    library(final_pkg, character.only = TRUE)
-  )
+    library(final_pkg, character.only = TRUE, quietly = TRUE)
   
   return(final_pkg)
 }
@@ -1747,4 +1789,3 @@ get_bracketing_years <- function(Dates = NULL) {
   return(sort(unique(c(lower_anchor, anchors, upper_anchor))))
   
 }
-

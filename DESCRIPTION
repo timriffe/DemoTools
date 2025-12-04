@@ -58,7 +58,9 @@ Imports:
     readr, 
     remotes, 
     stringr, 
-    tidyr
+    tidyr,
+    tidyselect,
+    wpp2024
 BugReports: https://github.com/timriffe/DemoTools/issues
 Remotes: 
     github::timriffe/fertestr,
