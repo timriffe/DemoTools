@@ -127,7 +127,7 @@
 #' (1) No significant international migration took place within the reference
 #' periods for the population, mortality, and fertility input.
 #'
-#' (2) The data input as the “reported” population is not affected by
+#' (2) The data input as the "reported" population is not affected by
 #' underenumeration of persons in certain ages, nor by age misreporting.
 #'
 #' @return `basepop_five` returns a list with the following elements:
@@ -1389,87 +1389,6 @@ basepop_single <- function(refDate        = NULL,
 }
 
 
-# #' @rdname basepop_five
-# #' @aliases basepop_five
-# #' @param Females_single A named numeric vector. Reported population by 1-year age # groups for \code{refDate} for females. The names of the vector should reflect the age # groups. See examples. The method assumes that the last age group is open (for example# , the population ends at '80+' and '100+')
-# #' @param Males_single A named numeric vector. Reported population by 1-year age # groups format \code{refDate} for males. The names of the vector should reflect the # age groups. See examples. The method assumes that the last age group is open (for # example, the population ends at '80+' and '100+')
-# #'
-# #' @export
-# #'
-# basepop_single <- function(location = NULL,
-#                            refDate,
-#                            Females_single,
-#                            nLxFemale = NULL,
-#                            nLxDatesIn = NULL,
-#                            AsfrMat = NULL,
-#                            AsfrDatesIn = NULL,
-#                            ...,
-#                            female = TRUE,
-#                            SmoothedFemales = NULL,
-#                            Males_single = NULL,
-#                            nLxMale = NULL,
-#                            SRB = 1.05,
-#                            radix = NULL,
-#                            verbose = TRUE) {
-#
-#   stopifnot(
-#     !is.null(names(Females_single)),
-#     is_single(as.numeric(names(Females_single)))
-#   )
-#
-#   Females_abridged <- single2abridged(Females_single)
-#   males_present <- !is.null(Males_single)
-#
-#   if (males_present) {
-#     stopifnot(
-#       !is.null(names(Males_single)),
-#       is_single(as.numeric(names(Males_single)))
-#     )
-#
-#     Males_abridged <- single2abridged(Males_single)
-#     gender_single <- Males_single
-#   }  else {
-#     Males_abridged <- Males_single
-#     gender_single <- Females_single
-#   }
-#
-#   res <-
-#     basepop_five(
-#       location = location,
-#       refDate = refDate,
-#       Females_five = Females_abridged,
-#       nLxFemale = nLxFemale,
-#       nLxDatesIn = nLxDatesIn,
-#       AsfrMat = AsfrMat,
-#       AsfrDatesIn = AsfrDatesIn,
-#       ... = ...,
-#       female = female,
-#       SmoothedFemales = SmoothedFemales,
-#       Males_five = Males_abridged,
-#       nLxMale = nLxMale,
-#       SRB = SRB,
-#       radix = radix
-#     )
-#
-#   # Since diff always returns a vector of length `length(x) - 1`,
-#   # the 1 in the end is to reflct the the open ages for 80+ or 100+
-#   AgeBins1 <- c(diff(as.integer(names(gender_single))), 1)
-#   AgeBins2 <- c(diff(as.integer(names(res))), 1)
-#
-#   rescaled_res <-
-#     rescaleAgeGroups(
-#       Value1 = gender_single,
-#       AgeInt1 = AgeBins1,
-#       Value2 = res,
-#       AgeInt2 = AgeBins2,
-#       splitfun = graduate_uniform
-#     )
-#
-#   round(rescaled_res, 3)
-# }
-
-#
-
 # # TR: modified to assume males and females always given
 ArgsCheck <- function(ArgList) {
   with(ArgList, {
@@ -1486,23 +1405,4 @@ ArgsCheck <- function(ArgList) {
       # TR no check on ASFRmat dates?
     )})
 }
-# 
-# 
-# lt_infer_radix_from_1L0 <- function(L0){
-# 
-#   if (L0 > 1){
-#     radix_check <- L0 %>% as.integer() %>% log10()
-#     is_it_a_radix <- (radix_check - round(radix_check)) == 0
-# 
-#     if (!is_it_a_radix){
-#       pow <- L0 %>% round() %>% as.integer() %>% nchar()
-# 
-#       the_radix <- 10^pow
-#     } else {
-#       the_radix <- L0
-#     }
-#   } else {
-#     the_radix <- 1
-#   }
-#   the_radix
-# }
+

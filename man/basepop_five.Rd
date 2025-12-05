@@ -240,7 +240,7 @@ Assumptions:
 (1) No significant international migration took place within the reference
 periods for the population, mortality, and fertility input.
 
-(2) The data input as the “reported” population is not affected by
+(2) The data input as the "reported" population is not affected by
 underenumeration of persons in certain ages, nor by age misreporting.
 }
 
