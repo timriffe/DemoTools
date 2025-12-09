@@ -921,7 +921,7 @@ downloadAsfr <- function(Asfrmat     = NULL,
       pivot_longer(-c("country_code", "name", "age"),
                    names_to  = "year",
                    values_to = "pop",
-                   names_transform = list(year = as.integer)) %>% 
+                   names_transform = list("year" = as.integer)) %>% 
       dplyr::filter(.data$year %in% anchor_years) %>% 
       # population is per 1000
       mutate("pop" = .data$pop * 1000)
@@ -1461,45 +1461,369 @@ downloadSRB <- function(SRB      = NULL,
   
 }
 
-
-#' extract births from wpp2019
+#' extract births from latest wpp version installed on the machine
 #' @param births `NULL` or else a vector of births to simply return
-#' @param yrs_births vector of years to extract
-#' @param location UN Pop Dov `LocName` or `LocID`
-#' @param sex `"male"`, `"female"`, or `"both"`
-#' @param verbose logical, shall we send optional messages to the console?
+#' @param yrs_births Numeric. vector of years to extract
+#' @param location Character or Numeric. UN Pop Dov `LocName` or `LocID`
+#' @param sex Character. `"male"`, `"female"`, or `"both"`
+#' @param verbose Logical, shall we send optional messages to the console?
 #' @return vector of births
 #' @export
-#' @importFrom fertestr is_LocID
-#' @importFrom fertestr get_location_code
-fetch_wpp_births <- function(births, yrs_births, location, sex, verbose) {
+#' @importFrom utils data
+#' @importFrom rlang .data
+#' @importFrom magrittr %>%
+#' @importFrom tibble as_tibble rownames_to_column
+#' @importFrom dplyr mutate select full_join group_by summarise rename group_nest
+#' @importFrom tidyr pivot_longer pivot_wider unnest 
+#' @importFrom purrr map
+#' @importFrom readr parse_number
+#' @examples
+#' # Example 1: Download SRB data for France
+#' # lets try SRB 
+#' births <- fetch_wpp_births(births     = NULL,
+#' yrs_births = 1960:1970,
+#' location   = "Argentina",
+#' sex        = "male",
+#' verbose    = TRUE)
+#'
+# With user provided SRB.
+#'SRB_user <- fetch_wpp_births(births = births)
+#'
+#' @export
+
+fetch_wpp_births <- function(births     = NULL,
+                             yrs_births = NULL,
+                             location   = NULL,
+                             sex        = "female",
+                             verbose    = TRUE) {
   
-  # fetch WPP births if not provided by user
-  if (is.null(births) | length(births) == 0) {
+  # if births are provided just return them back
+  if(!is.null(births)) {
     
-    # load WPP births
-    #requireNamespace("DemoToolsData", quietly = TRUE)
-    WPP2019_births <- DemoToolsData::WPP2019_births
+    return(births)
     
-    # filter out location and years
-    ind       <- WPP2019_births$LocID == get_LocID(location) & 
-      WPP2019_births$Year %in% yrs_births
-    b_filt    <- WPP2019_births[ind, ]
-    bt        <- b_filt$TBirths
-    SRB       <- b_filt$SRB
-    
-    # extract births depending on sex
-    if (sex == "both")  births  <- bt
-    if (sex == "male")   births  <- bt * SRB / ( 1 + SRB)
-    if (sex == "female") births  <- bt / (SRB + 1)
-    
-    if (verbose){
-      cat(paste0("\nbirths not provided. Downloading births for ", loc_message(location), ", gender: ", "`", sex, "`, years: ",paste(yrs_births,collapse = ", "), "\n"))
-    } 
   }
   
-  births
+  # if not provided
+  if(is.null(births) | length(births) == 0) {
+    
+    # check that location, sex, and yrs_births are provided by the user
+    if(is.null(location) | length(location) == 0) {
+      stop(
+        "A minimum of location, sex, and yrs_births should be provided by the user to run the function. location is not provided."
+      )
+      
+    }
+    
+    if(is.null(sex) | length(sex) == 0) {
+      stop(
+        "A minimum of location, sex, and yrs_births should be provided by the user to run the function. sex is not provided."
+      )
+      
+    }
+    
+    if(is.null(yrs_births) | length(yrs_births) == 0) {
+      stop(
+        "A minimum of location, sex, and yrs_births should be provided by the user to run the function. yrs_births is not provided."
+      )
+      
+    }
+    
+    # now find the package version
+    installed_wpp <- grep("^wpp\\d{4}$", rownames(installed.packages()), value = TRUE)
+    
+    # stop if none
+    if(length(installed_wpp) == 0) {
+      stop(
+        "No wpp package installed. Please use the function chack_and_load_latest_wpp() to install a wpp package version."
+      )
+    }
+    
+    # find the lates one
+    latest_wpp <- sort(installed_wpp, decreasing = TRUE)[1]
+    
+    # Now in any case to obtain births we need asfr and SRB
+    # we already have functions for these so use them here
+    # asfr
+    asfr <- downloadAsfr(
+      Asfrmat     = NULL,
+      location    = location,
+      AsfrDatesIn = yrs_births,
+      verbose     = FALSE,
+      output      = "single") %>%
+      as.data.frame() %>%
+      rownames_to_column("age") %>%
+      mutate("age" = as.numeric(.data$age))
+    
+    
+    # special case when user only requested 1 year
+    if(length(yrs_births) < 2) { 
+      
+      names(asfr) <- c("age", yrs_births)
+      
+    }
+    
+    asfr <- asfr %>%
+      pivot_longer(
+        -c("age"),
+        names_to  = "year",
+        values_to = "asfr",
+        names_transform = list(year = as.integer)
+      )
+    
+    # srb
+    SRB <- downloadSRB(
+      SRB      = NULL,
+      DatesOut = yrs_births,
+      location = location,
+      verbose  = FALSE) %>% 
+      as.data.frame() %>%
+      rownames_to_column("year") %>%
+      mutate("year" = as.numeric(.data$year)) %>% 
+      rename("srb" = ".")
+    
+    # now 
+    env <- new.env()
+    
+    if(any(yrs_births < 1950, yrs_births > (parse_number(latest_wpp) + 1))) {
+      message(paste0(
+        "Careful, choosing beyond range 1950-",
+        parse_number(latest_wpp)
+      ))
+      
+    }
+    
+    if(parse_number(latest_wpp) < 2022) {
+      
+      if(verbose) {
+        cat(
+          paste0(
+            "\nbirths not provided. Downloading births for ",
+            loc_message(location),
+            ", gender: ",
+            "`",
+            sex,
+            "`, years: ",
+            paste(yrs_births, collapse = ", "),
+            "\n"
+          )
+        )
+      }
+      
+      # get the bracketing years
+      anchor_years <- get_bracketing_years(Dates = yrs_births)
+      
+      warning(
+        "No single ages or years are availabe in wpp versions earlier than wpp2022.
+            Please update the wpp package. Currently the pclm-graduated data will be provided."
+      )
+      
+      # popF
+      data("popF", package = latest_wpp, envir = env)
+      
+      if(is.numeric(location)) {
+        
+        location_code <- location
+        
+      } else {
+        
+        location_code <- env$popF %>%
+          dplyr::filter(.data$name %in% location) %>%
+          select("country_code") %>%
+          unique() %>%
+          as.numeric()
+      }
+      
+      popF <- env$popF %>%
+        dplyr::filter(.data$country_code %in% location_code) %>%
+        mutate("age" = parse_number(.data$age)) %>%
+        select(-c("country_code", "name")) %>%
+        pivot_longer(
+          -c("age"),
+          names_to  = "year",
+          values_to = "pop",
+          names_transform = list(year = as.integer)) %>%
+        dplyr::filter(.data$year %in% anchor_years) %>%
+        mutate("pop" = .data$pop * 1000) %>%
+        dplyr::filter(!is.na(.data$pop)) %>% 
+        group_nest(.data$year) %>%
+        # we graduate ages with pclm
+        mutate(
+          data = map(
+            data,
+            ~ graduate_pclm(Value = .x$pop, 
+                            Age   = .x$age) %>%
+              as.data.frame() %>%
+              rownames_to_column("age") %>%
+              rename("pop" = ".")
+          )
+        ) %>%
+        unnest("data") %>%
+        mutate("age" = as.numeric(.data$age)) %>%
+        pivot_wider(names_from  = "year", 
+                    values_from = "pop") %>%
+        select(-"age") %>%
+        as.matrix()
+      
+      # now we use interp() to interpolate years
+      pop <- interp(popF,
+                    as.numeric(colnames(popF)),
+                    as.numeric(yrs_births),
+                    extrap = TRUE) %>%
+        as_tibble() %>%
+        mutate(age = 0:(nrow(popF) - 1))
+      
+      # special case when user only requested 1 year
+      if(length(yrs_births) < 2) { 
+        
+        names(pop) <- c(yrs_births, "age")
+        
+      }
+      
+      pop <- pop %>%
+        pivot_longer(
+          -c("age"),
+          names_to  = "year",
+          values_to = "pop",
+          names_transform = list("year" = as.integer)
+        ) %>%
+        dplyr::filter(.data$age %in% unique(asfr$age))
+      
+    } else {
+      
+      if(verbose) {
+        cat(
+          paste0(
+            "\nbirths not provided. Downloading births for ",
+            loc_message(location),
+            ", gender: ",
+            "`",
+            sex,
+            "`, years: ",
+            paste(yrs_births, collapse = ", "),
+            "\n"
+          )
+        )
+      }
+      
+      # in latest versions we have single years data
+      # so no need for interpolation and graduation
+      data("popF1", package = latest_wpp, envir = env)
+      
+      
+      if(is.numeric(location)) {
+        
+        location_code <- location
+        
+      } else {
+        
+        location_code <- env$popF1 %>%
+          dplyr::filter(.data$name %in% location) %>%
+          select("country_code") %>%
+          unique() %>%
+          as.numeric()
+      }
+      
+      pop <- env$popF1 %>%
+        dplyr::filter(.data$country_code %in% location_code) %>%
+        as_tibble() %>%
+        select(-c("country_code", "name")) %>%
+        pivot_longer(
+          -c("age"),
+          names_to  = "year",
+          values_to = "pop",
+          names_transform = list(year = as.integer)) %>%
+        dplyr::filter(.data$year %in% unique(asfr$year)) %>%
+        mutate("pop" = .data$pop * 1000) %>%
+        dplyr::filter(.data$age %in% unique(asfr$age))
+      
+    }
+    
+    # now we can calculate births
+    births <- pop %>%
+      full_join(asfr, by = c("age", "year")) %>%
+      mutate("births" = .data$asfr * .data$pop) %>%
+      group_by(.data$year) %>%
+      summarise(births = sum(.data$births)) %>%
+      full_join(SRB, by = c("year"))
+    
+    if(sex == "both") {
+      
+      bt        <- births$births
+      names(bt) <- births$year
+      
+    }
+    
+    if(sex == "male") {
+      
+      bt        <- births$births
+      bt        <- bt * births$srb / (1 + births$srb)
+      names(bt) <- births$year
+      
+    }
+    
+    if(sex == "female") {
+      
+      bt        <- births$births
+      bt        <- bt / (births$srb + 1)
+      names(bt) <- births$year
+      
+    }
+  }
+  
+  return(bt)
+  
 }
+
+# fetch_wpp_births <- function(births, yrs_births, location, sex, verbose) {
+#   
+#   # fetch WPP births if not provided by user
+#   if (is.null(births) | length(births) == 0) {
+#     
+#     installed_wpp <- grep("^wpp\\d{4}$", rownames(installed.packages()), value = TRUE)
+#     
+#     if(length(installed_wpp) == 0) {
+#       
+#       stop("No WPP package installed. Please use check_and_load_latest_wpp() function to install the package.")
+#       
+#     }
+#     
+#     latest_wpp <- sort(installed_wpp, decreasing = TRUE)[1]
+#     
+#     env <- new.env()
+#     data("sexRatio", package = latest_wpp, envir = env)
+#     sexRatio1 <- env$sexRatio
+#     
+#     
+#     # load WPP births
+#     #requireNamespace("DemoToolsData", quietly = TRUE)
+#     WPP2019_births <- DemoToolsData::WPP2019_births
+#     
+#     # filter out location and years
+#     ind       <- WPP2019_births$LocID == get_LocID(location) & 
+#       WPP2019_births$Year %in% yrs_births
+#     b_filt    <- WPP2019_births[ind, ]
+#     bt        <- b_filt$TBirths
+#     SRB       <- b_filt$SRB
+#     
+#     # extract births depending on sex
+#     if (sex == "both")  births  <- bt
+#     if (sex == "male")   births  <- bt * SRB / ( 1 + SRB)
+#     if (sex == "female") births  <- bt / (SRB + 1)
+#     
+#     if (verbose){
+#       cat(paste0("\nbirths not provided. Downloading births for ", loc_message(location), ", gender: ", "`", sex, "`, years: ",paste(yrs_births,collapse = ", "), "\n"))
+#     } 
+#     
+#     return(births)
+#   } else {
+#     # if births are provided simply return them
+#     return(births)
+#     
+#     }
+#   
+#   
+# }
 
 # Author: Rustam
 #' Check, Install, and Load the Latest Available `wpp` package version
