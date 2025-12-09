@@ -2,24 +2,42 @@
 % Please edit documentation in R/utils_downloads.R
 \name{fetch_wpp_births}
 \alias{fetch_wpp_births}
-\title{extract births from wpp2019}
+\title{extract births from latest wpp version installed on the machine}
 \usage{
-fetch_wpp_births(births, yrs_births, location, sex, verbose)
+fetch_wpp_births(
+  births = NULL,
+  yrs_births = NULL,
+  location = NULL,
+  sex = "female",
+  verbose = TRUE
+)
 }
 \arguments{
 \item{births}{\code{NULL} or else a vector of births to simply return}
 
-\item{yrs_births}{vector of years to extract}
+\item{yrs_births}{Numeric. vector of years to extract}
 
-\item{location}{UN Pop Dov \code{LocName} or \code{LocID}}
+\item{location}{Character. UN Pop Dov \code{LocName} or \code{LocID}}
 
-\item{sex}{\code{"male"}, \code{"female"}, or \code{"both"}}
+\item{sex}{Character. \code{"male"}, \code{"female"}, or \code{"both"}}
 
-\item{verbose}{logical, shall we send optional messages to the console?}
+\item{verbose}{Logical, shall we send optional messages to the console?}
 }
 \value{
 vector of births
 }
 \description{
-extract births from wpp2019
+extract births from latest wpp version installed on the machine
+}
+\examples{
+# Example 1: Download SRB data for France
+# lets try SRB 
+births <- fetch_wpp_births(births     = NULL,
+yrs_births = 1960:1970,
+location   = "Argentina",
+sex        = "male",
+verbose    = TRUE)
+
+SRB_user <- fetch_wpp_births(births = births)
+
 }
