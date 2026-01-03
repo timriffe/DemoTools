@@ -1471,7 +1471,6 @@ downloadSRB <- function(SRB      = NULL,
 #' @return vector of births
 #' @export
 #' @importFrom fertestr is_LocID
-#' @importFrom fertestr get_location_code
 fetch_wpp_births <- function(births, yrs_births, location, sex, verbose) {
   
   # fetch WPP births if not provided by user
