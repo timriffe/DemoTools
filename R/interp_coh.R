@@ -9,6 +9,7 @@
 #' * `"extrap"` inflate the partial cohort from the census year. Specifically we keep it the same as the input age 0.
 #' * `NA` return `NA` for the census year cohort size.
 #' @param OAG logical. Is the highest age group an open age? If `TRUE`
+#' @seealso [movepop()] for shifting census dates short distances.
 #'@export
 #' @examples
 #' pop <- seq(10000,100,length.out = 101)
@@ -733,6 +734,8 @@ transform_pxt <- function(lxMat,
   
   # get the lexis surface of survival probabilities
   if (is.null(lxMat)){
+    # TODO: interp_coh_download_mortality() is using wpp2019 and this 
+    # needs to be more flexible still.
     
     # ZZZ Note this already returns Sx. that was an easy fix.
     pxt <- suppressMessages(

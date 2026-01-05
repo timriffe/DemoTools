@@ -44,3 +44,6 @@ shift_census_ages_to_cohorts(pop, age, d2)
 shift_census_ages_to_cohorts(pop, age, d3)
 shift_census_ages_to_cohorts(pop, age, 2020.5)
 }
+\seealso{
+\code{\link[=movepop]{movepop()}} for shifting census dates short distances.
+}
